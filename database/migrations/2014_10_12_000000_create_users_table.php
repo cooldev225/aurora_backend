@@ -19,9 +19,10 @@ return new class extends Migration {
             $table->string('last_name');
             $table->string('username')->unique();
             $table->foreignId('role_id');
+            $table->foreignId('organization_id');
             $table->date('birth');
             $table->enum('gender', ['male', 'female'])->default('male');
-            $table->string('mobile');
+            $table->string('mobile_number');
             $table->string('photo')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

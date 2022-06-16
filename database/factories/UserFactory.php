@@ -28,7 +28,7 @@ class UserFactory extends Factory
                 ->get()[0]->id,
             'email' => $this->faker->unique()->safeEmail(),
             'birth' => $this->faker->date(),
-            'mobile' => $this->faker->phoneNumber(),
+            'mobile_number' => $this->faker->phoneNumber(),
             'birth' => $this->faker->date(),
             'email_verified_at' => now(),
             'password' => Hash::make('Paxxw0rd'),

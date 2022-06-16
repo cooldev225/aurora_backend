@@ -12,13 +12,15 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('user_roles', function (Blueprint $table) {
+        Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
-            $table
-                ->enum('hrm_type', ['NONE', 'MANAGER', 'EMPLOYEE'])
-                ->default('NONE');
+            $table->string('logo');
+            $table->integer('max_clinics');
+            $table->integer('max_employees');
+            $table->foreignId('prova_device_id');
+            $table->foreignId('owner');
+            $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('user_roles');
+        Schema::dropIfExists('organizations');
     }
 };

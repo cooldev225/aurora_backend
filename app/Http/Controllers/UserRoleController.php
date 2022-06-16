@@ -17,7 +17,12 @@ class UserRoleController extends Controller
     public function index()
     {
         $result = UserRole::paginate()->toJson();
-        return $result;
+
+        return response()->json([
+            'message' => 'User Role List',
+            'data' => $result,
+            'status' => 'SUCCESS',
+        ]);
     }
 
     /**
@@ -31,13 +36,14 @@ class UserRoleController extends Controller
         $user_role = UserRole::create([
             'name' => $request->name,
             'slug' => $request->slug,
+            'hrm_type' => $request->hrm_type,
         ]);
 
         return response()->json(
             [
                 'message' => 'User Role successfully registered',
-                'user_role' => $user_role,
-                'status' => 'ok',
+                'data' => $user_role,
+                'status' => 'SUCCESS',
             ],
             201
         );
@@ -55,12 +61,13 @@ class UserRoleController extends Controller
         $userRole->update([
             'name' => $request->name,
             'slug' => $request->slug,
+            'hrm_type' => $request->hrm_type,
         ]);
 
         return response()->json([
             'message' => 'User Role successfully updated',
-            'user_role' => $user_role,
-            'status' => 'ok',
+            'data' => $userRole,
+            'status' => 'SUCCESS',
         ]);
     }
 
@@ -76,7 +83,7 @@ class UserRoleController extends Controller
 
         return response()->json([
             'message' => 'User Role successfully Removed',
-            'status' => 'ok',
+            'status' => 'SUCCESS',
         ]);
     }
 }

@@ -4,6 +4,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\ClinicController;
 use App\Http\Middleware\EnsureAdmin;
 
 /*
@@ -28,6 +30,11 @@ Route::group(['middleware' => 'api'], function ($router) {
 
         Route::middleware([EnsureAdmin::class])->group(function () {
             Route::apiResource('user-roles', UserRoleController::class);
+            Route::apiResource('organizations', OrganizationController::class);
+        });
+
+        Route::middleware([EnsureOrganizationAdmin::class])->group(function () {
+            Route::apiResource('clinics', ClinicController::class);
         });
     });
 });

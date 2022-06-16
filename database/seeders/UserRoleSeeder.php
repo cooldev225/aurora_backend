@@ -27,7 +27,7 @@ class UserRoleSeeder extends Seeder
 
         UserRole::create([
             'name' => 'Practice Manager',
-            'slug' => 'organization-admin',
+            'slug' => 'practice-manager',
         ]);
 
         UserRole::create([
@@ -58,36 +58,6 @@ class UserRoleSeeder extends Seeder
         UserRole::create([
             'name' => 'Typist',
             'slug' => 'typist',
-        ]);
-
-        UserRole::create([
-            'name' => 'Coding',
-            'slug' => 'coding',
-        ]);
-
-        UserRole::create([
-            'name' => 'Admissions',
-            'slug' => 'admissions',
-        ]);
-
-        UserRole::create([
-            'name' => 'Employee',
-            'slug' => 'employee',
-        ]);
-
-        UserRole::create([
-            'name' => 'Sending Result',
-            'slug' => 'sending-result',
-        ]);
-
-        UserRole::create([
-            'name' => 'Sending Report',
-            'slug' => 'sending-report',
-        ]);
-
-        UserRole::create([
-            'name' => 'Scanning/Files',
-            'slug' => 'scanning/files',
         ]);
     }
 }

@@ -22,11 +22,13 @@ class EnsureAdmin
     {
         $user_role = UserRole::find(auth()->user()->role_id)->toArray();
 
-        if (empty($user_role) || $user_role['slug'] != 'admin') {
-            return response()->json([
-                'message' => 'Organization Admin Role Required',
-                'status' => 'FAILED',
-            ]);
+        if (empty($user_role) || $user_role['slug'] != 'organization-admin') {
+            return response()->json(
+                [
+                    'message' => 'Organization Admin Role Required',
+                    'status' => 'FAILED',
+                ]
+            );
         }
 
         return $next($request);
