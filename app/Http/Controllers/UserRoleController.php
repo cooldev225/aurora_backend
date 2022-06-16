@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRoleRequest;
 use App\Http\Requests\UpdateUserRoleRequest;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Contracts\Support\Jsonable;
 use App\Models\UserRole;
 
 class UserRoleController extends Controller
@@ -15,17 +17,8 @@ class UserRoleController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $result = UserRole::paginate()->toJson();
+        return $result;
     }
 
     /**
@@ -36,29 +29,19 @@ class UserRoleController extends Controller
      */
     public function store(StoreUserRoleRequest $request)
     {
-        //
-    }
+        $user_role = UserRole::create([
+            'name' => $request->name,
+            'slug' => $request->slug,
+        ]);
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\UserRole  $userRole
-     * @return \Illuminate\Http\Response
-     */
-    public function show(UserRole $userRole)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\UserRole  $userRole
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(UserRole $userRole)
-    {
-        //
+        return response()->json(
+            [
+                'message' => 'User Role successfully registered',
+                'user_role' => $user_role,
+                'status' => 'ok',
+            ],
+            201
+        );
     }
 
     /**
@@ -70,7 +53,16 @@ class UserRoleController extends Controller
      */
     public function update(UpdateUserRoleRequest $request, UserRole $userRole)
     {
-        //
+        $userRole->update([
+            'name' => $request->name,
+            'slug' => $request->slug,
+        ]);
+
+        return response()->json([
+            'message' => 'User Role successfully updated',
+            'user_role' => $user_role,
+            'status' => 'ok',
+        ]);
     }
 
     /**
@@ -81,6 +73,11 @@ class UserRoleController extends Controller
      */
     public function destroy(UserRole $userRole)
     {
-        //
+        $userRole->delete();
+
+        return response()->json([
+            'message' => 'User Role successfully Removed',
+            'status' => 'ok',
+        ]);
     }
 }
