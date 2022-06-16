@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreUserRoleRequest;
 use App\Http\Requests\UpdateUserRoleRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Contracts\Support\Jsonable;
 use App\Models\UserRole;
 

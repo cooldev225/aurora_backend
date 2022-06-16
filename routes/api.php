@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
+use App\Http\Middleware\EnsureAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,6 +26,8 @@ Route::group(['middleware' => 'api'], function ($router) {
         Route::post('/refresh', [UserController::class, 'refresh']);
         Route::post('/profile', [UserController::class, 'profile']);
 
-        Route::resource('user-roles', UserRoleController::class);
+        Route::middleware([EnsureAdmin::class])->group(function () {
+            Route::apiResource('user-roles', UserRoleController::class);
+        });
     });
 });

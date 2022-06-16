@@ -26,5 +26,13 @@ class UserSeeder extends Seeder
                 ->limit(1)
                 ->get()[0]->id,
         ]);
+
+        User::factory()->create([
+            'username' => 'org-admin',
+            'email' => 'organization-admin@mail.com',
+            'role_id' => UserRole::where('slug', 'organization-admin')
+                ->limit(1)
+                ->get()[0]->id,
+        ]);
     }
 }
