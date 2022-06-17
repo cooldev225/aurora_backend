@@ -34,9 +34,10 @@ cp .env.example .env
 
 nano .env
 
-## Generate APP_KEY
+## Generate APP_KEY and JWT Secret Key
 
 php artisan key:generate
+php artisan jwt:secret
 
 # Commands for Development
 
