@@ -17,12 +17,13 @@ class BrithCodeController extends Controller
     {
         $birthCodes = BirthCode::paginate()->toArray();
 
-        return response()->json([
-            'message' => 'Birthcode List',
-            'data' => $birthCodes,
-        ],
-        200
-        )->setStatusCode(Response::HTTP_OK);
+        return response()->json(
+            [
+                'message' => 'Birthcode List',
+                'data' => $birthCodes,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -42,8 +43,9 @@ class BrithCodeController extends Controller
             [
                 'message' => 'New Birth Code created',
                 'data' => $birthCode,
-            ]
-        )->setStatusCode(Response::HTTP_CREATED);
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -53,17 +55,21 @@ class BrithCodeController extends Controller
      * @param  \App\Models\BirthCode  $birthCode
      * @return \Illuminate\Http\Response
      */
-    public function update( BirthCodeRequest $request, BirthCode $birthCode ) {
-
+    public function update(BirthCodeRequest $request, BirthCode $birthCode)
+    {
         $birthCode->update([
             'code' => $request->code,
             'description' => $request->description,
         ]);
 
-        return response()->json([
-            'message' => 'Birth Code updated',
-            'data' => $birthCode,
-        ])->setStatusCode(Response::HTTP_OK);    }
+        return response()->json(
+            [
+                'message' => 'Birth Code updated',
+                'data' => $birthCode,
+            ],
+            Response::HTTP_OK
+        );
+    }
 
     /**
      * Remove the specified Birth Code resource from storage.
@@ -75,8 +81,11 @@ class BrithCodeController extends Controller
     {
         $birthCode->delete();
 
-        return response()->json([
-            'message' => 'Brith Code successfully Removed',
-        ])->setStatusCode(Response::HTTP_NO_CONTENT);
+        return response()->json(
+            [
+                'message' => 'Brith Code successfully Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
     }
 }

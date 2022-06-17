@@ -6,10 +6,9 @@ use Illuminate\Http\Response;
 use App\Models\SpecialistType;
 use App\Http\Requests\SpecialistTypeRequest;
 
-
 class SpecialistTypeController extends Controller
 {
-       /**
+    /**
      * Display a listing of the Specialist Type resource.
      *
      * @return \Illuminate\Http\Response
@@ -18,12 +17,13 @@ class SpecialistTypeController extends Controller
     {
         $specialistTypes = SpecialistType::paginate()->toArray();
 
-        return response()->json([
-            'message' => 'Specilaist Type List',
-            'data' => $specialistTypes,
-        ],
-        200
-        )->setStatusCode(Response::HTTP_OK);
+        return response()->json(
+            [
+                'message' => 'Specilaist Type List',
+                'data' => $specialistTypes,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -42,8 +42,9 @@ class SpecialistTypeController extends Controller
             [
                 'message' => 'New Specialist Type created',
                 'data' => $specialistType,
-            ]
-        )->setStatusCode(Response::HTTP_CREATED);
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -53,16 +54,22 @@ class SpecialistTypeController extends Controller
      * @param  \App\Models\SpecialistTypeRequest  $specialistType
      * @return \Illuminate\Http\Response
      */
-    public function update( SpecialistTypeRequest $request, SpecialistType $specialistType ) {
-
+    public function update(
+        SpecialistTypeRequest $request,
+        SpecialistType $specialistType
+    ) {
         $specialistType->update([
             'name' => $request->name,
         ]);
 
-        return response()->json([
-            'message' => 'Specialist Type updated',
-            'data' => $specialistType,
-        ])->setStatusCode(Response::HTTP_OK);    }
+        return response()->json(
+            [
+                'message' => 'Specialist Type updated',
+                'data' => $specialistType,
+            ],
+            Response::HTTP_OK
+        );
+    }
 
     /**
      * Remove the specified  Specialist Type resource from storage.
@@ -70,12 +77,15 @@ class SpecialistTypeController extends Controller
      * @param  \App\Models\SpecialistType  $specialistType
      * @return \Illuminate\Http\Response
      */
-    public function destroy(SpecialistType $specialistType )
+    public function destroy(SpecialistType $specialistType)
     {
         $specialistType->delete();
 
-        return response()->json([
-            'message' => 'Specialist Type successfully Removed',
-        ])->setStatusCode(Response::HTTP_NO_CONTENT);
+        return response()->json(
+            [
+                'message' => 'Specialist Type successfully Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
     }
 }

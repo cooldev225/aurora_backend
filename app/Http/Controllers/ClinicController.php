@@ -22,10 +22,13 @@ class ClinicController extends Controller
             ->paginate()
             ->toArray();
 
-        return response()->json([
-            'message' => 'Clinic List',
-            'data' => $result,
-        ]);
+        return response()->json(
+            [
+                'message' => 'Clinic List',
+                'data' => $result,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -72,7 +75,7 @@ class ClinicController extends Controller
                 'message' => 'Clinic successfully registered',
                 'data' => $clinic,
             ],
-            201
+            Response::HTTP_CREATED
         );
     }
 
@@ -116,10 +119,13 @@ class ClinicController extends Controller
             'lspn_id' => $request->lspn_id,
         ]);
 
-        return response()->json([
-            'message' => 'Clinic successfully updated',
-            'data' => $clinic,
-        ]);
+        return response()->json(
+            [
+                'message' => 'Clinic successfully updated',
+                'data' => $clinic,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -132,8 +138,11 @@ class ClinicController extends Controller
     {
         $clinic->delete();
 
-        return response()->json([
-            'message' => 'Clinic successfully Removed',
-        ]);
+        return response()->json(
+            [
+                'message' => 'Clinic successfully Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
     }
 }

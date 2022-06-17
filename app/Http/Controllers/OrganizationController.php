@@ -17,10 +17,13 @@ class OrganizationController extends Controller
     {
         $result = Organization::paginate()->toArray();
 
-        return response()->json([
-            'message' => 'Organization List',
-            'data' => $result,
-        ]);
+        return response()->json(
+            [
+                'message' => 'Organization List',
+                'data' => $result,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -45,7 +48,7 @@ class OrganizationController extends Controller
                 'message' => 'Organization successfully registered',
                 'data' => $organization,
             ],
-            201
+            Response::HTTP_CREATED
         );
     }
 
@@ -69,10 +72,13 @@ class OrganizationController extends Controller
             'owner' => $request->owner,
         ]);
 
-        return response()->json([
-            'message' => 'Organization successfully updated',
-            'data' => $organization,
-        ]);
+        return response()->json(
+            [
+                'message' => 'Organization successfully updated',
+                'data' => $organization,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -85,8 +91,11 @@ class OrganizationController extends Controller
     {
         $organization->delete();
 
-        return response()->json([
-            'message' => 'Organization successfully Removed',
-        ]);
+        return response()->json(
+            [
+                'message' => 'Organization successfully Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
     }
 }
