@@ -30,6 +30,7 @@ return new class extends Migration {
             $table->float('latitude');
             $table->float('longitude');
             $table->string('timezone');
+            $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->string('specimen_collection_point_number');
             $table->string('footnote_signature');
             $table->string('default_start_time');

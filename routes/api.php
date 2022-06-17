@@ -5,6 +5,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\SpecialistTypeController;
+use App\Http\Controllers\BirthCodeController;
+use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\ClinicController;
 
 /*
@@ -29,6 +32,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['ensure.role:admin'])->group(function () {
         Route::apiResource('user-roles', UserRoleController::class);
         Route::apiResource('organizations', OrganizationController::class);
+        Route::apiResource('specialist-types', SpecialistTypeController::class);
+        Route::apiResource('birth-codes', BirthCodeController::class);
     });
 
     Route::middleware(['ensure.role:organization-admin'])->group(function () {
