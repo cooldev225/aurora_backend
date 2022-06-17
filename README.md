@@ -18,15 +18,15 @@ sudo apt install mysql-server
 
 sudo mysql
 
-```CREATE USER 'aurora'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';```
+`CREATE USER 'aurora'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';`
 
-```GRANT ALL PRIVILEGES ON *.* TO 'aurora'@'localhost' WITH GRANT OPTION;```
+`GRANT ALL PRIVILEGES ON *.* TO 'aurora'@'localhost' WITH GRANT OPTION;`
 
-```exit```
+`exit`
 
 mysql -u aurora -p
 
-```CREATE DATABASE aurora;```
+`CREATE DATABASE aurora;`
 
 ## config .env file and update database name, username and password.
 
@@ -34,19 +34,28 @@ cp .env.example .env
 
 nano .env
 
+## Generate APP_KEY
+
+php artisan key:generate
+
 # Commands for Development
 
 ## Run Server
+
 php artisan serve
 
 ## Database Migration
+
 php artisan migrate
 
 ## Database Seeding
+
 php artisan db:seed
 
 ## Fresh migration and Seeding
+
 php artisan migrate:fresh --seed
 
 ## View Route List
+
 php artisan route:list

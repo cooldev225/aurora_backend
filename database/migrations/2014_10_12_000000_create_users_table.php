@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->string('last_name');
             $table->string('username')->unique();
             $table->foreignId('role_id');
-            $table->foreignId('organization_id');
+            $table->foreignId('organization_id')->nullable();
             $table->date('birth');
             $table
                 ->enum('gender', ['Male', 'Female', 'Other', 'Undisclosed'])
