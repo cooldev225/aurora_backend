@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->date('birth');
             $table
                 ->enum('gender', ['Male', 'Female', 'Other', 'Undisclosed'])
-                ->default('male');
+                ->default('Male');
             $table->string('mobile_number');
             $table->string('photo')->nullable();
             $table->timestamp('email_verified_at')->nullable();

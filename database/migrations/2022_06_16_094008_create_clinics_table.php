@@ -19,8 +19,8 @@ return new class extends Migration {
             $table->string('email');
             $table->string('phone');
             $table->string('fax_number');
-            $table->string('registration_number');
-            $table->string('facility_number');
+            $table->string('hospital_provider_number');
+            $table->string('VAED_number');
             $table->string('address');
             $table->string('street');
             $table->string('city');
@@ -30,13 +30,11 @@ return new class extends Migration {
             $table->float('latitude');
             $table->float('longitude');
             $table->string('timezone');
-            $table->enum('status', ['ACTIVE', 'INACTIVE'])
             $table->string('specimen_collection_point_number');
             $table->string('footnote_signature');
             $table->string('default_start_time');
             $table->string('default_end_time');
             $table->string('default_meal_time');
-            $table->boolean('is_primary_centre');
             $table->string('latest_invoice_no');
             $table->string('latest_invoice_pathology_no');
             $table->string('centre_serial_no');

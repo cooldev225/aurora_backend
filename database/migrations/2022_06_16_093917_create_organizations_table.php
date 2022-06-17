@@ -20,7 +20,6 @@ return new class extends Migration {
             $table->integer('max_employees');
             $table->foreignId('prova_device_id');
             $table->foreignId('owner');
-            $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->timestamps();
         });
     }
