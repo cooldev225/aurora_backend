@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('user_roles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('slug');
+            $table->string('slug')->unique();
             $table
                 ->enum('hrm_type', ['NONE', 'MANAGER', 'EMPLOYEE'])
                 ->default('NONE');

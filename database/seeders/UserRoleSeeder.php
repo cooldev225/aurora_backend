@@ -26,18 +26,13 @@ class UserRoleSeeder extends Seeder
         ]);
 
         UserRole::create([
-            'name' => 'Practice Manager',
-            'slug' => 'practice-manager',
+            'name' => 'Organization Manager',
+            'slug' => 'organization-manager',
         ]);
 
         UserRole::create([
-            'name' => 'Administration Managers',
-            'slug' => 'administration-managers',
-        ]);
-
-        UserRole::create([
-            'name' => 'Admin Staff',
-            'slug' => 'admin-staff',
+            'name' => 'Receptionist',
+            'slug' => 'receptionist',
         ]);
 
         UserRole::create([
@@ -46,8 +41,8 @@ class UserRoleSeeder extends Seeder
         ]);
 
         UserRole::create([
-            'name' => 'Anesthetist',
-            'slug' => 'anesthetist',
+            'name' => 'Pathologist',
+            'slug' => 'pathologist',
         ]);
 
         UserRole::create([
@@ -58,6 +53,11 @@ class UserRoleSeeder extends Seeder
         UserRole::create([
             'name' => 'Typist',
             'slug' => 'typist',
+        ]);
+
+        UserRole::create([
+            'name' => 'Anesthetist',
+            'slug' => 'anesthetist',
         ]);
     }
 }

@@ -25,7 +25,6 @@ class ClinicController extends Controller
         return response()->json([
             'message' => 'Clinic List',
             'data' => $result,
-            'status' => 'SUCCESS',
         ]);
     }
 
@@ -74,7 +73,6 @@ class ClinicController extends Controller
             [
                 'message' => 'Clinic successfully registered',
                 'data' => $clinic,
-                'status' => 'SUCCESS',
             ],
             201
         );
@@ -125,7 +123,6 @@ class ClinicController extends Controller
         return response()->json([
             'message' => 'Clinic successfully updated',
             'data' => $clinic,
-            'status' => 'SUCCESS',
         ]);
     }
 
@@ -141,7 +138,6 @@ class ClinicController extends Controller
 
         return response()->json([
             'message' => 'Clinic successfully Removed',
-            'status' => 'SUCCESS',
         ]);
     }
 }

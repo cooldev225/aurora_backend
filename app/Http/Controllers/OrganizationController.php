@@ -20,7 +20,6 @@ class OrganizationController extends Controller
         return response()->json([
             'message' => 'Organization List',
             'data' => $result,
-            'status' => 'SUCCESS',
         ]);
     }
 
@@ -45,7 +44,6 @@ class OrganizationController extends Controller
             [
                 'message' => 'Organization successfully registered',
                 'data' => $organization,
-                'status' => 'SUCCESS',
             ],
             201
         );
@@ -74,7 +72,6 @@ class OrganizationController extends Controller
         return response()->json([
             'message' => 'Organization successfully updated',
             'data' => $organization,
-            'status' => 'SUCCESS',
         ]);
     }
 
@@ -90,7 +87,6 @@ class OrganizationController extends Controller
 
         return response()->json([
             'message' => 'Organization successfully Removed',
-            'status' => 'SUCCESS',
         ]);
     }
 }

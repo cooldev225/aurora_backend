@@ -8,24 +8,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserRole;
 
-class EnsureAdmin
+class EnsureRole
 {
     /**
-     * Handle an incoming request.
+     * Check Role
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @param  string|null  ...$guards
+     * @param  string|null $role
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, ...$guards)
+    public function handle(Request $request, Closure $next, $role)
     {
-        $user_role = UserRole::find(auth()->user()->role_id)->toArray();
+        $result = UserRole::where('slug', $role)
+            ->get()
+            ->toArray();
 
-        if (empty($user_role) || $user_role['slug'] != 'admin') {
+        if (empty($result)) {
             return response()->json([
-                'message' => 'Organization Admin Role Required',
-                'status' => 'FAILED',
+                'message' => 'Access Denied',
+            ]);
+        }
+
+        $user_role = $result[0];
+
+        if (auth()->user()->role_id != $user_role['id']) {
+            return response()->json([
+                'message' => $user_role['name'] . ' Role Required',
             ]);
         }
 

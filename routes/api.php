@@ -6,7 +6,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\ClinicController;
-use App\Http\Middleware\EnsureAdmin;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,22 +18,20 @@ use App\Http\Middleware\EnsureAdmin;
 |
 */
 
-Route::group(['middleware' => 'api'], function ($router) {
-    Route::post('/login', [UserController::class, 'login']);
+Route::post('/login', [UserController::class, 'login']);
 
-    Route::middleware(['auth'])->group(function () {
-        Route::post('/users', [UserController::class, 'create']);
-        Route::post('/logout', [UserController::class, 'logout']);
-        Route::post('/refresh', [UserController::class, 'refresh']);
-        Route::post('/profile', [UserController::class, 'profile']);
+Route::middleware(['auth'])->group(function () {
+    Route::post('/users', [UserController::class, 'create']);
+    Route::post('/logout', [UserController::class, 'logout']);
+    Route::post('/refresh', [UserController::class, 'refresh']);
+    Route::post('/profile', [UserController::class, 'profile']);
 
-        Route::middleware([EnsureAdmin::class])->group(function () {
-            Route::apiResource('user-roles', UserRoleController::class);
-            Route::apiResource('organizations', OrganizationController::class);
-        });
+    Route::middleware(['ensure.role:admin'])->group(function () {
+        Route::apiResource('user-roles', UserRoleController::class);
+        Route::apiResource('organizations', OrganizationController::class);
+    });
 
-        Route::middleware([EnsureOrganizationAdmin::class])->group(function () {
-            Route::apiResource('clinics', ClinicController::class);
-        });
+    Route::middleware(['ensure.role:organization-admin'])->group(function () {
+        Route::apiResource('clinics', ClinicController::class);
     });
 });

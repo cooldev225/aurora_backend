@@ -21,7 +21,6 @@ class UserRoleController extends Controller
         return response()->json([
             'message' => 'User Role List',
             'data' => $result,
-            'status' => 'SUCCESS',
         ]);
     }
 
@@ -43,7 +42,6 @@ class UserRoleController extends Controller
             [
                 'message' => 'User Role successfully registered',
                 'data' => $user_role,
-                'status' => 'SUCCESS',
             ],
             201
         );
@@ -67,7 +65,6 @@ class UserRoleController extends Controller
         return response()->json([
             'message' => 'User Role successfully updated',
             'data' => $userRole,
-            'status' => 'SUCCESS',
         ]);
     }
 
@@ -83,7 +80,6 @@ class UserRoleController extends Controller
 
         return response()->json([
             'message' => 'User Role successfully Removed',
-            'status' => 'SUCCESS',
         ]);
     }
 }

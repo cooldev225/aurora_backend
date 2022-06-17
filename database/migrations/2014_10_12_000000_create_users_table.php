@@ -21,7 +21,9 @@ return new class extends Migration {
             $table->foreignId('role_id');
             $table->foreignId('organization_id');
             $table->date('birth');
-            $table->enum('gender', ['male', 'female'])->default('male');
+            $table
+                ->enum('gender', ['Male', 'Female', 'Other', 'Undisclosed'])
+                ->default('male');
             $table->string('mobile_number');
             $table->string('photo')->nullable();
             $table->timestamp('email_verified_at')->nullable();
