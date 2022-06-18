@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Auth;
 use Validator;
-use App\Models\User;
+use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use App\Models\User;
+use App\Models\UserRole;
 
 class UserController extends Controller
 {
@@ -38,7 +40,7 @@ class UserController extends Controller
                 'message' => 'User successfully registered',
                 'user' => $user,
             ],
-            201
+            Response::HTTP_CREATED
         );
     }
 
@@ -60,6 +62,7 @@ class UserController extends Controller
         }
 
         $auth_params = $validator->validated();
+        $role_id = 0;
 
         if (empty($auth_params['email'])) {
             $user = User::where('username', $auth_params['username'])
@@ -68,17 +71,37 @@ class UserController extends Controller
                 ->toArray();
 
             if (empty($user)) {
-                response()->json(['error' => 'Unauthorized'], 401);
+                return response()->json(['error' => 'Unauthorized'], 401);
             } else {
                 $auth_params['email'] = $user[0]['email'];
             }
+
+            $role_id = $user[0]['role_id'];
         }
 
         if (!($token = auth()->attempt($validator->validated()))) {
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        return $this->respondWithToken($token);
+        $current_role = UserRole::find($role_id)->toArray();
+        $role_slug = '';
+
+        if (!empty($current_role)) {
+            $role_slug = $current_role['slug'];
+        }
+
+        return response()->json(
+            [
+                'message' => 'Logged In',
+                'data' => [
+                    'email' => $auth_params['email'],
+                    'username' => $auth_params['username'],
+                    'role' => $role_slug,
+                    'access_token' => $token,
+                ],
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
