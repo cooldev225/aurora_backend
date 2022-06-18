@@ -92,13 +92,10 @@ class UserController extends Controller
 
         return response()->json(
             [
-                'message' => 'Logged In',
-                'data' => [
-                    'email' => $auth_params['email'],
-                    'username' => $auth_params['username'],
-                    'role' => $role_slug,
-                    'access_token' => $token,
-                ],
+                'email' => $auth_params['email'],
+                'username' => $auth_params['username'],
+                'role' => $role_slug,
+                'access_token' => $token,
             ],
             Response::HTTP_OK
         );
