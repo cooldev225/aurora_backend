@@ -11,41 +11,6 @@ use App\Models\User;
 class UserController extends Controller
 {
     /**
-     * Create a user.
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function create(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'username' => 'required|string|min:2|max:100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:6',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(
-                $validator->errors(),
-                Response::HTTP_BAD_REQUEST
-            );
-        }
-
-        $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-
-        return response()->json(
-            [
-                'message' => 'User successfully registered',
-                'user' => $user,
-            ],
-            Response::HTTP_CREATED
-        );
-    }
-
-    /**
      * login user
      *
      * @return \Illuminate\Http\JsonResponse

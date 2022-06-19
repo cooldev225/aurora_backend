@@ -63,7 +63,7 @@ class OrganizationController extends Controller
             'role_id' => $this->org_role->id,
         ]);
 
-        $organization->create([
+        $organization = Organization::create([
             'name' => $request->name,
             'logo' => $request->logo,
             'max_clinics' => $request->max_clinics,
@@ -104,6 +104,7 @@ class OrganizationController extends Controller
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role_id' => $this->org_role->id,
         ]);
 
         $organization->update([
@@ -111,6 +112,8 @@ class OrganizationController extends Controller
             'logo' => $request->logo,
             'max_clinics' => $request->max_clinics,
             'max_employees' => $request->max_employees,
+            'prova_device_id' => $prova_device->id,
+            'owner_id' => $owner->id,
         ]);
 
         return response()->json(

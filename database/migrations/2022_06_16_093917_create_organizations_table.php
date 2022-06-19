@@ -15,9 +15,9 @@ return new class extends Migration {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('logo');
-            $table->integer('max_clinics');
-            $table->integer('max_employees');
+            $table->string('logo')->nullable();
+            $table->integer('max_clinics')->nullable();
+            $table->integer('max_employees')->nullable();
             $table->foreignId('prova_device_id');
             $table->foreignId('owner_id');
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
