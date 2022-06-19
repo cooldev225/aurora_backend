@@ -15,7 +15,7 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        $result = Organization::paginate()->toArray();
+        $result = Organization::all()->toArray();
 
         return response()->json(
             [

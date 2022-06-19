@@ -15,7 +15,7 @@ class BrithCodeController extends Controller
      */
     public function index()
     {
-        $birthCodes = BirthCode::paginate()->toArray();
+        $birthCodes = BirthCode::all()->toArray();
 
         return response()->json(
             [

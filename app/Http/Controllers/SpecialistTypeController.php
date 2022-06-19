@@ -15,7 +15,7 @@ class SpecialistTypeController extends Controller
      */
     public function index()
     {
-        $specialistTypes = SpecialistType::paginate()->toArray();
+        $specialistTypes = SpecialistType::all()->toArray();
 
         return response()->json(
             [
