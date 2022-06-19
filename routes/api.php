@@ -36,6 +36,10 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('user-roles', UserRoleController::class);
         Route::apiResource('organizations', OrganizationController::class);
         Route::apiResource('specialist-types', SpecialistTypeController::class);
+        Route::apiResource(
+            'specialist-titles',
+            SpecialistTypeController::class
+        );
         Route::apiResource('birth-codes', BirthCodeController::class);
     });
 

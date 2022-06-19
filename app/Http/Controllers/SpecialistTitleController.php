@@ -28,10 +28,10 @@ class SpecialistTitleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreSpecialistTitleRequest  $request
+     * @param  \App\Http\Requests\SpecialistTitleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreSpecialistTitleRequest $request)
+    public function store(SpecialistTitleRequest $request)
     {
         $specialistTitle = SpecialistTitle::create([
             'name' => $request->name,

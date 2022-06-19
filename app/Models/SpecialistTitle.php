@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class SpecialistTitle extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['name'];
 }
