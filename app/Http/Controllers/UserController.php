@@ -24,7 +24,10 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 400);
+            return response()->json(
+                $validator->errors(),
+                Response::HTTP_BAD_REQUEST
+            );
         }
 
         $user = User::create([
@@ -56,36 +59,37 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json($validator->errors(), 422);
+            return response()->json(
+                $validator->errors(),
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
         }
 
         $auth_params = $validator->validated();
-        $role_id = 0;
+        $role_slug = '';
 
         if (empty($auth_params['email'])) {
             $user = User::where('username', $auth_params['username'])
                 ->limit(1)
-                ->get()
-                ->toArray();
+                ->get();
 
-            if (empty($user)) {
-                return response()->json(['error' => 'Unauthorized'], 401);
+            if (empty($user->toArray())) {
+                return response()->json(
+                    ['error' => 'Unauthorized'],
+                    Response::HTTP_UNAUTHORIZED
+                );
             } else {
-                $auth_params['email'] = $user[0]['email'];
+                $auth_params['email'] = $user[0]->email;
             }
 
-            $role_id = $user[0]['role_id'];
+            $role_slug = $user[0]->role()->slug;
         }
 
         if (!($token = auth()->attempt($validator->validated()))) {
-            return response()->json(['error' => 'Unauthorized'], 401);
-        }
-
-        $current_role = UserRole::find($role_id)->toArray();
-        $role_slug = '';
-
-        if (!empty($current_role)) {
-            $role_slug = $current_role['slug'];
+            return response()->json(
+                ['error' => 'Unauthorized'],
+                Response::HTTP_UNAUTHORIZED
+            );
         }
 
         return response()->json(
