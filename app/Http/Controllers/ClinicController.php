@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Http\Requests\StoreClinicRequest;
-use App\Http\Requests\UpdateClinicRequest;
+use App\Http\Requests\ClinicRequest;
 use App\Models\Clinic;
 
 class ClinicController extends Controller
@@ -35,10 +34,10 @@ class ClinicController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreClinicRequest  $request
+     * @param  \App\Http\Requests\ClinicRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreClinicRequest $request)
+    public function store(ClinicRequest $request)
     {
         $clinic = Clinic::create([
             'name' => $request->name,
@@ -73,7 +72,7 @@ class ClinicController extends Controller
 
         return response()->json(
             [
-                'message' => 'Clinic successfully registered',
+                'message' => 'Clinic successfully created',
                 'data' => $clinic,
             ],
             Response::HTTP_CREATED
@@ -83,11 +82,11 @@ class ClinicController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateClinicRequest  $request
+     * @param  \App\Http\Requests\ClinicRequest  $request
      * @param  \App\Models\Clinic  $clinic
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateClinicRequest $request, Clinic $clinic)
+    public function update(ClinicRequest $request, Clinic $clinic)
     {
         $clinic->update([
             'name' => $request->name,

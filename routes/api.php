@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SpecialistTypeController;
@@ -30,6 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/profile', [UserController::class, 'profile']);
 
     Route::middleware(['ensure.role:admin'])->group(function () {
+        Route::apiResource('admins', AdminController::class);
         Route::apiResource('user-roles', UserRoleController::class);
         Route::apiResource('organizations', OrganizationController::class);
         Route::apiResource('specialist-types', SpecialistTypeController::class);

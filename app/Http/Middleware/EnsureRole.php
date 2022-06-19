@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use App\Providers\RouteServiceProvider;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use App\Models\UserRole;
 
@@ -25,17 +26,23 @@ class EnsureRole
             ->toArray();
 
         if (empty($result)) {
-            return response()->json([
-                'message' => 'Access Denied',
-            ]);
+            return response()->json(
+                [
+                    'message' => 'Access Denied',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
         }
 
         $user_role = $result[0];
 
         if (auth()->user()->role_id != $user_role['id']) {
-            return response()->json([
-                'message' => $user_role['name'] . ' Role Required',
-            ]);
+            return response()->json(
+                [
+                    'message' => $user_role['name'] . ' Role Required',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
         }
 
         return $next($request);

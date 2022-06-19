@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Http\Requests\StoreOrganizationRequest;
-use App\Http\Requests\UpdateOrganizationRequest;
+use App\Http\Requests\OrganizationRequest;
 use App\Models\Organization;
 
 class OrganizationController extends Controller
@@ -30,10 +29,10 @@ class OrganizationController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreOrganizationRequest  $request
+     * @param  \App\Http\Requests\OrganizationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreOrganizationRequest $request)
+    public function store(OrganizationRequest $request)
     {
         $organization = Organization::create([
             'name' => $request->name,
@@ -46,7 +45,7 @@ class OrganizationController extends Controller
 
         return response()->json(
             [
-                'message' => 'Organization successfully registered',
+                'message' => 'Organization successfully created',
                 'data' => $organization,
             ],
             Response::HTTP_CREATED
@@ -56,12 +55,12 @@ class OrganizationController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateOrganizationRequest  $request
+     * @param  \App\Http\Requests\OrganizationRequest  $request
      * @param  \App\Models\Organization  $organization
      * @return \Illuminate\Http\Response
      */
     public function update(
-        UpdateOrganizationRequest $request,
+        OrganizationRequest $request,
         Organization $organization
     ) {
         $organization->update([

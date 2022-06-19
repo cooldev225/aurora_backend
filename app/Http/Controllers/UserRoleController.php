@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreUserRoleRequest;
-use App\Http\Requests\UpdateUserRoleRequest;
+use App\Http\Requests\UserRoleRequest;
 use App\Models\UserRole;
 use Illuminate\Http\Response;
-use Illuminate\Contracts\Support\Jsonable;
 
 class UserRoleController extends Controller
 {
@@ -17,7 +15,7 @@ class UserRoleController extends Controller
      */
     public function index()
     {
-        $result = UserRole::paginate()->toJson();
+        $result = UserRole::paginate()->toArray();
 
         return response()->json(
             [
@@ -31,10 +29,10 @@ class UserRoleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreUserRoleRequest  $request
+     * @param  \App\Http\Requests\UserRoleRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreUserRoleRequest $request)
+    public function store(UserRoleRequest $request)
     {
         $user_role = UserRole::create([
             'name' => $request->name,
@@ -44,7 +42,7 @@ class UserRoleController extends Controller
 
         return response()->json(
             [
-                'message' => 'User Role successfully registered',
+                'message' => 'User Role successfully created',
                 'data' => $user_role,
             ],
             Response::HTTP_CREATED
@@ -54,11 +52,11 @@ class UserRoleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateUserRoleRequest  $request
+     * @param  \App\Http\Requests\UserRoleRequest  $request
      * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateUserRoleRequest $request, UserRole $userRole)
+    public function update(UserRoleRequest $request, UserRole $userRole)
     {
         $userRole->update([
             'name' => $request->name,
