@@ -25,6 +25,10 @@ class OrganizationRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'username' => 'required|string|min:2|max:100',
+            'email' => 'required|string|email|max:100|unique:users',
+            'password' => 'required|string|confirmed|min:6',
+            'device_name' => 'required',
         ];
     }
 }

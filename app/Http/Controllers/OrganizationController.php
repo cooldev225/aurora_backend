@@ -48,6 +48,13 @@ class OrganizationController extends Controller
      */
     public function store(OrganizationRequest $request)
     {
+        $owner = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => $this->org_role->id,
+        ]);
+
         $prova_device = new ProvaDevice();
         $prova_device->device_name = $request->device_name;
         $prova_device->otac = $request->otac;
@@ -55,13 +62,6 @@ class OrganizationController extends Controller
         $prova_device->device_expiry = $request->device_expiry;
 
         $prova_device->save_with_key();
-
-        $owner = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $this->org_role->id,
-        ]);
 
         $organization = Organization::create([
             'name' => $request->name,
@@ -92,6 +92,13 @@ class OrganizationController extends Controller
         OrganizationRequest $request,
         Organization $organization
     ) {
+        $owner = $organization->owner()->update([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => $this->org_role->id,
+        ]);
+
         $prova_device = $organization->prova_device();
         $prova_device->device_name = $request->device_name;
         $prova_device->otac = $request->otac;
@@ -99,13 +106,6 @@ class OrganizationController extends Controller
         $prova_device->device_expiry = $request->device_expiry;
 
         $prova_device->save_with_key();
-
-        $owner = $organization->owner()->update([
-            'username' => $request->username,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-            'role_id' => $this->org_role->id,
-        ]);
 
         $organization->update([
             'name' => $request->name,

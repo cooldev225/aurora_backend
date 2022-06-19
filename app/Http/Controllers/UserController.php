@@ -31,7 +31,6 @@ class UserController extends Controller
         }
 
         $auth_params = $validator->validated();
-        $role_slug = '';
 
         if (empty($auth_params['email'])) {
             $user = User::where('username', $auth_params['username'])
@@ -46,8 +45,6 @@ class UserController extends Controller
             } else {
                 $auth_params['email'] = $user[0]->email;
             }
-
-            $role_slug = $user[0]->role()->slug;
         }
 
         if (!($token = auth()->attempt($validator->validated()))) {
@@ -57,11 +54,13 @@ class UserController extends Controller
             );
         }
 
+        $user = auth()->user();
+
         return response()->json(
             [
-                'email' => $auth_params['email'],
-                'username' => $auth_params['username'],
-                'role' => $role_slug,
+                'email' => $user->email,
+                'username' => $user->username,
+                'role' => $user->role()->slug,
                 'access_token' => $token,
             ],
             Response::HTTP_OK
@@ -77,15 +76,12 @@ class UserController extends Controller
     {
         $user = auth()->user();
         $token = auth()->fromUser($user);
-        $role_slug = auth()
-            ->user()
-            ->role()->slug;
 
         return response()->json(
             [
                 'email' => $user->email,
                 'username' => $user->username,
-                'role' => $role_slug,
+                'role' => $user->role()->slug,
                 'access_token' => $token,
             ],
             Response::HTTP_OK
