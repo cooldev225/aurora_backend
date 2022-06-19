@@ -18,7 +18,9 @@ class ClinicController extends Controller
         $result = Clinic::where(
             'organization_id',
             auth()->user()->organization_id
-        )->toArray();
+        )
+            ->get()
+            ->toArray();
 
         return response()->json(
             [
