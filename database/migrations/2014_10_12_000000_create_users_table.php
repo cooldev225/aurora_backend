@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->string('username')->unique();
             $table->foreignId('role_id');
             $table->foreignId('organization_id')->nullable();
-            $table->date('birth')->nullable();
+            $table->date('date_of_birth')->nullable();
             $table
                 ->enum('gender', ['Male', 'Female', 'Other', 'Undisclosed'])
                 ->default('Male');
