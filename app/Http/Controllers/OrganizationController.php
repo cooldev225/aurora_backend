@@ -51,8 +51,11 @@ class OrganizationController extends Controller
         $owner = User::create([
             'username' => $request->username,
             'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
             'role_id' => $this->org_role->id,
+            'mobile_number' => $request->mobile_number,
         ]);
 
         $prova_device = new ProvaDevice();
@@ -62,10 +65,15 @@ class OrganizationController extends Controller
         $prova_device->device_expiry = $request->device_expiry;
 
         $prova_device->save_with_key();
+        $logo_path = '';
+
+        if ($file = $request->file('logo')) {
+            $logo_path = $file->store('public/logo');
+        }
 
         $organization = Organization::create([
             'name' => $request->name,
-            'logo' => $request->logo,
+            'logo' => $logo_path,
             'max_clinics' => $request->max_clinics,
             'max_employees' => $request->max_employees,
             'prova_device_id' => $prova_device->id,
@@ -95,8 +103,11 @@ class OrganizationController extends Controller
         $owner = $organization->owner()->update([
             'username' => $request->username,
             'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
             'role_id' => $this->org_role->id,
+            'mobile_number' => $request->mobile_number,
         ]);
 
         $prova_device = $organization->prova_device();
@@ -106,10 +117,15 @@ class OrganizationController extends Controller
         $prova_device->device_expiry = $request->device_expiry;
 
         $prova_device->save_with_key();
+        $logo_path = '';
+
+        if ($file = $request->file('logo')) {
+            $logo_path = $file->store('public/logo');
+        }
 
         $organization->update([
             'name' => $request->name,
-            'logo' => $request->logo,
+            'logo' => $logo_path,
             'max_clinics' => $request->max_clinics,
             'max_employees' => $request->max_employees,
             'prova_device_id' => $prova_device->id,
