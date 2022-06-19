@@ -25,6 +25,7 @@ use App\Http\Controllers\ClinicController;
 Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('/verify_token', [UserController::class, 'verify_token']);
     Route::post('/users', [UserController::class, 'create']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/refresh', [UserController::class, 'refresh']);

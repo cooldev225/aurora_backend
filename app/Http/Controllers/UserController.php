@@ -2,13 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Auth;
 use Validator;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\UserRole;
 
 class UserController extends Controller
 {
@@ -94,6 +92,30 @@ class UserController extends Controller
             [
                 'email' => $auth_params['email'],
                 'username' => $auth_params['username'],
+                'role' => $role_slug,
+                'access_token' => $token,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * verify_token
+     *
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function verify_token(Request $request)
+    {
+        $user = auth()->user();
+        $token = auth()->fromUser($user);
+        $role_slug = auth()
+            ->user()
+            ->role()->slug;
+
+        return response()->json(
+            [
+                'email' => $user->email,
+                'username' => $user->username,
                 'role' => $role_slug,
                 'access_token' => $token,
             ],
