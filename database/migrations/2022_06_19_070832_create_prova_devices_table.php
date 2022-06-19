@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->string('device_name');
             $table->string('otac');
-            $table->string('private_key');
-            $table->string('public_key');
+            $table->text('private_key');
+            $table->text('public_key');
             $table
                 ->enum('key_status', ['ACTIVE', 'INACTIVE'])
                 ->default('ACTIVE');

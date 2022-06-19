@@ -3,11 +3,25 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\OrganizationRequest;
+use App\Models\User;
+use App\Models\UserRole;
+use App\Models\ProvaDevice;
 use App\Models\Organization;
 
 class OrganizationController extends Controller
 {
+    /**
+     * Instantiate a new AdminController instance.
+     */
+    public function __construct()
+    {
+        $this->org_role = UserRole::where('slug', 'organization-admin')
+            ->limit(1)
+            ->get()[0];
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -34,13 +48,28 @@ class OrganizationController extends Controller
      */
     public function store(OrganizationRequest $request)
     {
-        $organization = Organization::create([
+        $prova_device = new ProvaDevice();
+        $prova_device->device_name = $request->device_name;
+        $prova_device->otac = $request->otac;
+        $prova_device->key_expiry = $request->key_expiry;
+        $prova_device->device_expiry = $request->device_expiry;
+
+        $prova_device->save_with_key();
+
+        $owner = User::create([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role_id' => $this->org_role->id,
+        ]);
+
+        $organization->create([
             'name' => $request->name,
             'logo' => $request->logo,
             'max_clinics' => $request->max_clinics,
             'max_employees' => $request->max_employees,
-            'prova_device_id' => $request->prova_device_id,
-            'owner' => $request->owner,
+            'prova_device_id' => $prova_device->id,
+            'owner_id' => $owner->id,
         ]);
 
         return response()->json(
@@ -63,13 +92,25 @@ class OrganizationController extends Controller
         OrganizationRequest $request,
         Organization $organization
     ) {
+        $prova_device = $organization->prova_device();
+        $prova_device->device_name = $request->device_name;
+        $prova_device->otac = $request->otac;
+        $prova_device->key_expiry = $request->key_expiry;
+        $prova_device->device_expiry = $request->device_expiry;
+
+        $prova_device->save_with_key();
+
+        $owner = $organization->owner()->update([
+            'username' => $request->username,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
         $organization->update([
             'name' => $request->name,
             'logo' => $request->logo,
             'max_clinics' => $request->max_clinics,
             'max_employees' => $request->max_employees,
-            'prova_device_id' => $request->prova_device_id,
-            'owner' => $request->owner,
         ]);
 
         return response()->json(

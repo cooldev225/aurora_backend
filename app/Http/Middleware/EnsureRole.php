@@ -15,30 +15,23 @@ class EnsureRole
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @param  string|null $role
+     * @param  string|null $slug
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, $slug)
     {
-        $result = UserRole::where('slug', $role)
-            ->get()
-            ->toArray();
+        $required_role = UserRole::where('slug', $slug)
+            ->orWhere('slug', 'admin')
+            ->get()[0];
 
-        if (empty($result)) {
+        $role = auth()
+            ->user()
+            ->role();
+
+        if ($role->slug != $slug && $role->slug != 'admin') {
             return response()->json(
                 [
-                    'message' => 'Access Denied',
-                ],
-                Response::HTTP_FORBIDDEN
-            );
-        }
-
-        $user_role = $result[0];
-
-        if (auth()->user()->role_id != $user_role['id']) {
-            return response()->json(
-                [
-                    'message' => $user_role['name'] . ' Role Required',
+                    'message' => $required_role->name . ' Role Required',
                 ],
                 Response::HTTP_FORBIDDEN
             );
