@@ -31,6 +31,7 @@ class OrganizationRequest extends FormRequest
             'last_name' => 'string',
             'password' => 'required|string|confirmed|min:6',
             'device_name' => 'required',
+            'logo' => 'max:2048',
         ];
     }
 }
