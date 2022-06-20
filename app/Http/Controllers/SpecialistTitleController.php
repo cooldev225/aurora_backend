@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use App\Models\SpecialistTitle;
 use App\Http\Requests\SpecialistTitleRequest;
 
@@ -82,7 +83,7 @@ class SpecialistTitleController extends Controller
 
         return response()->json(
             [
-                'message' => 'Specialist Type successfully Removed',
+                'message' => 'Specialist Type Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

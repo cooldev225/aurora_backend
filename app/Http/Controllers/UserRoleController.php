@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use App\Http\Requests\UserRoleRequest;
 use App\Models\UserRole;
-use Illuminate\Http\Response;
 
 class UserRoleController extends Controller
 {

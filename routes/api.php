@@ -9,7 +9,9 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\SpecialistTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\HealthFundController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ClinicController;
+use App\Http\Controllers\SpecialistTitleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -46,5 +48,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['ensure.role:organization-admin'])->group(function () {
         Route::apiResource('clinics', ClinicController::class);
+        Route::apiResource(
+            'clinics/{clinic_id}/patients',
+            PatientController::class
+        );
     });
 });

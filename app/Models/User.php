@@ -63,4 +63,14 @@ class User extends Authenticatable implements JWTSubject
         $organization = Organization::find($this->organization_id);
         return $organization;
     }
+
+    /**
+     * Return Organization
+     *
+     * @return $organization
+     */
+    public function isAdmin()
+    {
+        return $this->role()->slug == 'admin';
+    }
 }

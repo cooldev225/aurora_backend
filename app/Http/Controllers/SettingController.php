@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use App\Http\Requests\SettingRequest;
 use App\Models\Setting;
 
