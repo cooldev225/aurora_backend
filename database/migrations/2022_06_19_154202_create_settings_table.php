@@ -18,8 +18,8 @@ return new class extends Migration {
             $table->string('apt_start_time_slot')->nullable();
             $table->string('apt_end_time_slot')->nullable();
             $table->integer('total_time_diff')->default(0);
-            $table->text('instructions')->default('');
-            $table->text('notes')->default('');
+            $table->text('instructions')->nullable();
+            $table->text('notes')->nullable();
             $table
                 ->enum('type', [
                     'booking',
