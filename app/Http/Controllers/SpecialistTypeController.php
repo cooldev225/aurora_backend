@@ -83,7 +83,7 @@ class SpecialistTypeController extends Controller
 
         return response()->json(
             [
-                'message' => 'Specialist Type successfully Removed',
+                'message' => 'Specialist Type Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

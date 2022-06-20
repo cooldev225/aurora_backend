@@ -15,7 +15,7 @@ class ClinicController extends Controller
      */
     public function index()
     {
-        $result = Clinic::where(
+        $clinics = Clinic::where(
             'organization_id',
             auth()->user()->organization_id
         )
@@ -25,7 +25,7 @@ class ClinicController extends Controller
         return response()->json(
             [
                 'message' => 'Clinic List',
-                'data' => $result,
+                'data' => $clinics,
             ],
             Response::HTTP_OK
         );
@@ -140,7 +140,7 @@ class ClinicController extends Controller
 
         return response()->json(
             [
-                'message' => 'Clinic successfully Removed',
+                'message' => 'Clinic Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

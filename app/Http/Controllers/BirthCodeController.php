@@ -83,7 +83,7 @@ class BrithCodeController extends Controller
 
         return response()->json(
             [
-                'message' => 'Brith Code successfully Removed',
+                'message' => 'Brith Code Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

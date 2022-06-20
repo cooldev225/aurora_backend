@@ -50,6 +50,8 @@ class AdminController extends Controller
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
             'role_id' => $this->admin_role->id,
         ]);
@@ -75,6 +77,8 @@ class AdminController extends Controller
         $user->update([
             'username' => $request->username,
             'email' => $request->email,
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
             'role_id' => $this->admin_role->id,
         ]);
@@ -100,7 +104,7 @@ class AdminController extends Controller
 
         return response()->json(
             [
-                'message' => 'Admin successfully Removed',
+                'message' => 'Admin Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

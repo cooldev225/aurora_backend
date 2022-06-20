@@ -42,7 +42,7 @@ class UserRoleController extends Controller
 
         return response()->json(
             [
-                'message' => 'User Role successfully created',
+                'message' => 'User Role created',
                 'data' => $user_role,
             ],
             Response::HTTP_CREATED
@@ -66,7 +66,7 @@ class UserRoleController extends Controller
 
         return response()->json(
             [
-                'message' => 'User Role successfully updated',
+                'message' => 'User Role updated',
                 'data' => $userRole,
             ],
             Response::HTTP_OK
@@ -85,7 +85,7 @@ class UserRoleController extends Controller
 
         return response()->json(
             [
-                'message' => 'User Role successfully Removed',
+                'message' => 'User Role Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

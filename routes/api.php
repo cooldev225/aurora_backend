@@ -38,9 +38,10 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('specialist-types', SpecialistTypeController::class);
         Route::apiResource(
             'specialist-titles',
-            SpecialistTypeController::class
+            SpecialistTitleController::class
         );
         Route::apiResource('birth-codes', BirthCodeController::class);
+        Route::apiResource('health-funds', HealthFundController::class);
     });
 
     Route::middleware(['ensure.role:organization-admin'])->group(function () {

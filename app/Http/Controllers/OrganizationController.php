@@ -82,7 +82,7 @@ class OrganizationController extends Controller
 
         return response()->json(
             [
-                'message' => 'Organization successfully created',
+                'message' => 'Organization created',
                 'data' => $organization,
             ],
             Response::HTTP_CREATED
@@ -134,7 +134,7 @@ class OrganizationController extends Controller
 
         return response()->json(
             [
-                'message' => 'Organization successfully updated',
+                'message' => 'Organization updated',
                 'data' => $organization,
             ],
             Response::HTTP_OK
@@ -149,11 +149,15 @@ class OrganizationController extends Controller
      */
     public function destroy(Organization $organization)
     {
+        $owner = $organization->owner();
+        $prova_device = $organization->prova_device();
+        $owner->delete();
+        $prova_device->delete();
         $organization->delete();
 
         return response()->json(
             [
-                'message' => 'Organization successfully Removed',
+                'message' => 'Organization Removed',
             ],
             Response::HTTP_NO_CONTENT
         );
