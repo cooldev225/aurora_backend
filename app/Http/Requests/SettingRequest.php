@@ -24,7 +24,9 @@ class SettingRequest extends FormRequest
     public function rules()
     {
         return [
-                //
-            ];
+            'apt_start_time_slot' => 'required',
+            'apt_end_time_slot' => 'required',
+            'total_time_diff' => 'required|numeric',
+        ];
     }
 }

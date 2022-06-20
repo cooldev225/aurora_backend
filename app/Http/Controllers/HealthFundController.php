@@ -36,6 +36,10 @@ class HealthFundController extends Controller
     {
         $healthFund = HealthFund::create([
             'name' => $request->name,
+            'code' => $request->code,
+            'fund' => $request->fund,
+            'contact' => $request->contact,
+            'issues' => $request->issues,
         ]);
 
         return response()->json(
@@ -58,6 +62,10 @@ class HealthFundController extends Controller
     {
         $healthFund->update([
             'name' => $request->name,
+            'code' => $request->code,
+            'fund' => $request->fund,
+            'contact' => $request->contact,
+            'issues' => $request->issues,
         ]);
 
         return response()->json(

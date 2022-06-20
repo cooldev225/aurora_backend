@@ -29,7 +29,18 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        $result = Organization::all()->toArray();
+        $prova_device_table = (new ProvaDevice())->getTable();
+        $user_table = (new User())->getTable();
+
+        $result = Organization::leftJoin(
+            $prova_device_table,
+            'prova_device_id',
+            '=',
+            $prova_device_table . '.id'
+        )
+            ->leftJoin($user_table, 'owner_id', '=', $user_table . '.id')
+            ->get()
+            ->toArray();
 
         return response()->json(
             [
