@@ -8,14 +8,17 @@ use App\Models\User;
 use App\Models\UserRole;
 use App\Http\Requests\UserRequest;
 
-class AdminController extends Controller
+class OrganizationManagerController extends Controller
 {
     /**
-     * Instantiate a new AdminController instance.
+     * Instantiate a new OrganizationManagerController instance.
      */
     public function __construct()
     {
-        $this->admin_role = UserRole::where('slug', 'admin')
+        $this->organization_manager_role = UserRole::where(
+            'slug',
+            'organization-manager'
+        )
             ->limit(1)
             ->get()[0];
     }
@@ -27,13 +30,13 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $result = User::where('role_id', $this->admin_role->id)
+        $result = User::where('role_id', $this->organization_manager_role->id)
             ->get()
             ->toArray();
 
         return response()->json(
             [
-                'message' => 'Admin List',
+                'message' => 'Organization Manager List',
                 'data' => $result,
             ],
             Response::HTTP_OK
@@ -54,12 +57,12 @@ class AdminController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
-            'role_id' => $this->admin_role->id,
+            'role_id' => $this->organization_manager_role->id,
         ]);
 
         return response()->json(
             [
-                'message' => 'Admin created',
+                'message' => 'Organization Manager created',
                 'data' => $user,
             ],
             Response::HTTP_CREATED
@@ -81,12 +84,12 @@ class AdminController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
-            'role_id' => $this->admin_role->id,
+            'role_id' => $this->organization_manager_role->id,
         ]);
 
         return response()->json(
             [
-                'message' => 'Admin updated',
+                'message' => 'Organization Manager updated',
                 'data' => $user,
             ],
             Response::HTTP_OK
@@ -105,7 +108,7 @@ class AdminController extends Controller
 
         return response()->json(
             [
-                'message' => 'Admin Removed',
+                'message' => 'Organization Manager Removed',
             ],
             Response::HTTP_NO_CONTENT
         );
