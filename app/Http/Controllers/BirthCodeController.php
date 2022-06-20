@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use App\Http\Requests\BirthCodeRequest;
 use App\Models\BirthCode;
 
-class BrithCodeController extends Controller
+class BirthCodeController extends Controller
 {
     /**
      * Display a listing of the Birth Code resource.
