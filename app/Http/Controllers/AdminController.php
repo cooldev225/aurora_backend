@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Http\Requests\UserRequest;
+use App\Http\Requests\AdminRequest;
 
 class AdminController extends Controller
 {
@@ -73,14 +74,13 @@ class AdminController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(UserRequest $request, User $user)
+    public function update(AdminRequest $request, User $user)
     {
         $user->update([
             'username' => $request->username,
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'password' => Hash::make($request->password),
             'role_id' => $this->admin_role->id,
         ]);
 

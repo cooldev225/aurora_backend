@@ -12,6 +12,8 @@ use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\SpecialistTitleController;
+use App\Http\Controllers\EmailTemplateController;
+use App\Http\Controllers\OrganizationManagerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,6 +46,7 @@ Route::middleware(['auth'])->group(function () {
         );
         Route::apiResource('birth-codes', BirthCodeController::class);
         Route::apiResource('health-funds', HealthFundController::class);
+        Route::apiResource('email-templates', EmailTemplateController::class);
     });
 
     Route::middleware(['ensure.role:organization-admin'])->group(function () {
@@ -51,6 +54,10 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource(
             'clinics/{clinic_id}/patients',
             PatientController::class
+        );
+        Route::apiResource(
+            'organization-managers',
+            OrganizationManagerController::class
         );
     });
 });
