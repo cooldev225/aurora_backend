@@ -22,7 +22,7 @@ class UserFactory extends Factory
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'username' => $this->faker->username(),
+            'username' => $this->faker->unique()->username(),
             'role_id' => UserRole::inRandomOrder()
                 ->limit(1)
                 ->get()[0]->id,
