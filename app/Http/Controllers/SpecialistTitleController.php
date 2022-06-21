@@ -19,7 +19,7 @@ class SpecialistTitleController extends Controller
 
         return response()->json(
             [
-                'message' => 'Specilaist Type List',
+                'message' => 'Specialist Title List',
                 'data' => $specialistTitle,
             ],
             Response::HTTP_OK
@@ -40,7 +40,7 @@ class SpecialistTitleController extends Controller
 
         return response()->json(
             [
-                'message' => 'New Specialist Type created',
+                'message' => 'New Specialist Title created',
                 'data' => $specialistTitle,
             ],
             Response::HTTP_CREATED
@@ -64,7 +64,7 @@ class SpecialistTitleController extends Controller
 
         return response()->json(
             [
-                'message' => 'Specialist Type updated',
+                'message' => 'Specialist Title updated',
                 'data' => $specialistTitle,
             ],
             Response::HTTP_OK
@@ -83,7 +83,7 @@ class SpecialistTitleController extends Controller
 
         return response()->json(
             [
-                'message' => 'Specialist Type Removed',
+                'message' => 'Specialist Title Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

@@ -19,7 +19,7 @@ class SpecialistTypeController extends Controller
 
         return response()->json(
             [
-                'message' => 'Specilaist Type List',
+                'message' => 'Specialist Type List',
                 'data' => $specialistTypes,
             ],
             Response::HTTP_OK
