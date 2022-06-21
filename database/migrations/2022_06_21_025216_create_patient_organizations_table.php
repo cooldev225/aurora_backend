@@ -12,14 +12,10 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('email_templates', function (Blueprint $table) {
+        Schema::create('patient_organizations', function (Blueprint $table) {
             $table->id();
-            $table->string('key');
-            $table->string('type')->nullable();
-            $table->enum('type', ['email', 'sms'])->default('email');
-            $table->string('hint')->nullable();
-            $table->string('subject');
-            $table->text('body')->nullable();
+            $table->foreignId('patient_id');
+            $table->foreignId('organization_id');
             $table->timestamps();
         });
     }
@@ -31,6 +27,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('email_templates');
+        Schema::dropIfExists('patient_organizations');
     }
 };

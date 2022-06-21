@@ -5,43 +5,37 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
+use App\Models\Organization;
+use App\Models\PatientOrganization;
 
 class PatientController extends Controller
 {
-    /**
-     * Instantiate a new AdminController instance.
-     */
-    public function __construct()
-    {
-        $this->organization_id = auth()->user()->organization_id;
-
-        $this->is_admin = auth()
-            ->user()
-            ->isAdmin();
-    }
-
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($clinic_id)
+    public function index()
     {
-        $patients = [];
+        $organization_id = auth()->user()->organization_id;
+        $organization_table = (new Organization())->getTable();
+        $patient_table = (new Patient())->getTable();
 
-        if ($this->is_admin) {
-            $patients = Patient::where('clinic_id', $clinic_id)
-                ->get()
-                ->toArray();
-        } else {
-            $patients = Patient::where(
-                'organization_id',
-                $this->organization_id
+        $patients = PatientOrganization::leftJoin(
+            $organization_table,
+            'organization_id',
+            '=',
+            $organization_table . '.id'
+        )
+            ->leftJoin(
+                $patient_table,
+                'patient_id',
+                '=',
+                $patient_table . '.id'
             )
-                ->where('clinic_id', $clinic_id)
-                ->get()
-                ->toArray();
-        }
+            ->where('organization_id', $organization_id)
+            ->get()
+            ->toArray();
 
         return response()->json(
             [
@@ -58,11 +52,9 @@ class PatientController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PatientRequest $request, $clinic_id)
+    public function store(PatientRequest $request)
     {
         $patient = Patient::create([
-            'organization_id' => $this->organization_id,
-            'clinic_id' => $clinic_id,
             'title' => $request->title,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -76,6 +68,14 @@ class PatientController extends Controller
             'state' => $request->state,
             'postcode' => $request->postcode,
             'country' => $request->country,
+            'marital_status' => $request->marital_status,
+            'birth_place_code' => $request->birth_place_code,
+            'country_of_birth' => $request->country_of_birth,
+            'birth_state' => $request->birth_state,
+            'allergies' => $request->allergies,
+            'height' => $request->height,
+            'weight' => $request->weight,
+            'bmi' => $request->bmi,
         ]);
 
         return response()->json(
@@ -94,14 +94,9 @@ class PatientController extends Controller
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function update(
-        PatientRequest $request,
-        $clinic_id,
-        Patient $patient
-    ) {
+    public function update(PatientRequest $request, Patient $patient)
+    {
         $patient->update([
-            'organization_id' => $this->organization_id,
-            'clinic_id' => $clinic_id,
             'title' => $request->title,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
@@ -115,6 +110,14 @@ class PatientController extends Controller
             'state' => $request->state,
             'postcode' => $request->postcode,
             'country' => $request->country,
+            'marital_status' => $request->marital_status,
+            'birth_place_code' => $request->birth_place_code,
+            'country_of_birth' => $request->country_of_birth,
+            'birth_state' => $request->birth_state,
+            'allergies' => $request->allergies,
+            'height' => $request->height,
+            'weight' => $request->weight,
+            'bmi' => $request->bmi,
         ]);
 
         return response()->json(
@@ -132,7 +135,7 @@ class PatientController extends Controller
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Http\Response
      */
-    public function destroy($clinic_id, Patient $patient)
+    public function destroy(Patient $patient)
     {
         $patient->delete();
 

@@ -14,8 +14,6 @@ return new class extends Migration {
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('organization_id');
-            $table->foreignId('clinic_id');
             $table->string('title')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
@@ -31,6 +29,21 @@ return new class extends Migration {
             $table->string('state')->nullable();
             $table->string('postcode')->nullable();
             $table->string('country')->nullable();
+            $table
+                ->enum('marital_status', [
+                    'Single',
+                    'Divorced',
+                    'Married',
+                    'Widowed',
+                ])
+                ->default('Single');
+            $table->string('birth_place_code')->nullable();
+            $table->string('country_of_birth')->nullable();
+            $table->string('birth_state')->nullable();
+            $table->string('allergies')->nullable();
+            $table->integer('height')->nullable();
+            $table->integer('weight')->nullable();
+            $table->integer('bmi')->nullable();
             $table->timestamps();
         });
     }

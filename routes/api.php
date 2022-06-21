@@ -14,6 +14,7 @@ use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\SpecialistTitleController;
 use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\OrganizationManagerController;
+use App\Http\Controllers\OrganizationAdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,6 +35,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/refresh', [UserController::class, 'refresh']);
     Route::post('/profile', [UserController::class, 'profile']);
+    Route::apiResource('/patients', PatientController::class);
 
     Route::middleware(['ensure.role:admin'])->group(function () {
         Route::apiResource('admins', AdminController::class);
@@ -52,8 +54,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['ensure.role:organization-admin'])->group(function () {
         Route::apiResource('clinics', ClinicController::class);
         Route::apiResource(
-            'clinics/{clinic_id}/patients',
-            PatientController::class
+            'organization-admins',
+            OrganizationAdminController::class
         );
         Route::apiResource(
             'organization-managers',
