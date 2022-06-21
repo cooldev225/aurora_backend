@@ -15,7 +15,7 @@ class HealthFundController extends Controller
      */
     public function index()
     {
-        $healthFund = HealthFund::all()->toArray();
+        $healthFund = HealthFund::all();
 
         return response()->json(
             [

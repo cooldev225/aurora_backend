@@ -15,7 +15,7 @@ class SpecialistTitleController extends Controller
      */
     public function index()
     {
-        $specialistTitle = SpecialistTitle::all()->toArray();
+        $specialistTitle = SpecialistTitle::all();
 
         return response()->json(
             [

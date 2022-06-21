@@ -34,8 +34,7 @@ class PatientController extends Controller
                 $patient_table . '.id'
             )
             ->where('organization_id', $organization_id)
-            ->get()
-            ->toArray();
+            ->get();
 
         return response()->json(
             [

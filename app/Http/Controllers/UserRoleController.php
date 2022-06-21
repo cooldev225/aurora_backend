@@ -15,7 +15,7 @@ class UserRoleController extends Controller
      */
     public function index()
     {
-        $result = UserRole::all()->toArray();
+        $result = UserRole::all();
 
         return response()->json(
             [

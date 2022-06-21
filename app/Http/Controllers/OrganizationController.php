@@ -39,8 +39,7 @@ class OrganizationController extends Controller
             $prova_device_table . '.id'
         )
             ->leftJoin($user_table, 'owner_id', '=', $user_table . '.id')
-            ->get()
-            ->toArray();
+            ->get();
 
         return response()->json(
             [

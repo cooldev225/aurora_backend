@@ -31,14 +31,19 @@ class OrganizationManagerController extends Controller
      */
     public function index()
     {
-        $result = User::where('role_id', $this->organization_manager_role->id)
-            ->get()
-            ->toArray();
+        $organization_id = auth()->user()->organization_id;
+
+        $organization_managers = User::where(
+            'organization_id',
+            $organization_id
+        )
+            ->where('role_id', $this->organization_manager_role->id)
+            ->get();
 
         return response()->json(
             [
                 'message' => 'Organization Manager List',
-                'data' => $result,
+                'data' => $organization_managers,
             ],
             Response::HTTP_OK
         );
@@ -52,13 +57,16 @@ class OrganizationManagerController extends Controller
      */
     public function store(UserRequest $request)
     {
+        $organization_id = auth()->user()->organization_id;
+
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'password' => Hash::make($request->password),
             'role_id' => $this->organization_manager_role->id,
+            'organization_id' => $organization_id,
+            'password' => Hash::make($request->password),
         ]);
 
         return response()->json(
@@ -79,12 +87,25 @@ class OrganizationManagerController extends Controller
      */
     public function update(AdminRequest $request, User $user)
     {
+        $organization_id = auth()->user()->organization_id;
+
+        if ($user->organization_id != $organization_id) {
+            return response()->json(
+                [
+                    'message' =>
+                        'Could not update a manager in different Organization',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
         $user->update([
             'username' => $request->username,
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'role_id' => $this->organization_manager_role->id,
+            'organization_id' => $organization_id,
         ]);
 
         return response()->json(
@@ -104,6 +125,18 @@ class OrganizationManagerController extends Controller
      */
     public function destroy(User $user)
     {
+        $organization_id = auth()->user()->organization_id;
+
+        if ($user->organization_id != $organization_id) {
+            return response()->json(
+                [
+                    'message' =>
+                        'Could not remove a manager in different Organization',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
         $user->delete();
 
         return response()->json(

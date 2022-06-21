@@ -28,9 +28,7 @@ class AdminController extends Controller
      */
     public function index()
     {
-        $result = User::where('role_id', $this->admin_role->id)
-            ->get()
-            ->toArray();
+        $result = User::where('role_id', $this->admin_role->id)->get();
 
         return response()->json(
             [
