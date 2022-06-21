@@ -15,7 +15,7 @@ class SpecialistTypeController extends Controller
      */
     public function index()
     {
-        $specialistTypes = SpecialistType::all()->toArray();
+        $specialistTypes = SpecialistType::all();
 
         return response()->json(
             [

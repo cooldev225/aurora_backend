@@ -14,7 +14,7 @@ class PatientOrganizationController extends Controller
      */
     public function index()
     {
-        $patientOrganization = PatientOrganization::all()->toArray();
+        $patientOrganization = PatientOrganization::all();
 
         return response()->json(
             [

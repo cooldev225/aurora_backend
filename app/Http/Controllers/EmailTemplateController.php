@@ -15,7 +15,7 @@ class EmailTemplateController extends Controller
      */
     public function index()
     {
-        $emailTemplate = EmailTemplate::all()->toArray();
+        $emailTemplate = EmailTemplate::all();
 
         return response()->json(
             [

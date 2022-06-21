@@ -30,14 +30,12 @@ class SettingController extends Controller
         $settings = [];
 
         if ($this->is_admin) {
-            $settings = Setting::all()->toArray();
+            $settings = Setting::all();
         } else {
             $settings = Setting::where(
                 'organization_id',
                 $this->organization_id
-            )
-                ->get()
-                ->toArray();
+            )->get();
         }
 
         return response()->json(

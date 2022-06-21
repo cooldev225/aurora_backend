@@ -51,8 +51,8 @@ class SpecialistController extends Controller
                 '=',
                 $specialist_type_table . '.id'
             )
-            ->get()
-            ->toArray();
+            ->get();
+
         $specialist = Specialist::all()->toArray();
 
         return response()->json(
