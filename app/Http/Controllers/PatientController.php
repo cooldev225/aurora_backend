@@ -78,6 +78,13 @@ class PatientController extends Controller
             'bmi' => $request->bmi,
         ]);
 
+        $organization_id = auth()->user()->organization_id;
+
+        $patient = PatientOrganization::create([
+            'patient_id' => $patient->id,
+            'organization_id' => $organization_id,
+        ]);
+
         return response()->json(
             [
                 'message' => 'Patient created',
@@ -118,6 +125,13 @@ class PatientController extends Controller
             'height' => $request->height,
             'weight' => $request->weight,
             'bmi' => $request->bmi,
+        ]);
+
+        $organization_id = auth()->user()->organization_id;
+
+        $patient = PatientOrganization::update([
+            'patient_id' => $patient->id,
+            'organization_id' => $organization_id,
         ]);
 
         return response()->json(
