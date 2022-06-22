@@ -12,7 +12,7 @@ class Clinic extends Model
         'organization_id',
         'name',
         'email',
-        'phone',
+        'phone_number',
         'fax_number',
         'hospital_provider_number',
         'VAED_number',

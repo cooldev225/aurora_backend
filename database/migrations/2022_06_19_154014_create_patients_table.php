@@ -43,7 +43,7 @@ return new class extends Migration {
             $table->string('allergies')->nullable();
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();
-            $table->integer('bmi')->nullable();
+            $table->float('bmi')->nullable();
             $table->timestamps();
         });
     }

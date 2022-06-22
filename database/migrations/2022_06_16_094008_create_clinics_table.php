@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignId('organization_id');
             $table->string('name');
             $table->string('email');
-            $table->string('phone');
+            $table->string('phone_number');
             $table->string('fax_number')->nullable();
             $table->string('hospital_provider_number')->nullable();
             $table->string('VAED_number')->nullable();

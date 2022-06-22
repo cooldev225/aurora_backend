@@ -49,7 +49,7 @@ class ClinicController extends Controller
             'organization_id' => auth()->user()->organization_id,
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone_number' => $request->phone_number,
             'fax_number' => $request->fax_number,
             'hospital_provider_number' => $request->hospital_provider_number,
             'VAED_number' => $request->VAED_number,
@@ -107,7 +107,7 @@ class ClinicController extends Controller
         $clinic->update([
             'name' => $request->name,
             'email' => $request->email,
-            'phone' => $request->phone,
+            'phone_number' => $request->phone_number,
             'fax_number' => $request->fax_number,
             'hospital_provider_number' => $request->hospital_provider_number,
             'VAED_number' => $request->VAED_number,

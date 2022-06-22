@@ -24,7 +24,7 @@ class ClinicFactory extends Factory
                 ->get()[0]->id,
             'name' => $this->faker->title(),
             'email' => $this->faker->unique()->safeEmail(),
-            'phone' => $this->faker->phoneNumber(),
+            'phone_number' => $this->faker->phoneNumber(),
             'fax_number' => $this->faker->phoneNumber(),
             'hospital_provider_number' => 'AU' . mt_rand(1, 9999),
             'VAED_number' => Str::random(5),

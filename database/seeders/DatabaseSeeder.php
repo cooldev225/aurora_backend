@@ -19,6 +19,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             OrganizationSeeder::class,
             ProvaDeviceSeeder::class,
+            PatientSeeder::class,
+            PatientOrganizationSeeder::class,
         ]);
     }
 }

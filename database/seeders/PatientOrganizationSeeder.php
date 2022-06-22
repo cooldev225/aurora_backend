@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\PatientOrganization;
 
 class PatientOrganizationSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class PatientOrganizationSeeder extends Seeder
      */
     public function run()
     {
-        //
+        PatientOrganization::factory(100)->create();
     }
 }

@@ -26,7 +26,7 @@ class ClinicRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required',
-            'phone' => 'required',
+            'phone_number' => 'required',
             'address' => 'required',
         ];
     }
