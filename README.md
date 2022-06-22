@@ -3,7 +3,9 @@
 ## install php and composer
 
 sudo apt install software-properties-common
+
 sudo add-apt-repository ppa:ondrej/php
+
 sudo apt update
 
 sudo apt-get install php8.1 php8.1-zip php8.1-curl php8.1-mysql php8.1-xml
@@ -45,6 +47,7 @@ nano .env
 ## Generate APP_KEY and JWT Secret Key
 
 php artisan key:generate
+
 php artisan jwt:secret
 
 # Commands for Development

@@ -78,11 +78,12 @@ class OrganizationAdminController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\UserRequest  $request
-     * @param  \App\Models\User  $user
+     * @param  $user_id
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminRequest $request, User $user)
+    public function update(AdminRequest $request, $user_id)
     {
+        $user = User::find($user_id);
         $organization_id = auth()->user()->organization_id;
 
         if ($user->organization_id != $organization_id) {
@@ -116,11 +117,12 @@ class OrganizationAdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  $user_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($user_id)
     {
+        $user = User::find($user_id);
         $organization_id = auth()->user()->organization_id;
 
         if ($user->organization_id != $organization_id) {

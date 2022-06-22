@@ -68,12 +68,13 @@ class AdminController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UserRequest  $request
-     * @param  \App\Models\User  $user
+     * @param  \App\Http\Requests\AdminRequest  $request
+     * @param  $user_id
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminRequest $request, User $user)
+    public function update(AdminRequest $request, $user_id)
     {
+        $user = User::find($user_id);
         $user->update([
             'username' => $request->username,
             'email' => $request->email,
@@ -94,11 +95,12 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
+     * @param  $user_id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy($user_id)
     {
+        $user = User::find($user_id);
         $user->delete();
 
         return response()->json(
