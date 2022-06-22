@@ -24,18 +24,6 @@ class Organization extends Model
      */
     public function owner()
     {
-        $user = User::find($this->owner_id);
-        return $user;
-    }
-
-    /**
-     * Return Prova Device
-     *
-     * @return $prova_device
-     */
-    public function prova_device()
-    {
-        $prova_device = ProvaDevice::find($this->prova_device_id);
-        return $prova_device;
+        return $this->belongsTo(User::class, 'owner_id')->first();
     }
 }

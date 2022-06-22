@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->string('logo')->nullable();
             $table->integer('max_clinics')->nullable();
             $table->integer('max_employees')->nullable();
-            $table->foreignId('prova_device_id');
             $table->foreignId('owner_id');
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->timestamps();
