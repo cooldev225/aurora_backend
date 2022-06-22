@@ -17,8 +17,8 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserRoleSeeder::class,
             UserSeeder::class,
-            ProvaDeviceSeeder::class,
             OrganizationSeeder::class,
+            ProvaDeviceSeeder::class,
         ]);
     }
 }

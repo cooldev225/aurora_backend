@@ -50,8 +50,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function role()
     {
-        $current_role = UserRole::find($this->role_id);
-        return $current_role;
+        return $this->belongsTo(UserRole::class, 'role_id')->first();
     }
 
     /**
@@ -61,8 +60,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function organization()
     {
-        $organization = Organization::find($this->organization_id);
-        return $organization;
+        return $this->belongsTo(Organization::class)->first();
     }
 
     /**

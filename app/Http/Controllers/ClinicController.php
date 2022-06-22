@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use App\Http\Requests\ClinicRequest;
 use App\Models\Clinic;
+use App\Models\ProvaDevice;
 
 class ClinicController extends Controller
 {
@@ -15,10 +16,17 @@ class ClinicController extends Controller
      */
     public function index()
     {
-        $clinics = Clinic::where(
-            'organization_id',
-            auth()->user()->organization_id
-        )->get();
+        $prova_device_table = (new ProvaDevice())->getTable();
+        $clinic_table = (new Clinic())->getTable();
+
+        $clinics = Clinic::leftJoin(
+            $prova_device_table,
+            'clinic_id',
+            '=',
+            $clinic_table . '.id'
+        )
+            ->where('organization_id', auth()->user()->organization_id)
+            ->get();
 
         return response()->json(
             [
@@ -38,6 +46,7 @@ class ClinicController extends Controller
     public function store(ClinicRequest $request)
     {
         $clinic = Clinic::create([
+            'organization_id' => auth()->user()->organization_id,
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
@@ -67,6 +76,15 @@ class ClinicController extends Controller
                 $request->centre_last_invoice_serial_no,
             'lspn_id' => $request->lspn_id,
         ]);
+
+        $prova_device = new ProvaDevice();
+        $prova_device->device_name = $request->device_name;
+        $prova_device->otac = $request->otac;
+        $prova_device->key_expiry = $request->key_expiry;
+        $prova_device->device_expiry = $request->device_expiry;
+        $prova_device->clinic_id = $clinic->id;
+
+        $prova_device->save_with_key();
 
         return response()->json(
             [
@@ -117,6 +135,15 @@ class ClinicController extends Controller
             'lspn_id' => $request->lspn_id,
         ]);
 
+        $prova_device = new ProvaDevice();
+        $prova_device->device_name = $request->device_name;
+        $prova_device->otac = $request->otac;
+        $prova_device->key_expiry = $request->key_expiry;
+        $prova_device->device_expiry = $request->device_expiry;
+        $prova_device->clinic_id = $clinic->id;
+
+        $prova_device->save_with_key();
+
         return response()->json(
             [
                 'message' => 'Clinic successfully updated',
@@ -134,6 +161,8 @@ class ClinicController extends Controller
      */
     public function destroy(Clinic $clinic)
     {
+        $prova_device = $clinic->prova_device();
+        $prova_device->delete();
         $clinic->delete();
 
         return response()->json(

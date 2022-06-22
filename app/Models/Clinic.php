@@ -9,6 +9,7 @@ class Clinic extends Model
 {
     use HasFactory;
     protected $fillable = [
+        'organization_id',
         'name',
         'email',
         'phone',
@@ -35,4 +36,14 @@ class Clinic extends Model
         'centre_last_invoice_serial_no',
         'lspn_id',
     ];
+
+    /**
+     * Return Prova Device
+     *
+     * @return $prova_device
+     */
+    public function prova_device()
+    {
+        return $this->hasOne(ProvaDevice::class)->first();
+    }
 }

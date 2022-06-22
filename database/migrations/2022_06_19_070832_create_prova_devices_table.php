@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('prova_devices', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('clinic_id');
             $table->string('device_name');
             $table->string('otac');
             $table->text('private_key');
