@@ -21,12 +21,13 @@ class PatientController extends Controller
         $organization_table = (new Organization())->getTable();
         $patient_table = (new Patient())->getTable();
 
-        $patients = PatientOrganization::leftJoin(
-            $organization_table,
-            'organization_id',
-            '=',
-            $organization_table . '.id'
-        )
+        $patients = PatientOrganization::select($patient_table . '.*')
+            ->leftJoin(
+                $organization_table,
+                'organization_id',
+                '=',
+                $organization_table . '.id'
+            )
             ->leftJoin(
                 $patient_table,
                 'patient_id',
@@ -126,13 +127,6 @@ class PatientController extends Controller
             'bmi' => $request->bmi,
         ]);
 
-        $organization_id = auth()->user()->organization_id;
-
-        $patient = PatientOrganization::update([
-            'patient_id' => $patient->id,
-            'organization_id' => $organization_id,
-        ]);
-
         return response()->json(
             [
                 'message' => 'Patient updated',
@@ -150,7 +144,9 @@ class PatientController extends Controller
      */
     public function destroy(Patient $patient)
     {
-        $patient->delete();
+        $organization_id = auth()->user()->organization_id;
+
+        $patient->patientOrganization($organization_id)->delete();
 
         return response()->json(
             [

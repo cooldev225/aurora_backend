@@ -32,4 +32,14 @@ class Patient extends Model
         'weight',
         'bmi',
     ];
+
+    /**
+     * Return Patients' Organization
+     */
+    public function patientOrganization($organization_id)
+    {
+        return $this->hasMany(PatientOrganization::class)
+            ->where('organization_id', $organization_id)
+            ->first();
+    }
 }
