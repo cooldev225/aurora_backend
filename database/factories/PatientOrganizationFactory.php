@@ -19,12 +19,8 @@ class PatientOrganizationFactory extends Factory
     public function definition()
     {
         return [
-            'organization_id' => Organization::inRandomOrder()
-                ->limit(1)
-                ->get()[0]->id,
-            'patient_id' => Patient::inRandomOrder()
-                ->limit(1)
-                ->get()[0]->id,
+            'organization_id' => Organization::inRandomOrder()->first()->id,
+            'patient_id' => Patient::inRandomOrder()->first()->id,
         ];
     }
 }

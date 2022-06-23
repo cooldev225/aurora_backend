@@ -61,11 +61,11 @@ Route::middleware(['auth'])->group(function () {
             'organization-managers',
             OrganizationManagerController::class
         );
-        Route::apiResource('/patients', PatientController::class);
-        Route::apiResource('/employees', EmployeeController::class);
     });
 
-    Route::middleware(['ensure.role:organizationManager'])->group(function () {
+    Route::middleware([
+        'ensure.role:organizationAdmin,organizationManager',
+    ])->group(function () {
         Route::apiResource('/patients', PatientController::class);
         Route::apiResource('/employees', EmployeeController::class);
     });

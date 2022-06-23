@@ -15,20 +15,18 @@ class EnsureRole
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
-     * @param  string|null $slug
+     * @param  string|null $slugs
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle(Request $request, Closure $next, $slug)
+    public function handle(Request $request, Closure $next, ...$slugs)
     {
-        $required_role = UserRole::where('slug', $slug)
-            ->orWhere('slug', 'admin')
-            ->get()[0];
+        $required_role = UserRole::whereIn('slug', $slugs)->first();
 
         $role = auth()
             ->user()
             ->role();
 
-        if ($role->slug != $slug && $role->slug != 'admin') {
+        if (!in_array($role->slug, $slugs) && $role->slug != 'admin') {
             return response()->json(
                 [
                     'message' => $required_role->name . ' Role Required',
