@@ -61,20 +61,12 @@ Route::middleware(['auth'])->group(function () {
             'organization-managers',
             OrganizationManagerController::class
         );
-    });
-
-    Route::middleware([
-        'ensure.role:organizationAdmin',
-        'ensure.role:organizationManager',
-    ])->group(function () {
         Route::apiResource('/patients', PatientController::class);
         Route::apiResource('/employees', EmployeeController::class);
     });
 
-    Route::middleware([
-        'ensure.role:specialist',
-        'ensure.role:Anesthetist',
-    ])->group(function () {
+    Route::middleware(['ensure.role:organizationManager'])->group(function () {
         Route::apiResource('/patients', PatientController::class);
+        Route::apiResource('/employees', EmployeeController::class);
     });
 });
