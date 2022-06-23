@@ -67,32 +67,4 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->role()->slug == 'admin';
     }
-
-    /**
-     * Return Current Clinic
-     */
-    public function currentClinic()
-    {
-        $this->setCurrentClinic();
-
-        return $this->belongsTo(Clinic::class)->first();
-    }
-
-    /**
-     * Set Current Clinic
-     */
-    public function setCurrentClinic()
-    {
-        if ($this->clinic_id == 0) {
-            $clinic = Clinic::where(
-                'organization_id',
-                $this->organization_id
-            )->first();
-
-            if (!empty($clinic->toArray())) {
-                $this->clinic_id = $clinic->id;
-                $this->save();
-            }
-        }
-    }
 }

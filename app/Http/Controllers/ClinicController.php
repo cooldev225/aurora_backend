@@ -172,23 +172,4 @@ class ClinicController extends Controller
             Response::HTTP_NO_CONTENT
         );
     }
-
-    /**
-     * Switch Clinic.
-     *
-     * @param  Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function switchClinic(Request $request)
-    {
-        $user = auth()->user();
-        $user->update(['clinic_id' => $requst->clinic_id]);
-
-        return response()->json(
-            [
-                'message' => 'Clinic Switched',
-            ],
-            Response::HTTP_OK
-        );
-    }
 }

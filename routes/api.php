@@ -69,10 +69,6 @@ Route::middleware(['auth'])->group(function () {
     ])->group(function () {
         Route::apiResource('/patients', PatientController::class);
         Route::apiResource('/employees', EmployeeController::class);
-        Route::post('/switch-clinic', [
-            ClinicController::class,
-            'switchClinic',
-        ]);
     });
 
     Route::middleware([

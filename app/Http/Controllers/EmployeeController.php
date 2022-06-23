@@ -71,9 +71,6 @@ class EmployeeController extends Controller
 
         $employee = Employee::create([
             'user_id' => $user->id,
-            'clinic_id' => auth()
-                ->user()
-                ->currentClinic()->id,
             'type' => $request->type,
         ]);
 
@@ -119,9 +116,6 @@ class EmployeeController extends Controller
         ]);
 
         $employee->update([
-            'clinic_id' => auth()
-                ->user()
-                ->currentClinic()->id,
             'type' => $request->type,
         ]);
 
