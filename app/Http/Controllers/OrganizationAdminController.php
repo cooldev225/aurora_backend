@@ -18,7 +18,7 @@ class OrganizationAdminController extends Controller
     {
         $this->organization_admin_role = UserRole::where(
             'slug',
-            'organization-admin'
+            'organizationAdmin'
         )
             ->limit(1)
             ->get()[0];

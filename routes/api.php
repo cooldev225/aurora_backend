@@ -51,21 +51,21 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('email-templates', EmailTemplateController::class);
     });
 
-    Route::middleware(['ensure.role:organization-admin'])->group(function () {
+    Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
         Route::apiResource('clinics', ClinicController::class);
         Route::apiResource(
-            'organization-admins',
+            'organizationAdmins',
             OrganizationAdminController::class
         );
         Route::apiResource(
-            'organization-managers',
+            'organizationManagers',
             OrganizationManagerController::class
         );
     });
 
     Route::middleware([
-        'ensure.role:organization-admin',
-        'ensure.role:organization-manager',
+        'ensure.role:organizationAdmin',
+        'ensure.role:organizationManager',
     ])->group(function () {
         Route::apiResource('/patients', PatientController::class);
         Route::apiResource('/employees', EmployeeController::class);

@@ -19,7 +19,7 @@ class OrganizationFactory extends Factory
     public function definition()
     {
         $owner = User::factory()->create([
-            'role_id' => UserRole::where('slug', 'organization-admin')
+            'role_id' => UserRole::where('slug', 'organizationAdmin')
                 ->limit(1)
                 ->get()[0]->id,
         ]);

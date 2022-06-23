@@ -16,7 +16,7 @@ class OrganizationController extends Controller
      */
     public function __construct()
     {
-        $this->org_role = UserRole::where('slug', 'organization-admin')
+        $this->org_role = UserRole::where('slug', 'organizationAdmin')
             ->limit(1)
             ->get()[0];
     }

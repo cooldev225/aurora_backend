@@ -18,7 +18,7 @@ class PatientRequest extends FormRequest
                 auth()
                     ->user()
                     ->role()->slug,
-                ['admin', 'organization-admin', 'orgnaization-manger']
+                ['admin', 'organizationAdmin', 'orgnaization-manger']
             )
         ) {
             return true;
