@@ -22,12 +22,12 @@ class UserRoleSeeder extends Seeder
 
         UserRole::create([
             'name' => 'Organization Admin',
-            'slug' => 'organization-admin',
+            'slug' => 'organizationAdmin',
         ]);
 
         UserRole::create([
             'name' => 'Organization Manager',
-            'slug' => 'organization-manager',
+            'slug' => 'organizationManager',
         ]);
 
         UserRole::create([

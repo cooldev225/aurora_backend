@@ -72,6 +72,7 @@ class EmployeeController extends Controller
         $employee = Employee::create([
             'user_id' => $user->id,
             'type' => $request->type,
+            'work_hours' => $request->work_hours,
         ]);
 
         return response()->json(
@@ -117,6 +118,7 @@ class EmployeeController extends Controller
 
         $employee->update([
             'type' => $request->type,
+            'work_hours' => $request->work_hours,
         ]);
 
         return response()->json(

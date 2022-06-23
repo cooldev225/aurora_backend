@@ -19,6 +19,7 @@ return new class extends Migration {
             $table
                 ->enum('type', ['full-time', 'part-time', 'contract', 'casual'])
                 ->default('full-time');
+            $table->json('work_hours');
             $table->timestamps();
         });
     }
