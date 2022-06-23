@@ -19,8 +19,6 @@ class Organization extends Model
 
     /**
      * Return Owner user
-     *
-     * @return $user
      */
     public function owner()
     {

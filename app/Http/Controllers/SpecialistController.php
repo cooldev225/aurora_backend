@@ -33,7 +33,7 @@ class SpecialistController extends Controller
         $specialist_title_table = (new SpecialistTitle())->getTable();
         $specialist_type_table = (new SpecialistType())->getTable();
 
-        $specialist = Specialist::leftJoin(
+        $specialists = Specialist::leftJoin(
             $user_table,
             'user_id',
             '=',
@@ -53,12 +53,10 @@ class SpecialistController extends Controller
             )
             ->get();
 
-        $specialist = Specialist::all()->toArray();
-
         return response()->json(
             [
                 'message' => 'Specialist List',
-                'data' => $specialist,
+                'data' => $specialists,
             ],
             Response::HTTP_OK
         );
@@ -72,6 +70,8 @@ class SpecialistController extends Controller
      */
     public function store(SpecialistRequest $request)
     {
+        $organization_id = auth()->user()->organization_id;
+
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
@@ -79,6 +79,7 @@ class SpecialistController extends Controller
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
             'role_id' => $this->specialist_role->id,
+            'organization_id' => $organization_id,
         ]);
 
         $specialist = Specialist::create([
@@ -105,11 +106,14 @@ class SpecialistController extends Controller
      */
     public function update(SpecialistRequest $request, Specialist $specialist)
     {
+        $organization_id = auth()->user()->organization_id;
+
         $user = User::update([
             'username' => $request->username,
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
+            'organization_id' => $organization_id,
         ]);
 
         $specialist = Specialist::update([

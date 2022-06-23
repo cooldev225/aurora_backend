@@ -88,7 +88,7 @@ class ClinicController extends Controller
 
         return response()->json(
             [
-                'message' => 'Clinic successfully created',
+                'message' => 'Clinic created',
                 'data' => $clinic,
             ],
             Response::HTTP_CREATED
@@ -146,7 +146,7 @@ class ClinicController extends Controller
 
         return response()->json(
             [
-                'message' => 'Clinic successfully updated',
+                'message' => 'Clinic updated',
                 'data' => $clinic,
             ],
             Response::HTTP_OK
@@ -170,6 +170,25 @@ class ClinicController extends Controller
                 'message' => 'Clinic Removed',
             ],
             Response::HTTP_NO_CONTENT
+        );
+    }
+
+    /**
+     * Switch Clinic.
+     *
+     * @param  Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function switchClinic(Request $request)
+    {
+        $user = auth()->user();
+        $user->update(['clinic_id' => $requst->clinic_id]);
+
+        return response()->json(
+            [
+                'message' => 'Clinic Switched',
+            ],
+            Response::HTTP_OK
         );
     }
 }

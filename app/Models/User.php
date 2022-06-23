@@ -19,6 +19,7 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'role_id',
         'organization_id',
+        'clinic_id',
         'date_of_birth',
         'mobile_number',
     ];
@@ -45,8 +46,6 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Return User Role
-     *
-     * @return $current_role
      */
     public function role()
     {
@@ -55,8 +54,6 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Return Organization
-     *
-     * @return $organization
      */
     public function organization()
     {
@@ -65,11 +62,37 @@ class User extends Authenticatable implements JWTSubject
 
     /**
      * Return Organization
-     *
-     * @return $organization
      */
     public function isAdmin()
     {
         return $this->role()->slug == 'admin';
+    }
+
+    /**
+     * Return Current Clinic
+     */
+    public function currentClinic()
+    {
+        $this->setCurrentClinic();
+
+        return $this->belongsTo(Clinic::class)->first();
+    }
+
+    /**
+     * Set Current Clinic
+     */
+    public function setCurrentClinic()
+    {
+        if ($this->clinic_id == 0) {
+            $clinic = Clinic::where(
+                'organization_id',
+                $this->organization_id
+            )->first();
+
+            if (!empty($clinic->toArray())) {
+                $this->clinic_id = $clinic->id;
+                $this->save();
+            }
+        }
     }
 }

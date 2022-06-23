@@ -39,8 +39,6 @@ class Clinic extends Model
 
     /**
      * Return Prova Device
-     *
-     * @return $prova_device
      */
     public function prova_device()
     {

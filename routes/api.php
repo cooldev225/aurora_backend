@@ -2,19 +2,20 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\UserRoleController;
-use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\SpecialistTypeController;
 use App\Http\Controllers\BirthCodeController;
-use App\Http\Controllers\HealthFundController;
-use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ClinicController;
-use App\Http\Controllers\SpecialistTitleController;
 use App\Http\Controllers\EmailTemplateController;
-use App\Http\Controllers\OrganizationManagerController;
+use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\OrganizationManagerController;
+use App\Http\Controllers\PatientController;
+use App\Http\Controllers\SpecialistTitleController;
+use App\Http\Controllers\SpecialistTypeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserRoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,7 +36,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/refresh', [UserController::class, 'refresh']);
     Route::post('/profile', [UserController::class, 'profile']);
-    Route::apiResource('/patients', PatientController::class);
 
     Route::middleware(['ensure.role:admin'])->group(function () {
         Route::apiResource('admins', AdminController::class);
@@ -61,5 +61,24 @@ Route::middleware(['auth'])->group(function () {
             'organization-managers',
             OrganizationManagerController::class
         );
+    });
+
+    Route::middleware([
+        'ensure.role:organization-admin',
+        'ensure.role:organization-manager',
+    ])->group(function () {
+        Route::apiResource('/patients', PatientController::class);
+        Route::apiResource('/employees', EmployeeController::class);
+        Route::post('/switch-clinic', [
+            ClinicController::class,
+            'switchClinic',
+        ]);
+    });
+
+    Route::middleware([
+        'ensure.role:specialist',
+        'ensure.role:Anesthetist',
+    ])->group(function () {
+        Route::apiResource('/patients', PatientController::class);
     });
 });
