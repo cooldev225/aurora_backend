@@ -25,6 +25,8 @@ class EmployeeRequest extends FormRequest
     {
         return [
             'type' => 'required',
+            'username' => 'required|string|min:2|max:100',
+            'email' => 'required|string|email|max:100|unique:users',
         ];
     }
 }
