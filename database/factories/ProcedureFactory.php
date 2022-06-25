@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProcedureConsultationType>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Procedure>
  */
-class ProcedureConsultationTypeFactory extends Factory
+class ProcedureFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class ProcedureConsultationTypeFactory extends Factory
     public function definition()
     {
         return [
-            //
-        ];
+                //
+            ];
     }
 }
