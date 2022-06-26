@@ -108,7 +108,8 @@ class SpecialistController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
-        $user = User::update([
+        $user = $specialist->user();
+        $user->update([
             'username' => $request->username,
             'email' => $request->email,
             'first_name' => $request->first_name,
@@ -116,7 +117,7 @@ class SpecialistController extends Controller
             'organization_id' => $organization_id,
         ]);
 
-        $specialist = Specialist::update([
+        $specialist->update([
             'specialist_title_id' => $request->specialist_title_id,
             'specialist_type_id' => $request->specialist_type_id,
         ]);

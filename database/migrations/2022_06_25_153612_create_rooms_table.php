@@ -12,17 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('procedures', function (Blueprint $table) {
+        Schema::create('rooms', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('organization_id');
+            $table->foreignId('clinic_id');
             $table->string('name');
-            $table
-                ->enum('type', [
-                    'InConsultation',
-                    'OutConsultation',
-                    'InProcedure',
-                    'OutProcedure',
-                ])
-                ->default('InProcedure');
             $table->timestamps();
         });
     }
@@ -34,6 +28,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('procedures');
+        Schema::dropIfExists('rooms');
     }
 };

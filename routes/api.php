@@ -11,7 +11,9 @@ use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\OrganizationManagerController;
+use App\Http\Controllers\PatientAppointmentController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SpecialistTitleController;
 use App\Http\Controllers\SpecialistTypeController;
 use App\Http\Controllers\UserController;
@@ -68,5 +70,10 @@ Route::middleware(['auth'])->group(function () {
     ])->group(function () {
         Route::apiResource('/patients', PatientController::class);
         Route::apiResource('/employees', EmployeeController::class);
+        Route::apiResource('/clinics/{clinic_id}/rooms', RoomController::class);
+        Route::apiResource(
+            '/patient-appointments',
+            PatientAppointmentController::class
+        );
     });
 });
