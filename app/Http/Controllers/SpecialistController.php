@@ -29,6 +29,8 @@ class SpecialistController extends Controller
      */
     public function index()
     {
+        $organization_id = auth()->user()->organization_id;
+
         $user_table = (new User())->getTable();
         $specialist_title_table = (new SpecialistTitle())->getTable();
         $specialist_type_table = (new SpecialistType())->getTable();
@@ -51,6 +53,7 @@ class SpecialistController extends Controller
                 '=',
                 $specialist_type_table . '.id'
             )
+            ->where('organization_id', $organization_id)
             ->get();
 
         return response()->json(

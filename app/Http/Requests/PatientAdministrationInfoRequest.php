@@ -24,7 +24,13 @@ class PatientAdministrationInfoRequest extends FormRequest
     public function rules()
     {
         return [
-                //
-            ];
+            'patient_id' => 'required|numeric',
+            'appointment_id' => 'required|numeric',
+            'referring_doctor_id' => 'required|numeric',
+            'is_no_referral' => 'required|boolean',
+            'aborginality' => 'required|numeric',
+            'referal_date' => 'date',
+            'referal_expiry_date' => 'date',
+        ];
     }
 }

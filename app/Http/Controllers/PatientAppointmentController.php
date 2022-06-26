@@ -90,7 +90,7 @@ class PatientAppointmentController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $room = Room::firstOrCreate([
-            'name' => $request->name,
+            'name' => $request->room_name,
             'organization_id' => $organization_id,
             'clinc_id' => $request->clinc_id,
         ]);
@@ -138,7 +138,7 @@ class PatientAppointmentController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $room = Room::firstOrCreate([
-            'name' => $request->name,
+            'name' => $request->room_name,
             'organization_id' => $organization_id,
             'clinc_id' => $request->clinc_id,
         ]);

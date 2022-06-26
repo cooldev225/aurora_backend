@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use App\Models\PatientAdministrationInfo;
 use App\Http\Requests\PatientAdministrationInfoRequest;
 
@@ -14,7 +15,20 @@ class PatientAdministrationInfoController extends Controller
      */
     public function index()
     {
-        //
+        $organization_id = auth()->user()->organization_id;
+
+        $patientAdministrationInfos = PatientAdministrationInfo::where(
+            'organization_id',
+            $organization_id
+        )->get();
+
+        return response()->json(
+            [
+                'message' => 'Patient Administration Info List',
+                'data' => $patientAdministrationInfos,
+            ],
+            Response::HTTP_OK
+        );
     }
     /**
      * Store a newly created resource in storage.
@@ -24,33 +38,38 @@ class PatientAdministrationInfoController extends Controller
      */
     public function store(PatientAdministrationInfoRequest $request)
     {
-        $patientAdministrationInfo = PatientAppointment::create([
+        $patientAdministrationInfo = PatientAdministrationInfo::create([
             'patient_id' => $request->patient_id,
-            'organization_id' => $organization_id,
-            'clinic_id' => $request->clinic_id,
-            'procedure_id' => $request->procedure_id,
-            'primary_pathologist_id' => $request->input(
-                'primary_pathologist_id',
-                0
-            ),
-            'specialist_id' => $request->specialist_id,
-            'anaethetist_id' => $request->anaethetist_id,
-            'room_id' => $room->id,
-            'reference_number' => $request->reference_number,
-            'date' => $request->date,
-            'start_time' => $request->start_time,
-            'end_time' => $request->end_time,
-            'actual_start_time' => $request->actual_start_time,
-            'actual_end_time' => $request->actual_end_time,
+            'appointment_id' => $request->appointment_id,
+            'referring_doctor_id' => $request->referring_doctor_id,
+            'is_no_referral' => $request->is_no_referral,
+            'no_referral_reason' => $request->no_referral_reason,
+            'referal_date' => $request->referal_date,
+            'referal_expiry_date' => $request->referal_expiry_date,
             'note' => $request->note,
             'important_details' => $request->important_details,
             'allergies' => $request->allergies,
             'clinical_alerts' => $request->clinical_alerts,
+            'appointment_confirm' => $request->appointment_confirm,
+            'receive_forms' => $request->receive_forms,
+            'recurring_appointment' => $request->recurring_appointment,
+            'preferred_contact_method' => $request->preferred_contact_method,
+            'aborginality' => $request->aborginality,
+            'occupation' => $request->occupation,
+            'recent_service' => $request->recent_service,
+            'outstanding_balance' => $request->outstanding_balance,
+            'further_details' => $request->further_details,
+            'fax_comment' => $request->fax_comment,
+            'anything_should_aware' => $request->anything_should_aware,
+            'collecting_person_name' => $request->collecting_person_name,
+            'collecting_person_phone' => $request->collecting_person_phone,
+            'collecting_person_alternate_contact' =>
+                $request->collecting_person_alternate_contact,
         ]);
 
         return response()->json(
             [
-                'message' => 'New Patient Appointment created',
+                'message' => 'New Patient Administration Info created',
                 'data' => $patientAdministrationInfo,
             ],
             Response::HTTP_CREATED
@@ -68,7 +87,42 @@ class PatientAdministrationInfoController extends Controller
         PatientAdministrationInfoRequest $request,
         PatientAdministrationInfo $patientAdministrationInfo
     ) {
-        //
+        $PatientAdministrationInfo->update([
+            'patient_id' => $request->patient_id,
+            'appointment_id' => $request->appointment_id,
+            'referring_doctor_id' => $request->referring_doctor_id,
+            'is_no_referral' => $request->is_no_referral,
+            'no_referral_reason' => $request->no_referral_reason,
+            'referal_date' => $request->referal_date,
+            'referal_expiry_date' => $request->referal_expiry_date,
+            'note' => $request->note,
+            'important_details' => $request->important_details,
+            'allergies' => $request->allergies,
+            'clinical_alerts' => $request->clinical_alerts,
+            'appointment_confirm' => $request->appointment_confirm,
+            'receive_forms' => $request->receive_forms,
+            'recurring_appointment' => $request->recurring_appointment,
+            'preferred_contact_method' => $request->preferred_contact_method,
+            'aborginality' => $request->aborginality,
+            'occupation' => $request->occupation,
+            'recent_service' => $request->recent_service,
+            'outstanding_balance' => $request->outstanding_balance,
+            'further_details' => $request->further_details,
+            'fax_comment' => $request->fax_comment,
+            'anything_should_aware' => $request->anything_should_aware,
+            'collecting_person_name' => $request->collecting_person_name,
+            'collecting_person_phone' => $request->collecting_person_phone,
+            'collecting_person_alternate_contact' =>
+                $request->collecting_person_alternate_contact,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'Patient Administration Info updated',
+                'data' => $PatientAdministrationInfo,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -80,6 +134,13 @@ class PatientAdministrationInfoController extends Controller
     public function destroy(
         PatientAdministrationInfo $patientAdministrationInfo
     ) {
-        //
+        $patientAdministrationInfo->delete();
+
+        return response()->json(
+            [
+                'message' => 'Patient Appointment Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
     }
 }
