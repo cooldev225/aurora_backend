@@ -15,7 +15,20 @@ class PatientBillingController extends Controller
      */
     public function index()
     {
-        //
+        $organization_id = auth()->user()->organization_id;
+
+        $patientBillings = PatientBilling::where(
+            'organization_id',
+            $organization_id
+        )->get();
+
+        return response()->json(
+            [
+                'message' => 'Patient Billing List',
+                'data' => $patientBillings,
+            ],
+            Response::HTTP_OK
+        );
     }
     /**
      * Store a newly created resource in storage.
@@ -25,7 +38,31 @@ class PatientBillingController extends Controller
      */
     public function store(PatientBillingRequest $request)
     {
-        //
+        $patientBilling = PatientBilling::create([
+            'patient_id' => $request->patient_id,
+            'appointment_id' => $request->appointment_id,
+            'charge_type' => $request->charge_type,
+            'medicare_number' => $request->medicare_number,
+            'medicare_expiry_date' => $request->medicare_expiry_date,
+            'concession_number' => $request->concession_number,
+            'concession_expiry_date' => $request->concession_expiry_date,
+            'pension_number' => $request->pension_number,
+            'pension_expiry_date' => $request->pension_expiry_date,
+            'healthcare_card_number' => $request->healthcare_card_number,
+            'healthcare_card_expiry_date' =>
+                $request->healthcare_card_expiry_date,
+            'health_fund_id' => $request->health_fund_id,
+            'note' => $request->note,
+            'skip_coding' => $request->skip_coding,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'New Patient Billing created',
+                'data' => $patientBilling,
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -39,7 +76,31 @@ class PatientBillingController extends Controller
         PatientBillingRequest $request,
         PatientBilling $patientBilling
     ) {
-        //
+        $patientBilling->update([
+            'patient_id' => $request->patient_id,
+            'appointment_id' => $request->appointment_id,
+            'charge_type' => $request->charge_type,
+            'medicare_number' => $request->medicare_number,
+            'medicare_expiry_date' => $request->medicare_expiry_date,
+            'concession_number' => $request->concession_number,
+            'concession_expiry_date' => $request->concession_expiry_date,
+            'pension_number' => $request->pension_number,
+            'pension_expiry_date' => $request->pension_expiry_date,
+            'healthcare_card_number' => $request->healthcare_card_number,
+            'healthcare_card_expiry_date' =>
+                $request->healthcare_card_expiry_date,
+            'health_fund_id' => $request->health_fund_id,
+            'note' => $request->note,
+            'skip_coding' => $request->skip_coding,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'Patient Billing updated',
+                'data' => $patientBilling,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -50,6 +111,13 @@ class PatientBillingController extends Controller
      */
     public function destroy(PatientBilling $patientBilling)
     {
-        //
+        $patientBilling->delete();
+
+        return response()->json(
+            [
+                'message' => 'Patient Appointment Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
     }
 }
