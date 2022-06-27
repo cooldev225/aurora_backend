@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 use App\Http\Requests\ProdaDeviceRequest;
+use App\Models\Clinic;
 use App\Models\ProdaDevice;
 
 class ProdaDeviceController extends Controller
@@ -19,7 +20,7 @@ class ProdaDeviceController extends Controller
         $proda_device_table = (new ProdaDevice())->getTable();
         $clinic_table = (new Clinic())->getTable();
 
-        $clinics = ProdaDevice::select($proda_device_table . '.*')
+        $proda_devices = ProdaDevice::select($proda_device_table . '.*')
             ->leftJoin(
                 $proda_device_table,
                 'clinic_id',
@@ -32,7 +33,7 @@ class ProdaDeviceController extends Controller
         return response()->json(
             [
                 'message' => 'Proda Device List',
-                'data' => $clinics,
+                'data' => $proda_devices,
             ],
             Response::HTTP_OK
         );
@@ -46,19 +47,19 @@ class ProdaDeviceController extends Controller
      */
     public function store(ProdaDeviceRequest $request)
     {
-        $proda_device = new ProdaDevice();
-        $proda_device->device_name = $request->device_name;
-        $proda_device->otac = $request->otac;
-        $proda_device->key_expiry = $request->key_expiry;
-        $proda_device->device_expiry = $request->device_expiry;
-        $proda_device->clinic_id = $request->clinic_id;
+        $prodaDevice = new ProdaDevice();
+        $prodaDevice->device_name = $request->device_name;
+        $prodaDevice->otac = $request->otac;
+        $prodaDevice->key_expiry = $request->key_expiry;
+        $prodaDevice->device_expiry = $request->device_expiry;
+        $prodaDevice->clinic_id = $request->clinic_id;
 
-        $proda_device->save_with_key();
+        $prodaDevice->save_with_key();
 
         return response()->json(
             [
                 'message' => 'Proda Device created',
-                'data' => $clinic,
+                'data' => $prodaDevice,
             ],
             Response::HTTP_CREATED
         );
@@ -75,19 +76,18 @@ class ProdaDeviceController extends Controller
         ProdaDeviceRequest $request,
         ProdaDevice $prodaDevice
     ) {
-        $proda_device = $prodaDevice;
-        $proda_device->device_name = $request->device_name;
-        $proda_device->otac = $request->otac;
-        $proda_device->key_expiry = $request->key_expiry;
-        $proda_device->device_expiry = $request->device_expiry;
-        $proda_device->clinic_id = $request->clinic_id;
+        $prodaDevice->device_name = $request->device_name;
+        $prodaDevice->otac = $request->otac;
+        $prodaDevice->key_expiry = $request->key_expiry;
+        $prodaDevice->device_expiry = $request->device_expiry;
+        $prodaDevice->clinic_id = $request->clinic_id;
 
-        $proda_device->save_with_key();
+        $prodaDevice->save_with_key();
 
         return response()->json(
             [
                 'message' => 'Proda Device updated',
-                'data' => $clinic,
+                'data' => $prodaDevice,
             ],
             Response::HTTP_OK
         );

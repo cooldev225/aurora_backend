@@ -45,7 +45,7 @@ class RoomsController extends Controller
         $room = Room::create([
             'name' => $request->name,
             'organization_id' => $organization_id,
-            'clinc_id' => $request->clinc_id,
+            'clinc_id' => $clinc_id,
         ]);
 
         return response()->json(
@@ -72,7 +72,7 @@ class RoomsController extends Controller
         $room->update([
             'name' => $request->name,
             'organization_id' => $organization_id,
-            'clinc_id' => $request->clinc_id,
+            'clinc_id' => $clinc_id,
         ]);
 
         return response()->json(

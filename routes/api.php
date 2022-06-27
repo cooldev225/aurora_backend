@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AnaestheticQuestionController;
+use App\Http\Controllers\AnaestheticAnswerController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
@@ -56,7 +58,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
         Route::apiResource('clinics', ClinicController::class);
-        Route::apiResource('proda-device', ProdaDeviceController::class);
         Route::apiResource(
             'organization-admins',
             OrganizationAdminController::class
@@ -70,6 +71,16 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager',
     ])->group(function () {
+        Route::apiResource('proda-devices', ProdaDeviceController::class);
+        Route::apiResource(
+            'anaesthetic-questions',
+            AnaestheticQuestionController::class
+        );
+        Route::apiResource(
+            'appointments/{appointment_id}/questions/{question_id}/anaesthetic-answers',
+            AnaestheticAnswerController::class
+        );
+
         Route::apiResource('/patients', PatientController::class);
         Route::apiResource('/employees', EmployeeController::class);
         Route::apiResource('/clinics/{clinic_id}/rooms', RoomController::class);
