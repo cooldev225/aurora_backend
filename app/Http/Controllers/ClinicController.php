@@ -16,6 +16,7 @@ class ClinicController extends Controller
      */
     public function index()
     {
+        $organization_id = auth()->user()->organization_id;
         $proda_device_table = (new ProdaDevice())->getTable();
         $clinic_table = (new Clinic())->getTable();
 
@@ -25,7 +26,7 @@ class ClinicController extends Controller
             '=',
             $clinic_table . '.id'
         )
-            ->where('organization_id', auth()->user()->organization_id)
+            ->where('organization_id', $organization_id)
             ->get();
 
         return response()->json(

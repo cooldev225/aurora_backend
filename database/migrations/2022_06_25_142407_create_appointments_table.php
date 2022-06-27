@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('patient_appointments', function (Blueprint $table) {
+        Schema::create('appointments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id');
             $table->foreignId('organization_id');
@@ -55,6 +55,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('patient_appointments');
+        Schema::dropIfExists('appointments');
     }
 };

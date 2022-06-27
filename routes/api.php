@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\EmailTemplateController;
@@ -11,8 +12,8 @@ use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\OrganizationManagerController;
-use App\Http\Controllers\PatientAppointmentController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ProdaDeviceController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SpecialistTitleController;
 use App\Http\Controllers\SpecialistTypeController;
@@ -55,6 +56,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
         Route::apiResource('clinics', ClinicController::class);
+        Route::apiResource('proda-device', ProdaDeviceController::class);
         Route::apiResource(
             'organization-admins',
             OrganizationAdminController::class
@@ -73,7 +75,7 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('/clinics/{clinic_id}/rooms', RoomController::class);
         Route::apiResource(
             '/patient-appointments',
-            PatientAppointmentController::class
+            AppointmentController::class
         );
     });
 });

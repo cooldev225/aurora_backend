@@ -24,7 +24,10 @@ class ProdaDeviceRequest extends FormRequest
     public function rules()
     {
         return [
-                //
-            ];
+            'device_name' => 'required',
+            'key_expiry' => 'required|date',
+            'device_expiry' => 'required|date',
+            'clinic_id' => 'required|numeric',
+        ];
     }
 }

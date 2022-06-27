@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Models\PatientAppointment;
+use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\Clinic;
 use App\Models\Procedure;
 use App\Models\Specialist;
 use App\Models\Room;
-use App\Http\Requests\PatientAppointmentRequest;
+use App\Http\Requests\AppointmentRequest;
 
-class PatientAppointmentController extends Controller
+class AppointmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,7 +26,7 @@ class PatientAppointmentController extends Controller
         $specialist_table = (new Specialist())->getTable();
         $room_table = (new Room())->getTable();
 
-        $patientAppointmentList = PatientAppointment::leftJoin(
+        $appointmentList = Appointment::leftJoin(
             $patient_table,
             'patient_id',
             '=',
@@ -60,20 +60,20 @@ class PatientAppointmentController extends Controller
             ->leftJoin($room_table, 'room_id', '=', $room_table . '.id')
             ->where('organization_id', auth()->user()->organization_id);
 
-        $patientAppointments = [];
+        $appointments = [];
 
         if ($request->has('clinic_id')) {
-            $patientAppointments = $patientAppointmentList
+            $appointments = $appointmentList
                 ->where('clinic_id', $request->input('clinic_id'))
                 ->get();
         } else {
-            $patientAppointments = $patientAppointmentList->get();
+            $appointments = $appointmentList->get();
         }
 
         return response()->json(
             [
-                'message' => 'Patient Appointment List',
-                'data' => $patientAppointments,
+                'message' => 'Appointment List',
+                'data' => $appointments,
             ],
             Response::HTTP_OK
         );
@@ -82,10 +82,10 @@ class PatientAppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\PatientAppointmentRequest  $request
+     * @param  \App\Http\Requests\AppointmentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PatientAppointmentRequest $request)
+    public function store(AppointmentRequest $request)
     {
         $organization_id = auth()->user()->organization_id;
 
@@ -95,7 +95,7 @@ class PatientAppointmentController extends Controller
             'clinc_id' => $request->clinc_id,
         ]);
 
-        $patientAppointment = PatientAppointment::create([
+        $appointment = Appointment::create([
             'patient_id' => $request->patient_id,
             'organization_id' => $organization_id,
             'clinic_id' => $request->clinic_id,
@@ -117,8 +117,8 @@ class PatientAppointmentController extends Controller
 
         return response()->json(
             [
-                'message' => 'New Patient Appointment created',
-                'data' => $patientAppointment,
+                'message' => 'New Appointment created',
+                'data' => $appointment,
             ],
             Response::HTTP_CREATED
         );
@@ -127,13 +127,13 @@ class PatientAppointmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\PatientAppointmentRequest  $request
-     * @param  \App\Models\PatientAppointment  $patientAppointment
+     * @param  \App\Http\Requests\AppointmentRequest  $request
+     * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
     public function update(
-        PatientAppointmentRequest $request,
-        PatientAppointment $patientAppointment
+        AppointmentRequest $request,
+        Appointment $appointment
     ) {
         $organization_id = auth()->user()->organization_id;
 
@@ -143,7 +143,7 @@ class PatientAppointmentController extends Controller
             'clinc_id' => $request->clinc_id,
         ]);
 
-        $patientAppointment->update([
+        $appointment->update([
             'patient_id' => $request->patient_id,
             'organization_id' => $organization_id,
             'clinic_id' => $request->clinic_id,
@@ -165,8 +165,8 @@ class PatientAppointmentController extends Controller
 
         return response()->json(
             [
-                'message' => 'Patient Appointment updated',
-                'data' => $patientAppointment,
+                'message' => 'Appointment updated',
+                'data' => $appointment,
             ],
             Response::HTTP_OK
         );
@@ -175,16 +175,16 @@ class PatientAppointmentController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PatientAppointment  $patientAppointment
+     * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PatientAppointment $patientAppointment)
+    public function destroy(Appointment $appointment)
     {
-        $patientAppointment->delete();
+        $appointment->delete();
 
         return response()->json(
             [
-                'message' => 'Patient Appointment Removed',
+                'message' => 'Appointment Removed',
             ],
             Response::HTTP_NO_CONTENT
         );
