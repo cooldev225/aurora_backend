@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class AnaestheticAnswer extends Model
 {
     use HasFactory;
+
     protected $fillable = ['appointment_id', 'question_id', 'answer'];
 }

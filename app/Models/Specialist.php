@@ -9,6 +9,12 @@ class Specialist extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'employee_id',
+        'specialist_title_id',
+        'specialist_type_id',
+    ];
+
     /**
      * Return User
      */

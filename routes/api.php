@@ -19,6 +19,7 @@ use App\Http\Controllers\ProdaDeviceController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SpecialistTitleController;
 use App\Http\Controllers\SpecialistTypeController;
+use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
 
@@ -82,6 +83,7 @@ Route::middleware(['auth'])->group(function () {
         );
         Route::apiResource('/patients', PatientController::class);
         Route::apiResource('/employees', EmployeeController::class);
+        Route::apiResource('/specialists', SpecialistController::class);
         Route::get('/employee-roles', [
             UserRoleController::class,
             'employeeRoles',

@@ -8,6 +8,8 @@ use App\Models\Specialist;
 use App\Models\SpecialistType;
 use App\Models\SpecialistTitle;
 use App\Models\User;
+use App\Models\UserRole;
+use App\Models\Employee;
 use App\Http\Requests\SpecialistRequest;
 
 class SpecialistController extends Controller
@@ -31,16 +33,18 @@ class SpecialistController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
+        $employee_table = (new Employee())->getTable();
         $user_table = (new User())->getTable();
         $specialist_title_table = (new SpecialistTitle())->getTable();
         $specialist_type_table = (new SpecialistType())->getTable();
 
         $specialists = Specialist::leftJoin(
-            $user_table,
-            'user_id',
+            $employee_table,
+            'employee_id',
             '=',
-            $user_table . '.id'
+            $employee_table . '.id'
         )
+            ->leftJoin($user_table, 'user_id', '=', $user_table . '.id')
             ->leftJoin(
                 $specialist_title_table,
                 'specialist_title_id',
@@ -73,20 +77,8 @@ class SpecialistController extends Controller
      */
     public function store(SpecialistRequest $request)
     {
-        $organization_id = auth()->user()->organization_id;
-
-        $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'password' => Hash::make($request->password),
-            'role_id' => $this->specialist_role->id,
-            'organization_id' => $organization_id,
-        ]);
-
         $specialist = Specialist::create([
-            'user_id' => $user->id,
+            'employee_id' => $request->employee_id,
             'specialist_title_id' => $request->specialist_title_id,
             'specialist_type_id' => $request->specialist_type_id,
         ]);
@@ -109,18 +101,8 @@ class SpecialistController extends Controller
      */
     public function update(SpecialistRequest $request, Specialist $specialist)
     {
-        $organization_id = auth()->user()->organization_id;
-
-        $user = $specialist->user();
-        $user->update([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'organization_id' => $organization_id,
-        ]);
-
         $specialist->update([
+            'employee_id' => $request->employee_id,
             'specialist_title_id' => $request->specialist_title_id,
             'specialist_type_id' => $request->specialist_type_id,
         ]);
