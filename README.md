@@ -50,6 +50,10 @@ php artisan key:generate
 
 php artisan jwt:secret
 
+## Create a symbolic link for file storage to access from web.
+
+php artisan storage:link
+
 # Commands for Development
 
 ## Run Server

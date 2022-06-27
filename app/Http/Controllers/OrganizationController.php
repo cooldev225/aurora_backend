@@ -67,7 +67,7 @@ class OrganizationController extends Controller
         $logo_path = '';
 
         if ($file = $request->file('logo')) {
-            $logo_path = $file->store('public/logo');
+            $logo_path = '/' . $file->store('images/logo');
         }
 
         $organization = Organization::create([
@@ -110,7 +110,7 @@ class OrganizationController extends Controller
         $logo_path = '';
 
         if ($file = $request->file('logo')) {
-            $logo_path = $file->store('public/logo');
+            $logo_path = '/' . $file->store('images/logo');
         }
 
         $organization->update([
