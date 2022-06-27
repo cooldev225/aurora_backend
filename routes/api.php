@@ -80,9 +80,12 @@ Route::middleware(['auth'])->group(function () {
             'appointments/{appointment_id}/questions/{question_id}/anaesthetic-answers',
             AnaestheticAnswerController::class
         );
-
         Route::apiResource('/patients', PatientController::class);
         Route::apiResource('/employees', EmployeeController::class);
+        Route::get('/employee-roles', [
+            UserRoleController::class,
+            'employeeRoles',
+        ]);
         Route::apiResource('/clinics/{clinic_id}/rooms', RoomController::class);
         Route::apiResource(
             '/patient-appointments',

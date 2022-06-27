@@ -16,4 +16,12 @@ class UserRole extends Model
     {
         return strtoupper($this->htm_type) == 'EMPLOYEE';
     }
+
+    /**
+     * Return employee roles
+     */
+    public static function employeeRoles()
+    {
+        return self::where('hrm_type', 'EMPLOYEE');
+    }
 }

@@ -15,12 +15,30 @@ class UserRoleController extends Controller
      */
     public function index()
     {
-        $result = UserRole::all();
+        $roles = UserRole::all();
 
         return response()->json(
             [
                 'message' => 'User Role List',
-                'data' => $result,
+                'data' => $roles,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function employeeRoles()
+    {
+        $roles = UserRole::employeeRoles()->get();
+
+        return response()->json(
+            [
+                'message' => 'Employee Role List',
+                'data' => $roles,
             ],
             Response::HTTP_OK
         );

@@ -20,7 +20,9 @@ class AnaestheticQuestionController extends Controller
         $anaesthetic_questions = AnaestheticQuestion::where(
             'organization_id',
             $organization_id
-        )->get();
+        )
+            ->where('status', 'enable')
+            ->get();
 
         return response()->json(
             [
@@ -45,6 +47,7 @@ class AnaestheticQuestionController extends Controller
             'question' => $request->question,
             'organization_id' => $organization_id,
             'clinc_id' => $request->clinc_id,
+            'status' => $request->status,
         ]);
 
         return response()->json(
@@ -73,6 +76,7 @@ class AnaestheticQuestionController extends Controller
             'question' => $request->question,
             'organization_id' => $organization_id,
             'clinc_id' => $request->clinc_id,
+            'status' => $request->status,
         ]);
 
         return response()->json(
