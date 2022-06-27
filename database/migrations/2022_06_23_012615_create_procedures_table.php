@@ -23,6 +23,7 @@ return new class extends Migration {
                     'OutProcedure',
                 ])
                 ->default('InProcedure');
+            $table->boolean('anaethetist_required');
             $table->timestamps();
         });
     }

@@ -25,6 +25,7 @@ class ProcedureRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'anaethetist_required' => 'required|boolean',
         ];
     }
 }
