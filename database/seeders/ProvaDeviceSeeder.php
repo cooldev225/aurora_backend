@@ -4,9 +4,9 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\ProvaDevice;
+use App\Models\ProdaDevice;
 
-class ProvaDeviceSeeder extends Seeder
+class ProdaDeviceSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,6 @@ class ProvaDeviceSeeder extends Seeder
      */
     public function run()
     {
-        ProvaDevice::factory(100)->create();
+        ProdaDevice::factory(100)->create();
     }
 }

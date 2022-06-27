@@ -13,7 +13,7 @@ class Organization extends Model
         'logo',
         'max_clinics',
         'max_employees',
-        'prova_device_id',
+        'proda_device_id',
         'owner_id',
     ];
 

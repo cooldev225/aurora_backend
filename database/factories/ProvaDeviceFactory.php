@@ -7,9 +7,9 @@ use Illuminate\Support\Str;
 use App\Models\Clinic;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProvaDevice>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProdaDevice>
  */
-class ProvaDeviceFactory extends Factory
+class ProdaDeviceFactory extends Factory
 {
     /**
      * Define the model's default state.

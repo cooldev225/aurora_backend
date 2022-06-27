@@ -38,10 +38,10 @@ class Clinic extends Model
     ];
 
     /**
-     * Return Prova Device
+     * Return Proda Device
      */
-    public function prova_device()
+    public function proda_device()
     {
-        return $this->hasOne(ProvaDevice::class)->first();
+        return $this->hasOne(ProdaDevice::class)->first();
     }
 }

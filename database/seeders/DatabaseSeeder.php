@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
             UserRoleSeeder::class,
             OrganizationSeeder::class,
             UserSeeder::class,
-            ProvaDeviceSeeder::class,
+            ProdaDeviceSeeder::class,
             PatientSeeder::class,
             PatientOrganizationSeeder::class,
         ]);

@@ -103,7 +103,6 @@ class OrganizationController extends Controller
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'password' => Hash::make($request->password),
             'role_id' => $this->org_role->id,
             'mobile_number' => $request->mobile_number,
         ]);
