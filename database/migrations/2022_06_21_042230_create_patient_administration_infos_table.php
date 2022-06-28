@@ -34,15 +34,6 @@ return new class extends Migration {
             $table->text('important_details')->nullable();
             $table->string('allergies')->nullable();
             $table->text('clinical_alerts')->nullable();
-            $table
-                ->enum('appointment_confirm', [
-                    'sms',
-                    'phone',
-                    'email',
-                    'person',
-                    'other',
-                ])
-                ->default('sms');
             $table->enum('receive_forms', ['sms', 'email'])->default('sms');
             $table->boolean('recurring_appointment')->default(false);
             $table

@@ -38,6 +38,7 @@ class PatientRequest extends FormRequest
             'username' => 'required|string|min:2|max:100',
             'email' => 'required|string|email|max:100|unique:users',
             'marital_status' => 'required',
+            'appointment_confirm_method' => 'required',
         ];
     }
 }

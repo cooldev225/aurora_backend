@@ -76,6 +76,8 @@ class PatientController extends Controller
             'height' => $request->height,
             'weight' => $request->weight,
             'bmi' => $request->bmi,
+            'appointment_confirm_method' =>
+                $request->appointment_confirm_method,
         ]);
 
         $organization_id = auth()->user()->organization_id;
@@ -125,6 +127,8 @@ class PatientController extends Controller
             'height' => $request->height,
             'weight' => $request->weight,
             'bmi' => $request->bmi,
+            'appointment_confirm_method' =>
+                $request->appointment_confirm_method,
         ]);
 
         return response()->json(

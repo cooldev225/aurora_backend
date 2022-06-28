@@ -31,6 +31,7 @@ class Patient extends Model
         'height',
         'weight',
         'bmi',
+        'appointment_confirm_method',
     ];
 
     /**

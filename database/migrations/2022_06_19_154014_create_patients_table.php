@@ -44,6 +44,15 @@ return new class extends Migration {
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();
             $table->float('bmi')->nullable();
+            $table
+                ->enum('appointment_confirm_method', [
+                    'sms',
+                    'phone',
+                    'email',
+                    'person',
+                    'other',
+                ])
+                ->default('sms');
             $table->timestamps();
         });
     }

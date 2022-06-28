@@ -21,7 +21,6 @@ class PatientAdministrationInfo extends Model
         'important_details',
         'allergies',
         'clinical_alerts',
-        'appointment_confirm',
         'receive_forms',
         'recurring_appointment',
         'preferred_contact_method',
