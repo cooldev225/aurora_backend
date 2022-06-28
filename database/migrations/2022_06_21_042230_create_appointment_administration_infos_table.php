@@ -12,7 +12,7 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('patient_administration_infos', function (
+        Schema::create('appointment_administration_infos', function (
             Blueprint $table
         ) {
             $table->id();
@@ -32,20 +32,9 @@ return new class extends Migration {
             $table->date('referal_expiry_date');
             $table->text('note')->nullable();
             $table->text('important_details')->nullable();
-            $table->string('allergies')->nullable();
             $table->text('clinical_alerts')->nullable();
             $table->enum('receive_forms', ['sms', 'email'])->default('sms');
             $table->boolean('recurring_appointment')->default(false);
-            $table
-                ->enum('preferred_contact_method', [
-                    'phone',
-                    'sms',
-                    'email',
-                    'person',
-                ])
-                ->default('phone');
-            $table->integer('aborginality')->default(0);
-            $table->string('occupation')->nullable();
             $table->string('recent_service')->nullable();
             $table->string('outstanding_balance')->nullable();
             $table->string('further_details')->nullable();
@@ -65,6 +54,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('patient_administration_infos');
+        Schema::dropIfExists('appointment_administration_infos');
     }
 };

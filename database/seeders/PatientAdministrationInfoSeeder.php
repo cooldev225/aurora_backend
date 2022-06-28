@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class PatientAdministrationInfoSeeder extends Seeder
+class AppointmentAdministrationInfoSeeder extends Seeder
 {
     /**
      * Run the database seeds.

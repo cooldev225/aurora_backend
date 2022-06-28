@@ -5,12 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PatientAdministrationInfo extends Model
+class AppointmentAdministrationInfo extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'patient_id',
         'appointment_id',
         'referring_doctor_id',
         'is_no_referral',
@@ -19,13 +18,9 @@ class PatientAdministrationInfo extends Model
         'referal_expiry_date',
         'note',
         'important_details',
-        'allergies',
         'clinical_alerts',
         'receive_forms',
         'recurring_appointment',
-        'preferred_contact_method',
-        'aborginality',
-        'occupation',
         'recent_service',
         'outstanding_balance',
         'further_details',

@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Models\PatientAdministrationInfo;
-use App\Http\Requests\PatientAdministrationInfoRequest;
+use App\Models\AppointmentAdministrationInfo;
+use App\Http\Requests\AppointmentAdministrationInfoRequest;
 
-class PatientAdministrationInfoController extends Controller
+class AppointmentAdministrationInfoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,15 +17,15 @@ class PatientAdministrationInfoController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
-        $patientAdministrationInfos = PatientAdministrationInfo::where(
+        $appointmentAdministrationInfos = AppointmentAdministrationInfo::where(
             'organization_id',
             $organization_id
         )->get();
 
         return response()->json(
             [
-                'message' => 'Patient Administration Info List',
-                'data' => $patientAdministrationInfos,
+                'message' => 'Appointment Administration Info List',
+                'data' => $appointmentAdministrationInfos,
             ],
             Response::HTTP_OK
         );
@@ -33,13 +33,12 @@ class PatientAdministrationInfoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\PatientAdministrationInfoRequest  $request
+     * @param  \App\Http\Requests\AppointmentAdministrationInfoRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PatientAdministrationInfoRequest $request)
+    public function store(AppointmentAdministrationInfoRequest $request)
     {
-        $patientAdministrationInfo = PatientAdministrationInfo::create([
-            'patient_id' => $request->patient_id,
+        $appointmentAdministrationInfo = AppointmentAdministrationInfo::create([
             'appointment_id' => $request->appointment_id,
             'referring_doctor_id' => $request->referring_doctor_id,
             'is_no_referral' => $request->is_no_referral,
@@ -48,13 +47,9 @@ class PatientAdministrationInfoController extends Controller
             'referal_expiry_date' => $request->referal_expiry_date,
             'note' => $request->note,
             'important_details' => $request->important_details,
-            'allergies' => $request->allergies,
             'clinical_alerts' => $request->clinical_alerts,
             'receive_forms' => $request->receive_forms,
             'recurring_appointment' => $request->recurring_appointment,
-            'preferred_contact_method' => $request->preferred_contact_method,
-            'aborginality' => $request->aborginality,
-            'occupation' => $request->occupation,
             'recent_service' => $request->recent_service,
             'outstanding_balance' => $request->outstanding_balance,
             'further_details' => $request->further_details,
@@ -68,8 +63,8 @@ class PatientAdministrationInfoController extends Controller
 
         return response()->json(
             [
-                'message' => 'New Patient Administration Info created',
-                'data' => $patientAdministrationInfo,
+                'message' => 'New Appointment Administration Info created',
+                'data' => $appointmentAdministrationInfo,
             ],
             Response::HTTP_CREATED
         );
@@ -78,16 +73,15 @@ class PatientAdministrationInfoController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\PatientAdministrationInfoRequest  $request
-     * @param  \App\Models\PatientAdministrationInfo  $patientAdministrationInfo
+     * @param  \App\Http\Requests\AppointmentAdministrationInfoRequest  $request
+     * @param  \App\Models\AppointmentAdministrationInfo  $appointmentAdministrationInfo
      * @return \Illuminate\Http\Response
      */
     public function update(
-        PatientAdministrationInfoRequest $request,
-        PatientAdministrationInfo $patientAdministrationInfo
+        AppointmentAdministrationInfoRequest $request,
+        AppointmentAdministrationInfo $appointmentAdministrationInfo
     ) {
-        $PatientAdministrationInfo->update([
-            'patient_id' => $request->patient_id,
+        $AppointmentAdministrationInfo->update([
             'appointment_id' => $request->appointment_id,
             'referring_doctor_id' => $request->referring_doctor_id,
             'is_no_referral' => $request->is_no_referral,
@@ -96,13 +90,9 @@ class PatientAdministrationInfoController extends Controller
             'referal_expiry_date' => $request->referal_expiry_date,
             'note' => $request->note,
             'important_details' => $request->important_details,
-            'allergies' => $request->allergies,
             'clinical_alerts' => $request->clinical_alerts,
             'receive_forms' => $request->receive_forms,
             'recurring_appointment' => $request->recurring_appointment,
-            'preferred_contact_method' => $request->preferred_contact_method,
-            'aborginality' => $request->aborginality,
-            'occupation' => $request->occupation,
             'recent_service' => $request->recent_service,
             'outstanding_balance' => $request->outstanding_balance,
             'further_details' => $request->further_details,
@@ -116,8 +106,8 @@ class PatientAdministrationInfoController extends Controller
 
         return response()->json(
             [
-                'message' => 'Patient Administration Info updated',
-                'data' => $PatientAdministrationInfo,
+                'message' => 'Appointment Administration Info updated',
+                'data' => $AppointmentAdministrationInfo,
             ],
             Response::HTTP_OK
         );
@@ -126,17 +116,17 @@ class PatientAdministrationInfoController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\PatientAdministrationInfo  $patientAdministrationInfo
+     * @param  \App\Models\AppointmentAdministrationInfo  $appointmentAdministrationInfo
      * @return \Illuminate\Http\Response
      */
     public function destroy(
-        PatientAdministrationInfo $patientAdministrationInfo
+        AppointmentAdministrationInfo $appointmentAdministrationInfo
     ) {
-        $patientAdministrationInfo->delete();
+        $appointmentAdministrationInfo->delete();
 
         return response()->json(
             [
-                'message' => 'Patient Appointment Removed',
+                'message' => 'Appointment Administration Info Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

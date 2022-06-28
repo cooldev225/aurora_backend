@@ -41,9 +41,19 @@ return new class extends Migration {
             $table->string('country_of_birth')->nullable();
             $table->string('birth_state')->nullable();
             $table->string('allergies')->nullable();
+            $table->integer('aborginality')->default(0);
+            $table->string('occupation')->nullable();
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();
             $table->float('bmi')->nullable();
+            $table
+                ->enum('preferred_contact_method', [
+                    'phone',
+                    'sms',
+                    'email',
+                    'person',
+                ])
+                ->default('phone');
             $table
                 ->enum('appointment_confirm_method', [
                     'sms',
