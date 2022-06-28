@@ -30,12 +30,9 @@ class OrganizationController extends Controller
     {
         $user_table = (new User())->getTable();
 
-        $result = Organization::leftJoin(
-            $user_table,
-            'owner_id',
-            '=',
-            $user_table . '.id'
-        )->get();
+        $result = Organization::combineWithBaseUrl()
+            ->leftJoin($user_table, 'owner_id', '=', $user_table . '.id')
+            ->get();
 
         return response()->json(
             [

@@ -25,4 +25,20 @@ class Organization extends Model
     {
         return $this->belongsTo(User::class, 'owner_id')->first();
     }
+
+    /**
+     * Return Owner user
+     */
+    public static function combineWithBaseUrl()
+    {
+        $base_url = url('/');
+        $select = "*,
+            CASE
+            WHEN SUBSTRING(logo, 1, 1) = '/'
+                THEN CONCAT('{$base_url}', logo)
+            ELSE logo
+            END AS logo";
+
+        return self::selectRaw($select);
+    }
 }
