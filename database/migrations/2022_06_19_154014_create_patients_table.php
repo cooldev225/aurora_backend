@@ -53,6 +53,9 @@ return new class extends Migration {
                     'other',
                 ])
                 ->default('sms');
+            $table
+                ->enum('send_recall_method', ['email', 'mail'])
+                ->default('email');
             $table->timestamps();
         });
     }

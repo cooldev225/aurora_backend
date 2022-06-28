@@ -78,6 +78,7 @@ class PatientController extends Controller
             'bmi' => $request->bmi,
             'appointment_confirm_method' =>
                 $request->appointment_confirm_method,
+            'send_recall_method' => $request->send_recall_method,
         ]);
 
         $organization_id = auth()->user()->organization_id;
@@ -129,6 +130,7 @@ class PatientController extends Controller
             'bmi' => $request->bmi,
             'appointment_confirm_method' =>
                 $request->appointment_confirm_method,
+            'send_recall_method' => $request->send_recall_method,
         ]);
 
         return response()->json(

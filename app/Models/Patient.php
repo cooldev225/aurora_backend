@@ -32,6 +32,7 @@ class Patient extends Model
         'weight',
         'bmi',
         'appointment_confirm_method',
+        'send_recall_method',
     ];
 
     /**
