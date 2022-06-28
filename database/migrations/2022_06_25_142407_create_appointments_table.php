@@ -23,18 +23,12 @@ return new class extends Migration {
             $table->foreignId('room_id');
             $table->foreignId('anaethetist_id');
             $table->integer('reference_number')->default(0);
+            $table->boolean('is_waitlisted')->default(false);
             $table
-                ->enum('status', [
-                    'Pending',
-                    'Confirmed',
-                    'Success',
-                    'Waiting',
-                    'Cancel',
-                    'Deleted',
-                ])
+                ->enum('status', ['Pending', 'Confirmed', 'Canceled', 'Missed'])
                 ->default('Pending');
             $table
-                ->enum('checkin_status', ['waiting', 'checkin', 'checkout'])
+                ->enum('checkedin_status', ['Waiting', 'In', 'Out'])
                 ->default('waiting');
             $table->date('date');
             $table->time('start_time');

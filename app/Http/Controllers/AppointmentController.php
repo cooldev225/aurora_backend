@@ -113,6 +113,7 @@ class AppointmentController extends Controller
             'end_time' => $request->end_time,
             'actual_start_time' => $request->actual_start_time,
             'actual_end_time' => $request->actual_end_time,
+            'is_waitlisted' => $request->is_waitlisted,
         ]);
 
         return response()->json(
@@ -161,6 +162,7 @@ class AppointmentController extends Controller
             'end_time' => $request->end_time,
             'actual_start_time' => $request->actual_start_time,
             'actual_end_time' => $request->actual_end_time,
+            'is_waitlisted' => $request->is_waitlisted,
         ]);
 
         return response()->json(
