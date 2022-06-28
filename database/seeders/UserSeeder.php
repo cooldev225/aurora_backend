@@ -22,9 +22,7 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'username' => 'admin',
             'email' => 'admin@mail.com',
-            'role_id' => UserRole::where('slug', 'admin')
-                ->limit(1)
-                ->get()[0]->id,
+            'role_id' => UserRole::where('slug', 'admin')->first()->id,
         ]);
 
         User::factory()->create([

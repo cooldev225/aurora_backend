@@ -16,9 +16,10 @@ class OrganizationController extends Controller
      */
     public function __construct()
     {
-        $this->org_role = UserRole::where('slug', 'organizationAdmin')
-            ->limit(1)
-            ->get()[0];
+        $this->organization_admin_role = UserRole::where(
+            'slug',
+            'organizationAdmin'
+        )->first();
     }
 
     /**
@@ -57,7 +58,7 @@ class OrganizationController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
-            'role_id' => $this->org_role->id,
+            'role_id' => $this->organization_admin_role->id,
             'mobile_number' => $request->mobile_number,
         ]);
 
@@ -100,7 +101,7 @@ class OrganizationController extends Controller
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'role_id' => $this->org_role->id,
+            'role_id' => $this->organization_admin_role->id,
             'mobile_number' => $request->mobile_number,
         ]);
 

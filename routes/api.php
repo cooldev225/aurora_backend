@@ -54,7 +54,6 @@ Route::middleware(['auth'])->group(function () {
         );
         Route::apiResource('birth-codes', BirthCodeController::class);
         Route::apiResource('health-funds', HealthFundController::class);
-        Route::apiResource('email-templates', EmailTemplateController::class);
     });
 
     Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
@@ -67,6 +66,7 @@ Route::middleware(['auth'])->group(function () {
             'organization-managers',
             OrganizationManagerController::class
         );
+        Route::apiResource('email-templates', EmailTemplateController::class);
     });
 
     Route::middleware([

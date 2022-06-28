@@ -33,9 +33,7 @@ class UserController extends Controller
         $auth_params = $validator->validated();
 
         if (empty($auth_params['email'])) {
-            $user = User::where('username', $auth_params['username'])
-                ->limit(1)
-                ->get();
+            $user = User::where('username', $auth_params['username'])->first();
 
             if (empty($user->toArray())) {
                 return response()->json(
@@ -43,7 +41,7 @@ class UserController extends Controller
                     Response::HTTP_UNAUTHORIZED
                 );
             } else {
-                $auth_params['email'] = $user[0]->email;
+                $auth_params['email'] = $user->email;
             }
         }
 

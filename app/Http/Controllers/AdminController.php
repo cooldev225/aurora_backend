@@ -16,9 +16,7 @@ class AdminController extends Controller
      */
     public function __construct()
     {
-        $this->admin_role = UserRole::where('slug', 'admin')
-            ->limit(1)
-            ->get()[0];
+        $this->admin_role = UserRole::where('slug', 'admin')->first();
     }
 
     /**

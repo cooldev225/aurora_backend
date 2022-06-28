@@ -20,9 +20,7 @@ class SpecialistController extends Controller
      */
     public function __construct()
     {
-        $this->specialist_role = UserRole::where('slug', 'specialist')
-            ->limit(1)
-            ->get()[0];
+        $this->specialist_role = UserRole::where('slug', 'specialist')->first();
     }
 
     /**
