@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Specialist;
 use App\Models\SpecialistType;
@@ -29,7 +30,7 @@ class SpecialistController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $organization_id = auth()->user()->organization_id;
 
@@ -38,7 +39,7 @@ class SpecialistController extends Controller
         $specialist_title_table = (new SpecialistTitle())->getTable();
         $specialist_type_table = (new SpecialistType())->getTable();
 
-        $specialists = Specialist::leftJoin(
+        $specialist_list = Specialist::leftJoin(
             $employee_table,
             'employee_id',
             '=',
@@ -57,8 +58,30 @@ class SpecialistController extends Controller
                 '=',
                 $specialist_type_table . '.id'
             )
-            ->where('organization_id', $organization_id)
-            ->get();
+            ->where('organization_id', $organization_id);
+
+        if ($request->has('date') || $request->has('day')) {
+            $day_of_week_list = [];
+
+            if ($request->has('day')) {
+                $day_of_week_list = $request->input('day');
+            }
+
+            if ($request->has('date')) {
+                $day_of_week_list[] = getdate(
+                    strtotime($request->input('date'))
+                )['weekday'];
+            }
+
+            foreach ($day_of_week_list as $day_of_week) {
+                $specialist_list = $specialist_list->orWhereJsonContains(
+                    'work_hours',
+                    [$day_of_week => ['available' => true]]
+                );
+            }
+        }
+
+        $specialists = $specialist_list->get();
 
         return response()->json(
             [
