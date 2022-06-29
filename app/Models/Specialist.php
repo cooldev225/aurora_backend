@@ -26,9 +26,11 @@ class Specialist extends Model
     /**
      * Return $specialist_list
      */
-    public static function organizationSpecialists()
+    public static function organizationSpecialists($organization_id = null)
     {
-        $organization_id = auth()->user()->organization_id;
+        if ($organization_id == null) {
+            $organization_id = auth()->user()->organization_id;
+        }
 
         $employee_table = (new Employee())->getTable();
         $user_table = (new User())->getTable();

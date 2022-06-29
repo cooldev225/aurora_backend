@@ -18,12 +18,14 @@ class DatabaseSeeder extends Seeder
             UserRoleSeeder::class,
             OrganizationSeeder::class,
             ClinicSeeder::class,
+            RoomSeeder::class,
             UserSeeder::class,
             ProdaDeviceSeeder::class,
             PatientSeeder::class,
             EmployeeSeeder::class,
             SpecialistSeeder::class,
             PatientOrganizationSeeder::class,
+            AppointmentSeeder::class,
         ]);
     }
 }

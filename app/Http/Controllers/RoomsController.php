@@ -3,23 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Models\Rooms;
-use App\Http\Requests\RoomsRequest;
+use App\Models\Room;
+use App\Http\Requests\RoomRequest;
 
-class RoomsController extends Controller
+class RoomController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @param  $clinc_id
+     * @param  $clinic_id
      * @return \Illuminate\Http\Response
      */
-    public function index($clinc_id)
+    public function index($clinic_id)
     {
         $organization_id = auth()->user()->organization_id;
 
         $room = Room::where('organization_id', $organization_id)
-            ->where('clinc_id', $clinc_id)
+            ->where('clinic_id', $clinic_id)
             ->get();
 
         return response()->json(
@@ -34,18 +34,18 @@ class RoomsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\RoomsRequest  $request
-     * @param  $clinc_id
+     * @param  \App\Http\Requests\RoomRequest  $request
+     * @param  $clinic_id
      * @return \Illuminate\Http\Response
      */
-    public function store(RoomsRequest $request, $clinc_id)
+    public function store(RoomRequest $request, $clinic_id)
     {
         $organization_id = auth()->user()->organization_id;
 
         $room = Room::create([
             'name' => $request->name,
             'organization_id' => $organization_id,
-            'clinc_id' => $clinc_id,
+            'clinic_id' => $clinic_id,
         ]);
 
         return response()->json(
@@ -60,19 +60,19 @@ class RoomsController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\RoomsRequest  $request
-     * @param  $clinc_id
-     * @param  \App\Models\Rooms  $rooms
+     * @param  \App\Http\Requests\RoomRequest  $request
+     * @param  $clinic_id
+     * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function update(RoomsRequest $request, $clinc_id, Rooms $rooms)
+    public function update(RoomRequest $request, $clinic_id, Room $room)
     {
         $organization_id = auth()->user()->organization_id;
 
         $room->update([
             'name' => $request->name,
             'organization_id' => $organization_id,
-            'clinc_id' => $clinc_id,
+            'clinic_id' => $clinic_id,
         ]);
 
         return response()->json(
@@ -87,11 +87,11 @@ class RoomsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  $clinc_id
-     * @param  \App\Models\Rooms  $rooms
+     * @param  $clinic_id
+     * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function destroy($clinc_id, Rooms $rooms)
+    public function destroy($clinic_id, Room $room)
     {
         $room->delete();
 

@@ -46,7 +46,7 @@ class AnaestheticQuestionController extends Controller
         $anaestheticQuestion = AnaestheticQuestion::create([
             'question' => $request->question,
             'organization_id' => $organization_id,
-            'clinc_id' => $request->clinc_id,
+            'clinic_id' => $request->clinic_id,
             'status' => $request->status,
         ]);
 
@@ -75,7 +75,7 @@ class AnaestheticQuestionController extends Controller
         $anaestheticQuestion->update([
             'question' => $request->question,
             'organization_id' => $organization_id,
-            'clinc_id' => $request->clinc_id,
+            'clinic_id' => $request->clinic_id,
             'status' => $request->status,
         ]);
 

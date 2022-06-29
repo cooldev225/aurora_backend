@@ -92,7 +92,7 @@ class AppointmentController extends Controller
         $room = Room::firstOrCreate([
             'name' => $request->room_name,
             'organization_id' => $organization_id,
-            'clinc_id' => $request->clinc_id,
+            'clinic_id' => $request->clinic_id,
         ]);
 
         $appointment = Appointment::create([
@@ -141,7 +141,7 @@ class AppointmentController extends Controller
         $room = Room::firstOrCreate([
             'name' => $request->room_name,
             'organization_id' => $organization_id,
-            'clinc_id' => $request->clinc_id,
+            'clinic_id' => $request->clinic_id,
         ]);
 
         $appointment->update([

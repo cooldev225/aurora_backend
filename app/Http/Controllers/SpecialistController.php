@@ -127,19 +127,18 @@ class SpecialistController extends Controller
             }
         }
 
-        $appointments = $specialist_list
-            ->select(
-                'patient_id',
-                $patient_table . '.first_name',
-                $patient_table . '.last_name',
-                'specialist_id',
-                'date',
-                'start_time',
-                'end_time',
-                'confirmation_status',
-                'attendance_status',
-                'payment_status'
-            )
+        $appointments = Specialist::select(
+            'patient_id',
+            $patient_table . '.first_name',
+            $patient_table . '.last_name',
+            'specialist_id',
+            'date',
+            'start_time',
+            'end_time',
+            'confirmation_status',
+            'attendance_status',
+            'payment_status'
+        )
             ->rightJoin(
                 $appointment_table,
                 'specialist_id',
@@ -154,15 +153,23 @@ class SpecialistController extends Controller
             )
             ->whereIn('specialist_id', $specialist_ids)
             ->where('date', $date)
-            ->get();
+            ->get()
+            ->toArray();
+
+        foreach ($specialists as $key => $specialist) {
+            $specialists[$key]['appointments'] = [];
+
+            foreach ($appointments as $appointment) {
+                if ($appointment['specialist_id'] == $specialist['id']) {
+                    $specialists[$key]['appointments'][] = $appointment;
+                }
+            }
+        }
 
         return response()->json(
             [
                 'message' => 'Available Specialist List and work hours by day ',
-                'data' => [
-                    'specialists' => $specialists,
-                    'appointments' => $appointments,
-                ],
+                'data' => [$specialists],
             ],
             Response::HTTP_OK
         );
