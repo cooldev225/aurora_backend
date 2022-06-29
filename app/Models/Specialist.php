@@ -54,7 +54,7 @@ class Specialist extends Model
                 '=',
                 $specialist_type_table . '.id'
             )
-            ->where('organization_id', $organization_id);
+            ->where($user_table . '.organization_id', $organization_id);
 
         return $specialist_list;
     }
