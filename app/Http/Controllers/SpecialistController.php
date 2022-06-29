@@ -133,8 +133,8 @@ class SpecialistController extends Controller
                 'date',
                 'start_time',
                 'end_time',
-                'status',
-                'checkedin_status',
+                'confirmation_status',
+                'attendance_status',
                 'payment_status'
             )
             ->rightJoin(

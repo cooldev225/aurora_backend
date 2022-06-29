@@ -22,7 +22,7 @@ class Appointment extends Model
         'is_waitlisted',
         'procedure_approval_status',
         'confirmation_status',
-        'checkedin_status',
+        'attendance_status',
         'date',
         'start_time',
         'end_time',
