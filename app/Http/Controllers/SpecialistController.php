@@ -169,7 +169,7 @@ class SpecialistController extends Controller
         return response()->json(
             [
                 'message' => 'Available Specialist List and work hours by day ',
-                'data' => [$specialists],
+                'data' => $specialists,
             ],
             Response::HTTP_OK
         );

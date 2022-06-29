@@ -99,5 +99,6 @@ Route::middleware(['auth'])->group(function () {
         'ensure.role:organizationAdmin,organizationManager,receptionist',
     ])->group(function () {
         Route::get('/work-hours', [SpecialistController::class, 'workHours']);
+        Route::get('/clinics', [ClinicController::class, 'index']);
     });
 });
