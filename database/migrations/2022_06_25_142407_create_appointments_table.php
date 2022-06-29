@@ -25,11 +25,28 @@ return new class extends Migration {
             $table->integer('reference_number')->default(0);
             $table->boolean('is_waitlisted')->default(false);
             $table
-                ->enum('status', ['Pending', 'Confirmed', 'Canceled', 'Missed'])
-                ->default('Pending');
+                ->enum('procedure_approval_status', [
+                    'NOT_ACCESSED',
+                    'NOT_APPROVED',
+                    'APPROVED',
+                ])
+                ->default('NOT_ACCESSED');
             $table
-                ->enum('checkedin_status', ['Waiting', 'In', 'Out'])
-                ->default('waiting');
+                ->enum('confirmation_status', [
+                    'PENDING',
+                    'CONFIRMED',
+                    'CANCELED',
+                    'MISSED',
+                ])
+                ->default('PENDING');
+            $table
+                ->enum('attendance_status', [
+                    'NOT_PRESENT',
+                    'WAITING',
+                    'CHECKED_IN',
+                    'CHECKED_OUT',
+                ])
+                ->default('NOT_PRESENT');
             $table->date('date');
             $table->time('start_time');
             $table->time('end_time');
