@@ -52,7 +52,7 @@ class EmployeeFactory extends Factory
             $work_hours = $work_hours + [
                 $week_day => [
                     'available' => mt_rand(1, 2) == 1 ? true : false,
-                    'time_slot' => '09:00:00 - 17:00:00',
+                    'time_slot' => ['09:00:00', '17:00:00'],
                     'locations' => $clinics,
                 ],
             ];

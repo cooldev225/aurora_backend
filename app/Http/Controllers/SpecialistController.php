@@ -84,18 +84,23 @@ class SpecialistController extends Controller
                 $day_of_week_list[] = $day_of_week;
             }
 
-            foreach ($day_of_week_list as $day_of_week) {
-                $specialist_list = $specialist_list->orWhereJsonContains(
-                    'work_hours',
-                    [$day_of_week => ['available' => true]]
-                );
-            }
+            $specialist_list = $specialist_list->where(function ($query) use (
+                $day_of_week_list
+            ) {
+                foreach ($day_of_week_list as $day_of_week) {
+                    $query->orWhereJsonContains('work_hours', [
+                        $day_of_week => ['available' => true],
+                    ]);
+                }
+            });
         }
 
         if ($request->has('clinic_id')) {
-            $specialist_list = $specialist_list->where(function ($query) {
+            $specialist_list = $specialist_list->where(function ($query) use (
+                $day_of_week_list
+            ) {
                 foreach ($day_of_week_list as $day_of_week) {
-                    $query = $query->orWhereJsonContains('work_hours', [
+                    $query->orWhereJsonContains('work_hours', [
                         $day_of_week => ['location' => $request->clinic_id],
                     ]);
                 }
