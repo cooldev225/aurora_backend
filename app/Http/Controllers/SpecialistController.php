@@ -115,12 +115,10 @@ class SpecialistController extends Controller
 
         foreach ($specialists as $key => $specialist) {
             $temp = (array) json_decode($specialist['work_hours']);
-            $specialists[$key]['work_hours'] = [];
             $specialist_ids[] = $specialist['id'];
 
             foreach ($day_of_week_list as $day_of_week) {
-                $specialists[$key]['work_hours'][$day_of_week] =
-                    $temp[$day_of_week];
+                $specialists[$key]['work_hours'] = $temp[$day_of_week];
             }
         }
 
