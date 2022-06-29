@@ -3,6 +3,10 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Employee;
+use App\Models\UserRole;
+use App\Models\SpecialistTitle;
+use App\Models\SpecialistType;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Specialist>
@@ -16,8 +20,22 @@ class SpecialistFactory extends Factory
      */
     public function definition()
     {
+        $employee = Employee::factory()->create();
+        $user = $employee->user();
+        $user->role_id = UserRole::where('slug', 'specialist')->first()->id;
+        $specialist_type = SpecialistType::create(['name' => 'DR']);
+        $specialist_title = SpecialistTitle::create([
+            'name' =>
+                $specialist_type->name .
+                ' ' .
+                $user->first_name .
+                $user->last_name,
+        ]);
+
         return [
-            //
+            'employee_id' => $employee->id,
+            'specialist_title_id' => $specialist_title->id,
+            'specialist_type_id' => $specialist_type->id,
         ];
     }
 }

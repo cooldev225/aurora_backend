@@ -94,4 +94,10 @@ Route::middleware(['auth'])->group(function () {
             AppointmentController::class
         );
     });
+
+    Route::middleware([
+        'ensure.role:organizationAdmin,organizationManager,receptionist',
+    ])->group(function () {
+        Route::get('/work_hours', [SpecialistController::class, 'workHours']);
+    });
 });

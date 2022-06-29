@@ -3,6 +3,9 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\Clinic;
+use App\Models\User;
+use App\Models\UserRole;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Employee>
@@ -16,8 +19,42 @@ class EmployeeFactory extends Factory
      */
     public function definition()
     {
+        $user = User::factory()->create([
+            'role_id' => UserRole::employeeRoles()
+                ->inRandomOrder()
+                ->first()->id,
+        ]);
+
+        $week_days = [
+            'monday',
+            'tuesday',
+            'wednesday',
+            'thursday',
+            'friday',
+            'saturday',
+            'sunday',
+        ];
+
+        $work_hours = [];
+
+        foreach ($week_days as $week_day) {
+            $work_hours = $work_hours + [
+                $week_day => [
+                    'available' => true,
+                    'time_slot' => '09:00:00 - 17:00:00',
+                    'locations' => Clinic::select('id')
+                        ->where('organization_id', $user->organization_id)
+                        ->inRandomOrder()
+                        ->limit(10)
+                        ->get()
+                        ->toArray(),
+                ],
+            ];
+        }
+
         return [
-            //
+            'user_id' => $user->id,
+            'work_hours' => json_encode($work_hours),
         ];
     }
 }

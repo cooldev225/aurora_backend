@@ -15,7 +15,6 @@ return new class extends Migration {
         Schema::create('employees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('clinic_id');
             $table
                 ->enum('type', ['full-time', 'part-time', 'contract', 'casual'])
                 ->default('full-time');
