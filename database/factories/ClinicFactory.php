@@ -20,7 +20,7 @@ class ClinicFactory extends Factory
     {
         return [
             'organization_id' => Organization::inRandomOrder()->first()->id,
-            'name' => $this->faker->title(),
+            'name' => $this->faker->word(),
             'email' => $this->faker->unique()->safeEmail(),
             'phone_number' => $this->faker->phoneNumber(),
             'fax_number' => $this->faker->phoneNumber(),

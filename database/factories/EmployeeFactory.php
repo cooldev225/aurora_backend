@@ -38,16 +38,11 @@ class EmployeeFactory extends Factory
         $work_hours = [];
 
         foreach ($week_days as $week_day) {
-            $clinics = Clinic::select('id')
+            $clinics = Clinic::select('id', 'name')
                 ->where('organization_id', $user->organization_id)
                 ->inRandomOrder()
-                ->limit(10)
-                ->get()
+                ->first()
                 ->toArray();
-
-            foreach ($clinics as $key => $clinic) {
-                $clinics[$key] = $clinic['id'];
-            }
 
             $work_hours = $work_hours + [
                 $week_day => [

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use App\Models\Specialist;
 use App\Models\SpecialistType;
 use App\Models\SpecialistTitle;
@@ -110,7 +111,9 @@ class SpecialistController extends Controller
         $specialists = $specialist_list
             ->select(
                 $specialist_table . '.id',
-                $specialist_title_table . '.name',
+                DB::raw(
+                    "concat({$specialist_title_table}.name, ' ', first_name, ' ', last_name) AS name"
+                ),
                 'work_hours'
             )
             ->limit(10)

@@ -23,14 +23,10 @@ class SpecialistFactory extends Factory
         $employee = Employee::factory()->create();
         $user = $employee->user();
         $user->role_id = UserRole::where('slug', 'specialist')->first()->id;
-        $specialist_type = SpecialistType::create(['name' => 'DR']);
-        $specialist_title = SpecialistTitle::create([
-            'name' =>
-                $specialist_type->name .
-                ' ' .
-                $user->first_name .
-                $user->last_name,
+        $specialist_type = SpecialistType::create([
+            'name' => $this->faker->word(),
         ]);
+        $specialist_title = SpecialistTitle::factory()->create();
 
         return [
             'employee_id' => $employee->id,
