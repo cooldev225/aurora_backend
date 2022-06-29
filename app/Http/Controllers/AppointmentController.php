@@ -53,7 +53,7 @@ class AppointmentController extends Controller
             )
             ->leftJoin(
                 $specialist_table,
-                'anaethetist_id',
+                'anesthetist_id',
                 '=',
                 $specialist_table . '.id'
             )
@@ -105,7 +105,7 @@ class AppointmentController extends Controller
                 0
             ),
             'specialist_id' => $request->specialist_id,
-            'anaethetist_id' => $request->anaethetist_id,
+            'anesthetist_id' => $request->anesthetist_id,
             'room_id' => $room->id,
             'reference_number' => $request->reference_number,
             'date' => $request->date,
@@ -154,7 +154,7 @@ class AppointmentController extends Controller
                 0
             ),
             'specialist_id' => $request->specialist_id,
-            'anaethetist_id' => $request->anaethetist_id,
+            'anesthetist_id' => $request->anesthetist_id,
             'room_id' => $room->id,
             'reference_number' => $request->reference_number,
             'date' => $request->date,

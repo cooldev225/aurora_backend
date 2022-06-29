@@ -9,5 +9,5 @@ class Procedure extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'InProcedure', 'anaethetist_required'];
+    protected $fillable = ['name', 'InProcedure', 'anesthetist_required'];
 }

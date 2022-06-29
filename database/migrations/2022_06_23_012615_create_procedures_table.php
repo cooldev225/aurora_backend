@@ -23,7 +23,7 @@ return new class extends Migration {
                     'OutProcedure',
                 ])
                 ->default('InProcedure');
-            $table->boolean('anaethetist_required');
+            $table->boolean('anesthetist_required');
             $table->timestamps();
         });
     }

@@ -21,7 +21,7 @@ return new class extends Migration {
             $table->foreignId('primary_pathologist_id');
             $table->foreignId('specialist_id');
             $table->foreignId('room_id');
-            $table->foreignId('anaethetist_id');
+            $table->foreignId('anesthetist_id');
             $table->integer('reference_number')->default(0);
             $table->boolean('is_waitlisted')->default(false);
             $table

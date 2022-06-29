@@ -17,7 +17,7 @@ class Appointment extends Model
         'primary_pathologist_id',
         'specialist_id',
         'room_id',
-        'anaethetist_id',
+        'anesthetist_id',
         'reference_number',
         'is_waitlisted',
         'procedure_approval_status',
