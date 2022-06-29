@@ -11,6 +11,8 @@ use App\Models\SpecialistTitle;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Employee;
+use App\Models\Appointment;
+use App\Models\Patient;
 use App\Http\Requests\SpecialistRequest;
 
 class SpecialistController extends Controller
@@ -52,13 +54,18 @@ class SpecialistController extends Controller
     {
         $specialist_title_table = (new SpecialistTitle())->getTable();
         $specialist_table = (new Specialist())->getTable();
+        $employee_table = (new Employee())->getTable();
+        $appointment_table = (new Appointment())->getTable();
+        $patient_table = (new Patient())->getTable();
 
         $specialist_list = Specialist::organizationSpecialists();
 
-        if ($request->has('specialist_id')) {
+        $date = date('Y-m-d');
+
+        if ($request->filled('specialists')) {
             $specialist_list = $specialist_list->whereIn(
                 $specialist_table . '.id',
-                $request->specialist_id
+                $request->specialists
             );
         }
 
@@ -70,12 +77,10 @@ class SpecialistController extends Controller
             }
 
             if ($request->has('date')) {
-                $day_of_week = getdate(strtotime($request->input('date')))[
-                    'weekday'
-                ];
+                $date = $request->input('date');
+                $day_of_week = getdate(strtotime($date))['weekday'];
 
                 $day_of_week = strtolower($day_of_week);
-
                 $day_of_week_list[] = $day_of_week;
             }
 
@@ -87,6 +92,16 @@ class SpecialistController extends Controller
             }
         }
 
+        if ($request->has('clinic_id')) {
+            $specialist_list = $specialist_list->where(function ($query) {
+                foreach ($day_of_week_list as $day_of_week) {
+                    $query = $query->orWhereJsonContains('work_hours', [
+                        $day_of_week => ['location' => $request->clinic_id],
+                    ]);
+                }
+            });
+        }
+
         $specialists = $specialist_list
             ->select(
                 $specialist_table . '.id',
@@ -96,10 +111,12 @@ class SpecialistController extends Controller
             ->limit(10)
             ->get()
             ->toArray();
+        $specialist_ids = [];
 
         foreach ($specialists as $key => $specialist) {
             $temp = (array) json_decode($specialist['work_hours']);
             $specialists[$key]['work_hours'] = [];
+            $specialist_ids[] = $specialist['id'];
 
             foreach ($day_of_week_list as $day_of_week) {
                 $specialists[$key]['work_hours'][$day_of_week] =
@@ -107,10 +124,42 @@ class SpecialistController extends Controller
             }
         }
 
+        $appointments = $specialist_list
+            ->select(
+                'patient_id',
+                $patient_table . '.first_name',
+                $patient_table . '.last_name',
+                'specialist_id',
+                'date',
+                'start_time',
+                'end_time',
+                'status',
+                'checkedin_status',
+                'payment_status'
+            )
+            ->rightJoin(
+                $appointment_table,
+                'specialist_id',
+                '=',
+                $specialist_table . '.id'
+            )
+            ->leftJoin(
+                $patient_table,
+                'patient_id',
+                '=',
+                $patient_table . '.id'
+            )
+            ->whereIn('specialist_id', $specialist_ids)
+            ->where('date', $date)
+            ->get();
+
         return response()->json(
             [
                 'message' => 'Available Specialist List and work hours by day ',
-                'data' => $specialists,
+                'data' => [
+                    'specialists' => $specialists,
+                    'appointments' => $appointments,
+                ],
             ],
             Response::HTTP_OK
         );

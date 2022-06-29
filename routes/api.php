@@ -98,6 +98,6 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager,receptionist',
     ])->group(function () {
-        Route::get('/work_hours', [SpecialistController::class, 'workHours']);
+        Route::get('/work-hours', [SpecialistController::class, 'workHours']);
     });
 });
