@@ -100,5 +100,9 @@ Route::middleware(['auth'])->group(function () {
     ])->group(function () {
         Route::get('/work-hours', [SpecialistController::class, 'workHours']);
         Route::get('/clinics', [ClinicController::class, 'index']);
+        Route::get('/anesthetists', [
+            EmployeeController::class,
+            'anesthetists',
+        ]);
     });
 });

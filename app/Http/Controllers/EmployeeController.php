@@ -39,6 +39,24 @@ class EmployeeController extends Controller
     }
 
     /**
+     * Return a listing of anesthetists.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function anesthetists()
+    {
+        $anesthetists = Employee::anesthetists()->get();
+
+        return response()->json(
+            [
+                'message' => 'Anesthetist List',
+                'data' => $anesthetists,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
      * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\EmployeeRequest  $request
