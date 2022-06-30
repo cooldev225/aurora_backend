@@ -15,6 +15,7 @@ use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\OrganizationManagerController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ProcedureQuestionController;
 use App\Http\Controllers\ProdaDeviceController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SpecialistTitleController;
@@ -78,6 +79,10 @@ Route::middleware(['auth'])->group(function () {
             AnestheticQuestionController::class
         );
         Route::apiResource(
+            'procedure-questions',
+            ProcedureQuestionController::class
+        );
+        Route::apiResource(
             'appointments/{appointment_id}/questions/{question_id}/anesthetic-answers',
             AnestheticAnswerController::class
         );
@@ -105,6 +110,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/health-funds', [HealthFundController::class, 'index']);
         Route::get('/active-anesthetic-questions', [
             AnestheticQuestionController::class,
+            'activeQuestions',
+        ]);
+        Route::get('/active-procedure-questions', [
+            ProcedureQuestionController::class,
             'activeQuestions',
         ]);
     });

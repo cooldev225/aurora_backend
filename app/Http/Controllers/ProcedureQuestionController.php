@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Models\AnestheticQuestion;
-use App\Http\Requests\AnestheticQuestionRequest;
+use App\Models\ProcedureQuestion;
+use App\Http\Requests\ProcedureQuestionRequest;
 
-class AnestheticQuestionController extends Controller
+class ProcedureQuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,15 +17,15 @@ class AnestheticQuestionController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
-        $anesthetic_questions = AnestheticQuestion::where(
+        $procedure_questions = ProcedureQuestion::where(
             'organization_id',
             $organization_id
         )->get();
 
         return response()->json(
             [
-                'message' => 'Anesthetic Question List',
-                'data' => $anesthetic_questions,
+                'message' => 'Procedure Question List',
+                'data' => $procedure_questions,
             ],
             Response::HTTP_OK
         );
@@ -40,7 +40,7 @@ class AnestheticQuestionController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
-        $anesthetic_questions = AnestheticQuestion::where(
+        $procedure_questions = ProcedureQuestion::where(
             'organization_id',
             $organization_id
         )
@@ -49,8 +49,8 @@ class AnestheticQuestionController extends Controller
 
         return response()->json(
             [
-                'message' => 'Active Anesthetic Question List',
-                'data' => $anesthetic_questions,
+                'message' => 'Active Procedure Question List',
+                'data' => $procedure_questions,
             ],
             Response::HTTP_OK
         );
@@ -59,14 +59,14 @@ class AnestheticQuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\AnestheticQuestionRequest  $request
+     * @param  \App\Http\Requests\ProcedureQuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AnestheticQuestionRequest $request)
+    public function store(ProcedureQuestionRequest $request)
     {
         $organization_id = auth()->user()->organization_id;
 
-        $anestheticQuestion = AnestheticQuestion::create([
+        $procedureQuestion = ProcedureQuestion::create([
             'question' => $request->question,
             'organization_id' => $organization_id,
             'status' => $request->status,
@@ -74,8 +74,8 @@ class AnestheticQuestionController extends Controller
 
         return response()->json(
             [
-                'message' => 'New Anesthetic Question created',
-                'data' => $anestheticQuestion,
+                'message' => 'New Procedure Question created',
+                'data' => $procedureQuestion,
             ],
             Response::HTTP_CREATED
         );
@@ -84,17 +84,17 @@ class AnestheticQuestionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\AnestheticQuestionRequest  $request
-     * @param  \App\Models\AnestheticQuestion  $anestheticQuestion
+     * @param  \App\Http\Requests\ProcedureQuestionRequest  $request
+     * @param  \App\Models\ProcedureQuestion  $procedureQuestion
      * @return \Illuminate\Http\Response
      */
     public function update(
-        AnestheticQuestionRequest $request,
-        AnestheticQuestion $anestheticQuestion
+        ProcedureQuestionRequest $request,
+        ProcedureQuestion $procedureQuestion
     ) {
         $organization_id = auth()->user()->organization_id;
 
-        $anestheticQuestion->update([
+        $procedureQuestion->update([
             'question' => $request->question,
             'organization_id' => $organization_id,
             'status' => $request->status,
@@ -102,8 +102,8 @@ class AnestheticQuestionController extends Controller
 
         return response()->json(
             [
-                'message' => 'Anesthetic Question updated',
-                'data' => $anestheticQuestion,
+                'message' => 'Procedure Question updated',
+                'data' => $procedureQuestion,
             ],
             Response::HTTP_OK
         );
@@ -112,16 +112,16 @@ class AnestheticQuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AnestheticQuestion  $anestheticQuestion
+     * @param  \App\Models\ProcedureQuestion  $procedureQuestion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AnestheticQuestion $anestheticQuestion)
+    public function destroy(ProcedureQuestion $procedureQuestion)
     {
-        $anestheticQuestion->delete();
+        $procedureQuestion->delete();
 
         return response()->json(
             [
-                'message' => 'Anesthetic Question Removed',
+                'message' => 'Procedure Question Removed',
             ],
             Response::HTTP_NO_CONTENT
         );
