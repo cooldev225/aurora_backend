@@ -135,6 +135,7 @@ class SpecialistController extends Controller
             $patient_table . '.first_name',
             $patient_table . '.last_name',
             'specialist_id',
+            'anesthetist_id',
             'date',
             'start_time',
             'end_time',
@@ -187,9 +188,10 @@ class SpecialistController extends Controller
     public function store(SpecialistRequest $request)
     {
         $specialist = Specialist::create([
-            'employee_id' => $request->employee_id,
+            'specialist_id' => $request->specialist_id,
             'specialist_title_id' => $request->specialist_title_id,
             'specialist_type_id' => $request->specialist_type_id,
+            'anesthetist_id' => $request->anesthetist_id,
         ]);
 
         return response()->json(
@@ -211,9 +213,10 @@ class SpecialistController extends Controller
     public function update(SpecialistRequest $request, Specialist $specialist)
     {
         $specialist->update([
-            'employee_id' => $request->employee_id,
+            'specialist_id' => $request->specialist_id,
             'specialist_title_id' => $request->specialist_title_id,
             'specialist_type_id' => $request->specialist_type_id,
+            'anesthetist_id' => $request->anesthetist_id,
         ]);
 
         return response()->json(

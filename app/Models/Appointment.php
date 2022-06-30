@@ -13,7 +13,7 @@ class Appointment extends Model
         'patient_id',
         'organization_id',
         'clinic_id',
-        'procedure_id',
+        'appointment_type_id',
         'primary_pathologist_id',
         'specialist_id',
         'room_id',

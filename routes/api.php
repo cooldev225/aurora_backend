@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\EmailTemplateController;
@@ -89,7 +90,10 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('patients', PatientController::class);
         Route::apiResource('employees', EmployeeController::class);
         Route::apiResource('specialists', SpecialistController::class);
-        Route::apiResource('appointment-types', AppointmentController::class);
+        Route::apiResource(
+            'appointment-types',
+            AppointmentTypeController::class
+        );
         Route::get('/employee-roles', [
             UserRoleController::class,
             'employeeRoles',

@@ -27,7 +27,7 @@ class AppointmentRequest extends FormRequest
             'name' => 'required',
             'patient_id' => 'required|numeric',
             'clinic_id' => 'required|numeric',
-            'procedure_id' => 'required|numeric',
+            'appointment_type_id' => 'required|numeric',
             'primary_pathologist_id' => 'numeric',
             'specialist_id' => 'required|numeric',
             'anesthetist_id' => 'required|numeric',

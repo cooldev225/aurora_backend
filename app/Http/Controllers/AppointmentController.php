@@ -35,7 +35,7 @@ class AppointmentController extends Controller
             ->leftJoin($clinic_table, 'clinic_id', '=', $clinic_table . '.id')
             ->leftJoin(
                 $procedure_table,
-                'procedure_id',
+                'appointment_type_id',
                 '=',
                 $procedure_table . '.id'
             )
@@ -93,7 +93,7 @@ class AppointmentController extends Controller
             'patient_id' => $request->patient_id,
             'organization_id' => $organization_id,
             'clinic_id' => $request->clinic_id,
-            'procedure_id' => $request->procedure_id,
+            'appointment_type_id' => $request->appointment_type_id,
             'primary_pathologist_id' => $request->input(
                 'primary_pathologist_id',
                 0
@@ -139,7 +139,7 @@ class AppointmentController extends Controller
             'patient_id' => $request->patient_id,
             'organization_id' => $organization_id,
             'clinic_id' => $request->clinic_id,
-            'procedure_id' => $request->procedure_id,
+            'appointment_type_id' => $request->appointment_type_id,
             'primary_pathologist_id' => $request->input(
                 'primary_pathologist_id',
                 0

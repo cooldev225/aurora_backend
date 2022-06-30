@@ -10,9 +10,10 @@ class Specialist extends Model
     use HasFactory;
 
     protected $fillable = [
-        'employee_id',
+        'specialist_id',
         'specialist_title_id',
         'specialist_type_id',
+        'anesthetist_id',
     ];
 
     /**
@@ -39,7 +40,7 @@ class Specialist extends Model
 
         $specialist_list = self::leftJoin(
             $employee_table,
-            'employee_id',
+            'specialist_id',
             '=',
             $employee_table . '.id'
         )
