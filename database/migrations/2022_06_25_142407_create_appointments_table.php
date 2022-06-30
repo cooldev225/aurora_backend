@@ -48,10 +48,25 @@ return new class extends Migration {
                 ])
                 ->default('NOT_PRESENT');
             $table->date('date');
+            $table->time('arrival_time');
             $table->time('start_time');
             $table->time('end_time');
+            $table->time('actual_arrival_time')->nullable();
             $table->time('actual_start_time')->nullable();
             $table->time('actual_end_time')->nullable();
+            $table
+                ->enum('charge_type', [
+                    'self-insured',
+                    'private-health-excess',
+                    'private-health-excess-0',
+                    'private-health-pension',
+                    'pension-card',
+                    'healthcare-card',
+                    'department-veteran',
+                    'work-cover',
+                    'transport-accident',
+                ])
+                ->default('self-insured');
             $table
                 ->enum('payment_status', ['pending', 'paid', 'failed'])
                 ->default('pending');

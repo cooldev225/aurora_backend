@@ -89,12 +89,6 @@ class AppointmentController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
-        $room = Room::firstOrCreate([
-            'name' => $request->room_name,
-            'organization_id' => $organization_id,
-            'clinic_id' => $request->clinic_id,
-        ]);
-
         $appointment = Appointment::create([
             'patient_id' => $request->patient_id,
             'organization_id' => $organization_id,
@@ -106,13 +100,16 @@ class AppointmentController extends Controller
             ),
             'specialist_id' => $request->specialist_id,
             'anesthetist_id' => $request->anesthetist_id,
-            'room_id' => $room->id,
+            'room_id' => $request->room_id,
             'reference_number' => $request->reference_number,
             'date' => $request->date,
+            'arrival_time' => $request->arrival_time,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'actual_arrival_time' => $request->actual_arrival_time,
             'actual_start_time' => $request->actual_start_time,
             'actual_end_time' => $request->actual_end_time,
+            'charge_type' => $request->charge_type,
             'is_waitlisted' => $request->is_waitlisted,
         ]);
 
@@ -138,12 +135,6 @@ class AppointmentController extends Controller
     ) {
         $organization_id = auth()->user()->organization_id;
 
-        $room = Room::firstOrCreate([
-            'name' => $request->room_name,
-            'organization_id' => $organization_id,
-            'clinic_id' => $request->clinic_id,
-        ]);
-
         $appointment->update([
             'patient_id' => $request->patient_id,
             'organization_id' => $organization_id,
@@ -155,13 +146,16 @@ class AppointmentController extends Controller
             ),
             'specialist_id' => $request->specialist_id,
             'anesthetist_id' => $request->anesthetist_id,
-            'room_id' => $room->id,
+            'room_id' => $request->room_id,
             'reference_number' => $request->reference_number,
             'date' => $request->date,
+            'arrival_time' => $request->arrival_time,
             'start_time' => $request->start_time,
             'end_time' => $request->end_time,
+            'actual_arrival_time' => $request->actual_arrival_time,
             'actual_start_time' => $request->actual_start_time,
             'actual_end_time' => $request->actual_end_time,
+            'charge_type' => $request->charge_type,
             'is_waitlisted' => $request->is_waitlisted,
         ]);
 

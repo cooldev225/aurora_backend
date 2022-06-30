@@ -24,10 +24,13 @@ class Appointment extends Model
         'confirmation_status',
         'attendance_status',
         'date',
+        'arrival_time',
         'start_time',
         'end_time',
+        'actual_arrival_time',
         'actual_start_time',
         'actual_end_time',
+        'charge_type',
         'payment_status',
     ];
 }

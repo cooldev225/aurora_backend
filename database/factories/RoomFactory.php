@@ -21,7 +21,7 @@ class RoomFactory extends Factory
         return [
             'organization_id' => Organization::inRandomOrder()->first()->id,
             'clinic_id' => Clinic::inRandomOrder()->first()->id,
-            'name' => $this->faker->title(),
+            'name' => $this->faker->word(),
         ];
     }
 }
