@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\HealthFund;
 
 class HealthFundSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class HealthFundSeeder extends Seeder
      */
     public function run()
     {
-        //
+        HealthFund::factory(100)->create();
     }
 }

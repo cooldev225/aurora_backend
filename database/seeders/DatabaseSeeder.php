@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             SpecialistSeeder::class,
             PatientOrganizationSeeder::class,
             AppointmentSeeder::class,
+            HealthFundSeeder::class,
         ]);
     }
 }

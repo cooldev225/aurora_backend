@@ -81,18 +81,18 @@ Route::middleware(['auth'])->group(function () {
             'appointments/{appointment_id}/questions/{question_id}/anaesthetic-answers',
             AnaestheticAnswerController::class
         );
-        Route::apiResource('/patients', PatientController::class);
-        Route::apiResource('/employees', EmployeeController::class);
-        Route::apiResource('/specialists', SpecialistController::class);
+        Route::apiResource('patients', PatientController::class);
+        Route::apiResource('employees', EmployeeController::class);
+        Route::apiResource('specialists', SpecialistController::class);
+        Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
+        Route::apiResource(
+            'patient-appointments',
+            AppointmentController::class
+        );
         Route::get('/employee-roles', [
             UserRoleController::class,
             'employeeRoles',
         ]);
-        Route::apiResource('/clinics/{clinic_id}/rooms', RoomController::class);
-        Route::apiResource(
-            '/patient-appointments',
-            AppointmentController::class
-        );
     });
 
     Route::middleware([
@@ -104,5 +104,6 @@ Route::middleware(['auth'])->group(function () {
             EmployeeController::class,
             'anesthetists',
         ]);
+        Route::get('/health-funds', [HealthFundController::class, 'index']);
     });
 });
