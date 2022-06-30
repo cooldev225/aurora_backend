@@ -13,7 +13,7 @@ class AppointmentRequest extends FormRequest
      */
     public function authorize()
     {
-        return ture;
+        return true;
     }
 
     /**
@@ -34,10 +34,12 @@ class AppointmentRequest extends FormRequest
             'room_id' => 'required|numeric',
             'reference_number' => 'required|numeric',
             'date' => 'required|date',
+            'arrival_time' => 'required',
             'start_time' => 'required',
             'end_time' => 'required',
             'actual_start_time' => 'required',
             'actual_end_time' => 'required',
+            'charge_type' => 'required',
             'is_waitlisted' => 'required|boolean',
         ];
     }

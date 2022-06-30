@@ -24,7 +24,7 @@ class OrganizationFactory extends Factory
         ]);
 
         return [
-            'name' => $this->faker->title(),
+            'name' => $this->faker->company(),
             'logo' => $this->faker->imageUrl(),
             'max_clinics' => mt_rand(1, 9999),
             'max_employees' => mt_rand(1, 9999),

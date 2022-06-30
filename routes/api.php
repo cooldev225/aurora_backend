@@ -89,8 +89,6 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('patients', PatientController::class);
         Route::apiResource('employees', EmployeeController::class);
         Route::apiResource('specialists', SpecialistController::class);
-        Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
-        Route::apiResource('appointments', AppointmentController::class);
         Route::apiResource('appointment-types', AppointmentController::class);
         Route::get('/employee-roles', [
             UserRoleController::class,
@@ -101,6 +99,8 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager,receptionist',
     ])->group(function () {
+        Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
+        Route::apiResource('appointments', AppointmentController::class);
         Route::get('/work-hours', [SpecialistController::class, 'workHours']);
         Route::get('/clinics', [ClinicController::class, 'index']);
         Route::get('/anesthetists', [

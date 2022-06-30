@@ -31,6 +31,8 @@ class AppointmentFactory extends Factory
             $start_time = $temp;
         }
 
+        $arrival_time = $start_time;
+
         $patient = Patient::inRandomOrder()->first();
         $organization_id = Organization::inRandomOrder()->first()->id;
 
@@ -54,6 +56,7 @@ class AppointmentFactory extends Factory
                 ->first()->id,
             'reference_number' => mt_rand(1, 9999),
             'date' => $this->faker->date(),
+            'arrival_time' => $arrival_time,
             'start_time' => $start_time,
             'end_time' => $end_time,
         ];
