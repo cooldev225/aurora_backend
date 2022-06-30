@@ -3,8 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AnaestheticQuestionController;
-use App\Http\Controllers\AnaestheticAnswerController;
+use App\Http\Controllers\AnestheticQuestionController;
+use App\Http\Controllers\AnestheticAnswerController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
@@ -74,21 +74,19 @@ Route::middleware(['auth'])->group(function () {
     ])->group(function () {
         Route::apiResource('proda-devices', ProdaDeviceController::class);
         Route::apiResource(
-            'anaesthetic-questions',
-            AnaestheticQuestionController::class
+            'anesthetic-questions',
+            AnestheticQuestionController::class
         );
         Route::apiResource(
-            'appointments/{appointment_id}/questions/{question_id}/anaesthetic-answers',
-            AnaestheticAnswerController::class
+            'appointments/{appointment_id}/questions/{question_id}/anesthetic-answers',
+            AnestheticAnswerController::class
         );
         Route::apiResource('patients', PatientController::class);
         Route::apiResource('employees', EmployeeController::class);
         Route::apiResource('specialists', SpecialistController::class);
         Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
-        Route::apiResource(
-            'patient-appointments',
-            AppointmentController::class
-        );
+        Route::apiResource('appointments', AppointmentController::class);
+        Route::apiResource('appointment-types', AppointmentController::class);
         Route::get('/employee-roles', [
             UserRoleController::class,
             'employeeRoles',
@@ -105,5 +103,9 @@ Route::middleware(['auth'])->group(function () {
             'anesthetists',
         ]);
         Route::get('/health-funds', [HealthFundController::class, 'index']);
+        Route::get('/anesthetic-questions', [
+            AnestheticQuestionController::class,
+            'index',
+        ]);
     });
 });

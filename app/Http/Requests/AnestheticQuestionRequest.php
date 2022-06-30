@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AnaestheticAnswerRequest extends FormRequest
+class AnestheticQuestionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class AnaestheticAnswerRequest extends FormRequest
     public function rules()
     {
         return [
-            'appointment_id' => 'required|numeric',
-            'question_id' => 'required|numeric',
+            'organization_id' => 'required|numeric',
+            'clinic_id' => 'required|numeric',
         ];
     }
 }

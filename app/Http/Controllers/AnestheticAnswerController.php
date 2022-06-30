@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Models\AnaestheticAnswer;
-use App\Http\Requests\AnaestheticAnswerRequest;
+use App\Models\AnestheticAnswer;
+use App\Http\Requests\AnestheticAnswerRequest;
 
-class AnaestheticAnswerController extends Controller
+class AnestheticAnswerController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class AnaestheticAnswerController extends Controller
      */
     public function index($appointment_id, $question_id)
     {
-        $anaesthetic_answers = AnaestheticAnswer::where(
+        $anesthetic_answers = AnestheticAnswer::where(
             'appointment_id',
             $appointment_id
         )
@@ -24,8 +24,8 @@ class AnaestheticAnswerController extends Controller
 
         return response()->json(
             [
-                'message' => 'Anaesthetic Answer List',
-                'data' => $anaesthetic_answers,
+                'message' => 'Anesthetic Answer List',
+                'data' => $anesthetic_answers,
             ],
             Response::HTTP_OK
         );
@@ -34,15 +34,15 @@ class AnaestheticAnswerController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\AnaestheticAnswerRequest  $request
+     * @param  \App\Http\Requests\AnestheticAnswerRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(
-        AnaestheticAnswerRequest $request,
+        AnestheticAnswerRequest $request,
         $appointment_id,
         $question_id
     ) {
-        $anaestheticAnswer = AnaestheticAnswer::create([
+        $anestheticAnswer = AnestheticAnswer::create([
             'answer' => $request->answer,
             'appointment_id' => $appointment_id,
             'question_id' => $question_id,
@@ -50,8 +50,8 @@ class AnaestheticAnswerController extends Controller
 
         return response()->json(
             [
-                'message' => 'New Anaesthetic Answer created',
-                'data' => $anaestheticAnswer,
+                'message' => 'New Anesthetic Answer created',
+                'data' => $anestheticAnswer,
             ],
             Response::HTTP_CREATED
         );
@@ -60,17 +60,17 @@ class AnaestheticAnswerController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\AnaestheticAnswerRequest  $request
-     * @param  \App\Models\AnaestheticAnswer  $anaestheticAnswer
+     * @param  \App\Http\Requests\AnestheticAnswerRequest  $request
+     * @param  \App\Models\AnestheticAnswer  $anestheticAnswer
      * @return \Illuminate\Http\Response
      */
     public function update(
-        AnaestheticAnswerRequest $request,
+        AnestheticAnswerRequest $request,
         $appointment_id,
         $question_id,
-        AnaestheticAnswer $anaestheticAnswer
+        AnestheticAnswer $anestheticAnswer
     ) {
-        $anaestheticAnswer->update([
+        $anestheticAnswer->update([
             'answer' => $request->answer,
             'appointment_id' => $appointment_id,
             'question_id' => $question_id,
@@ -78,8 +78,8 @@ class AnaestheticAnswerController extends Controller
 
         return response()->json(
             [
-                'message' => 'Anaesthetic Answer updated',
-                'data' => $anaestheticAnswer,
+                'message' => 'Anesthetic Answer updated',
+                'data' => $anestheticAnswer,
             ],
             Response::HTTP_OK
         );
@@ -88,19 +88,19 @@ class AnaestheticAnswerController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AnaestheticAnswer  $anaestheticAnswer
+     * @param  \App\Models\AnestheticAnswer  $anestheticAnswer
      * @return \Illuminate\Http\Response
      */
     public function destroy(
         $appointment_id,
         $question_id,
-        AnaestheticAnswer $anaestheticAnswer
+        AnestheticAnswer $anestheticAnswer
     ) {
-        $anaestheticAnswer->delete();
+        $anestheticAnswer->delete();
 
         return response()->json(
             [
-                'message' => 'Anaesthetic Answer Removed',
+                'message' => 'Anesthetic Answer Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

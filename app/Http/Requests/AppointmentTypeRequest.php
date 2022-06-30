@@ -13,7 +13,7 @@ class AppointmentTypeRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,10 @@ class AppointmentTypeRequest extends FormRequest
     public function rules()
     {
         return [
-                //
-            ];
+            'name' => 'required',
+            'anesthetist_required' => 'required|boolean',
+            'invoice_by' => 'required',
+            'arrival_time' => 'required|numeric',
+        ];
     }
 }

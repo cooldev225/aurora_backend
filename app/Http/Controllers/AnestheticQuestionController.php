@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Models\AnaestheticQuestion;
-use App\Http\Requests\AnaestheticQuestionRequest;
+use App\Models\AnestheticQuestion;
+use App\Http\Requests\AnestheticQuestionRequest;
 
-class AnaestheticQuestionController extends Controller
+class AnestheticQuestionController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,7 +17,7 @@ class AnaestheticQuestionController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
-        $anaesthetic_questions = AnaestheticQuestion::where(
+        $anesthetic_questions = AnestheticQuestion::where(
             'organization_id',
             $organization_id
         )
@@ -26,8 +26,8 @@ class AnaestheticQuestionController extends Controller
 
         return response()->json(
             [
-                'message' => 'Anaesthetic Question List',
-                'data' => $anaesthetic_questions,
+                'message' => 'Anesthetic Question List',
+                'data' => $anesthetic_questions,
             ],
             Response::HTTP_OK
         );
@@ -36,14 +36,14 @@ class AnaestheticQuestionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\AnaestheticQuestionRequest  $request
+     * @param  \App\Http\Requests\AnestheticQuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AnaestheticQuestionRequest $request)
+    public function store(AnestheticQuestionRequest $request)
     {
         $organization_id = auth()->user()->organization_id;
 
-        $anaestheticQuestion = AnaestheticQuestion::create([
+        $anestheticQuestion = AnestheticQuestion::create([
             'question' => $request->question,
             'organization_id' => $organization_id,
             'clinic_id' => $request->clinic_id,
@@ -52,8 +52,8 @@ class AnaestheticQuestionController extends Controller
 
         return response()->json(
             [
-                'message' => 'New Anaesthetic Question created',
-                'data' => $anaestheticQuestion,
+                'message' => 'New Anesthetic Question created',
+                'data' => $anestheticQuestion,
             ],
             Response::HTTP_CREATED
         );
@@ -62,17 +62,17 @@ class AnaestheticQuestionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\AnaestheticQuestionRequest  $request
-     * @param  \App\Models\AnaestheticQuestion  $anaestheticQuestion
+     * @param  \App\Http\Requests\AnestheticQuestionRequest  $request
+     * @param  \App\Models\AnestheticQuestion  $anestheticQuestion
      * @return \Illuminate\Http\Response
      */
     public function update(
-        AnaestheticQuestionRequest $request,
-        AnaestheticQuestion $anaestheticQuestion
+        AnestheticQuestionRequest $request,
+        AnestheticQuestion $anestheticQuestion
     ) {
         $organization_id = auth()->user()->organization_id;
 
-        $anaestheticQuestion->update([
+        $anestheticQuestion->update([
             'question' => $request->question,
             'organization_id' => $organization_id,
             'clinic_id' => $request->clinic_id,
@@ -81,8 +81,8 @@ class AnaestheticQuestionController extends Controller
 
         return response()->json(
             [
-                'message' => 'Anaesthetic Question updated',
-                'data' => $anaestheticQuestion,
+                'message' => 'Anesthetic Question updated',
+                'data' => $anestheticQuestion,
             ],
             Response::HTTP_OK
         );
@@ -91,16 +91,16 @@ class AnaestheticQuestionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\AnaestheticQuestion  $anaestheticQuestion
+     * @param  \App\Models\AnestheticQuestion  $anestheticQuestion
      * @return \Illuminate\Http\Response
      */
-    public function destroy(AnaestheticQuestion $anaestheticQuestion)
+    public function destroy(AnestheticQuestion $anestheticQuestion)
     {
-        $anaestheticQuestion->delete();
+        $anestheticQuestion->delete();
 
         return response()->json(
             [
-                'message' => 'Anaesthetic Question Removed',
+                'message' => 'Anesthetic Question Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

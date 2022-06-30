@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AnaestheticAnswer>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AnestheticAnswer>
  */
-class AnaestheticAnswerFactory extends Factory
+class AnestheticAnswerFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class AnaestheticAnswerFactory extends Factory
     public function definition()
     {
         return [
-            //
-        ];
+                //
+            ];
     }
 }

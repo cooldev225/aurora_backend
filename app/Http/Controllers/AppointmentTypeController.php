@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Response;
 use App\Models\AppointmentType;
 use App\Http\Requests\AppointmentTypeRequest;
 
@@ -14,7 +15,20 @@ class AppointmentTypeController extends Controller
      */
     public function index()
     {
-        //
+        $organization_id = auth()->user()->organization_id;
+
+        $appointmentType = AppointmentType::where(
+            'organization_id',
+            $organization_id
+        )->get();
+
+        return response()->json(
+            [
+                'message' => 'Appointment Type List',
+                'data' => $appointmentType,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -25,7 +39,38 @@ class AppointmentTypeController extends Controller
      */
     public function store(AppointmentTypeRequest $request)
     {
-        //
+        $appointmentType = AppointmentType::create([
+            'type' => $request->type,
+            'color' => $request->color,
+            'mbs_item_number' => $request->mbs_item_number,
+            'mbs_description' => $request->mbs_description,
+            'clinical_code' => $request->clinical_code,
+            'name' => $request->name,
+            'invoice_by' => $request->invoice_by,
+            'arrival_time' => $request->arrival_time,
+            'appointment_time' => $request->appointment_time,
+            'payment_tier_1' => $request->payment_tier_1,
+            'payment_tier_2' => $request->payment_tier_2,
+            'payment_tier_3' => $request->payment_tier_3,
+            'payment_tier_4' => $request->payment_tier_4,
+            'payment_tier_5' => $request->payment_tier_5,
+            'payment_tier_6' => $request->payment_tier_6,
+            'payment_tier_7' => $request->payment_tier_7,
+            'payment_tier_8' => $request->payment_tier_8,
+            'payment_tier_9' => $request->payment_tier_9,
+            'payment_tier_10' => $request->payment_tier_10,
+            'payment_tier_11' => $request->payment_tier_11,
+            'anesthetist_required' => $request->anesthetist_required,
+            'status' => $request->status,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'New Appointment Type created',
+                'data' => $appointmentType,
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -39,7 +84,38 @@ class AppointmentTypeController extends Controller
         AppointmentTypeRequest $request,
         AppointmentType $appointmentType
     ) {
-        //
+        $appointmentType->update([
+            'type' => $request->type,
+            'color' => $request->color,
+            'mbs_item_number' => $request->mbs_item_number,
+            'mbs_description' => $request->mbs_description,
+            'clinical_code' => $request->clinical_code,
+            'name' => $request->name,
+            'invoice_by' => $request->invoice_by,
+            'arrival_time' => $request->arrival_time,
+            'appointment_time' => $request->appointment_time,
+            'payment_tier_1' => $request->payment_tier_1,
+            'payment_tier_2' => $request->payment_tier_2,
+            'payment_tier_3' => $request->payment_tier_3,
+            'payment_tier_4' => $request->payment_tier_4,
+            'payment_tier_5' => $request->payment_tier_5,
+            'payment_tier_6' => $request->payment_tier_6,
+            'payment_tier_7' => $request->payment_tier_7,
+            'payment_tier_8' => $request->payment_tier_8,
+            'payment_tier_9' => $request->payment_tier_9,
+            'payment_tier_10' => $request->payment_tier_10,
+            'payment_tier_11' => $request->payment_tier_11,
+            'anesthetist_required' => $request->anesthetist_required,
+            'status' => $request->status,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'Appointment Type updated',
+                'data' => $appointmentType,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -50,6 +126,13 @@ class AppointmentTypeController extends Controller
      */
     public function destroy(AppointmentType $appointmentType)
     {
-        //
+        $appointmentType->delete();
+
+        return response()->json(
+            [
+                'message' => 'Appointment Type Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
     }
 }

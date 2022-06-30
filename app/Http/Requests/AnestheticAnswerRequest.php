@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProcedureRequest extends FormRequest
+class AnestheticAnswerRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,8 @@ class ProcedureRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'anesthetist_required' => 'required|boolean',
+            'appointment_id' => 'required|numeric',
+            'question_id' => 'required|numeric',
         ];
     }
 }
