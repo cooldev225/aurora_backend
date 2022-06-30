@@ -15,6 +15,6 @@ class ProdaDeviceSeeder extends Seeder
      */
     public function run()
     {
-        ProdaDevice::factory(100)->create();
+        ProdaDevice::factory(15)->create();
     }
 }

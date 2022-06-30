@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ProcedureSeeder extends Seeder
+class AppointmentTypeSeeder extends Seeder
 {
     /**
      * Run the database seeds.

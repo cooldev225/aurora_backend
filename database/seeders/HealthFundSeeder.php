@@ -15,6 +15,6 @@ class HealthFundSeeder extends Seeder
      */
     public function run()
     {
-        HealthFund::factory(100)->create();
+        HealthFund::factory(10)->create();
     }
 }
