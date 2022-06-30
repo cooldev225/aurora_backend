@@ -13,7 +13,7 @@ class SpecialistRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -27,6 +27,7 @@ class SpecialistRequest extends FormRequest
             'employee_id' => 'required|numeric',
             'specialist_title_id' => 'required|numeric',
             'specialist_type_id' => 'required|numeric',
+            'anesthetist_id' => 'required|numeric',
         ];
     }
 }
