@@ -24,7 +24,7 @@ class SpecialistRequest extends FormRequest
     public function rules()
     {
         return [
-            'specialist_id' => 'required|numeric',
+            'employee_id' => 'required|numeric',
             'specialist_title_id' => 'required|numeric',
             'specialist_type_id' => 'required|numeric',
             'anesthetist_id' => 'required|numeric',

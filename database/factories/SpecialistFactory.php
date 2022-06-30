@@ -30,7 +30,7 @@ class SpecialistFactory extends Factory
         $specialist_title = SpecialistTitle::factory()->create();
 
         return [
-            'specialist_id' => $employee->id,
+            'employee_id' => $employee->id,
             'anesthetist_id' => Employee::anesthetists(
                 $organization_id
             )->first()->id,

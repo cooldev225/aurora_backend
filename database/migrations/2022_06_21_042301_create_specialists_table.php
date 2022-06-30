@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('specialists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('specialist_id');
+            $table->foreignId('employee_id');
             $table->foreignId('specialist_title_id');
             $table->foreignId('specialist_type_id');
             $table->foreignId('anesthetist_id')->default(0);

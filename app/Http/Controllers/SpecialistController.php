@@ -53,11 +53,8 @@ class SpecialistController extends Controller
      */
     public function workHours(Request $request)
     {
-        $specialist_title_table = (new SpecialistTitle())->getTable();
         $specialist_table = (new Specialist())->getTable();
         $employee_table = (new Employee())->getTable();
-        $appointment_table = (new Appointment())->getTable();
-        $patient_table = (new Patient())->getTable();
 
         $specialist_list = Specialist::organizationSpecialists();
 
@@ -86,12 +83,16 @@ class SpecialistController extends Controller
             }
 
             $specialist_list = $specialist_list->where(function ($query) use (
-                $day_of_week_list
+                $day_of_week_list,
+                $employee_table
             ) {
                 foreach ($day_of_week_list as $day_of_week) {
-                    $query->orWhereJsonContains('work_hours', [
-                        $day_of_week => ['available' => true],
-                    ]);
+                    $query->orWhereJsonContains(
+                        $employee_table . '.work_hours',
+                        [
+                            $day_of_week => ['available' => true],
+                        ]
+                    );
                 }
             });
         }
@@ -109,13 +110,6 @@ class SpecialistController extends Controller
         }
 
         $specialists = $specialist_list
-            ->select(
-                $specialist_table . '.id',
-                DB::raw(
-                    "concat({$specialist_title_table}.name, ' ', first_name, ' ', last_name) AS name"
-                ),
-                'work_hours'
-            )
             ->limit(10)
             ->get()
             ->toArray();
@@ -130,31 +124,7 @@ class SpecialistController extends Controller
             }
         }
 
-        $appointments = Specialist::select(
-            'patient_id',
-            $patient_table . '.first_name',
-            $patient_table . '.last_name',
-            'specialist_id',
-            'anesthetist_id',
-            'date',
-            'start_time',
-            'end_time',
-            'confirmation_status',
-            'attendance_status',
-            'payment_status'
-        )
-            ->rightJoin(
-                $appointment_table,
-                'specialist_id',
-                '=',
-                $specialist_table . '.id'
-            )
-            ->leftJoin(
-                $patient_table,
-                'patient_id',
-                '=',
-                $patient_table . '.id'
-            )
+        $appointments = Specialist::withAppointments()
             ->whereIn('specialist_id', $specialist_ids)
             ->where('date', $date)
             ->get()
@@ -188,7 +158,7 @@ class SpecialistController extends Controller
     public function store(SpecialistRequest $request)
     {
         $specialist = Specialist::create([
-            'specialist_id' => $request->specialist_id,
+            'employee_id' => $request->employee_id,
             'specialist_title_id' => $request->specialist_title_id,
             'specialist_type_id' => $request->specialist_type_id,
             'anesthetist_id' => $request->anesthetist_id,
@@ -213,7 +183,7 @@ class SpecialistController extends Controller
     public function update(SpecialistRequest $request, Specialist $specialist)
     {
         $specialist->update([
-            'specialist_id' => $request->specialist_id,
+            'employee_id' => $request->employee_id,
             'specialist_title_id' => $request->specialist_title_id,
             'specialist_type_id' => $request->specialist_type_id,
             'anesthetist_id' => $request->anesthetist_id,
