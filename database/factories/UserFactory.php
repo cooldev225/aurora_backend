@@ -2,11 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\UserRole;
-use App\Models\Organization;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\UserRole;
+use App\Models\Organization;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -20,12 +20,12 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-        $organziation = Organization::inRandomOrder()->first();
+        $organization = Organization::inRandomOrder()->first();
 
-        if (empty($organziation)) {
+        if (empty($organization)) {
             $organization_id = 0;
         } else {
-            $organization_id = $organziation->id;
+            $organization_id = $organization->id;
         }
 
         return [

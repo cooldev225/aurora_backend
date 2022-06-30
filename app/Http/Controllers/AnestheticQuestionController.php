@@ -20,13 +20,36 @@ class AnestheticQuestionController extends Controller
         $anesthetic_questions = AnestheticQuestion::where(
             'organization_id',
             $organization_id
-        )
-            ->where('status', 'enable')
-            ->get();
+        )->get();
 
         return response()->json(
             [
                 'message' => 'Anesthetic Question List',
+                'data' => $anesthetic_questions,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function activeQuestions()
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $anesthetic_questions = AnestheticQuestion::where(
+            'organization_id',
+            $organization_id
+        )
+            ->where('status', 'enabled')
+            ->get();
+
+        return response()->json(
+            [
+                'message' => 'Active Anesthetic Question List',
                 'data' => $anesthetic_questions,
             ],
             Response::HTTP_OK
@@ -46,7 +69,6 @@ class AnestheticQuestionController extends Controller
         $anestheticQuestion = AnestheticQuestion::create([
             'question' => $request->question,
             'organization_id' => $organization_id,
-            'clinic_id' => $request->clinic_id,
             'status' => $request->status,
         ]);
 
@@ -75,7 +97,6 @@ class AnestheticQuestionController extends Controller
         $anestheticQuestion->update([
             'question' => $request->question,
             'organization_id' => $organization_id,
-            'clinic_id' => $request->clinic_id,
             'status' => $request->status,
         ]);
 

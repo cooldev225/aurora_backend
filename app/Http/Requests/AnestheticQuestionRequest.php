@@ -25,7 +25,6 @@ class AnestheticQuestionRequest extends FormRequest
     {
         return [
             'organization_id' => 'required|numeric',
-            'clinic_id' => 'required|numeric',
         ];
     }
 }

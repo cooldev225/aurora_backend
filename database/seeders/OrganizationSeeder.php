@@ -15,10 +15,10 @@ class OrganizationSeeder extends Seeder
      */
     public function run()
     {
-        $all_arganizations = Organization::factory(2)->create();
+        $all_organizations = Organization::factory(2)->create();
 
-        # assign user_organization of organziation
-        foreach ($all_arganizations as $org) {
+        # assign user_organization of organization
+        foreach ($all_organizations as $org) {
             $user = $org->owner();
 
             $user->organization_id = $org->id;

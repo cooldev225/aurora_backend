@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\AnestheticQuestion;
 
 class AnestheticQuestionSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class AnestheticQuestionSeeder extends Seeder
      */
     public function run()
     {
-        //
+        AnestheticQuestion::factory(20)->create();
     }
 }

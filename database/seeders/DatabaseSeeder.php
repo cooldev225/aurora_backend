@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             PatientOrganizationSeeder::class,
             AppointmentSeeder::class,
             HealthFundSeeder::class,
+            AnestheticQuestionSeeder::class,
         ]);
     }
 }

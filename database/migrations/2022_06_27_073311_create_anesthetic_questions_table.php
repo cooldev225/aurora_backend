@@ -15,9 +15,8 @@ return new class extends Migration {
         Schema::create('anesthetic_questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id');
-            $table->foreignId('clinic_id');
             $table->string('question');
-            $table->enum('status', ['enable', 'diable'])->default('enable');
+            $table->enum('status', ['Enabled', 'Disabled'])->default('Enabled');
             $table->timestamps();
         });
     }

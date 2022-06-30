@@ -103,9 +103,9 @@ Route::middleware(['auth'])->group(function () {
             'anesthetists',
         ]);
         Route::get('/health-funds', [HealthFundController::class, 'index']);
-        Route::get('/anesthetic-questions', [
+        Route::get('/active-anesthetic-questions', [
             AnestheticQuestionController::class,
-            'index',
+            'activeQuestions',
         ]);
     });
 });
