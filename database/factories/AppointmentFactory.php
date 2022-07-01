@@ -59,6 +59,7 @@ class AppointmentFactory extends Factory
             'arrival_time' => $arrival_time,
             'start_time' => $start_time,
             'end_time' => $end_time,
+            'skip_coding' => mt_rand(1, 2) == 1 ? true : false,
         ];
     }
 }

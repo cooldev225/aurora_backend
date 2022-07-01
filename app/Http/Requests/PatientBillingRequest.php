@@ -25,13 +25,11 @@ class PatientBillingRequest extends FormRequest
     {
         return [
             'patient_id' => 'required|numeric',
-            'appointment_id' => 'required|numeric',
             'medicare_expiry_date' => 'date',
             'concession_expiry_date' => 'date',
             'pension_expiry_date' => 'date',
             'healthcare_card_expiry_date' => 'date',
             'health_fund_id' => 'required|numeric',
-            'skip_coding' => 'boolean',
         ];
     }
 }

@@ -41,6 +41,7 @@ class AppointmentRequest extends FormRequest
             'actual_end_time' => 'required',
             'charge_type' => 'required',
             'is_waitlisted' => 'required|boolean',
+            'skip_coding' => 'required|boolean',
         ];
     }
 }

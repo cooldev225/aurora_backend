@@ -40,7 +40,6 @@ class PatientBillingController extends Controller
     {
         $patientBilling = PatientBilling::create([
             'patient_id' => $request->patient_id,
-            'appointment_id' => $request->appointment_id,
             'charge_type' => $request->charge_type,
             'medicare_number' => $request->medicare_number,
             'medicare_expiry_date' => $request->medicare_expiry_date,
@@ -52,8 +51,6 @@ class PatientBillingController extends Controller
             'healthcare_card_expiry_date' =>
                 $request->healthcare_card_expiry_date,
             'health_fund_id' => $request->health_fund_id,
-            'note' => $request->note,
-            'skip_coding' => $request->skip_coding,
         ]);
 
         return response()->json(
@@ -78,7 +75,6 @@ class PatientBillingController extends Controller
     ) {
         $patientBilling->update([
             'patient_id' => $request->patient_id,
-            'appointment_id' => $request->appointment_id,
             'charge_type' => $request->charge_type,
             'medicare_number' => $request->medicare_number,
             'medicare_expiry_date' => $request->medicare_expiry_date,
@@ -90,8 +86,6 @@ class PatientBillingController extends Controller
             'healthcare_card_expiry_date' =>
                 $request->healthcare_card_expiry_date,
             'health_fund_id' => $request->health_fund_id,
-            'note' => $request->note,
-            'skip_coding' => $request->skip_coding,
         ]);
 
         return response()->json(

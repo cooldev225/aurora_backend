@@ -32,5 +32,6 @@ class Appointment extends Model
         'actual_end_time',
         'charge_type',
         'payment_status',
+        'skip_coding',
     ];
 }

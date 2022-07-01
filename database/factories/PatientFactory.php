@@ -18,6 +18,7 @@ class PatientFactory extends Factory
     public function definition()
     {
         return [
+            'UR_number' => $this->faker->numerify('AA####'),
             'title' => $this->faker->title(),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
@@ -34,7 +35,7 @@ class PatientFactory extends Factory
             'country_of_birth' => $this->faker->country(),
             'birth_state' => $this->faker->state(),
             'allergies' => $this->faker->sentence(),
-            'aborginality' => mt_rand(0, 100),
+            'aborginality' => mt_rand(1, 2) == 1 ? true : false,
             'occupation' => $this->faker->word(),
             'height' => mt_rand(170, 200),
             'weight' => mt_rand(50, 120),

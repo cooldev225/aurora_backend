@@ -14,6 +14,7 @@ return new class extends Migration {
     {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
+            $table->string('UR_number')->nullable();
             $table->string('title')->nullable();
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
@@ -41,7 +42,7 @@ return new class extends Migration {
             $table->string('country_of_birth')->nullable();
             $table->string('birth_state')->nullable();
             $table->string('allergies')->nullable();
-            $table->integer('aborginality')->default(0);
+            $table->boolean('aborginality')->default(0);
             $table->string('occupation')->nullable();
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();

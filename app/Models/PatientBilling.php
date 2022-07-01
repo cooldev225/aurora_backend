@@ -11,7 +11,6 @@ class PatientBilling extends Model
 
     protected $fillable = [
         'patient_id',
-        'appointment_id',
         'charge_type',
         'medicare_number',
         'medicare_expiry_date',
@@ -22,7 +21,5 @@ class PatientBilling extends Model
         'healthcare_card_number',
         'healthcare_card_expiry_date',
         'health_fund_id',
-        'note',
-        'skip_coding',
     ];
 }

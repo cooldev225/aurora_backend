@@ -111,6 +111,7 @@ class AppointmentController extends Controller
             'actual_end_time' => $request->actual_end_time,
             'charge_type' => $request->charge_type,
             'is_waitlisted' => $request->is_waitlisted,
+            'skip_coding' => $request->skip_coding,
         ]);
 
         return response()->json(
@@ -157,6 +158,7 @@ class AppointmentController extends Controller
             'actual_end_time' => $request->actual_end_time,
             'charge_type' => $request->charge_type,
             'is_waitlisted' => $request->is_waitlisted,
+            'skip_coding' => $request->skip_coding,
         ]);
 
         return response()->json(
