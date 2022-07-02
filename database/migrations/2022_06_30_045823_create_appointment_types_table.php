@@ -19,7 +19,7 @@ return new class extends Migration {
                 ->enum('type', ['Consultation', 'Procedure'])
                 ->default('Procedure');
             $table->string('color');
-            $table->string('mbs_item_number');
+            $table->string('mbs_code');
             $table->string('mbs_description')->nullable();
             $table->string('clinical_code');
             $table->string('name');

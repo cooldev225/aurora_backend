@@ -13,7 +13,7 @@ class AppointmentType extends Model
         'organization_id',
         'type',
         'color',
-        'mbs_item_number',
+        'mbs_code',
         'mbs_description',
         'clinical_code',
         'name',

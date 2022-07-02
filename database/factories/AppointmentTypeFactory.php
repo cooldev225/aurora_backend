@@ -24,7 +24,7 @@ class AppointmentTypeFactory extends Factory
                 'Procedure',
             ]),
             'color' => $this->faker->hexcolor(),
-            'mbs_item_number' => $this->faker->numberBetween(1000, 12345),
+            'mbs_code' => $this->faker->numberBetween(1000, 12345),
             'clinical_code' => $this->faker->numberBetween(1234567, 3234567),
             'name' => $this->faker->catchPhrase(),
             'invoice_by' => $this->faker->randomElement([
