@@ -122,6 +122,14 @@ class SpecialistController extends Controller
             foreach ($day_of_week_list as $day_of_week) {
                 $specialists[$key]['work_hours'] = $temp[$day_of_week];
             }
+
+            $specialists[$key]['anesthetist'] = [
+                'id' => $specialist['anesthetist_id'],
+                'name' => $specialist['anesthetist_name'],
+            ];
+
+            unset($specialists[$key]['anesthetist_id']);
+            unset($specialists[$key]['anesthetist_name']);
         }
 
         $appointments = Specialist::withAppointments()
