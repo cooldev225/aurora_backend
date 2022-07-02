@@ -20,12 +20,13 @@ class ClinicController extends Controller
         $proda_device_table = (new ProdaDevice())->getTable();
         $clinic_table = (new Clinic())->getTable();
 
-        $clinics = Clinic::leftJoin(
-            $proda_device_table,
-            'clinic_id',
-            '=',
-            $clinic_table . '.id'
-        )
+        $clinics = Clinic::select('*', "{$clinic_table}.id")
+            ->leftJoin(
+                $proda_device_table,
+                'clinic_id',
+                '=',
+                $clinic_table . '.id'
+            )
             ->where('organization_id', $organization_id)
             ->get();
 
