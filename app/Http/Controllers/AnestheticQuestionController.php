@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use App\Models\AnestheticQuestion;
 use App\Http\Requests\AnestheticQuestionRequest;
 
@@ -13,43 +14,24 @@ class AnestheticQuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $organization_id = auth()->user()->organization_id;
 
         $anesthetic_questions = AnestheticQuestion::where(
             'organization_id',
             $organization_id
-        )->get();
+        );
+
+        if ($request->has('status')) {
+            $anesthetic_questions->where('status', $request->status);
+        }
+
+        $anesthetic_questions = $anesthetic_questions->get();
 
         return response()->json(
             [
                 'message' => 'Anesthetic Question List',
-                'data' => $anesthetic_questions,
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * Get a listing of active questions.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function activeQuestions()
-    {
-        $organization_id = auth()->user()->organization_id;
-
-        $anesthetic_questions = AnestheticQuestion::where(
-            'organization_id',
-            $organization_id
-        )
-            ->where('status', 'enabled')
-            ->get();
-
-        return response()->json(
-            [
-                'message' => 'Active Anesthetic Question List',
                 'data' => $anesthetic_questions,
             ],
             Response::HTTP_OK

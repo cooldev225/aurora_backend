@@ -10,6 +10,7 @@ class AppointmentType extends Model
     use HasFactory;
 
     protected $fillable = [
+        'organization_id',
         'type',
         'color',
         'mbs_item_number',

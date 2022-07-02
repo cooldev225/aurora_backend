@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use App\Models\ProcedureQuestion;
 use App\Http\Requests\ProcedureQuestionRequest;
 
@@ -13,43 +14,24 @@ class ProcedureQuestionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $organization_id = auth()->user()->organization_id;
 
         $procedure_questions = ProcedureQuestion::where(
             'organization_id',
             $organization_id
-        )->get();
+        );
+
+        if ($request->has('status')) {
+            $procedure_questions->where('status', $request->status);
+        }
+
+        $procedure_questions = $procedure_questions->get();
 
         return response()->json(
             [
                 'message' => 'Procedure Question List',
-                'data' => $procedure_questions,
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * Get a listing of active questions.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function activeQuestions()
-    {
-        $organization_id = auth()->user()->organization_id;
-
-        $procedure_questions = ProcedureQuestion::where(
-            'organization_id',
-            $organization_id
-        )
-            ->where('status', 'enabled')
-            ->get();
-
-        return response()->json(
-            [
-                'message' => 'Active Procedure Question List',
                 'data' => $procedure_questions,
             ],
             Response::HTTP_OK

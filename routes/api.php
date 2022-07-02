@@ -105,6 +105,10 @@ Route::middleware(['auth'])->group(function () {
     ])->group(function () {
         Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
         Route::apiResource('appointments', AppointmentController::class);
+        Route::get('/appointment-types', [
+            AppointmentTypeController::class,
+            'index',
+        ]);
         Route::get('/work-hours', [SpecialistController::class, 'workHours']);
         Route::get('/clinics', [ClinicController::class, 'index']);
         Route::get('/anesthetists', [
@@ -112,13 +116,13 @@ Route::middleware(['auth'])->group(function () {
             'anesthetists',
         ]);
         Route::get('/health-funds', [HealthFundController::class, 'index']);
-        Route::get('/active-anesthetic-questions', [
+        Route::get('/anesthetic-questions', [
             AnestheticQuestionController::class,
-            'activeQuestions',
+            'index',
         ]);
-        Route::get('/active-procedure-questions', [
+        Route::get('/procedure-questions', [
             ProcedureQuestionController::class,
-            'activeQuestions',
+            'index',
         ]);
     });
 });

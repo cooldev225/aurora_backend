@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use App\Models\AppointmentType;
 use App\Http\Requests\AppointmentTypeRequest;
 
@@ -13,19 +14,25 @@ class AppointmentTypeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $organization_id = auth()->user()->organization_id;
 
-        $appointmentType = AppointmentType::where(
+        $appointmentTypes = AppointmentType::where(
             'organization_id',
             $organization_id
-        )->get();
+        );
+
+        if ($request->has('status')) {
+            $appointmentTypes->where('status', $request->status);
+        }
+
+        $appointmentTypes = $appointmentTypes->get();
 
         return response()->json(
             [
                 'message' => 'Appointment Type List',
-                'data' => $appointmentType,
+                'data' => $appointmentTypes,
             ],
             Response::HTTP_OK
         );
@@ -39,7 +46,10 @@ class AppointmentTypeController extends Controller
      */
     public function store(AppointmentTypeRequest $request)
     {
+        $organization_id = auth()->user()->organization_id;
+
         $appointmentType = AppointmentType::create([
+            'organization_id' => $organization_id,
             'type' => $request->type,
             'color' => $request->color,
             'mbs_item_number' => $request->mbs_item_number,
@@ -84,7 +94,10 @@ class AppointmentTypeController extends Controller
         AppointmentTypeRequest $request,
         AppointmentType $appointmentType
     ) {
+        $organization_id = auth()->user()->organization_id;
+
         $appointmentType->update([
+            'organization_id' => $organization_id,
             'type' => $request->type,
             'color' => $request->color,
             'mbs_item_number' => $request->mbs_item_number,

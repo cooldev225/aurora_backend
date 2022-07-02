@@ -33,9 +33,9 @@ return new class extends Migration {
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->string('specimen_collection_point_number')->nullable();
             $table->string('footnote_signature')->nullable();
-            $table->string('default_start_time')->nullable();
-            $table->string('default_end_time')->nullable();
-            $table->string('default_meal_time')->nullable();
+            $table->time('default_start_time')->nullable();
+            $table->time('default_end_time')->nullable();
+            $table->integer('default_meal_time')->nullable();
             $table->string('latest_invoice_no')->nullable();
             $table->string('latest_invoice_pathology_no')->nullable();
             $table->string('centre_serial_no')->nullable();
