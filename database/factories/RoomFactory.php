@@ -18,9 +18,11 @@ class RoomFactory extends Factory
      */
     public function definition()
     {
+        $clinic = Clinic::inRandomOrder()->first();
+
         return [
-            'organization_id' => Organization::inRandomOrder()->first()->id,
-            'clinic_id' => Clinic::inRandomOrder()->first()->id,
+            'organization_id' => $clinic->organization_id,
+            'clinic_id' => $clinic->id,
             'name' => $this->faker->word(),
         ];
     }

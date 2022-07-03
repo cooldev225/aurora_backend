@@ -33,8 +33,8 @@ class AppointmentFactory extends Factory
 
         $arrival_time = $start_time;
 
-        $patient = Patient::inRandomOrder()->first();
         $organization_id = Organization::inRandomOrder()->first()->id;
+        $patient = Patient::inRandomOrder()->first();
 
         return [
             'patient_id' => $patient->id,

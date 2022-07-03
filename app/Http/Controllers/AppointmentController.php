@@ -24,7 +24,7 @@ class AppointmentController extends Controller
     {
         $patient_table = (new Patient())->getTable();
         $clinic_table = (new Clinic())->getTable();
-        $procedure_table = (new Procedure())->getTable();
+        $appointment_type_table = (new AppointmentType())->getTable();
         $specialist_table = (new Specialist())->getTable();
         $room_table = (new Room())->getTable();
 
@@ -36,10 +36,10 @@ class AppointmentController extends Controller
         )
             ->leftJoin($clinic_table, 'clinic_id', '=', $clinic_table . '.id')
             ->leftJoin(
-                $procedure_table,
+                $appointment_type_table,
                 'appointment_type_id',
                 '=',
-                $procedure_table . '.id'
+                $appointment_type_table . '.id'
             )
             ->leftJoin(
                 $specialist_table,
