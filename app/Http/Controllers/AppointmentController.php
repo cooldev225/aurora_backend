@@ -223,6 +223,7 @@ class AppointmentController extends Controller
 
         $date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
         $date = date('Y-m-d', strtotime($request->date));
+        $referral_date = date('Y-m-d', strtotime($request->referral_date));
 
         $health_fund_card_expiry_date = date(
             'Y-m-d',
@@ -307,7 +308,7 @@ class AppointmentController extends Controller
             'referring_doctor_id' => $request->referring_doctor_id,
             'is_no_referral' => $is_no_referral,
             'no_referral_reason' => $request->no_referral_reason,
-            'referral_date' => $request->referral_date,
+            'referral_date' => $referral_date,
             'referral_expiry_date' => $request->referral_expiry_date,
             'note' => $request->note,
             'important_details' => $request->important_details,
