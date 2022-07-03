@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignId('employee_id');
             $table->foreignId('specialist_title_id');
             $table->foreignId('specialist_type_id');
-            $table->foreignId('anesthetist_id')->default(0);
+            $table->foreignId('anesthetist_id')->nullable();
             $table->timestamps();
         });
     }

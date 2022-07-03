@@ -15,9 +15,6 @@ return new class extends Migration {
         Schema::create('patient_billings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id');
-            $table
-                ->enum('charge_type', ['full-charge', 'other'])
-                ->default('full-charge');
             $table->string('medicare_number')->nullable();
             $table->date('medicare_expiry_date')->nullable();
             $table->string('concession_number')->nullable();
@@ -26,10 +23,10 @@ return new class extends Migration {
             $table->date('pension_expiry_date')->nullable();
             $table->string('healthcare_card_number')->nullable();
             $table->date('healthcare_card_expiry_date')->nullable();
-            $table->foreignId('health_fund_id')->default(0);
+            $table->foreignId('health_fund_id');
             $table->string('health_fund_membership_number');
             $table->date('health_fund_card_expiry_date');
-            $table->float('fund_excess')->default(0);
+            $table->float('fund_excess')->nullable();
             $table->timestamps();
         });
     }

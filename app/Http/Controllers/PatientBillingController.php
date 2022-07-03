@@ -40,7 +40,6 @@ class PatientBillingController extends Controller
     {
         $patientBilling = PatientBilling::create([
             'patient_id' => $request->patient_id,
-            'charge_type' => $request->charge_type,
             'medicare_number' => $request->medicare_number,
             'medicare_expiry_date' => $request->medicare_expiry_date,
             'concession_number' => $request->concession_number,
@@ -80,7 +79,6 @@ class PatientBillingController extends Controller
     ) {
         $patientBilling->update([
             'patient_id' => $request->patient_id,
-            'charge_type' => $request->charge_type,
             'medicare_number' => $request->medicare_number,
             'medicare_expiry_date' => $request->medicare_expiry_date,
             'concession_number' => $request->concession_number,

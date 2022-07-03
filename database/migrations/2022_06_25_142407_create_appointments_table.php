@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignId('patient_id');
             $table->foreignId('organization_id');
             $table->foreignId('clinic_id');
-            $table->foreignId('appointment_type_id')->default(0);
+            $table->foreignId('appointment_type_id')->nullable();
             $table->foreignId('primary_pathologist_id');
             $table->foreignId('specialist_id')->index();
             $table->foreignId('room_id');

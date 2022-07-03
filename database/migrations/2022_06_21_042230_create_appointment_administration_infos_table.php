@@ -16,10 +16,9 @@ return new class extends Migration {
             Blueprint $table
         ) {
             $table->id();
-            $table->foreignId('patient_id');
             $table->foreignId('appointment_id')->index();
-            $table->foreignId('referring_doctor_id');
-            $table->boolean('is_no_referral');
+            $table->foreignId('referring_doctor_id')->nullable();
+            $table->boolean('is_no_referral')->default(true);
             $table
                 ->enum('no_referral_reason', [
                     'emergency',
@@ -27,9 +26,10 @@ return new class extends Migration {
                     'lost_unavailable',
                     'not_required',
                 ])
-                ->default('emergency');
-            $table->date('referral_date');
-            $table->date('referral_expiry_date');
+                ->default('emergency')
+                ->nullable();
+            $table->date('referral_date')->nullable();
+            $table->date('referral_expiry_date')->nullable();
             $table->text('note')->nullable();
             $table->text('important_details')->nullable();
             $table->text('clinical_alerts')->nullable();

@@ -44,7 +44,7 @@ return new class extends Migration {
             $table->string('country_of_birth')->nullable();
             $table->string('birth_state')->nullable();
             $table->string('allergies')->nullable();
-            $table->boolean('aborginality')->default(0);
+            $table->boolean('aborginality')->default(false);
             $table->string('occupation')->nullable();
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();

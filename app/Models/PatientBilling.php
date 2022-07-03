@@ -11,7 +11,6 @@ class PatientBilling extends Model
 
     protected $fillable = [
         'patient_id',
-        'charge_type',
         'medicare_number',
         'medicare_expiry_date',
         'concession_number',
