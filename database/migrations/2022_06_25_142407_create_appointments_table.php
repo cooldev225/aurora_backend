@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->foreignId('clinic_id');
             $table->foreignId('appointment_type_id')->default(0);
             $table->foreignId('primary_pathologist_id');
-            $table->foreignId('specialist_id');
+            $table->foreignId('specialist_id')->index();
             $table->foreignId('room_id');
             $table->foreignId('anesthetist_id');
             $table->integer('reference_number')->default(0);
@@ -71,6 +71,8 @@ return new class extends Migration {
                 ->enum('payment_status', ['pending', 'paid', 'failed'])
                 ->default('pending');
             $table->boolean('skip_coding')->default(false);
+            $table->json('anesthetic_answers')->nullable();
+            $table->json('procedure_answers')->nullable();
             $table->timestamps();
         });
     }

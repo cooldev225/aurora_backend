@@ -27,8 +27,8 @@ class AppointmentAdministrationInfoRequest extends FormRequest
             'appointment_id' => 'required|numeric',
             'referring_doctor_id' => 'required|numeric',
             'is_no_referral' => 'required|boolean',
-            'referal_date' => 'date',
-            'referal_expiry_date' => 'date',
+            'referral_date' => 'date',
+            'referral_expiry_date' => 'date',
         ];
     }
 }

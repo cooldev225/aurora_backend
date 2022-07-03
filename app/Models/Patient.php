@@ -15,7 +15,9 @@ class Patient extends Model
         'first_name',
         'last_name',
         'email',
-        'phone_number',
+        'home_number',
+        'work_number',
+        'mobile_number',
         'gender',
         'date_of_birth',
         'address',
@@ -47,5 +49,13 @@ class Patient extends Model
         return $this->hasMany(PatientOrganization::class)
             ->where('organization_id', $organization_id)
             ->first();
+    }
+
+    /**
+     * Return Patient Billing
+     */
+    public function billing()
+    {
+        return $this->hasOne(PatientBilling::class, 'patient_id')->first();
     }
 }

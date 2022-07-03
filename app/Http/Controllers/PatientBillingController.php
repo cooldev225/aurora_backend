@@ -51,6 +51,11 @@ class PatientBillingController extends Controller
             'healthcare_card_expiry_date' =>
                 $request->healthcare_card_expiry_date,
             'health_fund_id' => $request->health_fund_id,
+            'health_fund_membership_number' =>
+                $request->health_fund_membership_number,
+            'health_fund_card_expiry_date' =>
+                $request->health_fund_card_expiry_date,
+            'fund_excess' => $request->fund_excess,
         ]);
 
         return response()->json(
@@ -86,6 +91,11 @@ class PatientBillingController extends Controller
             'healthcare_card_expiry_date' =>
                 $request->healthcare_card_expiry_date,
             'health_fund_id' => $request->health_fund_id,
+            'health_fund_membership_number' =>
+                $request->health_fund_membership_number,
+            'health_fund_card_expiry_date' =>
+                $request->health_fund_card_expiry_date,
+            'fund_excess' => $request->fund_excess,
         ]);
 
         return response()->json(

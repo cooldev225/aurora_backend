@@ -16,7 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('appointment_id');
             $table->foreignId('question_id');
-            $table->string('answer');
+            $table->boolean('answer');
             $table->timestamps();
         });
     }

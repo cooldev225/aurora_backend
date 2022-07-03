@@ -17,7 +17,7 @@ return new class extends Migration {
         ) {
             $table->id();
             $table->foreignId('patient_id');
-            $table->foreignId('appointment_id');
+            $table->foreignId('appointment_id')->index();
             $table->foreignId('referring_doctor_id');
             $table->boolean('is_no_referral');
             $table
@@ -28,8 +28,8 @@ return new class extends Migration {
                     'not_required',
                 ])
                 ->default('emergency');
-            $table->date('referal_date');
-            $table->date('referal_expiry_date');
+            $table->date('referral_date');
+            $table->date('referral_expiry_date');
             $table->text('note')->nullable();
             $table->text('important_details')->nullable();
             $table->text('clinical_alerts')->nullable();

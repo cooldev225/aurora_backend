@@ -34,4 +34,23 @@ class Appointment extends Model
         'payment_status',
         'skip_coding',
     ];
+
+    /**
+     * Return Patient
+     */
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class, 'patient_id')->first();
+    }
+
+    /**
+     * Return AppointmentAdministrationInfo
+     */
+    public function administrationInfo()
+    {
+        return $this->hasOne(
+            AppointmentAdministrationInfo::class,
+            'appointment_id'
+        )->first();
+    }
 }
