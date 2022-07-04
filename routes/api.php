@@ -24,6 +24,8 @@ use App\Http\Controllers\SpecialistTypeController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\NotificationTemplateController;
+use App\Http\Controllers\PatientRecallController;
 
 /*
 |--------------------------------------------------------------------------
@@ -94,9 +96,17 @@ Route::middleware(['auth'])->group(function () {
             'appointment-types',
             AppointmentTypeController::class
         );
+        Route::apiResource(
+            'notification-templates',
+            NotificationTemplateController::class
+        );
         Route::get('/employee-roles', [
             UserRoleController::class,
             'employeeRoles',
+        ]);
+        Route::get('/patient-recalls', [
+            PatientRecallController::class,
+            'index',
         ]);
     });
 

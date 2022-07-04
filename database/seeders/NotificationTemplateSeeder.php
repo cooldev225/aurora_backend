@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\Clinic;
 
-class ClinicSeeder extends Seeder
+class NotificationTemplateSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,7 +14,6 @@ class ClinicSeeder extends Seeder
      */
     public function run()
     {
-        Clinic::factory(2)->create(['organization_id' => 1]);
-        Clinic::factory(2)->create(['organization_id' => 2]);
+        //
     }
 }

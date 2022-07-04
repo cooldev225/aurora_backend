@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->date('pension_expiry_date')->nullable();
             $table->string('healthcare_card_number')->nullable();
             $table->date('healthcare_card_expiry_date')->nullable();
-            $table->foreignId('health_fund_id');
+            $table->foreignId('health_fund_id')->nullable();
             $table->string('health_fund_membership_number');
             $table->date('health_fund_card_expiry_date');
             $table->float('fund_excess')->nullable();
