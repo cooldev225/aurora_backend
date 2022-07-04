@@ -98,7 +98,7 @@ class Specialist extends Model
         $patient_table = (new Patient())->getTable();
         $specialist_table = (new Specialist())->getTable();
         $appointment_administration_info_table = (new AppointmentAdministrationInfo())->getTable();
-        $patient_billing_table = (new patientBilling())->getTable();
+        $patient_billing_table = (new PatientBilling())->getTable();
 
         $appointments = self::select('*', "{$appointment_table}.id")
             ->rightJoin(
