@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use App\Models\AppointmentAdministrationInfo;
 
 class AppointmentAdministrationInfoSeeder extends Seeder
 {
@@ -14,6 +15,6 @@ class AppointmentAdministrationInfoSeeder extends Seeder
      */
     public function run()
     {
-        //
+        AppointmentAdministrationInfo::factory(1)->create();
     }
 }

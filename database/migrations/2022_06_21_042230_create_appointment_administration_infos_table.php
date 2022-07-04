@@ -38,8 +38,8 @@ return new class extends Migration {
             $table->boolean('recurring_appointment')->default(false);
             $table->string('recent_service')->nullable();
             $table->string('outstanding_balance')->nullable();
-            $table->string('further_details')->nullable();
-            $table->string('fax_comment')->nullable();
+            $table->text('further_details')->nullable();
+            $table->text('fax_comment')->nullable();
             $table->text('anything_should_aware')->nullable();
             $table->string('collecting_person_name')->nullable();
             $table->string('collecting_person_phone')->nullable();
