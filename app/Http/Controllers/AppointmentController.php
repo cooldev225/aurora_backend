@@ -29,8 +29,9 @@ class AppointmentController extends Controller
         $appointment_type_table = (new AppointmentType())->getTable();
         $specialist_table = (new Specialist())->getTable();
         $room_table = (new Room())->getTable();
+        $appointment_table = (new Appointment())->getTable();
 
-        $appointmentList = Appointment::leftJoin(
+        $appointments = Appointment::leftJoin(
             $patient_table,
             'patient_id',
             '=',
@@ -53,17 +54,18 @@ class AppointmentController extends Controller
             ->where(
                 $clinic_table . '.organization_id',
                 auth()->user()->organization_id
-            );
-
-        $appointments = [];
+            )
+            ->orderByDesc("{$appointment_table}.date");
 
         if ($request->has('clinic_id')) {
-            $appointments = $appointmentList
-                ->where('clinic_id', $request->input('clinic_id'))
-                ->get();
-        } else {
-            $appointments = $appointmentList->get();
+            $appointments->where('clinic_id', $request->clinic_id);
         }
+
+        if ($request->has('status')) {
+            $appointments->where('confirmation_status', $request->status);
+        }
+
+        $appointments = $appointments->get();
 
         return response()->json(
             [
