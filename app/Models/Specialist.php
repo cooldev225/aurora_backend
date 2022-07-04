@@ -97,30 +97,28 @@ class Specialist extends Model
         $appointment_table = (new Appointment())->getTable();
         $patient_table = (new Patient())->getTable();
         $specialist_table = (new Specialist())->getTable();
+        $appointment_administration_info_table = (new AppointmentAdministrationInfo())->getTable();
+        $patient_billing_table = (new patientBilling())->getTable();
 
-        $appointments = self::select(
-            'patient_id',
-            $patient_table . '.first_name',
-            $patient_table . '.last_name',
-            'specialist_id',
-            'date',
-            'start_time',
-            'end_time',
-            'confirmation_status',
-            'attendance_status',
-            'payment_status'
-        )
+        $appointments = self::select('*', "{$appointment_table}.id")
             ->rightJoin(
                 $appointment_table,
                 'specialist_id',
                 '=',
-                $specialist_table . '.id'
+                "{$specialist_table}.id"
+            )
+            ->leftJoin($patient_table, 'patient_id', '=', "{$patient_table}.id")
+            ->leftJoin(
+                $patient_billing_table,
+                "{$patient_table}.id",
+                '=',
+                "{$patient_billing_table}.patient_id"
             )
             ->leftJoin(
-                $patient_table,
-                'patient_id',
+                $appointment_administration_info_table,
+                'appointment_id',
                 '=',
-                $patient_table . '.id'
+                "{$appointment_table}.id"
             );
 
         return $appointments;

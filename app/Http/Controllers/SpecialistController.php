@@ -132,6 +132,8 @@ class SpecialistController extends Controller
             unset($specialists[$key]['anesthetist_name']);
         }
 
+        $date = date('Y-m-d', strtotime($date));
+
         $appointments = Specialist::withAppointments()
             ->whereIn('specialist_id', $specialist_ids)
             ->where('date', $date)
