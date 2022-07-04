@@ -15,6 +15,6 @@ class AppointmentAdministrationInfoSeeder extends Seeder
      */
     public function run()
     {
-        AppointmentAdministrationInfo::factory(1)->create();
+        AppointmentAdministrationInfo::factory(10)->create();
     }
 }
