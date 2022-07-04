@@ -15,6 +15,7 @@ class AppointmentAdministrationInfo extends Model
         'is_no_referral',
         'no_referral_reason',
         'referral_date',
+        'referral_duration',
         'referral_expiry_date',
         'note',
         'important_details',

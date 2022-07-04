@@ -45,24 +45,15 @@ class AppointmentController extends Controller
             )
             ->leftJoin(
                 $specialist_table,
-                'primary_pathologist_id',
-                '=',
-                $specialist_table . '.id'
-            )
-            ->leftJoin(
-                $specialist_table,
                 'specialist_id',
                 '=',
                 $specialist_table . '.id'
             )
-            ->leftJoin(
-                $specialist_table,
-                'anesthetist_id',
-                '=',
-                $specialist_table . '.id'
-            )
             ->leftJoin($room_table, 'room_id', '=', $room_table . '.id')
-            ->where('organization_id', auth()->user()->organization_id);
+            ->where(
+                $clinic_table . '.organization_id',
+                auth()->user()->organization_id
+            );
 
         $appointments = [];
 
@@ -224,11 +215,23 @@ class AppointmentController extends Controller
         $date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
         $date = date('Y-m-d', strtotime($request->date));
         $referral_date = date('Y-m-d', strtotime($request->referral_date));
-
         $health_fund_card_expiry_date = date(
             'Y-m-d',
             strtotime($request->health_fund_expiry)
         );
+
+        $referral_expiry_date = date_create($referral_date);
+
+        if (is_numeric($request->referral_duration)) {
+            date_add(
+                $referral_expiry_date,
+                date_interval_create_from_date_string(
+                    $request->referral_duration . ' months'
+                )
+            );
+        }
+
+        $referral_expiry_date = date_format($referral_expiry_date, 'Y-m-d');
 
         $is_no_referral = true;
 
@@ -271,6 +274,7 @@ class AppointmentController extends Controller
                 'appointment_confirm_method',
                 'sms'
             ),
+
             'charge_type' => $request->charge_type,
             'medicare_number' => $request->medicare_number,
             'medicare_expiry_date' => $request->medicare_expiry_date,
@@ -285,6 +289,7 @@ class AppointmentController extends Controller
             'health_fund_membership_number' => $request->health_fund_mem_number,
             'health_fund_card_expiry_date' => $health_fund_card_expiry_date,
             'fund_excess' => $request->fund_excess,
+
             'clinic_id' => $request->clinic_id,
             'appointment_type_id' => $request->appointment_type_id,
             'primary_pathologist_id' => $request->input(
@@ -309,7 +314,8 @@ class AppointmentController extends Controller
             'is_no_referral' => $is_no_referral,
             'no_referral_reason' => $request->no_referral_reason,
             'referral_date' => $referral_date,
-            'referral_expiry_date' => $request->referral_expiry_date,
+            'referral_duration' => $request->referral_duration,
+            'referral_expiry_date' => $referral_expiry_date,
             'note' => $request->note,
             'important_details' => $request->important_details,
             'clinical_alerts' => $request->clinical_alerts,
