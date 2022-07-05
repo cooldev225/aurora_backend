@@ -65,12 +65,38 @@ class AppointmentController extends Controller
             $appointments->where('confirmation_status', $request->status);
         }
 
-        $appointments = $appointments->get();
+        $today = date('Y-m-d');
+
+        $tomorrow = date_create($today);
+
+        date_add($tomorrow, date_interval_create_from_date_string('1 day'));
+
+        $tomorrow = date_format($tomorrow, 'Y-m-d');
+
+        $appointments = $appointments
+            ->orderByDesc("{$appointment_table}.date", '>', $today)
+            ->get();
+
+        $return = ['today' => [], 'tomorrow' => [], 'future' => []];
+
+        foreach ($appointments as $appointment) {
+            if ($appointment->date == $today) {
+                $return['today'][] = $appointment;
+            }
+
+            if ($appointment->date == $tomorrow) {
+                $return['tomorrow'][] = $appointment;
+            }
+
+            if ($appointment->date > $tomorrow) {
+                $return['future'][] = $appointment;
+            }
+        }
 
         return response()->json(
             [
                 'message' => 'Appointment List',
-                'data' => $appointments,
+                'data' => $return,
             ],
             Response::HTTP_OK
         );
