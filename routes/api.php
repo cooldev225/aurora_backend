@@ -115,6 +115,14 @@ Route::middleware(['auth'])->group(function () {
     ])->group(function () {
         Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
         Route::apiResource('appointments', AppointmentController::class);
+        Route::match(['put', 'patch'], '/appointments/check-in/{id}', [
+            AppointmentController::class,
+            'checkIn',
+        ]);
+        Route::post('/appointments/check-in', [
+            AppointmentController::class,
+            'checkIn',
+        ]);
         Route::get('/appointment-types', [
             AppointmentTypeController::class,
             'index',

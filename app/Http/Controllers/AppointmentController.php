@@ -15,7 +15,7 @@ use App\Models\PatientBilling;
 use App\Models\AppointmentAdministrationInfo;
 use App\Http\Requests\AppointmentRequest;
 
-class AppointmentController extends Controller
+class AppointmentController extends BaseOrganizationController
 {
     /**
      * Display a listing of the resource.
@@ -187,6 +187,37 @@ class AppointmentController extends Controller
         return response()->json(
             [
                 'message' => 'Appointment updated',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Check In
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Appointment  $appointment
+     * @return \Illuminate\Http\Response
+     */
+    public function checkIn(Request $request)
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $appointment = Appointment::find($request->id);
+
+        if ($appointment->organization_id != $organization_id) {
+            return $this->ForbiddenOrganization();
+        }
+
+        $appointment->confirmation_status = 'CONFIRMED';
+        $appointment->attendance_status = 'CHECKED_IN';
+
+        $appointment->save();
+
+        return response()->json(
+            [
+                'message' => 'Appointment Check In',
                 'data' => $appointment,
             ],
             Response::HTTP_OK

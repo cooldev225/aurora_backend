@@ -44,6 +44,14 @@ class Appointment extends Model
     }
 
     /**
+     * Return Specialist
+     */
+    public function specialist()
+    {
+        return $this->belongsTo(Specialist::class, 'specialist_id')->first();
+    }
+
+    /**
      * Return AppointmentAdministrationInfo
      */
     public function administrationInfo()
@@ -51,6 +59,17 @@ class Appointment extends Model
         return $this->hasOne(
             AppointmentAdministrationInfo::class,
             'appointment_id'
+        )->first();
+    }
+
+    /**
+     * Return AppointmentType
+     */
+    public function type()
+    {
+        return $this->belongsTo(
+            AppointmentType::class,
+            'appointment_type_id'
         )->first();
     }
 }
