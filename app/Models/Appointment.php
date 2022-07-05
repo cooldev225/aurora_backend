@@ -19,7 +19,7 @@ class Appointment extends Model
         'room_id',
         'anesthetist_id',
         'reference_number',
-        'is_waitlisted',
+        'is_wait_listed',
         'procedure_approval_status',
         'confirmation_status',
         'attendance_status',
