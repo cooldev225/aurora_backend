@@ -15,7 +15,7 @@ use App\Models\PatientBilling;
 use App\Models\AppointmentAdministrationInfo;
 use App\Http\Requests\AppointmentRequest;
 
-class AppointmentController extends Controller
+class AppointmentController extends BaseOrganizationController
 {
     /**
      * Display a listing of the resource.
@@ -55,42 +55,57 @@ class AppointmentController extends Controller
                 $clinic_table . '.organization_id',
                 auth()->user()->organization_id
             )
-            ->orderByDesc("{$appointment_table}.date");
+            ->orderBy("{$appointment_table}.date");
 
         if ($request->has('clinic_id')) {
             $appointments->where('clinic_id', $request->clinic_id);
         }
 
-        if ($request->has('status')) {
-            $appointments->where('confirmation_status', $request->status);
-        }
-
+        $return = ['today' => [], 'tomorrow' => [], 'future' => []];
         $today = date('Y-m-d');
 
-        $tomorrow = date_create($today);
+        $status = $request->status;
 
-        date_add($tomorrow, date_interval_create_from_date_string('1 day'));
+        if ($status == 'unconfirmed') {
+            $appointments->where('confirmation_status', 'PENDING');
 
-        $tomorrow = date_format($tomorrow, 'Y-m-d');
+            $tomorrow = date_create($today);
+            date_add($tomorrow, date_interval_create_from_date_string('1 day'));
+            $tomorrow = date_format($tomorrow, 'Y-m-d');
 
-        $appointments = $appointments
-            ->orderByDesc("{$appointment_table}.date", '>', $today)
-            ->get();
+            $appointments = $appointments
+                ->where("{$appointment_table}.date", '>=', $today)
+                ->get();
 
-        $return = ['today' => [], 'tomorrow' => [], 'future' => []];
+            foreach ($appointments as $appointment) {
+                if ($appointment->date == $today) {
+                    $return['today'][] = $appointment;
+                }
 
-        foreach ($appointments as $appointment) {
-            if ($appointment->date == $today) {
-                $return['today'][] = $appointment;
+                if ($appointment->date == $tomorrow) {
+                    $return['tomorrow'][] = $appointment;
+                }
+
+                if ($appointment->date > $tomorrow) {
+                    $return['future'][] = $appointment;
+                }
             }
+        } elseif ($status == 'unapproved') {
+            $appointments->where('procedure_approval_status', 'NOT_APPROVED');
 
-            if ($appointment->date == $tomorrow) {
-                $return['tomorrow'][] = $appointment;
-            }
+            $return = $appointments
+                ->where("{$appointment_table}.date", '>=', $today)
+                ->get();
+        } elseif ($status == 'wait-listed') {
+            $appointments->where('is_wait_listed', true);
 
-            if ($appointment->date > $tomorrow) {
-                $return['future'][] = $appointment;
-            }
+            $return = $appointments
+                ->where("{$appointment_table}.date", '>=', $today)
+                ->get();
+        } elseif ($status == 'cancellation') {
+            $appointments->where('confirmation_status', 'CANCELED');
+
+            $return = $appointments->get();
         }
 
         return response()->json(
@@ -187,6 +202,100 @@ class AppointmentController extends Controller
         return response()->json(
             [
                 'message' => 'Appointment updated',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Check In
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function checkIn(Request $request)
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $appointment = Appointment::find($request->id);
+
+        if ($appointment->organization_id != $organization_id) {
+            return $this->ForbiddenOrganization();
+        }
+
+        $appointment->confirmation_status = 'CONFIRMED';
+        $appointment->attendance_status = 'CHECKED_IN';
+
+        $appointment->save();
+
+        return response()->json(
+            [
+                'message' => 'Appointment Check In',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Cancel Appointment
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function cancel(Request $request)
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $appointment = Appointment::find($request->id);
+
+        if ($appointment->organization_id != $organization_id) {
+            return $this->ForbiddenOrganization();
+        }
+
+        $appointment->confirmation_status = 'CANCELED';
+
+        $appointment->save();
+
+        return response()->json(
+            [
+                'message' => 'Appointment Canceled',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Appointment wait listed
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function waitListed(Request $request)
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $appointment = Appointment::find($request->id);
+
+        if ($appointment->organization_id != $organization_id) {
+            return $this->ForbiddenOrganization();
+        }
+
+        $appointment->is_wait_listed = (bool) $request->is_wait_listed;
+
+        $appointment->save();
+
+        $message = 'Appointment removed from wait listed';
+
+        if ($appointment->is_wait_listed) {
+            $message = 'Appointment added to wait listed';
+        }
+
+        return response()->json(
+            [
+                'message' => $message,
                 'data' => $appointment,
             ],
             Response::HTTP_OK

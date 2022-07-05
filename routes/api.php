@@ -115,6 +115,18 @@ Route::middleware(['auth'])->group(function () {
     ])->group(function () {
         Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
         Route::apiResource('appointments', AppointmentController::class);
+        Route::put('/appointments/check-in/{id}', [
+            AppointmentController::class,
+            'checkIn',
+        ]);
+        Route::put('/appointments/cancel/{id}', [
+            AppointmentController::class,
+            'cancel',
+        ]);
+        Route::put('/appointments/wait-listed/{id}', [
+            AppointmentController::class,
+            'waitListed',
+        ]);
         Route::get('/appointment-types', [
             AppointmentTypeController::class,
             'index',

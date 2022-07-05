@@ -23,7 +23,7 @@ return new class extends Migration {
             $table->foreignId('room_id');
             $table->foreignId('anesthetist_id');
             $table->integer('reference_number')->default(0);
-            $table->boolean('is_waitlisted')->default(false);
+            $table->boolean('is_wait_listed')->default(false);
             $table
                 ->enum('procedure_approval_status', [
                     'NOT_ACCESSED',
