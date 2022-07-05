@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->integer('max_clinics')->nullable();
             $table->integer('max_employees')->nullable();
             $table->foreignId('owner_id');
+            $table->boolean('is_hospital')->default(true);
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
             $table->timestamps();
         });

@@ -18,10 +18,10 @@ return new class extends Migration {
             $table->foreignId('organization_id');
             $table->foreignId('clinic_id');
             $table->foreignId('appointment_type_id')->nullable();
-            $table->foreignId('primary_pathologist_id');
+            $table->foreignId('primary_pathologist_id')->nullable();
             $table->foreignId('specialist_id')->index();
             $table->foreignId('room_id');
-            $table->foreignId('anesthetist_id');
+            $table->foreignId('anesthetist_id')->nullable();
             $table->integer('reference_number')->default(0);
             $table->boolean('is_wait_listed')->default(false);
             $table

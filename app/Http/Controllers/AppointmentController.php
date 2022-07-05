@@ -13,6 +13,7 @@ use App\Models\Specialist;
 use App\Models\Room;
 use App\Models\PatientBilling;
 use App\Models\AppointmentAdministrationInfo;
+use App\Models\PatientOrganization;
 use App\Http\Requests\AppointmentRequest;
 
 class AppointmentController extends BaseOrganizationController
@@ -126,11 +127,24 @@ class AppointmentController extends BaseOrganizationController
     public function store(AppointmentRequest $request)
     {
         $organization_id = auth()->user()->organization_id;
-
         $patient = Patient::where('email', $request->email)->first();
 
         if (empty($patient)) {
             $patient = Patient::create($this->filterParams($request));
+        }
+
+        $patientOrganization = PatientOrganization::where(
+            'patient_id',
+            $patient->id
+        )
+            ->where('organization_id', $organization_id)
+            ->first();
+
+        if (empty($patientOrganization)) {
+            PatientOrganization::create([
+                'organization_id' => $organization_id,
+                'patient_id' => $patient->id,
+            ]);
         }
 
         $patientBilling = $patient->billing();
@@ -174,10 +188,22 @@ class AppointmentController extends BaseOrganizationController
         Appointment $appointment
     ) {
         $organization_id = auth()->user()->organization_id;
-
         $patient = $appointment->patient();
-
         $patient->update([...$this->filterParams($request)]);
+
+        $patientOrganization = PatientOrganization::where(
+            'patient_id',
+            $patient->id
+        )
+            ->where('organization_id', $organization_id)
+            ->first();
+
+        if (empty($patientOrganization)) {
+            PatientOrganization::create([
+                'organization_id' => $organization_id,
+                'patient_id' => $patient->id,
+            ]);
+        }
 
         $patientBilling = $patient->billing();
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
+use App\Models\Specialist;
 use App\Models\Organization;
 use App\Models\PatientOrganization;
 
@@ -36,6 +37,20 @@ class PatientController extends Controller
             )
             ->where('organization_id', $organization_id)
             ->get();
+
+        $appointments = Specialist::withAppointments()
+            ->get()
+            ->toArray();
+
+        foreach ($patients as $key => $patient) {
+            $patients[$key]['appointments'] = [];
+
+            foreach ($appointments as $appointment) {
+                if ($appointment['patient_id'] == $patient['id']) {
+                    $patients[$key]['appointments'][] = $appointment;
+                }
+            }
+        }
 
         return response()->json(
             [

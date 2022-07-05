@@ -16,6 +16,7 @@ class Organization extends Model
         'max_employees',
         'proda_device_id',
         'owner_id',
+        'is_hospital',
     ];
 
     /**

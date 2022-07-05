@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('patient_id');
             $table->foreignId('organization_id');
+            $table->unique(['patient_id', 'organization_id']);
             $table->timestamps();
         });
     }

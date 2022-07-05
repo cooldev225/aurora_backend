@@ -92,8 +92,12 @@ class Specialist extends Model
     /**
      * Return $appointments
      */
-    public static function withAppointments()
+    public static function withAppointments($organization_id = null)
     {
+        if ($organization_id == null) {
+            $organization_id = auth()->user()->organization_id;
+        }
+
         $appointment_table = (new Appointment())->getTable();
         $patient_table = (new Patient())->getTable();
         $specialist_table = (new Specialist())->getTable();
@@ -119,7 +123,8 @@ class Specialist extends Model
                 'appointment_id',
                 '=',
                 "{$appointment_table}.id"
-            );
+            )
+            ->where($appointment_table . '.organization_id', $organization_id);
 
         return $appointments;
     }
