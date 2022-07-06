@@ -70,6 +70,9 @@ return new class extends Migration {
             $table
                 ->enum('send_recall_method', ['email', 'mail'])
                 ->default('email');
+            $table->string('kin_name')->nullable();
+            $table->string('kin_relationship')->nullable();
+            $table->string('kin_phone_number')->nullable();
             $table->timestamps();
         });
     }
