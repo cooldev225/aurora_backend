@@ -53,7 +53,6 @@ class EmployeeFactory extends Factory
                         ['08:00:00', '19:00:00'],
                         ['09:00:00', '19:30:00'],
                     ]),
-                    ,
                     'locations' => $clinics,
                 ],
             ];

@@ -31,4 +31,12 @@ class AppointmentAdministrationInfo extends Model
         'collecting_person_phone',
         'collecting_person_alternate_contact',
     ];
+
+    /**
+     * Return Appointment
+     */
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class, 'appointment_id')->first();
+    }
 }
