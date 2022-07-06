@@ -354,18 +354,18 @@ class AppointmentController extends BaseOrganizationController
      */
     protected function filterParams(AppointmentRequest $request)
     {
-        $start_time = date('H:i:s', strtotime($request->time_slot[0]));
-        $end_time = date('H:i:s', strtotime($request->time_slot[1]));
+        $start_time = gmdate('H:i:s', strtotime($request->time_slot[0]));
+        $end_time = gmdate('H:i:s', strtotime($request->time_slot[1]));
 
         $appointmentType = AppointmentType::find($request->appointment_type_id);
-        $arrival_time = date(
+        $arrival_time = gmdate(
             'H:i:s',
             strtotime($request->time_slot[0]) -
                 15 * 60 * $appointmentType->arrival_time
         );
 
         if ($request->has('arrival_time')) {
-            $arrival_time = date('H:i:s', strtotime($request->arrival_time));
+            $arrival_time = gmdate('H:i:s', strtotime($request->arrival_time));
         }
 
         $anesthetic_answers = $request->anesthetic_questions
@@ -375,7 +375,7 @@ class AppointmentController extends BaseOrganizationController
             ? $request->procedure_answers
             : [];
 
-        $referral_date = date('Y-m-d', strtotime($request->referral_date));
+        $referral_date = gmdate('Y-m-d', strtotime($request->referral_date));
 
         $referral_expiry_date = date_create($referral_date);
 
@@ -397,7 +397,7 @@ class AppointmentController extends BaseOrganizationController
         }
 
         $filtered_request = [
-            'date_of_birth' => date(
+            'date_of_birth' => gmdate(
                 'Y-m-d',
                 strtotime($request->date_of_birth)
             ),
@@ -411,23 +411,23 @@ class AppointmentController extends BaseOrganizationController
                 'appointment_confirm_method',
                 'sms'
             ),
-            'medicare_expiry_date' => date(
+            'medicare_expiry_date' => gmdate(
                 'Y-m-d',
                 strtotime($request->medicare_expiry_date)
             ),
-            'concession_expiry_date' => date(
+            'concession_expiry_date' => gmdate(
                 'Y-m-d',
                 strtotime($request->concession_expiry_date)
             ),
-            'pension_expiry_date' => date(
+            'pension_expiry_date' => gmdate(
                 'Y-m-d',
                 strtotime($request->pension_expiry_date)
             ),
-            'healthcare_card_expiry_date' => date(
+            'healthcare_card_expiry_date' => gmdate(
                 'Y-m-d',
                 strtotime($request->healthcare_card_expiry_date)
             ),
-            'health_fund_expiry_date' => date(
+            'health_fund_expiry_date' => gmdate(
                 'Y-m-d',
                 strtotime($request->health_fund_expiry_date)
             ),
@@ -435,7 +435,7 @@ class AppointmentController extends BaseOrganizationController
                 'primary_pathologist_id',
                 0
             ),
-            'date' => date('Y-m-d', strtotime($request->date)),
+            'date' => gmdate('Y-m-d', strtotime($request->date)),
             'arrival_time' => $arrival_time,
             'start_time' => $start_time,
             'end_time' => $end_time,

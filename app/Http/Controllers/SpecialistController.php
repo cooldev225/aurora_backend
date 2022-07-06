@@ -129,7 +129,7 @@ class SpecialistController extends Controller
         $date = date('Y-m-d');
 
         if ($request->has('date')) {
-            $date = date('Y-m-d', strtotime($request->date));
+            $date = gmdate('Y-m-d', strtotime($request->date));
         }
 
         return response()->json(
@@ -151,7 +151,7 @@ class SpecialistController extends Controller
         $date = date('Y-m-d');
 
         if ($request->has('date')) {
-            $date = date('Y-m-d', strtotime($request->date));
+            $date = gmdate('Y-m-d', strtotime($request->date));
         }
 
         $search_dates = [];
