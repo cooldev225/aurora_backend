@@ -26,7 +26,7 @@ return new class extends Migration {
             $table->foreignId('health_fund_id')->nullable();
             $table->string('health_fund_membership_number')->nullable();
             $table->string('health_fund_reference_number')->nullable();
-            $table->date('health_fund_card_expiry_date')->nullable();
+            $table->date('health_fund_expiry_date')->nullable();
             $table
                 ->enum('account_holder_type', ['Self', 'Other'])
                 ->default('Self');

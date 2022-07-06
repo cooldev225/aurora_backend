@@ -376,10 +376,6 @@ class AppointmentController extends BaseOrganizationController
             : [];
 
         $referral_date = date('Y-m-d', strtotime($request->referral_date));
-        $health_fund_card_expiry_date = date(
-            'Y-m-d',
-            strtotime($request->health_fund_expiry)
-        );
 
         $referral_expiry_date = date_create($referral_date);
 
@@ -431,7 +427,10 @@ class AppointmentController extends BaseOrganizationController
                 'Y-m-d',
                 strtotime($request->healthcare_card_expiry_date)
             ),
-            'health_fund_card_expiry_date' => $health_fund_card_expiry_date,
+            'health_fund_expiry_date' => date(
+                'Y-m-d',
+                strtotime($request->health_fund_expiry_date)
+            ),
             'primary_pathologist_id' => $request->input(
                 'primary_pathologist_id',
                 0

@@ -22,7 +22,7 @@ class PatientBilling extends Model
         'health_fund_id',
         'health_fund_membership_number',
         'health_fund_reference_number',
-        'health_fund_card_expiry_date',
+        'health_fund_expiry_date',
         'account_holder_type',
         'account_holder_id',
         'fund_excess',
