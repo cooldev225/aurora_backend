@@ -91,36 +91,7 @@ class PatientController extends Controller
      */
     public function store(PatientRequest $request)
     {
-        $patient = Patient::create([
-            'UR_number' => $request->UR_number,
-            'title' => $request->title,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'gender' => $request->gender,
-            'date_of_birth' => $request->date_of_birth,
-            'address' => $request->address,
-            'street' => $request->street,
-            'city' => $request->city,
-            'state' => $request->state,
-            'postcode' => $request->postcode,
-            'country' => $request->country,
-            'marital_status' => $request->marital_status,
-            'birth_place_code' => $request->birth_place_code,
-            'country_of_birth' => $request->country_of_birth,
-            'birth_state' => $request->birth_state,
-            'allergies' => $request->allergies,
-            'aborginality' => $request->aborginality,
-            'occupation' => $request->occupation,
-            'height' => $request->height,
-            'weight' => $request->weight,
-            'bmi' => $request->bmi,
-            'preferred_contact_method' => $request->preferred_contact_method,
-            'appointment_confirm_method' =>
-                $request->appointment_confirm_method,
-            'send_recall_method' => $request->send_recall_method,
-        ]);
+        $patient = Patient::create($request->all());
 
         $organization_id = auth()->user()->organization_id;
 
@@ -147,35 +118,7 @@ class PatientController extends Controller
      */
     public function update(PatientRequest $request, Patient $patient)
     {
-        $patient->update([
-            'title' => $request->title,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'gender' => $request->gender,
-            'date_of_birth' => $request->date_of_birth,
-            'address' => $request->address,
-            'street' => $request->street,
-            'city' => $request->city,
-            'state' => $request->state,
-            'postcode' => $request->postcode,
-            'country' => $request->country,
-            'marital_status' => $request->marital_status,
-            'birth_place_code' => $request->birth_place_code,
-            'country_of_birth' => $request->country_of_birth,
-            'birth_state' => $request->birth_state,
-            'allergies' => $request->allergies,
-            'aborginality' => $request->aborginality,
-            'occupation' => $request->occupation,
-            'height' => $request->height,
-            'weight' => $request->weight,
-            'bmi' => $request->bmi,
-            'preferred_contact_method' => $request->preferred_contact_method,
-            'appointment_confirm_method' =>
-                $request->appointment_confirm_method,
-            'send_recall_method' => $request->send_recall_method,
-        ]);
+        $patient->update($request->all());
 
         return response()->json(
             [

@@ -39,21 +39,8 @@ class PatientBillingController extends Controller
     public function store(PatientBillingRequest $request)
     {
         $patientBilling = PatientBilling::create([
-            'patient_id' => $request->patient_id,
-            'medicare_number' => $request->medicare_number,
-            'medicare_expiry_date' => $request->medicare_expiry_date,
-            'concession_number' => $request->concession_number,
-            'concession_expiry_date' => $request->concession_expiry_date,
-            'pension_number' => $request->pension_number,
-            'pension_expiry_date' => $request->pension_expiry_date,
-            'healthcare_card_number' => $request->healthcare_card_number,
-            'healthcare_card_expiry_date' =>
-                $request->healthcare_card_expiry_date,
-            'health_fund_id' => $request->health_fund_id,
-            'health_fund_membership_number' =>
-                $request->health_fund_membership_number,
-            'health_fund_expiry_date' => $request->health_fund_expiry_date,
-            'fund_excess' => $request->fund_excess,
+            ...$request->all(),
+            'patient_id' => $request->☻patient_id,
         ]);
 
         return response()->json(
@@ -77,21 +64,8 @@ class PatientBillingController extends Controller
         PatientBilling $patientBilling
     ) {
         $patientBilling->update([
-            'patient_id' => $request->patient_id,
-            'medicare_number' => $request->medicare_number,
-            'medicare_expiry_date' => $request->medicare_expiry_date,
-            'concession_number' => $request->concession_number,
-            'concession_expiry_date' => $request->concession_expiry_date,
-            'pension_number' => $request->pension_number,
-            'pension_expiry_date' => $request->pension_expiry_date,
-            'healthcare_card_number' => $request->healthcare_card_number,
-            'healthcare_card_expiry_date' =>
-                $request->healthcare_card_expiry_date,
-            'health_fund_id' => $request->health_fund_id,
-            'health_fund_membership_number' =>
-                $request->health_fund_membership_number,
-            'health_fund_expiry_date' => $request->health_fund_expiry_date,
-            'fund_excess' => $request->fund_excess,
+            ...$request->all(),
+            'patient_id' => $request->☻patient_id,
         ]);
 
         return response()->json(

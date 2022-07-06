@@ -47,36 +47,11 @@ class ClinicController extends BaseOrganizationController
      */
     public function store(ClinicRequest $request)
     {
+        $organization_id = auth()->user()->organization_id;
+
         $clinic = Clinic::create([
-            'organization_id' => auth()->user()->organization_id,
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'fax_number' => $request->fax_number,
-            'hospital_provider_number' => $request->hospital_provider_number,
-            'VAED_number' => $request->VAED_number,
-            'address' => $request->address,
-            'street' => $request->street,
-            'city' => $request->city,
-            'state' => $request->state,
-            'postcode' => $request->postcode,
-            'country' => $request->country,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'timezone' => $request->timezone,
-            'specimen_collection_point_number' =>
-                $request->specimen_collection_point_number,
-            'footnote_signature' => $request->footnote_signature,
-            'default_start_time' => $request->default_start_time,
-            'default_end_time' => $request->default_end_time,
-            'default_meal_time' => $request->default_meal_time,
-            'latest_invoice_no' => $request->latest_invoice_no,
-            'latest_invoice_pathology_no' =>
-                $request->latest_invoice_pathology_no,
-            'centre_serial_no' => $request->centre_serial_no,
-            'centre_last_invoice_serial_no' =>
-                $request->centre_last_invoice_serial_no,
-            'lspn_id' => $request->lspn_id,
+            ...$request->all(),
+            'organization_id' => $organization_id,
         ]);
 
         $proda_device = new ProdaDevice();
@@ -106,39 +81,15 @@ class ClinicController extends BaseOrganizationController
      */
     public function update(ClinicRequest $request, Clinic $clinic)
     {
+        $organization_id = auth()->user()->organization_id;
+
         if ($clinic->organization_id != $organization_id) {
             return $this->forbiddenOrganization();
         }
 
         $clinic->update([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone_number' => $request->phone_number,
-            'fax_number' => $request->fax_number,
-            'hospital_provider_number' => $request->hospital_provider_number,
-            'VAED_number' => $request->VAED_number,
-            'address' => $request->address,
-            'street' => $request->street,
-            'city' => $request->city,
-            'state' => $request->state,
-            'postcode' => $request->postcode,
-            'country' => $request->country,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'timezone' => $request->timezone,
-            'specimen_collection_point_number' =>
-                $request->specimen_collection_point_number,
-            'footnote_signature' => $request->footnote_signature,
-            'default_start_time' => $request->default_start_time,
-            'default_end_time' => $request->default_end_time,
-            'default_meal_time' => $request->default_meal_time,
-            'latest_invoice_no' => $request->latest_invoice_no,
-            'latest_invoice_pathology_no' =>
-                $request->latest_invoice_pathology_no,
-            'centre_serial_no' => $request->centre_serial_no,
-            'centre_last_invoice_serial_no' =>
-                $request->centre_last_invoice_serial_no,
-            'lspn_id' => $request->lspn_id,
+            ...$request->all(),
+            'organization_id' => $organization_id,
         ]);
 
         $proda_device = new ProdaDevice();
