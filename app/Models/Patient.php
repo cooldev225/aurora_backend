@@ -40,6 +40,9 @@ class Patient extends Model
         'preferred_contact_method',
         'appointment_confirm_method',
         'send_recall_method',
+        'kin_name',
+        'kin_relationship',
+        'kin_phone_number',
     ];
 
     /**

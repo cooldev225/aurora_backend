@@ -24,15 +24,50 @@ class PatientController extends Controller
             ->toArray();
 
         $appointments = Appointment::organizationAppointmentsWithType()
+            ->orderByDesc('date')
             ->get()
             ->toArray();
 
+        $today = date('Y-m-d');
+
         foreach ($patients as $key => $patient) {
-            $patients[$key]['appointments'] = [];
+            $patients[$key]['canceled_appointments'] = 0;
+            $patients[$key]['missed_appointments'] = 0;
+            $patients[$key]['future_appointments'] = 0;
+            $patients[$key]['past_appointments'] = [];
 
             foreach ($appointments as $appointment) {
                 if ($appointment['patient_id'] == $patient['id']) {
+                    if ($appointment['date'] >= $today) {
+                        $patients[$key]['current_appointment'] = $appointment;
+
+                        $patients[$key]['future_appointments']++;
+                    }
+
+                    if ($appointment['date'] < $today) {
+                        $patients[$key]['past_appointments'][] = [
+                            'date' => $appointment->date,
+                            'procedure_name' => $appointment->procedure_name,
+                        ];
+
+                        if (
+                            strtoupper($appointment->confirmation_status) ==
+                            'CANCELED'
+                        ) {
+                            $patients[$key]['canceled_appointments']++;
+                        } elseif (
+                            strtoupper($appointment->confirmation_status) ==
+                            'MISSED'
+                        ) {
+                            $patients[$key]['missed_appointments']++;
+                        }
+                    }
+
                     $patients[$key]['appointments'][] = $appointment;
+                }
+
+                if ($patients[$key]['future_appointments'] > 0) {
+                    $patients[$key]['future_appointments']--;
                 }
             }
         }

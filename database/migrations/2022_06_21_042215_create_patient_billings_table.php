@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('patient_id');
             $table->string('medicare_number')->nullable();
+            $table->string('medicare_reference_number')->nullable();
             $table->date('medicare_expiry_date')->nullable();
             $table->string('concession_number')->nullable();
             $table->date('concession_expiry_date')->nullable();
