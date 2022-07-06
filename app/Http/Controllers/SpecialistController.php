@@ -109,10 +109,7 @@ class SpecialistController extends Controller
             });
         }
 
-        $specialists = $specialist_list
-            ->limit(10)
-            ->get()
-            ->toArray();
+        $specialists = $specialist_list->get()->toArray();
         $specialist_ids = [];
 
         foreach ($specialists as $key => $specialist) {
