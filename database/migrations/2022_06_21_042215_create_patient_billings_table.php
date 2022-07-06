@@ -25,7 +25,13 @@ return new class extends Migration {
             $table->date('healthcare_card_expiry_date')->nullable();
             $table->foreignId('health_fund_id')->nullable();
             $table->string('health_fund_membership_number')->nullable();
+            $table->string('health_fund_reference_number')->nullable();
             $table->date('health_fund_card_expiry_date')->nullable();
+            $table
+                ->enum('account_holder_type', ['Self', 'Other'])
+                ->default('Self');
+
+            $table->foreignId('account_holder_id')->nullable();
             $table->float('fund_excess')->nullable();
             $table->timestamps();
         });

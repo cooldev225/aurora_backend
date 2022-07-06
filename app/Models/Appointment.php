@@ -72,4 +72,44 @@ class Appointment extends Model
             'appointment_type_id'
         )->first();
     }
+
+    /**
+     * Return $appointments
+     */
+    public static function appointmentsForOrganization($organization_id = null)
+    {
+        if ($organization_id == null) {
+            $organization_id = auth()->user()->organization_id;
+        }
+
+        $appointment_table = (new Appointment())->getTable();
+        $patient_table = (new Patient())->getTable();
+        $specialist_table = (new Specialist())->getTable();
+        $appointment_administration_info_table = (new AppointmentAdministrationInfo())->getTable();
+        $patient_billing_table = (new PatientBilling())->getTable();
+
+        $appointments = self::select('*', "{$appointment_table}.*")
+            ->leftJoin(
+                $specialist_table,
+                'specialist_id',
+                '=',
+                "{$specialist_table}.id"
+            )
+            ->leftJoin($patient_table, 'patient_id', '=', "{$patient_table}.id")
+            ->leftJoin(
+                $patient_billing_table,
+                "{$patient_billing_table}.patient_id",
+                '=',
+                "{$patient_table}.id"
+            )
+            ->leftJoin(
+                $appointment_administration_info_table,
+                'appointment_id',
+                '=',
+                "{$appointment_table}.id"
+            )
+            ->where($appointment_table . '.organization_id', $organization_id);
+
+        return $appointments;
+    }
 }

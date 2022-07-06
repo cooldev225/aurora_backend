@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->date('date_of_birth')->nullable();
             $table->string('address')->nullable();
             $table->string('street')->nullable();
+            $table->string('suburb')->nullable();
             $table->string('city')->nullable();
             $table->string('state')->nullable();
             $table->string('postcode')->nullable();

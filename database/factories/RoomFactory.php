@@ -23,7 +23,7 @@ class RoomFactory extends Factory
         return [
             'organization_id' => $clinic->organization_id,
             'clinic_id' => $clinic->id,
-            'name' => $this->faker->word(),
+            'name' => $this->faker->catchPhrase(),
         ];
     }
 }

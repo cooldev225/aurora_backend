@@ -375,8 +375,6 @@ class AppointmentController extends BaseOrganizationController
             ? $request->procedure_answers
             : [];
 
-        $date_of_birth = date('Y-m-d', strtotime($request->date_of_birth));
-        $date = date('Y-m-d', strtotime($request->date));
         $referral_date = date('Y-m-d', strtotime($request->referral_date));
         $health_fund_card_expiry_date = date(
             'Y-m-d',
@@ -402,33 +400,13 @@ class AppointmentController extends BaseOrganizationController
             $is_no_referral = false;
         }
 
-        return [
-            'UR_number' => $request->UR_number,
-            'title' => $request->title,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'email' => $request->email,
-            'home_number' => $request->home_number,
-            'work_number' => $request->work_number,
-            'mobile_number' => $request->mobile_number,
-            'gender' => $request->gender,
-            'date_of_birth' => $date_of_birth,
-            'address' => $request->address,
-            'street' => $request->street,
-            'city' => $request->suburb,
-            'state' => $request->state,
-            'postcode' => $request->postcode,
-            'country' => $request->country,
+        $filtered_request = [
+            'date_of_birth' => date(
+                'Y-m-d',
+                strtotime($request->date_of_birth)
+            ),
             'marital_status' => $request->input('marital_status', 'Single'),
-            'birth_place_code' => $request->birth_place_code,
-            'country_of_birth' => $request->country_of_birth,
-            'birth_state' => $request->birth_state,
-            'allergies' => $request->allergies,
             'aborginality' => $request->input('aborginality', false),
-            'occupation' => $request->occupation,
-            'height' => $request->height,
-            'weight' => $request->weight,
-            'bmi' => $request->bmi,
             'preferred_contact_method' => $request->input(
                 'preferred_contact_method',
                 'phone'
@@ -437,33 +415,28 @@ class AppointmentController extends BaseOrganizationController
                 'appointment_confirm_method',
                 'sms'
             ),
-
-            'charge_type' => $request->charge_type,
-            'medicare_number' => $request->medicare_number,
-            'medicare_expiry_date' => $request->medicare_expiry_date,
-            'concession_number' => $request->concession_number,
-            'concession_expiry_date' => $request->concession_expiry_date,
-            'pension_number' => $request->pension_number,
-            'pension_expiry_date' => $request->pension_expiry_date,
-            'healthcare_card_number' => $request->healthcare_card_number,
-            'healthcare_card_expiry_date' =>
-                $request->healthcare_card_expiry_date,
-            'health_fund_id' => $request->health_fund,
-            'health_fund_membership_number' => $request->health_fund_mem_number,
+            'medicare_expiry_date' => date(
+                'Y-m-d',
+                strtotime($request->medicare_expiry_date)
+            ),
+            'concession_expiry_date' => date(
+                'Y-m-d',
+                strtotime($request->concession_expiry_date)
+            ),
+            'pension_expiry_date' => date(
+                'Y-m-d',
+                strtotime($request->pension_expiry_date)
+            ),
+            'healthcare_card_expiry_date' => date(
+                'Y-m-d',
+                strtotime($request->healthcare_card_expiry_date)
+            ),
             'health_fund_card_expiry_date' => $health_fund_card_expiry_date,
-            'fund_excess' => $request->fund_excess,
-
-            'clinic_id' => $request->clinic_id,
-            'appointment_type_id' => $request->appointment_type_id,
             'primary_pathologist_id' => $request->input(
                 'primary_pathologist_id',
                 0
             ),
-            'specialist_id' => $request->specialist_id,
-            'anesthetist_id' => $request->anesthetist_id,
-            'room_id' => $request->room_id,
-            'reference_number' => $request->reference_number,
-            'date' => $date,
+            'date' => date('Y-m-d', strtotime($request->date)),
             'arrival_time' => $arrival_time,
             'start_time' => $start_time,
             'end_time' => $end_time,
@@ -487,15 +460,8 @@ class AppointmentController extends BaseOrganizationController
                 'recurring_appointment',
                 false
             ),
-            'recent_service' => $request->recent_service,
-            'outstanding_balance' => $request->outstanding_balance,
-            'further_details' => $request->further_details,
-            'fax_comment' => $request->fax_comment,
-            'anything_should_aware' => $request->anything_should_aware,
-            'collecting_person_name' => $request->collecting_person_name,
-            'collecting_person_phone' => $request->collecting_person_phone,
-            'collecting_person_alternate_contact' =>
-                $request->collecting_person_alternate_contact,
         ];
+
+        return array_merge($request->all(), $filtered_request);
     }
 }

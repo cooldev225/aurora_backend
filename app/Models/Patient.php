@@ -22,6 +22,7 @@ class Patient extends Model
         'date_of_birth',
         'address',
         'street',
+        'suburb',
         'city',
         'state',
         'postcode',

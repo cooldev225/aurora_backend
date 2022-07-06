@@ -33,7 +33,7 @@ class AppointmentRequest extends FormRequest
             'date' => 'required|date',
             'charge_type' => 'required',
             'skip_coding' => 'boolean',
-            'room_id' => 'required|numeric',
+            'room_id' => 'numeric',
         ];
     }
 }

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
-use App\Models\Specialist;
+use App\Models\Appointment;
 use App\Models\Organization;
 use App\Models\PatientOrganization;
 
@@ -36,9 +36,10 @@ class PatientController extends Controller
                 $patient_table . '.id'
             )
             ->where('organization_id', $organization_id)
-            ->get();
+            ->get()
+            ->toArray();
 
-        $appointments = Specialist::withAppointments()
+        $appointments = Appointment::appointmentsForOrganization()
             ->get()
             ->toArray();
 
