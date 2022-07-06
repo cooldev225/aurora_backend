@@ -14,6 +14,7 @@ use App\Models\UserRole;
 use App\Models\Employee;
 use App\Models\Appointment;
 use App\Models\Patient;
+use App\Models\AppointmentTimeRequirement;
 use App\Http\Requests\SpecialistRequest;
 
 class SpecialistController extends Controller
@@ -75,6 +76,24 @@ class SpecialistController extends Controller
             ]);
         }
 
+        if ($request->has('appointment_time_requirement_id')) {
+            $appointment_time_requirement = AppointmentTimeRequirement::find(
+                $request->appointment_time_requirement_id
+            );
+
+            if (strtolower($appointment_time_requirement->type) == 'before') {
+                $specialist_list->whereRaw(
+                    "JSON_VALUE({$employee_table}.work_hours,'$.{$day_of_week}.time_slot[0]') < '{$appointment_time_requirement->base_time}'"
+                );
+            } elseif (
+                strtolower($appointment_time_requirement->type) == 'after'
+            ) {
+                $specialist_list->whereRaw(
+                    "JSON_VALUE({$employee_table}.work_hours,'$.{$day_of_week}.time_slot[1]') > '{$appointment_time_requirement->base_time}'"
+                );
+            }
+        }
+
         $specialists = $specialist_list->get()->toArray();
         $specialist_ids = [];
 
@@ -132,10 +151,14 @@ class SpecialistController extends Controller
             $date = gmdate('Y-m-d', strtotime($request->date));
         }
 
+        $return = [];
+
+        $return[$date] = $this->workHoursByDate($request, $date);
+
         return response()->json(
             [
-                'message' => 'Available Specialist List and work hours by day ',
-                'data' => $this->workHoursByDate($request, $date),
+                'message' => 'Available Specialist List and work hours by day',
+                'data' => $return,
             ],
             Response::HTTP_OK
         );

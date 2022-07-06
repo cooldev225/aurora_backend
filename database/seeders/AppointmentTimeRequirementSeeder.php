@@ -24,6 +24,13 @@ class AppointmentTimeRequirementSeeder extends Seeder
                 'title' => 'diabetes',
                 'base_time' => '12:00:00',
             ]);
+
+            AppointmentTimeRequirement::create([
+                'organization_id' => $organization->id,
+                'title' => 'after noon',
+                'type' => 'after',
+                'base_time' => '12:00:00',
+            ]);
         }
     }
 }
