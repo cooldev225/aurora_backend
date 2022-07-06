@@ -26,6 +26,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
+use App\Http\Controllers\AppointmentTimeRequirementController;
 
 /*
 |--------------------------------------------------------------------------
@@ -71,6 +72,10 @@ Route::middleware(['auth'])->group(function () {
             OrganizationManagerController::class
         );
         Route::apiResource('email-templates', EmailTemplateController::class);
+        Route::apiResource(
+            'appointment-time-requirements',
+            AppointmentTimeRequirementController::class
+        );
     });
 
     Route::middleware([
@@ -131,12 +136,17 @@ Route::middleware(['auth'])->group(function () {
             AppointmentTypeController::class,
             'index',
         ]);
+        Route::get('appointment-time-requirements', [
+            AppointmentTimeRequirementController::class,
+            'index',
+        ]);
         Route::get('/work-hours', [SpecialistController::class, 'workHours']);
         Route::get('/work-hours-by-week', [
             SpecialistController::class,
             'workHoursByWeek',
         ]);
         Route::get('/clinics', [ClinicController::class, 'index']);
+        Route::get('/specialists', [SpecialistController::class, 'index']);
         Route::get('/anesthetists', [
             EmployeeController::class,
             'anesthetists',

@@ -7,7 +7,7 @@ use App\Http\Requests\ClinicRequest;
 use App\Models\Clinic;
 use App\Models\ProdaDevice;
 
-class ClinicController extends Controller
+class ClinicController extends BaseOrganizationController
 {
     /**
      * Display a listing of the resource.
@@ -106,6 +106,10 @@ class ClinicController extends Controller
      */
     public function update(ClinicRequest $request, Clinic $clinic)
     {
+        if ($clinic->organization_id != $organization_id) {
+            return $this->forbiddenOrganization();
+        }
+
         $clinic->update([
             'name' => $request->name,
             'email' => $request->email,

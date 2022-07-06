@@ -9,7 +9,7 @@ class BaseOrganizationController extends Controller
     /**
      * Return Forbidden Response
      */
-    protected function ForbiddenOrganization()
+    protected function forbiddenOrganization()
     {
         return response()->json(
             [

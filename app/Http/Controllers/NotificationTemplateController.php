@@ -73,7 +73,7 @@ class NotificationTemplateController extends BaseOrganizationController
         $organization_id = auth()->user()->organization_id;
 
         if ($notificationTemplate->organization_id != $organization_id) {
-            return $this->ForbiddenOrganization();
+            return $this->forbiddenOrganization();
         }
 
         $notificationTemplate->update([

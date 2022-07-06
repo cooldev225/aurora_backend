@@ -247,7 +247,7 @@ class AppointmentController extends BaseOrganizationController
         $appointment = Appointment::find($request->id);
 
         if ($appointment->organization_id != $organization_id) {
-            return $this->ForbiddenOrganization();
+            return $this->forbiddenOrganization();
         }
 
         $appointment->confirmation_status = 'CONFIRMED';
@@ -277,7 +277,7 @@ class AppointmentController extends BaseOrganizationController
         $appointment = Appointment::find($request->id);
 
         if ($appointment->organization_id != $organization_id) {
-            return $this->ForbiddenOrganization();
+            return $this->forbiddenOrganization();
         }
 
         $appointment->confirmation_status = 'CANCELED';
@@ -306,7 +306,7 @@ class AppointmentController extends BaseOrganizationController
         $appointment = Appointment::find($request->id);
 
         if ($appointment->organization_id != $organization_id) {
-            return $this->ForbiddenOrganization();
+            return $this->forbiddenOrganization();
         }
 
         $appointment->is_wait_listed = (bool) $request->is_wait_listed;

@@ -30,6 +30,7 @@ class DatabaseSeeder extends Seeder
             AnestheticQuestionSeeder::class,
             ProcedureQuestionSeeder::class,
             AppointmentAdministrationInfoSeeder::class,
+            AppointmentTimeRequirementSeeder::class,
         ]);
     }
 }
