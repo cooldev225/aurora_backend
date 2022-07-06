@@ -6,7 +6,6 @@ use Illuminate\Http\Response;
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
 use App\Models\Appointment;
-use App\Models\Organization;
 use App\Models\PatientOrganization;
 
 class PatientController extends Controller
@@ -19,27 +18,12 @@ class PatientController extends Controller
     public function index()
     {
         $organization_id = auth()->user()->organization_id;
-        $organization_table = (new Organization())->getTable();
-        $patient_table = (new Patient())->getTable();
 
-        $patients = PatientOrganization::select($patient_table . '.*')
-            ->leftJoin(
-                $organization_table,
-                'organization_id',
-                '=',
-                $organization_table . '.id'
-            )
-            ->leftJoin(
-                $patient_table,
-                'patient_id',
-                '=',
-                $patient_table . '.id'
-            )
-            ->where('organization_id', $organization_id)
+        $patients = Patient::organizationPatients()
             ->get()
             ->toArray();
 
-        $appointments = Appointment::appointmentsForOrganization()
+        $appointments = Appointment::organizationAppointmentsWithType()
             ->get()
             ->toArray();
 

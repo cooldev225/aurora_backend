@@ -54,6 +54,7 @@ return new class extends Migration {
             $table->time('actual_arrival_time')->nullable();
             $table->time('actual_start_time')->nullable();
             $table->time('actual_end_time')->nullable();
+            $table->float('procedure_price')->nullable();
             $table
                 ->enum('charge_type', [
                     'self-insured',

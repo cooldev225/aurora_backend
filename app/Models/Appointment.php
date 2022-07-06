@@ -30,6 +30,7 @@ class Appointment extends Model
         'actual_arrival_time',
         'actual_start_time',
         'actual_end_time',
+        'procedure_price',
         'charge_type',
         'payment_status',
         'skip_coding',
@@ -76,7 +77,7 @@ class Appointment extends Model
     /**
      * Return $appointments
      */
-    public static function appointmentsForOrganization($organization_id = null)
+    public static function organizationAppointments($organization_id = null)
     {
         if ($organization_id == null) {
             $organization_id = auth()->user()->organization_id;
@@ -111,5 +112,29 @@ class Appointment extends Model
             ->where($appointment_table . '.organization_id', $organization_id);
 
         return $appointments;
+    }
+
+    /**
+     * Return Joined Eloquent with AppointmentType
+     */
+    public static function organizationAppointmentsWithType(
+        $organization_id = null
+    ) {
+        $appointment_type_table = (new AppointmentType())->getTable();
+        $clinic_table = (new Clinic())->getTable();
+
+        return self::organizationAppointments($organization_id)
+            ->select(
+                '*',
+                "{$clinic_table}.name AS clinic_name",
+                "{$appointment_type_table}.name AS procedure_name"
+            )
+            ->leftJoin(
+                $appointment_type_table,
+                'appointment_type_id',
+                '=',
+                "{$appointment_type_table}.id"
+            )
+            ->leftJoin($clinic_table, 'clinic_id', '=', "{$clinic_table}.id");
     }
 }

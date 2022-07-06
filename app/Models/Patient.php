@@ -59,4 +59,39 @@ class Patient extends Model
     {
         return $this->hasOne(PatientBilling::class, 'patient_id')->first();
     }
+
+    /**
+     * Return patient list for organization
+     */
+    public static function organizationPatients($organization_id = null)
+    {
+        if ($organization_id == null) {
+            $organization_id = auth()->user()->organization_id;
+        }
+
+        $organization_table = (new Organization())->getTable();
+        $patient_table = (new Patient())->getTable();
+        $patient_billing_table = (new PatientBilling())->getTable();
+
+        return PatientOrganization::select('*', $patient_table . '.id')
+            ->leftJoin(
+                $organization_table,
+                'organization_id',
+                '=',
+                $organization_table . '.id'
+            )
+            ->leftJoin(
+                $patient_table,
+                'patient_id',
+                '=',
+                $patient_table . '.id'
+            )
+            ->leftJoin(
+                $patient_billing_table,
+                "{$patient_billing_table}.patient_id",
+                '=',
+                "{$patient_table}.id"
+            )
+            ->where('organization_id', $organization_id);
+    }
 }

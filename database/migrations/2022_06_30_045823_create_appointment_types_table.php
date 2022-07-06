@@ -19,9 +19,9 @@ return new class extends Migration {
                 ->enum('type', ['Consultation', 'Procedure'])
                 ->default('Procedure');
             $table->string('color');
-            $table->string('mbs_code');
+            $table->string('mbs_code')->nullable();
             $table->string('mbs_description')->nullable();
-            $table->string('clinical_code');
+            $table->string('clinical_code')->nullable();
             $table->string('name');
             $table->enum('invoice_by', ['Clinic', 'Specialist']);
             $table->integer('arrival_time');
