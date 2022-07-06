@@ -42,9 +42,9 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
         $organization_id = auth()->user()->organization_id;
 
         $appointmentTimeRequirement = AppointmentTimeRequirement::create([
+            ...$request->all(),
             'organization_id' => $organization_id,
             'base_time' => date('H:i:s', strtotime($request->base_time)),
-            ...$request->all(),
         ]);
 
         return response()->json(
@@ -74,9 +74,9 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
         }
 
         $appointmentTimeRequirement->update([
+            ...$request->all(),
             'organization_id' => $organization_id,
             'base_time' => date('H:i:s', strtotime($request->base_time)),
-            ...$request->all(),
         ]);
 
         return response()->json(
