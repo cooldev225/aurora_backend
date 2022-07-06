@@ -122,12 +122,14 @@ class Appointment extends Model
     ) {
         $appointment_type_table = (new AppointmentType())->getTable();
         $clinic_table = (new Clinic())->getTable();
+        $appointment_table = (new Appointment())->getTable();
 
         return self::organizationAppointments($organization_id)
             ->select(
                 '*',
                 "{$clinic_table}.name AS clinic_name",
-                "{$appointment_type_table}.name AS procedure_name"
+                "{$appointment_type_table}.name AS procedure_name",
+                "{$appointment_table}.patient_id"
             )
             ->leftJoin(
                 $appointment_type_table,
