@@ -151,20 +151,20 @@ class AppointmentController extends BaseOrganizationController
 
         if (empty($patientBilling)) {
             $patientBilling = PatientBilling::create([
-                'patient_id' => $patient->id,
                 ...$this->filterParams($request),
+                'patient_id' => $patient->id,
             ]);
         }
 
         $appointment = Appointment::create([
+            ...$this->filterParams($request),
             'patient_id' => $patient->id,
             'organization_id' => $organization_id,
-            ...$this->filterParams($request),
         ]);
 
         $appointmentAdministrationInfo = AppointmentAdministrationInfo::create([
-            'appointment_id' => $appointment->id,
             ...$this->filterParams($request),
+            'appointment_id' => $appointment->id,
         ]);
 
         return response()->json(
@@ -208,21 +208,21 @@ class AppointmentController extends BaseOrganizationController
         $patientBilling = $patient->billing();
 
         $patientBilling->update([
-            'patient_id' => $patient->id,
             ...$this->filterParams($request),
+            'patient_id' => $patient->id,
         ]);
 
         $appointment->update([
+            ...$this->filterParams($request),
             'patient_id' => $patient->id,
             'organization_id' => $organization_id,
-            ...$this->filterParams($request),
         ]);
 
         $appointmentAdministrationInfo = $appointment->administrationInfo();
 
         $appointmentAdministrationInfo->update([
-            'appointment_id' => $appointment->id,
             ...$this->filterParams($request),
+            'appointment_id' => $appointment->id,
         ]);
 
         return response()->json(
