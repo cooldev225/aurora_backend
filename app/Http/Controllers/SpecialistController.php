@@ -47,18 +47,14 @@ class SpecialistController extends Controller
     }
 
     /**
-     * Return available specialist and work hours
-     *
-     * @return \Illuminate\Http\Response
+     * Return available specialist and work hours by date
      */
-    public function workHours(Request $request)
+    protected function workHoursByDate(Request $request, $date)
     {
         $specialist_table = (new Specialist())->getTable();
         $employee_table = (new Employee())->getTable();
 
         $specialist_list = Specialist::organizationSpecialists();
-
-        $date = date('Y-m-d');
 
         if ($request->filled('specialists')) {
             $specialist_list = $specialist_list->whereIn(
@@ -67,46 +63,16 @@ class SpecialistController extends Controller
             );
         }
 
-        $day_of_week_list = [];
+        $day_of_week = strtolower(date('l', strtotime($date)));
 
-        if ($request->has('date') || $request->has('day')) {
-            if ($request->has('day')) {
-                $day_of_week_list = $request->input('day');
-            }
-
-            if ($request->has('date')) {
-                $date = $request->input('date');
-                $day_of_week = getdate(strtotime($date))['weekday'];
-
-                $day_of_week = strtolower($day_of_week);
-                $day_of_week_list[] = $day_of_week;
-            }
-
-            $specialist_list = $specialist_list->where(function ($query) use (
-                $day_of_week_list,
-                $employee_table
-            ) {
-                foreach ($day_of_week_list as $day_of_week) {
-                    $query->orWhereJsonContains(
-                        $employee_table . '.work_hours',
-                        [
-                            $day_of_week => ['available' => true],
-                        ]
-                    );
-                }
-            });
-        }
+        $specialist_list->whereJsonContains($employee_table . '.work_hours', [
+            $day_of_week => ['available' => true],
+        ]);
 
         if ($request->has('clinic_id')) {
-            $specialist_list = $specialist_list->where(function ($query) use (
-                $day_of_week_list
-            ) {
-                foreach ($day_of_week_list as $day_of_week) {
-                    $query->orWhereJsonContains('work_hours', [
-                        $day_of_week => ['location' => $request->clinic_id],
-                    ]);
-                }
-            });
+            $specialist_list->whereJsonContains('work_hours', [
+                $day_of_week => ['location' => $request->clinic_id],
+            ]);
         }
 
         $specialists = $specialist_list->get()->toArray();
@@ -116,9 +82,7 @@ class SpecialistController extends Controller
             $temp = (array) json_decode($specialist['work_hours']);
             $specialist_ids[] = $specialist['id'];
 
-            foreach ($day_of_week_list as $day_of_week) {
-                $specialists[$key]['work_hours'] = $temp[$day_of_week];
-            }
+            $specialists[$key]['work_hours'] = $temp[$day_of_week];
 
             $specialists[$key]['anesthetist'] = [
                 'id' => $specialist['anesthetist_id'],
@@ -128,8 +92,6 @@ class SpecialistController extends Controller
             unset($specialists[$key]['anesthetist_id']);
             unset($specialists[$key]['anesthetist_name']);
         }
-
-        $date = date('Y-m-d', strtotime($date));
 
         $appointments = Specialist::withAppointments()
             ->whereIn('specialist_id', $specialist_ids)
@@ -154,10 +116,66 @@ class SpecialistController extends Controller
             }
         }
 
+        return $specialists;
+    }
+
+    /**
+     * Return available specialist and work hours
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function workHours(Request $request)
+    {
+        $date = date('Y-m-d');
+
+        if ($request->has('date')) {
+            $date = date('Y-m-d', strtotime($request->date));
+        }
+
         return response()->json(
             [
                 'message' => 'Available Specialist List and work hours by day ',
-                'data' => $specialists,
+                'data' => $this->workHoursByDate($request, $date),
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Return available specialist and work hours For a week
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function workHoursByWeek(Request $request)
+    {
+        $date = date('Y-m-d');
+
+        if ($request->has('date')) {
+            $date = date('Y-m-d', strtotime($request->date));
+        }
+
+        $search_dates = [];
+        $appointment_date = date_create($date);
+
+        for ($i = 0; $i < 7; $i++) {
+            $search_dates[] = date_format($appointment_date, 'Y-m-d');
+            date_add(
+                $appointment_date,
+                date_interval_create_from_date_string('1 day')
+            );
+        }
+
+        $return = [];
+
+        foreach ($search_dates as $search_date) {
+            $return[$search_date] = $this->workHoursByDate($request, $date);
+        }
+
+        return response()->json(
+            [
+                'message' =>
+                    'Available Specialist List and work hours by Week ',
+                'data' => $return,
             ],
             Response::HTTP_OK
         );

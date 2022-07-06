@@ -132,6 +132,10 @@ Route::middleware(['auth'])->group(function () {
             'index',
         ]);
         Route::get('/work-hours', [SpecialistController::class, 'workHours']);
+        Route::get('/work-hours-by-week', [
+            SpecialistController::class,
+            'workHoursByWeek',
+        ]);
         Route::get('/clinics', [ClinicController::class, 'index']);
         Route::get('/anesthetists', [
             EmployeeController::class,

@@ -361,7 +361,7 @@ class AppointmentController extends BaseOrganizationController
         $arrival_time = date(
             'H:i:s',
             strtotime($request->time_slot[0]) -
-                60 * $appointmentType->arrival_time
+                15 * 60 * $appointmentType->arrival_time
         );
 
         if ($request->has('arrival_time')) {
