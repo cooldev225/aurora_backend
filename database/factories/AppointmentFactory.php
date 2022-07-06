@@ -23,8 +23,10 @@ class AppointmentFactory extends Factory
      */
     public function definition()
     {
-        $start_time = $this->faker->time();
-        $end_time = $this->faker->time();
+        $unixTime = $this->faker->unixTime();
+        $unixTime = round($unixTime / (15 * 60)) * (15 * 60);
+        $start_time = date('H:i:s', $unixTime);
+        $end_time = date('H:i:s', $unixTime + 15 * 60);
 
         if ($start_time > $end_time) {
             $temp = $start_time;
