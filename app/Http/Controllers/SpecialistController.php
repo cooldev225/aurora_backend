@@ -133,9 +133,16 @@ class SpecialistController extends Controller
 
         $appointments = Specialist::withAppointments()
             ->whereIn('specialist_id', $specialist_ids)
-            ->where('date', $date)
-            ->get()
-            ->toArray();
+            ->where('date', $date);
+
+        if ($request->has('appointment_type_id')) {
+            $appointments->where(
+                'appointment_type_id',
+                $request->appointment_type_id
+            );
+        }
+
+        $appointments = $appointments->get()->toArray();
 
         foreach ($specialists as $key => $specialist) {
             $specialists[$key]['appointments'] = [];

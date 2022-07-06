@@ -13,18 +13,7 @@ class PatientRequest extends FormRequest
      */
     public function authorize()
     {
-        if (
-            in_array(
-                auth()
-                    ->user()
-                    ->role()->slug,
-                ['admin', 'organizationAdmin', 'orgnaization-manger']
-            )
-        ) {
-            return true;
-        }
-
-        return false;
+        return true;
     }
 
     /**

@@ -15,17 +15,17 @@ return new class extends Migration {
         Schema::create('patients', function (Blueprint $table) {
             $table->id();
             $table->string('UR_number')->nullable();
-            $table->string('title')->nullable();
-            $table->string('first_name')->nullable();
-            $table->string('last_name')->nullable();
-            $table->string('email')->unique();
+            $table->string('title');
+            $table->string('first_name');
+            $table->string('last_name');
+            $table->string('email')->nullable();
             $table->string('home_number')->nullable();
             $table->string('work_number')->nullable();
             $table->string('mobile_number')->nullable();
             $table
                 ->enum('gender', ['Male', 'Female', 'Other', 'Undisclosed'])
                 ->default('Male');
-            $table->date('date_of_birth')->nullable();
+            $table->date('date_of_birth');
             $table->string('address')->nullable();
             $table->string('street')->nullable();
             $table->string('suburb')->nullable();
