@@ -43,7 +43,7 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
 
         $appointmentTimeRequirement = AppointmentTimeRequirement::create([
             'organization_id' => $organization_id,
-            'base_time' => date('H:i:s', strtotime($request->time)),
+            'base_time' => date('H:i:s', strtotime($request->base_time)),
             ...$request->all(),
         ]);
 
@@ -75,7 +75,7 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
 
         $appointmentTimeRequirement->update([
             'organization_id' => $organization_id,
-            'base_time' => date('H:i:s', strtotime($request->time)),
+            'base_time' => date('H:i:s', strtotime($request->base_time)),
             ...$request->all(),
         ]);
 
