@@ -38,6 +38,13 @@ class PatientController extends Controller
 
             foreach ($appointments as $appointment) {
                 if ($appointment['patient_id'] == $patient['id']) {
+                    if (
+                        strtoupper($appointment['confirmation_status']) ==
+                        'CANCELED'
+                    ) {
+                        $patients[$key]['canceled_appointments']++;
+                    }
+
                     if ($appointment['date'] >= $today) {
                         $patients[$key]['current_appointment'] = $appointment;
 
@@ -46,17 +53,12 @@ class PatientController extends Controller
 
                     if ($appointment['date'] < $today) {
                         $patients[$key]['past_appointments'][] = [
-                            'date' => $appointment->date,
-                            'procedure_name' => $appointment->procedure_name,
+                            'date' => $appointment['date'],
+                            'procedure_name' => $appointment['procedure_name'],
                         ];
 
                         if (
-                            strtoupper($appointment->confirmation_status) ==
-                            'CANCELED'
-                        ) {
-                            $patients[$key]['canceled_appointments']++;
-                        } elseif (
-                            strtoupper($appointment->confirmation_status) ==
+                            strtoupper($appointment['confirmation_status']) ==
                             'MISSED'
                         ) {
                             $patients[$key]['missed_appointments']++;
