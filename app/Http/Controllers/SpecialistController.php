@@ -57,40 +57,45 @@ class SpecialistController extends Controller
 
         $specialist_list = Specialist::organizationSpecialists();
 
+        $day_of_week = strtolower(date('l', strtotime($date)));
+
         if ($request->filled('specialist_ids')) {
             $specialist_list = $specialist_list->whereIn(
                 $specialist_table . '.id',
                 $request->specialist_ids
             );
-        }
-
-        $day_of_week = strtolower(date('l', strtotime($date)));
-
-        $specialist_list->whereJsonContains($employee_table . '.work_hours', [
-            $day_of_week => ['available' => true],
-        ]);
-
-        if ($request->has('clinic_id')) {
-            $specialist_list->whereJsonContains('work_hours', [
-                $day_of_week => ['location' => $request->clinic_id],
-            ]);
-        }
-
-        if ($request->has('appointment_time_requirement_id')) {
-            $appointment_time_requirement = AppointmentTimeRequirement::find(
-                $request->appointment_time_requirement_id
+        } else {
+            $specialist_list->whereJsonContains(
+                $employee_table . '.work_hours',
+                [
+                    $day_of_week => ['available' => true],
+                ]
             );
 
-            if (strtolower($appointment_time_requirement->type) == 'before') {
-                $specialist_list->whereRaw(
-                    "JSON_VALUE({$employee_table}.work_hours,'$.{$day_of_week}.time_slot[0]') < '{$appointment_time_requirement->base_time}'"
+            if ($request->has('clinic_id')) {
+                $specialist_list->whereJsonContains('work_hours', [
+                    $day_of_week => ['location' => $request->clinic_id],
+                ]);
+            }
+
+            if ($request->has('appointment_time_requirement_id')) {
+                $appointment_time_requirement = AppointmentTimeRequirement::find(
+                    $request->appointment_time_requirement_id
                 );
-            } elseif (
-                strtolower($appointment_time_requirement->type) == 'after'
-            ) {
-                $specialist_list->whereRaw(
-                    "JSON_VALUE({$employee_table}.work_hours,'$.{$day_of_week}.time_slot[1]') > '{$appointment_time_requirement->base_time}'"
-                );
+
+                if (
+                    strtolower($appointment_time_requirement->type) == 'before'
+                ) {
+                    $specialist_list->whereRaw(
+                        "JSON_VALUE({$employee_table}.work_hours,'$.{$day_of_week}.time_slot[0]') < '{$appointment_time_requirement->base_time}'"
+                    );
+                } elseif (
+                    strtolower($appointment_time_requirement->type) == 'after'
+                ) {
+                    $specialist_list->whereRaw(
+                        "JSON_VALUE({$employee_table}.work_hours,'$.{$day_of_week}.time_slot[1]') > '{$appointment_time_requirement->base_time}'"
+                    );
+                }
             }
         }
 
