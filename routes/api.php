@@ -76,6 +76,10 @@ Route::middleware(['auth'])->group(function () {
             'appointment-time-requirements',
             AppointmentTimeRequirementController::class
         );
+        Route::apiResource(
+            'appointment-types',
+            AppointmentTypeController::class
+        );
     });
 
     Route::middleware([
@@ -97,10 +101,6 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('patients', PatientController::class);
         Route::apiResource('employees', EmployeeController::class);
         Route::apiResource('specialists', SpecialistController::class);
-        Route::apiResource(
-            'appointment-types',
-            AppointmentTypeController::class
-        );
         Route::apiResource(
             'notification-templates',
             NotificationTemplateController::class

@@ -375,7 +375,7 @@ class AppointmentController extends BaseOrganizationController
             ? $request->procedure_answers
             : [];
 
-        $referral_date = gmdate('Y-m-d', strtotime($request->referral_date));
+        $referral_date = date('Y-m-d', strtotime($request->referral_date));
 
         $referral_expiry_date = date_create($referral_date);
 
@@ -435,7 +435,7 @@ class AppointmentController extends BaseOrganizationController
                 'primary_pathologist_id',
                 0
             ),
-            'date' => gmdate('Y-m-d', strtotime($request->date)),
+            'date' => date('Y-m-d', strtotime($request->date)),
             'arrival_time' => $arrival_time,
             'start_time' => $start_time,
             'end_time' => $end_time,
