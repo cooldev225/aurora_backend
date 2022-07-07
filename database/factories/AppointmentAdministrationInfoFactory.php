@@ -20,8 +20,8 @@ class AppointmentAdministrationInfoFactory extends Factory
         $date = $this->faker->randomElement([
             date('Y-m-d', strtotime('-1 days')),
             date('Y-m-d'),
-            date('Y-m-d', strtotime('1 days')),
-            date('Y-m-d', strtotime('2 days')),
+            date('Y-m-d', strtotime('+1 days')),
+            date('Y-m-d', strtotime('+2 days')),
         ]);
 
         $appointment = Appointment::factory()->create([
