@@ -23,7 +23,7 @@ class AppointmentFactory extends Factory
      */
     public function definition()
     {
-        $unixTime = $this->faker->unixTime();
+        $unixTime = strtotime('10:00:00') + mt_rand(0, 28) * 15 * 60;
         $unixTime = round($unixTime / (15 * 60)) * (15 * 60);
         $start_time = date('H:i:s', $unixTime);
         $end_time = date('H:i:s', $unixTime + 15 * 60);
