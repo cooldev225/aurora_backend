@@ -18,11 +18,11 @@ class Specialist extends Model
     ];
 
     /**
-     * Return User
+     * Return Employee
      */
-    public function user()
+    public function employee()
     {
-        return $this->belongsTo(User::class)->first();
+        return $this->belongsTo(Employee::class)->first();
     }
 
     /**

@@ -29,7 +29,6 @@ class DatabaseSeeder extends Seeder
             HealthFundSeeder::class,
             AnestheticQuestionSeeder::class,
             ProcedureQuestionSeeder::class,
-            AppointmentAdministrationInfoSeeder::class,
             AppointmentTimeRequirementSeeder::class,
         ]);
     }
