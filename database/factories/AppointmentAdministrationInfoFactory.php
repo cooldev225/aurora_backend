@@ -17,8 +17,15 @@ class AppointmentAdministrationInfoFactory extends Factory
      */
     public function definition()
     {
+        $date = $this->faker->randomElement([
+            date('Y-m-d', strtotime('-1 days')),
+            date('Y-m-d'),
+            date('Y-m-d', strtotime('1 days')),
+            date('Y-m-d', strtotime('2 days')),
+        ]);
+
         $appointment = Appointment::factory()->create([
-            'date' => date('Y-m-d'),
+            'date' => $date,
         ]);
 
         return [

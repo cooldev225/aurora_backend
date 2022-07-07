@@ -10,6 +10,7 @@ use App\Models\Room;
 use App\Models\PatientOrganization;
 use App\Models\Organization;
 use App\Models\Specialist;
+use App\Models\AppointmentType;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Appointment>
@@ -23,7 +24,7 @@ class AppointmentFactory extends Factory
      */
     public function definition()
     {
-        $unixTime = strtotime('10:00:00') + mt_rand(0, 28) * 15 * 60;
+        $unixTime = strtotime('09:00:00') + mt_rand(0, 32) * 15 * 60;
         $unixTime = round($unixTime / (15 * 60)) * (15 * 60);
         $start_time = date('H:i:s', $unixTime);
         $end_time = date('H:i:s', $unixTime + 15 * 60);
@@ -57,6 +58,13 @@ class AppointmentFactory extends Factory
             ->inRandomOrder()
             ->first();
 
+        $appointment_type = AppointmentType::where(
+            'organization_id',
+            $organization_id
+        )
+            ->inRandomOrder()
+            ->first();
+
         return [
             'patient_id' => $patient->id,
             'organization_id' => $organization_id,
@@ -66,6 +74,7 @@ class AppointmentFactory extends Factory
             'specialist_id' => $specialist->id,
             'room_id' => Room::inRandomOrder()->first()->id,
             'anesthetist_id' => $specialist->anesthetist_id,
+            'appointment_type_id' => $appointment_type->id,
             'reference_number' => mt_rand(1, 9999),
             'date' => $this->faker->date(),
             'arrival_time' => $arrival_time,

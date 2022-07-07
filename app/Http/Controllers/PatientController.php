@@ -24,7 +24,7 @@ class PatientController extends Controller
             ->toArray();
 
         $appointments = Appointment::organizationAppointmentsWithType()
-            ->orderByDesc('date')
+            ->orderBy('date')
             ->get()
             ->toArray();
 
@@ -43,18 +43,25 @@ class PatientController extends Controller
                         'CANCELED'
                     ) {
                         $patients[$key]['canceled_appointments']++;
-                    }
-
-                    if ($appointment['date'] >= $today) {
-                        $patients[$key]['current_appointment'] = $appointment;
-
-                        $patients[$key]['future_appointments']++;
-                    }
-
-                    if ($appointment['date'] < $today) {
+                    } elseif ($appointment['date'] >= $today) {
+                        if (empty($patients[$key]['current_appointment'])) {
+                            $patients[$key][
+                                'current_appointment'
+                            ] = $appointment;
+                        } elseif (
+                            empty($patients[$key]['upcoming_appointment'])
+                        ) {
+                            $patients[$key][
+                                'upcoming_appointment'
+                            ] = $appointment;
+                        } else {
+                            $patients[$key]['future_appointments']++;
+                        }
+                    } elseif ($appointment['date'] < $today) {
                         $patients[$key]['past_appointments'][] = [
                             'date' => $appointment['date'],
                             'procedure_name' => $appointment['procedure_name'],
+                            'color' => $appointment['color'],
                         ];
 
                         if (
@@ -64,8 +71,6 @@ class PatientController extends Controller
                             $patients[$key]['missed_appointments']++;
                         }
                     }
-
-                    $patients[$key]['appointments'][] = $appointment;
                 }
 
                 if ($patients[$key]['future_appointments'] > 0) {
