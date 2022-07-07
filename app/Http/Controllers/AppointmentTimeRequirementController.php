@@ -44,7 +44,7 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
         $appointmentTimeRequirement = AppointmentTimeRequirement::create([
             ...$request->all(),
             'organization_id' => $organization_id,
-            'base_time' => gmdate('H:i:s', strtotime($request->base_time)),
+            'base_time' => date('H:i:s', strtotime($request->base_time)),
         ]);
 
         return response()->json(
@@ -76,7 +76,7 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
         $appointmentTimeRequirement->update([
             ...$request->all(),
             'organization_id' => $organization_id,
-            'base_time' => gmdate('H:i:s', strtotime($request->base_time)),
+            'base_time' => date('H:i:s', strtotime($request->base_time)),
         ]);
 
         return response()->json(
