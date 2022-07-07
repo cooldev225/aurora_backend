@@ -17,6 +17,8 @@ class Organization extends Model
         'proda_device_id',
         'owner_id',
         'is_hospital',
+        'appointment_length',
+        'status',
     ];
 
     /**

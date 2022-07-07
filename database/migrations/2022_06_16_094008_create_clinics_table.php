@@ -41,7 +41,6 @@ return new class extends Migration {
             $table->string('centre_serial_no')->nullable();
             $table->string('centre_last_invoice_serial_no')->nullable();
             $table->integer('lspn_id')->nullable();
-            $table->integer('appointment_length')->nullable();
             $table->timestamps();
         });
     }
