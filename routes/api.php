@@ -87,6 +87,10 @@ Route::middleware(['auth'])->group(function () {
     ])->group(function () {
         Route::apiResource('proda-devices', ProdaDeviceController::class);
         Route::apiResource(
+            'notification-templates',
+            NotificationTemplateController::class
+        );
+        Route::apiResource(
             'anesthetic-questions',
             AnestheticQuestionController::class
         );
@@ -101,10 +105,6 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('patients', PatientController::class);
         Route::apiResource('employees', EmployeeController::class);
         Route::apiResource('specialists', SpecialistController::class);
-        Route::apiResource(
-            'notification-templates',
-            NotificationTemplateController::class
-        );
         Route::get('/employee-roles', [
             UserRoleController::class,
             'employeeRoles',
@@ -158,6 +158,10 @@ Route::middleware(['auth'])->group(function () {
         ]);
         Route::get('/procedure-questions', [
             ProcedureQuestionController::class,
+            'index',
+        ]);
+        Route::get('/notification-templates', [
+            NotificationTemplateController::class,
             'index',
         ]);
     });
