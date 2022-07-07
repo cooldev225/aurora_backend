@@ -28,6 +28,7 @@ class AppointmentTypeRequest extends FormRequest
             'anesthetist_required' => 'required|boolean',
             'invoice_by' => 'required',
             'arrival_time' => 'required|numeric',
+            'procedure_price' => 'numeric',
         ];
     }
 }

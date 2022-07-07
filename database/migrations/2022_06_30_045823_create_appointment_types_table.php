@@ -24,6 +24,7 @@ return new class extends Migration {
             $table->string('clinical_code')->nullable();
             $table->string('name');
             $table->enum('invoice_by', ['Clinic', 'Specialist']);
+            $table->float('procedure_price')->nullable();
             $table->integer('arrival_time');
             $table
                 ->enum('appointment_time', ['Single', 'Double', 'Triple'])
