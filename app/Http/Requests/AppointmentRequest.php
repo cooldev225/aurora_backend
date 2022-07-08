@@ -24,14 +24,12 @@ class AppointmentRequest extends FormRequest
     public function rules()
     {
         return [
-            'clinic_id' => 'required|numeric',
+            'clinic_id' => 'numeric',
             'appointment_type_id' => 'required|numeric',
             'primary_pathologist_id' => 'numeric',
             'specialist_id' => 'required|numeric',
-            'anesthetist_id' => 'required|numeric',
-            'reference_number' => 'required|numeric',
+            'anesthetist_id' => 'numeric',
             'date' => 'required|date',
-            'charge_type' => 'required',
             'skip_coding' => 'boolean',
             'room_id' => 'numeric',
             'procedure_price' => 'numeric',

@@ -391,12 +391,34 @@ class AppointmentController extends BaseOrganizationController
         $referral_expiry_date = date_format($referral_expiry_date, 'Y-m-d');
 
         $is_no_referral = true;
+        $referral_params = [];
 
         if ($request->has('referring_doctor_id')) {
             $is_no_referral = false;
+
+            $referral_params = [
+                'referral_date' => $referral_date,
+                'referral_expiry_date' => $referral_expiry_date,
+            ];
+        }
+
+        $clinic_id = 0;
+
+        if ($request->has('clinic_id')) {
+            $clinic_id = $request->clinic_id;
+        } else {
+            $day = date('l', strtotime($request->date));
+            $day = strtolower($day);
+            $work_hours = json_decode(
+                Specialist::find($request->specialist_id)->employee()
+                    ->work_hours
+            );
+
+            $clinic_id = $work_hours->$day->locations->id;
         }
 
         $filtered_request = [
+            'clinic_id' => $clinic_id,
             'date_of_birth' => date(
                 'Y-m-d',
                 strtotime($request->date_of_birth)
@@ -439,21 +461,11 @@ class AppointmentController extends BaseOrganizationController
             'arrival_time' => $arrival_time,
             'start_time' => $start_time,
             'end_time' => $end_time,
-            'actual_arrival_time' => $request->actual_arrival_time,
-            'actual_start_time' => $request->actual_start_time,
-            'actual_end_time' => $request->actual_end_time,
-            'charge_type' => $request->charge_type,
             'anesthetic_answers' => json_encode($anesthetic_answers),
             'procedure_answers' => json_encode($procedure_answers),
             'referring_doctor_id' => $request->referring_doctor_id,
             'is_no_referral' => $is_no_referral,
             'no_referral_reason' => $request->no_referral_reason,
-            'referral_date' => $referral_date,
-            'referral_duration' => $request->referral_duration,
-            'referral_expiry_date' => $referral_expiry_date,
-            'note' => $request->note,
-            'important_details' => $request->important_details,
-            'clinical_alerts' => $request->clinical_alerts,
             'receive_forms' => $request->input('receive_forms', 'sms'),
             'recurring_appointment' => $request->input(
                 'recurring_appointment',
@@ -461,6 +473,10 @@ class AppointmentController extends BaseOrganizationController
             ),
         ];
 
-        return array_merge($request->all(), $filtered_request);
+        return array_merge(
+            $request->all(),
+            $filtered_request,
+            $referral_params
+        );
     }
 }

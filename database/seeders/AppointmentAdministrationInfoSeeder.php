@@ -22,7 +22,7 @@ class AppointmentAdministrationInfoSeeder extends Seeder
         $specialists = Specialist::all();
 
         foreach ($specialists as $specialist) {
-            $rand = mt_rand(1, 4);
+            $rand = mt_rand(1, 3);
 
             for ($i = 0; $i < $rand; $i++) {
                 $appointmentAdministrationInfo = AppointmentAdministrationInfo::factory()->create();
