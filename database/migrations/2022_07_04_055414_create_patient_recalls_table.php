@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->foreignId('appointment_id');
             $table->foreignId('notification_template_id');
             $table->text('recalled_text');
-            $table->date('recall_sent_date');
+            $table->date('recall_date');
             $table->text('recall_note')->nullable();
             $table->date('appointment_date');
             $table

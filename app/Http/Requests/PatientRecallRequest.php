@@ -29,7 +29,7 @@ class PatientRecallRequest extends FormRequest
             'patient_id' => 'required|numeric',
             'appointment_id' => 'required|numeric',
             'notification_template_id' => 'required|numeric',
-            'recall_sent_date' => 'required|date',
+            'recall_date' => 'required|date',
             'appointment_date' => 'required|date',
         ];
     }
