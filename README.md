@@ -44,6 +44,8 @@ cp .env.example .env
 
 nano .env
 
+- config Twilio phone number, SID and auth key
+
 ## Generate APP_KEY and JWT Secret Key
 
 php artisan key:generate
