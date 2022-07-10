@@ -120,6 +120,14 @@ Route::middleware(['auth'])->group(function () {
     ])->group(function () {
         Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
         Route::apiResource('appointments', AppointmentController::class);
+        Route::put('/appointments/approve/{id}', [
+            AppointmentController::class,
+            'approve',
+        ]);
+        Route::put('/appointments/decline/{id}', [
+            AppointmentController::class,
+            'decline',
+        ]);
         Route::put('/appointments/check-in/{id}', [
             AppointmentController::class,
             'checkIn',
