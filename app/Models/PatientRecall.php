@@ -20,7 +20,7 @@ class PatientRecall extends Model
         'recall_note',
         'appointment_date',
         'status',
-        'sent_by',
+        'send_by',
     ];
 
     /**
@@ -49,5 +49,16 @@ class PatientRecall extends Model
     {
         $patient = $this->patient();
         $notification_template = $this->notificationTemplate();
+
+        $translated_message = $notification_template->translate($this);
+
+        $this->recalled_text = $translated_message;
+
+        $patient_recall_sent_log = new PatientRecallSentLog();
+        $patient_recall_sent_log->patient_recall_id = $this->id;
+        $patient_recall_sent_log->recall_sent_at = date('Y-m-d H:i:s');
+        $patient_recall_sent_log->sent_by = $this->send_by;
+
+        $patient_recall_sent_log->save();
     }
 }

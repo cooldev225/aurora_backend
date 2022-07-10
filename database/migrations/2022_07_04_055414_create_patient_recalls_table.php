@@ -32,7 +32,7 @@ return new class extends Migration {
                     'Overdue',
                 ])
                 ->default('Upcoming');
-            $table->enum('sent_by', ['Mail', 'Email'])->default('Mail');
+            $table->enum('send_by', ['Mail', 'Email'])->default('Mail');
             $table->timestamps();
         });
     }
