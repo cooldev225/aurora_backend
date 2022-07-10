@@ -235,6 +235,84 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
+     * Procedure Approve by Anesthetist
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function approve(Request $request)
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $appointment = Appointment::find($request->id);
+
+        if ($appointment->organization_id != $organization_id) {
+            return $this->forbiddenOrganization();
+        }
+
+        if ($appointment->anesthetist_id != auth()->user()->id) {
+            return response()->json(
+                [
+                    'message' =>
+                        'Should be the anesthetist of this appointment',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $appointment->procedure_approval_status = 'APPROVED';
+
+        $appointment->save();
+
+        return response()->json(
+            [
+                'message' => 'Appointment Approved',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Procedure Decline by Anesthetist
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function decline(Request $request)
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $appointment = Appointment::find($request->id);
+
+        if ($appointment->organization_id != $organization_id) {
+            return $this->forbiddenOrganization();
+        }
+
+        if ($appointment->anesthetist_id != auth()->user()->id) {
+            return response()->json(
+                [
+                    'message' =>
+                        'Should be the anesthetist of this appointment',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $appointment->procedure_approval_status = 'NOT_APPROVED';
+
+        $appointment->save();
+
+        return response()->json(
+            [
+                'message' => 'Appointment Declined',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
      * Check In
      *
      * @param  \Illuminate\Http\Request  $request

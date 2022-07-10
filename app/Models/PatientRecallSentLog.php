@@ -9,5 +9,5 @@ class PatientRecallSentLog extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['patient_recall_id', 'recall_sent_date', 'sent_by'];
+    protected $fillable = ['patient_recall_id', 'recall_sent_at', 'sent_by'];
 }

@@ -75,6 +75,14 @@ class Appointment extends Model
     }
 
     /**
+     * Return Recall NotificationTemplate
+     */
+    public function recallNotificationTemplate()
+    {
+        return NotificationTemplate::where('type', 'recall')->first();
+    }
+
+    /**
      * Return $appointments
      */
     public static function organizationAppointments($organization_id = null)
@@ -138,5 +146,38 @@ class Appointment extends Model
                 "{$appointment_type_table}.id"
             )
             ->leftJoin($clinic_table, 'clinic_id', '=', "{$clinic_table}.id");
+    }
+
+    /**
+     * translate Recall message template
+     */
+    protected function recallTranslate()
+    {
+        $template = $this->recallNotificationTemplate();
+
+        return $this->translate($template);
+    }
+
+    /**
+     * translate template
+     */
+    protected function translate($template)
+    {
+        $template = $this->recallNotificationTemplate();
+
+        $words = [
+            '[PatientFirstName]' => $this->patient()->first_name,
+            '[Time]' => $this->start_time,
+            '[Date]' => $this->date,
+            '[ClinicName]' => $this->clinic()->name,
+        ];
+
+        $translated = $template;
+
+        foreach ($words as $key => $word) {
+            $translated = str_replace($key, $word, $translated);
+        }
+
+        return $translated;
     }
 }

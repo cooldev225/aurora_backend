@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('patient_recall_sent_logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_recall_id');
-            $table->date('recall_sent_date');
+            $table->dateTime('recall_sent_at');
             $table->enum('sent_by', ['Mail', 'Email'])->default('Mail');
             $table->timestamps();
         });
