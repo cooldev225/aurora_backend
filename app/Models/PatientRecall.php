@@ -43,9 +43,9 @@ class PatientRecall extends Model
     }
 
     /**
-     * Return NotificationTemplate
+     * Send Recall Message to Patient
      */
-    public function notificationTemplate()
+    public function sendRecall()
     {
         $patient = $this->patient();
         $notification_template = $this->notificationTemplate();

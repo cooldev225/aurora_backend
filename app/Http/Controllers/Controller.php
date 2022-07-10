@@ -47,8 +47,11 @@ class Controller extends BaseController
      */
     public function sendEmail($to, $subject, $message)
     {
-        $data = ['subject' => $subject, 'message' => $message];
-
-        Mail::to($to)->send(new NotificationEmail($data));
+        Mail::to($to)->send(
+            new NotificationEmail([
+                'subject' => $subject,
+                'message' => $message,
+            ])
+        );
     }
 }
