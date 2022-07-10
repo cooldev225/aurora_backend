@@ -35,6 +35,8 @@ class PatientController extends Controller
             $patients[$key]['missed_appointments'] = 0;
             $patients[$key]['future_appointments'] = 0;
             $patients[$key]['past_appointments'] = [];
+            $patients[$key]['current_appointment'] = [];
+            $patients[$key]['upcoming_appointment'] = [];
 
             foreach ($appointments as $appointment) {
                 if ($appointment['patient_id'] == $patient['id']) {
