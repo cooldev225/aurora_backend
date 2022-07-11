@@ -62,6 +62,49 @@ class Patient extends Model
     }
 
     /**
+     * Return Patient Billing
+     */
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class, 'patient_id');
+    }
+
+    
+    /**
+     * Return patient list for organization
+     */
+    public static function organizationPatientsBasicInfo($organization_id = null)
+    {
+        if ($organization_id == null) {
+            $organization_id = auth()->user()->organization_id;
+        }
+
+        $organization_table = (new Organization())->getTable();
+        $patient_table = (new Patient())->getTable();
+
+        return PatientOrganization::select($patient_table . '.id',
+                $patient_table . '.UR_number',
+                $patient_table . '.first_name',
+                $patient_table . '.last_name',
+                $patient_table . '.date_of_birth',
+                $patient_table . '.contact_number'
+            )
+            ->leftJoin(
+                $organization_table,
+                'organization_id',
+                '=',
+                $organization_table . '.id'
+            )
+            ->leftJoin(
+                $patient_table,
+                'patient_id',
+                '=',
+                $patient_table . '.id'
+            )
+            ->where('organization_id', $organization_id);
+    }
+
+    /**
      * Return patient list for organization
      */
     public static function organizationPatients($organization_id = null)
