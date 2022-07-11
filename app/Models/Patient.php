@@ -107,6 +107,38 @@ class Patient extends Model
     /**
      * Return patient list for organization
      */
+    public static function patientDetailInfo($patient_id)
+    {
+        $organization_table = (new Organization())->getTable();
+        $patient_organization_table = (new PatientOrganization())->getTable();
+        $patient_table = (new Patient())->getTable();
+        $patient_billing_table = (new PatientBilling())->getTable();
+
+        return Patient::select('*', $patient_table . '.id')
+            ->leftJoin(
+                $patient_organization_table,
+                $patient_organization_table . '.patient_id',
+                '=',
+                $patient_table . '.id'
+            )
+            ->leftJoin(
+                $organization_table,
+                $patient_organization_table . '.organization_id',
+                '=',
+                $organization_table . '.id'
+            )
+            ->leftJoin(
+                $patient_billing_table,
+                $patient_billing_table . ".patient_id",
+                '=',
+                $patient_table . ".id"
+            )
+            ->where($patient_table . ".id", $patient_id);
+    }
+
+    /**
+     * Return patient list for organization
+     */
     public static function organizationPatients($organization_id = null)
     {
         if ($organization_id == null) {
