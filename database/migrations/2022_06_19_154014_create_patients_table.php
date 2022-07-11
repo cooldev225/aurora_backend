@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->string('contact_number')->nullable();
             $table
                 ->enum('gender', ['Male', 'Female', 'Other', 'Undisclosed'])
-                ->default('Male');
+                ->default('Undisclosed');
             $table->date('date_of_birth');
             $table->string('address')->nullable();
             $table->string('street')->nullable();
