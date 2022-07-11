@@ -17,9 +17,7 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $organization_id = auth()->user()->organization_id;
-
-        $patients = Patient::organizationPatients()
+        $patients = Patient::organizationPatientsBasicInfo()
             ->get()
             ->toArray();
 
@@ -31,11 +29,6 @@ class PatientController extends Controller
         $today = date('Y-m-d');
 
         foreach ($patients as $key => $patient) {
-            $patients[$key]['canceled_appointments'] = 0;
-            $patients[$key]['missed_appointments'] = 0;
-            $patients[$key]['future_appointments'] = 0;
-            $patients[$key]['past_appointments'] = [];
-            $patients[$key]['current_appointment'] = [];
             $patients[$key]['upcoming_appointment'] = [];
 
             foreach ($appointments as $appointment) {
@@ -56,27 +49,8 @@ class PatientController extends Controller
                             $patients[$key][
                                 'upcoming_appointment'
                             ] = $appointment;
-                        } else {
-                            $patients[$key]['future_appointments']++;
-                        }
-                    } elseif ($appointment['date'] < $today) {
-                        $patients[$key]['past_appointments'][] = [
-                            'date' => $appointment['date'],
-                            'procedure_name' => $appointment['procedure_name'],
-                            'color' => $appointment['color'],
-                        ];
-
-                        if (
-                            strtoupper($appointment['confirmation_status']) ==
-                            'MISSED'
-                        ) {
-                            $patients[$key]['missed_appointments']++;
                         }
                     }
-                }
-
-                if ($patients[$key]['future_appointments'] > 0) {
-                    $patients[$key]['future_appointments']--;
                 }
             }
         }
@@ -85,6 +59,71 @@ class PatientController extends Controller
             [
                 'message' => 'Patient List',
                 'data' => $patients,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Display a item of the Patient.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Patient $patient)
+    {
+        $today = date('Y-m-d');
+
+        $patientInfo = array(
+            'canceled_appointments'     => 0,
+            'missed_appointments'       => 0,
+            'future_appointments'       => 0,
+            'past_appointments'         => [],
+            'current_appointment'       => [],
+            'upcoming_appointment'      => []
+        );
+
+        $appointments = $patient->appointments;
+
+        foreach ($appointments as $appointment) {
+            if (
+                strtoupper($appointment->confirmation_status) ==
+                'CANCELED'
+            ) {
+                $patientInfo['canceled_appointments']++;
+            } elseif ($appointment->date >= $today) {
+                if (empty($patientInfo['current_appointment'])) {
+                    $patientInfo[
+                        'current_appointment'
+                    ] = $appointment;
+                } elseif (
+                    empty($patientInfo['upcoming_appointment'])
+                ) {
+                    $patientInfo[
+                        'upcoming_appointment'
+                    ] = $appointment;
+                } else {
+                    $patientInfo['future_appointments']++;
+                }
+            } elseif ($appointment->date < $today) {
+                $patientInfo['past_appointments'][] = [
+                    'date' => $appointment->date,
+                    'procedure_name' => $appointment->procedure_name,
+                    'color' => $appointment->color,
+                ];
+
+                if (
+                    strtoupper($appointment->confirmation_status) ==
+                    'MISSED'
+                ) {
+                    $patientInfo['missed_appointments']++;
+                }
+            }
+        }
+
+        return response()->json(
+            [
+                'message' => 'Patient Detail Info',
+                'data' => $patientInfo,
             ],
             Response::HTTP_OK
         );
