@@ -30,25 +30,24 @@ class PatientController extends Controller
 
         foreach ($patients as $key => $patient) {
             $patients[$key]['upcoming_appointment'] = [];
+            $is_current_appointment = false;
 
             foreach ($appointments as $appointment) {
                 if ($appointment['patient_id'] == $patient['id']) {
                     if (
-                        strtoupper($appointment['confirmation_status']) ==
-                        'CANCELED'
+                        strtoupper($appointment['confirmation_status']) != 'CANCELED'
                     ) {
-                        $patients[$key]['canceled_appointments']++;
-                    } elseif ($appointment['date'] >= $today) {
-                        if (empty($patients[$key]['current_appointment'])) {
-                            $patients[$key][
-                                'current_appointment'
-                            ] = $appointment;
-                        } elseif (
-                            empty($patients[$key]['upcoming_appointment'])
-                        ) {
-                            $patients[$key][
-                                'upcoming_appointment'
-                            ] = $appointment;
+                      
+                        if ($appointment['date'] >= $today) {
+                            if ($is_current_appointment == false) {
+                                $is_current_appointment = true;
+                            } elseif (
+                                empty($patients[$key]['upcoming_appointment'])
+                            ) {
+                                $patients[$key][
+                                    'upcoming_appointment'
+                                ] = $appointment;
+                            }
                         }
                     }
                 }
@@ -73,14 +72,16 @@ class PatientController extends Controller
     {
         $today = date('Y-m-d');
 
-        $patientInfo = array(
-            'canceled_appointments'     => 0,
-            'missed_appointments'       => 0,
-            'future_appointments'       => 0,
-            'past_appointments'         => [],
-            'current_appointment'       => [],
-            'upcoming_appointment'      => []
-        );
+        $patientInfo = Patient::patientDetailInfo($patient->id)
+            ->get()
+            ->toArray();
+
+        $patientInfo['canceled_appointments'] = 0;
+        $patientInfo['missed_appointments'] = 0;
+        $patientInfo['future_appointments'] = 0;
+        $patientInfo['past_appointments'] = [];
+        $patientInfo['current_appointment'] = [];
+        $patientInfo['upcoming_appointment'] = [];
 
         $appointments = $patient->appointments;
 
