@@ -107,6 +107,14 @@ class AppointmentController extends BaseOrganizationController
             $appointments->where('confirmation_status', 'CANCELED');
 
             $return = $appointments->get();
+        } elseif ($status == 'available') {
+            $appointments
+                ->where('procedure_approval_status', 'APPROVED')
+                ->where('confirmation_status', 'CONFIRMED')
+                ->where('attendance_status', 'CHECKED_OUT')
+                ->where("{$appointment_table}.date", '>=', $today);
+
+            $return = $appointments->get();
         }
 
         return response()->json(
