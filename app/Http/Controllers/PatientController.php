@@ -35,9 +35,9 @@ class PatientController extends Controller
             foreach ($appointments as $appointment) {
                 if ($appointment['patient_id'] == $patient['id']) {
                     if (
-                        strtoupper($appointment['confirmation_status']) != 'CANCELED'
+                        strtoupper($appointment['confirmation_status']) !=
+                        'CANCELED'
                     ) {
-                      
                         if ($appointment['date'] >= $today) {
                             if ($is_current_appointment == false) {
                                 $is_current_appointment = true;
@@ -73,7 +73,7 @@ class PatientController extends Controller
         $today = date('Y-m-d');
 
         $patientInfo = Patient::patientDetailInfo($patient->id)
-            ->get()
+            ->first()
             ->toArray();
 
         $patientInfo['canceled_appointments'] = 0;
@@ -86,22 +86,13 @@ class PatientController extends Controller
         $appointments = $patient->appointments;
 
         foreach ($appointments as $appointment) {
-            if (
-                strtoupper($appointment->confirmation_status) ==
-                'CANCELED'
-            ) {
+            if (strtoupper($appointment->confirmation_status) == 'CANCELED') {
                 $patientInfo['canceled_appointments']++;
             } elseif ($appointment->date >= $today) {
                 if (empty($patientInfo['current_appointment'])) {
-                    $patientInfo[
-                        'current_appointment'
-                    ] = $appointment;
-                } elseif (
-                    empty($patientInfo['upcoming_appointment'])
-                ) {
-                    $patientInfo[
-                        'upcoming_appointment'
-                    ] = $appointment;
+                    $patientInfo['current_appointment'] = $appointment;
+                } elseif (empty($patientInfo['upcoming_appointment'])) {
+                    $patientInfo['upcoming_appointment'] = $appointment;
                 } else {
                     $patientInfo['future_appointments']++;
                 }
@@ -112,10 +103,7 @@ class PatientController extends Controller
                     'color' => $appointment->color,
                 ];
 
-                if (
-                    strtoupper($appointment->confirmation_status) ==
-                    'MISSED'
-                ) {
+                if (strtoupper($appointment->confirmation_status) == 'MISSED') {
                     $patientInfo['missed_appointments']++;
                 }
             }
