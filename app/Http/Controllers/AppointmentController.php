@@ -223,9 +223,13 @@ class AppointmentController extends BaseOrganizationController
 
             if (empty($day_of_weeks) || in_array($day_of_week, $day_of_weeks)) {
                 $date = date_format($appointment_date, 'Y-m-d');
-                $time_slot_list = $this->getTimeSlotList(
-                    $specialists_by_week[$day_of_week]
-                );
+                $time_slot_list = [];
+
+                if (!empty($specialists_by_week[$day_of_week])) {
+                    $time_slot_list = $this->getTimeSlotList(
+                        $specialists_by_week[$day_of_week]
+                    );
+                }
 
                 $return[$date] = [
                     'date' => $date,
