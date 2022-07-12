@@ -13,6 +13,7 @@ use App\Models\Specialist;
 use App\Models\Room;
 use App\Models\PatientBilling;
 use App\Models\AppointmentAdministrationInfo;
+use App\Models\AppointmentTimeRequirement;
 use App\Models\PatientOrganization;
 use App\Http\Requests\AppointmentRequest;
 
@@ -32,6 +33,34 @@ class AppointmentController extends BaseOrganizationController
 
         if ($request->has('clinic_id')) {
             $appointments->where('clinic_id', $request->clinic_id);
+        }
+
+        if ($request->filled('appointment_type_id')) {
+            $appointments->where('appointment_type_id', $request->appointment_type_id);
+        }
+
+        if ($request->filled('specialist_ids')) {
+            $appointments->whereIn('specialist_id', $request->specialist_ids);
+        }
+
+        if ($request->filled('time_requirement')) {
+            $appointment_time_requirement = AppointmentTimeRequirement::find(
+                $request->time_requirement
+            );
+
+            if (
+                strtolower($appointment_time_requirement->type) == 'before'
+            ) {
+                $appointments->where(
+                    "start_time', '<',{$appointment_time_requirement->base_time}'"
+                );
+            } elseif (
+                strtolower($appointment_time_requirement->type) == 'after'
+            ) {
+                $appointments->where(
+                    "end_time', '>',{$appointment_time_requirement->base_time}'"
+                );
+            }
         }
 
         $return = ['today' => [], 'tomorrow' => [], 'future' => []];
