@@ -40,6 +40,11 @@ class AppointmentAdministrationInfoSeeder extends Seeder
             date('Y-m-d'),
             date('Y-m-d', strtotime('+1 days')),
             date('Y-m-d', strtotime('+2 days')),
+            date('Y-m-d', strtotime('+3 days')),
+            date('Y-m-d', strtotime('+4 days')),
+            date('Y-m-d', strtotime('+5 days')),
+            date('Y-m-d', strtotime('+6 days')),
+            date('Y-m-d', strtotime('+7 days')),
         ];
 
         foreach ($patients as $patient) {

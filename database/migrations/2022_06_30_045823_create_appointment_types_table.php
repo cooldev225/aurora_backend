@@ -27,8 +27,8 @@ return new class extends Migration {
             $table->float('procedure_price')->nullable();
             $table->integer('arrival_time');
             $table
-                ->enum('appointment_time', ['Single', 'Double', 'Triple'])
-                ->default('Single');
+                ->enum('appointment_time', ['SINGLE', 'DOUBLE', 'TRIPLE'])
+                ->default('SINGLE');
             $table->integer('payment_tier_1')->default(0);
             $table->integer('payment_tier_2')->default(0);
             $table->integer('payment_tier_3')->default(0);

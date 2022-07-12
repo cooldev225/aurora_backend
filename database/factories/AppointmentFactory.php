@@ -24,20 +24,8 @@ class AppointmentFactory extends Factory
      */
     public function definition()
     {
-        $unixTime = strtotime('09:00:00') + mt_rand(0, 32) * 15 * 60;
-        $unixTime = round($unixTime / (15 * 60)) * (15 * 60);
-        $start_time = date('H:i:s', $unixTime);
-        $end_time = date('H:i:s', $unixTime + 15 * 60);
-
-        if ($start_time > $end_time) {
-            $temp = $start_time;
-            $end_time = $start_time;
-            $start_time = $temp;
-        }
-
-        $arrival_time = $start_time;
-
-        $organization_id = Organization::inRandomOrder()->first()->id;
+        $organization = Organization::inRandomOrder()->first();
+        $organization_id = $organization->id;
         $patient = Patient::factory()->create();
 
         $patientOrganization = PatientOrganization::where(
@@ -64,6 +52,28 @@ class AppointmentFactory extends Factory
         )
             ->inRandomOrder()
             ->first();
+
+        $appointment_time = $organization->appointment_length;
+
+        if ($appointment_type->appointment_time == 'DOUBLE') {
+            $appointment_time = $appointment_time * 2;
+        } elseif ($appointment_type->appointment_time == 'TRIPLE') {
+            $appointment_time = $appointment_time * 3;
+        }
+
+        $working_slots = 10;
+        $unixTime = strtotime('09:00:00') + mt_rand(0, $working_slots) * $appointment_time * 60;
+        $unixTime = round($unixTime / ($appointment_time * 60)) * ($appointment_time * 60);
+        $start_time = date('H:i:s', $unixTime);
+        $end_time = date('H:i:s', $unixTime + $appointment_time * 60);
+
+        if ($start_time > $end_time) {
+            $temp = $start_time;
+            $end_time = $start_time;
+            $start_time = $temp;
+        }
+
+        $arrival_time = $start_time;
 
         return [
             'patient_id' => $patient->id,
