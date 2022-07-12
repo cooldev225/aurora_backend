@@ -25,37 +25,9 @@ class AppointmentController extends BaseOrganizationController
      */
     public function index(Request $request)
     {
-        $patient_table = (new Patient())->getTable();
-        $clinic_table = (new Clinic())->getTable();
-        $appointment_type_table = (new AppointmentType())->getTable();
-        $specialist_table = (new Specialist())->getTable();
-        $room_table = (new Room())->getTable();
         $appointment_table = (new Appointment())->getTable();
 
-        $appointments = Appointment::leftJoin(
-            $patient_table,
-            'patient_id',
-            '=',
-            $patient_table . '.id'
-        )
-            ->leftJoin($clinic_table, 'clinic_id', '=', $clinic_table . '.id')
-            ->leftJoin(
-                $appointment_type_table,
-                'appointment_type_id',
-                '=',
-                $appointment_type_table . '.id'
-            )
-            ->leftJoin(
-                $specialist_table,
-                'specialist_id',
-                '=',
-                $specialist_table . '.id'
-            )
-            ->leftJoin($room_table, 'room_id', '=', $room_table . '.id')
-            ->where(
-                $clinic_table . '.organization_id',
-                auth()->user()->organization_id
-            )
+        $appointments = Appointment::organizationAppointmentsWithType()
             ->orderBy("{$appointment_table}.date");
 
         if ($request->has('clinic_id')) {
@@ -114,14 +86,29 @@ class AppointmentController extends BaseOrganizationController
                 ->where("{$appointment_table}.date", '>=', $today);
 
             $appointments = $appointments->get();
+
+            $search_dates = [];
+            $appointment_date = date_create($today);
+
+            for ($i = 0; $i < 7; $i++) {
+                $search_dates[] = date_format($appointment_date, 'Y-m-d');
+                date_add(
+                    $appointment_date,
+                    date_interval_create_from_date_string('1 day')
+                );
+            }
+
             $return = [];
 
-            foreach ($appointments as $appointment) {
-                if (empty($return[$appointment->date])) {
-                    $return[$appointment->date] = [];
-                }
+            foreach ($search_dates as $search_date) {
+                $formatted_date = date('D jS', strtotime($search_date));
+                $return[$formatted_date] = [];
 
-                $return[$appointment->date][] = $appointment;
+                foreach ($appointments as $appointment) {
+                    if ($appointment->date == $search_date) {
+                        $return[$formatted_date][] = $appointment;
+                    }
+                }
             }
         }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Appointment extends Model
 {
@@ -129,14 +130,22 @@ class Appointment extends Model
         $organization_id = null
     ) {
         $appointment_type_table = (new AppointmentType())->getTable();
+        $specialist_table = (new Specialist())->getTable();
         $clinic_table = (new Clinic())->getTable();
         $appointment_table = (new Appointment())->getTable();
+        $employee_table = (new Employee())->getTable();
+        $user_table = (new User())->getTable();
+        $specialist_title_table = (new SpecialistTitle())->getTable();
 
         return self::organizationAppointments($organization_id)
             ->select(
                 '*',
+                DB::raw(
+                    "CONCAT({$specialist_title_table}.name, ' ', {$user_table}.first_name, ' ', {$user_table}.last_name) AS specialist_name"
+                ),
                 "{$clinic_table}.name AS clinic_name",
                 "{$appointment_type_table}.name AS procedure_name",
+                "{$appointment_type_table}.name AS appointment_type_name",
                 "{$appointment_table}.patient_id"
             )
             ->leftJoin(
@@ -145,7 +154,20 @@ class Appointment extends Model
                 '=',
                 "{$appointment_type_table}.id"
             )
-            ->leftJoin($clinic_table, 'clinic_id', '=', "{$clinic_table}.id");
+            ->leftJoin($clinic_table, 'clinic_id', '=', "{$clinic_table}.id")
+            ->leftJoin(
+                $employee_table,
+                'employee_id',
+                '=',
+                $employee_table . '.id'
+            )
+            ->leftJoin($user_table, 'user_id', '=', $user_table . '.id')
+            ->leftJoin(
+                $specialist_title_table,
+                'specialist_title_id',
+                '=',
+                $specialist_title_table . '.id'
+            );
     }
 
     /**
