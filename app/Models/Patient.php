@@ -79,10 +79,12 @@ class Patient extends Model
         $employee_table = (new Employee())->getTable();
         $user_table = (new User())->getTable();
         $clinic_table = (new Clinic())->getTable();
+        $specialist_title_table = (new SpecialistTitle())->getTable();
         
         return Appointment::select(
                 $appointment_table . '.*',
-                DB::raw('CONCAT(' . $user_table . '.first_name, " ",'
+                DB::raw('CONCAT(' . $specialist_title_table . '.name, " ",'
+                    . $user_table . '.first_name, " ",'
                     . $user_table . '.last_name) AS specialist_name'),
                 $clinic_table  . '.hospital_provider_number'
             )
@@ -90,6 +92,11 @@ class Patient extends Model
                 $specialist_table,
                 $appointment_table . '.specialist_id',
                 $specialist_table . '.id'
+            )
+            ->leftJoin(
+                $specialist_title_table,
+                'specialist_title_id',
+                $specialist_title_table . '.id'
             )
             ->leftJoin(
                 $employee_table,
