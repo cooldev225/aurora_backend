@@ -28,15 +28,19 @@ class AppointmentController extends BaseOrganizationController
     {
         $appointment_table = (new Appointment())->getTable();
 
-        $appointments = Appointment::organizationAppointmentsWithType()
-            ->orderBy("{$appointment_table}.date");
+        $appointments = Appointment::organizationAppointmentsWithType()->orderBy(
+            "{$appointment_table}.date"
+        );
 
         if ($request->has('clinic_id')) {
             $appointments->where('clinic_id', $request->clinic_id);
         }
 
         if ($request->filled('appointment_type_id')) {
-            $appointments->where('appointment_type_id', $request->appointment_type_id);
+            $appointments->where(
+                'appointment_type_id',
+                $request->appointment_type_id
+            );
         }
 
         if ($request->filled('specialist_ids')) {
@@ -48,9 +52,7 @@ class AppointmentController extends BaseOrganizationController
                 $request->time_requirement
             );
 
-            if (
-                strtolower($appointment_time_requirement->type) == 'before'
-            ) {
+            if (strtolower($appointment_time_requirement->type) == 'before') {
                 $appointments->where(
                     "start_time', '<',{$appointment_time_requirement->base_time}'"
                 );
@@ -148,6 +150,227 @@ class AppointmentController extends BaseOrganizationController
             ],
             Response::HTTP_OK
         );
+    }
+
+    /**
+     * Return available time slots
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function availableSlots(Request $request)
+    {
+        $appointment_table = (new Appointment())->getTable();
+        $specialist_table = (new Specialist())->getTable();
+
+        $appointments = Appointment::organizationAppointmentsWithType()->orderBy(
+            "{$appointment_table}.date"
+        );
+
+        $clinic_id = null;
+
+        if ($request->filled('clinic_id')) {
+            $clinic_id = $request->clinic_id;
+        }
+
+        $specialist_list = Specialist::organizationSpecialists();
+
+        if ($request->filled('specialist_ids')) {
+            $specialist_list->whereIn(
+                $specialist_table . '.id',
+                $request->specialist_ids
+            );
+
+            $appointments->whereIn('specialist_id', $request->specialist_ids);
+        }
+
+        $specialists = $specialist_list->get()->toArray();
+        $appointments = $appointments->get();
+        $specialists_by_week = [];
+
+        foreach ($specialists as $key => $specialist) {
+            $work_hours = (array) json_decode($specialist['work_hours']);
+            $specialists[$key]['work_hours'] = $work_hours;
+
+            foreach ($work_hours as $week => $availability) {
+                if (
+                    $availability->available &&
+                    (empty($clinic_id) ||
+                        in_array($clinic_id, $availability->clinic_id))
+                ) {
+                    if (empty($specialists_by_week[$week])) {
+                        $specialists_by_week[$week] = [];
+                    }
+
+                    $specialists_by_week[$week][$specialist['id']] =
+                        $availability->time_slot;
+                }
+            }
+        }
+
+        $today = date('Y-m-d');
+        $day_of_weeks = [];
+
+        if ($request->filled('day_of_weeks')) {
+            $day_of_weeks = $request->day_of_weeks;
+        }
+
+        $appointment_date = date_create($today);
+        $date_count = 0;
+        $return = [];
+
+        for ($i = 0; $i < 49; $i++) {
+            $day_of_week = strtolower(date_format($appointment_date, 'l'));
+
+            if (empty($day_of_weeks) || in_array($day_of_week, $day_of_weeks)) {
+                $date = date_format($appointment_date, 'Y-m-d');
+                $time_slot_list = $this->getTimeSlotList(
+                    $specialists_by_week[$day_of_week]
+                );
+
+                $return[$date] = [
+                    'date' => $date,
+                    'formatted_date' => date_format($appointment_date, 'D jS'),
+                    'day_of_week' => $day_of_week,
+                    'time_slot_list' => $time_slot_list,
+                ];
+            }
+
+            date_add(
+                $appointment_date,
+                date_interval_create_from_date_string('1 day')
+            );
+
+            $date_count++;
+
+            if ($date_count >= 7) {
+                break;
+            }
+        }
+
+        if ($request->filled('appointment_type_id')) {
+            // extendable
+        }
+
+        if ($request->filled('time_requirement')) {
+            $appointment_time_requirement = AppointmentTimeRequirement::find(
+                $request->time_requirement
+            );
+
+            foreach ($return as $date_key => $date_item) {
+                foreach ($date_item['time_slot_list'] as $slot_key => $slot) {
+                    if (
+                        strtolower($appointment_time_requirement->type) ==
+                            'before' &&
+                        $slot['end_time'] >
+                            $appointment_time_requirement->base_time
+                    ) {
+                        unset($return[$date_key]['time_slot_list'][$slot_key]);
+                    } elseif (
+                        strtolower($appointment_time_requirement->type) ==
+                            'after' &&
+                        $slot['start_time'] <
+                            $appointment_time_requirement->base_time
+                    ) {
+                        unset($return[$date_key]['time_slot_list'][$slot_key]);
+                    }
+                }
+            }
+        }
+
+        foreach ($appointments as $date_key => $appointment) {
+            $date_item = empty($return[$date_key])
+                ? ['time_slot_list' => []]
+                : $return[$date_key];
+
+            foreach ($date_item['time_slot_list'] as $slot_key => $slot) {
+                if (
+                    $appointment->checkConflict(
+                        $slot['start_time'],
+                        $slot['end_time']
+                    )
+                ) {
+                    $return[$date_key]['time_slot_list'][$slot_key][
+                        'specialist_ids'
+                    ][$appointment->specialist_id] = 0;
+                }
+            }
+        }
+
+        // Remove time slots which has no available specialists
+        foreach ($return as $date_key => $date_item) {
+            foreach ($date_item['time_slot_list'] as $slot_key => $slot) {
+                $specialist_count = 0;
+
+                foreach ($slot['specialist_ids'] as $key => $value) {
+                    $specialist_count += $value;
+                }
+
+                if ($specialist_count == 0) {
+                    unset($return[$date_key]['time_slot_list'][$slot_key]);
+                }
+            }
+        }
+
+        return response()->json(
+            [
+                'message' => 'Available Time Slots',
+                'data' => $return,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * return Time slots array
+     */
+    protected function getTimeSlotList($specialist_list)
+    {
+        $total_time_slots = [];
+
+        $appointment_time = auth()
+            ->user()
+            ->organization()->appointment_length;
+
+        $unixTime = strtotime('00:00:00');
+        $start_time = date('H:i:s', $unixTime);
+        $end_time = date('H:i:s', $unixTime + $appointment_time * 60);
+
+        while ($start_time < $end_time) {
+            $total_time_slots[$start_time] = [
+                'start_time' => $start_time,
+                'end_time' => $end_time,
+            ];
+
+            $unixTime = $unixTime + $appointment_time * 60;
+            $start_time = date('H:i:s', $unixTime);
+            $end_time = date('H:i:s', $unixTime + $appointment_time * 60);
+        }
+
+        foreach ($specialist_list as $specialist_id => $time) {
+            foreach ($total_time_slots as $slot_key => $time_slot) {
+                if (empty($total_time_slots[$slot_key]['specialist_ids'])) {
+                    $total_time_slots[$slot_key]['specialist_ids'] = [];
+                }
+
+                if (
+                    !empty($time) &&
+                    !empty($time[0]) &&
+                    !empty($time[1]) &&
+                    $this->timeContainsSlot(
+                        $time[0],
+                        $time[1],
+                        $time_slot['start_time'],
+                        $time_slot['end_time']
+                    )
+                ) {
+                    $total_time_slots[$slot_key]['specialist_ids'][
+                        $specialist_id
+                    ] = 1;
+                }
+            }
+        }
+
+        return $total_time_slots;
     }
 
     /**
