@@ -113,7 +113,15 @@ class AppointmentController extends BaseOrganizationController
                 ->where('confirmation_status', 'CONFIRMED')
                 ->where("{$appointment_table}.date", '>=', $today);
 
-            $return = $appointments->get();
+            $return = $appointments->get()->toArray();
+
+            foreach ($return as $appointment) {
+                if (empty($return[$appointment->date])) {
+                    $return[$appointment->date] = [];
+                }
+
+                $return[$appointment->date][] = $appointment;
+            }
         }
 
         return response()->json(
