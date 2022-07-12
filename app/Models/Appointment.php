@@ -202,4 +202,20 @@ class Appointment extends Model
 
         return $translated;
     }
+
+    /**
+     * Check conflict
+     */
+    protected function checkConflict($start_time, $end_time)
+    {
+        if ($this->start_time >= $end_time) {
+            return false;
+        }
+
+        if ($this->end_time <= $start_time) {
+            return false;
+        }
+
+        return true;
+    }
 }

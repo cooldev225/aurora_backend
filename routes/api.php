@@ -140,10 +140,11 @@ Route::middleware(['auth'])->group(function () {
             AppointmentController::class,
             'waitListed',
         ]);
-        Route::get('/organizations', [
-            OrganizationController::class,
-            'index',
+        Route::get('/available-slots', [
+            AppointmentController::class,
+            'availableSlots',
         ]);
+        Route::get('/organizations', [OrganizationController::class, 'index']);
         Route::get('/appointment-types', [
             AppointmentTypeController::class,
             'index',
