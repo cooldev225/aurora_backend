@@ -31,13 +31,27 @@ class OrganizationController extends Controller
     {
         $user_table = (new User())->getTable();
 
-        $result = Organization::combineWithBaseUrl()
+        $result = null;
+        $message = '';
+
+        if (auth()->user()->isAdmin()) {
+            $result = Organization::combineWithBaseUrl()
+                ->leftJoin($user_table, 'owner_id', '=', $user_table . '.id')
+                ->get();
+
+            $message = 'Organization List';
+        } else {
+            $result = Organization::combineWithBaseUrl()
             ->leftJoin($user_table, 'owner_id', '=', $user_table . '.id')
-            ->get();
+            ->where('organization_id', auth()->user()->organization_id)
+            ->first();
+
+            $message = 'Current Organization Info';
+        }
 
         return response()->json(
             [
-                'message' => 'Organization List',
+                'message' => $message,
                 'data' => $result,
             ],
             Response::HTTP_OK
