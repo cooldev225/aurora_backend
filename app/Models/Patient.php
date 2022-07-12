@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use DB;
 
 class Patient extends Model
 {
@@ -62,11 +63,51 @@ class Patient extends Model
     }
 
     /**
-     * Return Patient Billing
+     * Return Patient Appointmment
      */
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'patient_id');
+    }
+
+    public function getAppointmentsWithSpecialist() {
+        $patient_id = $this->id;
+
+
+        $appointment_table = (new Appointment())->getTable();
+        $specialist_table = (new Specialist())->getTable();
+        $employee_table = (new Employee())->getTable();
+        $user_table = (new User())->getTable();
+        $clinic_table = (new Clinic())->getTable();
+        
+        return Appointment::select(
+                $appointment_table . '.*',
+                DB::raw('CONCAT(' . $user_table . '.first_name, " ",'
+                    . $user_table . '.last_name) AS specialist_name'),
+                $clinic_table  . '.hospital_provider_number'
+            )
+            ->leftJoin(
+                $specialist_table,
+                $appointment_table . '.specialist_id',
+                $specialist_table . '.id'
+            )
+            ->leftJoin(
+                $employee_table,
+                $specialist_table . '.employee_id',
+                $employee_table . '.id'
+            )
+            ->leftJoin(
+                $user_table,
+                $employee_table . '.user_id',
+                $user_table . '.id'
+            )
+            ->leftJoin(
+                $clinic_table,
+                $appointment_table . '.clinic_id',
+                $clinic_table . '.id'
+            )
+            ->where('patient_id', $patient_id)
+            ->get();
     }
 
     

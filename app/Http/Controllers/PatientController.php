@@ -83,7 +83,7 @@ class PatientController extends Controller
         $patientInfo['current_appointment'] = [];
         $patientInfo['upcoming_appointment'] = [];
 
-        $appointments = $patient->appointments;
+        $appointments = $patient->getAppointmentsWithSpecialist();
 
         foreach ($appointments as $appointment) {
             if (strtoupper($appointment->confirmation_status) == 'CANCELED') {
