@@ -82,6 +82,17 @@ class AppointmentFactory extends Factory
             'start_time' => $start_time,
             'end_time' => $end_time,
             'skip_coding' => mt_rand(1, 2) == 1 ? true : false,
+            'procedure_approval_status' => $this->faker->randomElement([
+                'NOT_ACCESSED',
+                'NOT_APPROVED',
+                'APPROVED',
+            ]),
+            'confirmation_status' => $this->faker->randomElement([
+                'PENDING',
+                'CONFIRMED',
+                'CANCELED',
+                'MISSED',
+            ]),
         ];
     }
 }

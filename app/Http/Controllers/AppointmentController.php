@@ -111,7 +111,6 @@ class AppointmentController extends BaseOrganizationController
             $appointments
                 ->where('procedure_approval_status', 'APPROVED')
                 ->where('confirmation_status', 'CONFIRMED')
-                ->where('attendance_status', 'CHECKED_OUT')
                 ->where("{$appointment_table}.date", '>=', $today);
 
             $return = $appointments->get();
