@@ -167,9 +167,14 @@ class AppointmentController extends BaseOrganizationController
         );
 
         $clinic_id = null;
+        $x_weeks = 1;
 
         if ($request->filled('clinic_id')) {
             $clinic_id = $request->clinic_id;
+        }
+
+        if ($request->filled('x_weeks')) {
+            $x_weeks = $request->x_weeks;
         }
 
         $specialist_list = Specialist::organizationSpecialists();
@@ -246,7 +251,7 @@ class AppointmentController extends BaseOrganizationController
 
             $date_count++;
 
-            if ($date_count >= 7) {
+            if ($date_count >= $x_weeks * 7) {
                 break;
             }
         }

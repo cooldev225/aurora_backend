@@ -35,17 +35,11 @@ class AppointmentAdministrationInfoSeeder extends Seeder
 
         $patients = Patient::all();
 
-        $dates = [
-            date('Y-m-d', strtotime('-1 days')),
-            date('Y-m-d'),
-            date('Y-m-d', strtotime('+1 days')),
-            date('Y-m-d', strtotime('+2 days')),
-            date('Y-m-d', strtotime('+3 days')),
-            date('Y-m-d', strtotime('+4 days')),
-            date('Y-m-d', strtotime('+5 days')),
-            date('Y-m-d', strtotime('+6 days')),
-            date('Y-m-d', strtotime('+7 days')),
-        ];
+        $dates = [];
+
+        for ($i = -10; $i < 49; $i++) {
+            $dates[] = date('Y-m-d', strtotime("+{$i} days"));
+        }
 
         foreach ($patients as $patient) {
             foreach ($dates as $date) {
