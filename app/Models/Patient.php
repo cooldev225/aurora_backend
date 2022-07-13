@@ -86,7 +86,7 @@ class Patient extends Model
                 DB::raw('CONCAT(' . $specialist_title_table . '.name, " ",'
                     . $user_table . '.first_name, " ",'
                     . $user_table . '.last_name) AS specialist_name'),
-                $clinic_table  . '.hospital_provider_number'
+                $clinic_table  . '.hospital_provider_number AS specialist_provider_name'
             )
             ->leftJoin(
                 $specialist_table,
