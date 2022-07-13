@@ -342,11 +342,11 @@ class AppointmentController extends BaseOrganizationController
             ->user()
             ->organization()->appointment_length;
 
-        $unixTime = strtotime('00:00:00');
+        $unixTime = strtotime('07:00:00');
         $start_time = date('H:i:s', $unixTime);
         $end_time = date('H:i:s', $unixTime + $appointment_time * 60);
 
-        while ($start_time < $end_time) {
+        while ($end_time <= '18:00:00') {
             $total_time_slots[$start_time] = [
                 'start_time' => $start_time,
                 'end_time' => $end_time,
