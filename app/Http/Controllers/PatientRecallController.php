@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PatientRecallRequest;
 use Illuminate\Http\Response;
 use App\Models\PatientRecall;
-use App\Models\Patient;
-use App\Http\Requests\PatientRecallRequest;
 
 class PatientRecallController extends BaseOrganizationController
 {
@@ -17,19 +16,10 @@ class PatientRecallController extends BaseOrganizationController
     public function index()
     {
         $organization_id = auth()->user()->organization_id;
-        $patient_table = (new Patient())->getTable();
 
-        $patientRecalls = PatientRecall::where(
-            'organization_id',
-            $organization_id
-        )
-            ->leftJoin(
-                $patient_table,
-                'patient_id',
-                '=',
-                $patient_table . '.id'
-            )
-            ->orderByDesc('appointment_date')
+        $patientRecalls = PatientRecall::where('organization_id', $organization_id)
+            ->with('patient')
+            ->orderByDesc('date_recall_due')
             ->get();
 
         return response()->json(
@@ -38,6 +28,90 @@ class PatientRecallController extends BaseOrganizationController
                 'data' => $patientRecalls,
             ],
             Response::HTTP_OK
+        );
+    }
+    
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\PatientRecallRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(PatientRecallRequest $request)
+    {
+        $user_id = auth()->user()->id;
+        $time_frame = $request->time_frame;
+        $date_recall_due = date('Y-m-d', strtotime("+" . $time_frame . " months",
+            strtotime(date('Y-m-d'))));
+
+        $patientRecall = PatientRecall::create([
+            'user_id'           => $user_id,
+            'patient_id'        => $request->patient_id,
+            'organization_id'   => $request->organization_id,
+            'date_recall_due'   => $date_recall_due,
+            'time_frame'        => $time_frame,
+            'confirmed'         => true,
+            'reason'            => $request->reason,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'New Patient Recall created',
+                'data' => $patientRecall,
+            ],
+            Response::HTTP_CREATED
+        );
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \App\Http\Requests\PatientRecallRequest  $request
+     * @param  \App\Models\PatientRecall  $patientRecall
+     * @return \Illuminate\Http\Response
+     */
+    public function update(
+        PatientRecallRequest $request,
+        PatientRecall $patientRecall
+    ) {
+        $user_id = auth()->user()->id;
+        $time_frame = $request->time_frame;
+        $date_recall_due = date('Y-m-d', strtotime("+" . $time_frame . " months",
+            strtotime(date('Y-m-d'))));
+
+        $patientRecall->update([
+            'user_id'           => $user_id,
+            'patient_id'        => $request->patient_id,
+            'organization_id'   => $request->organization_id,
+            'time_frame'        => $request->time_frame,
+            'date_recall_due'   => $date_recall_due,
+            'organization_id'   => $request->organization_id,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'Patient Recall updated',
+                'data' => $patientRecall,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\PatientRecall  $patientRecall
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(PatientRecall $patientRecall)
+    {
+        $patientRecall->delete();
+
+        return response()->json(
+            [
+                'message' => 'Patient Recall Removed',
+            ],
+            Response::HTTP_NO_CONTENT
         );
     }
 }

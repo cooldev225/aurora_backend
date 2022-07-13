@@ -109,10 +109,8 @@ Route::middleware(['auth'])->group(function () {
             UserRoleController::class,
             'employeeRoles',
         ]);
-        Route::get('/patient-recalls', [
-            PatientRecallController::class,
-            'index',
-        ]);
+
+        Route::apiResource('patient-recalls', PatientRecallController::class);
     });
 
     Route::middleware([
