@@ -28,14 +28,7 @@ class PatientRecallScheduler extends Command
      */
     public function handle()
     {
-        $patients_recalls = PatientRecall::where(
-            'recall_date',
-            date('Y-m-d')
-        )->get();
-
-        foreach ($patients_recalls as $patients_recall) {
-            $patients_recall->sendRecall();
-        }
+        PatientRecall::sendCurrentRecalls();
 
         $this->info('Successfully sent Recall Messages');
     }

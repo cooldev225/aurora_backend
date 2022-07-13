@@ -2,8 +2,12 @@
 
 namespace App\Models;
 
+use App\Mail\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class PatientRecall extends Model
 {
@@ -27,34 +31,71 @@ class PatientRecall extends Model
         return $this->belongsTo(Patient::class, 'patient_id');
     }
 
-    /**
-     * Return NotificationTemplate
-     */
-    public function notificationTemplate()
-    {
-        return $this->belongsTo(
-            NotificationTemplate::class,
-            'notification_template_id'
-        )->first();
+    public static function translate($template, $paitent_recall) {
+        $words = [
+            '[PatientFirstName]'    => $paitent_recall->first_name,
+        ];
+
+        $translated = $template;
+
+        foreach ($words as $key => $word) {
+            $translated = str_replace($key, $word, $translated);
+        }
+
+        return $translated;
     }
 
     /**
      * Send Recall Message to Patient
      */
-    public function sendRecall()
+    public static function sendCurrentRecalls()
     {
-        $patient = $this->patient();
-        $notification_template = $this->notificationTemplate();
+        $patient_recall_table = (new PatientRecall())->getTable();
+        $patient_table = (new Patient())->getTable();
 
-        $translated_message = $notification_template->translate($this);
+        $queryBuilderNotificationTemplate = NotificationTemplate::select(
+            'organization_id', 'days_before', 'subject',
+            'sms_template', 'email_print_template'
+        )
+        ->where('type', 'recall');
 
-        $this->recalled_text = $translated_message;
+        $queryNotificationTemplate = $queryBuilderNotificationTemplate->toSql();
 
-        $patient_recall_sent_log = new PatientRecallSentLog();
-        $patient_recall_sent_log->patient_recall_id = $this->id;
-        $patient_recall_sent_log->recall_sent_at = date('Y-m-d H:i:s');
-        $patient_recall_sent_log->sent_by = $this->send_by;
+        $patientRecalls = PatientRecall::select(
+            $patient_recall_table . '.id AS patient_recall_id',
+            'nt.organization_id AS organization_id',
+            $patient_table . '.*'
+        )
+        ->leftJoin(
+            DB::raw('(' . $queryNotificationTemplate. ') AS nt'),
+            function(JoinClause $join) use ($patient_recall_table, $queryBuilderNotificationTemplate) {
+                $join->on($patient_recall_table . '.organization_id', 'nt.organization_id')
+                     ->addBinding($queryBuilderNotificationTemplate->getBindings());  
+            }
+        )
+        ->leftJoin(
+            $patient_table,
+            $patient_recall_table . '.patient_id',
+            $patient_table . '.id'
+        )
+        ->whereRaw('DATEDIFF(' . $patient_recall_table . '.date_recall_due, NOW()) = nt.days_before')
+        ->where($patient_recall_table . '.confirmed', 0)
+        ->get();
 
-        $patient_recall_sent_log->save();
+        foreach ($patientRecalls as $paitent_recall) {
+            Notification::sendRecall($paitent_recall);
+
+            $patientRecall = PatientRecall::find($paitent_recall->patient_recall_id);
+            $patientRecall->confirmed = true;
+            $patientRecall->save();
+
+            $patient_recall_sent_log = new PatientRecallSentLog();
+            $patient_recall_sent_log->patient_recall_id = $patientRecall->id;
+            $patient_recall_sent_log->recall_sent_at = date('Y-m-d H:i:s');
+            $patient_recall_sent_log->sent_by = $paitent_recall->send_recall_method;
+            $patient_recall_sent_log->save();
+
+            dump($paitent_recall);
+        }
     }
 }

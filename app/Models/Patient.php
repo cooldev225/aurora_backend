@@ -73,7 +73,6 @@ class Patient extends Model
     public function getAppointmentsWithSpecialist() {
         $patient_id = $this->id;
 
-
         $appointment_table = (new Appointment())->getTable();
         $specialist_table = (new Specialist())->getTable();
         $employee_table = (new Employee())->getTable();

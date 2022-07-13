@@ -66,8 +66,8 @@ return new class extends Migration {
                 ])
                 ->default('sms');
             $table
-                ->enum('send_recall_method', ['email', 'mail'])
-                ->default('email');
+                ->enum('send_recall_method', ['sms', 'email'])
+                ->default('sms');
             $table->string('kin_name')->nullable();
             $table->string('kin_relationship')->nullable();
             $table->string('kin_phone_number')->nullable();
