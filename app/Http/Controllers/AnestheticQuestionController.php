@@ -49,9 +49,8 @@ class AnestheticQuestionController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $anestheticQuestion = AnestheticQuestion::create([
-            'question' => $request->question,
+            ...$request->all(),
             'organization_id' => $organization_id,
-            'status' => $request->status,
         ]);
 
         return response()->json(
@@ -77,9 +76,8 @@ class AnestheticQuestionController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $anestheticQuestion->update([
-            'question' => $request->question,
+            ...$request->all(),
             'organization_id' => $organization_id,
-            'status' => $request->status,
         ]);
 
         return response()->json(

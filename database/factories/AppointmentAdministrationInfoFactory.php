@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Appointment;
+use App\Models\Organization;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\AppointmentAdministrationInfo>
@@ -27,6 +28,40 @@ class AppointmentAdministrationInfoFactory extends Factory
         $appointment = Appointment::factory()->create([
             'date' => $date,
         ]);
+
+        $appointment_time = Organization::find($appointment->organization_id)
+            ->appointment_length;
+
+        $allAppointments = Appointment::all()->get();
+
+        $conflict = 1;
+
+        while ($conflict > 0) {
+            $conflict = 0;
+
+            $appointment->start_time = date(
+                'H:i:s',
+                strtotime($appointment->start_time) + $appointment_time * 60
+            );
+            $appointment->end_time = date(
+                'H:i:s',
+                strtotime($appointment->end_time) + $appointment_time * 60
+            );
+
+            foreach ($apt as $allAppointments) {
+                if (
+                    $apt->date == $appointment->date &&
+                    $apt->specialist_id == $appointment->specialist_id &&
+                    $apt->checkConflict(
+                        $appointment->start_time,
+                        $appointment->end_time
+                    )
+                ) {
+                    $conflict++;
+                    break;
+                }
+            }
+        }
 
         return [
             'appointment_id' => $appointment->id,

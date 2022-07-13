@@ -223,7 +223,7 @@ class AppointmentController extends BaseOrganizationController
         $date_count = 0;
         $return = [];
 
-        for ($i = 0; $i < 49; $i++) {
+        for ($i = $x_weeks * 7; $i < 8 * 7; $i++) {
             $day_of_week = strtolower(date_format($appointment_date, 'l'));
 
             if (empty($day_of_weeks) || in_array($day_of_week, $day_of_weeks)) {
@@ -251,7 +251,7 @@ class AppointmentController extends BaseOrganizationController
 
             $date_count++;
 
-            if ($date_count >= $x_weeks * 7) {
+            if ($date_count >= 7) {
                 break;
             }
         }

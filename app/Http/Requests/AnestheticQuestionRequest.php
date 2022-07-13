@@ -24,7 +24,6 @@ class AnestheticQuestionRequest extends FormRequest
     public function rules()
     {
         return [
-            'organization_id' => 'required|numeric',
         ];
     }
 }

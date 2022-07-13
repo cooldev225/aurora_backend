@@ -61,9 +61,13 @@ class AppointmentFactory extends Factory
             $appointment_time = $appointment_time * 3;
         }
 
-        $working_slots = 10;
-        $unixTime = strtotime('09:00:00') + mt_rand(0, $working_slots) * $appointment_time * 60;
-        $unixTime = round($unixTime / ($appointment_time * 60)) * ($appointment_time * 60);
+        $working_slots = 2;
+        $unixTime =
+            strtotime('09:00:00') +
+            mt_rand(0, $working_slots) * $appointment_time * 60;
+        $unixTime =
+            round($unixTime / ($appointment_time * 60)) *
+            ($appointment_time * 60);
         $start_time = date('H:i:s', $unixTime);
         $end_time = date('H:i:s', $unixTime + $appointment_time * 60);
 
