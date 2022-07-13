@@ -14,25 +14,13 @@ return new class extends Migration {
     {
         Schema::create('patient_recalls', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('specialist_id');
+            $table->foreignId('user_id');
             $table->foreignId('organization_id');
             $table->foreignId('patient_id');
-            $table->foreignId('appointment_id');
-            $table->foreignId('notification_template_id');
-            $table->text('recalled_text');
-            $table->date('recall_date');
-            $table->text('recall_note')->nullable();
-            $table->date('appointment_date');
-            $table
-                ->enum('status', [
-                    'Upcoming',
-                    'Sent',
-                    'Failed',
-                    'Done',
-                    'Overdue',
-                ])
-                ->default('Upcoming');
-            $table->enum('send_by', ['Mail', 'Email'])->default('Mail');
+            $table->integer('time_frame');
+            $table->date('date_recall_due');
+            $table->boolean('confirmed')->default(false);
+            $table->text('reason');
             $table->timestamps();
         });
     }

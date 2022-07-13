@@ -10,17 +10,13 @@ class PatientRecall extends Model
     use HasFactory;
 
     protected $fillable = [
-        'specialist_id',
+        'user_id',
         'organization_id',
         'patient_id',
-        'appointment_id',
-        'notification_template_id',
-        'recalled_text',
-        'recall_date',
-        'recall_note',
-        'appointment_date',
-        'status',
-        'send_by',
+        'time_frame',
+        'date_recall_due',
+        'confirmed',
+        'reason',
     ];
 
     /**
@@ -28,7 +24,7 @@ class PatientRecall extends Model
      */
     public function patient()
     {
-        return $this->belongsTo(Patient::class, 'patient_id')->first();
+        return $this->belongsTo(Patient::class, 'patient_id');
     }
 
     /**
