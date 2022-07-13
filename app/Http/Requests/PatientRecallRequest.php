@@ -24,13 +24,10 @@ class PatientRecallRequest extends FormRequest
     public function rules()
     {
         return [
-            'specialist_id' => 'required|numeric',
-            'organization_id' => 'required|numeric',
-            'patient_id' => 'required|numeric',
-            'appointment_id' => 'required|numeric',
-            'notification_template_id' => 'required|numeric',
-            'recall_date' => 'required|date',
-            'appointment_date' => 'required|date',
+            'patient_id'        =>  'required|numeric',
+            'organization_id'   =>  'required|numeric',
+            'time_frame'        =>  'required|numeric',
+            'reason'            =>  'string'
         ];
     }
 }
