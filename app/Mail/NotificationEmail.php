@@ -36,7 +36,7 @@ class NotificationEmail extends Mailable
      * @param $to, $message
      * @return \Illuminate\Http\Response
      */
-    public static function sendSms($to, $message)
+    public static function sendSMS($to, $message)
     {
         // Your Account SID and Auth Token from twilio.com/console
         $sid = env('TWILIO_SID');

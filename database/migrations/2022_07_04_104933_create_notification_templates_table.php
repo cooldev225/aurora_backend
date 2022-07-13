@@ -16,7 +16,10 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('organization_id');
             $table
-                ->enum('type', ['appointment_confirmation', 'recall'])
+                ->enum('type', [
+                    'appointment_booked', 'appointment_confirmation',
+                    'appointment_reminder', 'recall'
+                ])
                 ->default('recall');
             $table->integer('days_before')->nullable();
             $table->string('subject')->nullable();
