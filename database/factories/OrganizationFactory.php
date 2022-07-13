@@ -29,7 +29,7 @@ class OrganizationFactory extends Factory
             'max_clinics' => mt_rand(1, 9999),
             'max_employees' => mt_rand(1, 9999),
             'owner_id' => $owner->id,
-            'appointment_length' => $this->faker->randomElement([30, 45])
+            'appointment_length' => $this->faker->randomElement([30])
         ];
     }
 }
