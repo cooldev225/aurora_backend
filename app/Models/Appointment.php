@@ -46,6 +46,14 @@ class Appointment extends Model
     }
 
     /**
+     * Return Clinic
+     */
+    public function clinic()
+    {
+        return $this->belongsTo(Clinic::class, 'clinic_id');
+    }
+
+    /**
      * Return Specialist
      */
     public function specialist()
@@ -183,15 +191,13 @@ class Appointment extends Model
     /**
      * translate template
      */
-    protected function translate($template)
+    public function translate($template)
     {
-        $template = $this->recallNotificationTemplate();
-
         $words = [
             '[PatientFirstName]' => $this->patient()->first_name,
             '[Time]' => $this->start_time,
             '[Date]' => $this->date,
-            '[ClinicName]' => $this->clinic()->name,
+            '[ClinicName]' => $this->clinic->name,
         ];
 
         $translated = $template;
