@@ -37,7 +37,7 @@ class AppointmentAdministrationInfoSeeder extends Seeder
 
         $dates = [];
 
-        for ($i = -10; $i < 49; $i++) {
+        for ($i = -2; $i < 7; $i++) {
             $dates[] = date('Y-m-d', strtotime("+{$i} days"));
         }
 
