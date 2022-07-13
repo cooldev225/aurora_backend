@@ -24,7 +24,10 @@ class NotificationTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-                //
-            ];
+            'days_before'           => 'required|numeric',
+            'subject'               => 'required|string|min:2|max:100',
+            'sms_template'          => 'required|string',
+            'email_print_template'  => 'required|string',
+        ];
     }
 }

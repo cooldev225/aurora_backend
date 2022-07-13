@@ -12,6 +12,7 @@ class NotificationTemplate extends Model
     protected $fillable = [
         'organization_id',
         'type',
+        'title',
         'days_before',
         'subject',
         'sms_template',
