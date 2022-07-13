@@ -17,6 +17,8 @@ use App\Models\AppointmentTimeRequirement;
 use App\Models\PatientOrganization;
 use App\Http\Requests\AppointmentRequest;
 
+use App\Mail\Notification;
+
 class AppointmentController extends BaseOrganizationController
 {
     /**
@@ -425,6 +427,8 @@ class AppointmentController extends BaseOrganizationController
             ...$this->filterParams($request),
             'appointment_id' => $appointment->id,
         ]);
+
+        Notification::sendAppointmentBooked($appointment);
 
         return response()->json(
             [
