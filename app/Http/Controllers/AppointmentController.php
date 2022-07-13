@@ -222,10 +222,14 @@ class AppointmentController extends BaseOrganizationController
         }
 
         $appointment_date = date_create($today);
-        $date_count = 0;
         $return = [];
 
-        for ($i = $x_weeks * 7; $i < 8 * 7; $i++) {
+        date_add(
+            $appointment_date,
+            date_interval_create_from_date_string("{$x_weeks * 7} days")
+        );
+
+        for ($i = 0; $i < 7; $i++) {
             $day_of_week = strtolower(date_format($appointment_date, 'l'));
 
             if (empty($day_of_weeks) || in_array($day_of_week, $day_of_weeks)) {
@@ -250,12 +254,6 @@ class AppointmentController extends BaseOrganizationController
                 $appointment_date,
                 date_interval_create_from_date_string('1 day')
             );
-
-            $date_count++;
-
-            if ($date_count >= 7) {
-                break;
-            }
         }
 
         if ($request->filled('appointment_type_id')) {
