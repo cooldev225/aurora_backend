@@ -22,6 +22,7 @@ class NotificationTemplateSeeder extends Seeder
             NotificationTemplate::create([
                 'organization_id'   => $organization->id,
                 'type'              => 'appointment_booked',
+                'title'             => 'Appointment Booked',
                 'days_before'       => 0,
                 'subject'           => 'Appointment Booked',
                 'sms_template'      =>
@@ -33,6 +34,7 @@ class NotificationTemplateSeeder extends Seeder
             NotificationTemplate::create([
                 'organization_id'   => $organization->id,
                 'type'              => 'appointment_confirmation',
+                'title'             => 'Appointment Confirmation',
                 'days_before'       => 3,
                 'subject'           => 'Appointment Confirmation',
                 'sms_template'      =>
@@ -46,7 +48,8 @@ class NotificationTemplateSeeder extends Seeder
             NotificationTemplate::create([
                 'organization_id'   => $organization->id,
                 'type'              => 'appointment_reminder',
-                'days_before'       => 0,
+                'title'             => 'Appointment Reminder',
+                'days_before'       => 3,
                 'subject'           => 'Appointment Reminder',
                 'sms_template'      =>
                     "Hello [PatientFirstName], There is your appointment in at [Time] at [ClinicName] on the [Date]",
@@ -57,12 +60,13 @@ class NotificationTemplateSeeder extends Seeder
             NotificationTemplate::create([
                 'organization_id'   => $organization->id,
                 'type'              => 'recall',
+                'title'             => 'Recall',
                 'days_before'       => 3,
                 'subject'           => 'Recall Notification',
                 'sms_template'      =>
-                    "Hello [PatientFirstName], you're booked in at [Time] at [ClinicName] on the [Date]",
+                    "Hello [PatientFirstName], Please contact clinic x on 03 5933 4857 to book an appointment",
                 'email_print_template' =>
-                    "Hello [PatientFirstName], you're booked in at [Time] at [ClinicName] on the [Date]",
+                    "Hello [PatientFirstName], Please contact clinic x on 03 5933 4857 to book an appointment",
             ]);
         }
     }

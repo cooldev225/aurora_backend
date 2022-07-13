@@ -21,6 +21,7 @@ return new class extends Migration {
                     'appointment_reminder', 'recall'
                 ])
                 ->default('recall');
+            $table->string('title');
             $table->integer('days_before')->nullable();
             $table->string('subject')->nullable();
             $table->text('sms_template')->nullable();
