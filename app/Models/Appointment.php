@@ -212,7 +212,7 @@ class Appointment extends Model
     /**
      * Check conflict
      */
-    protected function checkConflict($start_time, $end_time)
+    public function checkConflict($start_time, $end_time)
     {
         if ($this->start_time >= $end_time) {
             return false;
