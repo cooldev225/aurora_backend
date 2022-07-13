@@ -32,7 +32,7 @@ class AppointmentAdministrationInfoFactory extends Factory
         $appointment_time = Organization::find($appointment->organization_id)
             ->appointment_length;
 
-        $allAppointments = Appointment::all()->get();
+        $allAppointments = Appointment::all();
 
         $conflict = 1;
 
