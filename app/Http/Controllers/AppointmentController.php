@@ -223,10 +223,11 @@ class AppointmentController extends BaseOrganizationController
 
         $appointment_date = date_create($today);
         $return = [];
+        $x_weeks = $x_weeks * 7;
 
         date_add(
             $appointment_date,
-            date_interval_create_from_date_string("{$x_weeks * 7} days")
+            date_interval_create_from_date_string("{$x_weeks} days")
         );
 
         for ($i = 0; $i < 7; $i++) {
