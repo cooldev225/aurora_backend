@@ -169,7 +169,7 @@ class AppointmentController extends BaseOrganizationController
         );
 
         $clinic_id = null;
-        $x_weeks = 1;
+        $x_weeks = 0;
 
         if ($request->filled('clinic_id')) {
             $clinic_id = $request->clinic_id;
