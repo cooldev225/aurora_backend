@@ -48,7 +48,7 @@ class AppointmentAdministrationInfoFactory extends Factory
                 strtotime($appointment->end_time) + $appointment_time * 60
             );
 
-            foreach ($apt as $allAppointments) {
+            foreach ($allAppointments as $apt) {
                 if (
                     $apt->date == $appointment->date &&
                     $apt->specialist_id == $appointment->specialist_id &&
