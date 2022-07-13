@@ -20,7 +20,7 @@ return new class extends Migration {
             $table->integer('time_frame');
             $table->date('date_recall_due');
             $table->boolean('confirmed')->default(false);
-            $table->text('reason');
+            $table->text('reason')->nullable();
             $table->timestamps();
         });
     }
