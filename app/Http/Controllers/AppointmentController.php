@@ -287,7 +287,8 @@ class AppointmentController extends BaseOrganizationController
             }
         }
 
-        foreach ($appointments as $date_key => $appointment) {
+        foreach ($appointments as $appointment) {
+            $date_key = $appointment->date;
             $date_item = empty($return[$date_key])
                 ? ['time_slot_list' => []]
                 : $return[$date_key];
