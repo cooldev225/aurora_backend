@@ -181,13 +181,13 @@ class AppointmentController extends BaseOrganizationController
 
         $specialist_list = Specialist::organizationSpecialists();
 
-        if ($request->filled('specialist_ids')) {
-            $specialist_list->whereIn(
+        if ($request->filled('specialist_id')) {
+            $specialist_list->where(
                 $specialist_table . '.id',
-                $request->specialist_ids
+                $request->specialist_id
             );
 
-            $appointments->whereIn('specialist_id', $request->specialist_ids);
+            $appointments->where('specialist_id', $request->specialist_id);
         }
 
         $specialists = $specialist_list->get()->toArray();
@@ -764,6 +764,7 @@ class AppointmentController extends BaseOrganizationController
 
         $filtered_request = [
             'clinic_id' => $clinic_id,
+            'room_id' => $request->filled('room_id') ? $request->room_id : 0,
             'date_of_birth' => date(
                 'Y-m-d',
                 strtotime($request->date_of_birth)
