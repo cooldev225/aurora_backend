@@ -202,7 +202,7 @@ class AppointmentController extends BaseOrganizationController
                 if (
                     $availability->available &&
                     (empty($clinic_id) ||
-                        in_array($clinic_id, $availability->locations))
+                        ($clinic_id == $availability->locations->id))
                 ) {
                     if (empty($specialists_by_week[$week])) {
                         $specialists_by_week[$week] = [];
