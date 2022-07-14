@@ -31,7 +31,6 @@ class AppointmentRequest extends FormRequest
             'anesthetist_id' => 'numeric',
             'date' => 'required|date',
             'skip_coding' => 'boolean',
-            'room_id' => 'numeric',
             'procedure_price' => 'numeric',
         ];
     }
