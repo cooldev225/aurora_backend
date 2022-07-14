@@ -50,7 +50,7 @@ class PatientRecallController extends BaseOrganizationController
             'organization_id'   => $request->organization_id,
             'date_recall_due'   => $date_recall_due,
             'time_frame'        => $time_frame,
-            'confirmed'         => true,
+            'confirmed'         => false,
             'reason'            => $request->reason,
         ]);
 
@@ -85,7 +85,7 @@ class PatientRecallController extends BaseOrganizationController
             'organization_id'   => $request->organization_id,
             'time_frame'        => $request->time_frame,
             'date_recall_due'   => $date_recall_due,
-            'organization_id'   => $request->organization_id,
+            'reason'            => $request->reason,
         ]);
 
         return response()->json(
