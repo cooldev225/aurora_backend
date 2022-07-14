@@ -300,9 +300,9 @@ class AppointmentController extends BaseOrganizationController
                         $slot['end_time']
                     )
                 ) {
-                    $return[$date_key]['time_slot_list'][$slot_key][
-                        'specialist_ids'
-                    ][$appointment->specialist_id] = 0;
+                    $index = array_search($appointment->specialist_id, $return[$date_key]['time_slot_list'][$slot_key][ 'specialist_ids']);
+
+                    unset($return[$date_key]['time_slot_list'][$slot_key][ 'specialist_ids'][$index]);
                 }
             }
         }
@@ -310,13 +310,7 @@ class AppointmentController extends BaseOrganizationController
         // Remove time slots which has no available specialists
         foreach ($return as $date_key => $date_item) {
             foreach ($date_item['time_slot_list'] as $slot_key => $slot) {
-                $specialist_count = 0;
-
-                foreach ($slot['specialist_ids'] as $key => $value) {
-                    $specialist_count += $value;
-                }
-
-                if ($specialist_count == 0) {
+                if (empty($slot['specialist_ids'])) {
                     unset($return[$date_key]['time_slot_list'][$slot_key]);
                 }
             }
@@ -374,9 +368,7 @@ class AppointmentController extends BaseOrganizationController
                         $time_slot['end_time']
                     )
                 ) {
-                    $total_time_slots[$slot_key]['specialist_ids'][
-                        $specialist_id
-                    ] = 1;
+                    $total_time_slots[$slot_key]['specialist_ids'][] = $specialist_id;
                 }
             }
         }
