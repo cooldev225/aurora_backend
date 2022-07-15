@@ -4,9 +4,9 @@ namespace App\Mail;
 
 use Twilio\Rest\Client;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Mail;
 
 class NotificationEmail extends Mailable
 {
@@ -24,7 +24,7 @@ class NotificationEmail extends Mailable
         $address = env('MAIL_FROM_ADDRESS');
         $name = env('MAIL_FROM_NAME');
 
-        return $this->view('email')
+        return $this->markdown('email.notification')
             ->from($address, $name)
             ->subject($this->config['subject'])
             ->with(['message' => $this->config['message']]);

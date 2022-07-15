@@ -27,6 +27,7 @@ use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
+use App\Http\Controllers\NotificationTestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -111,6 +112,11 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         Route::apiResource('patient-recalls', PatientRecallController::class);
+
+        Route::post('/notification-test', [
+            NotificationTestController::class,
+            'testSendNotification',
+        ]);
     });
 
     Route::middleware([
