@@ -103,7 +103,6 @@ Route::middleware(['auth'])->group(function () {
             'appointments/{appointment_id}/questions/{question_id}/anesthetic-answers',
             AnestheticAnswerController::class
         );
-        Route::apiResource('patients', PatientController::class);
         Route::apiResource('employees', EmployeeController::class);
         Route::apiResource('specialists', SpecialistController::class);
         Route::get('/employee-roles', [
@@ -184,7 +183,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware([
-        'ensure.role:specialist',
+        'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
         Route::apiResource('patients', PatientController::class);
     });
