@@ -50,28 +50,7 @@ class AppointmentTypeController extends Controller
 
         $appointmentType = AppointmentType::create([
             'organization_id' => $organization_id,
-            'type' => $request->type,
-            'color' => $request->color,
-            'mbs_code' => $request->mbs_code,
-            'mbs_description' => $request->mbs_description,
-            'clinical_code' => $request->clinical_code,
-            'name' => $request->name,
-            'invoice_by' => $request->invoice_by,
-            'arrival_time' => $request->arrival_time,
-            'appointment_time' => $request->appointment_time,
-            'payment_tier_1' => $request->payment_tier_1,
-            'payment_tier_2' => $request->payment_tier_2,
-            'payment_tier_3' => $request->payment_tier_3,
-            'payment_tier_4' => $request->payment_tier_4,
-            'payment_tier_5' => $request->payment_tier_5,
-            'payment_tier_6' => $request->payment_tier_6,
-            'payment_tier_7' => $request->payment_tier_7,
-            'payment_tier_8' => $request->payment_tier_8,
-            'payment_tier_9' => $request->payment_tier_9,
-            'payment_tier_10' => $request->payment_tier_10,
-            'payment_tier_11' => $request->payment_tier_11,
-            'anesthetist_required' => $request->anesthetist_required,
-            'status' => $request->status,
+            ...$request->all(),
         ]);
 
         return response()->json(
@@ -98,28 +77,7 @@ class AppointmentTypeController extends Controller
 
         $appointmentType->update([
             'organization_id' => $organization_id,
-            'type' => $request->type,
-            'color' => $request->color,
-            'mbs_code' => $request->mbs_code,
-            'mbs_description' => $request->mbs_description,
-            'clinical_code' => $request->clinical_code,
-            'name' => $request->name,
-            'invoice_by' => $request->invoice_by,
-            'arrival_time' => $request->arrival_time,
-            'appointment_time' => $request->appointment_time,
-            'payment_tier_1' => $request->payment_tier_1,
-            'payment_tier_2' => $request->payment_tier_2,
-            'payment_tier_3' => $request->payment_tier_3,
-            'payment_tier_4' => $request->payment_tier_4,
-            'payment_tier_5' => $request->payment_tier_5,
-            'payment_tier_6' => $request->payment_tier_6,
-            'payment_tier_7' => $request->payment_tier_7,
-            'payment_tier_8' => $request->payment_tier_8,
-            'payment_tier_9' => $request->payment_tier_9,
-            'payment_tier_10' => $request->payment_tier_10,
-            'payment_tier_11' => $request->payment_tier_11,
-            'anesthetist_required' => $request->anesthetist_required,
-            'status' => $request->status,
+            ...$request->all(),
         ]);
 
         return response()->json(
