@@ -16,5 +16,13 @@ class SpecialistSeeder extends Seeder
     public function run()
     {
         Specialist::factory(10)->create();
+
+        $Specialist = Specialist::factory()->create();
+        $user = $Specialist->employee()->user();
+
+        $user->username = 'specialist';
+        $user->email = 'sepcialist@mail.com';
+
+        $user->save();
     }
 }
