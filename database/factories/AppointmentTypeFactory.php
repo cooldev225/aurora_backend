@@ -34,9 +34,9 @@ class AppointmentTypeFactory extends Factory
             'arrival_time' => $this->faker->numberBetween(1, 123),
             'procedure_price' => $this->faker->numberBetween(1, 123) * 100.0,
             'appointment_time' => $this->faker->randomElement([
-                'Single',
-                'Double',
-                'Triple',
+                'single',
+                'double',
+                'triple',
             ]),
             'payment_tier_1' => $this->faker->numberBetween(0, 300),
             'payment_tier_2' => $this->faker->numberBetween(0, 300),
