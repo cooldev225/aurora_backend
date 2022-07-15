@@ -182,4 +182,10 @@ Route::middleware(['auth'])->group(function () {
             'index',
         ]);
     });
+
+    Route::middleware([
+        'ensure.role:specialist',
+    ])->group(function () {
+        Route::apiResource('patients', PatientController::class);
+    });
 });
