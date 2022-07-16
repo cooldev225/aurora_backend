@@ -31,6 +31,7 @@ class DatabaseSeeder extends Seeder
             AppointmentAdministrationInfoSeeder::class,
             AppointmentTimeRequirementSeeder::class,
             NotificationTemplateSeeder::class,
+            ReportTemplateSeeder::class,
         ]);
     }
 }
