@@ -41,9 +41,10 @@ class ReportTemplateController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
-        $report_template = ReportTemplate::create([
-            'title'             => $request->title,
+        $report_template = ReportTemplate::createTemplate([
             'organization_id'   => $organization_id,
+            'title'             => $request->title,
+            'template_data'     => $request->template_data,
         ]);
 
         return response()->json(
@@ -66,9 +67,10 @@ class ReportTemplateController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
-        $report_template->update([
-            'title'             => $request->title,
+        $report_template = $report_template->update([
             'organization_id'   => $organization_id,
+            'title'             => $request->title,
+            'template_data'     => $request->template_data,
         ]);
 
         return response()->json(
