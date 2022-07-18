@@ -76,34 +76,7 @@ class PatientController extends Controller
             ->first()
             ->toArray();
 
-        $patientInfo['canceled_appointments'] = [];
-        $patientInfo['missed_appointments'] = [];
-        $patientInfo['future_appointments'] = [];
-        $patientInfo['past_appointments'] = [];
-        $patientInfo['current_appointment'] = [];
-        $patientInfo['upcoming_appointment'] = [];
-
-        $appointments = $patient->getAppointmentsWithSpecialist();
-
-        foreach ($appointments as $appointment) {
-            if (strtoupper($appointment->confirmation_status) == 'CANCELED') {
-                $patientInfo['canceled_appointments'][] = $appointment;
-            } elseif ($appointment->date >= $today) {
-                if (empty($patientInfo['current_appointment'])) {
-                    $patientInfo['current_appointment'] = $appointment;
-                } elseif (empty($patientInfo['upcoming_appointment'])) {
-                    $patientInfo['upcoming_appointment'] = $appointment;
-                } else {
-                    $patientInfo['future_appointments'][] = $appointment;
-                }
-            } elseif ($appointment->date < $today) {
-                $patientInfo['past_appointments'][] = $appointment;
-
-                if (strtoupper($appointment->confirmation_status) == 'MISSED') {
-                    $patientInfo['missed_appointments'][] = $appointment;
-                }
-            }
-        }
+        $patientInfo['appointments'] = $patient->getAppointmentsWithSpecialist();
 
         return response()->json(
             [

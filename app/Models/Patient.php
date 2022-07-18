@@ -113,6 +113,8 @@ class Patient extends Model
                 $clinic_table . '.id'
             )
             ->where('patient_id', $patient_id)
+            ->orderBy('date', 'ASC')
+            ->orderBy('start_time', 'ASC')
             ->get();
     }
 
