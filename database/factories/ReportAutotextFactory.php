@@ -6,9 +6,9 @@ use App\Models\ReportSection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PatientOrganization>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ReportAutoText>
  */
-class ReportAutotextFactory extends Factory
+class ReportAutoTextFactory extends Factory
 {
     /**
      * Define the model's default state.
