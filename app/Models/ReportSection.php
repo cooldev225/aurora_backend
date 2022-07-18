@@ -20,10 +20,10 @@ class ReportSection extends Model
     }
 
     /**
-     * Return Report Autotext
+     * Return Report AutoText
      */
-    public function autotexts()
+    public function autoTexts()
     {
-        return $this->hasMany(ReportAutotext::class, 'section_id');
+        return $this->hasMany(ReportAutoText::class, 'section_id');
     }
 }
