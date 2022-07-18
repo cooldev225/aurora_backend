@@ -120,6 +120,7 @@ class SpecialistController extends Controller
         $appointments = Specialist::withAppointments()
             ->whereIn('specialist_id', $specialist_ids)
             ->where('date', $date)
+            ->where('confirmation_status', '!=', 'CANCELED')
             ->orderBy('start_time');
 
         if ($request->has('appointment_type_id')) {

@@ -164,9 +164,11 @@ class AppointmentController extends BaseOrganizationController
         $appointment_table = (new Appointment())->getTable();
         $specialist_table = (new Specialist())->getTable();
 
-        $appointments = Appointment::organizationAppointmentsWithType()->orderBy(
-            "{$appointment_table}.date"
-        );
+        $appointments = Appointment::organizationAppointmentsWithType()
+            ->where('confirmation_status', '!=', 'CANCELED')
+            ->orderBy(
+                "{$appointment_table}.date"
+            );
 
         $clinic_id = null;
         $x_weeks = 0;
