@@ -119,7 +119,8 @@ class SpecialistController extends Controller
 
         $appointments = Specialist::withAppointments()
             ->whereIn('specialist_id', $specialist_ids)
-            ->where('date', $date);
+            ->where('date', $date)
+            ->orderBy('start_time');
 
         if ($request->has('appointment_type_id')) {
             $appointments->where(
