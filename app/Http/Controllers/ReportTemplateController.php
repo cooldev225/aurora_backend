@@ -19,7 +19,7 @@ class ReportTemplateController extends Controller
 
         $report_template = ReportTemplate::where('organization_id', $organization_id)
             ->with('sections')
-            ->with('sections.autotexts')
+            ->with('sections.autoTexts')
             ->get();
 
         return response()->json(

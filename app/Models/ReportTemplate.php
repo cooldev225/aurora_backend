@@ -33,18 +33,18 @@ class ReportTemplate extends Model
                 $sectionObj->is_image = $section->is_image;
                 $sectionObj->save();
 
-                foreach ($section->autotexts as $autotext) {
-                    $autotextObj = new ReportAutotext();
-                    $autotextObj->section_id = $sectionObj->id;
-                    $autotextObj->text = $autotext->text;
-                    $autotextObj->save();
+                foreach ($section->autoTexts as $autoText) {
+                    $autoTextObj = new ReportAutoText();
+                    $autoTextObj->section_id = $sectionObj->id;
+                    $autoTextObj->text = $autoText->text;
+                    $autoTextObj->save();
                 }
             }
         }
 
         return self::where('id', $templateObj->id)
             ->with('sections')
-            ->with('sections.autotexts')
+            ->with('sections.autoTexts')
             ->first();
     }
 
@@ -68,33 +68,33 @@ class ReportTemplate extends Model
                     $sectionObj = new ReportSection();
                     $sectionObj->template_id = $this->id;
                 }
-                
+
                 $sectionObj->title = $section->title;
                 $sectionObj->is_image = $section->is_image;
                 $sectionObj->save();
                 $arrSectionID[] = $sectionObj->id;
 
-                $arrAutotextId = array();
-                foreach ($section->autotexts as $autotext) {
-                    $autotextObj = null;
-                    if (isset($autotext->id)) {
-                        $autotextObj = ReportAutotext::where('section_id', $sectionObj->id)
-                            ->where('id', $autotext->id)
+                $arrAutoTextId = array();
+                foreach ($section->autoTexts as $autoText) {
+                    $autoTextObj = null;
+                    if (isset($autoText->id)) {
+                        $autoTextObj = ReportAutoText::where('section_id', $sectionObj->id)
+                            ->where('id', $autoText->id)
                             ->first();
                     }
 
-                    if ($autotextObj == null) {
-                        $autotextObj = new ReportAutotext();
-                        $autotextObj->section_id = $sectionObj->id;
+                    if ($autoTextObj == null) {
+                        $autoTextObj = new ReportAutoText();
+                        $autoTextObj->section_id = $sectionObj->id;
                     }
-                    
-                    $autotextObj->text = $autotext->text;
-                    $autotextObj->save();
-                    $arrAutotextId[] = $autotextObj->id;
+
+                    $autoTextObj->text = $autoText->text;
+                    $autoTextObj->save();
+                    $arrAutoTextId[] = $autoTextObj->id;
                 }
 
-                ReportAutotext::where('section_id', $sectionObj->id)
-                    ->whereNotIn('id', $arrAutotextId)
+                ReportAutoText::where('section_id', $sectionObj->id)
+                    ->whereNotIn('id', $arrAutoTextId)
                     ->delete();
             }
 
@@ -102,26 +102,26 @@ class ReportTemplate extends Model
                 ->whereNotIn('id', $arrSectionID)
                 ->pluck('id');
 
-            ReportAutotext::whereIn('section_id', $arrDeletingSectionId)->delete();
+            ReportAutoText::whereIn('section_id', $arrDeletingSectionId)->delete();
             ReportSection::whereIn('id', $arrDeletingSectionId)->delete();
         }
 
         return ReportTemplate::where('id', $this->id)
             ->with('sections')
-            ->with('sections.autotexts')
+            ->with('sections.autoTexts')
             ->first();
     }
 
     public function delete() {
         $arrSectionID = array();
         $arrSections = $this->sections;
-        
+
         foreach ($arrSections as $section) {
             $arrSectionID[] = $section->id;
         }
 
         $this->sections()->delete();
-        ReportAutotext::whereIn('section_id', $arrSectionID)
+        ReportAutoText::whereIn('section_id', $arrSectionID)
             ->delete();
 
         parent::delete();

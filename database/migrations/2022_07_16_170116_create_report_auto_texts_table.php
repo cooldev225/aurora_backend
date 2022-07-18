@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('report_autotexts', function (Blueprint $table) {
+        Schema::create('report_auto_texts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('section_id');
             $table->text('text');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('report_autotexts');
+        Schema::dropIfExists('report_auto_texts');
     }
 };

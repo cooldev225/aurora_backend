@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\ReportAutotext;
+use App\Models\ReportAutoText;
 use App\Models\ReportSection;
 use App\Models\ReportTemplate;
 use Illuminate\Database\Seeder;
@@ -18,6 +18,6 @@ class ReportTemplateSeeder extends Seeder
     {
         ReportTemplate::factory(6)->create();
         ReportSection::factory(10)->create();
-        ReportAutotext::factory(30)->create();
+        ReportAutoText::factory(30)->create();
     }
 }
