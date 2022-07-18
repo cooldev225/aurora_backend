@@ -79,6 +79,16 @@ class AppointmentFactory extends Factory
 
         $arrival_time = $start_time;
 
+        if ($appointment_type->anesthetist_required == false) {
+            $procedure_approval_status = 'NOT_RELEVANT';
+        } else {
+            $procedure_approval_status = $this->faker->randomElement([
+                'NOT_ACCESSED',
+                'NOT_APPROVED',
+                'APPROVED',
+            ]);
+        }
+
         return [
             'patient_id' => $patient->id,
             'organization_id' => $organization_id,
@@ -96,11 +106,7 @@ class AppointmentFactory extends Factory
             'start_time' => $start_time,
             'end_time' => $end_time,
             'skip_coding' => mt_rand(1, 2) == 1 ? true : false,
-            'procedure_approval_status' => $this->faker->randomElement([
-                'NOT_ACCESSED',
-                'NOT_APPROVED',
-                'APPROVED',
-            ]),
+            'procedure_approval_status' => $procedure_approval_status,
             'confirmation_status' => $this->faker->randomElement([
                 'PENDING',
                 'CONFIRMED',
