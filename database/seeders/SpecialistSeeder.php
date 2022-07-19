@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Specialist;
+use App\Models\Organization;
 
 class SpecialistSeeder extends Seeder
 {
@@ -17,8 +18,19 @@ class SpecialistSeeder extends Seeder
     {
         Specialist::factory(10)->create();
 
-        $Specialist = Specialist::factory()->create();
-        $user = $Specialist->employee()->user();
+        $specialists = Specialist::all();
+        $organization_count = Organization::count();
+
+        foreach ($specialists as $specialist) {
+            $user = $specialist->employee()->user();
+
+            $user->organization_id = $user->id % $organization_count + 1;
+
+            $user->save();
+        }
+
+        $specialist = Specialist::factory()->create();
+        $user = $specialist->employee()->user();
 
         $user->username = 'specialist';
         $user->email = 'sepcialist@mail.com';
