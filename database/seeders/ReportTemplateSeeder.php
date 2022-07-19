@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\LetterTemplate;
 use App\Models\ReportAutoText;
 use App\Models\ReportSection;
 use App\Models\ReportTemplate;
@@ -19,5 +20,7 @@ class ReportTemplateSeeder extends Seeder
         ReportTemplate::factory(6)->create();
         ReportSection::factory(10)->create();
         ReportAutoText::factory(30)->create();
+        
+        LetterTemplate::factory(10)->create();
     }
 }
