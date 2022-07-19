@@ -26,7 +26,7 @@ class AppointmentFactory extends Factory
     {
         $organization = Organization::inRandomOrder()->first();
         $organization_id = $organization->id;
-        $patient = Patient::factory()->create();
+        $patient = Patient::inRandomOrder()->first();
 
         $patientOrganization = PatientOrganization::where(
             'patient_id',
