@@ -9,7 +9,10 @@ class Employee extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['user_id', 'type', 'work_hours'];
+    protected $fillable = [
+        'user_id', 'type', 'work_hours', 'document_letter_header',
+        'document_letter_footer', 'signature'
+    ];
 
     /**
      * Return User

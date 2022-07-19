@@ -22,6 +22,10 @@ return new class extends Migration {
             $table->boolean('is_hospital')->default(true);
             $table->integer('appointment_length')->nullable();
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
+
+            $table->string('document_letter_header')->nullable();
+            $table->string('document_letter_footer')->nullable();
+
             $table->timestamps();
         });
     }

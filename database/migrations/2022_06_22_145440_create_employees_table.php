@@ -19,6 +19,11 @@ return new class extends Migration {
                 ->enum('type', ['full-time', 'part-time', 'contract', 'casual'])
                 ->default('full-time');
             $table->json('work_hours');
+
+            $table->string('document_letter_header')->nullable();
+            $table->string('document_letter_footer')->nullable();
+            $table->string('signature')->nullable();
+
             $table->timestamps();
         });
     }
