@@ -24,7 +24,7 @@ class SpecialistSeeder extends Seeder
         foreach ($specialists as $specialist) {
             $user = $specialist->employee()->user();
 
-            $user->organization_id = $user->id % $organization_count + 1;
+            $user->organization_id = $specialist->id % $organization_count + 1;
 
             $user->save();
         }
