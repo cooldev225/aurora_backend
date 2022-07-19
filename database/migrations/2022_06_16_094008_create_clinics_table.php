@@ -41,6 +41,10 @@ return new class extends Migration {
             $table->string('centre_serial_no')->nullable();
             $table->string('centre_last_invoice_serial_no')->nullable();
             $table->integer('lspn_id')->nullable();
+
+            $table->string('document_letter_header')->nullable();
+            $table->string('document_letter_footer')->nullable();
+
             $table->timestamps();
         });
     }
