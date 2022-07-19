@@ -59,8 +59,11 @@ class EmployeeFactory extends Factory
         }
 
         return [
-            'user_id' => $user->id,
-            'work_hours' => json_encode($work_hours),
+            'user_id'                => $user->id,
+            'work_hours'             => json_encode($work_hours),
+            'document_letter_header' => $this->faker->imageUrl(),
+            'document_letter_footer' => $this->faker->imageUrl(),
+            'signature'              => $this->faker->imageUrl(),
         ];
     }
 }

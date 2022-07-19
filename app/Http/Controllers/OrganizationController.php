@@ -42,9 +42,9 @@ class OrganizationController extends Controller
             $message = 'Organization List';
         } else {
             $result = Organization::combineWithBaseUrl()
-            ->leftJoin($user_table, 'owner_id', '=', $user_table . '.id')
-            ->where('organization_id', auth()->user()->organization_id)
-            ->first();
+                ->leftJoin($user_table, 'owner_id', '=', $user_table . '.id')
+                ->where('organization_id', auth()->user()->organization_id)
+                ->first();
 
             $message = 'Current Organization Info';
         }
@@ -67,28 +67,44 @@ class OrganizationController extends Controller
     public function store(OrganizationRequest $request)
     {
         $owner = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'password' => Hash::make($request->password),
-            'role_id' => $this->organization_admin_role->id,
+            'username'      => $request->username,
+            'email'         => $request->email,
+            'first_name'    => $request->first_name,
+            'last_name'     => $request->last_name,
+            'password'      => Hash::make($request->password),
+            'role_id'       => $this->organization_admin_role->id,
             'mobile_number' => $request->mobile_number,
         ]);
 
-        $logo_path = '';
+        $organization = Organization::create([
+            'name'                      => $request->name,
+            'max_clinics'               => $request->max_clinics,
+            'max_employees'             => $request->max_employees,
+            'owner_id'                  => $owner->id,
+        ]);
 
+        $logo_path = '';
         if ($file = $request->file('logo')) {
-            $logo_path = '/' . $file->store('images/logo');
+            $file_name = 'logo_' . $organization->id . '.' . $file->extension();
+            $logo_path = '/' . $file->storeAs('images/organize', $file_name);
         }
 
-        $organization = Organization::create([
-            'name' => $request->name,
-            'logo' => $logo_path,
-            'max_clinics' => $request->max_clinics,
-            'max_employees' => $request->max_employees,
-            'owner_id' => $owner->id,
-        ]);
+        $header_path = '';
+        if ($file = $request->file('header')) {
+            $file_name = 'header_' . $organization->id . '.' . $file->extension();
+            $header_path = '/' . $file->storeAs('images/organize', $file_name);
+        }
+
+        $footer_path = '';
+        if ($file = $request->file('footer')) {
+            $file_name = 'footer_' . $organization->id . '.' . $file->extension();
+            $footer_path = '/' . $file->storeAs('images/organize', $file_name);
+        }
+
+        $organization->logo = $logo_path;
+        $organization->document_letter_header = $header_path;
+        $organization->document_letter_footer = $footer_path;
+        $organization->save();
 
         return response()->json(
             [
@@ -110,33 +126,48 @@ class OrganizationController extends Controller
         OrganizationRequest $request,
         Organization $organization
     ) {
-        $owner = $organization->owner()->update([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'role_id' => $this->organization_admin_role->id,
+        $owner = $organization->owner();
+        $owner->update([
+            'username'      => $request->username,
+            'email'         => $request->email,
+            'first_name'    => $request->first_name,
+            'last_name'     => $request->last_name,
+            'role_id'       => $this->organization_admin_role->id,
             'mobile_number' => $request->mobile_number,
         ]);
 
         $logo_path = '';
-
         if ($file = $request->file('logo')) {
-            $logo_path = '/' . $file->store('images/logo');
+            $file_name = 'logo_' . $organization->id . '.' . $file->extension();
+            $logo_path = '/' . $file->storeAs('images/organize', $file_name);
+        }
+
+        $header_path = '';
+        if ($file = $request->file('header')) {
+            $file_name = 'header_' . $organization->id . '.' . $file->extension();
+            $header_path = '/' . $file->storeAs('images/organize', $file_name);
+        }
+        
+        $footer_path = '';
+        if ($file = $request->file('footer')) {
+            $file_name = 'footer_' . $organization->id . '.' . $file->extension();
+            $footer_path = '/' . $file->storeAs('images/organize', $file_name);
         }
 
         $organization->update([
-            'name' => $request->name,
-            'logo' => $logo_path,
-            'max_clinics' => $request->max_clinics,
-            'max_employees' => $request->max_employees,
-            'owner_id' => $owner->id,
+            'name'                      => $request->name,
+            'logo'                      => $logo_path,
+            'document_letter_header'    => $header_path,
+            'document_letter_footer'    => $footer_path,
+            'max_clinics'               => $request->max_clinics,
+            'max_employees'             => $request->max_employees,
+            'owner_id'                  => $owner->id,
         ]);
 
         return response()->json(
             [
-                'message' => 'Organization updated',
-                'data' => $organization,
+                'message'   => 'Organization updated',
+                'data'      => $organization,
             ],
             Response::HTTP_OK
         );

@@ -31,10 +31,21 @@ class Organization extends Model
         $base_url = url('/');
         $select = "*,
             CASE
-            WHEN SUBSTRING(logo, 1, 1) = '/'
-                THEN CONCAT('{$base_url}', logo)
-            ELSE logo
-            END AS logo";
+                WHEN SUBSTRING(logo, 1, 1) = '/'
+                    THEN CONCAT('{$base_url}', logo)
+                ELSE logo
+            END AS logo,
+            CASE
+                WHEN SUBSTRING(document_letter_header, 1, 1) = '/'
+                    THEN CONCAT('{$base_url}', document_letter_header)
+                ELSE document_letter_header
+            END AS document_letter_header,
+            CASE
+                WHEN SUBSTRING(document_letter_footer, 1, 1) = '/'
+                    THEN CONCAT('{$base_url}', document_letter_footer)
+                ELSE document_letter_footer
+            END AS document_letter_footer
+        ";
 
         return self::selectRaw($select);
     }

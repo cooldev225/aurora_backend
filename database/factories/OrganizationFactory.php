@@ -24,12 +24,14 @@ class OrganizationFactory extends Factory
         ]);
 
         return [
-            'name' => $this->faker->company(),
-            'logo' => $this->faker->imageUrl(),
-            'max_clinics' => mt_rand(1, 9999),
-            'max_employees' => mt_rand(1, 9999),
-            'owner_id' => $owner->id,
-            'appointment_length' => $this->faker->randomElement([30])
+            'name'                   => $this->faker->company(),
+            'logo'                   => $this->faker->imageUrl(),
+            'max_clinics'            => mt_rand(1, 9999),
+            'max_employees'          => mt_rand(1, 9999),
+            'owner_id'               => $owner->id,
+            'appointment_length'     => $this->faker->randomElement([30]),
+            'document_letter_header' => $this->faker->imageUrl(),
+            'document_letter_footer' => $this->faker->imageUrl(),
         ];
     }
 }
