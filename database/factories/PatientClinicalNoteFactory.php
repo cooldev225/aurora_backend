@@ -3,14 +3,13 @@
 namespace Database\Factories;
 
 use App\Models\Appointment;
-use App\Models\Clinic;
 use App\Models\Organization;
 use App\Models\Patient;
 use App\Models\Specialist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Patient>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PatientClinicalNote>
  */
 class PatientClinicalNoteFactory extends Factory
 {
