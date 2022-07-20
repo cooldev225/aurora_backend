@@ -12,6 +12,7 @@ class Payment
     public static function organizationPaymentList(
         $organization_id = null
     ) {
+        $appointment_table = (new Appointment())->getTable();
         $patient_table = (new Patient())->getTable();
         $arrConfirmationStatus = array(
             'PENDING', 'CONFIRMED'
@@ -19,6 +20,7 @@ class Payment
 
         return Appointment::where('organization_id', $organization_id)
             ->select(
+                $appointment_table . '.id',
                 'clinic_id',
                 'date',
                 'start_time',
@@ -39,6 +41,8 @@ class Payment
             ->where('date', '<=', date('Y-m-d'))
             ->whereIn('confirmation_status', $arrConfirmationStatus)
             ->orderBy('date', 'ASC')
+            ->orderBy('start_time', 'ASC')
+            ->orderBy('end_time', 'ASC')
             ->get();
     }
 
@@ -47,10 +51,39 @@ class Payment
      */
     public static function paymentDetailInfo($appointment) {
         $appointmentData = $appointment;
-        $appointmentData['patient'] = $appointment->patient();
-        $appointmentData['specialist'] = $appointment->specialist();
-        $appointmentData['type'] = $appointment->type();
+        $patient = $appointment->patient();
+        $appointmentType = $appointment->type();
+        $specialistUser = $appointment->specialist()->employee()->user();
+        
+        $patientData = array(
+            'first_name'        =>  $patient->first_name,
+            'last_name'         =>  $patient->last_name,
+            'address'           =>  $patient->address,
+            'contact_number'    =>  $patient->contact_number,
+            'date_of_birth'     =>  $patient->date_of_birth
+        );
+        $appointmentData = array(
+            'reference_number'  => $appointment->reference_number,
+            'date'              => $appointment->date,
+            'start_time'        => $appointment->start_time,
+            'end_time'          => $appointment->end_time,
+        );
+        $specialistData = array(
+            'first_name' => $specialistUser->first_name,
+            'last_name' => $specialistUser->last_name,
+        );
+        $paymentData = array(
+            'charge_type'       => $appointmentType->charge_type,
+            'payment'           => $appointmentType->payment,
+            'procedure_price'   => $appointmentType->procedure_price,
+            'name'              => $appointmentType->name,
+        );
 
-        return $appointmentData;
+        return array(
+            'patient'     => $patientData,
+            'appointment' => $appointmentData,
+            'specialist'  => $specialistData,
+            'payment'     => $paymentData,
+        );
     }
 }
