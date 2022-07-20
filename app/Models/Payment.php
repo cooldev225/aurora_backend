@@ -60,7 +60,8 @@ class Payment
             'last_name'         =>  $patient->last_name,
             'address'           =>  $patient->address,
             'contact_number'    =>  $patient->contact_number,
-            'date_of_birth'     =>  $patient->date_of_birth
+            'date_of_birth'     =>  $patient->date_of_birth,
+            'charge_type'       => $appointment->charge_type,
         );
         $appointmentData = array(
             'reference_number'  => $appointment->reference_number,
@@ -73,8 +74,6 @@ class Payment
             'last_name' => $specialistUser->last_name,
         );
         $paymentData = array(
-            'charge_type'       => $appointmentType->charge_type,
-            'payment'           => $appointmentType->payment,
             'procedure_price'   => $appointmentType->procedure_price,
             'name'              => $appointmentType->name,
         );
