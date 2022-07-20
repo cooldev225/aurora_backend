@@ -33,20 +33,29 @@ class PaymentController extends BaseOrganizationController
      *
      * @return \Illuminate\Http\Response
      */
-    public function show(Appointment $appointment)
+    public function show($appointment_id)
     {
-        // $today = date('Y-m-d');
+        $organization_id = auth()->user()->organization_id;
+        $appointment = Appointment::find($appointment_id);
 
-        // $patientInfo = Patient::patientDetailInfo($patient->id)
-        //     ->first()
-        //     ->toArray();
+        if ($appointment == null
+            || $appointment->organization_id != $organization_id
+        ) {
+            return response()->json(
+                [
+                    'message'   => 'Payment Detail Info',
+                    'data'      => null,
+                ],
+                Response::HTTP_OK
+            );
+        }
 
-        // $patientInfo['appointments'] = $patient->getAppointmentsWithSpecialist();
+        $paymentInfo = Payment::paymentDetailInfo($appointment);
 
         return response()->json(
             [
                 'message' => 'Payment Detail Info',
-                // 'data' => $patientInfo,
+                'data' => $paymentInfo,
             ],
             Response::HTTP_OK
         );
