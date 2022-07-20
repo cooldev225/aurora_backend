@@ -60,6 +60,7 @@ class UserController extends Controller
                 'username' => $user->username,
                 'role' => $user->role()->slug,
                 'access_token' => $token,
+                'profile' => auth()->user(),
             ],
             Response::HTTP_OK
         );
@@ -81,6 +82,7 @@ class UserController extends Controller
                 'username' => $user->username,
                 'role' => $user->role()->slug,
                 'access_token' => $token,
+                'profile' => auth()->user(),
             ],
             Response::HTTP_OK
         );
@@ -116,6 +118,27 @@ class UserController extends Controller
     public function profile()
     {
         return response()->json(auth()->user());
+    }
+
+    /**
+     * Update current user profile
+     *
+     * @param  Illuminate\Http\Request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateProfile(Request $request)
+    {
+        $user = auth()->user();
+
+        $user->update($request->all());
+
+        return response()->json(
+            [
+                'message' => 'User Profile updated',
+                'data' => $user,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
