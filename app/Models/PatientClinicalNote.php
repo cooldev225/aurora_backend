@@ -10,9 +10,8 @@ class PatientClinicalNote extends Model
     use HasFactory;
 
     protected $fillable = [
-        'patient_id', 'specialist_id', 'appointment_id', 'organization_id',
-        'description', 'diagnosis', 'clinical_assessment', 'treatment',
-        'history', 'additional_details', 'attached_documents'
+        'appointment_id', 'description', 'diagnosis', 'clinical_assessment',
+        'treatment', 'history', 'additional_details', 'attached_documents'
     ];
 
     /**
