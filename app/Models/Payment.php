@@ -41,4 +41,16 @@ class Payment
             ->orderBy('date', 'ASC')
             ->get();
     }
+
+    /**
+     * Return Joined Eloquent with AppointmentType
+     */
+    public static function paymentDetailInfo($appointment) {
+        $appointmentData = $appointment;
+        $appointmentData['patient'] = $appointment->patient();
+        $appointmentData['specialist'] = $appointment->specialist();
+        $appointmentData['type'] = $appointment->type();
+
+        return $appointmentData;
+    }
 }
