@@ -10,7 +10,7 @@ class LetterTemplate extends Model
     use HasFactory;
 
     protected $fillable = [
-        'organization_id', 'body'
+        'organization_id', 'heading', 'body'
     ];
 
     /**

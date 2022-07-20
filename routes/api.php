@@ -27,6 +27,7 @@ use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
+use App\Http\Controllers\LetterTemplateController;
 use App\Http\Controllers\NotificationTestController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ReportTemplateController;
@@ -93,6 +94,8 @@ Route::middleware(['auth'])->group(function () {
             'notification-templates',
             NotificationTemplateController::class
         );
+        Route::apiResource('letter-templates', LetterTemplateController::class);
+
         Route::apiResource(
             'anesthetic-questions',
             AnestheticQuestionController::class

@@ -19,6 +19,7 @@ class LetterTemplateFactory extends Factory
     {
         return [
             'organization_id'   => Organization::inRandomOrder()->first()->id,
+            'heading'           => $this->faker->text(),
             'body'              => $this->faker->text()
         ];
     }

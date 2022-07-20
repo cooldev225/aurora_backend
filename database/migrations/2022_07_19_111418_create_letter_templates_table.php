@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('letter_templates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id');
+            $table->text('heading');
             $table->text('body');
             $table->timestamps();
         });

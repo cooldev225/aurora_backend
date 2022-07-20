@@ -3,9 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Appointment;
-use App\Models\Organization;
-use App\Models\Patient;
-use App\Models\Specialist;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
