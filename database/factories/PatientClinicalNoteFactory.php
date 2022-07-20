@@ -21,10 +21,7 @@ class PatientClinicalNoteFactory extends Factory
     public function definition()
     {
         return [
-            'patient_id'            => Patient::inRandomOrder()->first()->id,
-            'specialist_id'         => Specialist::inRandomOrder()->first()->id,
             'appointment_id'        => Appointment::inRandomOrder()->first()->id,
-            'organization_id'       => Organization::inRandomOrder()->first()->id,
             'description'           => $this->faker->text(),
             'diagnosis'             => $this->faker->text(),
             'clinical_assessment'   => $this->faker->text(),
