@@ -63,6 +63,22 @@ class ClinicController extends BaseOrganizationController
 
         $proda_device->save_with_key();
 
+        $header_path = '';
+        if ($file = $request->file('header')) {
+            $file_name = 'header_' . $clinic->id . '.' . $file->extension();
+            $header_path = '/' . $file->storeAs('images/clinic', $file_name);
+        }
+
+        $footer_path = '';
+        if ($file = $request->file('footer')) {
+            $file_name = 'footer_' . $clinic->id . '.' . $file->extension();
+            $footer_path = '/' . $file->storeAs('images/clinic', $file_name);
+        }
+
+        $clinic->document_letter_header = $header_path;
+        $clinic->document_letter_footer = $footer_path;
+        $clinic->save();
+
         return response()->json(
             [
                 'message' => 'Clinic created',
@@ -92,7 +108,7 @@ class ClinicController extends BaseOrganizationController
             'organization_id' => $organization_id,
         ]);
 
-        $proda_device = new ProdaDevice();
+        $proda_device = $clinic->proda_device;
         $proda_device->device_name = $request->device_name;
         $proda_device->otac = $request->otac;
         $proda_device->key_expiry = $request->key_expiry;
@@ -100,6 +116,22 @@ class ClinicController extends BaseOrganizationController
         $proda_device->clinic_id = $clinic->id;
 
         $proda_device->save_with_key();
+
+        $header_path = '';
+        if ($file = $request->file('header')) {
+            $file_name = 'header_' . $clinic->id . '.' . $file->extension();
+            $header_path = '/' . $file->storeAs('images/clinic', $file_name);
+        }
+
+        $footer_path = '';
+        if ($file = $request->file('footer')) {
+            $file_name = 'footer_' . $clinic->id . '.' . $file->extension();
+            $footer_path = '/' . $file->storeAs('images/clinic', $file_name);
+        }
+
+        $clinic->document_letter_header = $header_path;
+        $clinic->document_letter_footer = $footer_path;
+        $clinic->save();
 
         return response()->json(
             [
@@ -118,7 +150,7 @@ class ClinicController extends BaseOrganizationController
      */
     public function destroy(Clinic $clinic)
     {
-        $proda_device = $clinic->proda_device();
+        $proda_device = $clinic->proda_device;
         $proda_device->delete();
         $clinic->delete();
 

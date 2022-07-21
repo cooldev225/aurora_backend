@@ -86,19 +86,19 @@ class OrganizationController extends Controller
         $logo_path = '';
         if ($file = $request->file('logo')) {
             $file_name = 'logo_' . $organization->id . '.' . $file->extension();
-            $logo_path = '/' . $file->storeAs('images/organize', $file_name);
+            $logo_path = '/' . $file->storeAs('images/organization', $file_name);
         }
 
         $header_path = '';
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $organization->id . '.' . $file->extension();
-            $header_path = '/' . $file->storeAs('images/organize', $file_name);
+            $header_path = '/' . $file->storeAs('images/organization', $file_name);
         }
 
         $footer_path = '';
         if ($file = $request->file('footer')) {
             $file_name = 'footer_' . $organization->id . '.' . $file->extension();
-            $footer_path = '/' . $file->storeAs('images/organize', $file_name);
+            $footer_path = '/' . $file->storeAs('images/organization', $file_name);
         }
 
         $organization->logo = $logo_path;
@@ -139,19 +139,19 @@ class OrganizationController extends Controller
         $logo_path = '';
         if ($file = $request->file('logo')) {
             $file_name = 'logo_' . $organization->id . '.' . $file->extension();
-            $logo_path = '/' . $file->storeAs('images/organize', $file_name);
+            $logo_path = '/' . $file->storeAs('images/organization', $file_name);
         }
 
         $header_path = '';
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $organization->id . '.' . $file->extension();
-            $header_path = '/' . $file->storeAs('images/organize', $file_name);
+            $header_path = '/' . $file->storeAs('images/organization', $file_name);
         }
         
         $footer_path = '';
         if ($file = $request->file('footer')) {
             $file_name = 'footer_' . $organization->id . '.' . $file->extension();
-            $footer_path = '/' . $file->storeAs('images/organize', $file_name);
+            $footer_path = '/' . $file->storeAs('images/organization', $file_name);
         }
 
         $organization->update([
