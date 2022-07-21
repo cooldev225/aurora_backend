@@ -143,6 +143,8 @@ class Patient extends Model
                 $patient_table . '.UR_number',
                 $patient_table . '.first_name',
                 $patient_table . '.last_name',
+                $patient_table . '.email',
+                $patient_table . '.address',
                 $patient_table . '.date_of_birth',
                 $patient_table . '.contact_number'
             )
