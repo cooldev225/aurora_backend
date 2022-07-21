@@ -24,10 +24,10 @@ class ClinicRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'email' => 'required',
-            'phone_number' => 'required',
-            'address' => 'required',
+            'name'          => 'required',
+            'email'         => 'required',
+            'phone_number'  => 'required',
+            'address'       => 'required',
         ];
     }
 }

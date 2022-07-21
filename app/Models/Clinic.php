@@ -26,6 +26,6 @@ class Clinic extends Model
      */
     public function proda_device()
     {
-        return $this->hasOne(ProdaDevice::class)->first();
+        return $this->hasOne(ProdaDevice::class);
     }
 }

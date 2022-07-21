@@ -79,13 +79,13 @@ class EmployeeController extends Controller
         }
 
         $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'password' => Hash::make($request->password),
-            'role_id' => $role->id,
-            'organization_id' => $organization_id,
+            'username'          => $request->username,
+            'email'             => $request->email,
+            'first_name'        => $request->first_name,
+            'last_name'         => $request->last_name,
+            'password'          => Hash::make($request->password),
+            'role_id'           => $role->id,
+            'organization_id'   => $organization_id,
         ]);
 
         $employee = Employee::create([
@@ -93,6 +93,29 @@ class EmployeeController extends Controller
             'type' => $request->type,
             'work_hours' => json_encode($request->work_hours),
         ]);
+
+        $header_path = '';
+        if ($file = $request->file('header')) {
+            $file_name = 'header_' . $employee->id . '.' . $file->extension();
+            $header_path = '/' . $file->storeAs('images/employee', $file_name);
+        }
+
+        $footer_path = '';
+        if ($file = $request->file('footer')) {
+            $file_name = 'footer_' . $employee->id . '.' . $file->extension();
+            $footer_path = '/' . $file->storeAs('images/employee', $file_name);
+        }
+
+        $signature_path = '';
+        if ($file = $request->file('signature')) {
+            $file_name = 'signature_' . $employee->id . '.' . $file->extension();
+            $signature_path = '/' . $file->storeAs('images/employee', $file_name);
+        }
+
+        $employee->document_letter_header = $header_path;
+        $employee->document_letter_footer = $footer_path;
+        $employee->signature = $signature_path;
+        $employee->save();
 
         return response()->json(
             [
@@ -127,23 +150,46 @@ class EmployeeController extends Controller
 
         $user = $employee->user();
         $user->update([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
-            'role_id' => $role->id,
-            'organization_id' => $organization_id,
+            'username'          => $request->username,
+            'email'             => $request->email,
+            'first_name'        => $request->first_name,
+            'last_name'         => $request->last_name,
+            'role_id'           => $role->id,
+            'organization_id'   => $organization_id,
         ]);
 
         $employee->update([
-            'type' => $request->type,
-            'work_hours' => $request->work_hours,
+            'type'          => $request->type,
+            'work_hours'    => $request->work_hours,
         ]);
+
+        $header_path = '';
+        if ($file = $request->file('header')) {
+            $file_name = 'header_' . $employee->id . '.' . $file->extension();
+            $header_path = '/' . $file->storeAs('images/employee', $file_name);
+        }
+
+        $footer_path = '';
+        if ($file = $request->file('footer')) {
+            $file_name = 'footer_' . $employee->id . '.' . $file->extension();
+            $footer_path = '/' . $file->storeAs('images/employee', $file_name);
+        }
+
+        $signature_path = '';
+        if ($file = $request->file('signature')) {
+            $file_name = 'signature_' . $employee->id . '.' . $file->extension();
+            $signature_path = '/' . $file->storeAs('images/employee', $file_name);
+        }
+
+        $employee->document_letter_header = $header_path;
+        $employee->document_letter_footer = $footer_path;
+        $employee->signature = $signature_path;
+        $employee->save();
 
         return response()->json(
             [
-                'message' => 'Employee updated',
-                'data' => $employee,
+                'message'   => 'Employee updated',
+                'data'      => $employee,
             ],
             Response::HTTP_OK
         );
