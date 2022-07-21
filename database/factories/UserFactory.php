@@ -40,6 +40,7 @@ class UserFactory extends Factory
             'password' => Hash::make('Paxxw0rd'),
             'remember_token' => Str::random(10),
             'organization_id' => $organization_id,
+            'address' => $this->faker->address(),
         ];
     }
 
