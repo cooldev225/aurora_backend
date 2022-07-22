@@ -7,6 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -158,5 +159,56 @@ class UserController extends Controller
                     ->factory()
                     ->getTTL() * 60,
         ]);
+    }
+
+    /**
+     * Update current user profile
+     *
+     * @param  Illuminate\Http\Request
+     * @return \Illuminate\Http\Response
+     */
+    public function changePassword(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'old_password'      => 'required|string|min:6',
+            'new_password'      => 'required|string|min:6|different:old_password',
+            'confirm_password'  => 'required|string|min:6|same:new_password',
+        ]);
+        
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success'   =>  false,
+                    'errors'    =>  $validator->errors()
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        if (!Hash::check($request->old_password, Auth::user()->password)) {
+            return response()->json(
+                [
+                    'success'   =>  false,
+                    'errors'    =>  [
+                        'old_password'  =>  'Old password didn\'t match.'
+                    ]
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        $user = auth()->user();
+
+        $user->update([
+            'password'  => Hash::make($request->new_password)
+        ]);
+
+        return response()->json(
+            [
+                'success'   =>  true,
+                'message'   => 'Password changed successfully',
+            ],
+            Response::HTTP_OK
+        );
     }
 }

@@ -51,7 +51,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/refresh', [UserController::class, 'refresh']);
     Route::post('/update-profile', [UserController::class, 'updateProfile']);
     Route::get('/profile', [UserController::class, 'profile']);
-
+    Route::post('/change-password', [UserController::class, 'changePassword']);
 
     Route::middleware(['ensure.role:admin'])->group(function () {
         Route::apiResource('admins', AdminController::class);
