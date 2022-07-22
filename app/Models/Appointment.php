@@ -31,7 +31,6 @@ class Appointment extends Model
         'actual_arrival_time',
         'actual_start_time',
         'actual_end_time',
-        'procedure_price',
         'charge_type',
         'payment_status',
         'skip_coding',
