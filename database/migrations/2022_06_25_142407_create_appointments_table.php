@@ -29,7 +29,8 @@ return new class extends Migration {
                     'NOT_ACCESSED',
                     'NOT_APPROVED',
                     'APPROVED',
-                    'NOT_RELEVANT'
+                    'NOT_RELEVANT',
+                    'CONSULT_REQUIRED'
                 ])
                 ->default('NOT_ACCESSED');
             $table
