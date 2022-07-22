@@ -63,20 +63,18 @@ class ClinicController extends BaseOrganizationController
 
         $proda_device->save_with_key();
 
-        $header_path = '';
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $clinic->id . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/clinic', $file_name);
+            $clinic->document_letter_header = $header_path;
         }
 
-        $footer_path = '';
         if ($file = $request->file('footer')) {
             $file_name = 'footer_' . $clinic->id . '.' . $file->extension();
             $footer_path = '/' . $file->storeAs('images/clinic', $file_name);
+            $clinic->document_letter_footer = $footer_path;
         }
 
-        $clinic->document_letter_header = $header_path;
-        $clinic->document_letter_footer = $footer_path;
         $clinic->save();
 
         return response()->json(
@@ -117,20 +115,18 @@ class ClinicController extends BaseOrganizationController
 
         $proda_device->save_with_key();
 
-        $header_path = '';
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $clinic->id . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/clinic', $file_name);
+            $clinic->document_letter_header = $header_path;
         }
 
-        $footer_path = '';
         if ($file = $request->file('footer')) {
             $file_name = 'footer_' . $clinic->id . '.' . $file->extension();
             $footer_path = '/' . $file->storeAs('images/clinic', $file_name);
+            $clinic->document_letter_footer = $footer_path;
         }
 
-        $clinic->document_letter_header = $header_path;
-        $clinic->document_letter_footer = $footer_path;
         $clinic->save();
 
         return response()->json(

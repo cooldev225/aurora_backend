@@ -83,27 +83,24 @@ class OrganizationController extends Controller
             'owner_id'                  => $owner->id,
         ]);
 
-        $logo_path = '';
         if ($file = $request->file('logo')) {
             $file_name = 'logo_' . $organization->id . '.' . $file->extension();
             $logo_path = '/' . $file->storeAs('images/organization', $file_name);
+            $organization->logo = $logo_path;
         }
 
-        $header_path = '';
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $organization->id . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/organization', $file_name);
+            $organization->document_letter_header = $header_path;
         }
 
-        $footer_path = '';
         if ($file = $request->file('footer')) {
             $file_name = 'footer_' . $organization->id . '.' . $file->extension();
             $footer_path = '/' . $file->storeAs('images/organization', $file_name);
+            $organization->document_letter_footer = $footer_path;
         }
 
-        $organization->logo = $logo_path;
-        $organization->document_letter_header = $header_path;
-        $organization->document_letter_footer = $footer_path;
         $organization->save();
 
         return response()->json(
@@ -136,33 +133,32 @@ class OrganizationController extends Controller
             'mobile_number' => $request->mobile_number,
         ]);
 
-        $logo_path = '';
-        if ($file = $request->file('logo')) {
-            $file_name = 'logo_' . $organization->id . '.' . $file->extension();
-            $logo_path = '/' . $file->storeAs('images/organization', $file_name);
-        }
-
-        $header_path = '';
-        if ($file = $request->file('header')) {
-            $file_name = 'header_' . $organization->id . '.' . $file->extension();
-            $header_path = '/' . $file->storeAs('images/organization', $file_name);
-        }
-        
-        $footer_path = '';
-        if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $organization->id . '.' . $file->extension();
-            $footer_path = '/' . $file->storeAs('images/organization', $file_name);
-        }
-
         $organization->update([
             'name'                      => $request->name,
-            'logo'                      => $logo_path,
-            'document_letter_header'    => $header_path,
-            'document_letter_footer'    => $footer_path,
             'max_clinics'               => $request->max_clinics,
             'max_employees'             => $request->max_employees,
             'owner_id'                  => $owner->id,
         ]);
+
+        if ($file = $request->file('logo')) {
+            $file_name = 'logo_' . $organization->id . '.' . $file->extension();
+            $logo_path = '/' . $file->storeAs('images/organization', $file_name);
+            $organization->logo = $logo_path;
+        }
+
+        if ($file = $request->file('header')) {
+            $file_name = 'header_' . $organization->id . '.' . $file->extension();
+            $header_path = '/' . $file->storeAs('images/organization', $file_name);
+            $organization->document_letter_header = $header_path;
+        }
+
+        if ($file = $request->file('footer')) {
+            $file_name = 'footer_' . $organization->id . '.' . $file->extension();
+            $footer_path = '/' . $file->storeAs('images/organization', $file_name);
+            $organization->document_letter_footer = $footer_path;
+        }
+
+        $organization->save();
 
         return response()->json(
             [

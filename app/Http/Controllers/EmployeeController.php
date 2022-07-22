@@ -94,27 +94,24 @@ class EmployeeController extends Controller
             'work_hours' => json_encode($request->work_hours),
         ]);
 
-        $header_path = '';
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $employee->id . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/employee', $file_name);
+            $employee->document_letter_header = $header_path;
         }
 
-        $footer_path = '';
         if ($file = $request->file('footer')) {
             $file_name = 'footer_' . $employee->id . '.' . $file->extension();
             $footer_path = '/' . $file->storeAs('images/employee', $file_name);
+            $employee->document_letter_footer = $footer_path;
         }
 
-        $signature_path = '';
         if ($file = $request->file('signature')) {
             $file_name = 'signature_' . $employee->id . '.' . $file->extension();
             $signature_path = '/' . $file->storeAs('images/employee', $file_name);
+            $employee->signature = $signature_path;
         }
 
-        $employee->document_letter_header = $header_path;
-        $employee->document_letter_footer = $footer_path;
-        $employee->signature = $signature_path;
         $employee->save();
 
         return response()->json(
@@ -163,27 +160,24 @@ class EmployeeController extends Controller
             'work_hours'    => $request->work_hours,
         ]);
 
-        $header_path = '';
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $employee->id . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/employee', $file_name);
+            $employee->document_letter_header = $header_path;
         }
 
-        $footer_path = '';
         if ($file = $request->file('footer')) {
             $file_name = 'footer_' . $employee->id . '.' . $file->extension();
             $footer_path = '/' . $file->storeAs('images/employee', $file_name);
+            $employee->document_letter_footer = $footer_path;
         }
 
-        $signature_path = '';
         if ($file = $request->file('signature')) {
             $file_name = 'signature_' . $employee->id . '.' . $file->extension();
             $signature_path = '/' . $file->storeAs('images/employee', $file_name);
+            $employee->signature = $signature_path;
         }
 
-        $employee->document_letter_header = $header_path;
-        $employee->document_letter_footer = $footer_path;
-        $employee->signature = $signature_path;
         $employee->save();
 
         return response()->json(
