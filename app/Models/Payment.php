@@ -66,9 +66,8 @@ class Payment
             'charge_type'       => $appointment->charge_type,
         );
         $appointmentData = array(
-            'name'              => $appointment_type_name,
             'type'              => $appointmentType->type,
-            'type_name'         => $appointmentType->name,
+            'name'              => $appointmentType->name,
             'reference_number'  => $appointment->reference_number,
             'date'              => $appointment->date,
             'start_time'        => $appointment->start_time,
@@ -79,7 +78,6 @@ class Payment
             'last_name' => $specialistUser->last_name,
         );
         $paymentData = array(
-            'procedure_price'   => $appointmentType->procedure_price,
             'payment_tier_1'    => $appointmentType->payment_tier_1,
             'payment_tier_2'    => $appointmentType->payment_tier_2,
             'payment_tier_3'    => $appointmentType->payment_tier_3,
