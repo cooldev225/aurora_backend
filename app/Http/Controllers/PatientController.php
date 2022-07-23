@@ -70,8 +70,6 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        $today = date('Y-m-d');
-
         $patientInfo = Patient::patientDetailInfo($patient->id)
             ->first()
             ->toArray();
