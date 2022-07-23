@@ -95,19 +95,19 @@ class EmployeeController extends Controller
         ]);
 
         if ($file = $request->file('header')) {
-            $file_name = 'header_' . $employee->id . '.' . $file->extension();
+            $file_name = 'header_' . $employee->id . '_' . time() . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->document_letter_header = $header_path;
         }
 
         if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $employee->id . '.' . $file->extension();
+            $file_name = 'footer_' . $employee->id . '_' . time() . '.' . $file->extension();
             $footer_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->document_letter_footer = $footer_path;
         }
 
         if ($file = $request->file('signature')) {
-            $file_name = 'signature_' . $employee->id . '.' . $file->extension();
+            $file_name = 'signature_' . $employee->id . '_' . time() . '.' . $file->extension();
             $signature_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->signature = $signature_path;
         }
@@ -161,19 +161,19 @@ class EmployeeController extends Controller
         ]);
 
         if ($file = $request->file('header')) {
-            $file_name = 'header_' . $employee->id . '.' . $file->extension();
+            $file_name = 'header_' . $employee->id . '_' . time() . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->document_letter_header = $header_path;
         }
 
         if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $employee->id . '.' . $file->extension();
+            $file_name = 'footer_' . $employee->id . '_' . time() . '.' . $file->extension();
             $footer_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->document_letter_footer = $footer_path;
         }
 
         if ($file = $request->file('signature')) {
-            $file_name = 'signature_' . $employee->id . '.' . $file->extension();
+            $file_name = 'signature_' . $employee->id . '_' . time() . '.' . $file->extension();
             $signature_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->signature = $signature_path;
         }

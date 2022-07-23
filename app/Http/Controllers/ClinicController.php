@@ -64,13 +64,13 @@ class ClinicController extends BaseOrganizationController
         $proda_device->save_with_key();
 
         if ($file = $request->file('header')) {
-            $file_name = 'header_' . $clinic->id . '.' . $file->extension();
+            $file_name = 'header_' . $clinic->id . '_' . time() . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/clinic', $file_name);
             $clinic->document_letter_header = $header_path;
         }
 
         if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $clinic->id . '.' . $file->extension();
+            $file_name = 'footer_' . $clinic->id . '_' . time() . '.' . $file->extension();
             $footer_path = '/' . $file->storeAs('images/clinic', $file_name);
             $clinic->document_letter_footer = $footer_path;
         }
@@ -116,13 +116,13 @@ class ClinicController extends BaseOrganizationController
         $proda_device->save_with_key();
 
         if ($file = $request->file('header')) {
-            $file_name = 'header_' . $clinic->id . '.' . $file->extension();
+            $file_name = 'header_' . $clinic->id . '_' . time() . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/clinic', $file_name);
             $clinic->document_letter_header = $header_path;
         }
 
         if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $clinic->id . '.' . $file->extension();
+            $file_name = 'footer_' . $clinic->id . '_' . time() . '.' . $file->extension();
             $footer_path = '/' . $file->storeAs('images/clinic', $file_name);
             $clinic->document_letter_footer = $footer_path;
         }
