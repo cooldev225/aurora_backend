@@ -134,7 +134,7 @@ class UserController extends Controller
         $user->update($request->all());
 
         if ($file = $request->file('photo')) {
-            $file_name = 'photo_' . $user->id . '.' . $file->extension();
+            $file_name = 'photo_' . $user->id . '_' . time() . '.' . $file->extension();
             $photo_path = '/' . $file->storeAs('images/user', $file_name);
             $user->photo = $photo_path;
             $user->save();
