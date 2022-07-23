@@ -56,14 +56,15 @@ class Payment
         $specialistUser = $appointment->specialist()->employee()->user();
         
         $patientData = array(
-            'first_name'        =>  $patient->first_name,
-            'last_name'         =>  $patient->last_name,
-            'address'           =>  $patient->address,
-            'contact_number'    =>  $patient->contact_number,
-            'date_of_birth'     =>  $patient->date_of_birth,
+            'first_name'        => $patient->first_name,
+            'last_name'         => $patient->last_name,
+            'address'           => $patient->address,
+            'contact_number'    => $patient->contact_number,
+            'date_of_birth'     => $patient->date_of_birth,
             'charge_type'       => $appointment->charge_type,
         );
         $appointmentData = array(
+            'name'              => $appointment->name,
             'reference_number'  => $appointment->reference_number,
             'date'              => $appointment->date,
             'start_time'        => $appointment->start_time,
@@ -75,7 +76,17 @@ class Payment
         );
         $paymentData = array(
             'procedure_price'   => $appointmentType->procedure_price,
-            'name'              => $appointmentType->name,
+            'payment_tier_1'    => $appointmentType->payment_tier_1,
+            'payment_tier_2'    => $appointmentType->payment_tier_2,
+            'payment_tier_3'    => $appointmentType->payment_tier_3,
+            'payment_tier_4'    => $appointmentType->payment_tier_4,
+            'payment_tier_5'    => $appointmentType->payment_tier_5,
+            'payment_tier_6'    => $appointmentType->payment_tier_6,
+            'payment_tier_7'    => $appointmentType->payment_tier_7,
+            'payment_tier_8'    => $appointmentType->payment_tier_8,
+            'payment_tier_9'    => $appointmentType->payment_tier_9,
+            'payment_tier_10'   => $appointmentType->payment_tier_10,
+            'payment_tier_11'   => $appointmentType->payment_tier_11,
         );
 
         return array(
