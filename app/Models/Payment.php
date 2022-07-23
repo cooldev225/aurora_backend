@@ -54,6 +54,8 @@ class Payment
         $patient = $appointment->patient();
         $appointmentType = $appointment->type();
         $specialistUser = $appointment->specialist()->employee()->user();
+
+        $appointment_type_name = $appointmentType->type . ' : ' . $appointmentType->name;
         
         $patientData = array(
             'first_name'        => $patient->first_name,
@@ -64,7 +66,9 @@ class Payment
             'charge_type'       => $appointment->charge_type,
         );
         $appointmentData = array(
-            'name'              => $appointment->name,
+            'name'              => $appointment_type_name,
+            'type'              => $appointmentType->type,
+            'type_name'         => $appointmentType->name,
             'reference_number'  => $appointment->reference_number,
             'date'              => $appointment->date,
             'start_time'        => $appointment->start_time,
