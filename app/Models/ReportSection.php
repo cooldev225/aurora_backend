@@ -9,7 +9,9 @@ class ReportSection extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['template_id', 'title','is_image'];
+    protected $fillable = [
+        'template_id', 'title', 'free_text_default ', 'is_image'
+    ];
 
     /**
      * Return Report Template

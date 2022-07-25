@@ -18,9 +18,10 @@ class ReportSectionFactory extends Factory
     public function definition()
     {
         return [
-            'template_id'   => ReportTemplate::inRandomOrder()->first()->id,
-            'title'         => $this->faker->sentence(),
-            'is_image'      => $this->faker->boolean()
+            'template_id'       => ReportTemplate::inRandomOrder()->first()->id,
+            'title'             => $this->faker->sentence(),
+            'free_text_default' => $this->faker->sentence(),
+            'is_image'          => $this->faker->boolean()
         ];
     }
 }
