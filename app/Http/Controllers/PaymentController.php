@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AppointmentPaymentRequest;
 use App\Models\Appointment;
+use App\Models\AppointmentPayment;
 use App\Models\Payment;
 use Illuminate\Http\Response;
 
@@ -61,4 +63,32 @@ class PaymentController extends BaseOrganizationController
         );
     }
 
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \App\Http\Requests\AppointmentPaymentRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(AppointmentPaymentRequest $request)
+    {
+        $user_id = auth()->user()->id;
+        $appointment_id = $request->appointment_id;
+        $appointment = Appointment::find($appointment_id);
+
+        AppointmentPayment::create([
+            'appointment_id'    => $appointment_id,
+            'confirmed_by'      => $user_id,
+            'amount'            => $request->amount,
+            'payment_type'      => $request->payment_type,
+        ]);
+        $paymentInfo = Payment::paymentDetailInfo($appointment);
+
+        return response()->json(
+            [
+                'message' => 'Appointment payment confirmed',
+                'data' => $paymentInfo,
+            ],
+            Response::HTTP_CREATED
+        );
+    }
 }
