@@ -54,9 +54,13 @@ class Payment
         $patient = $appointment->patient();
         $appointmentType = $appointment->type();
         $specialistUser = $appointment->specialist()->employee()->user();
+        $appointmentPayments = AppointmentPayment::select(
+                DB::raw('SUM(amount) AS paid_amount')
+            )->where('appointment_id', $appointment->id)
+            ->get();
+        $paid_amount = $appointmentPayments[0]->paid_amount ?
+            $appointmentPayments[0]->paid_amount : 0;
 
-        $appointment_type_name = $appointmentType->type . ' : ' . $appointmentType->name;
-        
         $patientData = array(
             'first_name'        => $patient->first_name,
             'last_name'         => $patient->last_name,
@@ -89,6 +93,7 @@ class Payment
             'payment_tier_9'    => $appointmentType->payment_tier_9,
             'payment_tier_10'   => $appointmentType->payment_tier_10,
             'payment_tier_11'   => $appointmentType->payment_tier_11,
+            'paid_amount'       => $paid_amount,
         );
 
         return array(

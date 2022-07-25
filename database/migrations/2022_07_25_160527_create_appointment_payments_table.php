@@ -13,12 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('report_sections', function (Blueprint $table) {
+        Schema::create('appointment_payments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('template_id');
-            $table->string('title');
-            $table->text('free_text_default');
-            $table->boolean('is_image');
+            $table->foreignId('appointment_id');
+            $table->foreignId('confirmed_by');
+            $table->float('amount');
+            $table->enum('payment_type', ['CASH', 'EFTPOS'])->default('CASH');
             $table->timestamps();
         });
     }
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('report_sections');
+        Schema::dropIfExists('appointment_payments');
     }
 };

@@ -71,6 +71,15 @@ class Appointment extends Model
         )->first();
     }
 
+    
+    /**
+     * Return AppointmentAdministrationInfo
+     */
+    public function payments()
+    {
+        return $this->hasMany(AppointmentPayment::class, 'appointment_id');
+    }
+
     /**
      * Return AppointmentType
      */
