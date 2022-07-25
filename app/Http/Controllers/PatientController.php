@@ -22,7 +22,7 @@ class PatientController extends Controller
             ->toArray();
 
         $appointments = Appointment::organizationAppointmentsWithType()
-            ->orderBy('date')
+            ->orderBy('date','DESC')
             ->get()
             ->toArray();
 
