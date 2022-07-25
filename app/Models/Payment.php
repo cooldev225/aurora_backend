@@ -70,6 +70,7 @@ class Payment
             'charge_type'       => $appointment->charge_type,
         );
         $appointmentData = array(
+            'id'                => $appointment->id,
             'type'              => $appointmentType->type,
             'name'              => $appointmentType->name,
             'reference_number'  => $appointment->reference_number,
