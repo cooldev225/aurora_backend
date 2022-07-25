@@ -137,7 +137,6 @@ class Appointment extends Model
         $organization_id = null
     ) {
         $appointment_type_table = (new AppointmentType())->getTable();
-        $specialist_table = (new Specialist())->getTable();
         $clinic_table = (new Clinic())->getTable();
         $appointment_table = (new Appointment())->getTable();
         $employee_table = (new Employee())->getTable();
