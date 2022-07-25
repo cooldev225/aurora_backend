@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('template_id');
             $table->string('title');
+            $table->string('free_text_default');
             $table->boolean('is_image');
             $table->timestamps();
         });

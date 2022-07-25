@@ -30,6 +30,7 @@ class ReportTemplate extends Model
                 $sectionObj = new ReportSection();
                 $sectionObj->template_id = $templateObj->id;
                 $sectionObj->title = $section->title;
+                $sectionObj->free_text_default = $section->free_text_default;
                 $sectionObj->is_image = $section->is_image;
                 $sectionObj->save();
 
@@ -70,6 +71,7 @@ class ReportTemplate extends Model
                 }
 
                 $sectionObj->title = $section->title;
+                $sectionObj->free_text_default = $section->free_text_default;
                 $sectionObj->is_image = $section->is_image;
                 $sectionObj->save();
                 $arrSectionID[] = $sectionObj->id;
