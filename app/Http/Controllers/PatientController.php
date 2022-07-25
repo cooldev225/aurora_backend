@@ -23,6 +23,7 @@ class PatientController extends Controller
 
         $appointments = Appointment::organizationAppointmentsWithType()
             ->orderByDesc('date')
+            ->orderByDesc('start_time')
             ->get()
             ->toArray();
 
