@@ -61,7 +61,6 @@ class UserController extends Controller
                 'username' => $user->username,
                 'role' => $user->role()->slug,
                 'access_token' => $token,
-                'profile' => auth()->user(),
             ],
             Response::HTTP_OK
         );
