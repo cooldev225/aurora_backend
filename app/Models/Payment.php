@@ -73,7 +73,6 @@ class Payment
             'id'                => $appointment->id,
             'type'              => $appointmentType->type,
             'name'              => $appointmentType->name,
-            'reference_number'  => $appointment->reference_number,
             'date'              => $appointment->date,
             'start_time'        => $appointment->start_time,
             'end_time'          => $appointment->end_time,

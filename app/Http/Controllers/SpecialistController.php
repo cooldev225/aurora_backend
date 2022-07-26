@@ -4,16 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\DB;
 use App\Models\Specialist;
-use App\Models\SpecialistType;
-use App\Models\SpecialistTitle;
-use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Employee;
-use App\Models\Appointment;
-use App\Models\Patient;
 use App\Models\AppointmentTimeRequirement;
 use App\Http\Requests\SpecialistRequest;
 

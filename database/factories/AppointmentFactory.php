@@ -99,7 +99,6 @@ class AppointmentFactory extends Factory
             'room_id' => Room::inRandomOrder()->first()->id,
             'anesthetist_id' => $specialist->anesthetist_id,
             'appointment_type_id' => $appointment_type->id,
-            'reference_number' => mt_rand(1, 9999),
             'date' => $this->faker->date(),
             'arrival_time' => $arrival_time,
             'start_time' => $start_time,
