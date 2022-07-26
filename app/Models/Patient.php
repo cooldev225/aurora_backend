@@ -11,7 +11,6 @@ class Patient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'UR_number',
         'title',
         'first_name',
         'last_name',
@@ -140,7 +139,6 @@ class Patient extends Model
         $patient_table = (new Patient())->getTable();
 
         return PatientOrganization::select($patient_table . '.id',
-                $patient_table . '.UR_number',
                 $patient_table . '.first_name',
                 $patient_table . '.last_name',
                 $patient_table . '.email',

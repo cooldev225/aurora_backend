@@ -18,7 +18,6 @@ class PatientFactory extends Factory
     public function definition()
     {
         return [
-            'UR_number' => $this->faker->numerify('AA####'),
             'title' => $this->faker->title(),
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
