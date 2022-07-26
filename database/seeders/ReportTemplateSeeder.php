@@ -17,10 +17,10 @@ class ReportTemplateSeeder extends Seeder
      */
     public function run()
     {
-        ReportTemplate::factory(14)->create();
-        ReportSection::factory(20)->create();
-        ReportAutoText::factory(40)->create();
-
+        ReportTemplate::factory(6)->create();
+        ReportSection::factory(10)->create();
+        ReportAutoText::factory(30)->create();
+        
         LetterTemplate::factory(10)->create();
     }
 }
