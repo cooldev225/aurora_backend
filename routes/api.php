@@ -147,9 +147,17 @@ Route::middleware(['auth'])->group(function () {
             AppointmentController::class,
             'decline',
         ]);
+        Route::put('/appointments/confirm/{id}', [
+            AppointmentController::class,
+            'confirm',
+        ]);
         Route::put('/appointments/check-in/{id}', [
             AppointmentController::class,
             'checkIn',
+        ]);
+        Route::put('/appointments/check-out/{id}', [
+            AppointmentController::class,
+            'checkOut',
         ]);
         Route::put('/appointments/cancel/{id}', [
             AppointmentController::class,
