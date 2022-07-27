@@ -574,6 +574,36 @@ class AppointmentController extends BaseOrganizationController
         );
     }
 
+
+    /**
+     * Confirm
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function confirm(Request $request)
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $appointment = Appointment::find($request->id);
+
+        if ($appointment->organization_id != $organization_id) {
+            return $this->forbiddenOrganization();
+        }
+
+        $appointment->confirmation_status = 'CONFIRMED';
+
+        $appointment->save();
+
+        return response()->json(
+            [
+                'message' => 'Appointment confirmed',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
     /**
      * Check In
      *
@@ -590,7 +620,6 @@ class AppointmentController extends BaseOrganizationController
             return $this->forbiddenOrganization();
         }
 
-        $appointment->confirmation_status = 'CONFIRMED';
         $appointment->attendance_status = 'CHECKED_IN';
 
         $appointment->save();
@@ -598,6 +627,35 @@ class AppointmentController extends BaseOrganizationController
         return response()->json(
             [
                 'message' => 'Appointment Check In',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Check Out
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function checkOut(Request $request)
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $appointment = Appointment::find($request->id);
+
+        if ($appointment->organization_id != $organization_id) {
+            return $this->forbiddenOrganization();
+        }
+
+        $appointment->attendance_status = 'CHECKED_OUT';
+
+        $appointment->save();
+
+        return response()->json(
+            [
+                'message' => 'Appointment Check Out',
                 'data' => $appointment,
             ],
             Response::HTTP_OK
