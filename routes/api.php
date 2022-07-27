@@ -30,6 +30,7 @@ use App\Http\Controllers\AppointmentTimeRequirementController;
 use App\Http\Controllers\LetterTemplateController;
 use App\Http\Controllers\NotificationTestController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\PreAdmissionController;
 use App\Http\Controllers\ReportTemplateController;
 
 /*
@@ -119,6 +120,7 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('patient-recalls', PatientRecallController::class);
 
         Route::apiResource('report-templates', ReportTemplateController::class);
+        Route::apiResource('pre-admission-sections', PreAdmissionController::class);
 
         Route::post('/notification-test', [
             NotificationTestController::class,
