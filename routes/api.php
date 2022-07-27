@@ -121,6 +121,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::apiResource('report-templates', ReportTemplateController::class);
         Route::apiResource('pre-admission-sections', PreAdmissionController::class);
+        Route::put('update-pre-admission-consent', [
+            PreAdmissionController::class,
+            'updateConsent',
+        ]);
 
         Route::post('/notification-test', [
             NotificationTestController::class,
