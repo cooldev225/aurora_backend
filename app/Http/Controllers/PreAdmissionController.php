@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PreAdmissionConsentRequest;
 use App\Http\Requests\PreAdmissionSectionRequest;
+use App\Models\PreAdmissionConsent;
 use App\Models\PreAdmissionSection;
 use Illuminate\Http\Response;
 
@@ -98,6 +100,26 @@ class PreAdmissionController extends Controller
                 'message'   => 'Pre Admission Section Removed',
             ],
             Response::HTTP_NO_CONTENT
+        );
+    }
+
+    public function updateConsent(PreAdmissionConsentRequest $request) {
+        $organization_id = auth()->user()->organization_id;
+
+         PreAdmissionConsent::where('organization_id', $organization_id)
+            ->update([
+                'organization_id'   => $organization_id,
+                'text'              => $request->text
+            ]);
+        $pre_admission_consent = PreAdmissionConsent::where('organization_id', $organization_id)
+            ->first();
+
+        return response()->json(
+            [
+                'message'   => 'Pre Admission Consent updated',
+                'data'      => $pre_admission_consent,
+            ],
+            Response::HTTP_OK
         );
     }
 }
