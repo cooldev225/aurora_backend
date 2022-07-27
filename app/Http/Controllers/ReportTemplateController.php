@@ -75,7 +75,7 @@ class ReportTemplateController extends Controller
 
         return response()->json(
             [
-                'message'   => 'ReportTemplate updated',
+                'message'   => 'Report Template updated',
                 'data'      => $report_template,
             ],
             Response::HTTP_OK
@@ -94,7 +94,7 @@ class ReportTemplateController extends Controller
 
         return response()->json(
             [
-                'message'   => 'ReportTemplate Removed',
+                'message'   => 'Report Template Removed',
             ],
             Response::HTTP_NO_CONTENT
         );
