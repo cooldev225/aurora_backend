@@ -70,6 +70,7 @@ class MailController extends Controller
     {
         $mail = Mail::create([
             ...$request->all(),
+            'to_user_ids' => json_encode($request->to_user_ids),
             'from_user_id' => auth()->user()->id,
         ]);
 
@@ -137,8 +138,8 @@ class MailController extends Controller
     {
         $mail = Mail::create([
             ...$request->all(),
+            'to_user_ids' => json_encode($request->to_user_ids),
             'from_user_id' => auth()->user()->id,
-            'status' => 'sent',
         ]);
 
         return $this->sendDraft($request, $mail->id);
@@ -147,11 +148,11 @@ class MailController extends Controller
     /**
      * Send Mail Draft.
      *
-     * @param  \App\Http\Requests\MailRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  $mailId
      * @return \Illuminate\Http\Response
      */
-    public function sendDraft(MailRequest $request, $mailId)
+    public function sendDraft(Request $request, $mailId)
     {
         $mail = Mail::find($mailId);
 
@@ -189,11 +190,11 @@ class MailController extends Controller
     /**
      * Bookmark Mail.
      *
-     * @param  \App\Http\Requests\MailRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  $mailId
      * @return \Illuminate\Http\Response
      */
-    public function bookmark(MailRequest $request, $mailId)
+    public function bookmark(Request $request, $mailId)
     {
         $mailbox = Mail::find($mailId)->mailbox;
 
@@ -222,11 +223,11 @@ class MailController extends Controller
     /**
      * Move to Trash.
      *
-     * @param  \App\Http\Requests\MailRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @param  $mailId
      * @return \Illuminate\Http\Response
      */
-    public function delete(MailRequest $request, $mailId)
+    public function delete(Request $request, $mailId)
     {
         $mailbox = Mail::find($mailId)->mailbox;
 

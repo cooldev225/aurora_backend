@@ -24,7 +24,7 @@ class MailRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'to_user_ids' => 'required|array',
         ];
     }
 }
