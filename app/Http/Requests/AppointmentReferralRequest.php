@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AppointmentAdministrationInfoRequest extends FormRequest
+class AppointmentReferralRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,8 @@ class AppointmentAdministrationInfoRequest extends FormRequest
     public function rules()
     {
         return [
-            'appointment_id' => 'required|numeric',
-            'referring_doctor_id' => 'required|numeric',
-            'is_no_referral' => 'required|boolean',
+            'referral_date'     => 'required|date',
+            'referral_duration' => 'required|integer',
         ];
     }
 }

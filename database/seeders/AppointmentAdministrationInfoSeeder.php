@@ -5,9 +5,9 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\AppointmentAdministrationInfo;
-use App\Models\Specialist;
 use App\Models\Patient;
 use App\Models\Appointment;
+use App\Models\AppointmentReferral;
 use App\Models\Organization;
 
 class AppointmentAdministrationInfoSeeder extends Seeder
@@ -31,7 +31,11 @@ class AppointmentAdministrationInfoSeeder extends Seeder
             foreach ($dates as $date) {
                 $appointment = $this->createAppointment($date);
 
-                $appointmentAdministrationInfo = AppointmentAdministrationInfo::factory()->create(
+                AppointmentAdministrationInfo::factory()->create(
+                    ['appointment_id' => $appointment->id]
+                );
+
+                AppointmentReferral::factory()->create(
                     ['appointment_id' => $appointment->id]
                 );
 

@@ -70,6 +70,13 @@ class Appointment extends Model
         )->first();
     }
 
+     /**
+     * Return AppointmentReferral
+     */
+    public function referral()
+    {
+        return $this->hasOne(AppointmentReferral::class);
+    }
     
     /**
      * Return AppointmentAdministrationInfo

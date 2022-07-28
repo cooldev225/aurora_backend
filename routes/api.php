@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AppointmentReferralController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
@@ -172,6 +173,12 @@ Route::middleware(['auth'])->group(function () {
             AppointmentController::class,
             'waitListed',
         ]);
+
+        Route::put('/appointment-referrals/update/{id}', [
+            AppointmentReferralController::class,
+            'update',
+        ]);
+
         Route::get('/available-slots', [
             AppointmentController::class,
             'availableSlots',
