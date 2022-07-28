@@ -15,6 +15,12 @@ return new class extends Migration
     {
         Schema::create('mailboxes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id');
+            $table->foreignId('mail_id');
+            $table
+            ->enum('status', ['inbox', 'starred', 'deleted'])
+            ->default('inbox');
+            $table->boolean('is_read')->default(false);
             $table->timestamps();
         });
     }
