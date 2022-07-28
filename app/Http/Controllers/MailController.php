@@ -127,6 +127,72 @@ class MailController extends Controller
     }
 
     /**
+     * Bookmark Mail.
+     *
+     * @param  \App\Http\Requests\MailRequest  $request
+     * @param  $mailboxId
+     * @return \Illuminate\Http\Response
+     */
+    public function bookmark(MailRequest $request, $mailboxId)
+    {
+        $mailbox = Mailbox::find($mailboxId);
+
+        if (auth()->user()->id == $mailbox->user_id) {
+            return response()->json(
+                [
+                    'message' => 'Not Mailbox owner',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $mailbox->update([
+            'is_starred' => true,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'Mail Bookmarked',
+                'data' => $mailbox,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Move to Trash.
+     *
+     * @param  \App\Http\Requests\MailRequest  $request
+     * @param  $mailboxId
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(MailRequest $request, $mailboxId)
+    {
+        $mailbox = Mailbox::find($mailboxId);
+
+        if (auth()->user()->id == $mailbox->user_id) {
+            return response()->json(
+                [
+                    'message' => 'Not Mailbox owner',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $mailbox->update([
+            'status' => 'deleted',
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'Mail Deleted',
+                'data' => $mailbox,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
      * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\MailRequest  $request
@@ -135,7 +201,7 @@ class MailController extends Controller
      */
     public function update(MailRequest $request, Mail $mail)
     {
-        if (auth()->user()->id == $mail->from_user_id)) {
+        if (auth()->user()->id == $mail->from_user_id) {
             return response()->json(
                 [
                     'message' => 'Not Mail draft creator',
@@ -163,7 +229,7 @@ class MailController extends Controller
                 'message' => 'Mail Updated',
                 'data' => $mail,
             ],
-            Response::HTTP_CREATED
+            Response::HTTP_OK
         );
     }
 
