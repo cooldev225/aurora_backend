@@ -15,17 +15,38 @@ class MailController extends Controller
      */
     public function index()
     {
-        $status = 'draft';
-
-        $mail_list = Mail::where('from_user_id', auth()->user()->id)
-            ->orderByDesc('sent_at')
-            ->orderByDesc('updated_at');
+        $status = 'inbox';
 
         if ($request->filled('status')) {
             $status = $request->status;
         }
 
-        $mail_list->where('status', $status);
+        $mail_list = null;
+
+        if (in_array($status, ['draft', 'sent'])) {
+            $mail_list = Mail::where('from_user_id', auth()->user()->id)
+                ->where('status', $status)
+                ->orderByDesc('sent_at')
+                ->orderByDesc('updated_at');
+        } else {
+            $mail_list = Mail::with([
+                'mailbox' => function ($query) use ($status) {
+                    $query->where('user_id', auth()->user()->id);
+
+                    if ($status == 'deleted') {
+                        $query->where('status', $status);
+                    } else {
+                        $query->where('status', 'inbox');
+                    }
+
+                    if ($status == 'unread') {
+                        $query->where('is_read', false);
+                    } elseif ($status == 'starred') {
+                        $query->where('is_starred', true);
+                    }
+                },
+            ])->orderByDesc('sent_at');
+        }
 
         $mail_list = $mail_list->get();
 
@@ -46,7 +67,18 @@ class MailController extends Controller
      */
     public function store(MailRequest $request)
     {
-        //
+        $mail = Mail::create([
+            ...$request->all(),
+            'from_user_id' => auth()->user()->id,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'New Mail Created',
+                'data' => $mail,
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -57,7 +89,21 @@ class MailController extends Controller
      */
     public function show(Mail $mail)
     {
-        //
+        $replied_mails = [$mail];
+
+        while ($mail->reply_id > 0) {
+            $mail = $mail->reply;
+
+            $replied_mails[] = $mail;
+        }
+
+        return response()->json(
+            [
+                'message' => 'Replied Mail List',
+                'data' => $replied_mails,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -69,7 +115,27 @@ class MailController extends Controller
      */
     public function update(MailRequest $request, Mail $mail)
     {
-        //
+        if ($mail->status != 'draft') {
+            return response()->json(
+                [
+                    'message' => 'Mail update forbidden',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $mail->update([
+            ...$request->all(),
+            'from_user_id' => auth()->user()->id,
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'Mail Updated',
+                'data' => $mail,
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
     /**
@@ -80,6 +146,22 @@ class MailController extends Controller
      */
     public function destroy(Mail $mail)
     {
-        //
+        if ($mail->status != 'draft') {
+            return response()->json(
+                [
+                    'message' => 'Mail destroy forbidden',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $mail->delete();
+
+        return response()->json(
+            [
+                'message' => 'Mail Draft Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
     }
 }

@@ -15,39 +15,6 @@ class MailboxController extends Controller
      */
     public function index()
     {
-        $status = 'inbox';
-
-        if ($request->filled('status')) {
-            $status = $request->status;
-        }
-
-        $mail_list = Mail::with([
-            'mailbox' => function ($query) use ($status) {
-                $query->where('user_id', auth()->user()->id);
-
-                if ($status == 'deleted') {
-                    $query->where('status', $status);
-                } else {
-                    $query->where('status', 'inbox');
-                }
-
-                if ($status == 'unread') {
-                    $query->where('is_read', false);
-                } elseif ($status == 'starred') {
-                    $query->where('is_starred', true);
-                }
-            },
-        ])->orderByDesc('sent_at');
-
-        $mail_list = $mail_list->get();
-
-        return response()->json(
-            [
-                'message' => ucfirst($status) . ' Mail List',
-                'data' => $mail_list,
-            ],
-            Response::HTTP_OK
-        );
     }
 
     /**
