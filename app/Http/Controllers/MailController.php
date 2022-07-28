@@ -89,6 +89,26 @@ class MailController extends Controller
      */
     public function show(Mail $mail)
     {
+        $available_user_ids = json_decode($mail->to_user_ids);
+
+        $available_user_ids[] = $mail->from_user_id;
+
+        $current_user_id = auth()->user()->id;
+
+        if (in_array($current_user_id, $available_user_ids)) {
+            return response()->json(
+                [
+                    'message' => 'Only available for sender or receiver',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $mailbox = $mail->mailbox;
+
+        $mailbox->update('is_read', true);
+        $mailbox->save();
+
         $replied_mails = [$mail];
 
         while ($mail->reply_id > 0) {
@@ -115,6 +135,15 @@ class MailController extends Controller
      */
     public function update(MailRequest $request, Mail $mail)
     {
+        if (auth()->user()->id == $mail->from_user_id)) {
+            return response()->json(
+                [
+                    'message' => 'Not Mail draft creator',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
         if ($mail->status != 'draft') {
             return response()->json(
                 [
