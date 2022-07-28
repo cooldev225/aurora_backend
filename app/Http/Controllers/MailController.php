@@ -98,7 +98,7 @@ class MailController extends Controller
 
         $current_user_id = auth()->user()->id;
 
-        if (in_array($current_user_id, $available_user_ids)) {
+        if (!in_array($current_user_id, $available_user_ids)) {
             return response()->json(
                 [
                     'message' => 'Only available for sender or receiver',
@@ -157,7 +157,7 @@ class MailController extends Controller
     {
         $mail = Mail::find($mailId);
 
-        if (auth()->user()->id == $mail->from_user_id) {
+        if (auth()->user()->id != $mail->from_user_id) {
             return response()->json(
                 [
                     'message' => 'Not Mail Draft owner',
@@ -182,7 +182,7 @@ class MailController extends Controller
         return response()->json(
             [
                 'message' => 'Mail Sent',
-                'data' => $mailbox,
+                'data' => $mail,
             ],
             Response::HTTP_OK
         );
@@ -199,7 +199,7 @@ class MailController extends Controller
     {
         $mailbox = Mail::find($mailId)->mailbox;
 
-        if (auth()->user()->id == $mailbox->user_id) {
+        if (auth()->user()->id != $mailbox->user_id) {
             return response()->json(
                 [
                     'message' => 'Not Mailbox owner',
@@ -232,7 +232,7 @@ class MailController extends Controller
     {
         $mailbox = Mail::find($mailId)->mailbox;
 
-        if (auth()->user()->id == $mailbox->user_id) {
+        if (auth()->user()->id != $mailbox->user_id) {
             return response()->json(
                 [
                     'message' => 'Not Mailbox owner',
@@ -263,7 +263,7 @@ class MailController extends Controller
      */
     public function update(MailRequest $request, Mail $mail)
     {
-        if (auth()->user()->id == $mail->from_user_id) {
+        if (auth()->user()->id != $mail->from_user_id) {
             return response()->json(
                 [
                     'message' => 'Not Mail draft creator',

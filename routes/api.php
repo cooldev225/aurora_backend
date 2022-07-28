@@ -34,6 +34,7 @@ use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PreAdmissionController;
 use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
+use App\Http\Controllers\MailController;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,8 +57,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
 
-    Route::get('/referring-doctors/search', [ReferringDoctorController::class, 'search']);
+    Route::get('/referring-doctors/search', [
+        ReferringDoctorController::class,
+        'search',
+    ]);
 
+    Route::post('/mails/send', [MailController::class, 'send']);
+    Route::put('/mails/send-draft/{id}', [MailController::class, 'sendDraft']);
+    Route::put('/mails/bookmark/{id}', [MailController::class, 'bookmark']);
+    Route::put('/mails/delete/{id}', [MailController::class, 'delete']);
+    Route::apiResource('mails', MailController::class);
 
     Route::middleware(['ensure.role:admin'])->group(function () {
         Route::apiResource('admins', AdminController::class);
@@ -70,7 +79,10 @@ Route::middleware(['auth'])->group(function () {
         );
         Route::apiResource('birth-codes', BirthCodeController::class);
         Route::apiResource('health-funds', HealthFundController::class);
-        Route::apiResource('referring-doctors', ReferringDoctorController::class);
+        Route::apiResource(
+            'referring-doctors',
+            ReferringDoctorController::class
+        );
     });
 
     Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
@@ -126,7 +138,10 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('patient-recalls', PatientRecallController::class);
 
         Route::apiResource('report-templates', ReportTemplateController::class);
-        Route::apiResource('pre-admission-sections', PreAdmissionController::class);
+        Route::apiResource(
+            'pre-admission-sections',
+            PreAdmissionController::class
+        );
         Route::put('update-pre-admission-consent', [
             PreAdmissionController::class,
             'updateConsent',
