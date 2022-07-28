@@ -32,7 +32,6 @@ class ReferringDoctorFactory extends Factory
             'mobile'                => $this->faker->phoneNumber(),
             'email'                 => $this->faker->safeEmail(),
             'practice_name'         => $this->faker->name(),
-            'status'                => mt_rand(0, 1),
         ];
     }
 }
