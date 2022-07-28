@@ -128,6 +128,65 @@ class MailController extends Controller
     }
 
     /**
+     * Send Mail.
+     *
+     * @param  \App\Http\Requests\MailRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function send(MailRequest $request)
+    {
+        $mail = Mail::create([
+            ...$request->all(),
+            'from_user_id' => auth()->user()->id,
+            'status' => 'sent',
+        ]);
+
+        return $this->sendDraft($request, $mail->id);
+    }
+
+    /**
+     * Send Mail Draft.
+     *
+     * @param  \App\Http\Requests\MailRequest  $request
+     * @param  $mailId
+     * @return \Illuminate\Http\Response
+     */
+    public function sendDraft(MailRequest $request, $mailId)
+    {
+        $mail = Mail::find($mailId);
+
+        if (auth()->user()->id == $mail->from_user_id) {
+            return response()->json(
+                [
+                    'message' => 'Not Mail Draft owner',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        $to_user_ids = json_decode($mail->to_user_ids);
+
+        foreach ($to_user_ids as $to_user_id) {
+            $mailbox = Mailbox::create([
+                'user_id' => $to_user_id,
+                'mail_id' => $mail->id,
+            ]);
+        }
+
+        $mail->status = 'sent';
+
+        $mail->save();
+
+        return response()->json(
+            [
+                'message' => 'Mail Sent',
+                'data' => $mailbox,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
      * Bookmark Mail.
      *
      * @param  \App\Http\Requests\MailRequest  $request
