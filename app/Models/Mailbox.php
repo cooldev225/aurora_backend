@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Mailbox extends Model
 {
     use HasFactory;
+
+    protected $fillable = ['user_id', 'mail_id', 'status', 'is_read'];
 }
