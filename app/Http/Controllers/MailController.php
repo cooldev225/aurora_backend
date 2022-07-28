@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Mail;
+use App\Models\Mailbox;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Http\Requests\MailRequest;
@@ -30,23 +31,23 @@ class MailController extends Controller
                 ->orderByDesc('sent_at')
                 ->orderByDesc('updated_at');
         } else {
-            $mail_list = Mail::with([
-                'mailbox' => function ($query) use ($status) {
-                    $query->where('user_id', auth()->user()->id);
+            $mail_list = Mail::whereHas('mailbox', function ($query) use (
+                $status
+            ) {
+                $query->where('user_id', auth()->user()->id);
 
-                    if ($status == 'deleted') {
-                        $query->where('status', $status);
-                    } else {
-                        $query->where('status', 'inbox');
-                    }
+                if ($status == 'deleted') {
+                    $query->where('status', $status);
+                } else {
+                    $query->where('status', 'inbox');
+                }
 
-                    if ($status == 'unread') {
-                        $query->where('is_read', false);
-                    } elseif ($status == 'starred') {
-                        $query->where('is_starred', true);
-                    }
-                },
-            ])->orderByDesc('sent_at');
+                if ($status == 'unread') {
+                    $query->where('is_read', false);
+                } elseif ($status == 'starred') {
+                    $query->where('is_starred', true);
+                }
+            })->orderByDesc('sent_at');
         }
 
         $mail_list = $mail_list->get();
