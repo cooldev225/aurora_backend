@@ -15,17 +15,39 @@ class MailboxController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $status = 'inbox';
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        if ($request->filled('status')) {
+            $status = $request->status;
+        }
+
+        $mail_list = Mail::with([
+            'mailbox' => function ($query) use ($status) {
+                $query->where('user_id', auth()->user()->id);
+
+                if ($status == 'deleted') {
+                    $query->where('status', $status);
+                } else {
+                    $query->where('status', 'inbox');
+                }
+
+                if ($status == 'unread') {
+                    $query->where('is_read', false);
+                } elseif ($status == 'starred') {
+                    $query->where('is_starred', true);
+                }
+            },
+        ])->orderByDesc('sent_at');
+
+        $mail_list = $mail_list->get();
+
+        return response()->json(
+            [
+                'message' => ucfirst($status) . ' Mail List',
+                'data' => $mail_list,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -47,30 +69,6 @@ class MailboxController extends Controller
      */
     public function show(Mailbox $mailbox)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Mailbox  $mailbox
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Mailbox $mailbox)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Mailbox  $mailbox
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Mailbox $mailbox)
-    {
-        //
     }
 
     /**

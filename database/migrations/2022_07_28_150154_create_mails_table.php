@@ -20,9 +20,9 @@ return new class extends Migration {
             $table->text('body')->nullable();
             $table->foreignId('reply_id')->nullable();
             $table->foreignId('thread_id')->nullable();
-            $table
-                ->enum('status', ['draft', 'sent', 'starred', 'deleted'])
-                ->default('draft');
+            $table->enum('status', ['draft', 'sent'])->default('draft');
+
+            $table->boolean('is_starred')->default(false);
             $table->dateTime('sent_at')->nullable();
             $table->json('attachment')->nullable();
             $table->timestamps();

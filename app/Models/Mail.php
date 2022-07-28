@@ -20,4 +20,12 @@ class Mail extends Model
         'sent_at',
         'attachment',
     ];
+
+    /**
+     * Return Mailbox
+     */
+    public function mailbox()
+    {
+        return $this->hasOne(Mailbox::class, 'mail_id');
+    }
 }

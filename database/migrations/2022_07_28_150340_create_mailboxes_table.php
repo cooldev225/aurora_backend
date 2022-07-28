@@ -16,9 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('mail_id');
-            $table
-                ->enum('status', ['inbox', 'starred', 'deleted'])
-                ->default('inbox');
+            $table->enum('status', ['inbox', 'deleted'])->default('inbox');
+            $table->boolean('is_starred')->default(false);
             $table->boolean('is_read')->default(false);
             $table->timestamps();
         });

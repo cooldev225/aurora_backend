@@ -15,17 +15,27 @@ class MailController extends Controller
      */
     public function index()
     {
-        //
-    }
+        $status = 'draft';
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $mail_list = Mail::where('from_user_id', auth()->user()->id)
+            ->orderByDesc('sent_at')
+            ->orderByDesc('updated_at');
+
+        if ($request->filled('status')) {
+            $status = $request->status;
+        }
+
+        $mail_list->where('status', $status);
+
+        $mail_list = $mail_list->get();
+
+        return response()->json(
+            [
+                'message' => ucfirst($status) . ' Mail List',
+                'data' => $mail_list,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
@@ -46,17 +56,6 @@ class MailController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Mail $mail)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Mail  $mail
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Mail $mail)
     {
         //
     }
