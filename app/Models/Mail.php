@@ -28,4 +28,12 @@ class Mail extends Model
     {
         return $this->hasOne(Mailbox::class, 'mail_id');
     }
+
+    /**
+     * Return Reply Mail
+     */
+    public function reply()
+    {
+        return $this->belongsTo(Mail::class, 'reply_id');
+    }
 }

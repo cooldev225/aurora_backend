@@ -109,7 +109,7 @@ class MailController extends Controller
 
         $mailbox = $mail->mailbox;
 
-        $mailbox->update('is_read', true);
+        $mailbox->is_read = true;
         $mailbox->save();
 
         $replied_mails = [$mail];
@@ -150,11 +150,11 @@ class MailController extends Controller
      * Send Mail Draft.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  $mailId
      * @return \Illuminate\Http\Response
      */
-    public function sendDraft(Request $request, $mailId)
+    public function sendDraft(Request $request, $id)
     {
+        $mailId = empty($id) ? $request->id : $id;
         $mail = Mail::find($mailId);
 
         if (auth()->user()->id != $mail->from_user_id) {
@@ -192,11 +192,11 @@ class MailController extends Controller
      * Bookmark Mail.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  $mailId
      * @return \Illuminate\Http\Response
      */
-    public function bookmark(Request $request, $mailId)
+    public function bookmark(Request $request)
     {
+        $mailId = $request->id;
         $mailbox = Mail::find($mailId)->mailbox;
 
         if (auth()->user()->id != $mailbox->user_id) {
@@ -208,9 +208,9 @@ class MailController extends Controller
             );
         }
 
-        $mailbox->update([
-            'is_starred' => true,
-        ]);
+        $mailbox->is_starred = true;
+
+        $mailbox->save();
 
         return response()->json(
             [
@@ -225,11 +225,11 @@ class MailController extends Controller
      * Move to Trash.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  $mailId
      * @return \Illuminate\Http\Response
      */
-    public function delete(Request $request, $mailId)
+    public function delete(Request $request)
     {
+        $mailId = $request->id;
         $mailbox = Mail::find($mailId)->mailbox;
 
         if (auth()->user()->id != $mailbox->user_id) {
