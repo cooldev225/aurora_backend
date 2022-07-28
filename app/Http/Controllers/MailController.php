@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Mail;
 use Illuminate\Http\Response;
+use Illuminate\Http\Request;
 use App\Http\Requests\MailRequest;
 
 class MailController extends Controller
@@ -13,7 +14,7 @@ class MailController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $status = 'inbox';
 
@@ -130,12 +131,12 @@ class MailController extends Controller
      * Bookmark Mail.
      *
      * @param  \App\Http\Requests\MailRequest  $request
-     * @param  $mailboxId
+     * @param  $mailId
      * @return \Illuminate\Http\Response
      */
-    public function bookmark(MailRequest $request, $mailboxId)
+    public function bookmark(MailRequest $request, $mailId)
     {
-        $mailbox = Mailbox::find($mailboxId);
+        $mailbox = Mail::find($mailId)->mailbox;
 
         if (auth()->user()->id == $mailbox->user_id) {
             return response()->json(
@@ -163,12 +164,12 @@ class MailController extends Controller
      * Move to Trash.
      *
      * @param  \App\Http\Requests\MailRequest  $request
-     * @param  $mailboxId
+     * @param  $mailId
      * @return \Illuminate\Http\Response
      */
-    public function delete(MailRequest $request, $mailboxId)
+    public function delete(MailRequest $request, $mailId)
     {
-        $mailbox = Mailbox::find($mailboxId);
+        $mailbox = Mail::find($mailId)->mailbox;
 
         if (auth()->user()->id == $mailbox->user_id) {
             return response()->json(
