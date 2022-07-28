@@ -28,9 +28,6 @@ return new class extends Migration {
                 ])
                 ->default('emergency')
                 ->nullable();
-            $table->date('referral_date')->nullable();
-            $table->string('referral_duration')->nullable();
-            $table->date('referral_expiry_date')->nullable();
             $table->text('note')->nullable();
             $table->text('important_details')->nullable();
             $table->text('clinical_alerts')->nullable();

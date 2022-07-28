@@ -18,6 +18,7 @@ use App\Models\PatientOrganization;
 use App\Http\Requests\AppointmentRequest;
 
 use App\Mail\Notification;
+use App\Models\AppointmentReferral;
 
 class AppointmentController extends BaseOrganizationController
 {
@@ -422,7 +423,12 @@ class AppointmentController extends BaseOrganizationController
             'organization_id' => $organization_id,
         ]);
 
-        $appointmentAdministrationInfo = AppointmentAdministrationInfo::create([
+        AppointmentAdministrationInfo::create([
+            ...$this->filterParams($request),
+            'appointment_id' => $appointment->id,
+        ]);
+
+        AppointmentReferral::create([
             ...$this->filterParams($request),
             'appointment_id' => $appointment->id,
         ]);
@@ -485,6 +491,12 @@ class AppointmentController extends BaseOrganizationController
         $appointmentAdministrationInfo->update([
             ...$this->filterParams($request),
             'appointment_id' => $appointment->id,
+        ]);
+
+        $appointmentReferral = $appointment->referral;
+
+        $appointmentReferral->update([
+            ...$this->filterParams($request)
         ]);
 
         return response()->json(
