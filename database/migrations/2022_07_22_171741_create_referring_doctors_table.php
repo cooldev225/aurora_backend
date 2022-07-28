@@ -30,7 +30,6 @@ return new class extends Migration
             $table->string('mobile');
             $table->string('email');
             $table->string('practice_name');
-            $table->integer('status');
             $table->string('upload_file_name')->nullable();
 
             $table->timestamps();

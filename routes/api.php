@@ -31,6 +31,7 @@ use App\Http\Controllers\LetterTemplateController;
 use App\Http\Controllers\NotificationTestController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PreAdmissionController;
+use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
 
 /*
@@ -54,6 +55,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
 
+    Route::get('/referring-doctors/search', [ReferringDoctorController::class, 'search']);
+
+
     Route::middleware(['ensure.role:admin'])->group(function () {
         Route::apiResource('admins', AdminController::class);
         Route::apiResource('user-roles', UserRoleController::class);
@@ -65,6 +69,7 @@ Route::middleware(['auth'])->group(function () {
         );
         Route::apiResource('birth-codes', BirthCodeController::class);
         Route::apiResource('health-funds', HealthFundController::class);
+        Route::apiResource('referring-doctors', ReferringDoctorController::class);
     });
 
     Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
