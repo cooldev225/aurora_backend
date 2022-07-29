@@ -13,7 +13,6 @@ class AppointmentAdministrationInfo extends Model
         'appointment_id',
         'referring_doctor_id',
         'is_no_referral',
-        'no_referral_reason',
         'note',
         'important_details',
         'clinical_alerts',

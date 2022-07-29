@@ -19,15 +19,6 @@ return new class extends Migration {
             $table->foreignId('appointment_id')->index();
             $table->foreignId('referring_doctor_id')->nullable();
             $table->boolean('is_no_referral')->default(true);
-            $table
-                ->enum('no_referral_reason', [
-                    'emergency',
-                    'in_hospital',
-                    'lost_unavailable',
-                    'not_required',
-                ])
-                ->default('emergency')
-                ->nullable();
             $table->text('note')->nullable();
             $table->text('important_details')->nullable();
             $table->text('clinical_alerts')->nullable();

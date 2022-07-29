@@ -24,6 +24,7 @@ class AppointmentReferralRequest extends FormRequest
     public function rules()
     {
         return [
+            'is_no_referral'    => 'required',
             'referral_date'     => 'required|date',
             'referral_duration' => 'required|integer',
         ];

@@ -24,9 +24,17 @@ class AppointmentReferralFactory extends Factory
         );
 
         return [
+            'is_no_referral'        => $this->faker->boolean(),
+            'no_referral_reason'    => $this->faker->randomElement([
+                'EMERGENCY',
+                'IN_HOSPITAL',
+                'LOST_UNAVAILABLE',
+                'NOT_REQUIRED',
+            ]),
             'referral_date'         => $referral_date,
             'referral_duration'     => $referral_duration,
             'referral_expiry_date'  => $referral_expiry_date,
+            'referral_file'         => $this->faker->imageUrl(),
         ];
     }
 }
