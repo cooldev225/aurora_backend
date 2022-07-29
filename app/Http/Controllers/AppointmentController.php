@@ -876,7 +876,6 @@ class AppointmentController extends BaseOrganizationController
             'procedure_answers' => json_encode($procedure_answers),
             'referring_doctor_id' => $request->referring_doctor_id,
             'is_no_referral' => $is_no_referral,
-            'no_referral_reason' => $request->no_referral_reason,
             'receive_forms' => $request->input('receive_forms', 'sms'),
             'recurring_appointment' => $request->input(
                 'recurring_appointment',

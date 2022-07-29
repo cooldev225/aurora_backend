@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             NotificationTemplateSeeder::class,
             ReportTemplateSeeder::class,
             PatientDocumentSeeder::class,
+            PreAdmissionSeeder::class,
             ReferringDoctorSeeder::class,
             ScheduleFeeSeeder::class
         ]);

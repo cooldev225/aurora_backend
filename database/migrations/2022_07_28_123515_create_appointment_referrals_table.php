@@ -16,9 +16,22 @@ return new class extends Migration
         Schema::create('appointment_referrals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('appointment_id')->index();
+            $table->boolean('is_no_referral')->index();
+            
+            $table
+                ->enum('no_referral_reason', [
+                    'EMERGENCY',
+                    'IN_HOSPITAL',
+                    'LOST_UNAVAILABLE',
+                    'NOT_REQUIRED',
+                ])
+                ->default('emergency')
+                ->nullable();
+
             $table->date('referral_date')->nullable();
             $table->string('referral_duration')->nullable();
             $table->date('referral_expiry_date')->nullable();
+            $table->string('referral_file')->nullable();
             $table->timestamps();
         });
     }

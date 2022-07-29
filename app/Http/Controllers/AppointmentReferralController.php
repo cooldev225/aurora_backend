@@ -33,6 +33,13 @@ class AppointmentReferralController extends Controller
             'referral_expiry_date'  =>  $referral_expiry_date
         ]);
 
+        if ($file = $request->file('referral_file')) {
+            $file_name = 'referral_file_' . $appointmentReferral->id . '_' . time() . '.' . $file->extension();
+            $referral_file_path = '/' . $file->storeAs('files/appointment_referral', $file_name);
+            $appointmentReferral->referral_file = $referral_file_path;
+            $appointmentReferral->save();
+        }
+
         $appointmentReferral = AppointmentReferral::where('appointment_id', $request->id)
             ->first();
 
