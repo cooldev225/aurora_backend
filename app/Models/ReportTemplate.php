@@ -19,22 +19,28 @@ class ReportTemplate extends Model
         return $this->hasMany(ReportSection::class, 'template_id');
     }
 
-    public static function createTemplate($data) {
+    public static function createTemplate($data)
+    {
         $templateObj = self::create($data);
 
-        $template_data = $data['template_data'];
-        $arrTemplateData = json_decode($template_data);
+        $templateSections = $data['sections'];
 
-        if (is_array($arrTemplateData)) {
-            foreach ($arrTemplateData as $section) {
+        if (is_array($templateSections)) {
+            foreach ($templateSections as $section) {
+                $section = (object) $section;
+
                 $sectionObj = new ReportSection();
                 $sectionObj->template_id = $templateObj->id;
                 $sectionObj->title = $section->title;
                 $sectionObj->free_text_default = $section->free_text_default;
-                $sectionObj->is_image = $section->is_image;
+                $sectionObj->is_image = isset($section->is_image)
+                    ? $sectionObj->is_image
+                    : false;
                 $sectionObj->save();
 
-                foreach ($section->autoTexts as $autoText) {
+                foreach ($section->auto_texts as $autoText) {
+                    $autoText = (object) $autoText;
+
                     $autoTextObj = new ReportAutoText();
                     $autoTextObj->section_id = $sectionObj->id;
                     $autoTextObj->text = $autoText->text;
@@ -49,15 +55,16 @@ class ReportTemplate extends Model
             ->first();
     }
 
-    public function update(array $attributes = [], array $options = []) {
+    public function update(array $attributes = [], array $options = [])
+    {
         parent::update($attributes, $options);
 
-        $template_data = $attributes['template_data'];
-        $arrTemplateData = json_decode($template_data);
+        $templateSections = $attributes['sections'];
 
-        if (is_array($arrTemplateData)) {
-            $arrSectionID = array();
-            foreach ($arrTemplateData as $section) {
+        if (is_array($templateSections)) {
+            $arrSectionID = [];
+            foreach ($templateSections as $section) {
+                $section = (object) $section;
                 $sectionObj = null;
                 if (isset($section->id)) {
                     $sectionObj = ReportSection::where('template_id', $this->id)
@@ -72,15 +79,21 @@ class ReportTemplate extends Model
 
                 $sectionObj->title = $section->title;
                 $sectionObj->free_text_default = $section->free_text_default;
-                $sectionObj->is_image = $section->is_image;
+                $sectionObj->is_image = isset($section->is_image)
+                    ? $sectionObj->is_image
+                    : false;
                 $sectionObj->save();
                 $arrSectionID[] = $sectionObj->id;
 
-                $arrAutoTextId = array();
-                foreach ($section->autoTexts as $autoText) {
+                $arrAutoTextId = [];
+                foreach ($section->auto_texts as $autoText) {
+                    $autoText = (object) $autoText;
                     $autoTextObj = null;
                     if (isset($autoText->id)) {
-                        $autoTextObj = ReportAutoText::where('section_id', $sectionObj->id)
+                        $autoTextObj = ReportAutoText::where(
+                            'section_id',
+                            $sectionObj->id
+                        )
                             ->where('id', $autoText->id)
                             ->first();
                     }
@@ -100,11 +113,17 @@ class ReportTemplate extends Model
                     ->delete();
             }
 
-            $arrDeletingSectionId = ReportSection::where('template_id', $this->id)
+            $arrDeletingSectionId = ReportSection::where(
+                'template_id',
+                $this->id
+            )
                 ->whereNotIn('id', $arrSectionID)
                 ->pluck('id');
 
-            ReportAutoText::whereIn('section_id', $arrDeletingSectionId)->delete();
+            ReportAutoText::whereIn(
+                'section_id',
+                $arrDeletingSectionId
+            )->delete();
             ReportSection::whereIn('id', $arrDeletingSectionId)->delete();
         }
 
@@ -114,8 +133,9 @@ class ReportTemplate extends Model
             ->first();
     }
 
-    public function delete() {
-        $arrSectionID = array();
+    public function delete()
+    {
+        $arrSectionID = [];
         $arrSections = $this->sections;
 
         foreach ($arrSections as $section) {
@@ -123,8 +143,7 @@ class ReportTemplate extends Model
         }
 
         $this->sections()->delete();
-        ReportAutoText::whereIn('section_id', $arrSectionID)
-            ->delete();
+        ReportAutoText::whereIn('section_id', $arrSectionID)->delete();
 
         parent::delete();
     }
