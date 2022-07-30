@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('patient_specialist_audios', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('patient_document_id');
             $table->foreignId('patient_id');
             $table->foreignId('specialist_id');
             $table->string('file');

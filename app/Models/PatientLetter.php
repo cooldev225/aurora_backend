@@ -14,6 +14,14 @@ class PatientLetter extends Model
     ];
 
     /**
+     * Return Patient Document
+     */
+    public function patient_document()
+    {
+        return $this->belongsTo(PatientDocument::class);
+    }
+
+    /**
      * Return Patient
      */
     public function patient()

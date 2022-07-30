@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('patient_clinical_notes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('patient_document_id');
             $table->foreignId('appointment_id');
             $table->text('description');
             $table->text('diagnosis');
