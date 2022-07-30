@@ -17,15 +17,18 @@ class ReportTemplateController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
 
-        $report_template = ReportTemplate::where('organization_id', $organization_id)
+        $report_template = ReportTemplate::where(
+            'organization_id',
+            $organization_id
+        )
             ->with('sections')
             ->with('sections.autoTexts')
             ->get();
 
         return response()->json(
             [
-                'message'   => 'Report Template List',
-                'data'      => $report_template,
+                'message' => 'Report Template List',
+                'data' => $report_template,
             ],
             Response::HTTP_OK
         );
@@ -42,15 +45,15 @@ class ReportTemplateController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $report_template = ReportTemplate::createTemplate([
-            'organization_id'   => $organization_id,
-            'title'             => $request->title,
-            'template_data'     => $request->template_data,
+            'organization_id' => $organization_id,
+            'title' => $request->title,
+            'sections' => $request->sections,
         ]);
 
         return response()->json(
             [
-                'message'   => 'New Report Template created',
-                'data'      => $report_template,
+                'message' => 'New Report Template created',
+                'data' => $report_template,
             ],
             Response::HTTP_CREATED
         );
@@ -63,20 +66,22 @@ class ReportTemplateController extends Controller
      * @param  \App\Models\ReportTemplate  $report_template
      * @return \Illuminate\Http\Response
      */
-    public function update(ReportTemplateRequest $request, ReportTemplate $report_template)
-    {
+    public function update(
+        ReportTemplateRequest $request,
+        ReportTemplate $report_template
+    ) {
         $organization_id = auth()->user()->organization_id;
 
         $report_template = $report_template->update([
-            'organization_id'   => $organization_id,
-            'title'             => $request->title,
-            'template_data'     => $request->template_data,
+            'organization_id' => $organization_id,
+            'title' => $request->title,
+            'sections' => $request->sections,
         ]);
 
         return response()->json(
             [
-                'message'   => 'Report Template updated',
-                'data'      => $report_template,
+                'message' => 'Report Template updated',
+                'data' => $report_template,
             ],
             Response::HTTP_OK
         );
@@ -94,7 +99,7 @@ class ReportTemplateController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Report Template Removed',
+                'message' => 'Report Template Removed',
             ],
             Response::HTTP_NO_CONTENT
         );
