@@ -35,6 +35,7 @@ use App\Http\Controllers\PreAdmissionController;
 use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\PatientDocumentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -153,6 +154,8 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         Route::apiResource('payments', PaymentController::class);
+
+        Route::apiResource('patient-documents', PatientDocumentController::class);
     });
 
     Route::middleware([

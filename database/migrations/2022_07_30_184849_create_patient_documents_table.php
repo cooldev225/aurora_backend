@@ -29,7 +29,7 @@ return new class extends Migration
             ])->default('LETTER');
 
             $table->foreignId('created_by');
-            $table->string('file_path');
+            $table->string('file_path')->nullable();
             $table->boolean('is_updatable')->default(true);
 
             $table->timestamps();
