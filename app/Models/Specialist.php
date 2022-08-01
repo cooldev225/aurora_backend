@@ -108,6 +108,8 @@ class Specialist extends Model
         $patient_billing_table = (new PatientBilling())->getTable();
         $employee_table = (new Employee())->getTable();
         $user_table = (new User())->getTable();
+        $user_table = (new User())->getTable();
+        $appointment_referral_table = (new AppointmentReferral())->getTable();
 
         $appointments = self::select(
             "{$appointment_table}.id",
@@ -115,6 +117,7 @@ class Specialist extends Model
             "{$appointment_type_table}.*",
             "{$patient_table}.*",
             "{$appointment_administration_info_table}.*",
+            "{$appointment_referral_table}.*",
             DB::raw(
                 "CONCAT({$specialist_title_table}.name, ' ', {$user_table}.first_name, ' ', {$user_table}.last_name) AS specialist_name"
             ),
@@ -158,6 +161,12 @@ class Specialist extends Model
                 'appointment_type_id',
                 '=',
                 $appointment_type_table . '.id'
+            )
+            ->leftJoin(
+                $appointment_referral_table,
+                $appointment_table . '.id',
+                '=',
+                $appointment_referral_table . '.appointment_id'
             )
             ->leftJoin($clinic_table, 'clinic_id', '=', $clinic_table . '.id')
             ->where($appointment_table . '.organization_id', $organization_id);

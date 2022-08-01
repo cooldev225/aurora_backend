@@ -58,9 +58,9 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
 
-    Route::get('/referring-doctors/search', [
+    Route::get('/referring-doctors/list', [
         ReferringDoctorController::class,
-        'search',
+        'list',
     ]);
 
     Route::post('/mails/send', [MailController::class, 'send']);

@@ -6,6 +6,7 @@ use Illuminate\Http\Response;
 use App\Models\ReferringDoctor;
 use App\Http\Requests\ReferringDoctorRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ReferringDoctorController extends BaseOrganizationController
 {
@@ -17,6 +18,29 @@ class ReferringDoctorController extends BaseOrganizationController
     public function index()
     {
         $referringDoctors = ReferringDoctor::all();
+
+        return response()->json(
+            [
+                'message'   => 'Referring Doctor List',
+                'data'      => $referringDoctors,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function list()
+    {
+        $referringDoctors = ReferringDoctor::select(
+            DB::raw('CONCAT(first_name, " ", last_name) AS value'),
+            'first_name',
+            'last_name',
+            'address'
+        )->get();
 
         return response()->json(
             [
