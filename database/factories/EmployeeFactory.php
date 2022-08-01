@@ -47,6 +47,10 @@ class EmployeeFactory extends Factory
             $work_hours = $work_hours + [
                 $week_day => [
                     'available' => mt_rand(1, 2) == 1 ? true : false,
+                    'appointment_type' => $this->faker->randomElement([
+                        'procedure',
+                        'consultation'
+                    ]),
                     'time_slot' => $this->faker->randomElement([
                         ['06:00:00', '17:30:00'],
                         ['07:00:00', '18:00:00'],

@@ -16,8 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('organization_id');
             $table
-                ->enum('type', ['Consultation', 'Procedure'])
-                ->default('Procedure');
+                ->enum('type', ['consultation', 'procedure'])
+                ->default('procedure');
             $table->string('color')->nullable();
             $table->string('mbs_code')->nullable();
             $table->string('mbs_description')->nullable();

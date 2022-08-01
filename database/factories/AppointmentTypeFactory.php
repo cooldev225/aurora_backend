@@ -20,8 +20,8 @@ class AppointmentTypeFactory extends Factory
         return [
             'organization_id' => Organization::inRandomOrder()->first()->id,
             'type' => $this->faker->randomElement([
-                'Consultation',
-                'Procedure',
+                'consultation',
+                'procedure',
             ]),
             'color' => $this->faker->hexcolor(),
             'mbs_code' => $this->faker->numberBetween(1000, 12345),

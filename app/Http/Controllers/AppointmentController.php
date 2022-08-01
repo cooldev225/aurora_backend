@@ -164,9 +164,7 @@ class AppointmentController extends BaseOrganizationController
 
         $appointments = Appointment::organizationAppointmentsWithType()
             ->where('confirmation_status', '!=', 'CANCELED')
-            ->orderBy(
-                "{$appointment_table}.date"
-            );
+            ->orderBy("{$appointment_table}.date");
 
         $clinic_id = null;
         $x_weeks = 0;
@@ -190,6 +188,14 @@ class AppointmentController extends BaseOrganizationController
             $appointments->where('specialist_id', $request->specialist_id);
         }
 
+        $appointment_type = null;
+
+        if ($request->filled('appointment_type_id')) {
+            $appointment_type = AppointmentType::find(
+                $request->appointment_type_id
+            );
+        }
+
         $specialists = $specialist_list->get()->toArray();
         $appointments = $appointments->get();
         $specialists_by_week = [];
@@ -202,7 +208,10 @@ class AppointmentController extends BaseOrganizationController
                 if (
                     $availability->available &&
                     (empty($clinic_id) ||
-                        ($clinic_id == $availability->locations->id))
+                        $clinic_id == $availability->locations->id) &&
+                    (empty($appointment_type) ||
+                        $appointment_type->type ==
+                            $availability->appointment_type)
                 ) {
                     if (empty($specialists_by_week[$week])) {
                         $specialists_by_week[$week] = [];
@@ -300,9 +309,18 @@ class AppointmentController extends BaseOrganizationController
                         $slot['end_time']
                     )
                 ) {
-                    $index = array_search($appointment->specialist_id, $return[$date_key]['time_slot_list'][$slot_key][ 'specialist_ids']);
+                    $index = array_search(
+                        $appointment->specialist_id,
+                        $return[$date_key]['time_slot_list'][$slot_key][
+                            'specialist_ids'
+                        ]
+                    );
 
-                    unset($return[$date_key]['time_slot_list'][$slot_key][ 'specialist_ids'][$index]);
+                    unset(
+                        $return[$date_key]['time_slot_list'][$slot_key][
+                            'specialist_ids'
+                        ][$index]
+                    );
                 }
             }
         }
@@ -368,7 +386,9 @@ class AppointmentController extends BaseOrganizationController
                         $time_slot['end_time']
                     )
                 ) {
-                    $total_time_slots[$slot_key]['specialist_ids'][] = $specialist_id;
+                    $total_time_slots[$slot_key][
+                        'specialist_ids'
+                    ][] = $specialist_id;
                 }
             }
         }
@@ -492,9 +512,7 @@ class AppointmentController extends BaseOrganizationController
 
         $appointmentReferral = $appointment->referral;
 
-        $appointmentReferral->update([
-            ...$this->filterParams($request)
-        ]);
+        $appointmentReferral->update([...$this->filterParams($request)]);
 
         return response()->json(
             [
@@ -582,7 +600,6 @@ class AppointmentController extends BaseOrganizationController
             Response::HTTP_OK
         );
     }
-
 
     /**
      * Confirm
