@@ -26,7 +26,14 @@ return new class extends Migration
                 'PATHOLOGY_REPORT',
                 'AUDIO',
                 'USB_CAPTURE',
+                'OTHER'
             ])->default('LETTER');
+
+            $table->enum('origin', [
+                'CREATED',
+                'RECEIVED',
+                'UPLOADED',
+            ])->default('CREATED');
 
             $table->foreignId('created_by');
             $table->string('file_path')->nullable();

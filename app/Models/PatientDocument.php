@@ -8,7 +8,8 @@ class PatientDocument extends Model
 {
     protected $fillable = [
         'patient_id', 'appointment_id', 'specialist_id',
-        'document_type', 'created_by', 'file_path', 'is_updatable'
+        'document_type', 'created_by', 'file_path', 'is_updatable',
+        'origin'
     ];
 
     /**
@@ -84,6 +85,8 @@ class PatientDocument extends Model
 
         } else if ($patient_document->document_type == 'USB_CAPTURE') {
 
+        } else if ($patient_document->document_type == 'OTHER') {
+
         }
 
         return PatientDocument::getDocument($patient_document->id);
@@ -114,6 +117,8 @@ class PatientDocument extends Model
 
         } else if ($this->document_type == 'USB_CAPTURE') {
 
+        } else if ($this->document_type == 'OTHER') {
+
         }
     }
 
@@ -139,6 +144,8 @@ class PatientDocument extends Model
             $this->specialist_audio->delete();
 
         } else if ($this->document_type == 'USB_CAPTURE') {
+
+        } else if ($this->document_type == 'OTHER') {
 
         }
 
