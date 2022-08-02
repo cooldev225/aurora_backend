@@ -25,6 +25,12 @@ class EmployeeFactory extends Factory
                 ->first()->id,
         ]);
 
+        $organization_count = Organization::count();
+
+        $user->organization_id = $user->id % $organization_count + 1;
+
+        $user->save();
+
         $week_days = [
             'monday',
             'tuesday',
