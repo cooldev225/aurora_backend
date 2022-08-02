@@ -18,17 +18,6 @@ class SpecialistSeeder extends Seeder
     {
         Specialist::factory(10)->create();
 
-        $specialists = Specialist::all();
-        $organization_count = Organization::count();
-
-        foreach ($specialists as $specialist) {
-            $user = $specialist->employee()->user();
-
-            $user->organization_id = $specialist->id % $organization_count + 1;
-
-            $user->save();
-        }
-
         $specialist = Specialist::factory()->create();
         $user = $specialist->employee()->user();
 
