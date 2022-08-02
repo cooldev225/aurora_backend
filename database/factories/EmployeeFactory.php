@@ -5,6 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Clinic;
 use App\Models\User;
+use App\Models\Organization;
 use App\Models\UserRole;
 
 /**
@@ -27,7 +28,7 @@ class EmployeeFactory extends Factory
 
         $organization_count = Organization::count();
 
-        $user->organization_id = $user->id % $organization_count + 1;
+        $user->organization_id = ($user->id % $organization_count) + 1;
 
         $user->save();
 
@@ -55,7 +56,7 @@ class EmployeeFactory extends Factory
                     'available' => mt_rand(1, 2) == 1 ? true : false,
                     'appointment_type' => $this->faker->randomElement([
                         'procedure',
-                        'consultation'
+                        'consultation',
                     ]),
                     'time_slot' => $this->faker->randomElement([
                         ['06:00:00', '17:30:00'],
@@ -69,11 +70,11 @@ class EmployeeFactory extends Factory
         }
 
         return [
-            'user_id'                => $user->id,
-            'work_hours'             => json_encode($work_hours),
+            'user_id' => $user->id,
+            'work_hours' => json_encode($work_hours),
             'document_letter_header' => $this->faker->imageUrl(),
             'document_letter_footer' => $this->faker->imageUrl(),
-            'signature'              => $this->faker->imageUrl(),
+            'signature' => $this->faker->imageUrl(),
         ];
     }
 }
