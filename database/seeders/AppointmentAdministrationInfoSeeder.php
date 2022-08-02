@@ -7,8 +7,10 @@ use Illuminate\Database\Seeder;
 use App\Models\AppointmentAdministrationInfo;
 use App\Models\Patient;
 use App\Models\Appointment;
+use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
+use Faker\Factory;
 
 class AppointmentAdministrationInfoSeeder extends Seeder
 {
@@ -26,6 +28,7 @@ class AppointmentAdministrationInfoSeeder extends Seeder
         }
 
         $patients = Patient::all();
+        $faker = Factory::create();
 
         foreach ($patients as $patient) {
             foreach ($dates as $date) {
@@ -38,6 +41,12 @@ class AppointmentAdministrationInfoSeeder extends Seeder
                 AppointmentReferral::factory()->create(
                     ['appointment_id' => $appointment->id]
                 );
+
+                AppointmentPreAdmission::create([
+                    'appointment_id'        =>  $appointment->id,
+                    'token'                 =>  md5($appointment->id),
+                    'pre_admission_file'    =>  $faker->imageUrl()
+                ]);
 
                 $appointment->patient_id = $patient->id;
 

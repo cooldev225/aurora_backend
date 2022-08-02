@@ -36,6 +36,14 @@ class Appointment extends Model
     ];
 
     /**
+     * Return Organization
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
+    /**
      * Return Patient
      */
     public function patient()
