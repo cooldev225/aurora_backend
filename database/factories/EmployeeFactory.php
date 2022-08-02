@@ -20,17 +20,19 @@ class EmployeeFactory extends Factory
      */
     public function definition()
     {
+        $last_organization_id = User::orderByDesc('id')->first()
+            ->organization_id;
+
+        $organization_id = Organization::whereNot('id', $last_organization_id)
+            ->inRandomOrder()
+            ->first()->id;
+
         $user = User::factory()->create([
             'role_id' => UserRole::employeeRoles()
                 ->inRandomOrder()
                 ->first()->id,
+            'organization_id' => $organization_id,
         ]);
-
-        $organization_count = Organization::count();
-
-        $user->organization_id = ($user->id % $organization_count) + 1;
-
-        $user->save();
 
         $week_days = [
             'monday',
