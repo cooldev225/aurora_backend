@@ -11,6 +11,7 @@ class AppointmentReferral extends Model
 
     protected $fillable = [
         'appointment_id',
+        'referring_doctor_id',
         'is_no_referral',
         'no_referral_reason',
         'referral_date',

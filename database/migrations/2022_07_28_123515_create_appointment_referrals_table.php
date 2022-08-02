@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('appointment_referrals', function (Blueprint $table) {
             $table->id();
             $table->foreignId('appointment_id')->index();
+            $table->foreignId('referring_doctor_id');
             $table->boolean('is_no_referral')->index();
             
             $table

@@ -28,13 +28,13 @@ class DatabaseSeeder extends Seeder
             HealthFundSeeder::class,
             AnestheticQuestionSeeder::class,
             ProcedureQuestionSeeder::class,
+            ReferringDoctorSeeder::class,
             AppointmentAdministrationInfoSeeder::class,
             AppointmentTimeRequirementSeeder::class,
             NotificationTemplateSeeder::class,
             ReportTemplateSeeder::class,
             PatientDocumentSeeder::class,
             PreAdmissionSeeder::class,
-            ReferringDoctorSeeder::class,
             ScheduleFeeSeeder::class
         ]);
     }

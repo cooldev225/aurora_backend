@@ -110,6 +110,7 @@ class Specialist extends Model
         $user_table = (new User())->getTable();
         $user_table = (new User())->getTable();
         $appointment_referral_table = (new AppointmentReferral())->getTable();
+        $referring_doctor_table = (new ReferringDoctor())->getTable();
 
         $appointments = self::select(
             "{$appointment_table}.id",
@@ -119,10 +120,17 @@ class Specialist extends Model
             "{$appointment_administration_info_table}.*",
             "{$appointment_referral_table}.*",
             DB::raw(
-                "CONCAT({$specialist_title_table}.name, ' ', {$user_table}.first_name, ' ', {$user_table}.last_name) AS specialist_name"
+                "CONCAT({$specialist_title_table}.name, ' ', "
+                . "{$user_table}.first_name, ' ', "
+                . "{$user_table}.last_name) AS specialist_name"
             ),
             "{$appointment_type_table}.name AS appointment_type_name",
-            "{$clinic_table}.name AS clinic_name"
+            "{$clinic_table}.name AS clinic_name",
+            DB::raw(
+                "CONCAT({$referring_doctor_table}.title, ' ', "
+                . "{$referring_doctor_table}.first_name, ' ', "
+                . "{$referring_doctor_table}.last_name) AS referring_doctor_name"
+            )
         )
             ->leftJoin(
                 $employee_table,
@@ -167,6 +175,11 @@ class Specialist extends Model
                 $appointment_table . '.id',
                 '=',
                 $appointment_referral_table . '.appointment_id'
+            )
+            ->leftJoin(
+                $referring_doctor_table,
+                $appointment_referral_table . '.referring_doctor_id',
+                $referring_doctor_table . '.id'
             )
             ->leftJoin($clinic_table, 'clinic_id', '=', $clinic_table . '.id')
             ->where($appointment_table . '.organization_id', $organization_id);

@@ -40,8 +40,6 @@ class AppointmentAdministrationInfoController extends Controller
     {
         $appointmentAdministrationInfo = AppointmentAdministrationInfo::create([
             'appointment_id' => $request->appointment_id,
-            'referring_doctor_id' => $request->referring_doctor_id,
-            'is_no_referral' => $request->is_no_referral,
             'note' => $request->note,
             'important_details' => $request->important_details,
             'clinical_alerts' => $request->clinical_alerts,
@@ -80,8 +78,6 @@ class AppointmentAdministrationInfoController extends Controller
     ) {
         $AppointmentAdministrationInfo->update([
             'appointment_id' => $request->appointment_id,
-            'referring_doctor_id' => $request->referring_doctor_id,
-            'is_no_referral' => $request->is_no_referral,
             'note' => $request->note,
             'important_details' => $request->important_details,
             'clinical_alerts' => $request->clinical_alerts,

@@ -24,9 +24,9 @@ class AppointmentAdministrationInfoRequest extends FormRequest
     public function rules()
     {
         return [
-            'appointment_id' => 'required|numeric',
-            'referring_doctor_id' => 'required|numeric',
-            'is_no_referral' => 'required|boolean',
+            'appointment_id'        => 'required|numeric',
+            'referring_doctor_id'   => 'required|numeric',
+            'is_no_referral'        => 'required|boolean',
         ];
     }
 }
