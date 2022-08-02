@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentReferralController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
@@ -58,9 +59,18 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
 
-    Route::get('/referring-doctors/list', [
-        ReferringDoctorController::class,
-        'list',
+    Route::get('/referring-doctors/list', [ReferringDoctorController::class, 'list']);
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Appointment Pre Admission
+    Route::get('/appointment_pre_admissions/show/{token}', [
+        AppointmentPreAdmissionController::class, 'show'
+    ]);
+    Route::post('/appointment_pre_admissions/validate/{token}', [
+        AppointmentPreAdmissionController::class, 'validate_pre_admission'
+    ]);
+    Route::post('/appointment_pre_admissions/store/{token}', [
+        AppointmentPreAdmissionController::class, 'store'
     ]);
 
     Route::post('/mails/send', [MailController::class, 'send']);
