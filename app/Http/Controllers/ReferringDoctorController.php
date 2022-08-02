@@ -36,7 +36,9 @@ class ReferringDoctorController extends BaseOrganizationController
     public function list()
     {
         $referringDoctors = ReferringDoctor::select(
-            DB::raw('CONCAT(first_name, " ", last_name) AS value'),
+            'id',
+            DB::raw('CONCAT(title, " ", first_name, " ", last_name) AS full_name'),
+            'title',
             'first_name',
             'last_name',
             'address'

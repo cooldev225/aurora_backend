@@ -821,8 +821,8 @@ class AppointmentController extends BaseOrganizationController
             $is_no_referral = false;
 
             $referral_params = [
-                'referral_date' => $referral_date,
-                'referral_expiry_date' => $referral_expiry_date,
+                'referral_date'         => $referral_date,
+                'referral_expiry_date'  => $referral_expiry_date,
             ];
         }
 

@@ -11,8 +11,6 @@ class AppointmentAdministrationInfo extends Model
 
     protected $fillable = [
         'appointment_id',
-        'referring_doctor_id',
-        'is_no_referral',
         'note',
         'important_details',
         'clinical_alerts',

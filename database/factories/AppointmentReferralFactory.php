@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\ReferringDoctor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -24,6 +25,7 @@ class AppointmentReferralFactory extends Factory
         );
 
         return [
+            'referring_doctor_id'   => ReferringDoctor::inRandomOrder()->first()->id,
             'is_no_referral'        => $this->faker->boolean(),
             'no_referral_reason'    => $this->faker->randomElement([
                 'EMERGENCY',
