@@ -724,7 +724,11 @@ class AppointmentController extends BaseOrganizationController
             return $this->forbiddenOrganization();
         }
 
-        $appointment->confirmation_status = 'CANCELED';
+        if ($request->missed == true) {
+            $appointment->confirmation_status = 'MISSED';
+        } else {
+            $appointment->confirmation_status = 'CANCELED';
+        }
 
         $appointment->save();
 
