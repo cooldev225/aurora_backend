@@ -69,4 +69,11 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->role()->slug == 'admin';
     }
+
+    /**
+     * Return Employee
+     */
+    public function employee() {
+        return $this->hasOne(Employee::class);
+    }
 }

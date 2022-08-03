@@ -45,7 +45,7 @@ class AppointmentAdministrationInfoSeeder extends Seeder
                 AppointmentPreAdmission::create([
                     'appointment_id'        =>  $appointment->id,
                     'token'                 =>  md5($appointment->id),
-                    'pre_admission_file'    =>  $faker->imageUrl()
+                    'pre_admission_file'    =>  null
                 ]);
 
                 $appointment->patient_id = $patient->id;

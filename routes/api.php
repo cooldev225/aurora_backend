@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
+use App\Http\Controllers\AnesthetistController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentReferralController;
@@ -250,5 +251,19 @@ Route::middleware(['auth'])->group(function () {
         'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
         Route::apiResource('patients', PatientController::class);
+    });
+
+    Route::middleware([
+        'ensure.role:anesthetist',
+    ])->group(function () {
+        Route::get('/anesthetist/appointments', [
+            AnesthetistController::class,
+            'index'
+        ]);
+
+        Route::put('/anesthetist/process_pre_admission', [
+            AnesthetistController::class,
+            'processPreAdmission'
+        ]);
     });
 });

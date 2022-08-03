@@ -24,7 +24,7 @@ return new class extends Migration
                 'CREATED',
             ])->default('BOOKED');
 
-            $table->string('pre_admission_file');
+            $table->string('pre_admission_file')->nullable();
 
             $table->timestamps();
         });
