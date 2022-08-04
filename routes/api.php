@@ -53,6 +53,7 @@ use App\Http\Controllers\PatientDocumentController;
 Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('/users', [UserController::class, 'index']);
     Route::post('/verify_token', [UserController::class, 'verify_token']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/refresh', [UserController::class, 'refresh']);
@@ -60,18 +61,24 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
 
-    Route::get('/referring-doctors/list', [ReferringDoctorController::class, 'list']);
+    Route::get('/referring-doctors/list', [
+        ReferringDoctorController::class,
+        'list',
+    ]);
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Appointment Pre Admission
     Route::get('/appointment_pre_admissions/show/{token}', [
-        AppointmentPreAdmissionController::class, 'show'
+        AppointmentPreAdmissionController::class,
+        'show',
     ]);
     Route::post('/appointment_pre_admissions/validate/{token}', [
-        AppointmentPreAdmissionController::class, 'validate_pre_admission'
+        AppointmentPreAdmissionController::class,
+        'validate_pre_admission',
     ]);
     Route::post('/appointment_pre_admissions/store/{token}', [
-        AppointmentPreAdmissionController::class, 'store'
+        AppointmentPreAdmissionController::class,
+        'store',
     ]);
 
     Route::post('/mails/send', [MailController::class, 'send']);
@@ -166,11 +173,14 @@ Route::middleware(['auth'])->group(function () {
 
         Route::apiResource('payments', PaymentController::class);
 
-        Route::apiResource('patient-documents', PatientDocumentController::class);
+        Route::apiResource(
+            'patient-documents',
+            PatientDocumentController::class
+        );
     });
 
     Route::middleware([
-        'ensure.role:organizationAdmin,organizationManager,receptionist',
+        'ensure.role:organizationAdmin,organizationManager,receptionist, anesthetist, specialist',
     ])->group(function () {
         Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
         Route::apiResource('appointments', AppointmentController::class);
@@ -253,17 +263,15 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('patients', PatientController::class);
     });
 
-    Route::middleware([
-        'ensure.role:anesthetist',
-    ])->group(function () {
+    Route::middleware(['ensure.role:anesthetist'])->group(function () {
         Route::get('/anesthetist/appointments', [
             AnesthetistController::class,
-            'index'
+            'index',
         ]);
 
         Route::put('/anesthetist/process_pre_admission', [
             AnesthetistController::class,
-            'processPreAdmission'
+            'processPreAdmission',
         ]);
     });
 });
