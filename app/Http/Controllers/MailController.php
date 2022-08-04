@@ -70,7 +70,7 @@ class MailController extends Controller
     public function store(MailRequest $request)
     {
         $mail = Mail::create([
-            ...$This->filterParams($request->all()),
+            ...$this->filterParams($request),
             'to_user_ids' => json_encode($request->to_user_ids),
             'from_user_id' => auth()->user()->id,
         ]);
@@ -138,7 +138,7 @@ class MailController extends Controller
     public function send(MailRequest $request)
     {
         $mail = Mail::create([
-            ...$request->all(),
+            ...$this->filterParams($request),
             'to_user_ids' => json_encode($request->to_user_ids),
             'from_user_id' => auth()->user()->id,
         ]);
@@ -339,7 +339,7 @@ class MailController extends Controller
         }
 
         $mail->update([
-            ...$This->filterParams($request->all()),
+            ...$this->filterParams($request),
             'to_user_ids' => json_encode($request->to_user_ids),
             'from_user_id' => auth()->user()->id,
         ]);
@@ -381,7 +381,7 @@ class MailController extends Controller
     }
 
     /**
-     * FilterREquest
+     * Filter Request
      *
      * @param  \App\Http\Requests\MailRequest  $request
      * @return Filtered Array
