@@ -10,7 +10,7 @@ class AppointmentPreAdmission extends Model
     use HasFactory;
 
     protected $fillable = [
-        'appointment_id', 'token', 'status'
+        'appointment_id', 'token', 'note', 'status'
     ];
 
     public function appointment() {
