@@ -197,25 +197,33 @@ class MailController extends Controller
     public function bookmark(Request $request)
     {
         $mailId = $request->id;
-        $mailbox = Mail::find($mailId)->mailbox;
+        $mail = Mail::find($mailId);
+        $mailbox = $mail->mailbox;
+        $return = $mail;
 
-        if (auth()->user()->id != $mailbox->user_id) {
+        if (auth()->user()->id == $mailbox->user_id) {
+            $mailbox->update([
+                'is_starred' => $request->is_starred,
+            ]);
+
+            $return = $mailbox;
+        } elseif (auth()->user()->id == $mail->from_user_id) {
+            $mail->update([
+                'is_starred' => $request->is_starred,
+            ]);
+        } else {
             return response()->json(
                 [
-                    'message' => 'Not Mailbox owner',
+                    'message' => 'Not Mail Owner',
                 ],
                 Response::HTTP_FORBIDDEN
             );
         }
 
-        $mailbox->is_starred = true;
-
-        $mailbox->save();
-
         return response()->json(
             [
                 'message' => 'Mail Bookmarked',
-                'data' => $mailbox,
+                'data' => $return,
             ],
             Response::HTTP_OK
         );
@@ -230,25 +238,74 @@ class MailController extends Controller
     public function delete(Request $request)
     {
         $mailId = $request->id;
-        $mailbox = Mail::find($mailId)->mailbox;
+        $mail = Mail::find($mailId);
+        $mailbox = $mail->mailbox;
+        $return = $mail;
 
-        if (auth()->user()->id != $mailbox->user_id) {
+        if (auth()->user()->id == $mailbox->user_id) {
+            $mailbox->update([
+                'status' => 'deleted',
+            ]);
+
+            $return = $mailbox;
+        } elseif (auth()->user()->id == $mail->from_user_id) {
+            $mail->update([
+                'status' => 'deleted',
+            ]);
+        } else {
             return response()->json(
                 [
-                    'message' => 'Not Mailbox owner',
+                    'message' => 'Not Mail Owner',
                 ],
                 Response::HTTP_FORBIDDEN
             );
         }
 
-        $mailbox->update([
-            'status' => 'deleted',
-        ]);
-
         return response()->json(
             [
                 'message' => 'Mail Deleted',
-                'data' => $mailbox,
+                'data' => $return,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Restore from Trash.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function restore(Request $request)
+    {
+        $mailId = $request->id;
+        $mail = Mail::find($mailId);
+        $mailbox = $mail->mailbox;
+        $return = $mail;
+
+        if (auth()->user()->id == $mailbox->user_id) {
+            $mailbox->update([
+                'status' => 'inbox',
+            ]);
+
+            $return = $mailbox;
+        } elseif (auth()->user()->id == $mail->from_user_id) {
+            $mail->update([
+                'status' => 'sent',
+            ]);
+        } else {
+            return response()->json(
+                [
+                    'message' => 'Not Mail Owner',
+                ],
+                Response::HTTP_FORBIDDEN
+            );
+        }
+
+        return response()->json(
+            [
+                'message' => 'Mail Restored',
+                'data' => $return,
             ],
             Response::HTTP_OK
         );
