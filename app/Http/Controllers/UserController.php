@@ -12,6 +12,26 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $users = User::where('organization_id', $organization_id)->get();
+
+        return response()->json(
+            [
+                'message' => 'User List',
+                'data' => $users,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
      * login user
      *
      * @return \Illuminate\Http\JsonResponse
@@ -133,7 +153,8 @@ class UserController extends Controller
         $user->update($request->all());
 
         if ($file = $request->file('photo')) {
-            $file_name = 'photo_' . $user->id . '_' . time() . '.' . $file->extension();
+            $file_name =
+                'photo_' . $user->id . '_' . time() . '.' . $file->extension();
             $photo_path = '/' . $file->storeAs('images/user', $file_name);
             $user->photo = $photo_path;
             $user->save();
@@ -176,16 +197,16 @@ class UserController extends Controller
     public function changePassword(Request $request)
     {
         $validator = Validator::make($request->all(), [
-            'old_password'      => 'required|string|min:6',
-            'new_password'      => 'required|string|min:6|different:old_password',
-            'confirm_password'  => 'required|string|min:6|same:new_password',
+            'old_password' => 'required|string|min:6',
+            'new_password' => 'required|string|min:6|different:old_password',
+            'confirm_password' => 'required|string|min:6|same:new_password',
         ]);
-        
+
         if ($validator->fails()) {
             return response()->json(
                 [
-                    'success'   =>  false,
-                    'errors'    =>  $validator->errors()
+                    'success' => false,
+                    'errors' => $validator->errors(),
                 ],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
@@ -194,10 +215,10 @@ class UserController extends Controller
         if (!Hash::check($request->old_password, Auth::user()->password)) {
             return response()->json(
                 [
-                    'success'   =>  false,
-                    'errors'    =>  [
-                        'old_password'  =>  'Old password didn\'t match.'
-                    ]
+                    'success' => false,
+                    'errors' => [
+                        'old_password' => 'Old password didn\'t match.',
+                    ],
                 ],
                 Response::HTTP_UNPROCESSABLE_ENTITY
             );
@@ -206,13 +227,13 @@ class UserController extends Controller
         $user = auth()->user();
 
         $user->update([
-            'password'  => Hash::make($request->new_password)
+            'password' => Hash::make($request->new_password),
         ]);
 
         return response()->json(
             [
-                'success'   =>  true,
-                'message'   => 'Password changed successfully',
+                'success' => true,
+                'message' => 'Password changed successfully',
             ],
             Response::HTTP_OK
         );
