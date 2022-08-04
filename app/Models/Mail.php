@@ -17,6 +17,7 @@ class Mail extends Model
         'reply_id',
         'thread_id',
         'status',
+        'is_starred',
         'sent_at',
         'attachment',
     ];
