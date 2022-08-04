@@ -70,7 +70,7 @@ class MailController extends Controller
     public function store(MailRequest $request)
     {
         $mail = Mail::create([
-            ...$request->all(),
+            ...$This->filterParams($request->all()),
             'to_user_ids' => json_encode($request->to_user_ids),
             'from_user_id' => auth()->user()->id,
         ]);
@@ -332,20 +332,21 @@ class MailController extends Controller
         if ($mail->status != 'draft') {
             return response()->json(
                 [
-                    'message' => 'Mail update forbidden',
+                    'message' => 'Sent Mail can not be changed',
                 ],
                 Response::HTTP_FORBIDDEN
             );
         }
 
         $mail->update([
-            ...$request->all(),
+            ...$This->filterParams($request->all()),
+            'to_user_ids' => json_encode($request->to_user_ids),
             'from_user_id' => auth()->user()->id,
         ]);
 
         return response()->json(
             [
-                'message' => 'Mail Updated',
+                'message' => 'Mail Draft Updated',
                 'data' => $mail,
             ],
             Response::HTTP_OK
@@ -377,5 +378,30 @@ class MailController extends Controller
             ],
             Response::HTTP_NO_CONTENT
         );
+    }
+
+    /**
+     * FilterREquest
+     *
+     * @param  \App\Http\Requests\MailRequest  $request
+     * @return Filtered Array
+     */
+    protected function filterParams(MailRequest $request)
+    {
+        $attachment = [];
+
+        if ($files = $request->file('attachment')) {
+            foreach ($files as $file) {
+                $file_name = $file->name();
+                $file_path =
+                    '/' .
+                    $file->storeAs('files/attachment/' . time(), $file_name);
+                $attachment[] = $file_path;
+            }
+        }
+
+        $attachment = json_encode($attachment);
+
+        return [...$request->all(), 'attachment' => $attachment];
     }
 }
