@@ -33,6 +33,12 @@ class AppointmentPreAdmission extends Model
         $data['patient'] = $patient;
         $data['appointment'] = $appointment;
 
+        if ($this->status == 'VALIDATED') {
+            return $data;
+        }
+
+        $data['clinic'] = $appointment->clinic;
+
         return $data;
     }
 }
