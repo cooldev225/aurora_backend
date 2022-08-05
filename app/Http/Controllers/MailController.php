@@ -97,11 +97,11 @@ class MailController extends Controller
      */
     public function store(MailRequest $request)
     {
-        $to_user_ids = explode(',', $request->to_user_ids);
+        $to_user_ids = "[{$request->to_user_ids}]";
 
         $mail = Mail::create([
             ...$this->filterParams($request),
-            'to_user_ids' => json_encode($to_user_ids),
+            'to_user_ids' => $to_user_ids,
             'from_user_id' => auth()->user()->id,
         ]);
 
@@ -167,11 +167,11 @@ class MailController extends Controller
      */
     public function send(MailRequest $request)
     {
-        $to_user_ids = explode(',', $request->to_user_ids);
+        $to_user_ids = "[{$request->to_user_ids}]";
 
         $mail = Mail::create([
             ...$this->filterParams($request),
-            'to_user_ids' => json_encode($to_user_ids),
+            'to_user_ids' => $to_user_ids,
             'from_user_id' => auth()->user()->id,
         ]);
 
@@ -359,11 +359,11 @@ class MailController extends Controller
             );
         }
 
-        $to_user_ids = explode(',', $request->to_user_ids);
+        $to_user_ids = "[{$request->to_user_ids}]";
 
         $mail->update([
             ...$this->filterParams($request),
-            'to_user_ids' => json_encode($to_user_ids),
+            'to_user_ids' => $to_user_ids,
             'from_user_id' => auth()->user()->id,
         ]);
 
