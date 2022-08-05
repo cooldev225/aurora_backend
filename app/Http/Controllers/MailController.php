@@ -62,7 +62,22 @@ class MailController extends Controller
             }
         }
 
-        $mail_list = $mail_list->get();
+        $mail_list = $mail_list->get()->toArray();
+        $base_url = url('/');
+
+        foreach ($mail_list as $key => $mail) {
+            $attachment_list = json_decode($mail['attachment']);
+
+            $attachments_with_base_url = [];
+
+            if (!empty($attachment_list)) {
+                foreach ($attachment_list as $path) {
+                    $attachments_with_base_url[] = $base_url . $path;
+                }
+            }
+
+            $mail_list[$key]['attachment'] = $attachments_with_base_url;
+        }
 
         return response()->json(
             [
