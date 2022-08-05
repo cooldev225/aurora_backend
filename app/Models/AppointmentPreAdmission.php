@@ -31,6 +31,7 @@ class AppointmentPreAdmission extends Model
 
         $patient = $appointment->patient();
         $data['patient'] = $patient;
+        $data['appointment'] = $appointment;
 
         return $data;
     }
