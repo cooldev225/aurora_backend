@@ -411,7 +411,7 @@ class MailController extends Controller
 
         if ($files = $request->file('attachment')) {
             foreach ($files as $file) {
-                $file_name = $file->name();
+                $file_name = $file->getClientOriginalName();
                 $file_path =
                     '/' .
                     $file->storeAs('files/attachment/' . time(), $file_name);
