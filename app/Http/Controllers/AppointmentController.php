@@ -427,10 +427,14 @@ class AppointmentController extends BaseOrganizationController
 
         $patientBilling = $patient->billing();
 
-        if (empty($patientBilling)) {
+        if ($patientBilling == null) {
             $patientBilling = PatientBilling::create([
                 ...$this->filterParams($request),
                 'patient_id' => $patient->id,
+            ]);
+        } else {
+            $patientBilling->update([
+                ...$this->filterParams($request)
             ]);
         }
 
@@ -493,8 +497,7 @@ class AppointmentController extends BaseOrganizationController
         $patientBilling = $patient->billing();
 
         $patientBilling->update([
-            ...$this->filterParams($request),
-            'patient_id' => $patient->id,
+            ...$this->filterParams($request)
         ]);
 
         $appointment->update([
@@ -940,9 +943,22 @@ class AppointmentController extends BaseOrganizationController
             'fund_excess'                   =>  $request->fund_excess,
         ];
 
+        $arrBillingDateFields = [
+            'medicare_expiry_date',
+            'concession_expiry_date',
+            'pension_expiry_date',
+            'healthcare_card_expiry_date',
+            'health_fund_expiry_date',
+        ];
+
         foreach ($billing_info as $key => $value) {
             if ($request->has($key) == false) {
                 unset($billing_info[$key]);
+                continue;
+            }
+
+            if (in_array($key, $arrBillingDateFields)) {
+                $billing_info[$key] = date('Y-m-d', strtotime($billing_info[$key]));
             }
         }
 
