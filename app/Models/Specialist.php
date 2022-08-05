@@ -117,6 +117,7 @@ class Specialist extends Model
             "{$appointment_table}.*",
             "{$appointment_type_table}.*",
             "{$patient_table}.*",
+            "{$patient_billing_table}.*",
             "{$appointment_administration_info_table}.*",
             "{$appointment_referral_table}.*",
             DB::raw(
