@@ -24,6 +24,8 @@ class MailController extends Controller
         }
 
         $mail_list = null;
+        $mailbox_table = (new Mailbox())->getTable();
+        $mail_table = (new Mail())->getTable();
 
         if (in_array($status, ['draft', 'sent'])) {
             $mail_list = Mail::where('from_user_id', auth()->user()->id)
@@ -31,23 +33,33 @@ class MailController extends Controller
                 ->orderByDesc('sent_at')
                 ->orderByDesc('updated_at');
         } else {
-            $mail_list = Mail::whereHas('mailbox', function ($query) use (
-                $status
-            ) {
-                $query->where('user_id', auth()->user()->id);
+            $mail_list = Mail::select(
+                '*',
+                "{$mailbox_table}.status",
+                "{$mailbox_table}.is_starred",
+                "{$mailbox_table}.is_read"
+            )
+                ->rightJoin(
+                    $mailbox_table,
+                    "{$mailbox_table}.mail_id",
+                    '=',
+                    "{$mail_table}.id"
+                )
+                ->orderByDesc('sent_at');
 
-                if ($status == 'deleted') {
-                    $query->where('status', $status);
-                } else {
-                    $query->where('status', 'inbox');
-                }
+            $mail_list->where('user_id', auth()->user()->id);
 
-                if ($status == 'unread') {
-                    $query->where('is_read', false);
-                } elseif ($status == 'starred') {
-                    $query->where('is_starred', true);
-                }
-            })->orderByDesc('sent_at');
+            if ($status == 'deleted') {
+                $mail_list->where("{$mailbox_table}.status", $status);
+            } else {
+                $mail_list->where("{$mailbox_table}.status", 'inbox');
+            }
+
+            if ($status == 'unread') {
+                $mail_list->where('is_read', false);
+            } elseif ($status == 'starred') {
+                $mail_list->where("{$mailbox_table}.is_starred", true);
+            }
         }
 
         $mail_list = $mail_list->get();
