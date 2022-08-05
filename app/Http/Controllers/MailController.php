@@ -233,24 +233,20 @@ class MailController extends Controller
         $mail = Mail::find($mailId);
         $mailbox = $mail->mailbox;
         $return = $mail;
+        $user_id = auth()->user()->id;
 
-        if (auth()->user()->id == $mail->from_user_id) {
+        if ($user_id == $mail->from_user_id) {
             $mail->update([
                 'is_starred' => $request->is_starred,
             ]);
-        } elseif (auth()->user()->id == $mailbox->user_id) {
+        }
+
+        if (!empty($mailbox) && $user_id == $mailbox->user_id) {
             $mailbox->update([
                 'is_starred' => $request->is_starred,
             ]);
 
             $return = $mailbox;
-        } else {
-            return response()->json(
-                [
-                    'message' => 'Not Mail Owner',
-                ],
-                Response::HTTP_FORBIDDEN
-            );
         }
 
         return response()->json(
@@ -274,24 +270,20 @@ class MailController extends Controller
         $mail = Mail::find($mailId);
         $mailbox = $mail->mailbox;
         $return = $mail;
+        $user_id = auth()->user()->id;
 
-        if (auth()->user()->id == $mail->from_user_id) {
+        if ($user_id == $mail->from_user_id) {
             $mail->update([
                 'status' => 'deleted',
             ]);
-        } elseif (auth()->user()->id == $mailbox->user_id) {
+        }
+
+        if (!empty($mailbox) && $user_id == $mailbox->user_id) {
             $mailbox->update([
                 'status' => 'deleted',
             ]);
 
             $return = $mailbox;
-        } else {
-            return response()->json(
-                [
-                    'message' => 'Not Mail Owner',
-                ],
-                Response::HTTP_FORBIDDEN
-            );
         }
 
         return response()->json(
@@ -315,24 +307,20 @@ class MailController extends Controller
         $mail = Mail::find($mailId);
         $mailbox = $mail->mailbox;
         $return = $mail;
+        $user_id = auth()->user()->id;
 
-        if (auth()->user()->id == $mail->from_user_id) {
+        if ($user_id == $mail->from_user_id) {
             $mail->update([
                 'status' => 'sent',
             ]);
-        } elseif (auth()->user()->id == $mailbox->user_id) {
+        }
+
+        if (!empty($mailbox) && $user_id == $mailbox->user_id) {
             $mailbox->update([
                 'status' => 'inbox',
             ]);
 
             $return = $mailbox;
-        } else {
-            return response()->json(
-                [
-                    'message' => 'Not Mail Owner',
-                ],
-                Response::HTTP_FORBIDDEN
-            );
         }
 
         return response()->json(
