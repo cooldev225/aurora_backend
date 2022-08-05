@@ -35,6 +35,7 @@ class MailController extends Controller
         } else {
             $mail_list = Mail::select(
                 '*',
+                "{$mail_table}.id",
                 "{$mailbox_table}.status",
                 "{$mailbox_table}.is_starred",
                 "{$mailbox_table}.is_read"
@@ -62,7 +63,22 @@ class MailController extends Controller
             }
         }
 
-        $mail_list = $mail_list->get();
+        $mail_list = $mail_list->get()->toArray();
+        $base_url = url('/');
+
+        foreach ($mail_list as $key => $mail) {
+            $attachment_list = json_decode($mail['attachment']);
+
+            $attachments_with_base_url = [];
+
+            if (!empty($attachment_list)) {
+                foreach ($attachment_list as $path) {
+                    $attachments_with_base_url[] = $base_url . $path;
+                }
+            }
+
+            $mail_list[$key]['attachment'] = $attachments_with_base_url;
+        }
 
         return response()->json(
             [
@@ -218,16 +234,16 @@ class MailController extends Controller
         $mailbox = $mail->mailbox;
         $return = $mail;
 
-        if (auth()->user()->id == $mailbox->user_id) {
+        if (auth()->user()->id == $mail->from_user_id) {
+            $mail->update([
+                'is_starred' => $request->is_starred,
+            ]);
+        } elseif (auth()->user()->id == $mailbox->user_id) {
             $mailbox->update([
                 'is_starred' => $request->is_starred,
             ]);
 
             $return = $mailbox;
-        } elseif (auth()->user()->id == $mail->from_user_id) {
-            $mail->update([
-                'is_starred' => $request->is_starred,
-            ]);
         } else {
             return response()->json(
                 [
@@ -259,16 +275,16 @@ class MailController extends Controller
         $mailbox = $mail->mailbox;
         $return = $mail;
 
-        if (auth()->user()->id == $mailbox->user_id) {
+        if (auth()->user()->id == $mail->from_user_id) {
+            $mail->update([
+                'status' => 'deleted',
+            ]);
+        } elseif (auth()->user()->id == $mailbox->user_id) {
             $mailbox->update([
                 'status' => 'deleted',
             ]);
 
             $return = $mailbox;
-        } elseif (auth()->user()->id == $mail->from_user_id) {
-            $mail->update([
-                'status' => 'deleted',
-            ]);
         } else {
             return response()->json(
                 [
@@ -300,16 +316,16 @@ class MailController extends Controller
         $mailbox = $mail->mailbox;
         $return = $mail;
 
-        if (auth()->user()->id == $mailbox->user_id) {
+        if (auth()->user()->id == $mail->from_user_id) {
+            $mail->update([
+                'status' => 'sent',
+            ]);
+        } elseif (auth()->user()->id == $mailbox->user_id) {
             $mailbox->update([
                 'status' => 'inbox',
             ]);
 
             $return = $mailbox;
-        } elseif (auth()->user()->id == $mail->from_user_id) {
-            $mail->update([
-                'status' => 'sent',
-            ]);
         } else {
             return response()->json(
                 [
@@ -411,7 +427,7 @@ class MailController extends Controller
 
         if ($files = $request->file('attachment')) {
             foreach ($files as $file) {
-                $file_name = $file->name();
+                $file_name = $file->getClientOriginalName();
                 $file_path =
                     '/' .
                     $file->storeAs('files/attachment/' . time(), $file_name);
