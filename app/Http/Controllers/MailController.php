@@ -31,7 +31,9 @@ class MailController extends Controller
             $mail_list = Mail::where('from_user_id', auth()->user()->id)
                 ->where('status', $status)
                 ->orderByDesc('sent_at')
-                ->orderByDesc('updated_at');
+                ->orderByDesc('updated_at')
+                ->get()
+                ->toArray();
         } else {
             $mail_list = Mail::select(
                 '*',
@@ -50,8 +52,15 @@ class MailController extends Controller
 
             $mail_list->where('user_id', auth()->user()->id);
 
+            $sent_mail_list = Mail::where('from_user_id', auth()->user()->id);
+
             if ($status == 'deleted') {
                 $mail_list->where("{$mailbox_table}.status", $status);
+
+                $sent_mail_list = $sent_mail_list
+                    ->where('status', $status)
+                    ->orderByDesc('sent_at')
+                    ->orderByDesc('updated_at');
             } else {
                 $mail_list->where("{$mailbox_table}.status", 'inbox');
             }
@@ -60,10 +69,30 @@ class MailController extends Controller
                 $mail_list->where('is_read', false);
             } elseif ($status == 'starred') {
                 $mail_list->where("{$mailbox_table}.is_starred", true);
+
+                $sent_mail_list = $sent_mail_list
+                    ->whereNot('status', 'deleted')
+                    ->where('is_starred', true)
+                    ->orderByDesc('sent_at')
+                    ->orderByDesc('updated_at');
+            }
+
+            $mail_list = $mail_list->get()->toArray();
+
+            if (in_array($status, ['starred', 'deleted'])) {
+                $mail_ids = [];
+
+                foreach ($mail_list as $mail) {
+                    $mail_ids[] = $mail['id'];
+                }
+
+                $sent_mail_list->whereNotIn('id', $mail_ids);
+                $sent_mail_list = $sent_mail_list->get()->toArray();
+
+                $mail_list = array_merge($mail_list, $sent_mail_list);
             }
         }
 
-        $mail_list = $mail_list->get()->toArray();
         $base_url = url('/');
 
         foreach ($mail_list as $key => $mail) {
