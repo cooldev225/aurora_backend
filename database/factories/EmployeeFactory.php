@@ -28,9 +28,6 @@ class EmployeeFactory extends Factory
             ->first()->id;
 
         $user = User::factory()->create([
-            'role_id' => UserRole::employeeRoles()
-                ->inRandomOrder()
-                ->first()->id,
             'organization_id' => $organization_id,
         ]);
 
