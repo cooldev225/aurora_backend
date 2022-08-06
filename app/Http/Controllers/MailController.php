@@ -124,19 +124,10 @@ class MailController extends Controller
      */
     public function store(MailRequest $request)
     {
-        $to_user_ids = "[{$request->to_user_ids}]";
-
-        $mail = Mail::create([
-            ...$this->filterParams($request),
-            'to_user_ids' => $to_user_ids,
-            'from_user_id' => auth()->user()->id,
-            'sent_at' => date('Y-m-d H:i:s'),
-        ]);
-
         return response()->json(
             [
                 'message' => 'New Mail Created',
-                'data' => $mail,
+                'data' => $this->createMail($request),
             ],
             Response::HTTP_CREATED
         );
@@ -197,16 +188,27 @@ class MailController extends Controller
      */
     public function send(MailRequest $request)
     {
+        $mail = $this->createMail($request);
+
+        return $this->sendSavedDraft($mail->id);
+    }
+
+    /**
+     * Create Mail
+     *
+     * @param  \App\Http\Requests\MailRequest  $request
+     * @return $mail
+     */
+    protected function createMail(MailRequest $request)
+    {
         $to_user_ids = "[{$request->to_user_ids}]";
 
-        $mail = Mail::create([
+        return Mail::create([
             ...$this->filterParams($request),
             'to_user_ids' => $to_user_ids,
             'from_user_id' => auth()->user()->id,
             'sent_at' => date('Y-m-d H:i:s'),
         ]);
-
-        return $this->sendDraft($request, $mail->id);
     }
 
     /**
@@ -215,9 +217,25 @@ class MailController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function sendDraft(Request $request, $id)
+    public function sendDraft(Request $request)
     {
-        $mailId = empty($id) ? $request->id : $id;
+        $mailId = $request->id;
+        $mail = Mail::find($mailId);
+
+        $this->update($request, $mail);
+
+        return $this->sendSavedDraft($mailId);
+    }
+
+    /**
+     * Send Mail Draft.
+     *
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
+    protected function sendSavedDraft($id)
+    {
+        $mailId = $id;
         $mail = Mail::find($mailId);
 
         if (auth()->user()->id != $mail->from_user_id) {
