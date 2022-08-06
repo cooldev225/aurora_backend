@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use App\Http\Requests\PatientRequest;
 use App\Models\Patient;
-use App\Models\Appointment;
 use App\Models\PatientOrganization;
+use App\Models\Specialist;
 
 class PatientController extends Controller
 {
@@ -21,13 +21,15 @@ class PatientController extends Controller
             ->get()
             ->toArray();
 
-        $appointments = Appointment::organizationAppointmentsWithType()
-            ->orderByDesc('date')
-            ->orderByDesc('start_time')
+        $today = date('Y-m-d');
+
+        $appointments = Specialist::withAppointments()
+            ->orderBy('date')
+            ->orderBy('start_time')
+            ->where('date', '>=' , $today)
+            ->where('confirmation_status', '!=', 'CANCELED')
             ->get()
             ->toArray();
-
-        $today = date('Y-m-d');
 
         foreach ($patients as $key => $patient) {
             $patients[$key]['upcoming_appointment'] = [];
@@ -35,21 +37,14 @@ class PatientController extends Controller
 
             foreach ($appointments as $appointment) {
                 if ($appointment['patient_id'] == $patient['id']) {
-                    if (
-                        strtoupper($appointment['confirmation_status']) !=
-                        'CANCELED'
+                    if ($is_current_appointment == false) {
+                        $is_current_appointment = true;
+                    } elseif (
+                        empty($patients[$key]['upcoming_appointment'])
                     ) {
-                        if ($appointment['date'] >= $today) {
-                            if ($is_current_appointment == false) {
-                                $is_current_appointment = true;
-                            } elseif (
-                                empty($patients[$key]['upcoming_appointment'])
-                            ) {
-                                $patients[$key][
-                                    'upcoming_appointment'
-                                ] = $appointment;
-                            }
-                        }
+                        $patients[$key][
+                            'upcoming_appointment'
+                        ] = $appointment;
                     }
                 }
             }
