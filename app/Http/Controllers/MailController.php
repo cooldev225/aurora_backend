@@ -31,7 +31,6 @@ class MailController extends Controller
             $mail_list = Mail::where('from_user_id', auth()->user()->id)
                 ->where('status', $status)
                 ->orderByDesc('sent_at')
-                ->orderByDesc('updated_at')
                 ->get()
                 ->toArray();
         } else {
@@ -59,8 +58,7 @@ class MailController extends Controller
 
                 $sent_mail_list = $sent_mail_list
                     ->where('status', $status)
-                    ->orderByDesc('sent_at')
-                    ->orderByDesc('updated_at');
+                    ->orderByDesc('sent_at');
             } else {
                 $mail_list->where("{$mailbox_table}.status", 'inbox');
             }
@@ -132,6 +130,7 @@ class MailController extends Controller
             ...$this->filterParams($request),
             'to_user_ids' => $to_user_ids,
             'from_user_id' => auth()->user()->id,
+            'sent_at' => date('Y-m-d H:i:s'),
         ]);
 
         return response()->json(
@@ -202,6 +201,7 @@ class MailController extends Controller
             ...$this->filterParams($request),
             'to_user_ids' => $to_user_ids,
             'from_user_id' => auth()->user()->id,
+            'sent_at' => date('Y-m-d H:i:s'),
         ]);
 
         return $this->sendDraft($request, $mail->id);
@@ -394,6 +394,7 @@ class MailController extends Controller
             ...$this->filterParams($request),
             'to_user_ids' => $to_user_ids,
             'from_user_id' => auth()->user()->id,
+            'sent_at' => date('Y-m-d H:i:s'),
         ]);
 
         return response()->json(
