@@ -167,8 +167,10 @@ class MailController extends Controller
 
         $mailbox = $mail->mailbox;
 
-        $mailbox->is_read = true;
-        $mailbox->save();
+        if (!empty($mailbox)) {
+            $mailbox->is_read = true;
+            $mailbox->save();
+        }
 
         $replied_mails = [$mail];
 
