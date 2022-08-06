@@ -30,15 +30,7 @@ class UserFactory extends Factory
         }
 
         $user_name = $this->faker->unique()->username();
-
         $role_id = UserRole::inRandomOrder()->first()->id;
-        $anesthetist_role_id = UserRole::where('slug', 'anesthetist')->first()->id;
-        if ($role_id == $anesthetist_role_id) {
-            $role_count = User::where('role_id', $anesthetist_role_id)->count();
-            if ($role_count == 0) {
-                $user_name = 'anesthetist_1';
-            }
-        }
 
         return [
             'first_name' => $this->faker->firstName(),

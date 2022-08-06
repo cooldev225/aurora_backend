@@ -7,6 +7,7 @@ use App\Models\Employee;
 use App\Models\UserRole;
 use App\Models\SpecialistTitle;
 use App\Models\SpecialistType;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Specialist>
@@ -36,6 +37,11 @@ class SpecialistFactory extends Factory
             'slug',
             'Anesthetist'
         )->first()->id;
+
+        $anesthetist_count = User::where('username', 'anesthetist_1')->count();
+        if ($anesthetist_count == 0) {
+            $anesthetist_user->username = 'anesthetist_1';
+        }
 
         $anesthetist_user->organization_id = $organization_id;
         $anesthetist_user->save();

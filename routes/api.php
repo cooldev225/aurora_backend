@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
+use App\Http\Controllers\Anesthetist\PatientController as AnesthetistPatientController;
 use App\Http\Controllers\AnesthetistController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
@@ -264,6 +265,11 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
+        Route::get('/patients', [
+            AnesthetistPatientController::class,
+            'index',
+        ]);
+
         Route::get('/anesthetist/appointments', [
             AnesthetistController::class,
             'index',
