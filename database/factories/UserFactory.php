@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 use App\Models\UserRole;
 use App\Models\Organization;
+use App\Models\User;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\User>
@@ -28,11 +29,22 @@ class UserFactory extends Factory
             $organization_id = $organization->id;
         }
 
+        $user_name = $this->faker->unique()->username();
+
+        $role_id = UserRole::inRandomOrder()->first()->id;
+        $anesthetist_role_id = UserRole::where('slug', 'anesthetist')->first()->id;
+        if ($role_id == $anesthetist_role_id) {
+            $role_count = User::where('role_id', $anesthetist_role_id)->count();
+            if ($role_count == 0) {
+                $user_name = 'anesthetist_1';
+            }
+        }
+
         return [
             'first_name' => $this->faker->firstName(),
             'last_name' => $this->faker->lastName(),
-            'username' => $this->faker->unique()->username(),
-            'role_id' => UserRole::inRandomOrder()->first()->id,
+            'username' => $user_name,
+            'role_id' => $role_id,
             'email' => $this->faker->unique()->safeEmail(),
             'mobile_number' => $this->faker->phoneNumber(),
             'date_of_birth' => $this->faker->date(),
