@@ -245,4 +245,53 @@ class Appointment extends Model
 
         return true;
     }
+
+    public static function withPreAdmission($anesthetist_employee_id) {
+        $appointment_table = (new Appointment())->getTable();
+        $appointment_type_table = (new AppointmentType())->getTable();
+        $patient_table = (new Patient())->getTable();
+        $specialist_table = (new Specialist())->getTable();
+        $specialist_title_table = (new SpecialistTitle())->getTable();
+        $employee_table = (new Employee())->getTable();
+        $user_table = (new User())->getTable();
+
+        return Appointment::select(
+                $appointment_table.'.*',
+                $patient_table.'.*',
+                $appointment_type_table.'.name as appointment_type',
+                DB::raw(
+                    "CONCAT({$specialist_title_table}.name, ' ', "
+                    . "{$user_table}.first_name, ' ', "
+                    . "{$user_table}.last_name) AS specialist_name"
+                )
+            )->leftJoin(
+                $patient_table,
+                'patient_id',
+                $patient_table . ".id"
+            )->leftJoin(
+                $appointment_type_table,
+                'appointment_type_id',
+                $appointment_type_table . '.id'
+            )->leftJoin(
+                $specialist_table,
+                'specialist_id',
+                $specialist_table . '.id'
+            )->leftJoin(
+                $specialist_title_table,
+                'specialist_id',
+                $specialist_title_table . '.id'
+            )->leftJoin(
+                $employee_table,
+                'employee_id',
+                $employee_table . '.id'
+            )->leftJoin(
+                $user_table,
+                'user_id',
+                $user_table . '.id'
+            )->where(
+                $appointment_table . '.anesthetist_id',
+                $anesthetist_employee_id
+            )->get()
+            ->toArray();
+    }
 }
