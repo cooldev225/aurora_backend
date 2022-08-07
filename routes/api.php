@@ -266,7 +266,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
-        Route::get('/patients', [AnesthetistPatientController::class, 'index']);
+       // Route::get('/patients', [AnesthetistPatientController::class, 'index']);
 
         Route::get('/anesthetist/appointments', [
             AnesthetistController::class,
