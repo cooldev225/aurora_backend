@@ -71,8 +71,7 @@ class MailController extends Controller
                 $sent_mail_list = $sent_mail_list
                     ->whereNot('status', 'deleted')
                     ->where('is_starred', true)
-                    ->orderByDesc('sent_at')
-                    ->orderByDesc('updated_at');
+                    ->orderByDesc('sent_at');
             }
 
             $mail_list = $mail_list->get()->toArray();
@@ -91,10 +90,20 @@ class MailController extends Controller
             }
         }
 
+        $returnMails = [];
+        $threadIds = [];
+
+        foreach ($mail_list as $mail) {
+            if (empty($mail['thread_id']) || (!in_array($mail['thread_id'], $threadIds))) {
+                $threadIds[] = $mail['thread_id'];
+                $returnMails[] = $mail;
+            }
+        }
+
         return response()->json(
             [
                 'message' => ucfirst($status) . ' Mail List',
-                'data' => $this->withAttachmentLinks($mail_list),
+                'data' => $this->withAttachmentLinks($returnMails),
             ],
             Response::HTTP_OK
         );
