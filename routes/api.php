@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
+use App\Http\Controllers\Anesthetist\PatientController as AnesthetistPatientController;
 use App\Http\Controllers\AnesthetistController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
@@ -82,7 +83,8 @@ Route::middleware(['auth'])->group(function () {
     ]);
 
     Route::post('/mails/send', [MailController::class, 'send']);
-    Route::put('/mails/send-draft/{id}', [MailController::class, 'sendDraft']);
+    Route::post('/mails/send-draft', [MailController::class, 'sendDraft']);
+    Route::post('/mails/update-draft', [MailController::class, 'updateDraft']);
     Route::put('/mails/bookmark/{id}', [MailController::class, 'bookmark']);
     Route::put('/mails/delete/{id}', [MailController::class, 'delete']);
     Route::apiResource('mails', MailController::class);
@@ -264,6 +266,8 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
+       Route::get('/procedure-approvals', [AnesthetistPatientController::class, 'index']);
+
         Route::get('/anesthetist/appointments', [
             AnesthetistController::class,
             'index',

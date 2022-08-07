@@ -427,10 +427,14 @@ class AppointmentController extends BaseOrganizationController
 
         $patientBilling = $patient->billing();
 
-        if (empty($patientBilling)) {
+        if ($patientBilling == null) {
             $patientBilling = PatientBilling::create([
                 ...$this->filterParams($request),
                 'patient_id' => $patient->id,
+            ]);
+        } else {
+            $patientBilling->update([
+                ...$this->filterParams($request)
             ]);
         }
 
@@ -493,8 +497,7 @@ class AppointmentController extends BaseOrganizationController
         $patientBilling = $patient->billing();
 
         $patientBilling->update([
-            ...$this->filterParams($request),
-            'patient_id' => $patient->id,
+            ...$this->filterParams($request)
         ]);
 
         $appointment->update([
@@ -921,10 +924,49 @@ class AppointmentController extends BaseOrganizationController
             ),
         ];
 
+        $billing_info = [
+            'medicare_number'               =>  $request->medicare_number,
+            'medicare_reference_number'     =>  $request->medicare_reference_number,
+            'medicare_expiry_date'          =>  $request->medicare_expiry_date,
+            'concession_number'             =>  $request->concession_number,
+            'concession_expiry_date'        =>  $request->concession_expiry_date,
+            'pension_number'                =>  $request->pension_number,
+            'pension_expiry_date'           =>  $request->pension_expiry_date,
+            'healthcare_card_number'        =>  $request->healthcare_card_number,
+            'healthcare_card_expiry_date'   =>  $request->healthcare_card_expiry_date,
+            'health_fund_id'                =>  $request->health_fund_id,
+            'health_fund_membership_number' =>  $request->health_fund_membership_number,
+            'health_fund_reference_number'  =>  $request->health_fund_reference_number,
+            'health_fund_expiry_date'       =>  $request->health_fund_expiry_date,
+            'account_holder_type'           =>  $request->account_holder_type,
+            'account_holder_id'             =>  $request->account_holder_id,
+            'fund_excess'                   =>  $request->fund_excess,
+        ];
+
+        $arrBillingDateFields = [
+            'medicare_expiry_date',
+            'concession_expiry_date',
+            'pension_expiry_date',
+            'healthcare_card_expiry_date',
+            'health_fund_expiry_date',
+        ];
+
+        foreach ($billing_info as $key => $value) {
+            if ($request->has($key) == false) {
+                unset($billing_info[$key]);
+                continue;
+            }
+
+            if (in_array($key, $arrBillingDateFields)) {
+                $billing_info[$key] = date('Y-m-d', strtotime($billing_info[$key]));
+            }
+        }
+
         return array_merge(
             $request->all(),
             $filtered_request,
-            $referral_params
+            $referral_params,
+            $billing_info
         );
     }
 }
