@@ -71,8 +71,7 @@ class MailController extends Controller
                 $sent_mail_list = $sent_mail_list
                     ->whereNot('status', 'deleted')
                     ->where('is_starred', true)
-                    ->orderByDesc('sent_at')
-                    ->orderByDesc('updated_at');
+                    ->orderByDesc('sent_at');
             }
 
             $mail_list = $mail_list->get()->toArray();
@@ -91,10 +90,20 @@ class MailController extends Controller
             }
         }
 
+        $returnMails = [];
+        $threadIds = [];
+
+        foreach ($mail_list as $mail) {
+            if (empty($mail['thread_id']) || (!in_array($mail['thread_id'], $threadIds))) {
+                $threadIds[] = $mail['thread_id'];
+                $returnMails[] = $mail;
+            }
+        }
+
         return response()->json(
             [
                 'message' => ucfirst($status) . ' Mail List',
-                'data' => $this->withAttachmentLinks($mail_list),
+                'data' => $this->withAttachmentLinks($returnMails),
             ],
             Response::HTTP_OK
         );
@@ -211,12 +220,19 @@ class MailController extends Controller
     {
         $to_user_ids = "[{$request->to_user_ids}]";
 
-        return Mail::create([
+        $mail = Mail::create([
             ...$this->filterParams($request),
             'to_user_ids' => $to_user_ids,
             'from_user_id' => auth()->user()->id,
             'sent_at' => date('Y-m-d H:i:s'),
         ]);
+
+        if (empty($mail->thread_id)) {
+            $mail->thread_id = $mail->id;
+            $mail->save();
+        }
+
+        return $mail;
     }
 
     /**
@@ -330,15 +346,13 @@ class MailController extends Controller
         $user_id = auth()->user()->id;
 
         if ($user_id == $mail->from_user_id) {
-            $mail->update([
-                'status' => 'deleted',
-            ]);
+            $mail->status = 'deleted';
+            $mail->save();
         }
 
         if (!empty($mailbox) && $user_id == $mailbox->user_id) {
-            $mailbox->update([
-                'status' => 'deleted',
-            ]);
+            $mail->status = 'deleted';
+            $mail->save();
 
             $return = $mailbox;
         }
@@ -367,15 +381,13 @@ class MailController extends Controller
         $user_id = auth()->user()->id;
 
         if ($user_id == $mail->from_user_id) {
-            $mail->update([
-                'status' => 'sent',
-            ]);
+            $mail->status = 'sent';
+            $mail->save();
         }
 
         if (!empty($mailbox) && $user_id == $mailbox->user_id) {
-            $mailbox->update([
-                'status' => 'inbox',
-            ]);
+            $mail->status = 'sent';
+            $mail->save();
 
             $return = $mailbox;
         }
