@@ -91,6 +91,20 @@ class MailController extends Controller
             }
         }
 
+        return response()->json(
+            [
+                'message' => ucfirst($status) . ' Mail List',
+                'data' => $this->withAttachmentLinks($mail_list),
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Change attachment json string to Array.
+     */
+    protected function withAttachmentLinks($mail_list)
+    {
         $base_url = url('/');
 
         foreach ($mail_list as $key => $mail) {
@@ -107,13 +121,7 @@ class MailController extends Controller
             $mail_list[$key]['attachment'] = $attachments_with_base_url;
         }
 
-        return response()->json(
-            [
-                'message' => ucfirst($status) . ' Mail List',
-                'data' => $mail_list,
-            ],
-            Response::HTTP_OK
-        );
+        return $mail_list;
     }
 
     /**
@@ -174,7 +182,7 @@ class MailController extends Controller
         return response()->json(
             [
                 'message' => 'Replied Mail List',
-                'data' => $replied_mails,
+                'data' => $this->withAttachmentLinks($replied_mails),
             ],
             Response::HTTP_OK
         );
@@ -214,15 +222,15 @@ class MailController extends Controller
     /**
      * Send Mail Draft.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\MailRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function sendDraft(Request $request)
+    public function sendDraft(MailRequest $request)
     {
         $mailId = $request->id;
         $mail = Mail::find($mailId);
 
-        $this->update($request, $mail);
+        $this->updateMail($request, $mail);
 
         return $this->sendSavedDraft($mailId);
     }
@@ -388,7 +396,7 @@ class MailController extends Controller
      * @param  \App\Models\Mail  $mail
      * @return \Illuminate\Http\Response
      */
-    public function update(MailRequest $request, Mail $mail)
+    private function updateMail(MailRequest $request, Mail $mail)
     {
         if (auth()->user()->id != $mail->from_user_id) {
             return response()->json(
@@ -416,11 +424,23 @@ class MailController extends Controller
             'from_user_id' => auth()->user()->id,
             'sent_at' => date('Y-m-d H:i:s'),
         ]);
+    }
+
+    /**
+     * Update Mail Draft.
+     *
+     * @param  \App\Http\Requests\MailRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateDraft(MailRequest $request)
+    {
+        $mailId = $request->id;
+        $mail = Mail::find($mailId);
 
         return response()->json(
             [
                 'message' => 'Mail Draft Updated',
-                'data' => $mail,
+                'data' => $this->updateMail($request, $mail),
             ],
             Response::HTTP_OK
         );
@@ -475,6 +495,13 @@ class MailController extends Controller
 
         $attachment = json_encode($attachment);
 
-        return [...$request->all(), 'attachment' => $attachment];
+        return [
+            ...$request->all(),
+            'attachment' => $attachment,
+            'reply_id' =>
+                $request->reply_id == 'null' ? null : $request->reply_id,
+            'thread_id' =>
+                $request->thread_id == 'null' ? null : $request->thread_id,
+        ];
     }
 }

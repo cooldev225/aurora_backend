@@ -83,7 +83,8 @@ Route::middleware(['auth'])->group(function () {
     ]);
 
     Route::post('/mails/send', [MailController::class, 'send']);
-    Route::put('/mails/send-draft/{id}', [MailController::class, 'sendDraft']);
+    Route::post('/mails/send-draft', [MailController::class, 'sendDraft']);
+    Route::post('/mails/update-draft', [MailController::class, 'updateDraft']);
     Route::put('/mails/bookmark/{id}', [MailController::class, 'bookmark']);
     Route::put('/mails/delete/{id}', [MailController::class, 'delete']);
     Route::apiResource('mails', MailController::class);
@@ -265,10 +266,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
-        Route::get('/patients', [
-            AnesthetistPatientController::class,
-            'index',
-        ]);
+        Route::get('/patients', [AnesthetistPatientController::class, 'index']);
 
         Route::get('/anesthetist/appointments', [
             AnesthetistController::class,
