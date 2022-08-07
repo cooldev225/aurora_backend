@@ -220,12 +220,19 @@ class MailController extends Controller
     {
         $to_user_ids = "[{$request->to_user_ids}]";
 
-        return Mail::create([
+        $mail = Mail::create([
             ...$this->filterParams($request),
             'to_user_ids' => $to_user_ids,
             'from_user_id' => auth()->user()->id,
             'sent_at' => date('Y-m-d H:i:s'),
         ]);
+
+        if (empty($mail->thread_id)) {
+            $mail->thread_id = $mail->id;
+            $mail->save();
+        }
+
+        return $mail;
     }
 
     /**
@@ -339,15 +346,13 @@ class MailController extends Controller
         $user_id = auth()->user()->id;
 
         if ($user_id == $mail->from_user_id) {
-            $mail->update([
-                'status' => 'deleted',
-            ]);
+            $mail->status = 'deleted';
+            $mail->save();
         }
 
         if (!empty($mailbox) && $user_id == $mailbox->user_id) {
-            $mailbox->update([
-                'status' => 'deleted',
-            ]);
+            $mail->status = 'deleted';
+            $mail->save();
 
             $return = $mailbox;
         }
@@ -376,15 +381,13 @@ class MailController extends Controller
         $user_id = auth()->user()->id;
 
         if ($user_id == $mail->from_user_id) {
-            $mail->update([
-                'status' => 'sent',
-            ]);
+            $mail->status = 'sent';
+            $mail->save();
         }
 
         if (!empty($mailbox) && $user_id == $mailbox->user_id) {
-            $mailbox->update([
-                'status' => 'inbox',
-            ]);
+            $mail->status = 'sent';
+            $mail->save();
 
             $return = $mailbox;
         }
