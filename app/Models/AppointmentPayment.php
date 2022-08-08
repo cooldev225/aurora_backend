@@ -21,4 +21,12 @@ class AppointmentPayment extends Model
     {
         return $this->belongsTo(Appointment::class, 'appointment_id');
     }
+
+    /**
+     * Return Appointment
+     */
+    public function confirmed_user()
+    {
+        return $this->belongsTo(User::class, 'confirmed_by');
+    }
 }
