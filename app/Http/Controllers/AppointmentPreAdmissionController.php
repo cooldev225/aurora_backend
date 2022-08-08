@@ -96,7 +96,6 @@ class AppointmentPreAdmissionController extends Controller
         );
     }
 
-    
     /**
      * return the appointment pre admission info.
      *
@@ -134,7 +133,6 @@ class AppointmentPreAdmissionController extends Controller
         $patient = $appointment->patient();
         Patient::where('id', $appointment->patient_id)
             ->update($request->only($patient->getFillable()));
-        
 
         if ($file = $request->file('pre_admission')) {
             $file_name = 'pre_admission_' . $preAdmission->id . '_' . time() . '.' . $file->extension();
