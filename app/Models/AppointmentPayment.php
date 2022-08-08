@@ -10,7 +10,8 @@ class AppointmentPayment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'appointment_id', 'confirmed_by', 'amount', 'payment_type'
+        'appointment_id', 'confirmed_by', 'amount', 'payment_type',
+        'is_deposit'
     ];
     
     /**
