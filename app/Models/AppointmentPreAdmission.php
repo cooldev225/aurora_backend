@@ -21,8 +21,10 @@ class AppointmentPreAdmission extends Model
         $appointment = $this->appointment;
         $organization = $appointment->organization;
         $data = [
-            'organization_logo' =>  $organization->logo,
-            'status'            =>  $this->status
+            'organization_logo'     =>  $organization->logo,
+            'status'                =>  $this->status,
+            'note'                  =>  $this->note,
+            'pre_admission_file'    =>  $this->pre_admission_file
         ];
         
         if ($this->status == 'BOOKED') {
