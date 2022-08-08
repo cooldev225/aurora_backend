@@ -80,6 +80,7 @@ class PaymentController extends BaseOrganizationController
             'confirmed_by'      => $user_id,
             'amount'            => $request->amount,
             'payment_type'      => $request->payment_type,
+            'is_deposit'        => $request->is_deposit,
         ]);
         $paymentInfo = Payment::paymentDetailInfo($appointment);
 

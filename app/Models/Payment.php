@@ -96,11 +96,16 @@ class Payment
             'paid_amount'       => $paid_amount,
         );
 
+        $paymentList = AppointmentPayment::where('appointment_id', $appointment->id)
+            ->with('confirmed_user')
+            ->get()->toArray();
+
         return array(
-            'patient'     => $patientData,
-            'appointment' => $appointmentData,
-            'specialist'  => $specialistData,
-            'payment'     => $paymentData,
+            'patient'       => $patientData,
+            'appointment'   => $appointmentData,
+            'specialist'    => $specialistData,
+            'payment'       => $paymentData,
+            'payment_list'  => $paymentList,
         );
     }
 }

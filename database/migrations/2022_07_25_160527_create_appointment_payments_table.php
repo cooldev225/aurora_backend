@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('confirmed_by');
             $table->float('amount');
             $table->enum('payment_type', ['CASH', 'EFTPOS'])->default('CASH');
+            $table->boolean('is_deposit')->default(false);
             $table->timestamps();
         });
     }

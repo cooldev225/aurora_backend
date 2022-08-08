@@ -36,8 +36,9 @@ return new class extends Migration {
                     'Divorced',
                     'Married',
                     'Widowed',
+                    'Undisclosed',
                 ])
-                ->default('Single');
+                ->default('Undisclosed');
             $table->string('birth_place_code')->nullable();
             $table->string('country_of_birth')->nullable();
             $table->string('birth_state')->nullable();

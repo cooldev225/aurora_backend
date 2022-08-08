@@ -291,7 +291,6 @@ class Appointment extends Model
             )->where(
                 $appointment_table . '.anesthetist_id',
                 $anesthetist_employee_id
-            )->get()
-            ->toArray();
+            );
     }
 }
