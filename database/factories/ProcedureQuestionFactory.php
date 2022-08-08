@@ -21,7 +21,6 @@ class ProcedureQuestionFactory extends Factory
 
         return [
             'organization_id'   => $organization_id,
-            'answer_format'     => $this->faker->randomElement(['TEXT', 'BOOLEAN']),
             'question'          => $this->faker->sentence(),
         ];
     }
