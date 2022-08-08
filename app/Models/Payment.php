@@ -95,12 +95,14 @@ class Payment
             'payment_tier_11'   => $appointmentType->payment_tier_11,
             'paid_amount'       => $paid_amount,
         );
+        $paymentList = $appointment->payments;
 
         return array(
-            'patient'     => $patientData,
-            'appointment' => $appointmentData,
-            'specialist'  => $specialistData,
-            'payment'     => $paymentData,
+            'patient'       => $patientData,
+            'appointment'   => $appointmentData,
+            'specialist'    => $specialistData,
+            'payment'       => $paymentData,
+            'payment_list'  => $paymentList,
         );
     }
 }
