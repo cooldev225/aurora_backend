@@ -95,7 +95,10 @@ class Payment
             'payment_tier_11'   => $appointmentType->payment_tier_11,
             'paid_amount'       => $paid_amount,
         );
-        $paymentList = $appointment->payments;
+
+        $paymentList = AppointmentPayment::where('appointment_id', $appointment->id)
+            ->with('confirmed_user')
+            ->get()->toArray();
 
         return array(
             'patient'       => $patientData,
