@@ -40,6 +40,17 @@ class AppointmentPreAdmission extends Model
         $data['appointment_type'] = $appointment->type();
         $data['specialist_user'] = $user;
 
+        $data['pre_admission_sections'] = PreAdmissionSection::where(
+                'organization_id', $organization->id
+            )
+            ->with('questions')
+            ->get();
+
+        $data['pre_admission_consent'] = PreAdmissionConsent::where(
+                'organization_id', $organization->id
+            )
+            ->first();
+
         return $data;
     }
 }

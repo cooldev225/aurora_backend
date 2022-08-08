@@ -17,7 +17,9 @@ class PatientController extends Controller
      */
     public function index()
     {
-        $patients = Patient::organizationPatientsBasicInfo()
+        $organization_id = auth()->user()->organization_id;
+
+        $patients = Patient::organizationPatients($organization_id)
             ->get()
             ->toArray();
 

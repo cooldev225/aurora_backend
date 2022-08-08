@@ -31,7 +31,13 @@ class PatientController extends Controller
 
         $anesthetist_employee_id = $anesthetist->employee->id;
 
-        $patients = Appointment::withPreAdmission($anesthetist_employee_id);
+        $today = date('Y-m-d');
+        $patients = Appointment::withPreAdmission($anesthetist_employee_id)
+            ->where('date', '>=', $today)
+            ->orderBy('date')
+            ->orderBy('start_time')
+            ->get()
+            ->toArray();
 
         return response()->json(
             [

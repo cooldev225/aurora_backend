@@ -27,6 +27,7 @@ class AppointmentPaymentRequest extends FormRequest
             'appointment_id'    => 'required|integer',
             'amount'            => 'required|numeric',
             'payment_type'      => 'required|string',
+            'is_deposit'        => 'required|boolean',
         ];
     }
 }
