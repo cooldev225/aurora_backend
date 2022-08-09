@@ -190,6 +190,12 @@ Route::middleware(['auth'])->group(function () {
             AppointmentController::class,
             'approve',
         ]);
+
+        Route::put('/appointments/update_collecting_person/{id}', [
+            AppointmentController::class,
+            'updateCollectingPerson',
+        ]);
+
         Route::put('/appointments/decline/{id}', [
             AppointmentController::class,
             'decline',
