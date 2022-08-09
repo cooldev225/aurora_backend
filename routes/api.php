@@ -175,10 +175,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::apiResource('payments', PaymentController::class);
 
-        Route::apiResource(
-            'patient-documents',
-            PatientDocumentController::class
-        );
+     
     });
 
     Route::middleware([
@@ -263,6 +260,10 @@ Route::middleware(['auth'])->group(function () {
             NotificationTemplateController::class,
             'index',
         ]);
+        Route::apiResource(
+            'patient-documents',
+            PatientDocumentController::class
+        );
     });
 
     Route::middleware([
