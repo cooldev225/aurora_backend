@@ -13,22 +13,26 @@ class Notification
             ->where('organization_id', $appointment->organization_id)
             ->first();
 
-        if ($patient->preferred_contact_method == 'sms') {
+        if ($patient->appointment_confirm_method == 'sms') {
 
             $template = $notificationTemplate->sms_template;
             $to = $patient->contact_number;
             $message = $appointment->translate($template);
 
-            // NotificationEmail::sendSMS($to, $message);
+            if (env('SEND_NOTIFICATION') == true) {
+                NotificationEmail::sendSMS($to, $message);
+            }
 
-        } else if ($patient->preferred_contact_method == 'email') {
+        } else if ($patient->appointment_confirm_method == 'email') {
             
             $template = $notificationTemplate->email_print_template;
             $to = $patient->email;
             $subject = $notificationTemplate->subject;
             $message = $appointment->translate($template);
 
-            // NotificationEmail::sendEmail($to, $subject, $message);
+            if (env('SEND_NOTIFICATION') == true) {
+                NotificationEmail::sendEmail($to, $subject, $message);
+            }
 
         } else {
             return;

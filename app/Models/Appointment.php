@@ -214,11 +214,38 @@ class Appointment extends Model
      */
     public function translate($template)
     {
+        $patient = $this->patient();
+        $specialist = $this->specialist();
+        $specialist_employee = $specialist->employee();
+        $specialist_user = $specialist_employee->user();
+        $specialist_title = $specialist->specialist_title;
+        $specialist_name = $specialist_title->name . ' '
+            . $specialist_user->first_name . ' ' . $specialist_user->last_name;
+
+        $clinic = $this->clinic;
+
+        $preadmission_url = 'https://dev.aurorasw.com.au/#/appointment_pre_admissions/show/'
+            . md5($this->id) . '/form_1';
+
         $words = [
-            '[PatientFirstName]' => $this->patient()->first_name,
-            '[Time]' => $this->start_time,
-            '[Date]' => $this->date,
-            '[ClinicName]' => $this->clinic->name,
+            '[PatientFirstName]' => $patient->first_name,
+            '[PatientLastName]'  => $patient->last_name,
+
+            '[AppointmentTime]'     => $this->start_time,
+            '[AppointmentFullDate]' => date('d/m/Y', strtotime($this->date)),
+            '[AppointmentDate]'     => date('jS, F', strtotime($this->date)),
+            '[AppointmentDay]'      => date('l', strtotime($this->date)),
+            
+            '[AppointmentType]'     => $this->type()->name,
+            '[Specialist]'          => $specialist_name,
+            
+            '[ClinicName]'          => $this->clinic->name,
+            '[ClinicPhone]'         => $clinic->phone_number,
+            
+            '[ClinicAddress]'       => $clinic->address,
+            '[ClinicEmail]'         => $clinic->email,
+
+            '[PreAdmissionURL]'     => $preadmission_url
         ];
 
         $translated = $template;
