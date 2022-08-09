@@ -84,7 +84,7 @@ class OrganizationController extends Controller
         ]);
 
         $owner->organization_id = $organization->id;
-
+        $owner->save();
         if ($file = $request->file('logo')) {
             $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
             $logo_path = '/' . $file->storeAs('images/organization', $file_name);
