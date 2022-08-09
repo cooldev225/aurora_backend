@@ -10,7 +10,7 @@ class PatientReport extends Model
     use HasFactory;
 
     protected $fillable = [
-        'patient_id', 'body'
+        'patient_document_id', 'patient_id', 'body'
     ];
 
     /**
