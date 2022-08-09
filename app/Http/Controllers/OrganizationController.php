@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\OrganizationRequest;
+use App\Models\NotificationTemplate;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Organization;
@@ -104,6 +105,7 @@ class OrganizationController extends Controller
         }
 
         $organization->save();
+        NotificationTemplate::CreateOrganizationNotification($organization);
 
         return response()->json(
             [
