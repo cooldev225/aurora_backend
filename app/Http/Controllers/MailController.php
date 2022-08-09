@@ -123,7 +123,11 @@ class MailController extends Controller
 
             if (!empty($attachment_list)) {
                 foreach ($attachment_list as $path) {
-                    $attachments_with_base_url[] = $base_url . $path;
+                    if (substr($path, 0, 1) == '/') {
+                        $attachments_with_base_url[] = $base_url . $path;
+                    } else {
+                        $attachments_with_base_url[] = $path;
+                    }
                 }
             }
 
@@ -351,8 +355,8 @@ class MailController extends Controller
         }
 
         if (!empty($mailbox) && $user_id == $mailbox->user_id) {
-            $mail->status = 'deleted';
-            $mail->save();
+            $mailbox->status = 'deleted';
+            $mailbox->save();
 
             $return = $mailbox;
         }
@@ -386,8 +390,8 @@ class MailController extends Controller
         }
 
         if (!empty($mailbox) && $user_id == $mailbox->user_id) {
-            $mail->status = 'sent';
-            $mail->save();
+            $mailbox->status = 'inbox';
+            $mailbox->save();
 
             $return = $mailbox;
         }
@@ -494,6 +498,14 @@ class MailController extends Controller
     protected function filterParams(MailRequest $request)
     {
         $attachment = [];
+
+        if ($request->filled('attachmentUploaded')) {
+            $file_list = json_decode($request->attachmentUploaded);
+
+            foreach ($file_list as $fileInfo) {
+                $attachment[] = $fileInfo->url;
+            }
+        }
 
         if ($files = $request->file('attachment')) {
             foreach ($files as $file) {

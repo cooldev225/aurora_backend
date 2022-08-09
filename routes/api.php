@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/mails/update-draft', [MailController::class, 'updateDraft']);
     Route::put('/mails/bookmark/{id}', [MailController::class, 'bookmark']);
     Route::put('/mails/delete/{id}', [MailController::class, 'delete']);
+    Route::put('/mails/restore/{id}', [MailController::class, 'restore']);
     Route::apiResource('mails', MailController::class);
 
     Route::middleware(['ensure.role:admin'])->group(function () {
