@@ -20,8 +20,8 @@ class ProcedureQuestionFactory extends Factory
         $organization_id = Organization::inRandomOrder()->first()->id;
 
         return [
-            'organization_id' => $organization_id,
-            'question' => $this->faker->sentence(),
+            'organization_id'   => $organization_id,
+            'question'          => $this->faker->sentence(),
         ];
     }
 }
