@@ -21,6 +21,24 @@ class PatientSeeder extends Seeder
         $arrPatients = Patient::all();
 
         foreach ($arrPatients as $patient) {
+            if ($patient->id == 1) {
+                $patient->email = 'it@aurorasoftware.com.au';
+                $patient->preferred_contact_method = 'email';
+            } else if ($patient->id == 2) { 
+                $patient->contact_number = '0481183422';
+                $patient->preferred_contact_method = 'sms';
+            } else if ($patient->id == 3) {
+                $patient->email = 'alexp753159@gmail.com';
+                $patient->preferred_contact_method = 'email';
+            } else if ($patient->id == 4) { 
+                $patient->contact_number = '12096833783';
+                $patient->preferred_contact_method = 'sms';
+            }
+
+            if ($patient->id >= 1 && $patient->id <= 4) {
+                $patient->save();
+            }
+
             PatientBilling::create([
                 'patient_id'    =>  $patient->id
             ]);
