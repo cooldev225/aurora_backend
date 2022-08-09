@@ -732,7 +732,7 @@ class AppointmentController extends BaseOrganizationController
         } else {
             $appointment->confirmation_status = 'CANCELED';
         }
-
+        $appointment->cancel_reason = $request->reason;
         $appointment->save();
 
         return response()->json(
