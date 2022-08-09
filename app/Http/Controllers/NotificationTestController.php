@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Http\Requests\UserRoleRequest;
 use App\Mail\NotificationEmail;
-use App\Models\UserRole;
 use Illuminate\Http\Request;
 
 class NotificationTestController extends Controller
