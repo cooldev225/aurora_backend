@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\OrganizationRequest;
+use App\Models\NotificationTemplate;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Models\Organization;
@@ -83,6 +84,8 @@ class OrganizationController extends Controller
             'owner_id'                  => $owner->id,
         ]);
 
+        $owner->organization_id = $organization->id;
+        $owner->save();
         if ($file = $request->file('logo')) {
             $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
             $logo_path = '/' . $file->storeAs('images/organization', $file_name);
@@ -102,6 +105,7 @@ class OrganizationController extends Controller
         }
 
         $organization->save();
+        NotificationTemplate::CreateOrganizationNotification($organization);
 
         return response()->json(
             [

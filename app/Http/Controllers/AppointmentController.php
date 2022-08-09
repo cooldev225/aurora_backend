@@ -532,6 +532,41 @@ class AppointmentController extends BaseOrganizationController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function updateCollectingPerson(Request $request)
+    {
+        $appointment = Appointment::find($request->id);
+
+        $adminInfo = $appointment->administrationInfo();
+
+        $arrField = [
+            'collecting_person_name',
+            'collecting_person_phone',
+            'collecting_person_alternate_contact',
+        ];
+
+        foreach ($arrField as $field) {
+            if ($request->has($field)) {
+                $adminInfo->$field = $request->$field;
+            }
+        }
+
+        $adminInfo->save();
+
+        return response()->json(
+            [
+                'message' => 'Collecting Person Info Updated',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Procedure Approve by Anesthetist
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function approve(Request $request)
     {
         $organization_id = auth()->user()->organization_id;

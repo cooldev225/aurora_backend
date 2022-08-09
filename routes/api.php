@@ -136,7 +136,6 @@ Route::middleware(['auth'])->group(function () {
             'notification-templates',
             NotificationTemplateController::class
         );
-        Route::apiResource('letter-templates', LetterTemplateController::class);
 
         Route::apiResource(
             'anesthetic-questions',
@@ -191,6 +190,12 @@ Route::middleware(['auth'])->group(function () {
             AppointmentController::class,
             'approve',
         ]);
+
+        Route::put('/appointments/update_collecting_person/{id}', [
+            AppointmentController::class,
+            'updateCollectingPerson',
+        ]);
+
         Route::put('/appointments/decline/{id}', [
             AppointmentController::class,
             'decline',
@@ -264,6 +269,7 @@ Route::middleware(['auth'])->group(function () {
         'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
         Route::apiResource('patients', PatientController::class);
+        Route::apiResource('letter-templates', LetterTemplateController::class);
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {

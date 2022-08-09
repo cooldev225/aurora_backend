@@ -10,7 +10,7 @@ class PatientLetter extends Model
     use HasFactory;
 
     protected $fillable = [
-        'patient_id', 'from', 'to', 'body'
+        'patient_document_id', 'patient_id', 'from', 'to', 'body'
     ];
 
     /**
