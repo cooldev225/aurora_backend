@@ -32,6 +32,9 @@ class OrganizationFactory extends Factory
             'appointment_length'     => $this->faker->randomElement([30]),
             'document_letter_header' => $this->faker->imageUrl(),
             'document_letter_footer' => $this->faker->imageUrl(),
+
+            'has_billing'            => $this->faker->boolean(),
+            'has_coding'             => $this->faker->boolean(),
         ];
     }
 }
