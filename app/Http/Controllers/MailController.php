@@ -351,8 +351,8 @@ class MailController extends Controller
         }
 
         if (!empty($mailbox) && $user_id == $mailbox->user_id) {
-            $mail->status = 'deleted';
-            $mail->save();
+            $mailbox->status = 'deleted';
+            $mailbox->save();
 
             $return = $mailbox;
         }
@@ -386,8 +386,8 @@ class MailController extends Controller
         }
 
         if (!empty($mailbox) && $user_id == $mailbox->user_id) {
-            $mail->status = 'sent';
-            $mail->save();
+            $mailbox->status = 'inbox';
+            $mailbox->save();
 
             $return = $mailbox;
         }
