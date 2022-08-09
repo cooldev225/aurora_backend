@@ -18,6 +18,14 @@ class Specialist extends Model
     ];
 
     /**
+     * Return SpecialistType
+     */
+    public function specialist_title()
+    {
+        return $this->belongsTo(SpecialistTitle::class);
+    }
+
+    /**
      * Return Employee
      */
     public function employee()
