@@ -72,6 +72,7 @@ return new class extends Migration {
                 ->enum('payment_status', ['pending', 'paid', 'failed'])
                 ->default('pending');
             $table->boolean('skip_coding')->default(false);
+            $table->text('cancel_reason')->nullable();
             $table->json('anesthetic_answers')->nullable();
             $table->json('procedure_answers')->nullable();
             $table->timestamps();

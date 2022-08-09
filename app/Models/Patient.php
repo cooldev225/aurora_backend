@@ -74,6 +74,7 @@ class Patient extends Model
 
         $appointment_table = (new Appointment())->getTable();
         $appointment_type_table = (new AppointmentType())->getTable();
+        $appointment_administration_info_table = (new AppointmentAdministrationInfo())->getTable();
         $specialist_table = (new Specialist())->getTable();
         $employee_table = (new Employee())->getTable();
         $user_table = (new User())->getTable();
@@ -82,6 +83,7 @@ class Patient extends Model
 
         return Appointment::select(
                 $appointment_table . '.*',
+                $appointment_administration_info_table . '.*',
                 DB::raw('CONCAT(' . $specialist_title_table . '.name, " ",'
                     . $user_table . '.first_name, " ",'
                     . $user_table . '.last_name) AS specialist_name'),
@@ -93,6 +95,12 @@ class Patient extends Model
                 $appointment_type_table,
                 $appointment_table . '.appointment_type_id',
                 $appointment_type_table . '.id'
+            )
+            ->leftJoin(
+                $appointment_administration_info_table,
+                'appointment_id',
+                '=',
+                "{$appointment_table}.id"
             )
             ->leftJoin(
                 $specialist_table,
