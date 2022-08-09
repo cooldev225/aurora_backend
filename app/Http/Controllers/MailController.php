@@ -500,8 +500,10 @@ class MailController extends Controller
         $attachment = [];
 
         if ($request->filled('attachmentUploaded')) {
-            foreach ($request->attachmentUploaded as $fileInfo) {
-                $attachment[] = $fileInfo.url;
+            $file_list = json_decode($request->attachmentUploaded);
+
+            foreach ($file_list as $fileInfo) {
+                $attachment[] = $fileInfo->url;
             }
         }
 
