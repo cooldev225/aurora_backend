@@ -83,6 +83,8 @@ class OrganizationController extends Controller
             'owner_id'                  => $owner->id,
         ]);
 
+        $owner->organization_id = $organization->id;
+
         if ($file = $request->file('logo')) {
             $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
             $logo_path = '/' . $file->storeAs('images/organization', $file_name);
