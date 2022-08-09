@@ -7,6 +7,7 @@ use App\Models\AppointmentPreAdmission;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class AppointmentPreAdmissionController extends Controller
 {
@@ -96,7 +97,6 @@ class AppointmentPreAdmissionController extends Controller
         );
     }
 
-    
     /**
      * return the appointment pre admission info.
      *
@@ -135,16 +135,17 @@ class AppointmentPreAdmissionController extends Controller
         Patient::where('id', $appointment->patient_id)
             ->update($request->only($patient->getFillable()));
         
+        $pdf = $request->pdf;
+        $pdf = str_replace('data:application/pdf;base64,', '', $pdf);
+        $pdf = base64_decode($pdf);
+        $file_name = 'pre_admission_' . $appointment->id . '_' . time() . '.pdf';
+        $file_path = '/files/appointment_pre_admission/' . $file_name;
 
-        if ($file = $request->file('pre_admission')) {
-            $file_name = 'pre_admission_' . $preAdmission->id . '_' . time() . '.' . $file->extension();
-            $pre_admission_path = '/' . $file->storeAs('files/appointment_pre_admission', $file_name);
-            $preAdmission->pre_admission_file = $pre_admission_path;
-            $preAdmission->save();
-        }
-
+        Storage::put($file_path, $pdf);
+        $preAdmission->pre_admission_file = $file_path;
         $preAdmission->status = 'CREATED';
         $preAdmission->save();
+
         $data = $preAdmission->getAppointmentPreAdmissionData();
 
         return response()->json(

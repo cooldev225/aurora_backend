@@ -26,6 +26,7 @@ return new class extends Migration {
             $table->string('subject')->nullable();
             $table->text('sms_template')->nullable();
             $table->text('email_print_template')->nullable();
+            $table->text('description')->nullable();
             $table->enum('status', ['enabled', 'disabled'])->default('enabled');
             $table->timestamps();
         });

@@ -26,6 +26,9 @@ return new class extends Migration {
             $table->string('document_letter_header')->nullable();
             $table->string('document_letter_footer')->nullable();
 
+            $table->boolean('has_billing')->default(true);
+            $table->boolean('has_coding')->default(true);
+
             $table->timestamps();
         });
     }

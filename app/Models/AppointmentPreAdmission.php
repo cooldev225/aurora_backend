@@ -21,8 +21,10 @@ class AppointmentPreAdmission extends Model
         $appointment = $this->appointment;
         $organization = $appointment->organization;
         $data = [
-            'organization_logo' =>  $organization->logo,
-            'status'            =>  $this->status
+            'organization_logo'     =>  $organization->logo,
+            'status'                =>  $this->status,
+            'note'                  =>  $this->note,
+            'pre_admission_file'    =>  $this->pre_admission_file
         ];
         
         if ($this->status == 'BOOKED') {
@@ -39,6 +41,17 @@ class AppointmentPreAdmission extends Model
         $data['clinic'] = $appointment->clinic;
         $data['appointment_type'] = $appointment->type();
         $data['specialist_user'] = $user;
+
+        $data['pre_admission_sections'] = PreAdmissionSection::where(
+                'organization_id', $organization->id
+            )
+            ->with('questions')
+            ->get();
+
+        $data['pre_admission_consent'] = PreAdmissionConsent::where(
+                'organization_id', $organization->id
+            )
+            ->first();
 
         return $data;
     }

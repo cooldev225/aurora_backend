@@ -19,6 +19,7 @@ class PreAdmissionQuestionFactory extends Factory
     {
         return [
             'pre_admission_section_id'  => PreAdmissionSection::inRandomOrder()->first()->id,
+            'answer_format'             => $this->faker->randomElement(['TEXT', 'BOOLEAN']),
             'text'                      => $this->faker->sentence(),
         ];
     }

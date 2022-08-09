@@ -62,7 +62,7 @@ class PatientDocument extends Model
     public static function createDocument($data)
     {
         $patient_document = PatientDocument::create($data);
-        $data->patient_document_id = $patient_document->id;
+        $data['patient_document_id'] = $patient_document->id;
 
         if ($patient_document->document_type == 'LETTER') {
 
