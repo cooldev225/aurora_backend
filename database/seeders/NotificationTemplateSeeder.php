@@ -29,6 +29,7 @@ class NotificationTemplateSeeder extends Seeder
                     "Hello [PatientFirstName], You just booked in at [Time] at [ClinicName] on the [Date]",
                 'email_print_template' =>
                     "Hello [PatientFirstName], You just booked in at [Time] at [ClinicName] on the [Date]",
+                    'description' => 'This notification is sent to the patient as soon as the appointment is created. It will include a link to any relevant pre-admission forms.',
             ]);
 
             NotificationTemplate::create([
@@ -43,6 +44,7 @@ class NotificationTemplateSeeder extends Seeder
                 'email_print_template' =>
                     "Hello [PatientFirstName], you're booked in at [Time] at [ClinicName] on the [Date]. "
                     . "Please reply 'Yes' to confirm or call [ClinicNumber] to cancel or reschedule.",
+                    'description' => 'This notification is sent to the patient x days prior to their appointment. This will include a link for the patient to confirm their appointment.',
             ]);
 
             NotificationTemplate::create([
@@ -55,6 +57,7 @@ class NotificationTemplateSeeder extends Seeder
                     "Hello [PatientFirstName], There is your appointment in at [Time] at [ClinicName] on the [Date]",
                 'email_print_template' =>
                     "Hello [PatientFirstName], There is your appointment in at [Time] at [ClinicName] on the [Date]",
+                    'description' => 'This notification is sent to the patient x days prior to their appointment to remind them about their up coming appointment.',
             ]);
 
             NotificationTemplate::create([
@@ -67,6 +70,7 @@ class NotificationTemplateSeeder extends Seeder
                     "Hello [PatientFirstName], Please contact clinic x on 03 5933 4857 to book an appointment",
                 'email_print_template' =>
                     "Hello [PatientFirstName], Please contact clinic x on 03 5933 4857 to book an appointment",
+                    'description' => 'This notification is sent to the patient x days prior to their recall date to remind them about the recall.',
             ]);
         }
     }
