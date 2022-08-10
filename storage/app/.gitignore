@@ -1,4 +1,6 @@
 *
 !public/
 !images/
+!files/
+!images/
 !.gitignore
