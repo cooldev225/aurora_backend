@@ -116,9 +116,13 @@ class AppointmentFactory extends Factory
             'arrival_time'              => $arrival_time,
             'start_time'                => $start_time,
             'end_time'                  => $end_time,
-            'skip_coding'               => mt_rand(1, 2) == 1 ? true : false,
             'procedure_approval_status' => $procedure_approval_status,
             'confirmation_status'       => $confirmation_status,
+            'note'                      => $this->faker->paragraph(),
+            'clinical_alerts'           => $this->faker->paragraph(),
+            'collecting_person_name'    => $this->faker->name(),
+            'collecting_person_phone'   => $this->faker->phoneNumber(),
+            'collecting_person_alternate_contact' => $this->faker->catchPhrase(),
         ];
     }
 }
