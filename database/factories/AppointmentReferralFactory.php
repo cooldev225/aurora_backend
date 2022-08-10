@@ -18,7 +18,7 @@ class AppointmentReferralFactory extends Factory
     public function definition()
     {
         $referral_date = $this->faker->dateTimeBetween('now', '+1 month');
-        $referral_duration = mt_rand(1, 6);
+        $referral_duration = $this->faker->randomElement([0, 3, 12]);
         $referral_expiry_date = date(
             "Y-m-d",
             strtotime("+" . $referral_duration . " months", $referral_date->getTimestamp())
