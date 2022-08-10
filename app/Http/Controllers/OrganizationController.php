@@ -67,6 +67,12 @@ class OrganizationController extends Controller
      */
     public function store(OrganizationRequest $request)
     {
+        if ($request->filled('id')) {
+            $organization = Organization::find($request->id);
+
+            return $this->update($request, $organization);
+        }
+
         $owner = User::create([
             'username'      => $request->username,
             'email'         => $request->email,
