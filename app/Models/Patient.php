@@ -43,6 +43,13 @@ class Patient extends Model
         'kin_phone_number',
     ];
 
+    protected $appends = array('full_name');
+
+    public function getFullNameAttribute()
+    {
+        return $this->first_name . ' ' . $this->last_name;  
+    }
+
     /**
      * Return Patients' Organization
      */
