@@ -17,11 +17,6 @@ return new class extends Migration {
         ) {
             $table->id();
             $table->foreignId('appointment_id')->index();
-            $table->text('note')->nullable();
-            $table->text('clinical_alerts')->nullable();
-            $table->string('collecting_person_name')->nullable();
-            $table->string('collecting_person_phone')->nullable();
-            $table->string('collecting_person_alternate_contact')->nullable();
             $table->timestamps();
         });
     }

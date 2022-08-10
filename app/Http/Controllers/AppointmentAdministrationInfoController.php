@@ -40,20 +40,6 @@ class AppointmentAdministrationInfoController extends Controller
     {
         $appointmentAdministrationInfo = AppointmentAdministrationInfo::create([
             'appointment_id' => $request->appointment_id,
-            'note' => $request->note,
-            'important_details' => $request->important_details,
-            'clinical_alerts' => $request->clinical_alerts,
-            'receive_forms' => $request->receive_forms,
-            'recurring_appointment' => $request->recurring_appointment,
-            'recent_service' => $request->recent_service,
-            'outstanding_balance' => $request->outstanding_balance,
-            'further_details' => $request->further_details,
-            'fax_comment' => $request->fax_comment,
-            'anything_should_aware' => $request->anything_should_aware,
-            'collecting_person_name' => $request->collecting_person_name,
-            'collecting_person_phone' => $request->collecting_person_phone,
-            'collecting_person_alternate_contact' =>
-                $request->collecting_person_alternate_contact,
         ]);
 
         return response()->json(

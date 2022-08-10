@@ -18,11 +18,6 @@ class AppointmentAdministrationInfoFactory extends Factory
     {
         return [
             'appointment_id' => 0,
-            'note' => $this->faker->paragraph(),
-            'clinical_alerts' => $this->faker->paragraph(),
-            'collecting_person_name' => $this->faker->name(),
-            'collecting_person_phone' => $this->faker->phoneNumber(),
-            'collecting_person_alternate_contact' => $this->faker->catchPhrase(),
         ];
     }
 }
