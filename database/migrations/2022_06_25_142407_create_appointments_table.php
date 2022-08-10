@@ -18,7 +18,6 @@ return new class extends Migration {
             $table->foreignId('organization_id');
             $table->foreignId('clinic_id');
             $table->foreignId('appointment_type_id')->nullable();
-            $table->foreignId('primary_pathologist_id')->nullable();
             $table->foreignId('specialist_id')->index();
             $table->foreignId('room_id')->nullable();
             $table->foreignId('anesthetist_id')->nullable();
@@ -52,9 +51,6 @@ return new class extends Migration {
             $table->time('arrival_time');
             $table->time('start_time');
             $table->time('end_time');
-            $table->time('actual_arrival_time')->nullable();
-            $table->time('actual_start_time')->nullable();
-            $table->time('actual_end_time')->nullable();
             $table
                 ->enum('charge_type', [
                     'self-insured',
@@ -71,10 +67,7 @@ return new class extends Migration {
             $table
                 ->enum('payment_status', ['pending', 'paid', 'failed'])
                 ->default('pending');
-            $table->boolean('skip_coding')->default(false);
             $table->text('cancel_reason')->nullable();
-            $table->json('anesthetic_answers')->nullable();
-            $table->json('procedure_answers')->nullable();
             $table->timestamps();
         });
     }
