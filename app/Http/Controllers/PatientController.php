@@ -34,20 +34,11 @@ class PatientController extends Controller
             ->toArray();
 
         foreach ($patients as $key => $patient) {
-            $patients[$key]['upcoming_appointment'] = [];
-            $is_current_appointment = false;
+            $patients[$key]['upcoming_appointments'] = [];
 
             foreach ($appointments as $appointment) {
                 if ($appointment['patient_id'] == $patient['id']) {
-                    if ($is_current_appointment == false) {
-                        $is_current_appointment = true;
-                    } elseif (
-                        empty($patients[$key]['upcoming_appointment'])
-                    ) {
-                        $patients[$key][
-                            'upcoming_appointment'
-                        ] = $appointment;
-                    }
+                    $patients[$key]['upcoming_appointments'][] = $appointment;
                 }
             }
         }
