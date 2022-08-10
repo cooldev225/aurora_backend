@@ -29,7 +29,6 @@ class OrganizationRequest extends FormRequest
             'email'         => 'required|string|email|max:100', //'|unique:users',
             'first_name'    => 'string',
             'last_name'     => 'string',
-            'logo'          => 'required|max:8192|image',
         ];
     }
 }
