@@ -96,13 +96,14 @@ class AppointmentFactory extends Factory
                 ->inRandomOrder()
                 ->first()->id,
             'specialist_id' => $specialist->id,
-            'room_id' => Room::inRandomOrder()->first()->id,
+            'room_id' => $room_id,
             'anesthetist_id' => $specialist->anesthetist_id,
             'appointment_type_id' => $appointment_type->id,
             'date' => $this->faker->date(),
             'arrival_time' => $arrival_time,
             'start_time' => $start_time,
             'end_time' => $end_time,
+            'skip_coding' => mt_rand(1, 2) == 1 ? true : false,
             'procedure_approval_status' => $procedure_approval_status,
             'confirmation_status' => $this->faker->randomElement([
                 'PENDING',
