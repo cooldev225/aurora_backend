@@ -29,7 +29,10 @@ class Organization extends Model
     public static function combineWithBaseUrl()
     {
         $base_url = url('/');
+        $organization_table = (new self())->getTable();
+
         $select = "*,
+            {$organization_table}.id,
             CASE
                 WHEN SUBSTRING(logo, 1, 1) = '/'
                     THEN CONCAT('{$base_url}', logo)
