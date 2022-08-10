@@ -15,6 +15,62 @@ class Organization extends Model
         'document_letter_header', 'document_letter_footer'
     ];
 
+    protected $appends = array('user_count', 'clinic_count', 'is_max_users', 'is_max_clinics');
+
+   /**
+     * Returns the total user count
+     */
+    public function getUserCountAttribute()
+    {
+        return $this->users()->count(); 
+    }
+
+    /**
+     * Returns the total clinic count
+     */
+    public function getClinicCountAttribute()
+    {
+        return $this->clinics()->count();  
+    }
+
+    /**
+     * Returns true if max users reached
+     */
+    public function getIsMaxUsersAttribute()
+    {
+        if($this->user_count >= $this->max_employees){
+            return true;
+        }
+        return false;  
+    }
+
+    /**
+     * Returns true of max clinics reached
+     */
+    public function getIsMaxClinicsAttribute()
+    {
+        if($this->clinic_count >= $this->max_clinics){
+            return true;
+        }
+        return false;  
+    }
+
+        /**
+     * Get the clinics for organization.
+     */
+    public function clinics()
+    {
+        return $this->hasMany(Clinic::class);
+    }
+
+    /**
+     * Get the users for organization.
+     */
+    public function users()
+    {
+        return $this->hasMany(User::class);
+    }
+
     /**
      * Return Owner user
      */
