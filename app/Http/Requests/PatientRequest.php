@@ -24,10 +24,10 @@ class PatientRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => 'string|email|max:100|unique:users',
-            'aborginality' => 'boolean',
-            'appointment_confirm_method' => 'required',
-            'send_recall_method' => 'in:email,mail',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'date_of_birth' => 'required',
+            'contact_number' => 'required',
         ];
     }
 }
