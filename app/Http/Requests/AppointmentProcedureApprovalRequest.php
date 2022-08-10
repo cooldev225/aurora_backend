@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PatientRequest extends FormRequest
+class AppointmentProcedureApprovalRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,12 @@ class PatientRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $appointment = $this->route('appointment');
+        $organization_id = auth()->user()->organization_id;
+        if ($appointment->organization_id == $organization_id) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -24,10 +29,7 @@ class PatientRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'date_of_birth' => 'required',
-            'contact_number' => 'required',
+            'procedure_approval_status' => 'in:NOT_APPROVED,APPROVED,CONSULT_REQUIRED',
         ];
     }
 }

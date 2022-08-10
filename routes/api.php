@@ -9,6 +9,7 @@ use App\Http\Controllers\Anesthetist\PatientController as AnesthetistPatientCont
 use App\Http\Controllers\AnesthetistController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
+use App\Http\Controllers\AppointmentProcedureApprovalController;
 use App\Http\Controllers\AppointmentReferralController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
@@ -193,14 +194,11 @@ Route::middleware(['auth'])->group(function () {
             'updateCollectingPerson',
         ]);
 
-        Route::put('/appointments/decline/{id}', [
-            AppointmentController::class,
-            'decline',
+        Route::put('/appointments/procedureApprovalStatus/{appointment}', [
+            AppointmentProcedureApprovalController::class,
+            'update',
         ]);
-        Route::put('/appointments/confirm/{id}', [
-            AppointmentController::class,
-            'confirm',
-        ]);
+
         Route::put('/appointments/check-in/{id}', [
             AppointmentController::class,
             'checkIn',

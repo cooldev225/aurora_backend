@@ -695,15 +695,6 @@ class AppointmentController extends BaseOrganizationController
         ]);
 
         ////////////////////////////////////////////////////////////////////////
-        // Update the contact person information
-        $adminInfo = $appointment->administrationInfo();
-        $referral_date = date('Y-m-d', strtotime($request->referral_date));
-        $adminInfo->collecting_person_name = $request->collecting_person_name;
-        $adminInfo->collecting_person_phone = $request->collecting_person_phone;
-        $adminInfo->collecting_person_alternate_contact = $request->collecting_person_alternate_contact;
-        $adminInfo->save();
-
-        ////////////////////////////////////////////////////////////////////////
         // Update the appointment status
         $appointment->attendance_status = 'CHECKED_IN';
         $appointment->save();
