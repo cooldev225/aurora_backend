@@ -24,7 +24,12 @@ class PatientDocumentController extends Controller
             ->with('specialist_audio')
             ->with('clinical_note')
             ->orderByDesc('updated_at')
-            ->get();
+            ->get()->toArray();
+
+        foreach ($patientDocumentList as $key => $patient_document) {
+            $patient_document['file_type'] = 'jpg';
+            $patientDocumentList[$key] = $patient_document;
+        }
 
         return response()->json(
             [
