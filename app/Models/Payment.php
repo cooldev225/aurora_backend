@@ -68,6 +68,7 @@ class Payment
             'contact_number'    => $patient->contact_number,
             'date_of_birth'     => $patient->date_of_birth,
             'charge_type'       => $appointment->charge_type,
+            'email'             => $patient->email,
         );
         $appointmentData = array(
             'id'                => $appointment->id,
