@@ -244,4 +244,70 @@ class Patient extends Model
             ->where('organization_id', $organization_id);
     }
 
+    public static function patientAppointments($patient_id) {
+        $today = date('Y-m-d');
+
+        $appointment_table = (new Appointment())->getTable();
+        $query_builder = self::patientAppointmentsQueryBuilder($patient_id);
+        $pastAppointments = $query_builder
+            ->where($appointment_table . '.date', '<', $today)
+            ->orderByDesc('date')
+            ->orderByDesc('start_time')
+            ->limit(5)
+            ->get()
+            ->toArray();
+        $pastAppointments = array_reverse($pastAppointments);
+
+        $query_builder = self::patientAppointmentsQueryBuilder($patient_id);
+        $futureAppointments = $query_builder
+            ->where($appointment_table . '.date', '>=', $today)
+            ->orderBy('date')
+            ->orderBy('start_time')
+            ->get()
+            ->toArray();
+
+        return array_merge($pastAppointments, $futureAppointments);
+    }
+
+    private static function patientAppointmentsQueryBuilder($patient_id) {
+        $appointment_table = (new Appointment())->getTable();
+        $appointment_type_table = (new AppointmentType())->getTable();
+        $specialist_table = (new Specialist())->getTable();
+        $employee_table = (new Employee())->getTable();
+        $user_table = (new User())->getTable();
+        $specialist_title_table = (new SpecialistTitle())->getTable();
+
+        return Appointment::
+            select(
+                $appointment_table . '.*',
+                DB::raw(
+                    "CONCAT(" . $specialist_title_table . ".name, ' ', "
+                    . $user_table . ".first_name, ' ', "
+                    . $user_table . ".last_name) AS specialist_name"
+                ),
+                $appointment_type_table . '.name AS appointment_type_name',
+            )
+            ->leftJoin(
+                $appointment_type_table,
+                'appointment_type_id',
+                $appointment_type_table.'.id'
+            )
+            ->leftJoin(
+                $specialist_table,
+                $specialist_table . '.id',
+                $appointment_table . '.specialist_id'
+            )
+            ->leftJoin(
+                $employee_table,
+                'employee_id',
+                $employee_table . '.id'
+            )
+            ->leftJoin($user_table, 'user_id', '=', $user_table . '.id')
+            ->leftJoin(
+                $specialist_title_table,
+                'specialist_title_id',
+                $specialist_title_table . '.id'
+            )
+            ->where($appointment_table . '.patient_id', $patient_id);
+    }
 }
