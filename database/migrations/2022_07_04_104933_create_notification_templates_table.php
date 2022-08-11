@@ -28,6 +28,7 @@ return new class extends Migration {
             $table->text('sms_template')->nullable();
             $table->text('email_print_template')->nullable();
             $table->text('description')->nullable();
+            $table->text('allow_day_edit')->default(true);
             $table->enum('status', ['enabled', 'disabled'])->default('enabled');
             $table->timestamps();
         });

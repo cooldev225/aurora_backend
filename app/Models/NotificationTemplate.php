@@ -28,6 +28,7 @@ class NotificationTemplate extends Model
             'type'              => 'appointment_booked',
             'title'             => 'Appointment Booked',
             'days_before'       => 0,
+            'allow_day_edit'    => false,
             'subject'           => 'Appointment Booked',
             'sms_template'      =>
                 "Hello [PatientFirstName], You just booked in at [AppointmentTime] at [ClinicName] on the [AppointmentDate]. "
@@ -84,6 +85,7 @@ class NotificationTemplate extends Model
             'type'              => 'procedure_denied',
             'title'             => 'Procedure Denied',
             'days_before'       =>  0,
+            'allow_day_edit'    => false,
             'subject'           => 'Procedure Denied',
             'sms_template'      =>
                 "Hello [PatientFirstName], I am sorry but your procedure has been denied. Please contact clinic on 03 5933 4857 to discuss",
@@ -97,6 +99,7 @@ class NotificationTemplate extends Model
             'type'              => 'procedure_approved',
             'title'             => 'Procedure Approved',
             'days_before'       =>  0,
+            'allow_day_edit'    => false,
             'subject'           => 'Procedure Approved',
             'sms_template'      =>
                 "Hello [PatientFirstName], Your procedure has been approved.Please follow the link below to view your pre-procedure instructions.",
