@@ -18,7 +18,8 @@ return new class extends Migration {
             $table
                 ->enum('type', [
                     'appointment_booked', 'appointment_confirmation',
-                    'appointment_reminder', 'recall'
+                    'appointment_reminder', 'recall',
+                    'procedure_approved','procedure_denied'
                 ])
                 ->default('recall');
             $table->string('title');
