@@ -44,11 +44,21 @@ class Patient extends Model
         'kin_phone_number',
     ];
 
-    protected $appends = array('full_name');
+    protected $appends = array('full_name','upcoming_appointments','previous_appointments');
 
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;  
+    }
+
+    public function getUpcomingAppointmentsAttribute()
+    {
+        return $this->appointments()->where('date', '>=', date('Y-m-d'))->get();
+    }
+
+    public function getPreviousAppointmentsAttribute()
+    {
+        return $this->appointments()->where('date', '<', date('Y-m-d'))->get();  
     }
 
     /**
