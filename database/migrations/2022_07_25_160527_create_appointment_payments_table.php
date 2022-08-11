@@ -20,8 +20,8 @@ return new class extends Migration
             $table->float('amount');
             $table->enum('payment_type', ['CASH', 'EFTPOS'])->default('CASH');
             $table->boolean('is_deposit')->default(false);
-            $table->boolean('is_send_receipt');
-            $table->text('email');
+            $table->boolean('is_send_receipt')->default(false);
+            $table->text('email')->nullable();
             $table->timestamps();
 
             
