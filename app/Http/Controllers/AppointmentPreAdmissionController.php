@@ -71,7 +71,7 @@ class AppointmentPreAdmissionController extends Controller
         $last_name = $request->last_name;
 
         if ($patient->date_of_birth != $date_of_birth
-            || $patient->last_name != $last_name
+            || strtolower($patient->last_name) != strtolower($last_name)
         ) {
             $data = $preAdmission->getAppointmentPreAdmissionData();
 
