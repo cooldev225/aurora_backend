@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Enum\ProcedureApprovalStatus;
 use App\Http\Requests\AppointmentProcedureApprovalRequest;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -26,8 +28,14 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
     ) {
 
         $appointment->procedure_approval_status = $request->procedure_approval_status;
-        
+
         $appointment->save();
+
+        if($appointment->procedure_approval_status == ProcedureApprovalStatus::APPROVED){
+            Notification::sendAppointmentNotification($appointment, 'procedure_approved');
+        } else {
+            Notification::sendAppointmentNotification($appointment, 'procedure_denied'); 
+        }
 
         return response()->json(
             [

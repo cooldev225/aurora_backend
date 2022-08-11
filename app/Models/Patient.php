@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
@@ -242,4 +243,5 @@ class Patient extends Model
             )
             ->where('organization_id', $organization_id);
     }
+
 }

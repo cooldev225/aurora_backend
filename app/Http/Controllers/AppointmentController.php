@@ -454,7 +454,7 @@ class AppointmentController extends BaseOrganizationController
             'appointment_id' => $appointment->id,
         ]);
 
-        Notification::sendAppointmentBooked($appointment);
+        Notification::sendAppointmentNotification($appointment, 'appointment_booked');
 
         return response()->json(
             [

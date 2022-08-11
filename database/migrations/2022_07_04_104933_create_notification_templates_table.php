@@ -18,7 +18,8 @@ return new class extends Migration {
             $table
                 ->enum('type', [
                     'appointment_booked', 'appointment_confirmation',
-                    'appointment_reminder', 'recall'
+                    'appointment_reminder', 'recall',
+                    'procedure_approved','procedure_denied'
                 ])
                 ->default('recall');
             $table->string('title');
@@ -27,6 +28,7 @@ return new class extends Migration {
             $table->text('sms_template')->nullable();
             $table->text('email_print_template')->nullable();
             $table->text('description')->nullable();
+            $table->boolean('allow_day_edit')->default(true);
             $table->enum('status', ['enabled', 'disabled'])->default('enabled');
             $table->timestamps();
         });

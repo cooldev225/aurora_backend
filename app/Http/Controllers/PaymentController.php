@@ -81,6 +81,8 @@ class PaymentController extends BaseOrganizationController
             'amount'            => $request->amount,
             'payment_type'      => $request->payment_type,
             'is_deposit'        => $request->is_deposit,
+            'is_send_receipt'   => $request->is_send_receipt,
+            'email'             => $request->email,
         ]);
         $paymentInfo = Payment::paymentDetailInfo($appointment);
 
