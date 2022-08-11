@@ -268,11 +268,13 @@ Route::middleware(['auth'])->group(function () {
         'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
         Route::apiResource('patients', PatientController::class);
+        Route::get('patients/appointments/{patient_id}', [PatientController::class, 'appointments']);
+
         Route::apiResource('letter-templates', LetterTemplateController::class);
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
-       Route::get('/procedure-approvals', [AnesthetistPatientController::class, 'index']);
+        Route::get('/procedure-approvals', [AnesthetistPatientController::class, 'index']);
 
         Route::get('/anesthetist/appointments', [
             AnesthetistController::class,
