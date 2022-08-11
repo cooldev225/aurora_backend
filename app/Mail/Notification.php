@@ -7,9 +7,9 @@ use App\Models\PatientRecall;
 
 class Notification
 {
-    public static function sendAppointmentBooked($appointment) {
+    public static function sendAppointmentNotification($appointment, $notificationType) {
         $patient = $appointment->patient();
-        $notificationTemplate =  NotificationTemplate::where('type', 'appointment_booked')
+        $notificationTemplate =  NotificationTemplate::where('type', $notificationType)
             ->where('organization_id', $appointment->organization_id)
             ->first();
 
