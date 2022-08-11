@@ -20,6 +20,15 @@ class PatientDocument extends Model
     }
 
     /**
+     * Get the user action logs for this document.
+     */
+    public function action_logs()
+    {
+        return $this->hasMany(PatientDocumentsActionLog::class);
+    }
+
+
+    /**
      * Return Specialist
      */
     public function specialist() {

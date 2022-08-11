@@ -89,28 +89,40 @@ class AppointmentFactory extends Factory
             ]);
         }
 
+        $clinic_id = Clinic::where('organization_id', $organization_id)
+            ->inRandomOrder()
+            ->first()->id;
+
+        $room_id = Room::where('organization_id', $organization_id)
+            ->where('clinic_id', $clinic_id)
+            ->inRandomOrder()->first()->id;
+
+        $confirmation_status = $this->faker->randomElement([
+            'PENDING',
+            'CONFIRMED',
+            'CANCELED',
+            'MISSED',
+        ]);
+
         return [
-            'patient_id' => $patient->id,
-            'organization_id' => $organization_id,
-            'clinic_id' => Clinic::where('organization_id', $organization_id)
-                ->inRandomOrder()
-                ->first()->id,
-            'specialist_id' => $specialist->id,
-            'room_id' => Room::inRandomOrder()->first()->id,
-            'anesthetist_id' => $specialist->anesthetist_id,
-            'appointment_type_id' => $appointment_type->id,
-            'date' => $this->faker->date(),
-            'arrival_time' => $arrival_time,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
-            'skip_coding' => mt_rand(1, 2) == 1 ? true : false,
+            'patient_id'                => $patient->id,
+            'organization_id'           => $organization_id,
+            'clinic_id'                 => $clinic_id,
+            'specialist_id'             => $specialist->id,
+            'room_id'                   => $room_id,
+            'anesthetist_id'            => $specialist->anesthetist_id,
+            'appointment_type_id'       => $appointment_type->id,
+            'date'                      => $this->faker->date(),
+            'arrival_time'              => $arrival_time,
+            'start_time'                => $start_time,
+            'end_time'                  => $end_time,
             'procedure_approval_status' => $procedure_approval_status,
-            'confirmation_status' => $this->faker->randomElement([
-                'PENDING',
-                'CONFIRMED',
-                'CANCELED',
-                'MISSED',
-            ]),
+            'confirmation_status'       => $confirmation_status,
+            'note'                      => $this->faker->paragraph(),
+            'clinical_alerts'           => $this->faker->paragraph(),
+            'collecting_person_name'    => $this->faker->name(),
+            'collecting_person_phone'   => $this->faker->phoneNumber(),
+            'collecting_person_alternate_contact' => $this->faker->catchPhrase(),
         ];
     }
 }
