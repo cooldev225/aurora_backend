@@ -139,4 +139,16 @@ class PatientController extends Controller
             Response::HTTP_NO_CONTENT
         );
     }
+
+    public function appointments($patient_id) {
+        $appointments = Patient::patientAppointments($patient_id);
+
+        return response()->json(
+            [
+                'message' => 'Appointment List',
+                'data' => $appointments,
+            ],
+            Response::HTTP_OK
+        );
+    }
 }

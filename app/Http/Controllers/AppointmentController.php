@@ -405,9 +405,13 @@ class AppointmentController extends BaseOrganizationController
     public function store(AppointmentRequest $request)
     {
         $organization_id = auth()->user()->organization_id;
-        $patient = Patient::where('email', $request->email)->first();
 
-        if (empty($patient)) {
+        $patient = null;
+        if ($request->has('patient_id')) {
+            $patient = Patient::where('id', $request->patient_id)->first();
+        }
+
+        if ($patient == null) {
             $patient = Patient::create($this->filterParams($request));
         }
 

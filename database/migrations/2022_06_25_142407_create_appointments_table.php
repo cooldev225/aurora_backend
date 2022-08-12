@@ -69,7 +69,6 @@ return new class extends Migration {
                 ->default('pending');
             $table->text('cancel_reason')->nullable();
             $table->text('note')->nullable();
-            $table->text('clinical_alerts')->nullable();
             $table->string('collecting_person_name')->nullable();
             $table->string('collecting_person_phone')->nullable();
             $table->string('collecting_person_alternate_contact')->nullable();

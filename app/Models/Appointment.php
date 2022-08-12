@@ -28,7 +28,6 @@ class Appointment extends Model
         'end_time',
         'charge_type',
         'note',
-        'clinical_alerts',
         'collecting_person_name',
         'collecting_person_phone',
         'collecting_person_alternate_contact',
