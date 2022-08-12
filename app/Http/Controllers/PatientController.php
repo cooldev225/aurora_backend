@@ -143,9 +143,13 @@ class PatientController extends Controller
         );
     }
 
-    public function appointments($patient_id) {
-        $appointments = Patient::patientAppointments($patient_id);
-
+    public function patientAppointments(Patient $patient) {
+        
+        $appointments = [
+            'pastAppointments' => $patient->five_previous_appointments,
+            'futureAppointments' => $patient->all_upcoming_appointments,
+        ];
+        
         return response()->json(
             [
                 'message' => 'Appointment List',

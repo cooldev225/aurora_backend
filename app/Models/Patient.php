@@ -228,32 +228,6 @@ class Patient extends Model
             ->where($patient_table . ".id", $patient_id);
     }
 
-
-    public static function patientAppointments($patient_id) {
-        $today = date('Y-m-d');
-
-        $appointment_table = (new Appointment())->getTable();
-        $query_builder = self::patientAppointmentsQueryBuilder($patient_id);
-        $pastAppointments = $query_builder
-            ->where($appointment_table . '.date', '<', $today)
-            ->orderByDesc('date')
-            ->orderByDesc('start_time')
-            ->limit(5)
-            ->get()
-            ->toArray();
-        $pastAppointments = array_reverse($pastAppointments);
-
-        $query_builder = self::patientAppointmentsQueryBuilder($patient_id);
-        $futureAppointments = $query_builder
-            ->where($appointment_table . '.date', '>=', $today)
-            ->orderBy('date')
-            ->orderBy('start_time')
-            ->get()
-            ->toArray();
-
-        return array_merge($pastAppointments, $futureAppointments);
-    }
-
     private static function patientAppointmentsQueryBuilder($patient_id) {
         $appointment_table = (new Appointment())->getTable();
         $appointment_type_table = (new AppointmentType())->getTable();
