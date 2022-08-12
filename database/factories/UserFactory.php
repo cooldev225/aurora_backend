@@ -38,7 +38,7 @@ class UserFactory extends Factory
             'username' => $user_name,
             'role_id' => $role_id,
             'email' => $this->faker->unique()->safeEmail(),
-            'mobile_number' => $this->faker->phoneNumber(),
+            'mobile_number' => $this->faker->numerify('0#-####-####'),
             'date_of_birth' => $this->faker->date(),
             'email_verified_at' => now(),
             'password' => Hash::make('Paxxw0rd'),
