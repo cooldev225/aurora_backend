@@ -68,7 +68,7 @@ class EmployeeController extends Controller
     public function store(EmployeeRequest $request)
     {
         $organization_id = auth()->user()->organization_id;
-        $role = UserRole::where('slug', $request->role)->first();
+        $role = UserRole::find($request->role_id);
 
         if (!$role->isEmployee()) {
             return response()->json(
@@ -135,7 +135,7 @@ class EmployeeController extends Controller
     public function update(EmployeeRequest $request, Employee $employee)
     {
         $organization_id = auth()->user()->organization_id;
-        $role = UserRole::where('slug', $request->role)->first();
+        $role = UserRole::find($request->role_id);
 
         if (!$role->isEmployee()) {
             return response()->json(
