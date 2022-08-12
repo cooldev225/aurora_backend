@@ -47,10 +47,12 @@ class NotificationTemplate extends Model
             'subject'           => 'Appointment Confirmation',
             'sms_template'      =>
                 "Hello [PatientFirstName], you're booked in at [AppointmentTime] at [ClinicName] on the [AppointmentDate]. "
-                . "Please reply 'Yes' to confirm or call [ClinicPhone] to cancel or reschedule.",
+                . "Please reply 'Yes' to confirm or call [ClinicPhone] to cancel or reschedule."
+                . "Please confirm the appointment here [ConfirmURL]",
             'email_print_template' =>
                 "Hello [PatientFirstName], you're booked in at [AppointmentTime] at [ClinicName] on the [AppointmentDate]. "
-                . "Please reply 'Yes' to confirm or call [ClinicPhone] to cancel or reschedule.",
+                . "Please reply 'Yes' to confirm or call [ClinicPhone] to cancel or reschedule."
+                . "Please confirm the appointment here [ConfirmURL]",
                 'description' => 'This notification is sent to the patient x days prior to their appointment. This will include a link for the patient to confirm their appointment.',
         ]);
 

@@ -7,11 +7,17 @@ use App\Models\PatientRecall;
 
 class Notification
 {
-    public static function sendAppointmentNotification($appointment, $notificationType) {
+    public static function sendAppointmentNotification(
+        $appointment,
+        $notificationType,
+        $notificationTemplate = null
+    ) {
         $patient = $appointment->patient();
-        $notificationTemplate =  NotificationTemplate::where('type', $notificationType)
-            ->where('organization_id', $appointment->organization_id)
-            ->first();
+        if ($notificationTemplate == null) {
+            $notificationTemplate =  NotificationTemplate::where('type', $notificationType)
+                ->where('organization_id', $appointment->organization_id)
+                ->first();
+        }
 
         if ($patient->appointment_confirm_method == 'sms') {
 
@@ -21,6 +27,9 @@ class Notification
 
             if (env('SEND_NOTIFICATION') == true) {
                 NotificationEmail::sendSMS($to, $message);
+            } else {
+                echo "To: " . $to . "\r\n";
+                echo "Message: " . $message . "\r\n";
             }
 
         } else if ($patient->appointment_confirm_method == 'email') {
@@ -32,6 +41,10 @@ class Notification
 
             if (env('SEND_NOTIFICATION') == true) {
                 NotificationEmail::sendEmail($to, $subject, $message);
+            } else {
+                echo "To: " . $to . "\r\n";
+                echo "Subject: " . $subject . "\r\n";
+                echo "Message: " . $message . "\r\n";
             }
 
         } else {
