@@ -45,23 +45,26 @@ class Patient extends Model
         'clinical_alert',
     ];
 
-    protected $appends = array('full_name','upcoming_appointments','previous_appointments');
+    protected $appends = array('full_name','all_upcoming_appointments','five_previous_appointments','previous_appointment_count');
 
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;  
     }
 
-    public function getUpcomingAppointmentsAttribute()
+    public function getAllUpcomingAppointmentsAttribute()
     {
         return $this->appointments()->where('date', '>=', date('Y-m-d'))->get();
     }
 
-    public function getPreviousAppointmentsAttribute()
+    public function getFivePreviousAppointmentsAttribute()
     {
-        return $this->appointments()->where('date', '<', date('Y-m-d'))->get();  
+        return $this->appointments()->where('date', '<', date('Y-m-d'))->take(5)->get();  
     }
-
+    public function getPreviousAppointmentCountAttribute()
+    {
+        return $this->appointments()->where('date','<', date('Y-m-d'))->count();  
+    }
     /**
      * Return Patients' Organization
      */
