@@ -268,7 +268,7 @@ Route::middleware(['auth'])->group(function () {
         'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
         Route::apiResource('patients', PatientController::class);
-        Route::get('patients/appointments/{patient_id}', [PatientController::class, 'appointments']);
+        Route::get('patients/appointments/{patient}', [PatientController::class, 'patientAppointments']);
 
         Route::apiResource('letter-templates', LetterTemplateController::class);
     });

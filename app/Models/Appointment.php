@@ -32,7 +32,13 @@ class Appointment extends Model
         'collecting_person_phone',
         'collecting_person_alternate_contact',
     ];
+    protected $appends = array('specialist_name');
 
+    public function getSpecialistNameAttribute()
+    {
+        $specialist_user = $this->specialist()->employee()->user();
+        return 'Dr ' .$specialist_user->first_name .' '. $specialist_user->last_name;  
+    }
     /**
      * Return Organization
      */
