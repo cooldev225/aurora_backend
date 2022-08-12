@@ -26,6 +26,13 @@ class User extends Authenticatable implements JWTSubject
         'address',
     ];
 
+    protected $appends = array('role');
+
+    public function getRoleAttribute()
+    {
+        return $this->role()->name; 
+    }
+
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
      *
@@ -51,7 +58,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function role()
     {
-        return $this->belongsTo(UserRole::class, 'role_id')->first();
+        return $this->belongsTo(UserRole::class)->first();
     }
 
     /**
