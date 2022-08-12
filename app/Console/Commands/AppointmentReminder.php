@@ -28,7 +28,7 @@ class AppointmentReminder extends Command
      */
     public function handle()
     {
-        Appointment::sendAppointmentConfirmNotification();
+        Appointment::sendAppointmentReminderNotification();
 
         $this->info('Successfully sent Appointment Confirm');
     }
