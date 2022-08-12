@@ -21,7 +21,7 @@ class HealthFundFactory extends Factory
             'name' => $this->faker->company(),
             'code' => Str::random(6),
             'fund' => mt_rand(12345, 912345) . 'AUD',
-            'contact' => $this->faker->phoneNumber(),
+            'contact' => $this->faker->numerify('0#-####-####'),
             'issues' => $this->faker->text(),
         ];
     }

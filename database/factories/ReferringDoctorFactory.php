@@ -27,9 +27,9 @@ class ReferringDoctorFactory extends Factory
             'state'                 => $this->faker->city(),
             'country'               => $this->faker->country(),
             'postcode'              => $this->faker->postcode(),
-            'phone'                 => $this->faker->phoneNumber(),
-            'fax'                   => $this->faker->phoneNumber(),
-            'mobile'                => $this->faker->phoneNumber(),
+            'phone'                 => $this->faker->numerify('0#-####-####'),
+            'fax'                   => $this->faker->numerify('0#-####-####'),
+            'mobile'                => $this->faker->numerify('0#-####-####'),
             'email'                 => $this->faker->safeEmail(),
             'practice_name'         => $this->faker->name(),
         ];
