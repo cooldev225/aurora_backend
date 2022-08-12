@@ -81,12 +81,8 @@ class EmployeeController extends Controller
         }
 
         $user = User::create([
-            'username'          => $request->username,
-            'email'             => $request->email,
-            'first_name'        => $request->first_name,
-            'last_name'         => $request->last_name,
+            ...$request->all(),
             'password'          => Hash::make($request->password),
-            'role_id'           => $role->id,
             'organization_id'   => $organization_id,
         ]);
 
@@ -149,11 +145,7 @@ class EmployeeController extends Controller
 
         $user = $employee->user();
         $user->update([
-            'username'          => $request->username,
-            'email'             => $request->email,
-            'first_name'        => $request->first_name,
-            'last_name'         => $request->last_name,
-            'role_id'           => $role->id,
+            ...$request->all(),
             'organization_id'   => $organization_id,
         ]);
 
