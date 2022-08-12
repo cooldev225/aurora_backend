@@ -45,11 +45,16 @@ class Patient extends Model
         'clinical_alert',
     ];
 
-    protected $appends = array('full_name','all_upcoming_appointments','five_previous_appointments','previous_appointment_count');
+    protected $appends = array('full_name','billing','all_upcoming_appointments','five_previous_appointments','previous_appointment_count');
 
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;  
+    }
+
+    public function getBillingAttribute()
+    {
+        return $this->billing(); 
     }
 
     public function getAllUpcomingAppointmentsAttribute()
@@ -201,7 +206,7 @@ class Patient extends Model
         $patient_table = (new Patient())->getTable();
         $patient_billing_table = (new PatientBilling())->getTable();
 
-        return Patient::select('*', $patient_table . '.id')
+        return Patient::find($patient_id)
             ->leftJoin(
                 $patient_organization_table,
                 $patient_organization_table . '.patient_id',
@@ -223,40 +228,6 @@ class Patient extends Model
             ->where($patient_table . ".id", $patient_id);
     }
 
-    /**
-     * Return patient list for organization
-     */
-    public static function organizationPatients($organization_id = null)
-    {
-        if ($organization_id == null) {
-            $organization_id = auth()->user()->organization_id;
-        }
-
-        $organization_table = (new Organization())->getTable();
-        $patient_table = (new Patient())->getTable();
-        $patient_billing_table = (new PatientBilling())->getTable();
-
-        return PatientOrganization::select('*', $patient_table . '.id')
-            ->leftJoin(
-                $organization_table,
-                'organization_id',
-                '=',
-                $organization_table . '.id'
-            )
-            ->leftJoin(
-                $patient_table,
-                'patient_id',
-                '=',
-                $patient_table . '.id'
-            )
-            ->leftJoin(
-                $patient_billing_table,
-                "{$patient_billing_table}.patient_id",
-                '=',
-                "{$patient_table}.id"
-            )
-            ->where('organization_id', $organization_id);
-    }
 
     public static function patientAppointments($patient_id) {
         $today = date('Y-m-d');
@@ -323,5 +294,13 @@ class Patient extends Model
                 $specialist_title_table . '.id'
             )
             ->where($appointment_table . '.patient_id', $patient_id);
+    }
+
+                /**
+     * Get the patients for organization.
+     */
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class,'organization_patient');
     }
 }
