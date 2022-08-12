@@ -54,7 +54,7 @@ class Patient extends Model
 
     public function getUpcomingAppointmentsAttribute()
     {
-        return $this->appointments()->where('date', '>=', date('Y-m-d'))->all();
+        return $this->appointments()->where('date', '>=', date('Y-m-d'))->get();
     }
 
     public function getPreviousAppointmentsAttribute()
