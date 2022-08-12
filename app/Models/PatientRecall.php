@@ -31,9 +31,9 @@ class PatientRecall extends Model
         return $this->belongsTo(Patient::class, 'patient_id');
     }
 
-    public static function translate($template, $paitent_recall) {
+    public static function translate($template, $patient_recall) {
         $words = [
-            '[PatientFirstName]'    => $paitent_recall->first_name,
+            '[PatientFirstName]'    => $patient_recall->first_name,
         ];
 
         $translated = $template;
@@ -82,20 +82,20 @@ class PatientRecall extends Model
         ->where($patient_recall_table . '.confirmed', 0)
         ->get();
 
-        foreach ($patientRecalls as $paitent_recall) {
-            Notification::sendRecall($paitent_recall);
+        foreach ($patientRecalls as $patient_recall) {
+            Notification::sendRecall($patient_recall);
 
-            $patientRecall = PatientRecall::find($paitent_recall->patient_recall_id);
+            $patientRecall = PatientRecall::find($patient_recall->patient_recall_id);
             $patientRecall->confirmed = true;
             $patientRecall->save();
 
             $patient_recall_sent_log = new PatientRecallSentLog();
             $patient_recall_sent_log->patient_recall_id = $patientRecall->id;
             $patient_recall_sent_log->recall_sent_at = date('Y-m-d H:i:s');
-            $patient_recall_sent_log->sent_by = $paitent_recall->send_recall_method;
+            $patient_recall_sent_log->sent_by = $patient_recall->send_recall_method;
             $patient_recall_sent_log->save();
 
-            dump($paitent_recall);
+            dump($patient_recall);
         }
     }
 }
