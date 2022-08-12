@@ -45,7 +45,20 @@ class Patient extends Model
         'clinical_alert',
     ];
 
-    protected $appends = array('full_name','billing','all_upcoming_appointments','five_previous_appointments','previous_appointment_count');
+    protected $appends = array(
+        'full_name',
+        'billing',
+        'all_upcoming_appointments',
+        'five_previous_appointments',
+        'previous_appointment_count',
+        'int_contact_number'
+    );
+
+
+    public function getIntContactNumberAttribute()
+    {
+        return '+61' . substr($this->contact_number, 1);  
+    }
 
     public function getFullNameAttribute()
     {

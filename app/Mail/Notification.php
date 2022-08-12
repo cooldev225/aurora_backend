@@ -16,7 +16,7 @@ class Notification
         if ($patient->appointment_confirm_method == 'sms') {
 
             $template = $notificationTemplate->sms_template;
-            $to = $patient->contact_number;
+            $to = $patient->int_contact_number;
             $message = $appointment->translate($template);
 
             if (env('SEND_NOTIFICATION') == true) {
