@@ -42,6 +42,7 @@ class Patient extends Model
         'kin_name',
         'kin_relationship',
         'kin_phone_number',
+        'clinical_alert',
     ];
 
     protected $appends = array('full_name','upcoming_appointments','previous_appointments');
@@ -53,7 +54,7 @@ class Patient extends Model
 
     public function getUpcomingAppointmentsAttribute()
     {
-        return $this->appointments()->where('date', '>=', date('Y-m-d'))->get();
+        return $this->appointments()->where('date', '>=', date('Y-m-d'))->all();
     }
 
     public function getPreviousAppointmentsAttribute()
