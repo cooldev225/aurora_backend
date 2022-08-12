@@ -20,6 +20,7 @@ class EmployeeController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
         $user_table = (new User())->getTable();
+        $employee_table = (new Employee())->getTable();
 
         $employees = Employee::leftJoin(
             $user_table,
@@ -27,6 +28,7 @@ class EmployeeController extends Controller
             '=',
             $user_table . '.id'
         )
+            ->select('*', "{$employee_table}.id")
             ->where('organization_id', $organization_id)
             ->get();
 
