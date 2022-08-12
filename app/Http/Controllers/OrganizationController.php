@@ -47,6 +47,8 @@ class OrganizationController extends Controller
                 ->where('organization_id', auth()->user()->organization_id)
                 ->first();
 
+            $result = [$result];
+
             $message = 'Current Organization Info';
         }
 

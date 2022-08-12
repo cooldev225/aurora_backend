@@ -20,6 +20,7 @@ class EmployeeController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
         $user_table = (new User())->getTable();
+        $employee_table = (new Employee())->getTable();
 
         $employees = Employee::leftJoin(
             $user_table,
@@ -27,6 +28,7 @@ class EmployeeController extends Controller
             '=',
             $user_table . '.id'
         )
+            ->select('*', "{$employee_table}.id")
             ->where('organization_id', $organization_id)
             ->get();
 
@@ -66,7 +68,7 @@ class EmployeeController extends Controller
     public function store(EmployeeRequest $request)
     {
         $organization_id = auth()->user()->organization_id;
-        $role = UserRole::where('slug', $request->role)->first();
+        $role = UserRole::find($request->role_id);
 
         if (!$role->isEmployee()) {
             return response()->json(
@@ -79,12 +81,8 @@ class EmployeeController extends Controller
         }
 
         $user = User::create([
-            'username'          => $request->username,
-            'email'             => $request->email,
-            'first_name'        => $request->first_name,
-            'last_name'         => $request->last_name,
+            ...$request->all(),
             'password'          => Hash::make($request->password),
-            'role_id'           => $role->id,
             'organization_id'   => $organization_id,
         ]);
 
@@ -133,7 +131,7 @@ class EmployeeController extends Controller
     public function update(EmployeeRequest $request, Employee $employee)
     {
         $organization_id = auth()->user()->organization_id;
-        $role = UserRole::where('slug', $request->role)->first();
+        $role = UserRole::find($request->role_id);
 
         if (!$role->isEmployee()) {
             return response()->json(
@@ -147,11 +145,7 @@ class EmployeeController extends Controller
 
         $user = $employee->user();
         $user->update([
-            'username'          => $request->username,
-            'email'             => $request->email,
-            'first_name'        => $request->first_name,
-            'last_name'         => $request->last_name,
-            'role_id'           => $role->id,
+            ...$request->all(),
             'organization_id'   => $organization_id,
         ]);
 
