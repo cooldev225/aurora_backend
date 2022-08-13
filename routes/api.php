@@ -127,6 +127,8 @@ Route::middleware(['auth'])->group(function () {
             'appointment-types',
             AppointmentTypeController::class
         );
+        Route::get('/specialist-titles', [SpecialistTitleController::class, 'index']);
+        Route::get('/specialist-types', [SpecialistTypeController::class, 'index']);
     });
 
     Route::middleware([
@@ -176,7 +178,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::apiResource('payments', PaymentController::class);
 
-     
+
     });
 
     Route::middleware([
