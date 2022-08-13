@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Employee;
+use App\Models\Specialist;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Http\Requests\EmployeeRequest;
@@ -92,6 +93,16 @@ class EmployeeController extends Controller
             'work_hours' => json_encode($request->work_hours),
         ]);
 
+
+        if ($role->slug == 'specialist') {
+            Specialist::create([
+                'employee_id' => $employee->id,
+                'specialist_title_id' => $request->specialist_title_id,
+                'specialist_type_id' => $request->specialist_type_id,
+                'anesthetist_id' => $request->anesthetist_id,
+            ]);
+        }
+
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $employee->id . '_' . time() . '.' . $file->extension();
             $header_path = '/' . $file->storeAs('images/employee', $file_name);
@@ -153,6 +164,17 @@ class EmployeeController extends Controller
             'type'          => $request->type,
             'work_hours'    => $request->work_hours,
         ]);
+
+        if ($role->slug == 'specialist') {
+            $specialist = $employee->specialist;
+
+            $specialist->update([
+                'employee_id' => $employee->id,
+                'specialist_title_id' => $request->specialist_title_id,
+                'specialist_type_id' => $request->specialist_type_id,
+                'anesthetist_id' => $request->anesthetist_id,
+            ]);
+        }
 
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $employee->id . '_' . time() . '.' . $file->extension();
