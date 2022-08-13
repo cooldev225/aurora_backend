@@ -20,7 +20,6 @@ class PatientController extends Controller
     public function index()
     {
         $organization_id = auth()->user()->organization_id;
-        $patient_billing_table = (new PatientBilling())->getTable();
         $patients = Organization::find($organization_id)
             ->patients()
             ->get()
@@ -143,9 +142,10 @@ class PatientController extends Controller
         );
     }
 
-    public function patientAppointments(Patient $patient) {
+    public function appointments(Patient $patient) {
         
         $appointments = [
+            'patientId' => $patient->id,
             'pastAppointments' => $patient->five_previous_appointments,
             'futureAppointments' => $patient->all_upcoming_appointments,
         ];

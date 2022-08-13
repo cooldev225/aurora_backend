@@ -778,7 +778,7 @@ class AppointmentController extends BaseOrganizationController
             ? $request->procedure_answers
             : [];
 
-        $referral_date = date('Y-m-d', strtotime($request->referral_date));
+        $referral_date = $this->dateFieldValue($request, 'referral_date');
 
         $referral_expiry_date = date_create($referral_date);
 
@@ -823,10 +823,7 @@ class AppointmentController extends BaseOrganizationController
         $filtered_request = [
             'clinic_id' => $clinic_id,
             'room_id' => $request->filled('room_id') ? $request->room_id : 0,
-            'date_of_birth' => date(
-                'Y-m-d',
-                strtotime($request->date_of_birth)
-            ),
+            'date_of_birth' => $this->dateFieldValue($request, 'date_of_birth'),
             'marital_status' => $request->input('marital_status', 'Single'),
             'aborginality' => $request->input('aborginality', false),
             'preferred_contact_method' => $request->input(
@@ -837,26 +834,11 @@ class AppointmentController extends BaseOrganizationController
                 'appointment_confirm_method',
                 'sms'
             ),
-            'medicare_expiry_date' => date(
-                'Y-m-d',
-                strtotime($request->medicare_expiry_date)
-            ),
-            'concession_expiry_date' => date(
-                'Y-m-d',
-                strtotime($request->concession_expiry_date)
-            ),
-            'pension_expiry_date' => date(
-                'Y-m-d',
-                strtotime($request->pension_expiry_date)
-            ),
-            'healthcare_card_expiry_date' => date(
-                'Y-m-d',
-                strtotime($request->healthcare_card_expiry_date)
-            ),
-            'health_fund_expiry_date' => date(
-                'Y-m-d',
-                strtotime($request->health_fund_expiry_date)
-            ),
+            'medicare_expiry_date' => $this->dateFieldValue($request, 'medicare_expiry_date'),
+            'concession_expiry_date' => $this->dateFieldValue($request, 'concession_expiry_date'),
+            'pension_expiry_date' => $this->dateFieldValue($request, 'pension_expiry_date'),
+            'healthcare_card_expiry_date' => $this->dateFieldValue($request, 'healthcare_card_expiry_date'),
+            'health_fund_expiry_date' => $this->dateFieldValue($request, 'health_fund_expiry_date'),
             'primary_pathologist_id' => $request->input(
                 'primary_pathologist_id',
                 0
@@ -920,5 +902,13 @@ class AppointmentController extends BaseOrganizationController
             $referral_params,
             $billing_info
         );
+    }
+
+    private function dateFieldValue($request, $field_name) {
+        if ($request->filled($field_name) == false) {
+            return date('Y-m-d', 0);
+        }
+
+        return date('Y-m-d', strtotime($request->$field_name));
     }
 }

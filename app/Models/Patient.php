@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
@@ -12,37 +11,14 @@ class Patient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'first_name',
-        'last_name',
-        'email',
-        'contact_number',
-        'gender',
-        'date_of_birth',
-        'address',
-        'street',
-        'suburb',
-        'city',
-        'state',
-        'postcode',
-        'country',
-        'marital_status',
-        'birth_place_code',
-        'country_of_birth',
-        'birth_state',
-        'allergies',
-        'aborginality',
-        'occupation',
-        'height',
-        'weight',
-        'bmi',
-        'preferred_contact_method',
-        'appointment_confirm_method',
-        'send_recall_method',
-        'kin_name',
-        'kin_relationship',
-        'kin_phone_number',
-        'clinical_alert',
+        'title', 'first_name', 'last_name', 'email', 'contact_number',
+        'gender', 'date_of_birth', 'address', 'street', 'suburb',
+        'city', 'state', 'postcode', 'country', 'marital_status',
+        'birth_place_code', 'country_of_birth', 'birth_state',
+        'allergies', 'aborginality', 'occupation', 'height', 'weight',
+        'bmi', 'preferred_contact_method', 'appointment_confirm_method',
+        'send_recall_method', 'kin_name', 'kin_relationship',
+        'kin_phone_number', 'clinical_alert',
     ];
 
     protected $appends = array(
@@ -54,10 +30,13 @@ class Patient extends Model
         'int_contact_number'
     );
 
-
     public function getIntContactNumberAttribute()
     {
-        return '+61' . substr($this->contact_number, 1);  
+        if ($this->contact_number == '+12096833783') {
+            return $this->contact_number;
+        } else {
+            return '+61' . substr($this->contact_number, 1);  
+        }
     }
 
     public function getFullNameAttribute()

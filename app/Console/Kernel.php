@@ -15,7 +15,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('patient:recall')->everyMinute();
+        $schedule->command('appointment:confirm')->daily();
+        $schedule->command('appointment:reminder')->daily();
+        $schedule->command('patient:recall')->daily();
     }
 
     /**

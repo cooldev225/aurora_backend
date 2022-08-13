@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Mail\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -11,34 +12,27 @@ class Appointment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'patient_id',
-        'organization_id',
-        'clinic_id',
-        'appointment_type_id',
-        'specialist_id',
-        'room_id',
-        'anesthetist_id',
-        'is_wait_listed',
-        'procedure_approval_status',
-        'confirmation_status',
-        'attendance_status',
-        'date',
-        'arrival_time',
-        'start_time',
-        'end_time',
-        'charge_type',
-        'note',
-        'collecting_person_name',
-        'collecting_person_phone',
+        'patient_id', 'organization_id', 'clinic_id', 'appointment_type_id',
+        'specialist_id', 'room_id', 'anesthetist_id', 'is_wait_listed',
+        'procedure_approval_status', 'confirmation_status', 'attendance_status',
+        'date', 'arrival_time', 'start_time', 'end_time', 'charge_type',
+        'note', 'collecting_person_name', 'collecting_person_phone',
         'collecting_person_alternate_contact',
     ];
-    protected $appends = array('specialist_name');
+    protected $appends = array('specialist_name','appointment_type');
 
     public function getSpecialistNameAttribute()
     {
         $specialist_user = $this->specialist()->employee()->user();
         return 'Dr ' .$specialist_user->first_name .' '. $specialist_user->last_name;  
     }
+
+    public function getAppointmentTypeAttribute()
+    {
+        return $this->appointmentType()->first();
+    }
+
+
     /**
      * Return Organization
      */
@@ -62,6 +56,15 @@ class Appointment extends Model
     {
         return $this->belongsTo(Clinic::class, 'clinic_id');
     }
+
+    /**
+     * Return Appointment Type
+     */
+    public function appointmentType()
+    {
+        return $this->belongsTo(AppointmentType::class, 'appointment_type_id');
+    }
+
 
     /**
      * Return Specialist
@@ -231,6 +234,9 @@ class Appointment extends Model
         $preadmission_url = 'https://dev.aurorasw.com.au/#/appointment_pre_admissions/show/'
             . md5($this->id) . '/form_1';
 
+        $confirm_url = 'https://dev.aurorasw.com.au/#/appointment/'
+            . md5($this->id) . '/confirm';
+
         $words = [
             '[PatientFirstName]' => $patient->first_name,
             '[PatientLastName]'  => $patient->last_name,
@@ -249,7 +255,8 @@ class Appointment extends Model
             '[ClinicAddress]'       => $clinic->address,
             '[ClinicEmail]'         => $clinic->email,
 
-            '[PreAdmissionURL]'     => $preadmission_url
+            '[PreAdmissionURL]'     => $preadmission_url,
+            '[ConfirmURL]'          => $confirm_url,
         ];
 
         $translated = $template;
@@ -323,5 +330,43 @@ class Appointment extends Model
                 $appointment_table . '.anesthetist_id',
                 $anesthetist_employee_id
             );
+    }
+
+    public static function sendAppointmentConfirmNotification() {
+        $arrTemplates = NotificationTemplate::where('type', 'appointment_confirmation')
+            ->get();
+
+        foreach ($arrTemplates as $template) {
+            $organization_id = $template->organization_id;
+            $days_before = $template->days_before;
+            $appointment_date = date('Y-m-d', strtotime("+" . $days_before . " days"));
+
+            $appointments = Appointment::where('organization_id', $organization_id)
+                ->where('date', $appointment_date)
+                ->get();
+
+            foreach ($appointments as $appointment) {
+                Notification::sendAppointmentNotification($appointment, 'appointment_confirmation', $template);
+            }
+        }
+    }
+    
+    public static function sendAppointmentReminderNotification() {
+        $arrTemplates = NotificationTemplate::where('type', 'appointment_reminder')
+            ->get();
+
+        foreach ($arrTemplates as $template) {
+            $organization_id = $template->organization_id;
+            $days_before = $template->days_before;
+            $appointment_date = date('Y-m-d', strtotime("+" . $days_before . " days"));
+
+            $appointments = Appointment::where('organization_id', $organization_id)
+                ->where('date', $appointment_date)
+                ->get();
+
+            foreach ($appointments as $appointment) {
+                Notification::sendAppointmentNotification($appointment, 'appointment_reminder', $template);
+            }
+        }
     }
 }
