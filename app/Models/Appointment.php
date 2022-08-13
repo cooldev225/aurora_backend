@@ -19,13 +19,20 @@ class Appointment extends Model
         'note', 'collecting_person_name', 'collecting_person_phone',
         'collecting_person_alternate_contact',
     ];
-    protected $appends = array('specialist_name');
+    protected $appends = array('specialist_name','appointment_type');
 
     public function getSpecialistNameAttribute()
     {
         $specialist_user = $this->specialist()->employee()->user();
         return 'Dr ' .$specialist_user->first_name .' '. $specialist_user->last_name;  
     }
+
+    public function getAppointmentTypeAttribute()
+    {
+        return $this->appointmentType()->first();
+    }
+
+
     /**
      * Return Organization
      */
@@ -49,6 +56,15 @@ class Appointment extends Model
     {
         return $this->belongsTo(Clinic::class, 'clinic_id');
     }
+
+    /**
+     * Return Appointment Type
+     */
+    public function appointmentType()
+    {
+        return $this->belongsTo(AppointmentType::class, 'appointment_type_id');
+    }
+
 
     /**
      * Return Specialist
