@@ -258,10 +258,8 @@ Route::middleware(['auth'])->group(function () {
             NotificationTemplateController::class,
             'index',
         ]);
-        Route::apiResource(
-            'patient-documents',
-            PatientDocumentController::class
-        );
+        Route::apiResource('patient-documents', PatientDocumentController::class);
+        Route::post('patient-documents/upload', [PatientDocumentController::class, 'upload']);
     });
 
     Route::middleware([

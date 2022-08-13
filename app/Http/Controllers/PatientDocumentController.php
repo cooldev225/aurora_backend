@@ -33,8 +33,8 @@ class PatientDocumentController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Patient Document List',
-                'data'      => $patientDocumentList,
+                'message' => 'Patient Document List',
+                'data'    => $patientDocumentList,
             ],
             Response::HTTP_OK
         );
@@ -56,7 +56,50 @@ class PatientDocumentController extends Controller
         return response()->json(
             [
                 'message' => 'Patient Document Created',
-                'data' => $patientDocument,
+                'data'    => $patientDocument,
+            ],
+            Response::HTTP_CREATED
+        );
+    }
+
+    /**
+     * Upload the patient document
+     *
+     * @param  \App\Http\Requests\PatientRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function upload(Request $request) {
+        $user_id = auth()->user()->id;
+        $data = $request->all();
+        $data['created_by'] = $user_id;
+        $patientDocument = PatientDocument::create($data);
+
+        if ($file = $request->file('document')) {
+            $arrImageExtensions = [
+                'png', 'jpe', 'jpeg', 'jpg', 'gif',
+                'bmp', 'ico', 'tiff', 'tif', 'svg'
+            ];
+
+            $file_extension = strtolower($file->extension());
+            $file_type = 'OTHER';
+            if (in_array($file_extension, $arrImageExtensions)) {
+                $file_type = 'IMAGE';
+            } else if ($file_extension == 'PDF') {
+                $file_type = 'PDF';
+            }
+
+            $file_name = 'document_' . $patientDocument->id . '_' . time() . '.' . $file_extension;
+            $document_path = '/' . $file->storeAs('files/patient_documents', $file_name);
+
+            $patientDocument->file_path = $document_path;
+            $patientDocument->file_type = $file_type;
+        }
+        $patientDocument->save();
+
+        return response()->json(
+            [
+                'message' => 'Patient Document Uploaded',
+                'data'    => $patientDocument,
             ],
             Response::HTTP_CREATED
         );
