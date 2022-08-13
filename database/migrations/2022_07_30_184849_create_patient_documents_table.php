@@ -29,6 +29,12 @@ return new class extends Migration
                 'OTHER'
             ])->default('LETTER');
 
+            $table->enum('file_type', [
+                'IMAGE',
+                'PDF',
+                'OTHER',
+            ])->default('IMAGE');
+
             $table->enum('origin', [
                 'CREATED',
                 'RECEIVED',
