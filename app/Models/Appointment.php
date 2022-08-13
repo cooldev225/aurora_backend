@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Mail\Notification;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -19,7 +20,19 @@ class Appointment extends Model
         'note', 'collecting_person_name', 'collecting_person_phone',
         'collecting_person_alternate_contact',
     ];
-    protected $appends = array('specialist_name','appointment_type');
+    protected $appends = array('specialist_name','appointment_type','aus_formatted_date','formatted_appointment_time');
+
+    public function getAusFormattedDateAttribute()
+    {
+        return Carbon::parse($this->date)->format('d-m-Y'); 
+    }
+
+    public function getFormattedAppointmentTimeAttribute()
+    {
+        $start = Carbon::parse($this->start_time)->format('H:i');
+        $end = Carbon::parse($this->end_time)->format('H:i');
+        return $start . "-" . $end; 
+    }
 
     public function getSpecialistNameAttribute()
     {
