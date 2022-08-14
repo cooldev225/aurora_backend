@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
-use App\Http\Controllers\Anesthetist\ProcedureApprovalsController;
-use App\Http\Controllers\AnesthetistController;
+use App\Http\Controllers\Anesthetist\ProcedureApprovalController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
@@ -40,6 +39,7 @@ use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PatientDocumentController;
+use App\Models\AppointmentPreAdmission;
 
 /*
 |--------------------------------------------------------------------------
@@ -272,16 +272,17 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
-        Route::get('/procedure-approvals', [ProcedureApprovalsController::class, 'index']);
+        Route::get('{appointment}/procedure-approvals', [AppointmentProcedureApprovalController::class, 'index']);
 
-        Route::post('/procedure-approvals/update_status', [
-            ProcedureApprovalsController::class,
-            'updateStatus',
+        Route::put('{appointment}/procedure-approvals', [
+            AppointmentProcedureApprovalController::class,
+            'update',
         ]);
-
-        Route::post('/procedure-approvals/upload', [
-            ProcedureApprovalsController::class,
+        Route::post('{appointment}/pre-admission/upload', [
+            AppointmentPreAdmissionController::class,
             'upload',
         ]);
     });
 });
+
+
