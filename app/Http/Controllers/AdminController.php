@@ -51,6 +51,7 @@ class AdminController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
+            'raw_password' => $request->password,
             'role_id' => $this->admin_role->id,
         ]);
 

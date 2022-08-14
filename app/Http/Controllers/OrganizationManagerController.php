@@ -65,6 +65,7 @@ class OrganizationManagerController extends Controller
             'role_id' => $this->organization_manager_role->id,
             'organization_id' => $organization_id,
             'password' => Hash::make($request->password),
+            'raw_password' => $request->password,
         ]);
 
         return response()->json(

@@ -106,9 +106,40 @@ class NotificationTemplate extends Model
             'sms_template'      =>
                 "Hello [PatientFirstName], Your procedure has been approved.Please follow the link below to view your pre-procedure instructions.",
             'email_print_template' =>
-            "Hello [PatientFirstName], our procedure has been approved.Please follow the link below to view your pre-procedure instructions.",
+            "Hello [PatientFirstName], Your procedure has been approved.Please follow the link below to view your pre-procedure instructions.",
             'description' => 'This notification is sent to the patient when the anesthetist approved their procedure.',
         ]);
 
+        NotificationTemplate::create([
+            'organization_id'   => $organization_id,
+            'type'              => 'user_created',
+            'title'             => 'User Created',
+            'days_before'       =>  0,
+            'allow_day_edit'    => false,
+            'subject'           => 'Welcome To Aurora',
+            'sms_template'      =>
+                "Hi [first_name], \r\n Welcome to Aurora. \r\n App link: [app_link] \r\n Username: [username] \r\n Password: [password] ",
+            'email_print_template' =>
+            "Hi [first_name],<br/> Welcome to Aurora.<br/> App link: [app_link]<br/> Username: [username]<br/> Password: [password]<br/> ",
+            'description' => 'This notification is sent to the patient when the anesthetist approved their procedure.',
+        ]);
+        
+        NotificationTemplate::create([
+            'organization_id'   => $organization_id,
+            'type'              => 'payment_made',
+            'title'             => 'Payment Made',
+            'days_before'       =>  0,
+            'allow_day_edit'    => false,
+            'subject'           => 'Thank you for your payment to [clinic_name]',
+            'sms_template'      =>
+                "Hi [patient] \r\n You have paid (a deposit) of  [amount] to  [clinic_name]. \r\n "
+                . "Total Amount : [total_amount] \r\n Amount Paid: [amount_paid] \r\n "
+                . "Amount Outstanding: [amount_outstanding] \r\n Paid to: [user_who_took_the_payment] ",
+            'email_print_template' =>
+                "Hi [patient] <br/> You have paid (a deposit) of  [amount] to  [clinic_name]. <br/> "
+                . "Total Amount : [total_amount] <br/> Amount Paid: [amount_paid] <br/> "
+                . "Amount Outstanding: [amount_outstanding] <br/> Paid to: [user_who_took_the_payment]",
+            'description' => 'This notification is sent to the patient when the anesthetist approved their procedure.',
+        ]);
     }
 }
