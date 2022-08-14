@@ -31,6 +31,7 @@ class EmployeeController extends Controller
         )
             ->select('*', "{$employee_table}.id")
             ->where('organization_id', $organization_id)
+            ->with('specialist')
             ->get();
 
         return response()->json(
@@ -83,8 +84,8 @@ class EmployeeController extends Controller
 
         $user = User::create([
             ...$request->all(),
-            'password'          => Hash::make($request->password),
-            'organization_id'   => $organization_id,
+            'password' => Hash::make($request->password),
+            'organization_id' => $organization_id,
         ]);
 
         $employee = Employee::create([
@@ -93,31 +94,47 @@ class EmployeeController extends Controller
             'work_hours' => json_encode($request->work_hours),
         ]);
 
-
         if ($role->slug == 'specialist') {
             Specialist::create([
                 'employee_id' => $employee->id,
-                'specialist_title_id' => $request->specialist_title_id,
-                'specialist_type_id' => $request->specialist_type_id,
-                'anesthetist_id' => $request->anesthetist_id,
+                ...$request->specialist,
             ]);
         }
 
         if ($file = $request->file('header')) {
-            $file_name = 'header_' . $employee->id . '_' . time() . '.' . $file->extension();
+            $file_name =
+                'header_' .
+                $employee->id .
+                '_' .
+                time() .
+                '.' .
+                $file->extension();
             $header_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->document_letter_header = $header_path;
         }
 
         if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $employee->id . '_' . time() . '.' . $file->extension();
+            $file_name =
+                'footer_' .
+                $employee->id .
+                '_' .
+                time() .
+                '.' .
+                $file->extension();
             $footer_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->document_letter_footer = $footer_path;
         }
 
         if ($file = $request->file('signature')) {
-            $file_name = 'signature_' . $employee->id . '_' . time() . '.' . $file->extension();
-            $signature_path = '/' . $file->storeAs('images/employee', $file_name);
+            $file_name =
+                'signature_' .
+                $employee->id .
+                '_' .
+                time() .
+                '.' .
+                $file->extension();
+            $signature_path =
+                '/' . $file->storeAs('images/employee', $file_name);
             $employee->signature = $signature_path;
         }
 
@@ -157,12 +174,12 @@ class EmployeeController extends Controller
         $user = $employee->user();
         $user->update([
             ...$request->all(),
-            'organization_id'   => $organization_id,
+            'organization_id' => $organization_id,
         ]);
 
         $employee->update([
-            'type'          => $request->type,
-            'work_hours'    => $request->work_hours,
+            'type' => $request->type,
+            'work_hours' => $request->work_hours,
         ]);
 
         if ($role->slug == 'specialist') {
@@ -171,35 +188,50 @@ class EmployeeController extends Controller
             if (empty($specialist)) {
                 $specialist = Specialist::create([
                     'employee_id' => $employee->id,
-                    'specialist_title_id' => $request->specialist_title_id,
-                    'specialist_type_id' => $request->specialist_type_id,
-                    'anesthetist_id' => $request->anesthetist_id,
+                    ...$request->specialist,
                 ]);
             } else {
                 $specialist->update([
                     'employee_id' => $employee->id,
-                    'specialist_title_id' => $request->specialist_title_id,
-                    'specialist_type_id' => $request->specialist_type_id,
-                    'anesthetist_id' => $request->anesthetist_id,
+                    ...$request->specialist,
                 ]);
             }
         }
 
         if ($file = $request->file('header')) {
-            $file_name = 'header_' . $employee->id . '_' . time() . '.' . $file->extension();
+            $file_name =
+                'header_' .
+                $employee->id .
+                '_' .
+                time() .
+                '.' .
+                $file->extension();
             $header_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->document_letter_header = $header_path;
         }
 
         if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $employee->id . '_' . time() . '.' . $file->extension();
+            $file_name =
+                'footer_' .
+                $employee->id .
+                '_' .
+                time() .
+                '.' .
+                $file->extension();
             $footer_path = '/' . $file->storeAs('images/employee', $file_name);
             $employee->document_letter_footer = $footer_path;
         }
 
         if ($file = $request->file('signature')) {
-            $file_name = 'signature_' . $employee->id . '_' . time() . '.' . $file->extension();
-            $signature_path = '/' . $file->storeAs('images/employee', $file_name);
+            $file_name =
+                'signature_' .
+                $employee->id .
+                '_' .
+                time() .
+                '.' .
+                $file->extension();
+            $signature_path =
+                '/' . $file->storeAs('images/employee', $file_name);
             $employee->signature = $signature_path;
         }
 
@@ -207,8 +239,8 @@ class EmployeeController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Employee updated',
-                'data'      => $employee,
+                'message' => 'Employee updated',
+                'data' => $employee,
             ],
             Response::HTTP_OK
         );
