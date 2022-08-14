@@ -177,8 +177,6 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         Route::apiResource('payments', PaymentController::class);
-
-
     });
 
     Route::middleware([

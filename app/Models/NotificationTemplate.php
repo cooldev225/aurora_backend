@@ -130,7 +130,7 @@ class NotificationTemplate extends Model
             'title'             => 'Payment Made',
             'days_before'       =>  0,
             'allow_day_edit'    => false,
-            'subject'           => 'Thankyou for your payment to [clinic_name]',
+            'subject'           => 'Thank you for your payment to [clinic_name]',
             'sms_template'      =>
                 "Hi [patient] \r\n You have paid (a deposit) of  [amount] to  [clinic_name]. \r\n "
                 . "Total Amount : [total_amount] \r\n Amount Paid: [amount_paid] \r\n "

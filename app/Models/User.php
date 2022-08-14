@@ -103,8 +103,6 @@ class User extends Authenticatable implements JWTSubject
      */
     public function translate($template, $data)
     {
-        $app_link = env('APP_URL');
-
         $words = [
             '[first_name]' => $this->first_name,
             '[app_link]'  => env('APP_URL'),

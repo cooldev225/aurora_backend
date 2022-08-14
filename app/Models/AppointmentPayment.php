@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Mail\Notification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +30,45 @@ class AppointmentPayment extends Model
     public function confirmed_user()
     {
         return $this->belongsTo(User::class, 'confirmed_by');
+    }
+
+    public static function create(array $attributes = []) {
+        $payment = static::query()->create($attributes);
+        Notification::sendPaymentNotification($payment, 'payment_made');
+
+        return $payment;
+    }
+
+    /**
+     * translate template
+     */
+    public function translate($template, $data)
+    {
+        $appointment = $this->appointment;
+        $patient = $appointment->patient();
+        $clinic = $appointment->clinic;
+
+        $patient_name = $patient->title . ' ' . $patient->first_name . ' ' . $patient->last_name;
+        $clinic_name = $clinic->name;
+
+        $words = [
+            '[patient]'                     => $patient_name,       ///
+            '[amount]'                      => $this->amount,
+            '[clinic_name]'                 => $clinic_name,        ///
+            '[total_amount]'                => '',
+            '[amount_paid]'                 => '',
+            '[amount_outstanding]'          => '',
+            '[user_who_took_the_payment]'   => '',
+        ];
+        
+
+        $translated = $template;
+
+        foreach ($words as $key => $word) {
+            $translated = str_replace($key, $word, $translated);
+        }
+
+        return $translated;
     }
 
 }

@@ -86,6 +86,43 @@ class Notification
         ];
         self::sendNotification('email', $data);
     }
+    
+    public static function sendPaymentNotification(
+        $payment,
+        $notificationType
+    ) {
+        $appointment = $payment->appointment;
+        $patient = $appointment->patient();
+
+        $notificationTemplate =  NotificationTemplate::where('type', $notificationType)
+            ->where('organization_id', $appointment->organization_id)
+            ->first();
+
+        if ($patient->appointment_confirm_method == 'sms') {
+
+            $template = $notificationTemplate->sms_template;
+            $data = [
+                'to'        => $patient->int_contact_number,
+                'message'   => $payment->translate($template),
+            ];
+            self::sendNotification('sms', $data);
+
+        } else if ($patient->appointment_confirm_method == 'email') {
+            
+            $template = $notificationTemplate->email_print_template;
+            $data = [
+                'to'        => $patient->int_contact_number,
+                'subject'   => $payment->translate($notificationTemplate->subject),
+                'message'   => $payment->translate($template),
+            ];
+            self::sendNotification('email', $data);
+
+        } else {
+            return;
+        }
+    }
+
+    
 
     private static function sendNotification($notification_type, $data) {
         if ($notification_type == 'sms') {
