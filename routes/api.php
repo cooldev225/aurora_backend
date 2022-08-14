@@ -272,7 +272,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
-        Route::get('{appointment}/procedure-approvals', [AppointmentProcedureApprovalController::class, 'index']);
+        Route::get('/procedure-approvals', [AppointmentProcedureApprovalController::class, 'index']);
 
         Route::put('{appointment}/procedure-approvals', [
             AppointmentProcedureApprovalController::class,
