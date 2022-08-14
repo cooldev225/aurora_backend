@@ -97,9 +97,7 @@ class EmployeeController extends Controller
         if ($role->slug == 'specialist') {
             Specialist::create([
                 'employee_id' => $employee->id,
-                'specialist_title_id' => $request->specialist_title_id,
-                'specialist_type_id' => $request->specialist_type_id,
-                'anesthetist_id' => $request->anesthetist_id,
+                ...$request->specialist,
             ]);
         }
 
@@ -190,16 +188,12 @@ class EmployeeController extends Controller
             if (empty($specialist)) {
                 $specialist = Specialist::create([
                     'employee_id' => $employee->id,
-                    'specialist_title_id' => $request->specialist_title_id,
-                    'specialist_type_id' => $request->specialist_type_id,
-                    'anesthetist_id' => $request->anesthetist_id,
+                    ...$request->specialist,
                 ]);
             } else {
                 $specialist->update([
                     'employee_id' => $employee->id,
-                    'specialist_title_id' => $request->specialist_title_id,
-                    'specialist_type_id' => $request->specialist_type_id,
-                    'anesthetist_id' => $request->anesthetist_id,
+                    ...$request->specialist,
                 ]);
             }
         }
