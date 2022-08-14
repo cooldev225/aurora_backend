@@ -73,6 +73,20 @@ class Notification
         }
     }
 
+    public static function sendUserNotification($data, $user, $notificationType) {
+        $notificationTemplate =  NotificationTemplate::where('type', $notificationType)
+            ->where('organization_id', $data['organization_id'])
+            ->first();
+            
+        $template = $notificationTemplate->email_print_template;
+        $data = [
+            'to'        => $user->email,
+            'subject'   => $notificationTemplate->subject,
+            'message'   => $user->translate($template, $data),
+        ];
+        self::sendNotification('email', $data);
+    }
+
     private static function sendNotification($notification_type, $data) {
         if ($notification_type == 'sms') {
 
