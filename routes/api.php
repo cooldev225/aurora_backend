@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
-use App\Http\Controllers\Anesthetist\PatientController as AnesthetistPatientController;
+use App\Http\Controllers\Anesthetist\ProcedureApprovalsController;
 use App\Http\Controllers\AnesthetistController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
@@ -274,16 +274,11 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
-        Route::get('/procedure-approvals', [AnesthetistPatientController::class, 'index']);
+        Route::get('/procedure-approvals', [ProcedureApprovalsController::class, 'index']);
 
-        Route::get('/anesthetist/appointments', [
-            AnesthetistController::class,
-            'index',
-        ]);
-
-        Route::put('/anesthetist/process_pre_admission', [
-            AnesthetistController::class,
-            'processPreAdmission',
+        Route::post('/procedure-approvals/update_status', [
+            ProcedureApprovalsController::class,
+            'updateStatus',
         ]);
     });
 });
