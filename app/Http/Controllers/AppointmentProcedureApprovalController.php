@@ -25,6 +25,7 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
 
         $today = date('Y-m-d');
         $patients = Appointment::withPreAdmission($anesthetist_employee_id)
+            ->where('procedure_approval_status', '!=', ProcedureApprovalStatus::NOT_RELEVANT)
             ->where('date', '>=', $today)
             ->orderBy('date')
             ->orderBy('start_time')
