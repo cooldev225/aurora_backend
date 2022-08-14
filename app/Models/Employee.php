@@ -71,6 +71,7 @@ class Employee extends Model
 
         $user_table = (new User())->getTable();
         $user_role_table = (new UserRole())->getTable();
+        $employee_table = (new self())->getTable();
 
         $anesthetist_list = self::leftJoin(
             $user_table,
@@ -78,6 +79,7 @@ class Employee extends Model
             '=',
             $user_table . '.id'
         )
+            ->select('*', "{$employee_table}.id")
             ->leftJoin(
                 $user_role_table,
                 'role_id',
