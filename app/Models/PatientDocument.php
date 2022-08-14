@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class PatientDocument extends Model
 {
     protected $fillable = [
-        'patient_id', 'appointment_id', 'specialist_id',
+        'patient_id', 'document_name', 'appointment_id', 'specialist_id',
         'document_type', 'created_by', 'file_path', 'is_updatable',
         'origin'
     ];

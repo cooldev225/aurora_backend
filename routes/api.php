@@ -127,6 +127,8 @@ Route::middleware(['auth'])->group(function () {
             'appointment-types',
             AppointmentTypeController::class
         );
+        Route::get('/specialist-titles', [SpecialistTitleController::class, 'index']);
+        Route::get('/specialist-types', [SpecialistTypeController::class, 'index']);
     });
 
     Route::middleware([
@@ -176,7 +178,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::apiResource('payments', PaymentController::class);
 
-     
+
     });
 
     Route::middleware([
@@ -258,17 +260,15 @@ Route::middleware(['auth'])->group(function () {
             NotificationTemplateController::class,
             'index',
         ]);
-        Route::apiResource(
-            'patient-documents',
-            PatientDocumentController::class
-        );
+        Route::apiResource('patient-documents', PatientDocumentController::class);
+        Route::post('patient-documents/upload', [PatientDocumentController::class, 'upload']);
     });
 
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
         Route::apiResource('patients', PatientController::class);
-        Route::get('patients/appointments/{patient_id}', [PatientController::class, 'appointments']);
+        Route::get('patients/appointments/{patient}', [PatientController::class, 'appointments']);
 
         Route::apiResource('letter-templates', LetterTemplateController::class);
     });

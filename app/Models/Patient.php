@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
@@ -12,56 +11,57 @@ class Patient extends Model
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'first_name',
-        'last_name',
-        'email',
-        'contact_number',
-        'gender',
-        'date_of_birth',
-        'address',
-        'street',
-        'suburb',
-        'city',
-        'state',
-        'postcode',
-        'country',
-        'marital_status',
-        'birth_place_code',
-        'country_of_birth',
-        'birth_state',
-        'allergies',
-        'aborginality',
-        'occupation',
-        'height',
-        'weight',
-        'bmi',
-        'preferred_contact_method',
-        'appointment_confirm_method',
-        'send_recall_method',
-        'kin_name',
-        'kin_relationship',
-        'kin_phone_number',
-        'clinical_alert',
+        'title', 'first_name', 'last_name', 'email', 'contact_number',
+        'gender', 'date_of_birth', 'address', 'street', 'suburb',
+        'city', 'state', 'postcode', 'country', 'marital_status',
+        'birth_place_code', 'country_of_birth', 'birth_state',
+        'allergies', 'aborginality', 'occupation', 'height', 'weight',
+        'bmi', 'preferred_contact_method', 'appointment_confirm_method',
+        'send_recall_method', 'kin_name', 'kin_relationship',
+        'kin_phone_number', 'clinical_alert',
     ];
 
-    protected $appends = array('full_name','upcoming_appointments','previous_appointments');
+    protected $appends = array(
+        'full_name',
+        'billing',
+        'all_upcoming_appointments',
+        'five_previous_appointments',
+        'previous_appointment_count',
+        'int_contact_number'
+    );
+
+    public function getIntContactNumberAttribute()
+    {
+        if ($this->contact_number == '+12096833783') {
+            return $this->contact_number;
+        } else {
+            return '+61' . substr($this->contact_number, 1);  
+        }
+    }
 
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;  
     }
 
-    public function getUpcomingAppointmentsAttribute()
+    public function getBillingAttribute()
+    {
+        return $this->billing(); 
+    }
+
+    public function getAllUpcomingAppointmentsAttribute()
     {
         return $this->appointments()->where('date', '>=', date('Y-m-d'))->get();
     }
 
-    public function getPreviousAppointmentsAttribute()
+    public function getFivePreviousAppointmentsAttribute()
     {
-        return $this->appointments()->where('date', '<', date('Y-m-d'))->get();  
+        return $this->appointments()->where('date', '<', date('Y-m-d'))->take(5)->get();  
     }
-
+    public function getPreviousAppointmentCountAttribute()
+    {
+        return $this->appointments()->where('date','<', date('Y-m-d'))->count();  
+    }
     /**
      * Return Patients' Organization
      */
@@ -198,7 +198,7 @@ class Patient extends Model
         $patient_table = (new Patient())->getTable();
         $patient_billing_table = (new PatientBilling())->getTable();
 
-        return Patient::select('*', $patient_table . '.id')
+        return Patient::find($patient_id)
             ->leftJoin(
                 $patient_organization_table,
                 $patient_organization_table . '.patient_id',
@@ -218,66 +218,6 @@ class Patient extends Model
                 $patient_table . ".id"
             )
             ->where($patient_table . ".id", $patient_id);
-    }
-
-    /**
-     * Return patient list for organization
-     */
-    public static function organizationPatients($organization_id = null)
-    {
-        if ($organization_id == null) {
-            $organization_id = auth()->user()->organization_id;
-        }
-
-        $organization_table = (new Organization())->getTable();
-        $patient_table = (new Patient())->getTable();
-        $patient_billing_table = (new PatientBilling())->getTable();
-
-        return PatientOrganization::select('*', $patient_table . '.id')
-            ->leftJoin(
-                $organization_table,
-                'organization_id',
-                '=',
-                $organization_table . '.id'
-            )
-            ->leftJoin(
-                $patient_table,
-                'patient_id',
-                '=',
-                $patient_table . '.id'
-            )
-            ->leftJoin(
-                $patient_billing_table,
-                "{$patient_billing_table}.patient_id",
-                '=',
-                "{$patient_table}.id"
-            )
-            ->where('organization_id', $organization_id);
-    }
-
-    public static function patientAppointments($patient_id) {
-        $today = date('Y-m-d');
-
-        $appointment_table = (new Appointment())->getTable();
-        $query_builder = self::patientAppointmentsQueryBuilder($patient_id);
-        $pastAppointments = $query_builder
-            ->where($appointment_table . '.date', '<', $today)
-            ->orderByDesc('date')
-            ->orderByDesc('start_time')
-            ->limit(5)
-            ->get()
-            ->toArray();
-        $pastAppointments = array_reverse($pastAppointments);
-
-        $query_builder = self::patientAppointmentsQueryBuilder($patient_id);
-        $futureAppointments = $query_builder
-            ->where($appointment_table . '.date', '>=', $today)
-            ->orderBy('date')
-            ->orderBy('start_time')
-            ->get()
-            ->toArray();
-
-        return array_merge($pastAppointments, $futureAppointments);
     }
 
     private static function patientAppointmentsQueryBuilder($patient_id) {
@@ -320,5 +260,13 @@ class Patient extends Model
                 $specialist_title_table . '.id'
             )
             ->where($appointment_table . '.patient_id', $patient_id);
+    }
+
+                /**
+     * Get the patients for organization.
+     */
+    public function organizations()
+    {
+        return $this->belongsToMany(Organization::class,'organization_patient');
     }
 }

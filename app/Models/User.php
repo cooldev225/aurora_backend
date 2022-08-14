@@ -20,7 +20,6 @@ class User extends Authenticatable implements JWTSubject
         'password',
         'role_id',
         'organization_id',
-        'clinic_id',
         'date_of_birth',
         'mobile_number',
         'address',
@@ -30,7 +29,7 @@ class User extends Authenticatable implements JWTSubject
 
     public function getRoleAttribute()
     {
-        return $this->role()->name; 
+        return $this->role()->name;
     }
 
     /**

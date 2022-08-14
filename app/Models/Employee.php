@@ -23,6 +23,14 @@ class Employee extends Model
     }
 
     /**
+     * Return specialist
+     */
+    public function specialist()
+    {
+        return $this->hasOne(Specialist::class, 'employee_id');
+    }
+
+    /**
      * Return $pathologist_list
      */
     public static function pathologists($organization_id = null)

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('patient_id')->nullable();
             $table->foreignId('appointment_id')->nullable();
             $table->foreignId('specialist_id')->nullable();
-
+            $table->foreignId('document_name')->nullable();
             $table->enum('document_type', [
                 'LETTER',
                 'REPORT',
@@ -28,6 +28,12 @@ return new class extends Migration
                 'USB_CAPTURE',
                 'OTHER'
             ])->default('LETTER');
+
+            $table->enum('file_type', [
+                'IMAGE',
+                'PDF',
+                'OTHER',
+            ])->default('IMAGE');
 
             $table->enum('origin', [
                 'CREATED',

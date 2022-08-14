@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 use App\Http\Requests\PatientRequest;
+use App\Models\Organization;
 use App\Models\Patient;
+use App\Models\PatientBilling;
 use App\Models\PatientOrganization;
 use App\Models\Specialist;
 
@@ -18,8 +20,8 @@ class PatientController extends Controller
     public function index()
     {
         $organization_id = auth()->user()->organization_id;
-
-        $patients = Patient::organizationPatients($organization_id)
+        $patients = Organization::find($organization_id)
+            ->patients()
             ->get()
             ->toArray();
 
@@ -140,9 +142,14 @@ class PatientController extends Controller
         );
     }
 
-    public function appointments($patient_id) {
-        $appointments = Patient::patientAppointments($patient_id);
-
+    public function appointments(Patient $patient) {
+        
+        $appointments = [
+            'patientId' => $patient->id,
+            'pastAppointments' => $patient->five_previous_appointments,
+            'futureAppointments' => $patient->all_upcoming_appointments,
+        ];
+        
         return response()->json(
             [
                 'message' => 'Appointment List',

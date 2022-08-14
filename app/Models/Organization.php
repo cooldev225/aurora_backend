@@ -63,6 +63,14 @@ class Organization extends Model
         return $this->hasMany(Clinic::class);
     }
 
+        /**
+     * Get the patients for organization.
+     */
+    public function patients()
+    {
+        return $this->belongsToMany(Patient::class,'patient_organizations');
+    }
+
     /**
      * Get the users for organization.
      */

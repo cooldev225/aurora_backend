@@ -120,7 +120,7 @@ class AppointmentFactory extends Factory
             'confirmation_status'       => $confirmation_status,
             'note'                      => $this->faker->paragraph(),
             'collecting_person_name'    => $this->faker->name(),
-            'collecting_person_phone'   => $this->faker->phoneNumber(),
+            'collecting_person_phone'   => $this->faker->numerify('0#-####-####'),
             'collecting_person_alternate_contact' => $this->faker->catchPhrase(),
         ];
     }

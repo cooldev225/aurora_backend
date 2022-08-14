@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Employee;
+use App\Models\Specialist;
 use App\Models\User;
 use App\Models\UserRole;
 use App\Http\Requests\EmployeeRequest;
@@ -20,6 +21,7 @@ class EmployeeController extends Controller
     {
         $organization_id = auth()->user()->organization_id;
         $user_table = (new User())->getTable();
+        $employee_table = (new Employee())->getTable();
 
         $employees = Employee::leftJoin(
             $user_table,
@@ -27,6 +29,7 @@ class EmployeeController extends Controller
             '=',
             $user_table . '.id'
         )
+            ->select('*', "{$employee_table}.id")
             ->where('organization_id', $organization_id)
             ->get();
 
@@ -66,7 +69,7 @@ class EmployeeController extends Controller
     public function store(EmployeeRequest $request)
     {
         $organization_id = auth()->user()->organization_id;
-        $role = UserRole::where('slug', $request->role)->first();
+        $role = UserRole::find($request->role_id);
 
         if (!$role->isEmployee()) {
             return response()->json(
@@ -79,12 +82,8 @@ class EmployeeController extends Controller
         }
 
         $user = User::create([
-            'username'          => $request->username,
-            'email'             => $request->email,
-            'first_name'        => $request->first_name,
-            'last_name'         => $request->last_name,
+            ...$request->all(),
             'password'          => Hash::make($request->password),
-            'role_id'           => $role->id,
             'organization_id'   => $organization_id,
         ]);
 
@@ -93,6 +92,16 @@ class EmployeeController extends Controller
             'type' => $request->type,
             'work_hours' => json_encode($request->work_hours),
         ]);
+
+
+        if ($role->slug == 'specialist') {
+            Specialist::create([
+                'employee_id' => $employee->id,
+                'specialist_title_id' => $request->specialist_title_id,
+                'specialist_type_id' => $request->specialist_type_id,
+                'anesthetist_id' => $request->anesthetist_id,
+            ]);
+        }
 
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $employee->id . '_' . time() . '.' . $file->extension();
@@ -133,7 +142,7 @@ class EmployeeController extends Controller
     public function update(EmployeeRequest $request, Employee $employee)
     {
         $organization_id = auth()->user()->organization_id;
-        $role = UserRole::where('slug', $request->role)->first();
+        $role = UserRole::find($request->role_id);
 
         if (!$role->isEmployee()) {
             return response()->json(
@@ -147,11 +156,7 @@ class EmployeeController extends Controller
 
         $user = $employee->user();
         $user->update([
-            'username'          => $request->username,
-            'email'             => $request->email,
-            'first_name'        => $request->first_name,
-            'last_name'         => $request->last_name,
-            'role_id'           => $role->id,
+            ...$request->all(),
             'organization_id'   => $organization_id,
         ]);
 
@@ -159,6 +164,26 @@ class EmployeeController extends Controller
             'type'          => $request->type,
             'work_hours'    => $request->work_hours,
         ]);
+
+        if ($role->slug == 'specialist') {
+            $specialist = $employee->specialist;
+
+            if (empty($specialist)) {
+                $specialist = Specialist::create([
+                    'employee_id' => $employee->id,
+                    'specialist_title_id' => $request->specialist_title_id,
+                    'specialist_type_id' => $request->specialist_type_id,
+                    'anesthetist_id' => $request->anesthetist_id,
+                ]);
+            } else {
+                $specialist->update([
+                    'employee_id' => $employee->id,
+                    'specialist_title_id' => $request->specialist_title_id,
+                    'specialist_type_id' => $request->specialist_type_id,
+                    'anesthetist_id' => $request->anesthetist_id,
+                ]);
+            }
+        }
 
         if ($file = $request->file('header')) {
             $file_name = 'header_' . $employee->id . '_' . time() . '.' . $file->extension();

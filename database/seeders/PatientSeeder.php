@@ -25,7 +25,7 @@ class PatientSeeder extends Seeder
                 $patient->email = 'it@aurorasoftware.com.au';
                 $patient->appointment_confirm_method = 'email';
             } else if ($patient->id == 2) { 
-                $patient->contact_number = '0481183422';
+                $patient->contact_number = '04-8118-3422';
                 $patient->appointment_confirm_method = 'sms';
             } else if ($patient->id == 3) {
                 $patient->email = 'alexp753159@gmail.com';
