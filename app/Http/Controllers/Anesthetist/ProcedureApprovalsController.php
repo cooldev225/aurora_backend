@@ -79,4 +79,36 @@ class ProcedureApprovalsController extends Controller
             Response::HTTP_OK
         );
     }
+
+    public function upload(Request $request) {
+        $appointment_id = $request->appointment_id;
+        $appointment = Appointment::find($appointment_id);
+
+        if ($appointment == null) {
+            return response()->json(
+                [
+                    'message' => 'Not found Procedure Approval',
+                    'data'    => $appointment,
+                ],
+                Response::HTTP_OK
+            );
+        }
+
+        $pre_admission = $appointment->pre_admission;
+
+        if ($file = $request->file('file')) {
+            $file_name = 'pre_admission_' . $appointment_id . '_' . time() . '.pdf';
+            $file_path = '/' . $file->storeAs('files/appointment_pre_admission', $file_name);
+            $pre_admission->pre_admission_file = $file_path;
+            $pre_admission->save();
+        }
+
+        return response()->json(
+            [
+                'message' => 'Procedure Approval File Uploaded',
+                'data'    => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
 }

@@ -280,5 +280,10 @@ Route::middleware(['auth'])->group(function () {
             ProcedureApprovalsController::class,
             'updateStatus',
         ]);
+
+        Route::post('/procedure-approvals/upload', [
+            ProcedureApprovalsController::class,
+            'upload',
+        ]);
     });
 });
