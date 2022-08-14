@@ -126,6 +126,14 @@ class Appointment extends Model
     }
 
     /**
+     * Return AppointmentAdministrationInfo
+     */
+    public function pre_admission()
+    {
+        return $this->hasOne(AppointmentPreAdmission::class);
+    }
+
+    /**
      * Return Recall NotificationTemplate
      */
     public function recallNotificationTemplate()
@@ -308,6 +316,7 @@ class Appointment extends Model
 
         return Appointment::select(
                 $appointment_table.'.*',
+                $appointment_table.'.id as appointment_id',
                 $patient_table.'.*',
                 $appointment_type_table.'.name as appointment_type',
                 DB::raw(
