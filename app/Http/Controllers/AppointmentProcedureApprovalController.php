@@ -22,9 +22,10 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
     public function index()
     {
         $anesthetist_employee_id = auth()->user()->employee->id;
-
+        
         $today = date('Y-m-d');
-        $patients = Appointment::withPreAdmission($anesthetist_employee_id)
+        $patients = Appointment::
+            where('anesthetist_id', $anesthetist_employee_id)
             ->where('procedure_approval_status', '!=', ProcedureApprovalStatus::NOT_RELEVANT)
             ->where('date', '>=', $today)
             ->orderBy('date')
