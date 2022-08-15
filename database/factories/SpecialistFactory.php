@@ -28,6 +28,7 @@ class SpecialistFactory extends Factory
         $specialist_count = User::where('username', 'specialist_1')->count();
         if ($specialist_count == 0) {
             $user->username = 'specialist_1';
+            $user->organization_id = 1;
         }
         $user->save();
 
