@@ -176,7 +176,12 @@ Route::middleware(['auth'])->group(function () {
             'testSendNotification',
         ]);
 
-        Route::apiResource('payments', PaymentController::class);
+        
+        Route::get('payments', [PaymentController::class, 'index']);
+        Route::get('payments/{appointment}', [PaymentController::class, 'show']);
+        Route::post('payments', [PaymentController::class, 'store']);
+        
+
     });
 
     Route::middleware([
