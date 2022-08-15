@@ -158,8 +158,7 @@ class AppointmentPreAdmissionController extends Controller
         );
     }
 
-
-      /**
+    /**
      * Uploads a new Preadmission form.
      *
      * @param  string  $token

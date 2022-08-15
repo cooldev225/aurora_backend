@@ -18,23 +18,30 @@ class UserSeeder extends Seeder
     public function run()
     {
         User::factory()->create([
-            'username' => 'admin',
-            'email' => 'admin@mail.com',
-            'role_id' => UserRole::where('slug', 'admin')->first()->id,
+            'username'          => 'admin',
+            'email'             => 'admin@mail.com',
+            'role_id'           => UserRole::where('slug', 'admin')->first()->id,
+            'organization_id'   => 1,
         ]);
 
-        User::factory()->create([
-            'username' => 'org-admin',
-            'email' => 'organizationAdmin@mail.com',
-            'role_id' => UserRole::where('slug', 'organizationAdmin')->first()
-                ->id,
-        ]);
+        $org_admin_role = UserRole::where('slug', 'organizationAdmin')
+            ->first()->id;
 
         User::factory()->create([
-            'username' => 'org-manager',
-            'email' => 'organizationManager@mail.com',
-            'role_id' => UserRole::where('slug', 'organizationManager')->first()
-                ->id,
+            'username'          => 'org-admin',
+            'email'             => 'organizationAdmin@mail.com',
+            'role_id'           => $org_admin_role,
+            'organization_id'   => 1,
+                ]);
+
+        $org_manager_role = UserRole::where('slug', 'organizationManager')
+            ->first()->id;
+
+        User::factory()->create([
+            'username'          => 'org-manager',
+            'email'             => 'organizationManager@mail.com',
+            'role_id'           => $org_manager_role,
+            'organization_id'   => 1,
         ]);
     }
 }

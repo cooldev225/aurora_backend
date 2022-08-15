@@ -12,9 +12,7 @@ use App\Mail\Notification;
 
 class AppointmentProcedureApprovalController extends BaseOrganizationController
 {
-
-
-       /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
@@ -22,7 +20,7 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
     public function index()
     {
         $anesthetist_employee_id = auth()->user()->employee->id;
-        
+
         $today = date('Y-m-d');
         $patients = Appointment::
             where('anesthetist_id', $anesthetist_employee_id)
@@ -53,7 +51,6 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
         AppointmentProcedureApprovalRequest $request,
         Appointment $appointment
     ) {
-
         $appointment->procedure_approval_status = $request->procedure_approval_status;
         $appointment->save();
         $appointment->pre_admission->note = $request->note;
