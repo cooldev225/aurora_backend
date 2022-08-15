@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AppointmentPaymentRequest;
 use App\Models\Appointment;
 use App\Models\AppointmentPayment;
-use App\Models\Payment;
 use Illuminate\Http\Response;
 
 class PaymentController extends BaseOrganizationController
@@ -17,9 +16,15 @@ class PaymentController extends BaseOrganizationController
      */
     public function index()
     {
-        $organization_id = auth()->user()->organization_id;
 
-        $paymentList = Payment::organizationPaymentList($organization_id);
+        $paymentList = Appointment::
+            where('organization_id', auth()->user()->organization_id)
+            ->whereIn('confirmation_status', ['PENDING', 'CONFIRMED'])
+            ->where('date', '>=', date('Y-m-d'))
+            ->orderBy('date')
+            ->orderBy('start_time')
+            ->get()
+            ->toArray();
 
         return response()->json(
             [
@@ -35,29 +40,34 @@ class PaymentController extends BaseOrganizationController
      *
      * @return \Illuminate\Http\Response
      */
-    public function show($appointment_id)
+    public function show(Appointment $appointment)
     {
-        $organization_id = auth()->user()->organization_id;
-        $appointment = Appointment::find($appointment_id);
+      
+        $appointmentType = $appointment->type();
 
-        if ($appointment == null
-            || $appointment->organization_id != $organization_id
-        ) {
-            return response()->json(
-                [
-                    'message'   => 'Payment Detail Info',
-                    'data'      => null,
-                ],
-                Response::HTTP_OK
-            );
-        }
-
-        $paymentInfo = Payment::paymentDetailInfo($appointment);
+        $paymentData = array(
+            'payment_tier_1'    => $appointmentType->payment_tier_1,
+            'payment_tier_2'    => $appointmentType->payment_tier_2,
+            'payment_tier_3'    => $appointmentType->payment_tier_3,
+            'payment_tier_4'    => $appointmentType->payment_tier_4,
+            'payment_tier_5'    => $appointmentType->payment_tier_5,
+            'payment_tier_6'    => $appointmentType->payment_tier_6,
+            'payment_tier_7'    => $appointmentType->payment_tier_7,
+            'payment_tier_8'    => $appointmentType->payment_tier_8,
+            'payment_tier_9'    => $appointmentType->payment_tier_9,
+            'payment_tier_10'   => $appointmentType->payment_tier_10,
+            'payment_tier_11'   => $appointmentType->payment_tier_11,
+            'paid_amount'       => $appointment->payments()->sum('amount'),
+        );
 
         return response()->json(
             [
                 'message' => 'Payment Detail Info',
-                'data' => $paymentInfo,
+                'data' =>  [
+                    'appointment'   => $appointment->toArray(),
+                    'payment'       => $paymentData,
+                    'payment_list'  => $appointment->payments()->get()
+                ]
             ],
             Response::HTTP_OK
         );
@@ -69,27 +79,24 @@ class PaymentController extends BaseOrganizationController
      * @param  \App\Http\Requests\AppointmentPaymentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AppointmentPaymentRequest $request)
+    public function store(
+        AppointmentPaymentRequest $request, )
     {
-        $user_id = auth()->user()->id;
-        $appointment_id = $request->appointment_id;
-        $appointment = Appointment::find($appointment_id);
-
+ 
         AppointmentPayment::create([
-            'appointment_id'    => $appointment_id,
-            'confirmed_by'      => $user_id,
+            'appointment_id'    => $request->appointment_id,
+            'confirmed_by'      => auth()->user()->id,
             'amount'            => $request->amount,
             'payment_type'      => $request->payment_type,
             'is_deposit'        => $request->is_deposit,
             'is_send_receipt'   => $request->is_send_receipt,
             'email'             => $request->email,
         ]);
-        $paymentInfo = Payment::paymentDetailInfo($appointment);
+
 
         return response()->json(
             [
-                'message' => 'Appointment payment confirmed',
-                'data' => $paymentInfo,
+                'message' => 'Appointment payment confirmed'
             ],
             Response::HTTP_CREATED
         );

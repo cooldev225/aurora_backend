@@ -15,7 +15,17 @@ class AppointmentPayment extends Model
         'appointment_id', 'confirmed_by', 'amount', 'payment_type',
         'is_deposit'
     ];
+
+    protected $appends = [
+        'confirmed_user_name'
+    ];
     
+    public function getConfirmedUserNameAttribute()
+    {
+        return $this->confirmed_user->first_name .' '. $this->confirmed_user->last_name;
+    }
+
+
     /**
      * Return Appointment
      */
