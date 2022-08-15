@@ -264,7 +264,7 @@ Route::middleware(['auth'])->group(function () {
             'index',
         ]);
         Route::apiResource('patient-documents', PatientDocumentController::class);
-        Route::post('patient-documents/upload', [PatientDocumentController::class, 'upload']);
+        Route::post('{patient}/patient-documents/upload', [PatientDocumentController::class, 'upload']);
     });
 
     Route::middleware([
