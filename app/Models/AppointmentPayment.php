@@ -42,13 +42,6 @@ class AppointmentPayment extends Model
         return $this->belongsTo(User::class, 'confirmed_by');
     }
 
-    public static function create(array $attributes = []) {
-        $payment = static::query()->create($attributes);
-        Notification::sendPaymentNotification($payment, 'payment_made');
-
-        return $payment;
-    }
-
     /**
      * translate template
      */

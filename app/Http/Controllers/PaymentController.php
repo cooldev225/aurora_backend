@@ -6,6 +6,7 @@ use App\Http\Requests\AppointmentPaymentRequest;
 use App\Models\Appointment;
 use App\Models\AppointmentPayment;
 use Illuminate\Http\Response;
+use App\Mail\Notification;
 
 class PaymentController extends BaseOrganizationController
 {
@@ -83,7 +84,7 @@ class PaymentController extends BaseOrganizationController
         AppointmentPaymentRequest $request, )
     {
  
-        AppointmentPayment::create([
+        $payment = AppointmentPayment::create([
             'appointment_id'    => $request->appointment_id,
             'confirmed_by'      => auth()->user()->id,
             'amount'            => $request->amount,
@@ -93,6 +94,7 @@ class PaymentController extends BaseOrganizationController
             'email'             => $request->email,
         ]);
 
+        Notification::sendPaymentNotification($payment, 'payment_made');
 
         return response()->json(
             [
