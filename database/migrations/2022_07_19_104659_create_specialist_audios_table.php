@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('patient_document_id');
             $table->foreignId('patient_id');
             $table->foreignId('specialist_id');
-            $table->string('file');
+            $table->string('file_path')->nullable();
             $table->foreignId('translated_by');
             $table->timestamps();
         });

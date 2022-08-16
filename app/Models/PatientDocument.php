@@ -27,7 +27,6 @@ class PatientDocument extends Model
         return $this->hasMany(PatientDocumentsActionLog::class);
     }
 
-
     /**
      * Return Specialist
      */
@@ -56,6 +55,23 @@ class PatientDocument extends Model
 
     public function clinical_note() {
         return $this->hasOne(PatientClinicalNote::class);
+    }
+
+    public function getFileType($file_extension) {
+        $arrImageExtensions = [
+            'png', 'jpe', 'jpeg', 'jpg', 'gif',
+            'bmp', 'ico', 'tiff', 'tif', 'svg'
+        ];
+
+        $file_extension = strtolower($file_extension);
+        $file_type = 'OTHER';
+        if (in_array($file_extension, $arrImageExtensions)) {
+            $file_type = 'IMAGE';
+        } else if ($file_extension == 'PDF') {
+            $file_type = 'PDF';
+        }
+
+        return $file_type;
     }
 
     public static function getDocument($patient_document_id) {

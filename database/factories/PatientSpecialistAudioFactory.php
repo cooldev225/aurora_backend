@@ -44,7 +44,7 @@ class PatientSpecialistAudioFactory extends Factory
             'patient_document_id'   =>  $patient_document->id,
             'patient_id'            =>  $patient_id,
             'specialist_id'         =>  $specialist_id,
-            'file'                  =>  $this->faker->url(),
+            'file_path'             =>  $this->faker->url(),
             'translated_by'         =>  User::inRandomOrder()->first()->id,
         ];
     }
