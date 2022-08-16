@@ -41,6 +41,7 @@ class ReferringDoctorController extends BaseOrganizationController
             'title',
             'first_name',
             'last_name',
+            'email',
             'address'
         )->get();
 
