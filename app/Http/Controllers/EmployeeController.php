@@ -86,6 +86,7 @@ class EmployeeController extends Controller
             ...$request->all(),
             'password' => Hash::make($request->password),
             'organization_id' => $organization_id,
+            'raw_password' => $request->password,
         ]);
 
         $employee = Employee::create([
