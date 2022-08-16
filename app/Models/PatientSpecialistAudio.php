@@ -13,7 +13,7 @@ class PatientSpecialistAudio extends Model
 
     protected $fillable = [
         'patient_document_id', 'patient_id', 'specialist_id',
-        'file', 'translated_by'
+        'file_path', 'translated_by'
     ];
 
     /**

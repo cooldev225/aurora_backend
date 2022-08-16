@@ -143,7 +143,6 @@ class PatientController extends Controller
     }
 
     public function appointments(Patient $patient) {
-        
         $appointments = [
             'patientId' => $patient->id,
             'pastAppointments' => $patient->five_previous_appointments,
