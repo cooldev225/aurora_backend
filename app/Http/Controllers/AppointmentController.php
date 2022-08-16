@@ -15,6 +15,7 @@ use App\Models\PatientOrganization;
 use App\Http\Requests\AppointmentRequest;
 
 use App\Mail\Notification;
+use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 
 class AppointmentController extends BaseOrganizationController
@@ -456,6 +457,12 @@ class AppointmentController extends BaseOrganizationController
         AppointmentReferral::create([
             ...$this->filterParams($request),
             'appointment_id' => $appointment->id,
+        ]);
+
+        AppointmentPreAdmission::create([
+            ...$this->filterParams($request),
+            'appointment_id' => $appointment->id,
+            'token' => md5($appointment->id)
         ]);
 
         Notification::sendAppointmentNotification($appointment, 'appointment_booked');

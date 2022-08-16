@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AppointmentPreAdmissionRequest;
+use App\Models\Appointment;
 use App\Models\AppointmentPreAdmission;
 use App\Models\Patient;
 use Illuminate\Http\Request;
@@ -152,6 +153,32 @@ class AppointmentPreAdmissionController extends Controller
             [
                 'message'   => 'Appointment Pre Admission',
                 'data'      => $data,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * Uploads a new Preadmission form.
+     *
+     * @param  string  $token
+     * @return \Illuminate\Http\Response
+     */
+    public function upload(Request $request, Appointment $appointment) {
+
+        $pre_admission = $appointment->pre_admission;
+
+        if ($file = $request->file('file')) {
+            $file_name = 'pre_admission_' . $appointment->id . '_' . time() . '.pdf';
+            $file_path = '/' . $file->storeAs('files/appointment_pre_admission', $file_name);
+            $pre_admission->pre_admission_file = $file_path;
+            $pre_admission->save();
+        }
+
+        return response()->json(
+            [
+                'message' => 'Pre Admission File Uploaded',
+                'data'    => $appointment,
             ],
             Response::HTTP_OK
         );

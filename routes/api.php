@@ -5,8 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
-use App\Http\Controllers\Anesthetist\PatientController as AnesthetistPatientController;
-use App\Http\Controllers\AnesthetistController;
+use App\Http\Controllers\Anesthetist\ProcedureApprovalController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
@@ -40,6 +39,7 @@ use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\PatientDocumentController;
+use App\Models\AppointmentPreAdmission;
 
 /*
 |--------------------------------------------------------------------------
@@ -176,8 +176,11 @@ Route::middleware(['auth'])->group(function () {
             'testSendNotification',
         ]);
 
-        Route::apiResource('payments', PaymentController::class);
-
+        
+        Route::get('payments', [PaymentController::class, 'index']);
+        Route::get('payments/{appointment}', [PaymentController::class, 'show']);
+        Route::post('payments', [PaymentController::class, 'store']);
+        
 
     });
 
@@ -261,7 +264,7 @@ Route::middleware(['auth'])->group(function () {
             'index',
         ]);
         Route::apiResource('patient-documents', PatientDocumentController::class);
-        Route::post('patient-documents/upload', [PatientDocumentController::class, 'upload']);
+        Route::post('{patient}/patient-documents/upload', [PatientDocumentController::class, 'upload']);
     });
 
     Route::middleware([
@@ -274,16 +277,17 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
-        Route::get('/procedure-approvals', [AnesthetistPatientController::class, 'index']);
+        Route::get('/procedure-approvals', [AppointmentProcedureApprovalController::class, 'index']);
 
-        Route::get('/anesthetist/appointments', [
-            AnesthetistController::class,
-            'index',
+        Route::put('{appointment}/procedure-approvals', [
+            AppointmentProcedureApprovalController::class,
+            'update',
         ]);
-
-        Route::put('/anesthetist/process_pre_admission', [
-            AnesthetistController::class,
-            'processPreAdmission',
+        Route::post('{appointment}/pre-admission/upload', [
+            AppointmentPreAdmissionController::class,
+            'upload',
         ]);
     });
 });
+
+

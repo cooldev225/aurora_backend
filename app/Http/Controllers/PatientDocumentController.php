@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PatientDocumentRequest;
+use App\Models\Patient;
 use App\Models\PatientDocument;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -68,11 +70,16 @@ class PatientDocumentController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function upload(Request $request) {
-        $user_id = auth()->user()->id;
-        $data = $request->all();
-        $data['created_by'] = $user_id;
-        $patientDocument = PatientDocument::create($data);
+    public function upload(PatientDocumentRequest $request, Patient $patient) {
+
+        $patientDocument = PatientDocument::create([
+            'patient_id'     => $patient->id,
+            'appointment_id' => $request->appointment_id,
+            'specialist_id'  => $request->specialist_id,
+            'document_name'  => $request->document_name,
+            'document_type'  => $request->document_type,
+            'created_by'     => auth()->user()->id,
+        ]);
 
         if ($file = $request->file('document')) {
             $arrImageExtensions = [
@@ -94,6 +101,7 @@ class PatientDocumentController extends Controller
             $patientDocument->file_path = $document_path;
             $patientDocument->file_type = $file_type;
         }
+
         $patientDocument->save();
 
         return response()->json(

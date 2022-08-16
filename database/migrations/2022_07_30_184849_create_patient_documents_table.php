@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('patient_documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id')->nullable();
+            $table->foreignId('patient_id');
             $table->foreignId('appointment_id')->nullable();
             $table->foreignId('specialist_id')->nullable();
             $table->foreignId('document_name')->nullable();
