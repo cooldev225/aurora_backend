@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PatientDocumentRequest;
 use App\Models\Patient;
 use App\Models\PatientDocument;
 use Illuminate\Http\Request;
@@ -69,7 +70,7 @@ class PatientDocumentController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function upload(PatientDocumentController $request, Patient $patient) {
+    public function upload(PatientDocumentRequest $request, Patient $patient) {
 
         $patientDocument = PatientDocument::create([
             'patient_id'     => $patient->id,
