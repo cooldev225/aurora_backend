@@ -56,7 +56,7 @@ class UserController extends Controller
         if (empty($auth_params['email'])) {
             $user = User::where('username', $auth_params['username'])->first();
 
-            if (empty($user->toArray())) {
+            if (empty($user)) {
                 return response()->json(
                     ['error' => 'Unauthorized'],
                     Response::HTTP_UNAUTHORIZED
