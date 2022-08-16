@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('patient_document_id');
             $table->foreignId('appointment_id');
-            $table->text('description');
-            $table->text('diagnosis');
-            $table->text('clinical_assessment');
-            $table->text('treatment');
-            $table->text('history');
-            $table->text('additional_details');
-            $table->text('attached_documents');
+            $table->text('description')->nullable();
+            $table->text('diagnosis')->nullable();
+            $table->text('clinical_assessment')->nullable();
+            $table->text('treatment')->nullable();
+            $table->text('history')->nullable();
+            $table->text('additional_details')->nullable();
+            $table->text('attached_documents')->nullable();
             $table->timestamps();
         });
     }

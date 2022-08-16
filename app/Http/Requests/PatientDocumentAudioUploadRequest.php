@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PatientDocumentLetterRequest extends FormRequest
+class PatientDocumentAudioUploadRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class PatientDocumentLetterRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id' => 'required',
-            'to' => 'required',
-            'from' => 'required',
-            'body' => 'required',
+            'patient_id'     => 'required',
+            'specialist_id'  => 'required',
+            'appointment_id' => 'required',
+            'file'           => 'required',
         ];
     }
 }
