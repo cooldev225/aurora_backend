@@ -75,8 +75,8 @@ class PatientDocumentController extends Controller
             'patient_id'     => $patient->id,
             'appointment_id' => $request->appointment_id,
             'specialist_id'  => $request->specialist_id,
-            'document_name'  => $patient->document_name,
-            'document_type'  => $patient->document_type,
+            'document_name'  => $request->document_name,
+            'document_type'  => $request->document_type,
             'created_by'     => auth()->user()->id,
         ]);
 
