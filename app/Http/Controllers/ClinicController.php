@@ -147,7 +147,11 @@ class ClinicController extends BaseOrganizationController
     public function destroy(Clinic $clinic)
     {
         $proda_device = $clinic->proda_device;
-        $proda_device->delete();
+
+        if (!empty($proda_device)) {
+            $proda_device->delete();
+        }
+
         $clinic->delete();
 
         return response()->json(
