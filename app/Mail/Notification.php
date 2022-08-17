@@ -91,11 +91,7 @@ class Notification
             'message' => $user->translate($template, $data),
         ];
 
-        NotificationEmail::sendEmail(
-            $data['to'],
-            $data['subject'],
-            $data['message']
-        );
+        self::sendNotification('email', $data);
     }
 
     public static function sendPaymentNotification($payment, $notificationType)
