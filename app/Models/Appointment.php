@@ -23,7 +23,7 @@ class Appointment extends Model
     protected $appends = [
         'patient_name', 'patient_details', 'specialist_name',
         'appointment_type', 'aus_formatted_date', 'formatted_appointment_time',
-        'pre_admission_form_url'
+        'pre_admission_form_url', 'clinic_details'
     ];
 
     public function getAusFormattedDateAttribute()
@@ -60,6 +60,11 @@ class Appointment extends Model
       ];
     }
 
+    public function getClinicDetailsAttribute() {
+        return [
+            'name' => $this->clinic()->name,
+      ];
+    }
     public function getPreAdmissionFormUrlAttribute() {
         return $this->pre_admission->pre_admission_file;
     }
@@ -90,7 +95,7 @@ class Appointment extends Model
      */
     public function clinic()
     {
-        return $this->belongsTo(Clinic::class, 'clinic_id');
+        return $this->belongsTo(Clinic::class, 'clinic_id')->first();
     }
 
     /**
