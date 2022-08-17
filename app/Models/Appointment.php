@@ -68,11 +68,6 @@ class Appointment extends Model
       ];
     }
 
-    public function getClinicDetailsAttribute() {
-        return [
-            'name' => $this->clinic()->name,
-      ];
-    }
     public function getPreAdmissionFormUrlAttribute() {
         return $this->pre_admission->pre_admission_file;
     }
