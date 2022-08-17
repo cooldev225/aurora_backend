@@ -48,7 +48,7 @@ class Appointment extends Model
     public function getClinicDetailsAttribute()
     {   
         return [
-            'name' => $this->clinic()->name,
+            'name' => $this->clinic()->first()->name,
         ];
     }
 
@@ -98,7 +98,7 @@ class Appointment extends Model
      */
     public function clinic()
     {
-        return $this->belongsTo(Clinic::class, 'clinic_id')->first();
+        return $this->belongsTo(Clinic::class, 'clinic_id');
     }
 
     /**
