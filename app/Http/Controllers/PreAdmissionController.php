@@ -59,7 +59,7 @@ class PreAdmissionController extends Controller
         $pre_admission_section = PreAdmissionSection::createSection([
             'organization_id' => $organization_id,
             'title' => $request->title,
-            'questions_data' => $request->questions_data,
+            'questions' => $request->questions,
         ]);
 
         return response()->json(
@@ -87,7 +87,7 @@ class PreAdmissionController extends Controller
         $pre_admission_section = $pre_admission_section->update([
             'organization_id' => $organization_id,
             'title' => $request->title,
-            'questions_data' => $request->questions_data,
+            'questions' => $request->questions,
         ]);
 
         return response()->json(
