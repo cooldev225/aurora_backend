@@ -189,7 +189,7 @@ Route::middleware(['auth'])->group(function () {
         'ensure.role:organizationAdmin,organizationManager,receptionist,anesthetist,specialist',
     ])->group(function () {
         Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
-        Route::apiResource('appointments', AppointmentController::class);
+        Route::get('user-appointments', [UserAppointmentController::class, 'index']);
         Route::put('/appointments/approve/{id}', [
             AppointmentController::class,
             'approve',
