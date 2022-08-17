@@ -24,8 +24,8 @@ class PatientDocumentAudioUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id'    => 'required',
-            'specialist_id' => 'required',
+            'patient_id'    => 'integer|required',
+            'specialist_id' => 'integer|required',
         ];
     }
 }
