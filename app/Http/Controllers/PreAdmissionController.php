@@ -24,7 +24,7 @@ class PreAdmissionController extends Controller
             $organization_id
         )
             ->with('questions')
-            ->get();
+            ->first();
 
         return response()->json(
             [
@@ -43,6 +43,17 @@ class PreAdmissionController extends Controller
      */
     public function store(PreAdmissionSectionRequest $request)
     {
+        $pre_admission_section = PreAdmissionSection::where(
+            'organization_id',
+            $organization_id
+        )
+            ->with('questions')
+            ->first();
+
+        if (!empty($pre_admission_section)) {
+            return $this->update($request, $pre_admission_section);
+        }
+
         $organization_id = auth()->user()->organization_id;
 
         $pre_admission_section = PreAdmissionSection::createSection([
