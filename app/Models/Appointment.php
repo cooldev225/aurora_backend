@@ -20,7 +20,7 @@ class Appointment extends Model
         'note', 'collecting_person_name', 'collecting_person_phone',
         'collecting_person_alternate_contact',
     ];
-    protected $appends = array('patient_name','patient_details','specialist_name','appointment_type','aus_formatted_date','formatted_appointment_time');
+    protected $appends = array('patient_name','patient_details','clinic_details','specialist_name','appointment_type','aus_formatted_date','formatted_appointment_time');
 
     public function getAusFormattedDateAttribute()
     {
@@ -40,11 +40,18 @@ class Appointment extends Model
         return 'Dr ' .$specialist_user->first_name .' '. $specialist_user->last_name;  
     }
 
+    public function getClinicDetailsAttribute()
+    {   
+        return [
+            'name' => $this->clinic()->name,
+        ];
+    }
+
     public function getPatientNameAttribute() {
         return [
             'full' => $this->patient()->title .' ' . $this->patient()->first_name .' '. $this->patient()->last_name,
             'first'=> $this->patient()->first_name,
-            'last' =>$this->patient()-> last_name
+            'last' => $this->patient()-> last_name
         ];
     }
 
@@ -84,7 +91,7 @@ class Appointment extends Model
      */
     public function clinic()
     {
-        return $this->belongsTo(Clinic::class, 'clinic_id');
+        return $this->belongsTo(Clinic::class, 'clinic_id')->first();
     }
 
     /**

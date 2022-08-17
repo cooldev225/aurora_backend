@@ -6,9 +6,6 @@ use Illuminate\Http\Response;
 use App\Http\Requests\PatientRequest;
 use App\Models\Organization;
 use App\Models\Patient;
-use App\Models\PatientBilling;
-use App\Models\PatientOrganization;
-use App\Models\Specialist;
 
 class PatientController extends Controller
 {
@@ -24,26 +21,6 @@ class PatientController extends Controller
             ->patients()
             ->get()
             ->toArray();
-
-        $today = date('Y-m-d');
-
-        $appointments = Specialist::withAppointments()
-            ->orderBy('date')
-            ->orderBy('start_time')
-            ->where('date', '>=' , $today)
-            ->where('confirmation_status', '!=', 'CANCELED')
-            ->get()
-            ->toArray();
-
-        foreach ($patients as $key => $patient) {
-            $patients[$key]['upcoming_appointments'] = [];
-
-            foreach ($appointments as $appointment) {
-                if ($appointment['patient_id'] == $patient['id']) {
-                    $patients[$key]['upcoming_appointments'][] = $appointment;
-                }
-            }
-        }
 
         return response()->json(
             [
@@ -61,11 +38,12 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
-        $patientInfo = Patient::patientDetailInfo($patient->id)
-            ->first()
-            ->toArray();
+        $patientInfo = $patient;
 
-        $patientInfo['appointments'] = $patient->getAppointmentsWithSpecialist();
+        $patientInfo['appointments'] = $patient->appointments()
+            ->orderBy('date', 'DESC')
+            ->orderBy('start_time', 'DESC')
+            ->get();
 
         return response()->json(
             [
@@ -73,32 +51,6 @@ class PatientController extends Controller
                 'data' => $patientInfo,
             ],
             Response::HTTP_OK
-        );
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \App\Http\Requests\PatientRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(PatientRequest $request)
-    {
-        $patient = Patient::create($request->all());
-
-        $organization_id = auth()->user()->organization_id;
-
-        $patient = PatientOrganization::create([
-            'patient_id' => $patient->id,
-            'organization_id' => $organization_id,
-        ]);
-
-        return response()->json(
-            [
-                'message' => 'Patient created',
-                'data' => $patient,
-            ],
-            Response::HTTP_CREATED
         );
     }
 
@@ -143,7 +95,6 @@ class PatientController extends Controller
     }
 
     public function appointments(Patient $patient) {
-        
         $appointments = [
             'patientId' => $patient->id,
             'pastAppointments' => $patient->five_previous_appointments,
