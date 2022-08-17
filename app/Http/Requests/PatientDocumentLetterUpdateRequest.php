@@ -24,10 +24,10 @@ class PatientDocumentLetterUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id' => 'required',
-            'to'         => 'required',
-            'from'       => 'required',
-            'body'       => 'required',
+            'patient_id' => 'integer|required',
+            'to'         => 'integer|required',
+            'from'       => 'integer|required',
+            'body'       => 'string|required',
         ];
     }
 }

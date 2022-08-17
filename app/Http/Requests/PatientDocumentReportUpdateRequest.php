@@ -24,8 +24,8 @@ class PatientDocumentReportUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id' => 'required',
-            'body'       => 'required',
+            'patient_id' => 'integer|required',
+            'body'       => 'string|required',
         ];
     }
 }
