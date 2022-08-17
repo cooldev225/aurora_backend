@@ -78,7 +78,7 @@ class PatientDocumentLetterController extends Controller
             $file_name = 'patient_letter_' . $patient_document->id
                 . '_' . time() . '.' . $file->extension();
             $file_path = '/' . $file->storeAs('files/patient_documents', $file_name);
-            $patient_document->file_path = $file_path;
+            $patient_document->file_path = url($file_path);
             $patient_document->save();
         }
 

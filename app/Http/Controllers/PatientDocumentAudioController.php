@@ -30,7 +30,7 @@ class PatientDocumentAudioController extends Controller
             $file_path = '/' . $file->storeAs('files/patient_documents', $file_name);
             $file_type = $patient_document->getFileType($file_extension);
 
-            $patient_document->file_path = $file_path;
+            $patient_document->file_path = url($file_path);
             $patient_document->file_type = $file_type;
             $patient_document->save();
         }
@@ -100,7 +100,7 @@ class PatientDocumentAudioController extends Controller
             $file_path = '/' . $file->storeAs('files/patient_documents', $file_name);
             $file_type = $patient_document->getFileType($file_extension);
 
-            $patient_document->file_path = $file_path;
+            $patient_document->file_path = url($file_path);
             $patient_document->file_type = $file_type;
             $patient_document->save();
         }
@@ -109,7 +109,7 @@ class PatientDocumentAudioController extends Controller
             ...$request->all(),
             'patient_id'          => $patient->id,
             'patient_document_id' => $patient_document->id,
-            'file_path'           => $file_path,
+            'file_path'           => url($file_path),
             'translated_by'       => $user_id,
         ]);
 

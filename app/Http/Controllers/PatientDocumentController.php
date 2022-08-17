@@ -98,7 +98,7 @@ class PatientDocumentController extends Controller
             $file_name = 'document_' . $patientDocument->id . '_' . time() . '.' . $file_extension;
             $document_path = '/' . $file->storeAs('files/patient_documents', $file_name);
 
-            $patientDocument->file_path = $document_path;
+            $patientDocument->file_path = url($document_path);
             $patientDocument->file_type = $file_type;
         }
 
