@@ -129,7 +129,7 @@ class PreAdmissionController extends Controller
         );
     }
 
-    public function getConsent(PreAdmissionConsentRequest $request)
+    public function getConsent()
     {
         $organization_id = auth()->user()->organization_id;
 
