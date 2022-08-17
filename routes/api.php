@@ -6,7 +6,6 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
 use App\Http\Controllers\Anesthetist\ProcedureApprovalController;
-use App\Http\Controllers\AppointmentAttendanceStatusController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
@@ -190,6 +189,7 @@ Route::middleware(['auth'])->group(function () {
         'ensure.role:organizationAdmin,organizationManager,receptionist,anesthetist,specialist',
     ])->group(function () {
         Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
+        Route::apiResource('appointments', AppointmentController::class);
         Route::get('user-appointments', [UserAppointmentController::class, 'index']);
         Route::put('/appointments/approve/{id}', [
             AppointmentController::class,
@@ -207,23 +207,23 @@ Route::middleware(['auth'])->group(function () {
         ]);
 
         Route::put('/appointments/check-in/{appointment}', [
-            AppointmentAttendanceStatusController::class,
+            AppointmentController::class,
             'checkIn',
         ]);
         Route::put('/appointments/check-out/{appointment}', [
-            AppointmentAttendanceStatusController::class,
+            AppointmentController::class,
             'checkOut',
         ]);
-        Route::put('/appointments/cancel/{id}', [
+        Route::put('/appointments/cancel/{appointment}', [
             AppointmentController::class,
             'cancel',
         ]);
-        Route::put('/appointments/wait-listed/{id}', [
+        Route::put('/appointments/wait-listed/{appointment}', [
             AppointmentController::class,
             'waitListed',
         ]);
 
-        Route::put('/appointment-referrals/update/{id}', [
+        Route::put('/appointment-referrals/update/{appointment}', [
             AppointmentReferralController::class,
             'update',
         ]);
