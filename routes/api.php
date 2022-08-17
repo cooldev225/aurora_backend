@@ -42,6 +42,7 @@ use App\Http\Controllers\PatientDocumentAudioController;
 use App\Http\Controllers\PatientDocumentClinicalNoteController;
 use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\PatientDocumentLetterController;
+use App\Http\Controllers\PatientDocumentOtherController;
 use App\Http\Controllers\PatientDocumentReportController;
 use App\Models\AppointmentPreAdmission;
 
@@ -280,6 +281,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::apiResource('patient-documents-audio', PatientDocumentAudioController::class);
         Route::post('{patient}/audio/upload', [PatientDocumentAudioController::class, 'upload']);
+        
+        Route::post('{patient}/other/upload', [PatientDocumentOtherController::class, 'upload']);
 
         Route::post('{appointment}/pre-admission/upload', [
             AppointmentPreAdmissionController::class,
