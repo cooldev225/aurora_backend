@@ -32,6 +32,7 @@ class PatientSpecialistAudioFactory extends Factory
 
         $patient_document = PatientDocument::create([
             'patient_id'        =>  $patient_id,
+            'document_name'     =>  $this->faker->word(),
             'appointment_id'    =>  $appointment_id,
             'specialist_id'     =>  $specialist_id,
             'document_type'     =>  'AUDIO',
