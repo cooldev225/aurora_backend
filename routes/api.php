@@ -269,16 +269,16 @@ Route::middleware(['auth'])->group(function () {
         Route::post('patient-documents/upload', [PatientDocumentController::class, 'upload']);
 
         Route::apiResource('patient-documents-letter', PatientDocumentLetterController::class);
-        Route::post('patient-documents-letter/upload', [PatientDocumentLetterController::class, 'upload']);
+        Route::post('{patient}/letter/upload', [PatientDocumentLetterController::class, 'upload']);
 
         Route::apiResource('patient-documents-report', PatientDocumentReportController::class);
-        Route::post('patient-documents-report/upload', [PatientDocumentReportController::class, 'upload']);
+        Route::post('{patient}/report/upload', [PatientDocumentReportController::class, 'upload']);
 
         Route::apiResource('patient-documents-clinical-note', PatientDocumentClinicalNoteController::class);
-        Route::post('patient-documents-clinical-note/upload', [PatientDocumentClinicalNoteController::class, 'upload']);
+        Route::post('{patient}/clinical-note/upload', [PatientDocumentClinicalNoteController::class, 'upload']);
 
         Route::apiResource('patient-documents-audio', PatientDocumentAudioController::class);
-        Route::post('patient-documents-audio/upload', [PatientDocumentAudioController::class, 'upload']);
+        Route::post('{patient}/audio/upload', [PatientDocumentAudioController::class, 'upload']);
 
         Route::post('{appointment}/pre-admission/upload', [
             AppointmentPreAdmissionController::class,

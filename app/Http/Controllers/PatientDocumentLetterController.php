@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PatientDocumentLetterStoreRequest;
 use App\Http\Requests\PatientDocumentLetterUpdateRequest;
 use App\Http\Requests\PatientDocumentLetterUploadRequest;
+use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientLetter;
 use Illuminate\Http\Response;
@@ -59,10 +60,14 @@ class PatientDocumentLetterController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function upload(PatientDocumentLetterUploadRequest $request) {
+    public function upload(
+        Patient $patient,
+        PatientDocumentLetterUploadRequest $request
+    ) {
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
+            'patient_id'    => $patient->id,
             'document_type' => 'LETTER',
             'created_by'    => $user_id,
         ];

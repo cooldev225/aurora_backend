@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PatientDocumentReportStoreRequest;
 use App\Http\Requests\PatientDocumentReportUpdateRequest;
 use App\Http\Requests\PatientDocumentReportUploadRequest;
+use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientReport;
 use Illuminate\Http\Response;
@@ -59,10 +60,14 @@ class PatientDocumentReportController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function upload(PatientDocumentReportUploadRequest $request) {
+    public function upload(
+        Patient $patient,
+        PatientDocumentReportUploadRequest $request
+    ) {
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
+            'patient_id'    => $patient->id,
             'document_type' => 'REPORT',
             'created_by'    => $user_id,
         ];
