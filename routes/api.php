@@ -174,6 +174,10 @@ Route::middleware(['auth'])->group(function () {
             PreAdmissionController::class,
             'updateConsent',
         ]);
+        Route::put('get-pre-admission-consent', [
+            PreAdmissionController::class,
+            'getConsent',
+        ]);
 
         Route::post('/notification-test', [
             NotificationTestController::class,

@@ -128,4 +128,22 @@ class PreAdmissionController extends Controller
             Response::HTTP_OK
         );
     }
+
+    public function getConsent(PreAdmissionConsentRequest $request)
+    {
+        $organization_id = auth()->user()->organization_id;
+
+        $pre_admission_consent = PreAdmissionConsent::where(
+            'organization_id',
+            $organization_id
+        )->firstOrCreate();
+
+        return response()->json(
+            [
+                'message' => 'Pre Admission Consent for Your Organization',
+                'data' => $pre_admission_consent,
+            ],
+            Response::HTTP_OK
+        );
+    }
 }
