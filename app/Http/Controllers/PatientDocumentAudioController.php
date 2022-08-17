@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PatientDocumentAudioStoreRequest;
 use App\Http\Requests\PatientDocumentAudioUpdateRequest;
 use App\Http\Requests\PatientDocumentAudioUploadRequest;
+use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientSpecialistAudio;
 use Illuminate\Http\Response;
@@ -78,10 +79,14 @@ class PatientDocumentAudioController extends Controller
         );
     }
 
-    public function upload(PatientDocumentAudioUploadRequest $request) {
+    public function upload(
+        Patient $patient,
+        PatientDocumentAudioUploadRequest $request
+    ) {
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
+            'patient_id'    => $patient->id,
             'document_type' => 'AUDIO',
             'created_by'    => $user_id,
         ];
@@ -102,6 +107,7 @@ class PatientDocumentAudioController extends Controller
 
         PatientSpecialistAudio::create([
             ...$request->all(),
+            'patient_id'          => $patient->id,
             'patient_document_id' => $patient_document->id,
             'file_path'           => $file_path,
             'translated_by'       => $user_id,

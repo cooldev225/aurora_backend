@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PatientDocumentClinicalNoteStoreRequest;
 use App\Http\Requests\PatientDocumentClinicalNoteUpdateRequest;
 use App\Http\Requests\PatientDocumentClinicalNoteUploadRequest;
+use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientClinicalNote;
 use Illuminate\Http\Response;
@@ -59,10 +60,14 @@ class PatientDocumentClinicalNoteController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function upload(PatientDocumentClinicalNoteUploadRequest $request) {
+    public function upload(
+        Patient $patient,
+        PatientDocumentClinicalNoteUploadRequest $request
+    ) {
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
+            'patient_id'    => $patient->id,
             'document_type' => 'CLINICAL_NOTE',
             'created_by'    => $user_id,
         ];
