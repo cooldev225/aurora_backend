@@ -180,7 +180,9 @@ Route::middleware(['auth'])->group(function () {
             'testSendNotification',
         ]);
 
-        Route::apiResource('payments', PaymentController::class);
+        Route::get('payments', [PaymentController::class, 'index']);
+        Route::get('payments/{appointment}', [PaymentController::class, 'show']);
+        Route::post('payments', [PaymentController::class, 'store']);
     });
 
     Route::middleware([
@@ -277,6 +279,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::apiResource('patient-documents-audio', PatientDocumentAudioController::class);
         Route::post('patient-documents-audio/upload', [PatientDocumentAudioController::class, 'upload']);
+
+        Route::post('{appointment}/pre-admission/upload', [
+            AppointmentPreAdmissionController::class,
+            'upload',
+        ]);
     });
 
     Route::middleware([
@@ -294,10 +301,6 @@ Route::middleware(['auth'])->group(function () {
         Route::put('{appointment}/procedure-approvals', [
             AppointmentProcedureApprovalController::class,
             'update',
-        ]);
-        Route::post('{appointment}/pre-admission/upload', [
-            AppointmentPreAdmissionController::class,
-            'upload',
         ]);
     });
 });
