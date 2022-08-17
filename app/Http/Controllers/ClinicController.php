@@ -47,10 +47,15 @@ class ClinicController extends BaseOrganizationController
      */
     public function store(ClinicRequest $request)
     {
+        if ($request->filled('id')) {
+            $clinic = Clinic::find($request->id);
+            return $this->update($request, $clinic);
+        }
+
         $organization_id = auth()->user()->organization_id;
 
         $clinic = Clinic::create([
-            ...$request->all(),
+            ...$this->filterParams($request),
             'organization_id' => $organization_id,
         ]);
 
@@ -102,7 +107,7 @@ class ClinicController extends BaseOrganizationController
         }
 
         $clinic->update([
-            ...$request->all(),
+            ...$this->filterParams($request),
             'organization_id' => $organization_id,
         ]);
 
@@ -147,7 +152,11 @@ class ClinicController extends BaseOrganizationController
     public function destroy(Clinic $clinic)
     {
         $proda_device = $clinic->proda_device;
-        $proda_device->delete();
+
+        if (!empty($proda_device)) {
+            $proda_device->delete();
+        }
+
         $clinic->delete();
 
         return response()->json(
@@ -156,5 +165,25 @@ class ClinicController extends BaseOrganizationController
             ],
             Response::HTTP_NO_CONTENT
         );
+    }
+
+
+    /**
+     * Filter Request
+     *
+     * @param  \App\Http\Requests\ClinicRequest  $request
+     * @return Filtered Array
+     */
+    protected function filterParams(ClinicRequest $request)
+    {
+        $returnArray = $request->all();
+
+        foreach ($returnArray as $key => $item) {
+            if (($returnArray[$key] == null) || ($returnArray[$key] == 'null')) {
+                unset($returnArray[$key]);
+            }
+        }
+
+        return $returnArray;
     }
 }
