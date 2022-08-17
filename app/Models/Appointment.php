@@ -48,7 +48,7 @@ class Appointment extends Model
     public function getClinicDetailsAttribute()
     {   
         return [
-            'name' => $this->clinic()->first()->name,
+            'name' => $this->clinic->name,
         ];
     }
 
