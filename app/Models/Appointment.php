@@ -20,7 +20,11 @@ class Appointment extends Model
         'note', 'collecting_person_name', 'collecting_person_phone',
         'collecting_person_alternate_contact',
     ];
-    protected $appends = array('patient_name','patient_details','specialist_name','appointment_type','aus_formatted_date','formatted_appointment_time');
+    protected $appends = [
+        'patient_name', 'patient_details', 'specialist_name',
+        'appointment_type', 'aus_formatted_date', 'formatted_appointment_time',
+        'pre_admission_form_url'
+    ];
 
     public function getAusFormattedDateAttribute()
     {
@@ -49,7 +53,6 @@ class Appointment extends Model
     }
 
     public function getPatientDetailsAttribute() {
-       
         return [
             'date_of_birth' => Carbon::parse($this->patient()->date_of_birth)->format('d-m-Y'),
             'contact_number'=> $this->patient()->contact_number,
@@ -57,11 +60,14 @@ class Appointment extends Model
       ];
     }
 
+    public function getPreAdmissionFormUrlAttribute() {
+        return $this->pre_admission->pre_admission_file;
+    }
+
     public function getAppointmentTypeAttribute()
     {
         return $this->appointmentType()->first();
     }
-
 
     /**
      * Return Organization
