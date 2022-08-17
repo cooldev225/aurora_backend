@@ -26,6 +26,7 @@ class Appointment extends Model
         'pre_admission_form_url', 'clinic_details'
     ];
 
+
     public function getAusFormattedDateAttribute()
     {
         return Carbon::parse($this->date)->format('d-m-Y'); 
@@ -44,11 +45,18 @@ class Appointment extends Model
         return 'Dr ' .$specialist_user->first_name .' '. $specialist_user->last_name;  
     }
 
+    public function getClinicDetailsAttribute()
+    {   
+        return [
+            'name' => $this->clinic()->name,
+        ];
+    }
+
     public function getPatientNameAttribute() {
         return [
             'full' => $this->patient()->title .' ' . $this->patient()->first_name .' '. $this->patient()->last_name,
             'first'=> $this->patient()->first_name,
-            'last' =>$this->patient()-> last_name
+            'last' => $this->patient()-> last_name
         ];
     }
 
