@@ -24,8 +24,9 @@ class PatientDocumentLetterUploadRequest extends FormRequest
     public function rules()
     {
         return [
-            'specialist_id'  => 'required',
-            'appointment_id' => 'required',
+            'document_name'  => 'string|required',
+            'specialist_id'  => 'integer|required',
+            'appointment_id' => 'integer|required',
             'file'           => 'required',
         ];
     }

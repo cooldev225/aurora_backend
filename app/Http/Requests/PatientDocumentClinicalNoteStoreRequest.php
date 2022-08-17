@@ -24,13 +24,13 @@ class PatientDocumentClinicalNoteStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'appointment_id'        => 'required',
-            'description'           => 'required',
-            'diagnosis'             => 'required',
-            'clinical_assessment'   => 'required',
-            'treatment'             => 'required',
-            'history'               => 'required',
-            'additional_details'    => 'required',
+            'appointment_id'        => 'integer|required',
+            'description'           => 'string|required',
+            'diagnosis'             => 'string|required',
+            'clinical_assessment'   => 'string|required',
+            'treatment'             => 'string|required',
+            'history'               => 'string|required',
+            'additional_details'    => 'string|required',
         ];
     }
 }
