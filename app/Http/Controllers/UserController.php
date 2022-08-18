@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [User] Get User List
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +32,7 @@ class UserController extends Controller
     }
 
     /**
-     * login user
+     * [Authentication] - User Login
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -87,7 +87,7 @@ class UserController extends Controller
     }
 
     /**
-     * verify_token
+     * [Authentication] - Verify Token
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -109,7 +109,7 @@ class UserController extends Controller
     }
 
     /**
-     * Logout user
+     * [Authentication] - User Logout
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -121,7 +121,7 @@ class UserController extends Controller
     }
 
     /**
-     * Refresh token.
+     * [Authentication] - Refresh Token
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -131,7 +131,7 @@ class UserController extends Controller
     }
 
     /**
-     * Get user profile.
+     * [User] - User Profile
      *
      * @return \Illuminate\Http\JsonResponse
      */
@@ -143,7 +143,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update current user profile
+     * [User] - Update Current User Profile
      *
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
@@ -191,7 +191,7 @@ class UserController extends Controller
     }
 
     /**
-     * Update current user profile
+     * [User] - Update Current User Profile
      *
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response

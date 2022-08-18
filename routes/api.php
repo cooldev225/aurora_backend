@@ -56,18 +56,14 @@ use App\Http\Controllers\UserAppointmentController;
 Route::post('/login', [UserController::class, 'login']);
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('/users', [UserController::class, 'index']);
     Route::post('/verify_token', [UserController::class, 'verify_token']);
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/refresh', [UserController::class, 'refresh']);
+
+    Route::get('/users', [UserController::class, 'index']);
     Route::post('/update-profile', [UserController::class, 'updateProfile']);
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
-
-    Route::get('/referring-doctors/list', [
-        ReferringDoctorController::class,
-        'list',
-    ]);
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Appointment Pre Admission
@@ -103,6 +99,11 @@ Route::middleware(['auth'])->group(function () {
             ReferringDoctorController::class
         );
     });
+
+    Route::get('/referring-doctors/list', [
+        ReferringDoctorController::class,
+        'list',
+    ]);
 
     Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
         Route::apiResource('clinics', ClinicController::class);
