@@ -24,10 +24,11 @@ class PreAdmissionSection extends Model
         $sectionObj = self::create($data);
 
         $questions = $data['questions'];
-        $arrQuestionsData = json_decode($questions);
+        $arrQuestionsData = $questions;
 
         if (is_array($arrQuestionsData)) {
             foreach ($arrQuestionsData as $question) {
+                $question = (object) $question;
                 $questionObj = new PreAdmissionQuestion();
                 $questionObj->pre_admission_section_id = $sectionObj->id;
                 $questionObj->text = $question->text;
@@ -46,11 +47,13 @@ class PreAdmissionSection extends Model
         parent::update($attributes, $options);
 
         $questions = $attributes['questions'];
-        $arrQuestionsData = json_decode($questions);
+        $arrQuestionsData = $questions;
+
+        $arrQuestionID = [];
 
         if (is_array($arrQuestionsData)) {
-            $arrQuestionID = [];
             foreach ($arrQuestionsData as $question) {
+                $question = (object) $question;
                 $questionObj = null;
                 if (isset($question->id)) {
                     $questionObj = PreAdmissionQuestion::where(
@@ -71,11 +74,11 @@ class PreAdmissionSection extends Model
                 $questionObj->save();
                 $arrQuestionID[] = $questionObj->id;
             }
-
-            PreAdmissionQuestion::where('pre_admission_section_id', $this->id)
-                ->whereNotIn('id', $arrQuestionID)
-                ->delete();
         }
+
+        PreAdmissionQuestion::where('pre_admission_section_id', $this->id)
+            ->whereNotIn('id', $arrQuestionID)
+            ->delete();
 
         return PreAdmissionSection::where('id', $this->id)
             ->with('questions')
