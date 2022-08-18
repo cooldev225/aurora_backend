@@ -172,7 +172,7 @@ class EmployeeController extends Controller
             );
         }
 
-        $user = $employee->user();
+        $user = $employee->user;
         $user->update([
             ...$request->all(),
             'organization_id' => $organization_id,
@@ -255,7 +255,7 @@ class EmployeeController extends Controller
      */
     public function destroy(Employee $employee)
     {
-        $user = $employee->user();
+        $user = $employee->user;
         $user->delete();
         $employee->delete();
 

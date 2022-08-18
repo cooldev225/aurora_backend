@@ -24,8 +24,9 @@ class Specialist extends Model
      */
     public function getNameAttribute()
     {
-        return 'Specialist Name';
-       // return $this->employee->user->title . ' ' . $this->employee->user->first_name . ' ' . $this->employee->user->last_name;
+        return $this->employee->user->title . ' '
+            . $this->employee->user->first_name . ' '
+            . $this->employee->user->last_name;
     }
 
     /**
@@ -33,7 +34,7 @@ class Specialist extends Model
      */
     public function employee()
     {
-        return $this->belongsTo(Employee::class);
+        return $this->belongsTo(Employee::class, 'employee_id');
     }
 
     /**
@@ -52,6 +53,7 @@ class Specialist extends Model
         $anesthetist_user_table = "{$user_table} AS anesthetist_users";
 
         $specialist_list = self::select(
+            $specialist_table . '.*',    
             $specialist_table . '.id',
             $employee_table . '.work_hours',
             'anesthetist_id',
