@@ -9,22 +9,22 @@ class PreAdmissionSection extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'organization_id', 'title'
-    ];
+    protected $fillable = ['organization_id', 'title'];
 
     /**
      * Return Section's questions
      */
-    public function questions() {
+    public function questions()
+    {
         return $this->hasMany(PreAdmissionQuestion::class);
     }
 
-    public static function createSection($data) {
+    public static function createSection($data)
+    {
         $sectionObj = self::create($data);
 
-        $questions_data = $data['questions_data'];
-        $arrQuestionsData = json_decode($questions_data);
+        $questions = $data['questions'];
+        $arrQuestionsData = json_decode($questions);
 
         if (is_array($arrQuestionsData)) {
             foreach ($arrQuestionsData as $question) {
@@ -41,20 +41,22 @@ class PreAdmissionSection extends Model
             ->first();
     }
 
-    public function update(array $attributes = [], array $options = []) {
+    public function update(array $attributes = [], array $options = [])
+    {
         parent::update($attributes, $options);
 
-        $questions_data = $attributes['questions_data'];
-        $arrQuestionsData = json_decode($questions_data);
+        $questions = $attributes['questions'];
+        $arrQuestionsData = json_decode($questions);
 
         if (is_array($arrQuestionsData)) {
-            $arrQuestionID = array();
+            $arrQuestionID = [];
             foreach ($arrQuestionsData as $question) {
                 $questionObj = null;
                 if (isset($question->id)) {
                     $questionObj = PreAdmissionQuestion::where(
-                        'pre_admission_section_id', $this->id
-                        )
+                        'pre_admission_section_id',
+                        $this->id
+                    )
                         ->where('id', $question->id)
                         ->first();
                 }
@@ -80,7 +82,8 @@ class PreAdmissionSection extends Model
             ->first();
     }
 
-    public function delete() {
+    public function delete()
+    {
         $this->questions()->delete();
 
         parent::delete();
