@@ -12,8 +12,6 @@ class Specialist extends Model
 
     protected $fillable = [
         'employee_id',
-        'specialist_title_id',
-        'specialist_type_id',
         'anesthetist_id',
     ];
 
@@ -45,15 +43,13 @@ class Specialist extends Model
         $employee_table = (new Employee())->getTable();
         $user_table = (new User())->getTable();
         $specialist_table = (new Specialist())->getTable();
-        $specialist_title_table = (new SpecialistTitle())->getTable();
-        $specialist_type_table = (new SpecialistType())->getTable();
         $anesthetist_table = "{$employee_table} AS anesthetists";
         $anesthetist_user_table = "{$user_table} AS anesthetist_users";
 
         $specialist_list = self::select(
             $specialist_table . '.id',
             DB::raw(
-                "CONCAT({$specialist_title_table}.name, ' ', {$user_table}.first_name, ' ', {$user_table}.last_name) AS name"
+                "CONCAT {$user_table}.first_name, ' ', {$user_table}.last_name) AS name"
             ),
             $employee_table . '.work_hours',
             'anesthetist_id',
@@ -79,18 +75,6 @@ class Specialist extends Model
                 'anesthetists.user_id',
                 '=',
                 'anesthetist_users.id'
-            )
-            ->leftJoin(
-                $specialist_title_table,
-                'specialist_title_id',
-                '=',
-                $specialist_title_table . '.id'
-            )
-            ->leftJoin(
-                $specialist_type_table,
-                'specialist_type_id',
-                '=',
-                $specialist_type_table . '.id'
             )
             ->where($user_table . '.organization_id', $organization_id);
 
@@ -166,12 +150,6 @@ class Specialist extends Model
                 'appointment_id',
                 '=',
                 "{$appointment_table}.id"
-            )
-            ->leftJoin(
-                $specialist_title_table,
-                'specialist_title_id',
-                '=',
-                $specialist_title_table . '.id'
             )
             ->leftJoin(
                 $appointment_type_table,
