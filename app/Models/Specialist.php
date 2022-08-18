@@ -15,12 +15,16 @@ class Specialist extends Model
         'anesthetist_id',
     ];
 
+    protected $appends = [
+        'name'
+    ];
+
     /**
-     * Return SpecialistType
+     * Return Specialist Name
      */
-    public function specialist_title()
+    public function getNameAttribute()
     {
-        return $this->belongsTo(SpecialistTitle::class);
+        return $this->employee->user->title . ' ' . $this->employee->user->first_name . ' ' . $this->employee->user->last_name;
     }
 
     /**
@@ -28,7 +32,7 @@ class Specialist extends Model
      */
     public function employee()
     {
-        return $this->belongsTo(Employee::class)->first();
+        return $this->belongsTo(Employee::class);
     }
 
     /**

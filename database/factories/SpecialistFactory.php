@@ -24,7 +24,7 @@ class SpecialistFactory extends Factory
         $employee = Employee::factory()->create();
         $user = $employee->user();
         $user->role_id = UserRole::where('slug', 'specialist')->first()->id;
-        
+        $user->title = $this->faker->title();
         $specialist_count = User::where('username', 'specialist_1')->count();
         if ($specialist_count == 0) {
             $user->username = 'specialist_1';
