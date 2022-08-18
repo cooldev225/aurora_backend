@@ -750,7 +750,7 @@ class AppointmentController extends BaseOrganizationController
             $day = date('l', strtotime($request->date));
             $day = strtolower($day);
             $work_hours = json_decode(
-                Specialist::find($request->specialist_id)->employee()
+                Specialist::find($request->specialist_id)->employee
                     ->work_hours
             );
 

@@ -33,8 +33,8 @@ class AppointmentPreAdmission extends Model
 
         $patient = $appointment->patient();
         $specialist = $appointment->specialist();
-        $employee = $specialist->employee();
-        $user = $employee->user();
+        $employee = $specialist->employee;
+        $user = $employee->user;
 
         $data['patient'] = $patient;
         $data['appointment'] = $appointment;
