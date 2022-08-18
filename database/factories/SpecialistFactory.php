@@ -22,7 +22,7 @@ class SpecialistFactory extends Factory
     public function definition()
     {
         $employee = Employee::factory()->create();
-        $user = $employee->user();
+        $user = $employee->user;
         $user->role_id = UserRole::where('slug', 'specialist')->first()->id;
         $specialist_count = User::where('username', 'specialist_1')->count();
         if ($specialist_count == 0) {
@@ -34,7 +34,7 @@ class SpecialistFactory extends Factory
         $organization_id = $user->organization()->id;
 
         $anesthetist = Employee::factory()->create();
-        $anesthetist_user = $anesthetist->user();
+        $anesthetist_user = $anesthetist->user;
         $anesthetist_user->role_id = UserRole::where(
             'slug',
             'Anesthetist'
