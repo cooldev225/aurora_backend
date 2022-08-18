@@ -55,8 +55,6 @@ class SpecialistFactory extends Factory
         return [
             'employee_id' => $employee->id,
             'anesthetist_id' => $anesthetist->id,
-            'specialist_title_id' => $specialist_title->id,
-            'specialist_type_id' => $specialist_type->id,
         ];
     }
 }
