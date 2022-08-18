@@ -21,8 +21,6 @@ use App\Http\Controllers\OrganizationManagerController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\ProdaDeviceController;
 use App\Http\Controllers\RoomController;
-use App\Http\Controllers\SpecialistTitleController;
-use App\Http\Controllers\SpecialistTypeController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\UserRoleController;
@@ -42,7 +40,7 @@ use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\PatientDocumentLetterController;
 use App\Http\Controllers\PatientDocumentOtherController;
 use App\Http\Controllers\PatientDocumentReportController;
-
+use App\Http\Controllers\UserAppointmentController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,11 +96,6 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('admins', AdminController::class);
         Route::apiResource('user-roles', UserRoleController::class);
         Route::apiResource('organizations', OrganizationController::class);
-        Route::apiResource('specialist-types', SpecialistTypeController::class);
-        Route::apiResource(
-            'specialist-titles',
-            SpecialistTitleController::class
-        );
         Route::apiResource('birth-codes', BirthCodeController::class);
         Route::apiResource('health-funds', HealthFundController::class);
         Route::apiResource(
