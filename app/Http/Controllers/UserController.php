@@ -25,7 +25,7 @@ class UserController extends Controller
         return response()->json(
             [
                 'message' => 'User List',
-                'data' => $users,
+                'data' => $this->withBaseUrl($users),
             ],
             Response::HTTP_OK
         );
@@ -137,7 +137,9 @@ class UserController extends Controller
      */
     public function profile()
     {
-        return response()->json(auth()->user());
+        return response()->json(
+            $this->withBaseUrlForSingleUser(auth()->user())
+        );
     }
 
     /**
@@ -237,5 +239,39 @@ class UserController extends Controller
             ],
             Response::HTTP_OK
         );
+    }
+
+    /**
+     * Change avatar path to url
+     */
+    protected function withBaseUrl($user_list)
+    {
+        $base_url = url('/');
+
+        $user_list = $user_list->toArray();
+
+        foreach ($user_list as $key => $user) {
+            if (substr($user['photo'], 0, 1) == '/') {
+                $user_list[$key]['photo'] = $base_url . $user['photo'];
+            }
+        }
+
+        return $user_list;
+    }
+
+    /**
+     * Change avatar path to url
+     */
+    protected function withBaseUrlForSingleUser($user)
+    {
+        $base_url = url('/');
+
+        $user = $user->toArray();
+
+        if (substr($user['photo'], 0, 1) == '/') {
+            $user['photo'] = $base_url . $user['photo'];
+        }
+
+        return $user;
     }
 }
