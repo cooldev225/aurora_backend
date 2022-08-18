@@ -48,9 +48,6 @@ class Specialist extends Model
 
         $specialist_list = self::select(
             $specialist_table . '.id',
-            DB::raw(
-                "CONCAT {$user_table}.first_name, ' ', {$user_table}.last_name) AS name"
-            ),
             $employee_table . '.work_hours',
             'anesthetist_id',
             DB::raw(
@@ -75,8 +72,7 @@ class Specialist extends Model
                 'anesthetists.user_id',
                 '=',
                 'anesthetist_users.id'
-            )
-            ->where($user_table . '.organization_id', $organization_id);
+            )->where($user_table . '.organization_id', $organization_id);
 
         return $specialist_list;
     }
@@ -93,7 +89,6 @@ class Specialist extends Model
         $appointment_table = (new Appointment())->getTable();
         $patient_table = (new Patient())->getTable();
         $specialist_table = (new Specialist())->getTable();
-        $specialist_title_table = (new SpecialistTitle())->getTable();
         $clinic_table = (new Clinic())->getTable();
         $appointment_type_table = (new AppointmentType())->getTable();
         $appointment_administration_info_table = (new AppointmentAdministrationInfo())->getTable();
@@ -113,8 +108,7 @@ class Specialist extends Model
             "{$appointment_administration_info_table}.*",
             "{$appointment_referral_table}.*",
             DB::raw(
-                "CONCAT({$specialist_title_table}.name, ' ', "
-                . "{$user_table}.first_name, ' ', "
+                "CONCAT({$user_table}.first_name, ' ', "
                 . "{$user_table}.last_name) AS specialist_name"
             ),
             "{$appointment_type_table}.name AS appointment_type_name",

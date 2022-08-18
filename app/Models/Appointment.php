@@ -48,7 +48,7 @@ class Appointment extends Model
     public function getClinicDetailsAttribute()
     {   
         return [
-            'name' => $this->clinic->name,
+            'name' => $this->clinic()->first()->name,
         ];
     }
 
@@ -224,12 +224,10 @@ class Appointment extends Model
         $employee_table = (new Employee())->getTable();
         $user_table = (new User())->getTable();
 
+
         return self::organizationAppointments($organization_id)
             ->select(
                 '*',
-                DB::raw(
-                    "CONCAT({$user_table}.first_name, ' ', {$user_table}.last_name) AS specialist_name"
-                ),
                 "{$clinic_table}.name AS clinic_name",
                 "{$appointment_type_table}.name AS procedure_name",
                 "{$appointment_type_table}.name AS appointment_type_name",
