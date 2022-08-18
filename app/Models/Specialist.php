@@ -24,7 +24,8 @@ class Specialist extends Model
      */
     public function getNameAttribute()
     {
-        return $this->employee->user->title . ' ' . $this->employee->user->first_name . ' ' . $this->employee->user->last_name;
+        return 'Specialist Name';
+       // return $this->employee->user->title . ' ' . $this->employee->user->first_name . ' ' . $this->employee->user->last_name;
     }
 
     /**
