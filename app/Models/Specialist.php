@@ -131,7 +131,8 @@ class Specialist extends Model
                 "CONCAT({$referring_doctor_table}.title, ' ', "
                 . "{$referring_doctor_table}.first_name, ' ', "
                 . "{$referring_doctor_table}.last_name) AS referring_doctor_name"
-            )
+            ),
+            $specialist_table . '.employee_id'
         )
             ->leftJoin(
                 $employee_table,

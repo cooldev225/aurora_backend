@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class ReferringDoctorController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [Referring Doctor] - All
      *
      * @return \Illuminate\Http\Response
      */
@@ -29,7 +29,7 @@ class ReferringDoctorController extends BaseOrganizationController
     }
 
     /**
-     * Display a listing of the resource.
+     * [Referring Doctor] - list
      *
      * @return \Illuminate\Http\Response
      */

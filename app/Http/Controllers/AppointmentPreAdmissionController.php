@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Storage;
 class AppointmentPreAdmissionController extends Controller
 {
     /**
-     * return the appointment pre admission info.
+     * [Pre Admission] - Show Initial Form
      *
      * @param  string  $token
      * @return \Illuminate\Http\Response
@@ -45,7 +45,7 @@ class AppointmentPreAdmissionController extends Controller
     }
 
     /**
-     * return the appointment pre admission info.
+     * [Pre Admission] - Validate Pre Admission
      *
      * @param  string  $token
      * @return \Illuminate\Http\Response
@@ -99,7 +99,7 @@ class AppointmentPreAdmissionController extends Controller
     }
 
     /**
-     * return the appointment pre admission info.
+     * [Pre Admission] - Create Pre Admission
      *
      * @param  string  $token
      * @return \Illuminate\Http\Response
@@ -160,7 +160,7 @@ class AppointmentPreAdmissionController extends Controller
     }
 
     /**
-     * Uploads a new Preadmission form.
+     * [Pre Admission] - Upload Pre Admission
      *
      * @param  string  $token
      * @return \Illuminate\Http\Response
