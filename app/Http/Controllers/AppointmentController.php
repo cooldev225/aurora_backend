@@ -153,6 +153,17 @@ class AppointmentController extends BaseOrganizationController
         );
     }
 
+
+    public function show(Appointment $appointment){
+        return response()->json(
+            [
+                'message' => 'Appointment Returned',
+                'data' => $appointment,
+            ],
+            Response::HTTP_OK
+        );
+    }
+    
     /**
      * Return available time slots
      *
