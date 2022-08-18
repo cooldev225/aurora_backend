@@ -5,7 +5,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
-use App\Http\Controllers\Anesthetist\ProcedureApprovalController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
@@ -20,7 +19,6 @@ use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\OrganizationManagerController;
 use App\Http\Controllers\PatientController;
-use App\Http\Controllers\ProcedureQuestionController;
 use App\Http\Controllers\ProdaDeviceController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SpecialistTitleController;
@@ -44,7 +42,7 @@ use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\PatientDocumentLetterController;
 use App\Http\Controllers\PatientDocumentOtherController;
 use App\Http\Controllers\PatientDocumentReportController;
-use App\Models\AppointmentPreAdmission;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -132,8 +130,6 @@ Route::middleware(['auth'])->group(function () {
             'appointment-types',
             AppointmentTypeController::class
         );
-        Route::get('/specialist-titles', [SpecialistTitleController::class, 'index']);
-        Route::get('/specialist-types', [SpecialistTypeController::class, 'index']);
     });
 
     Route::middleware([
@@ -148,10 +144,6 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource(
             'anesthetic-questions',
             AnestheticQuestionController::class
-        );
-        Route::apiResource(
-            'procedure-questions',
-            ProcedureQuestionController::class
         );
         Route::apiResource(
             'appointments/{appointment_id}/questions/{question_id}/anesthetic-answers',
@@ -262,10 +254,7 @@ Route::middleware(['auth'])->group(function () {
             AnestheticQuestionController::class,
             'index',
         ]);
-        Route::get('/procedure-questions', [
-            ProcedureQuestionController::class,
-            'index',
-        ]);
+
         Route::get('/notification-templates', [
             NotificationTemplateController::class,
             'index',
