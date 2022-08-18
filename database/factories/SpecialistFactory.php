@@ -33,10 +33,6 @@ class SpecialistFactory extends Factory
         $user->save();
 
         $organization_id = $user->organization()->id;
-        $specialist_type = SpecialistType::create([
-            'name' => $this->faker->word(),
-        ]);
-        $specialist_title = SpecialistTitle::factory()->create();
 
         $anesthetist = Employee::factory()->create();
         $anesthetist_user = $anesthetist->user();
