@@ -25,8 +25,6 @@ class SpecialistRequest extends FormRequest
     {
         return [
             'employee_id' => 'required|numeric',
-            'specialist_title_id' => 'required|numeric',
-            'specialist_type_id' => 'required|numeric',
             'anesthetist_id' => 'required|numeric',
         ];
     }
