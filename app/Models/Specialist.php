@@ -24,6 +24,12 @@ class Specialist extends Model
      */
     public function getNameAttribute()
     {
+        if ($this->employee == null) {
+            return $this->id . ' : ' . $this->employee_id;
+        } else if ($this->employee->user == null) {
+            return 'u ' . $this->employee->id;
+        }
+
         return $this->employee->user->title . ' '
             . $this->employee->user->first_name . ' '
             . $this->employee->user->last_name;
@@ -53,8 +59,9 @@ class Specialist extends Model
         $anesthetist_user_table = "{$user_table} AS anesthetist_users";
 
         $specialist_list = self::select(
-            $specialist_table . '.*',    
+            $specialist_table . '.employee_id',    
             $specialist_table . '.id',
+            $employee_table . '.user_id',
             $employee_table . '.work_hours',
             'anesthetist_id',
             DB::raw(
