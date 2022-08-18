@@ -608,11 +608,9 @@ class AppointmentController extends BaseOrganizationController
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function cancel(Request $request)
+    public function cancel(Request $request, Appointment $appointment)
     {
         $organization_id = auth()->user()->organization_id;
-
-        $appointment = Appointment::find($request->id);
 
         if ($appointment->organization_id != $organization_id) {
             return $this->forbiddenOrganization();
