@@ -16,21 +16,22 @@ class UserAppointmentController extends BaseOrganizationController
      */
     public function index(Request $request)
     {
-        
         $role = auth()->user()->role;
 
-        if($role=='specialist'){
-            $appointments = Appointment::where('specialist_id', auth()->user()->employee->specialist->id)->get();
-        }
+        $appointments = [];
 
+        if ($role == 'Specialist') {
+            $specialist_id = auth()->user()->employee->specialist->id;
+            $appointments = Appointment::where('specialist_id', $specialist_id)
+                ->get();
+        }
        
         return response()->json(
             [
                 'message' => 'Appointment List',
-                'data' => $appointments,
+                'data'    => $appointments,
             ],
             Response::HTTP_OK
         );
     }
-
 }
