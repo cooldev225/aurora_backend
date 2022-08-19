@@ -10,7 +10,7 @@ use App\Models\ProdaDevice;
 class ClinicController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [Clinic] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -40,7 +40,7 @@ class ClinicController extends BaseOrganizationController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Clinic] - Store
      *
      * @param  \App\Http\Requests\ClinicRequest  $request
      * @return \Illuminate\Http\Response
@@ -92,7 +92,7 @@ class ClinicController extends BaseOrganizationController
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Clinic] - Update
      *
      * @param  \App\Http\Requests\ClinicRequest  $request
      * @param  \App\Models\Clinic  $clinic
@@ -144,7 +144,7 @@ class ClinicController extends BaseOrganizationController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Clinic] - Destroy
      *
      * @param  \App\Models\Clinic  $clinic
      * @return \Illuminate\Http\Response

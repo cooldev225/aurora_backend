@@ -13,7 +13,7 @@ use App\Mail\Notification;
 class AppointmentProcedureApprovalController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [Appointment Procedure Approval] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -41,10 +41,10 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
     }
 
     /**
-     * Update the Procedure Approval Status of an appointment.
+     * [Appointment Procedure Approval] - Update Status
      *
      * @param  \App\Http\Requests\AppointmentProcedureApprovalRequest  $request
-    * @param  \App\Models\Appointment  $appointment
+     * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
     public function update(

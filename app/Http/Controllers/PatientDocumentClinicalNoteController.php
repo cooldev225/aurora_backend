@@ -12,6 +12,12 @@ use Illuminate\Http\Response;
 
 class PatientDocumentClinicalNoteController extends Controller
 {
+    /**
+     * [Patient Document Clinical Note] - Store
+     *
+     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(PatientDocumentClinicalNoteStoreRequest $request)
     {
         $user_id = auth()->user()->id;
@@ -36,6 +42,13 @@ class PatientDocumentClinicalNoteController extends Controller
         );
     }
 
+    /**
+     * [Patient Document Clinical Note] - Update
+     *
+     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
+     * @param  \App\Models\PatientOrganization  $patientOrganization
+     * @return \Illuminate\Http\Response
+     */
     public function update(
         PatientDocumentClinicalNoteUpdateRequest $request,
         PatientClinicalNote $patient_documents_clinical_note
@@ -55,9 +68,10 @@ class PatientDocumentClinicalNoteController extends Controller
     }
     
     /**
-     * Upload the patient document
+     * [Patient Document Clinical Note] - Upload
      *
-     * @param  \App\Http\Requests\PatientRequest  $request
+     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
+     * @param  \App\Models\PatientOrganization  $patientOrganization
      * @return \Illuminate\Http\Response
      */
     public function upload(
@@ -90,6 +104,12 @@ class PatientDocumentClinicalNoteController extends Controller
         );
     }
 
+    /**
+     * [Patient Document Clinical Note] - Destroy
+     *
+     * @param  \App\Models\PatientOrganization  $patientOrganization
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(PatientClinicalNote $patient_clinical_note)
     {
         $patient_clinical_note->patient_document->delete();

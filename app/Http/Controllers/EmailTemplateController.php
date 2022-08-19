@@ -9,7 +9,7 @@ use App\Http\Requests\EmailTemplateRequest;
 class EmailTemplateController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Email Template] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,7 +27,7 @@ class EmailTemplateController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Email Template] - Store
      *
      * @param  \App\Http\Requests\EmailTemplateRequest  $request
      * @return \Illuminate\Http\Response
@@ -52,7 +52,7 @@ class EmailTemplateController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Email Template] - Update
      *
      * @param  \App\Http\Requests\EmailTemplateRequest  $request
      * @param  \App\Models\EmailTemplate  $emailTemplate
@@ -80,7 +80,7 @@ class EmailTemplateController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Email Template] - Destroy
      *
      * @param  \App\Models\EmailTemplate  $emailTemplate
      * @return \Illuminate\Http\Response

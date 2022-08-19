@@ -9,7 +9,7 @@ use App\Models\BirthCode;
 class BirthCodeController extends Controller
 {
     /**
-     * Display a listing of the Birth Code resource.
+     * [Birth Code] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,7 +27,7 @@ class BirthCodeController extends Controller
     }
 
     /**
-     * Store a newly created Birth Code resource in storage.
+     * [Birth Code] - Store
      *
      * @param  \App\Http\Requests\BirthCodeRequest  $request
      * @return \Illuminate\Http\Response
@@ -49,7 +49,7 @@ class BirthCodeController extends Controller
     }
 
     /**
-     * Update the specified birthcode resource in storage.
+     * [Birth Code] - Update
      *
      * @param  \App\Http\Requests\BirthCodeRequest  $request
      * @param  \App\Models\BirthCode  $birthCode
@@ -72,7 +72,7 @@ class BirthCodeController extends Controller
     }
 
     /**
-     * Remove the specified Birth Code resource from storage.
+     * [Birth Code] - Destroy
      *
      * @param  \App\Models\BirthCode  $birthCode
      * @return \Illuminate\Http\Response

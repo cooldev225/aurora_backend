@@ -9,7 +9,7 @@ use Illuminate\Http\Response;
 class AppointmentReferralController extends Controller
 {
     /**
-     * Update the specified resource in storage.
+     * [Organization] - Update
      *
      * @param  \App\Http\Requests\AppointmentReferralRequest  $request
      * @param  \App\Models\Appointment  $appointment

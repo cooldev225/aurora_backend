@@ -21,7 +21,7 @@ class SpecialistController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * [Specialist] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -139,7 +139,7 @@ class SpecialistController extends Controller
     }
 
     /**
-     * Return available specialist and work hours
+     * [Specialist] - Work Hours By Today
      *
      * @return \Illuminate\Http\Response
      */
@@ -165,7 +165,7 @@ class SpecialistController extends Controller
     }
 
     /**
-     * Return available specialist and work hours For a week
+     * [Specialist] - Work Hours By Week
      *
      * @return \Illuminate\Http\Response
      */
@@ -205,7 +205,7 @@ class SpecialistController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Specialist] - Store
      *
      * @param  \App\Http\Requests\SpecialistRequest  $request
      * @return \Illuminate\Http\Response
@@ -229,7 +229,7 @@ class SpecialistController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Specialist] - Update
      *
      * @param  \App\Http\Requests\SpecialistRequest  $request
      * @param  \App\Models\Specialist  $specialist
@@ -254,7 +254,7 @@ class SpecialistController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Specialist] - Destroy
      *
      * @param  \App\Models\Specialist  $specialist
      * @return \Illuminate\Http\Response

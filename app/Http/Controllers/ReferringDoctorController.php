@@ -29,7 +29,7 @@ class ReferringDoctorController extends BaseOrganizationController
     }
 
     /**
-     * [Referring Doctor] - list
+     * [Referring Doctor] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -55,7 +55,7 @@ class ReferringDoctorController extends BaseOrganizationController
     }
 
     /**
-     * Search the Referring Doctor by filters
+     * [Referring Doctor] - Search
      *
      * @return \Illuminate\Http\Response
      */
@@ -105,7 +105,7 @@ class ReferringDoctorController extends BaseOrganizationController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Referring Doctor] - Store
      *
      * @param  \App\Http\Requests\ReferringDoctorRequest  $request
      * @return \Illuminate\Http\Response
@@ -126,7 +126,7 @@ class ReferringDoctorController extends BaseOrganizationController
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Referring Doctor] - Update
      *
      * @param  \App\Http\Requests\ReferringDoctorRequest  $request
      * @param  \App\Models\ReferringDoctor  $referringDoctor
@@ -150,7 +150,7 @@ class ReferringDoctorController extends BaseOrganizationController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Referring Doctor] - Destroy
      *
      * @param  \App\Models\ReferringDoctor  $referringDoctor
      * @return \Illuminate\Http\Response

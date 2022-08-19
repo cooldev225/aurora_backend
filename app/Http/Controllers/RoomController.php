@@ -9,7 +9,7 @@ use App\Http\Requests\RoomRequest;
 class RoomController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Room] - List
      *
      * @param  $clinic_id
      * @return \Illuminate\Http\Response
@@ -32,7 +32,7 @@ class RoomController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Room] - Store
      *
      * @param  \App\Http\Requests\RoomRequest  $request
      * @param  $clinic_id
@@ -58,7 +58,7 @@ class RoomController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Room] - Update
      *
      * @param  \App\Http\Requests\RoomRequest  $request
      * @param  $clinic_id
@@ -85,7 +85,7 @@ class RoomController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Room] - Destroy
      *
      * @param  $clinic_id
      * @param  \App\Models\Room  $room

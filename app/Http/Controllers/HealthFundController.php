@@ -9,7 +9,7 @@ use App\Http\Requests\HealthFundRequest;
 class HealthFundController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Health Fund] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,7 +27,7 @@ class HealthFundController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Health Fund] - Store
      *
      * @param  \App\Http\Requests\HealthFundRequest  $request
      * @return \Illuminate\Http\Response
@@ -52,7 +52,7 @@ class HealthFundController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Health Fund] - Update
      *
      * @param  \App\Http\Requests\HealthFundRequest  $request
      * @param  \App\Models\HealthFund  $healthFund
@@ -78,7 +78,7 @@ class HealthFundController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Health Fund] - Destroy
      *
      * @param  \App\Models\HealthFund  $healthFund
      * @return \Illuminate\Http\Response

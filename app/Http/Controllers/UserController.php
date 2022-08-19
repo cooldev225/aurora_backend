@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Auth;
 class UserController extends Controller
 {
     /**
-     * [User] Get User List
+     * [User] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -143,7 +143,7 @@ class UserController extends Controller
     }
 
     /**
-     * [User] - Update Current User Profile
+     * [User] - Update User Profile
      *
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
@@ -191,7 +191,7 @@ class UserController extends Controller
     }
 
     /**
-     * [User] - Update Current User Profile
+     * [User] - Update Password
      *
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response

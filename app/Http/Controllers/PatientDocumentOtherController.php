@@ -10,9 +10,9 @@ use Illuminate\Http\Response;
 class PatientDocumentOtherController extends Controller
 {
     /**
-     * Upload the patient document
+     * [Patient Document Other] - Upload
      *
-     * @param  \App\Http\Requests\PatientRequest  $request
+     * @param  \App\Http\Requests\PatientDocumentLetterStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function upload(

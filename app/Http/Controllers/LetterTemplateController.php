@@ -9,7 +9,7 @@ use App\Http\Requests\LetterTemplateRequest;
 class LetterTemplateController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [Letter Template] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +32,7 @@ class LetterTemplateController extends BaseOrganizationController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Letter Template] - Store
      *
      * @param  \App\Http\Requests\LetterTemplateRequest  $request
      * @return \Illuminate\Http\Response
@@ -56,7 +56,7 @@ class LetterTemplateController extends BaseOrganizationController
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Letter Template] - Update
      *
      * @param  \App\Http\Requests\LetterTemplateRequest  $request
      * @param  \App\Models\LetterTemplate  $letterTemplate
@@ -87,7 +87,7 @@ class LetterTemplateController extends BaseOrganizationController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Letter Template] - Destroy
      *
      * @param  \App\Models\LetterTemplate  $letterTemplate
      * @return \Illuminate\Http\Response

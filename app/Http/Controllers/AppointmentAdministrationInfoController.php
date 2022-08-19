@@ -9,7 +9,7 @@ use App\Http\Requests\AppointmentAdministrationInfoRequest;
 class AppointmentAdministrationInfoController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [AppointmentAdminInfo] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,7 +31,7 @@ class AppointmentAdministrationInfoController extends Controller
         );
     }
     /**
-     * Store a newly created resource in storage.
+     * [AppointmentAdminInfo] - Store
      *
      * @param  \App\Http\Requests\AppointmentAdministrationInfoRequest  $request
      * @return \Illuminate\Http\Response
@@ -52,7 +52,7 @@ class AppointmentAdministrationInfoController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [AppointmentAdminInfo] - Update
      *
      * @param  \App\Http\Requests\AppointmentAdministrationInfoRequest  $request
      * @param  \App\Models\AppointmentAdministrationInfo  $appointmentAdministrationInfo
@@ -90,7 +90,7 @@ class AppointmentAdministrationInfoController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [AppointmentAdminInfo] - Destroy
      *
      * @param  \App\Models\AppointmentAdministrationInfo  $appointmentAdministrationInfo
      * @return \Illuminate\Http\Response

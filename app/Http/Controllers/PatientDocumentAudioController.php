@@ -12,6 +12,12 @@ use Illuminate\Http\Response;
 
 class PatientDocumentAudioController extends Controller
 {
+    /**
+     * [Patient Document Audio] - Store
+     *
+     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(PatientDocumentAudioStoreRequest $request)
     {
         $user_id = auth()->user()->id;
@@ -50,6 +56,13 @@ class PatientDocumentAudioController extends Controller
         );
     }
 
+    /**
+     * [Patient Document Audio] - Update
+     *
+     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
+     * @param  \App\Models\PatientOrganization  $patientOrganization
+     * @return \Illuminate\Http\Response
+     */
     public function update(
         PatientDocumentAudioUpdateRequest $request,
         PatientSpecialistAudio $patient_documents_audio
@@ -79,6 +92,13 @@ class PatientDocumentAudioController extends Controller
         );
     }
 
+    /**
+     * [Patient Document Audio] - Upload
+     *
+     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
+     * @param  \App\Models\PatientOrganization  $patientOrganization
+     * @return \Illuminate\Http\Response
+     */
     public function upload(
         Patient $patient,
         PatientDocumentAudioUploadRequest $request
@@ -121,6 +141,12 @@ class PatientDocumentAudioController extends Controller
         );
     }
 
+    /**
+     * [Patient Document Audio] - Destroy
+     *
+     * @param  \App\Models\PatientOrganization  $patientOrganization
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(PatientSpecialistAudio $patient_documents_audio)
     {
         $patient_documents_audio->patient_document->delete();

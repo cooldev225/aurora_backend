@@ -10,7 +10,7 @@ use App\Http\Requests\AppointmentTypeRequest;
 class AppointmentTypeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Appointment Type] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -39,7 +39,7 @@ class AppointmentTypeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Appointment Type] - Store
      *
      * @param  \App\Http\Requests\AppointmentTypeRequest  $request
      * @return \Illuminate\Http\Response
@@ -63,7 +63,7 @@ class AppointmentTypeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Appointment Type] - Update
      *
      * @param  \App\Http\Requests\AppointmentTypeRequest  $request
      * @param  \App\Models\AppointmentType  $appointmentType
@@ -90,7 +90,7 @@ class AppointmentTypeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Appointment Type] - Destroy
      *
      * @param  \App\Models\AppointmentType  $appointmentType
      * @return \Illuminate\Http\Response
