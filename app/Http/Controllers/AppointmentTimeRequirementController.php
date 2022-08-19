@@ -9,7 +9,7 @@ use App\Http\Requests\AppointmentTimeRequirementRequest;
 class AppointmentTimeRequirementController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [Appointment Time Requirement] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +32,7 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Appointment Time Requirement] - Store
      *
      * @param  \App\Http\Requests\AppointmentTimeRequirementRequest  $request
      * @return \Illuminate\Http\Response
@@ -57,7 +57,7 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Appointment Time Requirement] - Update
      *
      * @param  \App\Http\Requests\AppointmentTimeRequirementRequest  $request
      * @param  \App\Models\AppointmentTimeRequirement  $appointmentTimeRequirement
@@ -89,7 +89,7 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Appointment Time Requirement] - Destroy
      *
      * @param  \App\Models\AppointmentTimeRequirement  $appointmentTimeRequirement
      * @return \Illuminate\Http\Response

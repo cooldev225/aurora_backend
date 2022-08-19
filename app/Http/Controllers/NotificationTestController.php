@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 class NotificationTestController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * [Organization] - Store
      *
      * @param  \App\Http\Requests\UserRoleRequest  $request
      * @return \Illuminate\Http\Response

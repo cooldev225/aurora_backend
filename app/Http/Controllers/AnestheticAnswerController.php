@@ -9,7 +9,7 @@ use App\Http\Requests\AnestheticAnswerRequest;
 class AnestheticAnswerController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Anesthetic Answer] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +32,7 @@ class AnestheticAnswerController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Anesthetic Answer] - Store
      *
      * @param  \App\Http\Requests\AnestheticAnswerRequest  $request
      * @return \Illuminate\Http\Response
@@ -58,7 +58,7 @@ class AnestheticAnswerController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Anesthetic Answer] - Update
      *
      * @param  \App\Http\Requests\AnestheticAnswerRequest  $request
      * @param  \App\Models\AnestheticAnswer  $anestheticAnswer
@@ -86,7 +86,7 @@ class AnestheticAnswerController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Anesthetic Answer] - Destroy
      *
      * @param  \App\Models\AnestheticAnswer  $anestheticAnswer
      * @return \Illuminate\Http\Response

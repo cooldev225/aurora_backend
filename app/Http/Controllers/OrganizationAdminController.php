@@ -23,7 +23,7 @@ class OrganizationAdminController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * [Organization Admin] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -44,7 +44,7 @@ class OrganizationAdminController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Organization Admin] - Store
      *
      * @param  \App\Http\Requests\UserRequest  $request
      * @return \Illuminate\Http\Response
@@ -74,7 +74,7 @@ class OrganizationAdminController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Organization Admin] - Update
      *
      * @param  \App\Http\Requests\UserRequest  $request
      * @param  $user_id
@@ -114,7 +114,7 @@ class OrganizationAdminController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Organization Admin] - Destroy
      *
      * @param  $user_id
      * @return \Illuminate\Http\Response

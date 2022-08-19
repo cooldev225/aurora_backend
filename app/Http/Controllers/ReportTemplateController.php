@@ -9,7 +9,7 @@ use App\Http\Requests\ReportTemplateRequest;
 class ReportTemplateController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Report Template] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -35,7 +35,7 @@ class ReportTemplateController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Report Template] - Store
      *
      * @param  \App\Http\Requests\ReportTemplateRequest  $request
      * @return \Illuminate\Http\Response
@@ -60,7 +60,7 @@ class ReportTemplateController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Report Template] - Update
      *
      * @param  \App\Http\Requests\ReportTemplateRequest  $request
      * @param  \App\Models\ReportTemplate  $report_template
@@ -88,7 +88,7 @@ class ReportTemplateController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Report Template] - Destroy
      *
      * @param  \App\Models\ReportTemplate  $report_template
      * @return \Illuminate\Http\Response

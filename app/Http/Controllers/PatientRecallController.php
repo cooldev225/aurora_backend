@@ -9,7 +9,7 @@ use App\Models\PatientRecall;
 class PatientRecallController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [Patient Recall] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +32,7 @@ class PatientRecallController extends BaseOrganizationController
     }
     
     /**
-     * Store a newly created resource in storage.
+     * [Patient Recall] - Store
      *
      * @param  \App\Http\Requests\PatientRecallRequest  $request
      * @return \Illuminate\Http\Response
@@ -64,7 +64,7 @@ class PatientRecallController extends BaseOrganizationController
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Patient Recall] - Update
      *
      * @param  \App\Http\Requests\PatientRecallRequest  $request
      * @param  \App\Models\PatientRecall  $patientRecall
@@ -98,7 +98,7 @@ class PatientRecallController extends BaseOrganizationController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Patient Recall] - Destroy
      *
      * @param  \App\Models\PatientRecall  $patientRecall
      * @return \Illuminate\Http\Response

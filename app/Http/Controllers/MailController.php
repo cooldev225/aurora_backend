@@ -11,7 +11,7 @@ use App\Http\Requests\MailRequest;
 class MailController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Mail] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -138,7 +138,7 @@ class MailController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Mail] - Store
      *
      * @param  \App\Http\Requests\MailRequest  $request
      * @return \Illuminate\Http\Response
@@ -155,7 +155,7 @@ class MailController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * [Mail] - Show
      *
      * @param  \App\Models\Mail  $mail
      * @return \Illuminate\Http\Response
@@ -202,7 +202,7 @@ class MailController extends Controller
     }
 
     /**
-     * Send Mail.
+     * [Mail] - Send
      *
      * @param  \App\Http\Requests\MailRequest  $request
      * @return \Illuminate\Http\Response
@@ -215,7 +215,7 @@ class MailController extends Controller
     }
 
     /**
-     * Create Mail
+     * [Mail] - Create
      *
      * @param  \App\Http\Requests\MailRequest  $request
      * @return $mail
@@ -240,7 +240,7 @@ class MailController extends Controller
     }
 
     /**
-     * Send Mail Draft.
+     * [Mail] - Send Draft Mail
      *
      * @param  \App\Http\Requests\MailRequest  $request
      * @return \Illuminate\Http\Response
@@ -299,7 +299,7 @@ class MailController extends Controller
     }
 
     /**
-     * Bookmark Mail.
+     * [Mail] - Bookmark
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -336,7 +336,7 @@ class MailController extends Controller
     }
 
     /**
-     * Move to Trash.
+     * [Mail] - Move to Trash
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -371,7 +371,7 @@ class MailController extends Controller
     }
 
     /**
-     * Restore from Trash.
+     * [Mail] - Restore from Trash
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -406,7 +406,7 @@ class MailController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Mail] - Update
      *
      * @param  \App\Http\Requests\MailRequest  $request
      * @param  \App\Models\Mail  $mail
@@ -443,7 +443,7 @@ class MailController extends Controller
     }
 
     /**
-     * Update Mail Draft.
+     * [Mail] - Update Draft.
      *
      * @param  \App\Http\Requests\MailRequest  $request
      * @return \Illuminate\Http\Response
@@ -463,7 +463,7 @@ class MailController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Mail] - Destroy
      *
      * @param  \App\Models\Mail  $mail
      * @return \Illuminate\Http\Response

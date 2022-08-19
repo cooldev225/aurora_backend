@@ -8,7 +8,7 @@ use App\Http\Requests\SpecialistClinicRelationRequest;
 class SpecialistClinicRelationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Specialist Clinic] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -17,7 +17,7 @@ class SpecialistClinicRelationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Specialist Clinic] - Store
      *
      * @param  \App\Http\Requests\SpecialistClinicRelationRequest  $request
      * @return \Illuminate\Http\Response
@@ -28,7 +28,7 @@ class SpecialistClinicRelationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Specialist Clinic] - Update
      *
      * @param  \App\Http\Requests\SpecialistClinicRelationRequest  $request
      * @param  \App\Models\SpecialistClinicRelation  $specialistClinicRelation
@@ -42,7 +42,7 @@ class SpecialistClinicRelationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Specialist Clinic] - Destroy
      *
      * @param  \App\Models\SpecialistClinicRelation  $specialistClinicRelation
      * @return \Illuminate\Http\Response

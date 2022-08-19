@@ -10,7 +10,7 @@ use App\Models\ProdaDevice;
 class ProdaDeviceController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Proda Device] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -40,7 +40,7 @@ class ProdaDeviceController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Proda Device] - Store
      *
      * @param  \App\Http\Requests\ProdaDeviceRequest  $request
      * @return \Illuminate\Http\Response
@@ -66,7 +66,7 @@ class ProdaDeviceController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Proda Device] - Update
      *
      * @param  \App\Http\Requests\ProdaDeviceRequest  $request
      * @param  \App\Models\ProdaDevice  $prodaDevice
@@ -94,7 +94,7 @@ class ProdaDeviceController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Proda Device] - Destroy
      *
      * @param  \App\Models\ProdaDevice  $prodaDevice
      * @return \Illuminate\Http\Response

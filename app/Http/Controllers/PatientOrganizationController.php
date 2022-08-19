@@ -8,7 +8,7 @@ use App\Http\Requests\PatientOrganizationRequest;
 class PatientOrganizationController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Patient Organization] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -26,7 +26,7 @@ class PatientOrganizationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Patient Organization] - Store
      *
      * @param  \App\Http\Requests\PatientOrganizationRequest  $request
      * @return \Illuminate\Http\Response
@@ -48,7 +48,7 @@ class PatientOrganizationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Patient Organization] - Update
      *
      * @param  \App\Http\Requests\PatientOrganizationRequest  $request
      * @param  \App\Models\PatientOrganization  $patientOrganization
@@ -73,7 +73,7 @@ class PatientOrganizationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Patient Organization] - Destroy
      *
      * @param  \App\Models\PatientOrganization  $patientOrganization
      * @return \Illuminate\Http\Response

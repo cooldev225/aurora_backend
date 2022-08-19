@@ -10,7 +10,7 @@ use App\Models\Patient;
 class PatientController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Patient] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +32,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Display a item of the Patient.
+     * [Patient] - Show
      *
      * @return \Illuminate\Http\Response
      */
@@ -55,7 +55,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Patient] - Update
      *
      * @param  \App\Http\Requests\PatientRequest  $request
      * @param  \App\Models\Patient  $patient
@@ -75,7 +75,7 @@ class PatientController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Patient] - Destroy
      *
      * @param  \App\Models\Patient  $patient
      * @return \Illuminate\Http\Response
@@ -94,6 +94,12 @@ class PatientController extends Controller
         );
     }
 
+    /**
+     * [Patient] - Appointment List
+     *
+     * @param  \App\Models\Patient  $patient
+     * @return \Illuminate\Http\Response
+     */
     public function appointments(Patient $patient) {
         $appointments = [
             'patientId' => $patient->id,

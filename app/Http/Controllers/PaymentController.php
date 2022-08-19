@@ -11,7 +11,7 @@ use App\Mail\Notification;
 class PaymentController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [Payment] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -37,7 +37,7 @@ class PaymentController extends BaseOrganizationController
     }
 
     /**
-     * Display a item of the Payment.
+     * [Payment] - Show
      *
      * @return \Illuminate\Http\Response
      */
@@ -75,7 +75,7 @@ class PaymentController extends BaseOrganizationController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Payment] - Store
      *
      * @param  \App\Http\Requests\AppointmentPaymentRequest  $request
      * @return \Illuminate\Http\Response

@@ -24,7 +24,7 @@ class OrganizationController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * [Organization] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -62,7 +62,7 @@ class OrganizationController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Organization] - Store
      *
      * @param  \App\Http\Requests\OrganizationRequest  $request
      * @return \Illuminate\Http\Response
@@ -126,7 +126,7 @@ class OrganizationController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Organization] - Update
      *
      * @param  \App\Http\Requests\OrganizationRequest  $request
      * @param  \App\Models\Organization  $organization
@@ -183,7 +183,7 @@ class OrganizationController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Organization] - Destroy
      *
      * @param  \App\Models\Organization  $organization
      * @return \Illuminate\Http\Response

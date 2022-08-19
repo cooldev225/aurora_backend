@@ -64,7 +64,8 @@ return [
             'exclude' => [
                 // '/health', 'admin.*'
                 'sanctum/*',
-                '_ignition/*'
+                '_ignition/*',
+                '/'
             ],
 
             /*

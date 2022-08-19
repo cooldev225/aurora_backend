@@ -12,6 +12,12 @@ use Illuminate\Http\Response;
 
 class PatientDocumentLetterController extends Controller
 {
+    /**
+     * [Patient Document Letter] - Store
+     *
+     * @param  \App\Http\Requests\PatientDocumentLetterStoreRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(PatientDocumentLetterStoreRequest $request)
     {
         $user_id = auth()->user()->id;
@@ -36,6 +42,13 @@ class PatientDocumentLetterController extends Controller
         );
     }
 
+    /**
+     * [Patient Document Letter] - Update
+     *
+     * @param  \App\Http\Requests\PatientDocumentLetterUpdateRequest  $request
+     * @param  \App\Models\PatientLetter  $patient_documents_letter
+     * @return \Illuminate\Http\Response
+     */
     public function update(
         PatientDocumentLetterUpdateRequest $request,
         PatientLetter $patient_documents_letter
@@ -55,7 +68,7 @@ class PatientDocumentLetterController extends Controller
     }
 
     /**
-     * Upload the patient document
+     * [Patient Document Letter] - Upload
      *
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
@@ -90,6 +103,12 @@ class PatientDocumentLetterController extends Controller
         );
     }
 
+    /**
+     * [Patient Document Letter] - Destroy
+     *
+     * @param  \App\Http\Requests\PatientRequest  $request
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(PatientLetter $patient_letter)
     {
         $patient_letter->patient_document->delete();

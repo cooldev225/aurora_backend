@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 class PatientDocumentController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Patient Document] - List
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -43,7 +43,7 @@ class PatientDocumentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Patient Document] - Store
      *
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
@@ -65,7 +65,7 @@ class PatientDocumentController extends Controller
     }
 
     /**
-     * Upload the patient document
+     * [Patient Document] - Upload
      *
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response

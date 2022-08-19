@@ -10,7 +10,7 @@ use App\Models\Appointment;
 class UserAppointmentController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [User Appointment] - List
      *
      * @return \Illuminate\Http\Response
      */

@@ -13,7 +13,7 @@ use App\Http\Requests\EmployeeRequest;
 class EmployeeController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Employee] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -44,7 +44,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Return a listing of anesthetists.
+     * [Anesthetist] - List.
      *
      * @return \Illuminate\Http\Response
      */
@@ -62,7 +62,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Employee] - Store
      *
      * @param  \App\Http\Requests\EmployeeRequest  $request
      * @return \Illuminate\Http\Response
@@ -151,7 +151,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Employee] - Update
      *
      * @param  \App\Http\Requests\EmployeeRequest  $request
      * @param  \App\Models\Employee  $employee
@@ -248,7 +248,7 @@ class EmployeeController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Employee] - Destroy
      *
      * @param  \App\Models\Employee  $employee
      * @return \Illuminate\Http\Response

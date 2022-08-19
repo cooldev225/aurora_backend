@@ -9,7 +9,7 @@ use App\Http\Requests\NotificationTemplateRequest;
 class NotificationTemplateController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [Notification Template] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -32,7 +32,7 @@ class NotificationTemplateController extends BaseOrganizationController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Notification Template] - Store
      *
      * @param  \App\Http\Requests\NotificationTemplateRequest  $request
      * @return \Illuminate\Http\Response
@@ -60,7 +60,7 @@ class NotificationTemplateController extends BaseOrganizationController
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Notification Template] - Update
      *
      * @param  \App\Http\Requests\NotificationTemplateRequest  $request
      * @param  \App\Models\NotificationTemplate  $notificationTemplate
@@ -95,7 +95,7 @@ class NotificationTemplateController extends BaseOrganizationController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Notification Template] - Destroy
      *
      * @param  \App\Models\NotificationTemplate  $notificationTemplate
      * @return \Illuminate\Http\Response

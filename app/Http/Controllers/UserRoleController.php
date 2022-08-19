@@ -9,7 +9,7 @@ use App\Models\UserRole;
 class UserRoleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [User's Role] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,7 +27,7 @@ class UserRoleController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * [User's Role] - Employee Role List
      *
      * @return \Illuminate\Http\Response
      */
@@ -45,7 +45,7 @@ class UserRoleController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [User's Role] - Store
      *
      * @param  \App\Http\Requests\UserRoleRequest  $request
      * @return \Illuminate\Http\Response
@@ -68,7 +68,7 @@ class UserRoleController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [User's Role] - Update
      *
      * @param  \App\Http\Requests\UserRoleRequest  $request
      * @param  \App\Models\UserRole  $userRole
@@ -92,7 +92,7 @@ class UserRoleController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [User's Role] - Destroy
      *
      * @param  \App\Models\UserRole  $userRole
      * @return \Illuminate\Http\Response

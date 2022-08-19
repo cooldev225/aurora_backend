@@ -11,7 +11,7 @@ use Illuminate\Http\Response;
 class PreAdmissionController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Pre Admission] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -36,7 +36,7 @@ class PreAdmissionController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Pre Admission] - Store
      *
      * @param  \App\Http\Requests\PreAdmissionSectionRequest  $request
      * @return \Illuminate\Http\Response
@@ -74,7 +74,7 @@ class PreAdmissionController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Pre Admission] - Update
      *
      * @param  \App\Http\Requests\PreAdmissionSectionRequest  $request
      * @param  \App\Models\PreAdmissionSection  $pre_admission_section
@@ -102,7 +102,7 @@ class PreAdmissionController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Pre Admission] - Destroy
      *
      * @param  \App\Models\PreAdmissionSection  $pre_admission_section
      * @return \Illuminate\Http\Response
@@ -119,6 +119,12 @@ class PreAdmissionController extends Controller
         );
     }
 
+    /**
+     * [Pre Admission] - Update Consent
+     *
+     * @param  \App\Models\PreAdmissionSection  $pre_admission_section
+     * @return \Illuminate\Http\Response
+     */
     public function updateConsent(PreAdmissionConsentRequest $request)
     {
         $organization_id = auth()->user()->organization_id;
@@ -142,6 +148,12 @@ class PreAdmissionController extends Controller
         );
     }
 
+    /**
+     * [Pre Admission] - Get Consent
+     *
+     * @param  \App\Models\PreAdmissionSection  $pre_admission_section
+     * @return \Illuminate\Http\Response
+     */
     public function getConsent()
     {
         $organization_id = auth()->user()->organization_id;

@@ -9,7 +9,7 @@ use App\Http\Requests\PatientBillingRequest;
 class PatientBillingController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * [Patient Billing] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -31,7 +31,7 @@ class PatientBillingController extends Controller
         );
     }
     /**
-     * Store a newly created resource in storage.
+     * [Patient Billing] - Store
      *
      * @param  \App\Http\Requests\PatientBillingRequest  $request
      * @return \Illuminate\Http\Response
@@ -53,7 +53,7 @@ class PatientBillingController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Patient Billing] - Update
      *
      * @param  \App\Http\Requests\PatientBillingRequest  $request
      * @param  \App\Models\PatientBilling  $patientBilling
@@ -78,7 +78,7 @@ class PatientBillingController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Patient Billing] - Destroy
      *
      * @param  \App\Models\PatientBilling  $patientBilling
      * @return \Illuminate\Http\Response

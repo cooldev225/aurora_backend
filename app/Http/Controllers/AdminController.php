@@ -20,7 +20,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Display a listing of the resource.
+     * [Admin User] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -38,7 +38,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Admin User] - Store
      *
      * @param  \App\Http\Requests\UserRequest  $request
      * @return \Illuminate\Http\Response
@@ -65,7 +65,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Admin User] - Update
      *
      * @param  \App\Http\Requests\AdminRequest  $request
      * @param  $user_id
@@ -92,7 +92,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Admin User] - Destroy
      *
      * @param  $user_id
      * @return \Illuminate\Http\Response

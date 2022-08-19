@@ -21,7 +21,7 @@ use App\Models\AppointmentReferral;
 class AppointmentController extends BaseOrganizationController
 {
     /**
-     * Display a listing of the resource.
+     * [Appointment] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -153,7 +153,11 @@ class AppointmentController extends BaseOrganizationController
         );
     }
 
-
+    /**
+     * [Appointment] - Show
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function show(Appointment $appointment){
         return response()->json(
             [
@@ -165,7 +169,7 @@ class AppointmentController extends BaseOrganizationController
     }
     
     /**
-     * Return available time slots
+     * [Appointment] - Available Slots
      *
      * @return \Illuminate\Http\Response
      */
@@ -409,7 +413,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * Store a newly created resource in storage.
+     * [Appointment] - Store
      *
      * @param  \App\Http\Requests\AppointmentRequest  $request
      * @return \Illuminate\Http\Response
@@ -488,7 +492,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * Update the specified resource in storage.
+     * [Appointment] - Update
      *
      * @param  \App\Http\Requests\AppointmentRequest  $request
      * @param  \App\Models\Appointment  $appointment
@@ -549,7 +553,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * Procedure Approve by Anesthetist
+     * [Appointment] - Update Collecting Person
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -614,7 +618,7 @@ class AppointmentController extends BaseOrganizationController
 
 
     /**
-     * Cancel Appointment
+     * [Appointment] - Cancel
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -645,7 +649,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * Appointment wait listed
+     * [Appointment] - Wait List
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -680,7 +684,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * Remove the specified resource from storage.
+     * [Appointment] - Destroy
      *
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
