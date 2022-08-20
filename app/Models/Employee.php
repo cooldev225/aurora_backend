@@ -31,6 +31,14 @@ class Employee extends Model
     }
 
     /**
+     * Return anesthetist
+     */
+    public function specialist_from_anesthetist()
+    {
+        return $this->hasOne(Specialist::class, 'anesthetist_id');
+    }
+
+    /**
      * Return $pathologist_list
      */
     public static function pathologists($organization_id = null)
