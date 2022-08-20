@@ -24,8 +24,13 @@ class UserAppointmentController extends BaseOrganizationController
             $specialist_id = auth()->user()->employee->specialist->id;
             $appointments = Appointment::where('specialist_id', $specialist_id)
                 ->get();
+        } else if ($role == 'Anesthetist') {
+            $specialist_id = auth()->user()->employee->specialist_from_anesthetist->id;
+            $appointments = Appointment::where('specialist_id', $specialist_id)
+                ->get();
+
         }
-       
+
         return response()->json(
             [
                 'message' => 'Appointment List',
