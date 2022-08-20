@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
+use App\Http\Controllers\AppointmentAttendanceStatusController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
@@ -229,6 +230,16 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/appointments/procedureApprovalStatus/{appointment}', [
             AppointmentProcedureApprovalController::class,
             'update',
+        ]);
+
+        Route::put('/appointments/check-in/{appointment}', [
+            AppointmentAttendanceStatusController::class,
+            'checkIn',
+        ]);
+
+        Route::put('/appointments/check-out/{appointment}', [
+            AppointmentAttendanceStatusController::class,
+            'checkOut',
         ]);
 
         Route::put('/appointments/cancel/{appointment}', [
