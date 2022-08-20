@@ -41,4 +41,75 @@ class ReferringDoctorRequest extends FormRequest
             'practice_name' => 'required|string',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'provider_no' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'title' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'first_name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'last_name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'address' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'street' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'city' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'state' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'country' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'postcode' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'phone' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'fax' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'mobile' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'email' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'practice_name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

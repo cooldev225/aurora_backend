@@ -30,4 +30,31 @@ class PatientDocumentLetterStoreRequest extends FormRequest
             'body'       => 'string|required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'patient_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'to' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'from' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'body' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

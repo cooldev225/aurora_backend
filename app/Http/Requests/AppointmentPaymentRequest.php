@@ -30,4 +30,31 @@ class AppointmentPaymentRequest extends FormRequest
             'is_deposit'        => 'required|boolean',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'appointment_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'amount' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'payment_type' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'is_deposit' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

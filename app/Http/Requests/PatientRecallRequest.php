@@ -30,4 +30,31 @@ class PatientRecallRequest extends FormRequest
             'reason'            =>  'string'
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'patient_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'organization_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'time_frame' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'reason' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

@@ -30,4 +30,31 @@ class ClinicRequest extends FormRequest
             'address'       => 'required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'email' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'phone_number' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'address' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

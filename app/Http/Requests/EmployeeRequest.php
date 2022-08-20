@@ -29,4 +29,27 @@ class EmployeeRequest extends FormRequest
             'email'     => 'required|string|email|max:100', //'|unique:users',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'type' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'username' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'email' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

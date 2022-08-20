@@ -30,4 +30,31 @@ class NotificationTemplateRequest extends FormRequest
             'email_print_template'  => 'required|string',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'days_before' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'subject' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'sms_template' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'email_print_template' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

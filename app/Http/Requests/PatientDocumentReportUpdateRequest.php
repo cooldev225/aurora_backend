@@ -28,4 +28,23 @@ class PatientDocumentReportUpdateRequest extends FormRequest
             'body'       => 'string|required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'patient_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'body' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

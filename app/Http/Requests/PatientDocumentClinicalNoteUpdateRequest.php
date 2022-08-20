@@ -33,4 +33,21 @@ class PatientDocumentClinicalNoteUpdateRequest extends FormRequest
             'additional_details'    => 'string|required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'appointment_id' => [
+                'description' => 'Appointment ID',
+            ],
+            'description' => [
+                'description' => 'Description',
+            ]
+        ];
+    }
 }

@@ -29,4 +29,27 @@ class PatientDocumentAudioStoreRequest extends FormRequest
             'file'          => 'required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'patient_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'specialist_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'file' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

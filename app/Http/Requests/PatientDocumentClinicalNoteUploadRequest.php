@@ -30,4 +30,31 @@ class PatientDocumentClinicalNoteUploadRequest extends FormRequest
             'file'           => 'required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'document_name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'specialist_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'appointment_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'file' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

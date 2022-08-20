@@ -24,8 +24,27 @@ class EmailTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-            'key' => 'required',
+            'key'     => 'required',
             'subject' => 'required',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'key' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'subject' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

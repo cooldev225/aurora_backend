@@ -25,7 +25,26 @@ class SpecialistClinicRelationRequest extends FormRequest
     {
         return [
             'specialist_id' => 'required|numeric',
-            'clinic_id' => 'required|numeric',
+            'clinic_id'     => 'required|numeric',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'specialist_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'clinic_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

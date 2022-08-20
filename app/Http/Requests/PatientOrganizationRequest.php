@@ -24,8 +24,27 @@ class PatientOrganizationRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id' => 'required|numeric',
-            'organization_id' => 'required|numeric',
+            'patient_id'        => 'required|numeric',
+            'organization_id'   => 'required|numeric',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'patient_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'organization_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }
