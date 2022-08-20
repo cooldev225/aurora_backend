@@ -71,7 +71,6 @@ class PatientDocumentController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function upload(PatientDocumentRequest $request, Patient $patient) {
-
         $patientDocument = PatientDocument::create([
             'patient_id'     => $patient->id,
             'appointment_id' => $request->appointment_id,

@@ -29,4 +29,27 @@ class AppointmentAdministrationInfoRequest extends FormRequest
             'is_no_referral'        => 'required|boolean',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'appointment_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'referring_doctor_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'is_no_referral' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

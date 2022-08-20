@@ -24,8 +24,27 @@ class AppointmentTimeRequirementRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
+            'title'     => 'required',
             'base_time' => 'required',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'title' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'base_time' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

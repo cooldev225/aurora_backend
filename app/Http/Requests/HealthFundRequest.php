@@ -24,7 +24,18 @@ class HealthFundRequest extends FormRequest
     public function rules()
     {
         return [
-                //
-            ];
+            //
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+        ];
     }
 }

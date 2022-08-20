@@ -33,4 +33,43 @@ class PatientDocumentClinicalNoteStoreRequest extends FormRequest
             'additional_details'    => 'string|required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'appointment_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'description' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'diagnosis' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'clinical_assessment' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'treatment' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'history' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'additional_details' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

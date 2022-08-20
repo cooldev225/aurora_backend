@@ -24,9 +24,32 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'username' => 'required|string|min:2|max:100',
-            'email' => 'required|string|email|max:100|unique:users',
-            'password' => 'required|string|confirmed|min:6',
+            'username'  => 'required|string|min:2|max:100',
+            'email'     => 'required|string|email|max:100|unique:users',
+            'password'  => 'required|string|confirmed|min:6',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'username' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'email' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'password' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

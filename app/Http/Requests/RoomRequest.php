@@ -24,8 +24,27 @@ class RoomRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
+            'name'      => 'required',
             'clinic_id' => 'required|numeric',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'clinic_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

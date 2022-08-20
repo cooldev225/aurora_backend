@@ -26,4 +26,15 @@ class AnestheticQuestionRequest extends FormRequest
         return [
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+        ];
+    }
 }

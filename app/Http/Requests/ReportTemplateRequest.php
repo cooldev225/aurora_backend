@@ -27,4 +27,19 @@ class ReportTemplateRequest extends FormRequest
             'title' => 'required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'title' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

@@ -24,8 +24,27 @@ class BirthCodeRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required|numeric|digits:4',
+            'code'        => 'required|numeric|digits:4',
             'description' => 'required',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'code' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'description' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

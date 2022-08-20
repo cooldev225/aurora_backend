@@ -29,4 +29,27 @@ class AppointmentReferralRequest extends FormRequest
             'referral_duration' => 'required|integer',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'is_no_referral' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'referral_date' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'referral_duration' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

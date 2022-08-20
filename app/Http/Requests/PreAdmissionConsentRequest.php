@@ -27,4 +27,19 @@ class PreAdmissionConsentRequest extends FormRequest
             'text' => 'required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'text' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

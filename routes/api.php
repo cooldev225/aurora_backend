@@ -86,76 +86,109 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/mails/bookmark/{id}', [MailController::class, 'bookmark']);
     Route::put('/mails/delete/{id}', [MailController::class, 'delete']);
     Route::put('/mails/restore/{id}', [MailController::class, 'restore']);
-    Route::apiResource('mails', MailController::class);
+    Route::apiResource('mails',
+        MailController::class,
+        ['except' => ['update']]
+    );
 
     Route::middleware(['ensure.role:admin'])->group(function () {
-        Route::apiResource('admins', AdminController::class);
-        Route::apiResource('user-roles', UserRoleController::class);
-        Route::apiResource('organizations', OrganizationController::class);
-        Route::apiResource('birth-codes', BirthCodeController::class);
-        Route::apiResource('health-funds', HealthFundController::class);
-        Route::apiResource(
-            'referring-doctors',
-            ReferringDoctorController::class
+        Route::apiResource('admins',
+            AdminController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('user-roles',
+            UserRoleController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('organizations',
+            OrganizationController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('birth-codes',
+            BirthCodeController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('health-funds',
+            HealthFundController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('referring-doctors',
+            ReferringDoctorController::class,
+            ['except' => ['show']]
         );
     });
 
-    Route::get('/referring-doctors/list', [
-        ReferringDoctorController::class,
-        'list',
-    ]);
 
     Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
-        Route::apiResource('clinics', ClinicController::class);
-        Route::apiResource(
-            'organization-admins',
-            OrganizationAdminController::class
+        Route::apiResource('clinics',
+            ClinicController::class,
+            ['except' => ['show']]
         );
-        Route::apiResource(
-            'organization-managers',
-            OrganizationManagerController::class
+        Route::apiResource('organization-admins',
+            OrganizationAdminController::class,
+            ['except' => ['show']]
         );
-        Route::apiResource('email-templates', EmailTemplateController::class);
-        Route::apiResource(
-            'appointment-time-requirements',
-            AppointmentTimeRequirementController::class
+        Route::apiResource('organization-managers',
+            OrganizationManagerController::class,
+            ['except' => ['show']]
         );
-        Route::apiResource(
-            'appointment-types',
-            AppointmentTypeController::class
+        Route::apiResource('email-templates',
+            EmailTemplateController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('appointment-time-requirements',
+            AppointmentTimeRequirementController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('appointment-types',
+            AppointmentTypeController::class,
+            ['except' => ['show']]
         );
     });
 
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager',
     ])->group(function () {
-        Route::apiResource('proda-devices', ProdaDeviceController::class);
-        Route::apiResource(
-            'notification-templates',
-            NotificationTemplateController::class
+        Route::apiResource('proda-devices',
+            ProdaDeviceController::class,
+            ['except' => ['show']]
         );
-
-        Route::apiResource(
-            'anesthetic-questions',
-            AnestheticQuestionController::class
+        Route::apiResource('notification-templates',
+            NotificationTemplateController::class,
+            ['except' => ['show']]
         );
-        Route::apiResource(
-            'appointments/{appointment_id}/questions/{question_id}/anesthetic-answers',
-            AnestheticAnswerController::class
+        Route::apiResource('anesthetic-questions',
+            AnestheticQuestionController::class,
+            ['except' => ['show']]
         );
-        Route::apiResource('employees', EmployeeController::class);
-        Route::apiResource('specialists', SpecialistController::class);
+        Route::apiResource('appointments/{appointment_id}/questions/{question_id}/anesthetic-answers',
+            AnestheticAnswerController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('employees',
+            EmployeeController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('specialists',
+            SpecialistController::class,
+            ['except' => ['show']]
+        );
         Route::get('/employee-roles', [
             UserRoleController::class,
             'employeeRoles',
         ]);
 
-        Route::apiResource('patient-recalls', PatientRecallController::class);
-
-        Route::apiResource('report-templates', ReportTemplateController::class);
-        Route::apiResource(
-            'pre-admission-sections',
-            PreAdmissionController::class
+        Route::apiResource('patient-recalls',
+            PatientRecallController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('report-templates',
+            ReportTemplateController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('pre-admission-sections',
+            PreAdmissionController::class,
+            ['except' => ['show']]
         );
         Route::post('update-pre-admission-consent', [
             PreAdmissionController::class,
@@ -179,14 +212,15 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager,receptionist,anesthetist,specialist',
     ])->group(function () {
-        Route::apiResource('clinics/{clinic_id}/rooms', RoomController::class);
-        Route::apiResource('appointments', AppointmentController::class);
+        Route::apiResource(
+            'clinics/{clinic_id}/rooms',
+            RoomController::class,
+            ['except' => ['show']]
+        );
+        Route::apiResource('appointments',
+            AppointmentController::class
+        );
         Route::get('user-appointments', [UserAppointmentController::class, 'index']);
-        Route::put('/appointments/approve/{id}', [
-            AppointmentController::class,
-            'approve',
-        ]);
-
         Route::put('/appointments/update_collecting_person/{id}', [
             AppointmentController::class,
             'updateCollectingPerson',
@@ -197,14 +231,6 @@ Route::middleware(['auth'])->group(function () {
             'update',
         ]);
 
-        Route::put('/appointments/check-in/{appointment}', [
-            AppointmentController::class,
-            'checkIn',
-        ]);
-        Route::put('/appointments/check-out/{appointment}', [
-            AppointmentController::class,
-            'checkOut',
-        ]);
         Route::put('/appointments/cancel/{appointment}', [
             AppointmentController::class,
             'cancel',
@@ -254,24 +280,49 @@ Route::middleware(['auth'])->group(function () {
             'index',
         ]);
 
-        Route::apiResource('patient-documents', PatientDocumentController::class);
+        Route::apiResource('patient-documents',
+            PatientDocumentController::class,
+            ['except' => ['index', 'show', 'update', 'destroy']]
+        );
         Route::post('patient-documents/upload', [PatientDocumentController::class, 'upload']);
 
-        Route::apiResource('patient-documents-letter', PatientDocumentLetterController::class);
-        Route::post('{patient}/letter/upload', [PatientDocumentLetterController::class, 'upload']);
+        Route::apiResource('patient-documents-letter',
+            PatientDocumentLetterController::class,
+            ['except' => ['index', 'show']]
+        );
+        Route::post('patient-document/{patient}/letter/upload',
+            [PatientDocumentLetterController::class, 'upload']
+        );
 
-        Route::apiResource('patient-documents-report', PatientDocumentReportController::class);
-        Route::post('{patient}/report/upload', [PatientDocumentReportController::class, 'upload']);
+        Route::apiResource('patient-documents-report',
+            PatientDocumentReportController::class,
+            ['except' => ['index', 'show']]
+        );
+        Route::post('patient-document/{patient}/report/upload',
+            [PatientDocumentReportController::class, 'upload']
+        );
 
-        Route::apiResource('patient-documents-clinical-note', PatientDocumentClinicalNoteController::class);
-        Route::post('{patient}/clinical-note/upload', [PatientDocumentClinicalNoteController::class, 'upload']);
+        Route::apiResource('patient-documents-clinical-note',
+            PatientDocumentClinicalNoteController::class,
+            ['except' => ['index', 'show']]
+        );
+        Route::post('patient-document/{patient}/clinical-note/upload',
+            [PatientDocumentClinicalNoteController::class, 'upload']
+        );
 
-        Route::apiResource('patient-documents-audio', PatientDocumentAudioController::class);
-        Route::post('{patient}/audio/upload', [PatientDocumentAudioController::class, 'upload']);
+        Route::apiResource('patient-documents-audio',
+            PatientDocumentAudioController::class,
+            ['except' => ['index', 'show']]
+        );
+        Route::post('patient-document/{patient}/audio/upload',
+            [PatientDocumentAudioController::class, 'upload']
+        );
         
-        Route::post('{patient}/other/upload', [PatientDocumentOtherController::class, 'upload']);
+        Route::post('patient-document/{patient}/other/upload',
+            [PatientDocumentOtherController::class, 'upload']
+        );
 
-        Route::post('{appointment}/pre-admission/upload', [
+        Route::post('pre-admission/{appointment}/upload', [
             AppointmentPreAdmissionController::class,
             'upload',
         ]);
@@ -280,16 +331,21 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
-        Route::apiResource('patients', PatientController::class);
+        Route::apiResource('patients',
+            PatientController::class
+        );
         Route::get('patients/appointments/{patient}', [PatientController::class, 'appointments']);
 
-        Route::apiResource('letter-templates', LetterTemplateController::class);
+        Route::apiResource('letter-templates',
+            LetterTemplateController::class,
+            ['except' => ['show']]
+        );
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
         Route::get('/procedure-approvals', [AppointmentProcedureApprovalController::class, 'index']);
 
-        Route::put('{appointment}/procedure-approvals', [
+        Route::put('appointment/{appointment}/procedure-approvals', [
             AppointmentProcedureApprovalController::class,
             'update',
         ]);

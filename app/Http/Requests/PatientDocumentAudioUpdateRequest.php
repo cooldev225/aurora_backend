@@ -28,4 +28,23 @@ class PatientDocumentAudioUpdateRequest extends FormRequest
             'specialist_id' => 'integer|required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'patient_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'specialist_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

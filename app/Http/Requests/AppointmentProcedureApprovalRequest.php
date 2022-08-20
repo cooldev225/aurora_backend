@@ -32,4 +32,19 @@ class AppointmentProcedureApprovalRequest extends FormRequest
             'procedure_approval_status' => 'in:NOT_APPROVED,APPROVED,CONSULT_REQUIRED',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'procedure_approval_status'  => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

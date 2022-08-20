@@ -28,4 +28,23 @@ class LetterTemplateRequest extends FormRequest
             'body'      => 'required|string',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'heading' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'body' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

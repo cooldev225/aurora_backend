@@ -24,11 +24,42 @@ class AppointmentTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required',
-            'anesthetist_required' => 'required|boolean',
-            'invoice_by' => 'required',
-            'arrival_time' => 'required|numeric',
-            'procedure_price' => 'numeric',
+            'name'                  => 'required',
+            'anesthetist_required'  => 'required|boolean',
+            'invoice_by'            => 'required',
+            'arrival_time'          => 'required|numeric',
+            'procedure_price'       => 'numeric',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'anesthetist_required' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'invoice_by' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'arrival_time' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'procedure_price' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

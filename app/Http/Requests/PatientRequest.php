@@ -24,10 +24,37 @@ class PatientRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'date_of_birth' => 'required',
-            'contact_number' => 'required',
+            'first_name'        => 'required',
+            'last_name'         => 'required',
+            'date_of_birth'     => 'required',
+            'contact_number'    => 'required',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'first_name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'last_name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'date_of_birth' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'contact_number' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

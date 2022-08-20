@@ -27,4 +27,19 @@ class MailRequest extends FormRequest
             'to_user_ids' => 'required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'to_user_ids' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

@@ -24,10 +24,37 @@ class ProdaDeviceRequest extends FormRequest
     public function rules()
     {
         return [
-            'device_name' => 'required',
-            'key_expiry' => 'required|date',
+            'device_name'   => 'required',
+            'key_expiry'    => 'required|date',
             'device_expiry' => 'required|date',
-            'clinic_id' => 'required|numeric',
+            'clinic_id'     => 'required|numeric',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'device_name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'key_expiry' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'device_expiry' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'clinic_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

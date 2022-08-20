@@ -28,4 +28,23 @@ class UserRoleRequest extends FormRequest
             'slug' => 'required',
         ];
     }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'slug' => [
+                'description' => '',
+                'example'     => '',
+            ],
+        ];
+    }
 }

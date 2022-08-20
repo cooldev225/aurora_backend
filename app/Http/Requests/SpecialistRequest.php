@@ -24,8 +24,27 @@ class SpecialistRequest extends FormRequest
     public function rules()
     {
         return [
-            'employee_id' => 'required|numeric',
+            'employee_id'    => 'required|numeric',
             'anesthetist_id' => 'required|numeric',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'employee_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'anesthetist_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

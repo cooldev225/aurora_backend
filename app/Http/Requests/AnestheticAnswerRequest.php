@@ -25,7 +25,26 @@ class AnestheticAnswerRequest extends FormRequest
     {
         return [
             'appointment_id' => 'required|numeric',
-            'question_id' => 'required|numeric',
+            'question_id'    => 'required|numeric',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'appointment_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'question_id' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }

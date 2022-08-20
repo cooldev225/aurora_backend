@@ -26,7 +26,30 @@ class PatientDocumentRequest extends FormRequest
         return [
             'document_name' => 'required',
             'document_type' => 'required',
-            'file' => 'required',
+            'file'          => 'required',
+        ];
+    }
+
+    /**
+     * Get the description of body parameters.
+     *
+     * @return array<string, array>
+     */
+    public function bodyParameters()
+    {
+        return [
+            'document_name' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'document_type' => [
+                'description' => '',
+                'example'     => '',
+            ],
+            'file' => [
+                'description' => '',
+                'example'     => '',
+            ],
         ];
     }
 }
