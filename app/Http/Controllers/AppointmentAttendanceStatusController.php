@@ -7,13 +7,8 @@ use Illuminate\Http\Response;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 
-
-
-
 class AppointmentAttendanceStatusController extends BaseOrganizationController
 {
-
-
     /**
      * Check In
      *
