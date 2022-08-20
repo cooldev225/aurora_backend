@@ -53,18 +53,23 @@ class Appointment extends Model
     }
 
     public function getPatientNameAttribute() {
+        $patient = $this->patient();
+
         return [
-            'full' => $this->patient()->title .' ' . $this->patient()->first_name .' '. $this->patient()->last_name,
-            'first'=> $this->patient()->first_name,
-            'last' => $this->patient()-> last_name
+            'full' => $patient->title .' ' . $patient->first_name .' '. $patient->last_name,
+            'first'=> $patient->first_name,
+            'last' => $patient-> last_name
         ];
     }
 
     public function getPatientDetailsAttribute() {
+        $patient = $this->patient();
+
         return [
-            'date_of_birth' => Carbon::parse($this->patient()->date_of_birth)->format('d-m-Y'),
-            'contact_number'=> $this->patient()->contact_number,
-            'email'=> $this->patient()->email,
+            'date_of_birth'  => Carbon::parse($patient->date_of_birth)->format('d-m-Y'),
+            'contact_number' => $patient->contact_number,
+            'allergies'      => $patient->allergies,
+            'email'          => $patient->email,
       ];
     }
 
