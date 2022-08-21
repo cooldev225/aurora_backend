@@ -51,16 +51,32 @@ class Patient extends Model
 
     public function getAllUpcomingAppointmentsAttribute()
     {
-        return $this->appointments()->where('date', '>=', date('Y-m-d'))->get();
+        $organization_id = auth()->user()->organization_id;
+
+        return $this->appointments()
+            ->where('organization_id', $organization_id)
+            ->where('date', '>=', date('Y-m-d'))
+            ->get();
     }
 
     public function getFivePreviousAppointmentsAttribute()
     {
-        return $this->appointments()->where('date', '<', date('Y-m-d'))->take(5)->get();  
+        $organization_id = auth()->user()->organization_id;
+
+        return $this->appointments()
+            ->where('organization_id', $organization_id)
+            ->where('date', '<', date('Y-m-d'))
+            ->take(5)
+            ->get();  
     }
     public function getPreviousAppointmentCountAttribute()
     {
-        return $this->appointments()->where('date','<', date('Y-m-d'))->count();  
+        $organization_id = auth()->user()->organization_id;
+
+        return $this->appointments()
+            ->where('organization_id', $organization_id)
+            ->where('date','<', date('Y-m-d'))
+            ->count();  
     }
     /**
      * Return Patients' Organization
