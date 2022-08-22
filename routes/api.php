@@ -113,10 +113,6 @@ Route::middleware(['auth'])->group(function () {
             HealthFundController::class,
             ['except' => ['show']]
         );
-        Route::apiResource('referring-doctors',
-            ReferringDoctorController::class,
-            ['except' => ['show']]
-        );
     });
 
 
@@ -221,6 +217,12 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('appointments',
             AppointmentController::class
         );
+
+        Route::apiResource('referring-doctors',
+        ReferringDoctorController::class,
+        ['except' => ['show']]
+        );
+
         Route::get('user-appointments', [UserAppointmentController::class, 'index']);
         Route::put('/appointments/update_collecting_person/{id}', [
             AppointmentController::class,
