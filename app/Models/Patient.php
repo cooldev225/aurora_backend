@@ -32,11 +32,7 @@ class Patient extends Model
 
     public function getIntContactNumberAttribute()
     {
-        if ($this->contact_number == '+12096833783') {
-            return $this->contact_number;
-        } else {
-            return '+61' . substr($this->contact_number, 1);  
-        }
+        return '+61' . substr($this->contact_number, 1);  
     }
 
     public function getFullNameAttribute()

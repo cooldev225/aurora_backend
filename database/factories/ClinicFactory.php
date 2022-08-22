@@ -27,26 +27,8 @@ class ClinicFactory extends Factory
             'hospital_provider_number'  => $this->faker->numerify('AU####'),
             'VAED_number'               => Str::random(5),
             'address'                   => $this->faker->streetAddress(),
-            'street'                    => $this->faker->streetName(),
-            'city'                      => $this->faker->city(),
-            'state'                     => $this->faker->state(),
-            'postcode'                  => $this->faker->postcode(),
-            'country'                   => $this->faker->country(),
-            'latitude'                  => $this->faker->latitude(),
-            'longitude'                 => $this->faker->longitude(),
-            'timezone'                  => $this->faker->timezone(),
             'specimen_collection_point_number' => $this->faker->numerify('###'),
-            'footnote_signature'            => $this->faker->imageUrl(),
-            'default_start_time'            => '07:30:00',
-            'default_end_time'              => '17:00:00',
-            'default_meal_time'             => $this->faker->randomElement([20, 30]),
-            'latest_invoice_no'             => $this->faker->numerify('HH###########'),
-            'latest_invoice_pathology_no'   => $this->faker->numerify(
-                'HH###########'
-            ),
-            'centre_serial_no'              => mt_rand(1, 9999),
-            'centre_last_invoice_serial_no' => mt_rand(1, 9999),
-
+            'lspn_id' => $this->faker->numerify('###'),
             'document_letter_header'        => $this->faker->imageUrl(),
             'document_letter_footer'        => $this->faker->imageUrl(),
         ];

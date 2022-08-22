@@ -22,20 +22,14 @@ class PatientSeeder extends Seeder
 
         foreach ($arrPatients as $patient) {
             if ($patient->id == 1) {
-                $patient->email = 'it@aurorasoftware.com.au';
+                $patient->email = 'kaylee@ojc.com.au';
                 $patient->appointment_confirm_method = 'email';
             } else if ($patient->id == 2) { 
                 $patient->contact_number = '04-8118-3422';
                 $patient->appointment_confirm_method = 'sms';
-            } else if ($patient->id == 3) {
-                $patient->email = 'alexp753159@gmail.com';
-                $patient->appointment_confirm_method = 'email';
-            } else if ($patient->id == 4) { 
-                $patient->contact_number = '+12096833783';
-                $patient->appointment_confirm_method = 'sms';
             }
 
-            if ($patient->id >= 1 && $patient->id <= 4) {
+            if ($patient->id >= 1 && $patient->id <= 2) {
                 $patient->save();
             }
 

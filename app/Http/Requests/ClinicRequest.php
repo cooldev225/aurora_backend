@@ -24,10 +24,17 @@ class ClinicRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required',
-            'email'         => 'required',
-            'phone_number'  => 'required',
-            'address'       => 'required',
+            'name'                      => 'required',
+            'email'                     => 'required',
+            'phone_number'              => 'required',
+            'address'                   => 'required',
+            'fax_number'                => '',
+            'hospital_provider_number'  => '',
+            'VAED_number'               => '',
+            'document_letter_header'    => '',
+            'document_letter_footer'    => '',
+            'specimen_collection_point_number' => '',
+            'lspn_id'                   => '',    
         ];
     }
 
@@ -39,21 +46,41 @@ class ClinicRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'name' => [
-                'description' => '',
-                'example'     => '',
+            "name" => [
+                'description' => 'The name of the clinic',
+                'example'     => "Frankston Practice",
             ],
             'email' => [
-                'description' => '',
-                'example'     => '',
+                'description' => 'The Email of the clinic',
+                'example'     => 'reception@franksonpracktice.com.au',
             ],
             'phone_number' => [
-                'description' => '',
-                'example'     => '',
+                'description' => 'The Phone number of the clinic',
+                'example'     => '04-3456-2342',
             ],
-            'address' => [
-                'description' => '',
-                'example'     => '',
+            'hospital_provider_number' => [
+                'description' => 'The provider number of the clinic',
+                'example'     => '31452352F',
+            ],
+            'VAED_number' => [
+                'description' => 'The VAED number of the clinic',
+                'example'     => '234234',
+            ],
+            'specimen_collection_point_number' => [
+                'description' => 'The specimen collection point number of the clinic',
+                'example'     => '234234',
+            ],
+            'lspn_id' => [
+                'description' => 'The LSPN id of the clinic',
+                'example'     => '234234',
+            ],
+            'document_header' => [
+                'description' => 'The document header of the clinic',
+                'example'     => '234234',
+            ],
+            'document_footer' => [
+                'description' => 'The document footer of the clinic',
+                'example'     => '234234',
             ],
         ];
     }
