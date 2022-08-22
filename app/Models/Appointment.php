@@ -53,23 +53,18 @@ class Appointment extends Model
     }
 
     public function getPatientNameAttribute() {
-        $patient = $this->patient();
-
         return [
-            'full' => $patient->title .' ' . $patient->first_name .' '. $patient->last_name,
-            'first'=> $patient->first_name,
-            'last' => $patient-> last_name
+            'full' => $this->patient()->title .' ' . $this->patient()->first_name .' '. $this->patient()->last_name,
+            'first'=> $this->patient()->first_name,
+            'last' => $this->patient()-> last_name
         ];
     }
 
     public function getPatientDetailsAttribute() {
-        $patient = $this->patient();
-
         return [
-            'date_of_birth'  => Carbon::parse($patient->date_of_birth)->format('d-m-Y'),
-            'contact_number' => $patient->contact_number,
-            'allergies'      => $patient->allergies,
-            'email'          => $patient->email,
+            'date_of_birth' => Carbon::parse($this->patient()->date_of_birth)->format('d-m-Y'),
+            'contact_number'=> $this->patient()->contact_number,
+            'email'=> $this->patient()->email,
       ];
     }
 
@@ -123,17 +118,6 @@ class Appointment extends Model
         return $this->belongsTo(Specialist::class, 'specialist_id')->first();
     }
 
-    /**
-     * Return AppointmentAdministrationInfo
-     */
-    public function administrationInfo()
-    {
-        return $this->hasOne(
-            AppointmentAdministrationInfo::class,
-            'appointment_id'
-        )->first();
-    }
-
      /**
      * Return AppointmentReferral
      */
@@ -143,7 +127,7 @@ class Appointment extends Model
     }
     
     /**
-     * Return AppointmentAdministrationInfo
+     * Return Return Payments
      */
     public function payments()
     {
@@ -162,7 +146,7 @@ class Appointment extends Model
     }
 
     /**
-     * Return AppointmentAdministrationInfo
+     * Return Pre Admission
      */
     public function pre_admission()
     {
@@ -189,7 +173,6 @@ class Appointment extends Model
         $appointment_table = (new Appointment())->getTable();
         $patient_table = (new Patient())->getTable();
         $specialist_table = (new Specialist())->getTable();
-        $appointment_administration_info_table = (new AppointmentAdministrationInfo())->getTable();
         $patient_billing_table = (new PatientBilling())->getTable();
 
         $appointments = self::select('*', "{$appointment_table}.*")
@@ -205,12 +188,6 @@ class Appointment extends Model
                 "{$patient_billing_table}.patient_id",
                 '=',
                 "{$patient_table}.id"
-            )
-            ->leftJoin(
-                $appointment_administration_info_table,
-                'appointment_id',
-                '=',
-                "{$appointment_table}.id"
             )
             ->where($appointment_table . '.organization_id', $organization_id);
 

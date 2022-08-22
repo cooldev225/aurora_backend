@@ -9,7 +9,6 @@ use App\Models\AppointmentType;
 use App\Models\Patient;
 use App\Models\Specialist;
 use App\Models\PatientBilling;
-use App\Models\AppointmentAdministrationInfo;
 use App\Models\AppointmentTimeRequirement;
 use App\Models\PatientOrganization;
 use App\Http\Requests\AppointmentRequest;
@@ -21,7 +20,7 @@ use App\Models\AppointmentReferral;
 class AppointmentController extends BaseOrganizationController
 {
     /**
-     * [Appointment] - List
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
@@ -153,23 +152,18 @@ class AppointmentController extends BaseOrganizationController
         );
     }
 
-    /**
-     * [Appointment] - Show
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function show(Appointment $appointment){
         return response()->json(
             [
-                'message' => 'Appointment Returned',
+                'message' => 'Appointment List',
                 'data' => $appointment,
             ],
             Response::HTTP_OK
         );
     }
-    
     /**
-     * [Appointment] - Available Slots
+     * Return available time slots
      *
      * @return \Illuminate\Http\Response
      */
@@ -413,7 +407,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * [Appointment] - Store
+     * Store a newly created resource in storage.
      *
      * @param  \App\Http\Requests\AppointmentRequest  $request
      * @return \Illuminate\Http\Response
@@ -464,11 +458,6 @@ class AppointmentController extends BaseOrganizationController
             'organization_id' => $organization_id,
         ]);
 
-        AppointmentAdministrationInfo::create([
-            ...$this->filterParams($request),
-            'appointment_id' => $appointment->id,
-        ]);
-
         AppointmentReferral::create([
             ...$this->filterParams($request),
             'appointment_id' => $appointment->id,
@@ -492,7 +481,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * [Appointment] - Update
+     * Update the specified resource in storage.
      *
      * @param  \App\Http\Requests\AppointmentRequest  $request
      * @param  \App\Models\Appointment  $appointment
@@ -532,12 +521,6 @@ class AppointmentController extends BaseOrganizationController
             'organization_id' => $organization_id,
         ]);
 
-        $appointmentAdministrationInfo = $appointment->administrationInfo();
-
-        $appointmentAdministrationInfo->update([
-            ...$this->filterParams($request),
-            'appointment_id' => $appointment->id,
-        ]);
 
         $appointmentReferral = $appointment->referral;
 
@@ -553,7 +536,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * [Appointment] - Update Collecting Person
+     * Procedure Approve by Anesthetist
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -618,7 +601,7 @@ class AppointmentController extends BaseOrganizationController
 
 
     /**
-     * [Appointment] - Cancel
+     * Cancel Appointment
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -649,7 +632,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * [Appointment] - Wait List
+     * Appointment wait listed
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -684,7 +667,7 @@ class AppointmentController extends BaseOrganizationController
     }
 
     /**
-     * [Appointment] - Destroy
+     * Remove the specified resource from storage.
      *
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response

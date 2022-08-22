@@ -94,19 +94,17 @@ class Specialist extends Model
     /**
      * Return $appointments
      */
-    public static function withAppointments($organization_id = null)
+    public static function withAppointments()
     {
-        if ($organization_id == null) {
-            $organization_id = auth()->user()->organization_id;
-        }
+   
+        $organization_id = auth()->user()->organization_id;
+    
 
         $appointment_table = (new Appointment())->getTable();
         $patient_table = (new Patient())->getTable();
         $specialist_table = (new Specialist())->getTable();
         $clinic_table = (new Clinic())->getTable();
         $appointment_type_table = (new AppointmentType())->getTable();
-        $appointment_administration_info_table = (new AppointmentAdministrationInfo())->getTable();
-        $patient_billing_table = (new PatientBilling())->getTable();
         $employee_table = (new Employee())->getTable();
         $user_table = (new User())->getTable();
         $user_table = (new User())->getTable();
@@ -118,8 +116,6 @@ class Specialist extends Model
             "{$appointment_table}.*",
             "{$appointment_type_table}.*",
             "{$patient_table}.*",
-            "{$patient_billing_table}.*",
-            "{$appointment_administration_info_table}.*",
             "{$appointment_referral_table}.*",
             DB::raw(
                 "CONCAT({$user_table}.first_name, ' ', "
@@ -148,18 +144,6 @@ class Specialist extends Model
                 "{$specialist_table}.id"
             )
             ->leftJoin($patient_table, 'patient_id', '=', "{$patient_table}.id")
-            ->leftJoin(
-                $patient_billing_table,
-                "{$patient_table}.id",
-                '=',
-                "{$patient_billing_table}.patient_id"
-            )
-            ->leftJoin(
-                $appointment_administration_info_table,
-                'appointment_id',
-                '=',
-                "{$appointment_table}.id"
-            )
             ->leftJoin(
                 $appointment_type_table,
                 'appointment_type_id',
