@@ -46,7 +46,6 @@ class PatientRequest extends FormRequest
             'height'            => '',
             'weight'            => '',
             'appointment_confirm_method' => '',
-            'preferred_contact_method' => '',
             'send_recall_method'=> '',
             'kin_name'          => '',
             'kin_relationship'  => '',

@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AnestheticAnswerController;
 use App\Http\Controllers\AppointmentAttendanceStatusController;
+use App\Http\Controllers\AppointmentConformationStatusController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
@@ -214,9 +215,7 @@ Route::middleware(['auth'])->group(function () {
             RoomController::class,
             ['except' => ['show']]
         );
-        Route::apiResource('appointments',
-            AppointmentController::class
-        );
+
 
         Route::apiResource('referring-doctors',
         ReferringDoctorController::class,
@@ -224,34 +223,24 @@ Route::middleware(['auth'])->group(function () {
         );
 
         Route::get('user-appointments', [UserAppointmentController::class, 'index']);
-        Route::put('/appointments/update_collecting_person/{id}', [
-            AppointmentController::class,
-            'updateCollectingPerson',
-        ]);
+    
 
-        Route::put('/appointments/procedureApprovalStatus/{appointment}', [
-            AppointmentProcedureApprovalController::class,
-            'update',
-        ]);
+        
+        Route::prefix('appointments')->group(function () {
+            Route::apiResource('/', AppointmentController::class, ['except' => ['destroy']]);
+            
+            Route::get('/confirmation-status', [AppointmentConformationStatusController::class, 'index']);
+            Route::put('/confirmation-status/{appointment}', [AppointmentConformationStatusController::class, 'update']);
 
-        Route::put('/appointments/check-in/{appointment}', [
-            AppointmentAttendanceStatusController::class,
-            'checkIn',
-        ]);
+            Route::put('/check-in/{appointment}', [AppointmentAttendanceStatusController::class,'checkIn']);
+            Route::put('/check-out/{appointment}', [AppointmentAttendanceStatusController::class, 'checkOut']);
+           
+            Route::put('/wait-listed/{appointment}', [AppointmentController::class,'waitListed']);
+            Route::put('/procedureApprovalStatus/{appointment}', [AppointmentProcedureApprovalController::class,'update']);
+            Route::put('/update_collecting_person/{id}', [AppointmentController::class,'updateCollectingPerson']);
+        });
 
-        Route::put('/appointments/check-out/{appointment}', [
-            AppointmentAttendanceStatusController::class,
-            'checkOut',
-        ]);
-
-        Route::put('/appointments/cancel/{appointment}', [
-            AppointmentController::class,
-            'cancel',
-        ]);
-        Route::put('/appointments/wait-listed/{appointment}', [
-            AppointmentController::class,
-            'waitListed',
-        ]);
+     
 
         Route::put('/appointment-referrals/update/{appointment}', [
             AppointmentReferralController::class,

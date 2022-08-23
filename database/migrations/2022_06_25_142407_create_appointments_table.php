@@ -39,6 +39,7 @@ return new class extends Migration {
                     'MISSED',
                 ])
                 ->default('PENDING');
+            $table->text('confirmation_status_reason')->nullable();
             $table
                 ->enum('attendance_status', [
                     'NOT_PRESENT',
@@ -64,10 +65,6 @@ return new class extends Migration {
                     'transport-accident',
                 ])
                 ->default('self-insured');
-            $table
-                ->enum('payment_status', ['pending', 'paid', 'failed'])
-                ->default('pending');
-            $table->text('cancel_reason')->nullable();
             $table->text('note')->nullable();
             $table->string('collecting_person_name')->nullable();
             $table->string('collecting_person_phone')->nullable();

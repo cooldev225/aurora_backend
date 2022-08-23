@@ -32,39 +32,6 @@ class AppointmentController extends BaseOrganizationController
             "{$appointment_table}.date"
         );
 
-        if ($request->has('clinic_id')) {
-            $appointments->where('clinic_id', $request->clinic_id);
-        }
-
-        if ($request->filled('appointment_type_id')) {
-            $appointments->where(
-                'appointment_type_id',
-                $request->appointment_type_id
-            );
-        }
-
-        if ($request->filled('specialist_ids')) {
-            $appointments->whereIn('specialist_id', $request->specialist_ids);
-        }
-
-        if ($request->filled('time_requirement')) {
-            $appointment_time_requirement = AppointmentTimeRequirement::find(
-                $request->time_requirement
-            );
-
-            if (strtolower($appointment_time_requirement->type) == 'before') {
-                $appointments->where(
-                    "start_time', '<',{$appointment_time_requirement->base_time}'"
-                );
-            } elseif (
-                strtolower($appointment_time_requirement->type) == 'after'
-            ) {
-                $appointments->where(
-                    "end_time', '>',{$appointment_time_requirement->base_time}'"
-                );
-            }
-        }
-
         $return = ['today' => [], 'tomorrow' => [], 'future' => []];
         $today = date('Y-m-d');
 
@@ -153,7 +120,8 @@ class AppointmentController extends BaseOrganizationController
     }
 
 
-    public function show(Appointment $appointment){
+    public function show(Appointment $appointment)
+    {
         return response()->json(
             [
                 'message' => 'Appointment List',
@@ -221,7 +189,7 @@ class AppointmentController extends BaseOrganizationController
                         $clinic_id == $availability->locations->id) &&
                     (empty($appointment_type) ||
                         $appointment_type->type ==
-                            $availability->appointment_type)
+                        $availability->appointment_type)
                 ) {
                     if (empty($specialists_by_week[$week])) {
                         $specialists_by_week[$week] = [];
@@ -289,16 +257,16 @@ class AppointmentController extends BaseOrganizationController
                 foreach ($date_item['time_slot_list'] as $slot_key => $slot) {
                     if (
                         strtolower($appointment_time_requirement->type) ==
-                            'before' &&
+                        'before' &&
                         $slot['end_time'] >
-                            $appointment_time_requirement->base_time
+                        $appointment_time_requirement->base_time
                     ) {
                         unset($return[$date_key]['time_slot_list'][$slot_key]);
                     } elseif (
                         strtolower($appointment_time_requirement->type) ==
-                            'after' &&
+                        'after' &&
                         $slot['start_time'] <
-                            $appointment_time_requirement->base_time
+                        $appointment_time_requirement->base_time
                     ) {
                         unset($return[$date_key]['time_slot_list'][$slot_key]);
                     }
@@ -321,15 +289,11 @@ class AppointmentController extends BaseOrganizationController
                 ) {
                     $index = array_search(
                         $appointment->specialist_id,
-                        $return[$date_key]['time_slot_list'][$slot_key][
-                            'specialist_ids'
-                        ]
+                        $return[$date_key]['time_slot_list'][$slot_key]['specialist_ids']
                     );
 
                     unset(
-                        $return[$date_key]['time_slot_list'][$slot_key][
-                            'specialist_ids'
-                        ][$index]
+                        $return[$date_key]['time_slot_list'][$slot_key]['specialist_ids'][$index]
                     );
                 }
             }
@@ -396,9 +360,7 @@ class AppointmentController extends BaseOrganizationController
                         $time_slot['end_time']
                     )
                 ) {
-                    $total_time_slots[$slot_key][
-                        'specialist_ids'
-                    ][] = $specialist_id;
+                    $total_time_slots[$slot_key]['specialist_ids'][] = $specialist_id;
                 }
             }
         }
@@ -414,49 +376,94 @@ class AppointmentController extends BaseOrganizationController
      */
     public function store(AppointmentRequest $request)
     {
-        $organization_id = auth()->user()->organization_id;
-
-        $patient = null;
-        if ($request->has('patient_id')) {
-            $patient = Patient::where('id', $request->patient_id)->first();
-        }
-
-        if ($patient == null) {
-            $patient = Patient::create($this->filterParams($request));
-            $patient->organizations()->attach(Organization::find($organization_id));
-        }
-
-
-        /*
-        $patientBilling = $patient->billing();
-
-        if ($patientBilling == null) {
-            $patientBilling = PatientBilling::create([
-                ...$this->filterParams($request),
-                'patient_id' => $patient->id,
+        $patient = Patient::find($request->patient_id);
+        if ($patient) {
+            $patient->update([
+                'first_name'                    => $request->first_name,
+                'last_name'                     => $request->last_name,
+                'date_of_birth'                 => date('Y-m-d', strtotime($request->date_of_birth)),
+                'contact_number'                => $request->contact_number,
+                'address'                       => $request->address,
+                'email'                         => $request->email,
+                'appointment_confirm_method'    => $request->appointment_confirm_method,
+                'allergies'                     => $request->allergies,
+                'clinical_alerts'               => $request->clinical_alerts,
             ]);
+            $patient->billing()->update([
+                'medicare_number'                => $request->medicare_number,
+                'medicare_reference_number'      => $request->medicare_reference_number,
+                'medicare_expiry_date'           => $request->medicare_expiry_date,
+                'concession_number'              => $request->concession_number,
+                'concession_expiry_date'         => $request->concession_expiry_date,
+                'pension_number'                 => $request->pension_number,
+                'pension_expiry_date'            => $request->pension_expiry_date,
+                'healthcare_card_number'         => $request->healthcare_card_number,
+                'healthcare_card_expiry_date'    => $request->healthcare_card_expiry_date,
+                'health_fund_id'                 => $request->health_fund_id,
+                'health_fund_membership_number'  => $request->health_fund_membership_number,
+                'health_fund_reference_number'   => $request->health_fund_reference_number,
+                'health_fund_expiry_date'        => $request->health_fund_expiry_date,
+             ]);
         } else {
-            $patientBilling->update([
-                ...$this->filterParams($request)
+            $patient = Patient::create([
+                'first_name'                    => $request->first_name,
+                'last_name'                     => $request->last_name,
+                'date_of_birth'                 => date('Y-m-d', strtotime($request->date_of_birth)),
+                'contact_number'                => $request->contact_number,
+                'address'                       => $request->address,
+                'email'                         => $request->email,
+                'appointment_confirm_method'    => $request->appointment_confirm_method,
+                'allergies'                     => $request->allergies,
+                'clinical_alerts'               => $request->clinical_alerts,
             ]);
+
+            PatientBilling::create([
+                'patient_id'                     => $patient->id, 
+                'medicare_number'                => $request->medicare_number,
+                'medicare_reference_number'      => $request->medicare_reference_number,
+                'medicare_expiry_date'           => $request->medicare_expiry_date,
+                'concession_number'              => $request->concession_number,
+                'concession_expiry_date'         => $request->concession_expiry_date,
+                'pension_number'                 => $request->pension_number,
+                'pension_expiry_date'            => $request->pension_expiry_date,
+                'healthcare_card_number'         => $request->healthcare_card_number,
+                'healthcare_card_expiry_date'    => $request->healthcare_card_expiry_date,
+                'health_fund_id'                 => $request->health_fund_id,
+                'health_fund_membership_number'  => $request->health_fund_membership_number,
+                'health_fund_reference_number'   => $request->health_fund_reference_number,
+                'health_fund_expiry_date'        => $request->health_fund_expiry_date,  
+            ]);
+
+            $patient->organizations()->attach(Organization::find(auth()->user()->organization_id));
         }
-        **/
+
 
         $appointment = Appointment::create([
-            ...$this->filterParams($request),
-            'patient_id' => $patient->id,
-            'organization_id' => $organization_id,
+            'date'                          => $request->date, 
+            'arrival_time'                  => $request->arrival_time,
+            'start_time'                    => date('H:i:s', strtotime($request->time_slot[0])),
+            'end_time'                      => date('H:i:s', strtotime($request->time_slot[1])),
+            'patient_id'                    => $patient->id,
+            'organization_id'               => auth()->user()->organization_id,
+            'appointment_type_id'           => $request->appointment_type_id,
+            'clinic_id'                     => $request->clinic_id,
+            'specialist_id'                 => $request->specialist_id,
+            'anesthetist_id'                => $request->anesthetist_id,
+            'room_id'                       => $request->room_id,
+            'note'                          => $request->note,
+            'charge_type'                   => $request->charge_type,     
         ]);
 
         AppointmentReferral::create([
-            ...$this->filterParams($request),
-            'appointment_id' => $appointment->id,
+            'referring_doctor_id'           => $request->referring_doctor_id,
+            'referral_date'                 => $request->referring_doctor_id,
+            'referral_duration'             => $request->referral_duration,
+            'is_no_referral'                => false,
         ]);
 
         AppointmentPreAdmission::create([
-            ...$this->filterParams($request),
-            'appointment_id' => $appointment->id,
-            'token' => md5($appointment->id)
+            'appointment_id'                => $appointment->id,
+            'token'                         => md5($appointment->id)
         ]);
 
         Notification::sendAppointmentNotification($appointment, 'appointment_booked');
@@ -466,7 +473,7 @@ class AppointmentController extends BaseOrganizationController
                 'message' => 'New Appointment created',
                 'data' => $appointment,
             ],
-            Response::HTTP_CREATED
+            Response::HTTP_OK
         );
     }
 
@@ -481,26 +488,51 @@ class AppointmentController extends BaseOrganizationController
         AppointmentRequest $request,
         Appointment $appointment
     ) {
-        $organization_id = auth()->user()->organization_id;
-        $patient = $appointment->patient();
-        $patient->update([...$this->filterParams($request)]);
-
-        $patientBilling = $patient->billing();
-
-        $patientBilling->update([
-            ...$this->filterParams($request)
-        ]);
+      
 
         $appointment->update([
-            ...$this->filterParams($request),
-            'patient_id' => $patient->id,
-            'organization_id' => $organization_id,
+            'appointment_type_id'           => $request->appointment_type_id,
+            'room_id'                       => $request->room_id,
+            'note'                          => $request->note,
+            'charge_type'                   => $request->charge_type,
+            'end_time'                      => date('H:i:s', strtotime($request->time_slot[1])),
+        ]);
+
+        $appointment->patient()->update([
+            'first_name'                    => $request->first_name,
+            'last_name'                     => $request->last_name,
+            'date_of_birth'                 => date('Y-m-d', strtotime($request->date_of_birth)),
+            'contact_number'                => $request->contact_number,
+            'address'                       => $request->address,
+            'email'                         => $request->email,
+            'appointment_confirm_method'    => $request->appointment_confirm_method,
+            'allergies'                     => $request->allergies,
+            'clinical_alerts'               => $request->clinical_alerts,
         ]);
 
 
-        $appointmentReferral = $appointment->referral;
+        $appointment->patient()->billing()->update([
+           'medicare_number'                => $request->medicare_number,
+           'medicare_reference_number'      => $request->medicare_reference_number,
+           'medicare_expiry_date'           => $request->medicare_expiry_date,
+           'concession_number'              => $request->concession_number,
+           'concession_expiry_date'         => $request->concession_expiry_date,
+           'pension_number'                 => $request->pension_number,
+           'pension_expiry_date'            => $request->pension_expiry_date,
+           'healthcare_card_number'         => $request->healthcare_card_number,
+           'healthcare_card_expiry_date'    => $request->healthcare_card_expiry_date,
+           'health_fund_id'                 => $request->health_fund_id,
+           'health_fund_membership_number'  => $request->health_fund_membership_number,
+           'health_fund_reference_number'   => $request->health_fund_reference_number,
+           'health_fund_expiry_date'        => $request->health_fund_expiry_date,
+        ]);
 
-        $appointmentReferral->update([...$this->filterParams($request)]);
+        $appointment->referral->update([ 
+            'referring_doctor_id'           => $request->referring_doctor_id,
+            'referral_date'                 => $request->referring_doctor_id,
+            'referral_duration'             => $request->referral_duration,
+            'is_no_referral'                => $request->is_no_referral,
+        ]);
 
         return response()->json(
             [
@@ -575,38 +607,6 @@ class AppointmentController extends BaseOrganizationController
         );
     }
 
-
-    /**
-     * Cancel Appointment
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function cancel(Request $request, Appointment $appointment)
-    {
-        $organization_id = auth()->user()->organization_id;
-
-        if ($appointment->organization_id != $organization_id) {
-            return $this->forbiddenOrganization();
-        }
-
-        if ($request->missed == true) {
-            $appointment->confirmation_status = 'MISSED';
-        } else {
-            $appointment->confirmation_status = 'CANCELED';
-        }
-        $appointment->cancel_reason = $request->reason;
-        $appointment->save();
-
-        return response()->json(
-            [
-                'message' => 'Appointment Canceled',
-                'data' => $appointment,
-            ],
-            Response::HTTP_OK
-        );
-    }
-
     /**
      * Appointment wait listed
      *
@@ -640,186 +640,5 @@ class AppointmentController extends BaseOrganizationController
             ],
             Response::HTTP_OK
         );
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Appointment  $appointment
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Appointment $appointment)
-    {
-        $appointment->delete();
-
-        return response()->json(
-            [
-                'message' => 'Appointment Removed',
-            ],
-            Response::HTTP_NO_CONTENT
-        );
-    }
-
-    /**
-     * Filter params
-     *
-     * @param  \App\Http\Requests\AppointmentRequest  $request
-     * @return array
-     */
-    protected function filterParams(AppointmentRequest $request)
-    {
-        $start_time = date('H:i:s', strtotime($request->time_slot[0]));
-        $end_time = date('H:i:s', strtotime($request->time_slot[1]));
-
-        $appointmentType = AppointmentType::find($request->appointment_type_id);
-        $arrival_time = date(
-            'H:i:s',
-            strtotime($request->time_slot[0]) -
-                15 * 60 * $appointmentType->arrival_time
-        );
-
-        if ($request->has('arrival_time')) {
-            $arrival_time = date('H:i:s', strtotime($request->arrival_time));
-        }
-
-        $anesthetic_answers = $request->anesthetic_questions
-            ? $request->anesthetic_answers
-            : [];
-        $procedure_answers = $request->procedure_questions
-            ? $request->procedure_answers
-            : [];
-
-        $referral_date = $this->dateFieldValue($request, 'referral_date');
-
-        $referral_expiry_date = date_create($referral_date);
-
-        if (is_numeric($request->referral_duration)) {
-            date_add(
-                $referral_expiry_date,
-                date_interval_create_from_date_string(
-                    $request->referral_duration . ' months'
-                )
-            );
-        }
-
-        $referral_expiry_date = date_format($referral_expiry_date, 'Y-m-d');
-
-        $is_no_referral = true;
-        $referral_params = [];
-
-        if ($request->has('referring_doctor_id')) {
-            $is_no_referral = false;
-
-            $referral_params = [
-                'referral_date'         => $referral_date,
-                'referral_expiry_date'  => $referral_expiry_date,
-            ];
-        }
-
-        $clinic_id = 0;
-
-        if ($request->has('clinic_id')) {
-            $clinic_id = $request->clinic_id;
-        } else {
-            $day = date('l', strtotime($request->date));
-            $day = strtolower($day);
-            $work_hours = json_decode(
-                Specialist::find($request->specialist_id)->employee
-                    ->work_hours
-            );
-
-            $clinic_id = $work_hours->$day->locations->id;
-        }
-
-        $filtered_request = [
-            'clinic_id' => $clinic_id,
-            'room_id' => $request->filled('room_id') ? $request->room_id : 0,
-            'date_of_birth' => $this->dateFieldValue($request, 'date_of_birth'),
-            'marital_status' => $request->input('marital_status', 'Single'),
-            'aborginality' => $request->input('aborginality', false),
-            'preferred_contact_method' => $request->input(
-                'preferred_contact_method',
-                'phone'
-            ),
-            'appointment_confirm_method' => $request->input(
-                'appointment_confirm_method',
-                'sms'
-            ),
-            'medicare_expiry_date' => $this->dateFieldValue($request, 'medicare_expiry_date'),
-            'concession_expiry_date' => $this->dateFieldValue($request, 'concession_expiry_date'),
-            'pension_expiry_date' => $this->dateFieldValue($request, 'pension_expiry_date'),
-            'healthcare_card_expiry_date' => $this->dateFieldValue($request, 'healthcare_card_expiry_date'),
-            'health_fund_expiry_date' => $this->dateFieldValue($request, 'health_fund_expiry_date'),
-            'primary_pathologist_id' => $request->input(
-                'primary_pathologist_id',
-                0
-            ),
-            'date' => date('Y-m-d', strtotime($request->date)),
-            'arrival_time' => $arrival_time,
-            'start_time' => $start_time,
-            'end_time' => $end_time,
-            'anesthetic_answers' => json_encode($anesthetic_answers),
-            'procedure_answers' => json_encode($procedure_answers),
-            'referring_doctor_id' => $request->referring_doctor_id,
-            'is_no_referral' => $is_no_referral,
-            'receive_forms' => $request->input('receive_forms', 'sms'),
-            'recurring_appointment' => $request->input(
-                'recurring_appointment',
-                false
-            ),
-        ];
-
-        $billing_info = [
-            'medicare_number'               =>  $request->medicare_number,
-            'medicare_reference_number'     =>  $request->medicare_reference_number,
-            'medicare_expiry_date'          =>  $request->medicare_expiry_date,
-            'concession_number'             =>  $request->concession_number,
-            'concession_expiry_date'        =>  $request->concession_expiry_date,
-            'pension_number'                =>  $request->pension_number,
-            'pension_expiry_date'           =>  $request->pension_expiry_date,
-            'healthcare_card_number'        =>  $request->healthcare_card_number,
-            'healthcare_card_expiry_date'   =>  $request->healthcare_card_expiry_date,
-            'health_fund_id'                =>  $request->health_fund_id,
-            'health_fund_membership_number' =>  $request->health_fund_membership_number,
-            'health_fund_reference_number'  =>  $request->health_fund_reference_number,
-            'health_fund_expiry_date'       =>  $request->health_fund_expiry_date,
-            'account_holder_type'           =>  $request->account_holder_type,
-            'account_holder_id'             =>  $request->account_holder_id,
-            'fund_excess'                   =>  $request->fund_excess,
-        ];
-
-        $arrBillingDateFields = [
-            'medicare_expiry_date',
-            'concession_expiry_date',
-            'pension_expiry_date',
-            'healthcare_card_expiry_date',
-            'health_fund_expiry_date',
-        ];
-
-        foreach ($billing_info as $key => $value) {
-            if ($request->has($key) == false) {
-                unset($billing_info[$key]);
-                continue;
-            }
-
-            if (in_array($key, $arrBillingDateFields)) {
-                $billing_info[$key] = date('Y-m-d', strtotime($billing_info[$key]));
-            }
-        }
-
-        return array_merge(
-            $request->all(),
-            $filtered_request,
-            $referral_params,
-            $billing_info
-        );
-    }
-
-    private function dateFieldValue($request, $field_name) {
-        if ($request->filled($field_name) == false) {
-            return date('Y-m-d', 0);
-        }
-
-        return date('Y-m-d', strtotime($request->$field_name));
     }
 }
