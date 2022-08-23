@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AppointmentConformationStatusRequest extends FormRequest
+class AppointmentConformationStatusUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,7 +29,7 @@ class AppointmentConformationStatusRequest extends FormRequest
     public function rules()
     {
         return [
-            'confirmation_status' => 'in:PENDING,CONFIRMED,CANCELED,MISSED',
+            'confirmation_status' =>  ['required','in:PENDING,CONFIRMED,CANCELED,MISSED'],
             'confirmation_status_reason' => '',
         ];
     }

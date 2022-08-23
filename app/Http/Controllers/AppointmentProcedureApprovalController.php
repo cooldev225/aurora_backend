@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Enum\ProcedureApprovalStatus;
 use App\Http\Requests\AppointmentProcedureApprovalRequest;
-use Illuminate\Http\Response;
 use App\Models\Appointment;
 
 use App\Mail\Notification;
@@ -36,7 +35,7 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
                 'message' => 'Patient List',
                 'data' => $patients,
             ],
-            Response::HTTP_OK
+            200
         );
     }
 
@@ -67,7 +66,7 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
                 'message' => 'Appointment procedure approval request Updated',
                 'data' => $appointment,
             ],
-            Response::HTTP_OK
+            200
         );
     }
 }

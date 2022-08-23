@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AppointmentConformationStatusRequest;
-use Illuminate\Http\Request;
+use App\Http\Requests\AppointmentConformationStatusListRequest;
+use App\Http\Requests\AppointmentConformationStatusUpdateRequest;
 use App\Models\Appointment;
 
 class AppointmentConformationStatusController extends BaseOrganizationController
@@ -11,14 +11,21 @@ class AppointmentConformationStatusController extends BaseOrganizationController
     /**
      * Display a listing of all appointments per their confirmation_status.
      *
+     * @param  \Illuminate\Http\AppointmentConformationStatusListRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(AppointmentConformationStatusListRequest $request)
     {
 
         $appointments = Appointment::
             where('organization_id', auth()->user()->organization_id)
             ->where('confirmation_status', $request->confirmation_status)
+            ->when($request->appointment_range == 'FUTURE', function ($query) {
+                $query->where('date', '>=', date('Y-m-d'));
+            })
+            ->when($request->appointment_range == 'PAST', function ($query) {
+                $query->where('date', '<=', date('Y-m-d'));
+            })
             ->orderBy('date')
             ->orderBy('start_time')
             ->get();
@@ -36,10 +43,10 @@ class AppointmentConformationStatusController extends BaseOrganizationController
     /**
      * Updated the Appointment 'confirmation_status' along with the reason for the status
      *
-     * @param  \Illuminate\Http\AppointmentConformationStatusRequest  $request
+     * @param  \Illuminate\Http\AppointmentConformationStatusUpdateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(AppointmentConformationStatusRequest $request, Appointment $appointment)
+    public function update(AppointmentConformationStatusUpdateRequest $request, Appointment $appointment)
     {
 
     
