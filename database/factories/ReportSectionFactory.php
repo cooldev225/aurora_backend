@@ -5,9 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\ReportTemplate;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PatientOrganization>
- */
+
 class ReportSectionFactory extends Factory
 {
     /**

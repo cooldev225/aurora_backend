@@ -345,7 +345,8 @@ Route::middleware(['auth'])->group(function () {
         'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
         Route::apiResource('patients',
-            PatientController::class
+            PatientController::class,
+            ['except' => ['create']]
         );
         Route::get('patients/appointments/{patient}', [PatientController::class, 'appointments']);
 

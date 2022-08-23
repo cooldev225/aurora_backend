@@ -4,10 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Clinic;
-use App\Models\Employee;
 use App\Models\Patient;
 use App\Models\Room;
-use App\Models\PatientOrganization;
 use App\Models\Organization;
 use App\Models\Specialist;
 use App\Models\AppointmentType;
@@ -26,21 +24,8 @@ class AppointmentFactory extends Factory
     {
         $organization = Organization::inRandomOrder()->first();
         $organization_id = $organization->id;
-        $patient = Patient::inRandomOrder()->first();
+        $patient = $organization->patients()->inRandomOrder()->first();
 
-        $patientOrganization = PatientOrganization::where(
-            'patient_id',
-            $patient->id
-        )
-            ->where('organization_id', $organization_id)
-            ->first();
-
-        if (empty($patientOrganization)) {
-            PatientOrganization::create([
-                'organization_id' => $organization_id,
-                'patient_id' => $patient->id,
-            ]);
-        }
 
         $specialist = Specialist::organizationSpecialists($organization_id)
             ->inRandomOrder()

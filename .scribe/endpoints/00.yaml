@@ -26,23 +26,23 @@ endpoints:
         custom: []
       email:
         name: email
-        description: ''
+        description: 'The Email of the clinic.'
         required: true
-        example: ''
+        example: reception@franksonpracktice.com.au
         type: string
         custom: []
       phone_number:
         name: phone_number
-        description: ''
+        description: 'The Phone number of the clinic.'
         required: true
-        example: ''
+        example: 04-3456-2342
         type: string
         custom: []
       address:
         name: address
         description: ''
         required: true
-        example: ''
+        example: ut
         type: string
         custom: []
       fax_number:
@@ -54,16 +54,16 @@ endpoints:
         custom: []
       hospital_provider_number:
         name: hospital_provider_number
-        description: ''
+        description: 'The provider number of the clinic.'
         required: false
-        example: null
+        example: 31452352F
         type: string
         custom: []
       VAED_number:
         name: VAED_number
-        description: ''
+        description: 'The VAED number of the clinic.'
         required: false
-        example: null
+        example: '234234'
         type: string
         custom: []
       document_letter_header:
@@ -78,6 +78,20 @@ endpoints:
         description: ''
         required: false
         example: null
+        type: string
+        custom: []
+      specimen_collection_point_number:
+        name: specimen_collection_point_number
+        description: 'The specimen collection point number of the clinic.'
+        required: false
+        example: '234234'
+        type: string
+        custom: []
+      lspn_id:
+        name: lspn_id
+        description: 'The LSPN id of the clinic.'
+        required: false
+        example: '234234'
         type: string
         custom: []
     responses: []
@@ -115,23 +129,23 @@ endpoints:
         custom: []
       email:
         name: email
-        description: ''
+        description: 'The Email of the clinic.'
         required: true
-        example: ''
+        example: reception@franksonpracktice.com.au
         type: string
         custom: []
       phone_number:
         name: phone_number
-        description: ''
+        description: 'The Phone number of the clinic.'
         required: true
-        example: ''
+        example: 04-3456-2342
         type: string
         custom: []
       address:
         name: address
         description: ''
         required: true
-        example: ''
+        example: in
         type: string
         custom: []
       fax_number:
@@ -143,16 +157,16 @@ endpoints:
         custom: []
       hospital_provider_number:
         name: hospital_provider_number
-        description: ''
+        description: 'The provider number of the clinic.'
         required: false
-        example: null
+        example: 31452352F
         type: string
         custom: []
       VAED_number:
         name: VAED_number
-        description: ''
+        description: 'The VAED number of the clinic.'
         required: false
-        example: null
+        example: '234234'
         type: string
         custom: []
       document_letter_header:
@@ -167,6 +181,20 @@ endpoints:
         description: ''
         required: false
         example: null
+        type: string
+        custom: []
+      specimen_collection_point_number:
+        name: specimen_collection_point_number
+        description: 'The specimen collection point number of the clinic.'
+        required: false
+        example: '234234'
+        type: string
+        custom: []
+      lspn_id:
+        name: lspn_id
+        description: 'The LSPN id of the clinic.'
+        required: false
+        example: '234234'
         type: string
         custom: []
     responses: []
@@ -215,7 +243,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: "[{\r\n\"id\":4,\r\n\"name\":\"Wayside Clinic\",\r\n\"email\": \"recpetion@wayside.com.au\",\r\n\"phone_number\": \"03-2435-2342\",\r\n\"fax_number\": \"03-2435-2335\",\r\n\"hospital_provider_number\": \"AU2344\",\r\n\"VAED_number\": \"214124\",\r\n\"Address\":  \"106 Broad rd, VIC, 3500\",\r\n\"document_letter_header\": \"filename\",\r\n\"document_letter_footer\": \"filename\",\r\n\"created_at\" : \"2022-08-22 12:30:54\",\r\n\"updated_at\" : \"2022-08-25 14:30:53\"\r\n},\r\n{\"id\":6,\r\n\"name\":\"Frankston Practic\",\r\n\"email\": \"admin@frankston.com.au\",\r\n\"phone_number\": \"03-2335-2342\",\r\n\"fax_number\": \"03-2435-6735\",\r\n\"hospital_provider_number\": \"AU5444\",\r\n\"VAED_number\": \"214124\",\r\n\"Address\":  \"1 Dial blv, VIC, 3500\",\r\n\"document_letter_header\": \"filename\",\r\n\"document_letter_footer\": \"filename\",\r\n\"created_at\" : \"2022-09-22 12:30:54\",\r\n\"updated_at\" : \"2022-10-25 14:30:53\"}]\r\n"
+        content: "[{\r\n\"id\":4,\r\n\"name\":\"Wayside Clinic\",\r\n\"email\": \"recpetion@wayside.com.au\",\r\n\"phone_number\": \"03-2435-2342\",\r\n\"fax_number\": \"03-2435-2335\",\r\n\"hospital_provider_number\": \"AU2344\",\r\n\"VAED_number\": \"214124\",\r\n\"Address\":  \"106 Broad rd, VIC, 3500\",\r\n\"document_letter_header\": \"filename\",\r\n\"document_letter_footer\": \"filename\",\r\n\"created_at\" : \"2022-08-22 12:30:54\",\r\n\"updated_at\" : \"2022-08-25 14:30:53\"\r\n},\r\n{\"id\":6,\r\n\"name\":\"Frankston Practice\",\r\n\"email\": \"admin@frankston.com.au\",\r\n\"phone_number\": \"03-2335-2342\",\r\n\"fax_number\": \"03-2435-6735\",\r\n\"hospital_provider_number\": \"AU5444\",\r\n\"VAED_number\": \"214124\",\r\n\"Address\":  \"1 Dial blv, VIC, 3500\",\r\n\"document_letter_header\": \"filename\",\r\n\"document_letter_footer\": \"filename\",\r\n\"created_at\" : \"2022-09-22 12:30:54\",\r\n\"updated_at\" : \"2022-10-25 14:30:53\"}]\r\n"
         headers: []
         description: '200'
     responseFields: []

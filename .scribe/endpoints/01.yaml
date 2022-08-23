@@ -21,21 +21,21 @@ endpoints:
         name: username
         description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
         required: false
-        example: hrqugyubbunkaqoafdbowncheiyvfue
+        example: qqzkisvsxhajuwtl
         type: string
         custom: []
       email:
         name: email
         description: 'Must be a valid email address.'
         required: false
-        example: feil.pansy@example.org
+        example: udach@example.net
         type: string
         custom: []
       password:
         name: password
         description: 'Must be at least 6 characters.'
         required: true
-        example: giwihk
+        example: mcd
         type: string
         custom: []
     responses: []
@@ -184,21 +184,21 @@ endpoints:
         name: old_password
         description: 'Must be at least 6 characters.'
         required: true
-        example: w
+        example: xsun
         type: string
         custom: []
       new_password:
         name: new_password
         description: 'The value and <code>old_password</code> must be different. Must be at least 6 characters.'
         required: true
-        example: ozu
+        example: ''
         type: string
         custom: []
       confirm_password:
         name: confirm_password
         description: 'The value and <code>new_password</code> must match. Must be at least 6 characters.'
         required: true
-        example: ''
+        example: uij
         type: string
         custom: []
     responses: []
@@ -221,7 +221,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: dignissimos
+        example: nihil
         type: string
         custom: []
     queryParameters: []
@@ -254,7 +254,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: et
+        example: facere
         type: string
         custom: []
     queryParameters: []
@@ -279,7 +279,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: laborum
+        example: incidunt
         type: string
         custom: []
     queryParameters: []
@@ -379,7 +379,7 @@ endpoints:
         name: id
         description: 'The ID of the bookmark.'
         required: true
-        example: voluptates
+        example: vel
         type: string
         custom: []
     queryParameters: []
@@ -404,7 +404,7 @@ endpoints:
         name: id
         description: 'The ID of the delete.'
         required: true
-        example: minima
+        example: dolorum
         type: string
         custom: []
     queryParameters: []
@@ -429,7 +429,7 @@ endpoints:
         name: id
         description: 'The ID of the restore.'
         required: true
-        example: consequuntur
+        example: esse
         type: string
         custom: []
     queryParameters: []
@@ -505,7 +505,7 @@ endpoints:
         name: id
         description: 'The ID of the mail.'
         required: true
-        example: 5
+        example: 20
         type: integer
         custom: []
     queryParameters: []
@@ -538,7 +538,7 @@ endpoints:
         name: id
         description: 'The ID of the mail.'
         required: true
-        example: 17
+        example: 19
         type: integer
         custom: []
     queryParameters: []
@@ -629,7 +629,7 @@ endpoints:
         name: id
         description: 'The ID of the admin.'
         required: true
-        example: minus
+        example: numquam
         type: string
         custom: []
     queryParameters: []
@@ -668,7 +668,7 @@ endpoints:
         name: id
         description: 'The ID of the admin.'
         required: true
-        example: accusamus
+        example: a
         type: string
         custom: []
     queryParameters: []
@@ -1040,7 +1040,7 @@ endpoints:
         name: id
         description: 'The ID of the birth code.'
         required: true
-        example: 13
+        example: 20
         type: integer
         custom: []
     queryParameters: []
@@ -1079,7 +1079,7 @@ endpoints:
         name: id
         description: 'The ID of the birth code.'
         required: true
-        example: 10
+        example: 15
         type: integer
         custom: []
     queryParameters: []
@@ -1265,7 +1265,7 @@ endpoints:
         name: id
         description: 'The ID of the organization admin.'
         required: true
-        example: nisi
+        example: officia
         type: string
         custom: []
     queryParameters: []
@@ -1304,7 +1304,7 @@ endpoints:
         name: id
         description: 'The ID of the organization admin.'
         required: true
-        example: officia
+        example: facere
         type: string
         custom: []
     queryParameters: []
@@ -1395,7 +1395,7 @@ endpoints:
         name: id
         description: 'The ID of the organization manager.'
         required: true
-        example: modi
+        example: minus
         type: string
         custom: []
     queryParameters: []
@@ -1434,7 +1434,7 @@ endpoints:
         name: id
         description: 'The ID of the organization manager.'
         required: true
-        example: et
+        example: laudantium
         type: string
         custom: []
     queryParameters: []
@@ -1518,7 +1518,7 @@ endpoints:
         name: id
         description: 'The ID of the email template.'
         required: true
-        example: 10
+        example: 5
         type: integer
         custom: []
     queryParameters: []
@@ -1557,7 +1557,7 @@ endpoints:
         name: id
         description: 'The ID of the email template.'
         required: true
-        example: 9
+        example: 13
         type: integer
         custom: []
     queryParameters: []
@@ -2274,7 +2274,7 @@ endpoints:
         name: question_id
         description: 'The ID of the question.'
         required: true
-        example: nobis
+        example: sit
         type: string
         custom: []
     queryParameters: []
@@ -2314,7 +2314,7 @@ endpoints:
         name: question_id
         description: 'The ID of the question.'
         required: true
-        example: tenetur
+        example: eveniet
         type: string
         custom: []
     queryParameters: []
@@ -2361,14 +2361,14 @@ endpoints:
         name: question_id
         description: 'The ID of the question.'
         required: true
-        example: debitis
+        example: dolor
         type: string
         custom: []
       id:
         name: id
         description: 'The ID of the anesthetic answer.'
         required: true
-        example: 2
+        example: 18
         type: integer
         custom: []
     queryParameters: []
@@ -2414,14 +2414,14 @@ endpoints:
         name: question_id
         description: 'The ID of the question.'
         required: true
-        example: veniam
+        example: necessitatibus
         type: string
         custom: []
       id:
         name: id
         description: 'The ID of the anesthetic answer.'
         required: true
-        example: 3
+        example: 12
         type: integer
         custom: []
     queryParameters: []
@@ -2805,7 +2805,7 @@ endpoints:
         name: id
         description: 'The ID of the patient recall.'
         required: true
-        example: 5
+        example: 12
         type: integer
         custom: []
     queryParameters: []
@@ -2858,7 +2858,7 @@ endpoints:
         name: id
         description: 'The ID of the patient recall.'
         required: true
-        example: 11
+        example: 9
         type: integer
         custom: []
     queryParameters: []
@@ -3983,7 +3983,7 @@ endpoints:
         name: id
         description: 'The ID of the update collecting person.'
         required: true
-        example: et
+        example: est
         type: string
         custom: []
     queryParameters: []
@@ -4115,7 +4115,7 @@ endpoints:
         name: appointment
         description: ''
         required: true
-        example: sapiente
+        example: dolorem
         type: string
         custom: []
     queryParameters: []
@@ -4140,7 +4140,7 @@ endpoints:
         name: appointment
         description: ''
         required: true
-        example: quia
+        example: laborum
         type: string
         custom: []
     queryParameters: []
@@ -4752,49 +4752,49 @@ endpoints:
         name: appointment_id
         description: 'Appointment ID.'
         required: true
-        example: 5
+        example: 19
         type: integer
         custom: []
       description:
         name: description
         description: Description.
         required: true
-        example: sit
+        example: totam
         type: string
         custom: []
       diagnosis:
         name: diagnosis
         description: ''
         required: true
-        example: dolor
+        example: iure
         type: string
         custom: []
       clinical_assessment:
         name: clinical_assessment
         description: ''
         required: true
-        example: vero
+        example: voluptatem
         type: string
         custom: []
       treatment:
         name: treatment
         description: ''
         required: true
-        example: soluta
+        example: est
         type: string
         custom: []
       history:
         name: history
         description: ''
         required: true
-        example: odio
+        example: ab
         type: string
         custom: []
       additional_details:
         name: additional_details
         description: ''
         required: true
-        example: velit
+        example: eos
         type: string
         custom: []
     responses: []
@@ -5111,177 +5111,6 @@ endpoints:
     queryParameters: []
     bodyParameters: []
     responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: patients
-    metadata:
-      title: '[Patient] - List'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    queryParameters: []
-    bodyParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: 'patients/{id}'
-    metadata:
-      title: '[Patient] - Show'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the patient.'
-        required: true
-        example: 1
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-  -
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'patients/{id}'
-    metadata:
-      title: '[Patient] - Update'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the patient.'
-        required: true
-        example: 1
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters:
-      first_name:
-        name: first_name
-        description: ''
-        required: true
-        example: ''
-        type: string
-        custom: []
-      last_name:
-        name: last_name
-        description: ''
-        required: true
-        example: ''
-        type: string
-        custom: []
-      date_of_birth:
-        name: date_of_birth
-        description: ''
-        required: true
-        example: ''
-        type: string
-        custom: []
-      contact_number:
-        name: contact_number
-        description: ''
-        required: true
-        example: ''
-        type: string
-        custom: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'patients/{id}'
-    metadata:
-      title: '[Patient] - Destroy'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the patient.'
-        required: true
-        example: 1
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: 'patients/appointments/{patient_id}'
-    metadata:
-      title: '[Patient] - Appointment List'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      patient_id:
-        name: patient_id
-        description: 'The ID of the patient.'
-        required: true
-        example: 1
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
     responseFields: []
   -
     httpMethods:

@@ -7,7 +7,7 @@ use App\Models\Organization;
 use Illuminate\Support\Str;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\PatientOrganization>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\OrganizationPatient>
  */
 class ReportTemplateFactory extends Factory
 {

@@ -24,12 +24,6 @@ return new class extends Migration {
                 ->default('Undisclosed');
             $table->date('date_of_birth');
             $table->string('address')->nullable();
-            $table->string('street')->nullable();
-            $table->string('suburb')->nullable();
-            $table->string('city')->nullable();
-            $table->string('state')->nullable();
-            $table->string('postcode')->nullable();
-            $table->string('country')->nullable();
             $table
                 ->enum('marital_status', [
                     'Single',
@@ -47,27 +41,9 @@ return new class extends Migration {
             $table->string('occupation')->nullable();
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();
-            $table->float('bmi')->nullable();
-            $table
-                ->enum('preferred_contact_method', [
-                    'phone',
-                    'sms',
-                    'email',
-                    'person',
-                ])
-                ->default('phone');
-            $table
-                ->enum('appointment_confirm_method', [
-                    'sms',
-                    'phone',
-                    'email',
-                    'person',
-                    'other',
-                ])
-                ->default('sms');
-            $table
-                ->enum('send_recall_method', ['sms', 'email'])
-                ->default('sms');
+            $table->enum('preferred_contact_method', ['sms','email',])->default('sms');
+            $table->enum('appointment_confirm_method', ['sms','email',])->default('sms');
+            $table->enum('send_recall_method', ['sms', 'email', 'mail'])->default('sms');
             $table->string('kin_name')->nullable();
             $table->string('kin_relationship')->nullable();
             $table->string('kin_phone_number')->nullable();

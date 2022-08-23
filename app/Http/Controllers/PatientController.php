@@ -12,7 +12,8 @@ class PatientController extends Controller
     /**
      * [Patient] - List
      *
-     * @return \Illuminate\Http\Response
+     * @group Patients
+     * @responseFile storage/responses/patients.show.json
      */
     public function index()
     {
@@ -34,31 +35,45 @@ class PatientController extends Controller
     /**
      * [Patient] - Show
      *
-     * @return \Illuminate\Http\Response
+     * @group Patients
+     * @responseFile storage/responses/patients.show.json
      */
     public function show(Patient $patient)
     {
-        $patientInfo = $patient;
 
-        $patientInfo['appointments'] = $patient->appointments()
-            ->orderBy('date', 'DESC')
-            ->orderBy('start_time', 'DESC')
-            ->get();
+        $organization_id = auth()->user()->organization_id;
+        if ($patient->isPartOfOrganization($organization_id)) {
+            $patientInfo = $patient;
+
+            $patientInfo['appointments'] = $patient->appointments()
+                ->orderBy('date', 'DESC')
+                ->orderBy('start_time', 'DESC')
+                ->get();
+    
+            return response()->json(
+                [
+                    'message' => 'Patient Detail Info',
+                    'data' => $patientInfo,
+                ],
+                Response::HTTP_OK
+            );
+        }
 
         return response()->json(
             [
-                'message' => 'Patient Detail Info',
-                'data' => $patientInfo,
+                'message' => 'Patient not a part of users organization',
             ],
-            Response::HTTP_OK
+            Response::HTTP_UNAUTHORIZED
         );
+
+      
     }
 
     /**
      * [Patient] - Update
      *
      * @param  \App\Http\Requests\PatientRequest  $request
-     * @param  \App\Models\Patient  $patient
+     * @group Patients
      * @return \Illuminate\Http\Response
      */
     public function update(PatientRequest $request, Patient $patient)
@@ -75,36 +90,27 @@ class PatientController extends Controller
     }
 
     /**
-     * [Patient] - Destroy
+     * [Patient] - Appointment History Information
      *
-     * @param  \App\Models\Patient  $patient
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Patient $patient)
-    {
-        $organization_id = auth()->user()->organization_id;
-
-        $patient->patientOrganization($organization_id)->delete();
-
-        return response()->json(
-            [
-                'message' => 'Patient Removed',
-            ],
-            Response::HTTP_NO_CONTENT
-        );
-    }
-
-    /**
-     * [Patient] - Appointment List
-     *
-     * @param  \App\Models\Patient  $patient
-     * @return \Illuminate\Http\Response
+     * @group Patients
+     * @responseFile storage/responses/patients.appointments.json
      */
     public function appointments(Patient $patient) {
+
+$organization_id = auth()->user()->organization_id;
+
         $appointments = [
             'patientId' => $patient->id,
-            'pastAppointments' => $patient->five_previous_appointments,
+            'pastAppointments' => $patient->appointments()
+            ->where('organization_id', $organization_id)
+            ->where('date', '<', date('Y-m-d'))
+            ->take(5)
+            ->get(),
             'futureAppointments' => $patient->all_upcoming_appointments,
+            'previousAppointmentCount' => $patient->appointments()
+            ->where('organization_id', $organization_id)
+            ->where('date','<', date('Y-m-d'))
+            ->count()
         ];
         
         return response()->json(

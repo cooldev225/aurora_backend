@@ -24,11 +24,6 @@ class PatientFactory extends Factory
             'contact_number' => $this->faker->unique()->numerify('0#-####-####'),
             'date_of_birth' => $this->faker->date(),
             'address' => $this->faker->streetAddress(),
-            'street' => $this->faker->streetName(),
-            'city' => $this->faker->city(),
-            'state' => $this->faker->state(),
-            'postcode' => $this->faker->postcode(),
-            'country' => $this->faker->country(),
             'birth_place_code' => $this->faker->cityPrefix(),
             'country_of_birth' => $this->faker->country(),
             'birth_state' => $this->faker->state(),
@@ -37,7 +32,6 @@ class PatientFactory extends Factory
             'occupation' => $this->faker->word(),
             'height' => mt_rand(170, 200),
             'weight' => mt_rand(50, 120),
-            'bmi' => mt_rand(185, 250) / 10.0,
         ];
     }
 }

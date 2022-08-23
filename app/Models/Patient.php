@@ -25,8 +25,6 @@ class Patient extends Model
         'full_name',
         'billing',
         'all_upcoming_appointments',
-        'five_previous_appointments',
-        'previous_appointment_count',
         'int_contact_number'
     );
 
@@ -42,46 +40,17 @@ class Patient extends Model
 
     public function getBillingAttribute()
     {
-        return $this->billing(); 
+        return $this->billing()->get(); 
     }
 
     public function getAllUpcomingAppointmentsAttribute()
     {
-        $organization_id = auth()->user()->organization_id;
+       // $organization_id = auth()->user()->organization_id;
 
         return $this->appointments()
-            ->where('organization_id', $organization_id)
+           // ->where('organization_id', $organization_id)
             ->where('date', '>=', date('Y-m-d'))
             ->get();
-    }
-
-    public function getFivePreviousAppointmentsAttribute()
-    {
-        $organization_id = auth()->user()->organization_id;
-
-        return $this->appointments()
-            ->where('organization_id', $organization_id)
-            ->where('date', '<', date('Y-m-d'))
-            ->take(5)
-            ->get();  
-    }
-    public function getPreviousAppointmentCountAttribute()
-    {
-        $organization_id = auth()->user()->organization_id;
-
-        return $this->appointments()
-            ->where('organization_id', $organization_id)
-            ->where('date','<', date('Y-m-d'))
-            ->count();  
-    }
-    /**
-     * Return Patients' Organization
-     */
-    public function patientOrganization($organization_id)
-    {
-        return $this->hasMany(PatientOrganization::class)
-            ->where('organization_id', $organization_id)
-            ->first();
     }
 
     /**
@@ -89,7 +58,7 @@ class Patient extends Model
      */
     public function billing()
     {
-        return $this->hasOne(PatientBilling::class, 'patient_id')->first();
+        return $this->hasOne(PatientBilling::class, 'patient_id');
     }
 
     /**
@@ -105,6 +74,10 @@ class Patient extends Model
      */
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class,'organization_patient');
+        return $this->belongsToMany(Organization::class);
+    }
+
+    public function isPartOfOrganization($organization_id){
+        return $this->organizations()->where('organization_id', $organization_id)->exists();
     }
 }

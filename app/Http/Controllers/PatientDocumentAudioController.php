@@ -15,7 +15,7 @@ class PatientDocumentAudioController extends Controller
     /**
      * [Patient Document Audio] - Store
      *
-     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
+     * @param  \App\Http\Requests\PatientDocumentAudioStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(PatientDocumentAudioStoreRequest $request)
@@ -59,9 +59,6 @@ class PatientDocumentAudioController extends Controller
     /**
      * [Patient Document Audio] - Update
      *
-     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
-     * @param  \App\Models\PatientOrganization  $patientOrganization
-     * @return \Illuminate\Http\Response
      */
     public function update(
         PatientDocumentAudioUpdateRequest $request,
@@ -94,10 +91,6 @@ class PatientDocumentAudioController extends Controller
 
     /**
      * [Patient Document Audio] - Upload
-     *
-     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
-     * @param  \App\Models\PatientOrganization  $patientOrganization
-     * @return \Illuminate\Http\Response
      */
     public function upload(
         Patient $patient,
@@ -144,7 +137,6 @@ class PatientDocumentAudioController extends Controller
     /**
      * [Patient Document Audio] - Destroy
      *
-     * @param  \App\Models\PatientOrganization  $patientOrganization
      * @return \Illuminate\Http\Response
      */
     public function destroy(PatientSpecialistAudio $patient_documents_audio)

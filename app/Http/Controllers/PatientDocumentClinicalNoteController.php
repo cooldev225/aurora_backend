@@ -15,7 +15,6 @@ class PatientDocumentClinicalNoteController extends Controller
     /**
      * [Patient Document Clinical Note] - Store
      *
-     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(PatientDocumentClinicalNoteStoreRequest $request)
@@ -45,9 +44,7 @@ class PatientDocumentClinicalNoteController extends Controller
     /**
      * [Patient Document Clinical Note] - Update
      *
-     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
-     * @param  \App\Models\PatientOrganization  $patientOrganization
-     * @return \Illuminate\Http\Response
+      * @return \Illuminate\Http\Response
      */
     public function update(
         PatientDocumentClinicalNoteUpdateRequest $request,
@@ -70,8 +67,6 @@ class PatientDocumentClinicalNoteController extends Controller
     /**
      * [Patient Document Clinical Note] - Upload
      *
-     * @param  \App\Http\Requests\PatientOrganizationRequest  $request
-     * @param  \App\Models\PatientOrganization  $patientOrganization
      * @return \Illuminate\Http\Response
      */
     public function upload(
@@ -107,7 +102,6 @@ class PatientDocumentClinicalNoteController extends Controller
     /**
      * [Patient Document Clinical Note] - Destroy
      *
-     * @param  \App\Models\PatientOrganization  $patientOrganization
      * @return \Illuminate\Http\Response
      */
     public function destroy(PatientClinicalNote $patient_clinical_note)

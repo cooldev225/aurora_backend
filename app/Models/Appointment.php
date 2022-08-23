@@ -250,9 +250,7 @@ class Appointment extends Model
         $specialist = $this->specialist();
         $specialist_employee = $specialist->employee;
         $specialist_user = $specialist_employee->user;
-        $specialist_title = $specialist->specialist_title;
-        $specialist_name = $specialist_title->name . ' '
-            . $specialist_user->first_name . ' ' . $specialist_user->last_name;
+        $specialist_name = $specialist_user->title . ' ' . $specialist_user->first_name . ' ' . $specialist_user->last_name;
 
         $clinic = $this->clinic;
 

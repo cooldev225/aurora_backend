@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Organization;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Patient;
@@ -36,6 +37,8 @@ class PatientSeeder extends Seeder
             PatientBilling::create([
                 'patient_id'    =>  $patient->id
             ]);
+
+            $patient->organizations()->attach(Organization::inRandomOrder()->first());
         }
     }
 }

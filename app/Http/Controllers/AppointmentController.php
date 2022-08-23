@@ -10,12 +10,12 @@ use App\Models\Patient;
 use App\Models\Specialist;
 use App\Models\PatientBilling;
 use App\Models\AppointmentTimeRequirement;
-use App\Models\PatientOrganization;
 use App\Http\Requests\AppointmentRequest;
 
 use App\Mail\Notification;
 use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
+use App\Models\Organization;
 
 class AppointmentController extends BaseOrganizationController
 {
@@ -423,22 +423,11 @@ class AppointmentController extends BaseOrganizationController
 
         if ($patient == null) {
             $patient = Patient::create($this->filterParams($request));
+            $patient->organizations()->attach(Organization::find($organization_id));
         }
 
-        $patientOrganization = PatientOrganization::where(
-            'patient_id',
-            $patient->id
-        )
-            ->where('organization_id', $organization_id)
-            ->first();
 
-        if (empty($patientOrganization)) {
-            PatientOrganization::create([
-                'organization_id' => $organization_id,
-                'patient_id' => $patient->id,
-            ]);
-        }
-
+        /*
         $patientBilling = $patient->billing();
 
         if ($patientBilling == null) {
@@ -451,6 +440,7 @@ class AppointmentController extends BaseOrganizationController
                 ...$this->filterParams($request)
             ]);
         }
+        **/
 
         $appointment = Appointment::create([
             ...$this->filterParams($request),
@@ -494,20 +484,6 @@ class AppointmentController extends BaseOrganizationController
         $organization_id = auth()->user()->organization_id;
         $patient = $appointment->patient();
         $patient->update([...$this->filterParams($request)]);
-
-        $patientOrganization = PatientOrganization::where(
-            'patient_id',
-            $patient->id
-        )
-            ->where('organization_id', $organization_id)
-            ->first();
-
-        if (empty($patientOrganization)) {
-            PatientOrganization::create([
-                'organization_id' => $organization_id,
-                'patient_id' => $patient->id,
-            ]);
-        }
 
         $patientBilling = $patient->billing();
 
