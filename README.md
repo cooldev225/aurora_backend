@@ -61,3 +61,14 @@ php artisan migrate:fresh --seed
 ## View Route List
 
 php artisan route:list
+
+# Test Users
+
+PASSWORD: Paxxw0rd
+
+USERS:
+- admin (Role: Admin) 
+- org-admin (Role: Organization Admin) 
+- org-manager (Role: Organization Manager)  
+- specialist_1 (Role: Specialist)
+- anesthetists_1 (Role: Anesthetist)
