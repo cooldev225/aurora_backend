@@ -1,50 +1,36 @@
-# Installation
+# Introduction
+This repo is the API for the Aurora Medical Software.
 
-## install php and composer
+**Only push to the DEV branch.**
 
-sudo apt install software-properties-common
+Documentation:
+This Documentation is a work in progress and is not complete. All new end points added should properly documented.
+https://api.dev.aurorasw.com.au/docs
 
-sudo add-apt-repository ppa:ondrej/php
+Logs:
+https://api.dev.aurorasw.com.au/log-viewer
 
-sudo apt update
+Test Servers:
+MAIN BRANCH: https://api.demo.aurorasw.com.au/
+DEV BRANCH: https://api.dev.aurorasw.com.au/
 
-sudo apt-get install php8.1 php8.1-zip php8.1-curl php8.1-mysql php8.1-xml
+# Local Installation
 
-sudo apt install php8.1-cli
+## install desired database
 
-curl -sS https://getcomposer.org/installer | php
+Windows: XXAMP
 
-sudo mv composer.phar /usr/local/bin/composer
+Create database for application
 
-sudo chmod +x /usr/local/bin/composer
+## Install composer dependency
 
-## install mysql and Create user and database
+composer install (from project root)
 
-sudo apt install mysql-server
+## config .env file.
 
-sudo mysql
+create .env from env.example
 
-`CREATE USER 'aurora'@'localhost' IDENTIFIED WITH mysql_native_password BY 'password';`
-
-`GRANT ALL PRIVILEGES ON *.* TO 'aurora'@'localhost' WITH GRANT OPTION;`
-
-`exit`
-
-mysql -u aurora -p
-
-`CREATE DATABASE aurora;`
-
-## go to project directory and Composer install
-
-composer install
-
-## config .env file and update database name, username and password.
-
-cp .env.example .env
-
-nano .env
-
-- config Twilio phone number, SID and auth key
+config DB vars
 
 ## Generate APP_KEY and JWT Secret Key
 
@@ -62,15 +48,13 @@ php artisan storage:link
 
 php artisan serve
 
-## Database Migration
+Routes:
+main endpoint: http://localhost:8000/
+docs: http://localhost:8000/docs
+logs: http://localhost:8000/log-viewer
 
-php artisan migrate
 
-## Database Seeding
-
-php artisan db:seed
-
-## Fresh migration and Seeding
+## Fresh migration and Seeding (LOCAL ONLY)
 
 php artisan migrate:fresh --seed
 
