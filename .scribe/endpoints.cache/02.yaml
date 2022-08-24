@@ -23,21 +23,21 @@ endpoints:
         name: username
         description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
         required: false
-        example: penkryhbrttn
+        example: wufveaucaghmnhwozanlqoaieisaaqioeetvxofoagqejosuoaucojnxhcywaqbwsexgvhkdc
         type: string
         custom: []
       email:
         name: email
         description: 'Must be a valid email address.'
         required: false
-        example: wzulauf@example.org
+        example: brisa87@example.com
         type: string
         custom: []
       password:
         name: password
         description: 'Must be at least 6 characters.'
         required: true
-        example: smvxj
+        example: m
         type: string
         custom: []
     responses: []
@@ -186,21 +186,21 @@ endpoints:
         name: old_password
         description: 'Must be at least 6 characters.'
         required: true
-        example: zjq
+        example: jtw
         type: string
         custom: []
       new_password:
         name: new_password
         description: 'The value and <code>old_password</code> must be different. Must be at least 6 characters.'
         required: true
-        example: hpu
+        example: air
         type: string
         custom: []
       confirm_password:
         name: confirm_password
         description: 'The value and <code>new_password</code> must match. Must be at least 6 characters.'
         required: true
-        example: ds
+        example: b
         type: string
         custom: []
     responses: []
@@ -223,7 +223,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: est
+        example: consectetur
         type: string
         custom: []
     queryParameters: []
@@ -256,7 +256,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: dicta
+        example: consequatur
         type: string
         custom: []
     queryParameters: []
@@ -281,7 +281,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: quo
+        example: non
         type: string
         custom: []
     queryParameters: []
@@ -381,7 +381,7 @@ endpoints:
         name: id
         description: 'The ID of the bookmark.'
         required: true
-        example: natus
+        example: quaerat
         type: string
         custom: []
     queryParameters: []
@@ -406,7 +406,7 @@ endpoints:
         name: id
         description: 'The ID of the delete.'
         required: true
-        example: odio
+        example: qui
         type: string
         custom: []
     queryParameters: []
@@ -431,7 +431,7 @@ endpoints:
         name: id
         description: 'The ID of the restore.'
         required: true
-        example: in
+        example: dolor
         type: string
         custom: []
     queryParameters: []
@@ -573,7 +573,7 @@ endpoints:
         name: id
         description: 'The ID of the admin.'
         required: true
-        example: ad
+        example: voluptatem
         type: string
         custom: []
     queryParameters: []
@@ -612,7 +612,7 @@ endpoints:
         name: id
         description: 'The ID of the admin.'
         required: true
-        example: nesciunt
+        example: ullam
         type: string
         custom: []
     queryParameters: []
@@ -861,7 +861,7 @@ endpoints:
         name: id
         description: 'The ID of the birth code.'
         required: true
-        example: 5
+        example: 20
         type: integer
         custom: []
     queryParameters: []
@@ -900,7 +900,7 @@ endpoints:
         name: id
         description: 'The ID of the birth code.'
         required: true
-        example: 15
+        example: 9
         type: integer
         custom: []
     queryParameters: []
@@ -1086,7 +1086,7 @@ endpoints:
         name: id
         description: 'The ID of the organization admin.'
         required: true
-        example: id
+        example: tempore
         type: string
         custom: []
     queryParameters: []
@@ -1125,7 +1125,7 @@ endpoints:
         name: id
         description: 'The ID of the organization admin.'
         required: true
-        example: quia
+        example: earum
         type: string
         custom: []
     queryParameters: []
@@ -1216,7 +1216,7 @@ endpoints:
         name: id
         description: 'The ID of the organization manager.'
         required: true
-        example: accusamus
+        example: sed
         type: string
         custom: []
     queryParameters: []
@@ -1255,7 +1255,7 @@ endpoints:
         name: id
         description: 'The ID of the organization manager.'
         required: true
-        example: necessitatibus
+        example: quia
         type: string
         custom: []
     queryParameters: []
@@ -2173,7 +2173,7 @@ endpoints:
         name: id
         description: 'The ID of the patient recall.'
         required: true
-        example: 10
+        example: 2
         type: integer
         custom: []
     queryParameters: []
@@ -2226,7 +2226,7 @@ endpoints:
         name: id
         description: 'The ID of the patient recall.'
         required: true
-        example: 3
+        example: 5
         type: integer
         custom: []
     queryParameters: []
@@ -3203,31 +3203,6 @@ endpoints:
   -
     httpMethods:
       - PUT
-    uri: 'appointments/update_collecting_person/{id}'
-    metadata:
-      title: 'Procedure Approve by Anesthetist'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the update collecting person.'
-        required: true
-        example: voluptas
-        type: string
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - PUT
     uri: 'appointments/procedureApprovalStatus/{appointment_id}'
     metadata:
       title: '[Appointment Procedure Approval] - Update Status'
@@ -3325,7 +3300,7 @@ endpoints:
         name: appointment
         description: ''
         required: true
-        example: dicta
+        example: aut
         type: string
         custom: []
     queryParameters: []
@@ -3916,49 +3891,49 @@ endpoints:
         name: appointment_id
         description: 'Appointment ID.'
         required: true
-        example: 19
+        example: 16
         type: integer
         custom: []
       description:
         name: description
         description: Description.
         required: true
-        example: non
+        example: ab
         type: string
         custom: []
       diagnosis:
         name: diagnosis
         description: ''
         required: true
-        example: quibusdam
+        example: quaerat
         type: string
         custom: []
       clinical_assessment:
         name: clinical_assessment
         description: ''
         required: true
-        example: et
+        example: exercitationem
         type: string
         custom: []
       treatment:
         name: treatment
         description: ''
         required: true
-        example: repellendus
+        example: alias
         type: string
         custom: []
       history:
         name: history
         description: ''
         required: true
-        example: aperiam
+        example: enim
         type: string
         custom: []
       additional_details:
         name: additional_details
         description: ''
         required: true
-        example: amet
+        example: in
         type: string
         custom: []
     responses: []
@@ -4739,7 +4714,7 @@ endpoints:
                                       <div class="box-content">
                                           <span class="box-text">All</span>
                                           <span class="box-number">
-                                              3 entries - 100 %
+                                              5 entries - 100 %
                                           </span>
                                           <div class="progress" style="height: 3px;">
                                               <div class="progress-bar" style="width: 100%"></div>
@@ -4807,7 +4782,7 @@ endpoints:
                                       <div class="box-content">
                                           <span class="box-text">Error</span>
                                           <span class="box-number">
-                                              3 entries - 100 %
+                                              5 entries - 100 %
                                           </span>
                                           <div class="progress" style="height: 3px;">
                                               <div class="progress-bar" style="width: 100%"></div>
@@ -4911,7 +4886,7 @@ endpoints:
                   $(function() {
                       new Chart(document.getElementById("stats-doughnut-chart"), {
                           type: 'doughnut',
-                          data: {"labels":["Emergency","Alert","Critical","Error","Warning","Notice","Info","Debug"],"datasets":[{"data":[0,0,0,3,0,0,0,0],"backgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"],"hoverBackgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"]}]},
+                          data: {"labels":["Emergency","Alert","Critical","Error","Warning","Notice","Info","Debug"],"datasets":[{"data":[0,0,0,5,0,0,0,0],"backgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"],"hoverBackgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"]}]},
                           options: {
                               legend: {
                                   position: 'bottom'
@@ -5256,7 +5231,7 @@ endpoints:
                                                                       </td>
                                                               <td class="text-center">
                                                                               <a href="http://localhost/log-viewer/logs/2022-08-24/all">
-                                                  <span class="badge badge-level-all">3</span>
+                                                  <span class="badge badge-level-all">5</span>
                                               </a>
                                                                       </td>
                                                               <td class="text-center">
@@ -5270,7 +5245,7 @@ endpoints:
                                                                       </td>
                                                               <td class="text-center">
                                                                               <a href="http://localhost/log-viewer/logs/2022-08-24/error">
-                                                  <span class="badge badge-level-error">3</span>
+                                                  <span class="badge badge-level-error">5</span>
                                               </a>
                                                                       </td>
                                                               <td class="text-center">
@@ -5445,7 +5420,7 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: voluptas
+        example: eligendi
         type: string
         custom: []
     queryParameters: []
@@ -5455,7 +5430,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "Log not found in this date [voluptas]",
+              "message": "Log not found in this date [eligendi]",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php",
               "line": 1145,
@@ -5897,7 +5872,7 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: dolores
+        example: atque
         type: string
         custom: []
     queryParameters: []
@@ -5907,7 +5882,7 @@ endpoints:
         status: 500
         content: |-
           {
-              "message": "The log(s) could not be located at : C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\storage\\logs\\laravel-dolores.log",
+              "message": "The log(s) could not be located at : C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\storage\\logs\\laravel-atque.log",
               "exception": "Arcanedev\\LogViewer\\Exceptions\\FilesystemException",
               "file": "C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\arcanedev\\log-viewer\\src\\Exceptions\\FilesystemException.php",
               "line": 21,
@@ -6358,14 +6333,14 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: vel
+        example: molestiae
         type: string
         custom: []
       level:
         name: level
         description: ''
         required: true
-        example: et
+        example: facere
         type: string
         custom: []
     queryParameters: []
@@ -6375,7 +6350,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "Log not found in this date [vel]",
+              "message": "Log not found in this date [molestiae]",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php",
               "line": 1145,
@@ -6817,14 +6792,14 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: molestiae
+        example: officia
         type: string
         custom: []
       level:
         name: level
         description: ''
         required: true
-        example: rem
+        example: doloremque
         type: string
         custom: []
     queryParameters: []
@@ -6837,17 +6812,17 @@ endpoints:
           <html>
               <head>
                   <meta charset="UTF-8" />
-                  <meta http-equiv="refresh" content="0;url='http://localhost/log-viewer/logs/molestiae'" />
+                  <meta http-equiv="refresh" content="0;url='http://localhost/log-viewer/logs/officia'" />
 
-                  <title>Redirecting to http://localhost/log-viewer/logs/molestiae</title>
+                  <title>Redirecting to http://localhost/log-viewer/logs/officia</title>
               </head>
               <body>
-                  Redirecting to <a href="http://localhost/log-viewer/logs/molestiae">http://localhost/log-viewer/logs/molestiae</a>.
+                  Redirecting to <a href="http://localhost/log-viewer/logs/officia">http://localhost/log-viewer/logs/officia</a>.
               </body>
           </html>
         headers:
           cache-control: 'no-cache, private'
-          location: 'http://localhost/log-viewer/logs/molestiae'
+          location: 'http://localhost/log-viewer/logs/officia'
           content-type: application/json
           access-control-allow-origin: '*'
         description: null
@@ -6876,7 +6851,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           access-control-allow-origin: '*'
-          set-cookie: 'XSRF-TOKEN=eyJpdiI6IndlQmFmL3MzUXFXNFZadjB5aVdHRkE9PSIsInZhbHVlIjoiNWRtMXBZSE5sNm9RNkRvV2thMTY5TG1mYWI0NjFYL3p2cmRlWmVXWHhIeWpHVWtLNDF5dDZxM01XNy9QOE04Z3dSU0UwRFpyTTdYR2tSb3cwelR2c1FPT2xSVVlYVUJoWnJjT2JpTW9OdGNkdkpxTnF2ZFRoVWRhWGJJOFRoMmwiLCJtYWMiOiJkNWIwNWZhNjQwN2MyMzdhYmU3OWNkYjQzN2Y4MTZiYzRjZjBmZmJmNmQyMTM3MzFlMWQ4NTA2NzllMDkxMmY5IiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:36:10 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6InAvMnZPSllZdVpqZ05KbFF0RGdoVWc9PSIsInZhbHVlIjoicjJ1dm9jZk1aMkdyaHlGcEx2eGVRYjhDekJoMTZLaVBvcUJBdmtvckJqaHRHT21scmhQcnphSjF2cURTcndHMmtIN2dLRFZ0TVlYTlpxN2tQQW1XbzNmOUR6T0ZHeGJ3S0tZbVJ3VmRxWlZQOVJxaVY5K3hRNjl0NHRsb28vRVIiLCJtYWMiOiJlNjkxZDgwMGM1ZDZhNDkwYjIxODAyNWRmZmJmMzU5ZGIxOTI4N2JmZWQzMTE2MDVhODc3ZTFlZDM0NjNhOTE4IiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:36:10 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6InFXQUZONTEraWY3L2tGZG9xaEgyc0E9PSIsInZhbHVlIjoieXNzazYxUWducjBMWGo1RCthNlI4ZnlMd01RdHlPQmpmeFJhRTk0OHc3RFlvRjRhTDN4QU9mb1pheDBwbkVkMVU3cXBnbUlOOEFMMzFuRUNKeHdid2dnUWZ6WjIvV01zLzdSZHlKNVJOWkljdUJNUjVtMTNnS1lzcWo2eXdSeEciLCJtYWMiOiI0MTE5M2JlZjgyMWNkNWQ1OTU1NGU5YTU0NDliZGZjMWYzMzY4ZWUzNzE2YmY1YTc5MTlhNzQ1MjgyNDEyZDVlIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6ImZnOVNWR09TMXhsTlJrSXlxc3BQb3c9PSIsInZhbHVlIjoiaVE1SkVCYUVwQ0R4NmhzRDNIMlJLR0Q3bGFQdTl5NXVkMEQ3N1hFbzFKSVdTSThBTGxnQ3JLY1hvdk4yQ3Z0T3ZKK1JmejF4U3YrbU9GWFZtL3plVmFjL2hYMjlzdXBJa1Q3SnFFVWlPTGJQS0orbkU2VVZQRUowZUhXM1ZyWUUiLCJtYWMiOiI3NDdkMjY2NjcwNmNlZjUwN2I3ZmFiMWQyZmQ4ZjA2MzZmZjRiYzU5ZDA2ZTFkNGU5ZWQzNDFjZmRlOGNlNjgxIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
         description: null
     responseFields: []
   -
@@ -6921,7 +6896,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           access-control-allow-origin: '*'
-          set-cookie: 'XSRF-TOKEN=eyJpdiI6IlFXa3VLQW9BRlZuOTRiMjlpUkdVNmc9PSIsInZhbHVlIjoiM3hFeGwvRlZsa3ZqQ0VGU0cvNG0rVjBnSTVpdzdHazJoTTJFVmxoVmQ5ZTAxY2R5SGFuWVZyOVhFekoyeC84SEk4M0x2K3pKQU5oNGRHU0kwdWpkUVplUnZGajAvOTc5Vk81Q2dpMjRVOWFBZjFZTGJZZkozUmdzdUVJUTJFTHgiLCJtYWMiOiI0NzlkNjY2NjQ3OGE3YmYyNGVmMmQ0Yzc4ZjNkMzRiYWQ1YjE3ZGFhZjVjN2IxMDRlYmFmZWI5NGY1NGQ2NzQ4IiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:36:10 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6ImVFM2IxQXBBdXlGaGp4SjVkTElzTGc9PSIsInZhbHVlIjoiZ3FtS1NBNGdHV3krQmVGc0VRV0ErbHBWQTJGUU0rbE1DaWJsL2x1TE1GVGxVdzhLb2V5b2xiZkdiY294cmxpTDlEV3NsajhPWDJsSXE4UDVpaXhNeFdTYng2eDd0N3pJUzE5Zlc4eG5qUG1RRUxSa0tsaW9zcENhZjFpTDNNK0ciLCJtYWMiOiI3ZjcxZTUwZmY0MDU2MjNlNzAzMWIxM2NhMDBkYWM5YjA2MTA5NjkyMzhiYmQ3YTI4MjBmMGM0Zjc4ZjA3MTc5IiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:36:10 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6IlFOQnRqM2UzWW5IL002RUR4NUl1L1E9PSIsInZhbHVlIjoiR0lBNkJ5bkRIMDIzUVFZb25lbUpRVmxPcHNjMGJVVXU3YmNkWC9wMjBaTG9SckFHbUpJek4wbUFyNitPQVpVbVp1SDFtK3VKeDNreVJMVWFqeUh0SjVPU2VlK09JM3YvRmNQL1daMEZrUG1TMlNiOFhVSERvMTJTaG04eGE1cmIiLCJtYWMiOiIxMjkzOWYyNTgyNzk4ZTRlMzgzYjkyN2I0MzVmOTMzYzZlYmFjN2Q4NGMxN2Y2Y2I0ZDNiNDE1Y2Y1YjAyNmJlIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6Ii90bDI4QndlYkF0T3JpNUJYaHFVUGc9PSIsInZhbHVlIjoiRXZjajdRWjc4RzNweDQyVWZTeXNxNzU2ckIvYmFmdUg0cE1hTm5RamVGQ1p5RUJZb0lmK0xxYjgxUVArRWhNcnFScEZ2REEzV2p6OXF3TFZtdDU0QytpMXhMVnVGY2l5ZXo0WHRkZ3BIN2VrajFwdk0wVTIyeDBIWjUyWm5hOXUiLCJtYWMiOiJlM2QxMjg2MmU4NjRhYzFhOWE0MWM1OTE3ODRiZWVkZGMxOTQ1Y2FiZjI5NzgyNzUyZWY3YzQyZDg5MzUyMThkIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
         description: null
     responseFields: []
   -
@@ -6942,7 +6917,7 @@ endpoints:
         name: ''
         description: ''
         required: true
-        example: 13
+        example: 6
         type: integer
         custom: []
     queryParameters: []
@@ -7326,7 +7301,7 @@ endpoints:
         name: ''
         description: ''
         required: true
-        example: 6
+        example: 13
         type: integer
         custom: []
     queryParameters: []
