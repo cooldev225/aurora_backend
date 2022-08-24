@@ -4,6 +4,12 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam referring_doctor_id   int   required  The id of the referring doctor       Example: 2
+* @bodyParam referral_date         date  required  The date the referral was issued     Example: 1993-23-03
+* @bodyParam referral_duration     int   required  The duration the referral is valid   Example: 3
+* @bodyParam file                  file            The referral file                    Example:    
+*/
 class AppointmentReferralRequest extends FormRequest
 {
     /**
@@ -13,7 +19,12 @@ class AppointmentReferralRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $appointment = $this->route('appointment');
+        $organization_id = auth()->user()->organization_id;
+        if ($appointment->organization_id == $organization_id) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -24,32 +35,11 @@ class AppointmentReferralRequest extends FormRequest
     public function rules()
     {
         return [
-            'is_no_referral'    => 'required',
-            'referral_date'     => 'required|date',
-            'referral_duration' => 'required|integer',
+            'referring_doctor_id'   => 'required|integer',
+            'referral_date'         => 'required|date',
+            'referral_duration'     => 'required|integer',
+            'file'                  => 'mimes:pdf',
         ];
     }
 
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'is_no_referral' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'referral_date' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'referral_duration' => [
-                'description' => '',
-                'example'     => '',
-            ],
-        ];
-    }
 }

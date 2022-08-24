@@ -11,8 +11,11 @@ Logs:
 https://api.dev.aurorasw.com.au/log-viewer
 
 Test Servers:
-MAIN BRANCH: https://api.demo.aurorasw.com.au/
-DEV BRANCH: https://api.dev.aurorasw.com.au/
+MAIN BRANCH (BE): https://api.demo.aurorasw.com.au/
+DEV BRANCH (BE): https://api.dev.aurorasw.com.au/
+
+MAIN BRANCH (FE): https://demo.aurorasw.com.au/
+DEV BRANCH (FR): https://dev.aurorasw.com.au/
 
 # Local Installation
 
@@ -57,6 +60,10 @@ logs: http://localhost:8000/log-viewer
 ## Fresh migration and Seeding (LOCAL ONLY)
 
 php artisan migrate:fresh --seed
+
+## Generate docs
+
+php artisan scribe:generate
 
 ## View Route List
 

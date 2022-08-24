@@ -165,11 +165,13 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/wait-listed/{appointment}', [AppointmentController::class,'waitListed']);
             Route::put('/procedureApprovalStatus/{appointment}', [AppointmentProcedureApprovalController::class,'update']);
             Route::put('/update_collecting_person/{id}', [AppointmentController::class,'updateCollectingPerson']);
+
+            Route::put('/referral/{appointment}', [AppointmentReferralController::class,'update']);
         });
 
      
 
-        Route::put('/appointment-referrals/update/{appointment}', [AppointmentReferralController::class,'update']);
+    ;
 
         Route::get('/available-slots', [
             AppointmentController::class,

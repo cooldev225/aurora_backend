@@ -1,249 +1,56 @@
-name: Clinics
+name: Appointments
 description: ''
 endpoints:
   -
     httpMethods:
-      - POST
-    uri: clinics
-    metadata:
-      title: '[Clinic] - Store'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    queryParameters: []
-    bodyParameters:
-      name:
-        name: name
-        description: 'The name of the clinic.'
-        required: true
-        example: 'Frankston Practice'
-        type: string
-        custom: []
-      email:
-        name: email
-        description: 'The Email of the clinic.'
-        required: true
-        example: reception@franksonpracktice.com.au
-        type: string
-        custom: []
-      phone_number:
-        name: phone_number
-        description: 'The Phone number of the clinic.'
-        required: true
-        example: 04-3456-2342
-        type: string
-        custom: []
-      address:
-        name: address
-        description: ''
-        required: true
-        example: ut
-        type: string
-        custom: []
-      fax_number:
-        name: fax_number
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      hospital_provider_number:
-        name: hospital_provider_number
-        description: 'The provider number of the clinic.'
-        required: false
-        example: 31452352F
-        type: string
-        custom: []
-      VAED_number:
-        name: VAED_number
-        description: 'The VAED number of the clinic.'
-        required: false
-        example: '234234'
-        type: string
-        custom: []
-      document_letter_header:
-        name: document_letter_header
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      document_letter_footer:
-        name: document_letter_footer
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      specimen_collection_point_number:
-        name: specimen_collection_point_number
-        description: 'The specimen collection point number of the clinic.'
-        required: false
-        example: '234234'
-        type: string
-        custom: []
-      lspn_id:
-        name: lspn_id
-        description: 'The LSPN id of the clinic.'
-        required: false
-        example: '234234'
-        type: string
-        custom: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
       - PUT
-      - PATCH
-    uri: 'clinics/{id}'
+    uri: 'appointments/referral/{appointment_id}'
     metadata:
-      title: '[Clinic] - Update'
+      title: '[Referral] - Update'
       description: ''
       authenticated: true
       custom: []
     headers:
       Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
+      Content-Type: multipart/form-data
       Accept: application/json
     urlParameters:
-      id:
-        name: id
-        description: 'The ID of the clinic.'
+      appointment_id:
+        name: appointment_id
+        description: 'The ID of the appointment.'
         required: true
         example: 1
         type: integer
         custom: []
     queryParameters: []
     bodyParameters:
-      name:
-        name: name
-        description: 'The name of the clinic.'
+      referring_doctor_id:
+        name: referring_doctor_id
+        description: 'The id of the referring doctor'
         required: true
-        example: 'Frankston Practice'
-        type: string
-        custom: []
-      email:
-        name: email
-        description: 'The Email of the clinic.'
-        required: true
-        example: reception@franksonpracktice.com.au
-        type: string
-        custom: []
-      phone_number:
-        name: phone_number
-        description: 'The Phone number of the clinic.'
-        required: true
-        example: 04-3456-2342
-        type: string
-        custom: []
-      address:
-        name: address
-        description: ''
-        required: true
-        example: in
-        type: string
-        custom: []
-      fax_number:
-        name: fax_number
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      hospital_provider_number:
-        name: hospital_provider_number
-        description: 'The provider number of the clinic.'
-        required: false
-        example: 31452352F
-        type: string
-        custom: []
-      VAED_number:
-        name: VAED_number
-        description: 'The VAED number of the clinic.'
-        required: false
-        example: '234234'
-        type: string
-        custom: []
-      document_letter_header:
-        name: document_letter_header
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      document_letter_footer:
-        name: document_letter_footer
-        description: ''
-        required: false
-        example: null
-        type: string
-        custom: []
-      specimen_collection_point_number:
-        name: specimen_collection_point_number
-        description: 'The specimen collection point number of the clinic.'
-        required: false
-        example: '234234'
-        type: string
-        custom: []
-      lspn_id:
-        name: lspn_id
-        description: 'The LSPN id of the clinic.'
-        required: false
-        example: '234234'
-        type: string
-        custom: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'clinics/{id}'
-    metadata:
-      title: '[Clinic] - Destroy'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the clinic.'
-        required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
-    queryParameters: []
-    bodyParameters: []
+      referral_date:
+        name: referral_date
+        description: 'The date the referral was issued'
+        required: true
+        example: '1993-23-03'
+        type: date
+        custom: []
+      referral_duration:
+        name: referral_duration
+        description: 'The duration the referral is valid'
+        required: true
+        example: 3
+        type: integer
+        custom: []
+      file:
+        name: file
+        description: 'The referral file                    Example:'
+        required: false
+        example: null
+        type: file
+        custom: []
     responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: clinics
-    metadata:
-      title: '[Clinic] - List'
-      description: 'List all clinics thats are a part of the organization of the currently logged in user'
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    queryParameters: []
-    bodyParameters: []
-    responses:
-      -
-        status: 200
-        content: "[{\r\n\"id\":4,\r\n\"name\":\"Wayside Clinic\",\r\n\"email\": \"recpetion@wayside.com.au\",\r\n\"phone_number\": \"03-2435-2342\",\r\n\"fax_number\": \"03-2435-2335\",\r\n\"hospital_provider_number\": \"AU2344\",\r\n\"VAED_number\": \"214124\",\r\n\"Address\":  \"106 Broad rd, VIC, 3500\",\r\n\"document_letter_header\": \"filename\",\r\n\"document_letter_footer\": \"filename\",\r\n\"created_at\" : \"2022-08-22 12:30:54\",\r\n\"updated_at\" : \"2022-08-25 14:30:53\"\r\n},\r\n{\"id\":6,\r\n\"name\":\"Frankston Practice\",\r\n\"email\": \"admin@frankston.com.au\",\r\n\"phone_number\": \"03-2335-2342\",\r\n\"fax_number\": \"03-2435-6735\",\r\n\"hospital_provider_number\": \"AU5444\",\r\n\"VAED_number\": \"214124\",\r\n\"Address\":  \"1 Dial blv, VIC, 3500\",\r\n\"document_letter_header\": \"filename\",\r\n\"document_letter_footer\": \"filename\",\r\n\"created_at\" : \"2022-09-22 12:30:54\",\r\n\"updated_at\" : \"2022-10-25 14:30:53\"}]\r\n"
-        headers: []
-        description: '200'
     responseFields: []

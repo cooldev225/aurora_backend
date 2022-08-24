@@ -14,4 +14,12 @@ class ReferringDoctor extends Model
         'address', 'street', 'city', 'state', 'country', 'postcode',
         'phone', 'fax', 'mobile', 'email', 'practice_name'
     ];
+
+    protected $appends = [
+        'full_name'
+    ];
+
+    public function getFullNameAttribute(){
+        return $this->title . ' ' . $this->first_name . ' ' . $this->last_name;
+    }
 }

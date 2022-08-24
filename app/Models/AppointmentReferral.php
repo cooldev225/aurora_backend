@@ -20,12 +20,20 @@ class AppointmentReferral extends Model
         'referral_file',
     ];
 
+    protected $appends = [
+        'referring_doctor_name'
+    ];
+
     /**
      * Return Appointment
      */
     public function appointment()
     {
         return $this->belongsTo(Appointment::class, 'appointment_id');
+    }
+
+    public function getReferringDoctorNameAttribute(){
+        return ReferringDoctor::find($this->referring_doctor_id)->full_name;
     }
 
     public function updateReferralData($data) {

@@ -23,7 +23,7 @@ class Appointment extends Model
     protected $appends = [
         'patient_name', 'patient_details', 'specialist_name',
         'appointment_type', 'aus_formatted_date', 'formatted_appointment_time',
-        'pre_admission_form_url', 'clinic_details'
+        'pre_admission_form_url', 'referral','clinic_details'
     ];
 
 
@@ -70,6 +70,10 @@ class Appointment extends Model
 
     public function getPreAdmissionFormUrlAttribute() {
         return $this->pre_admission->pre_admission_file;
+    }
+
+    public function getReferralAttribute() {
+        return $this->referral()->first();
     }
 
     public function getAppointmentTypeAttribute()
