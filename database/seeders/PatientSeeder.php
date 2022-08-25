@@ -38,7 +38,7 @@ class PatientSeeder extends Seeder
                 'patient_id'    =>  $patient->id
             ]);
 
-            $patient->organizations()->attach(Organization::inRandomOrder()->first());
+            $patient->organizations()->attach(1);
         }
     }
 }

@@ -22,8 +22,8 @@ class AppointmentFactory extends Factory
      */
     public function definition()
     {
-        $organization = Organization::inRandomOrder()->first();
-        $organization_id = $organization->id;
+        $organization = Organization::first();
+        $organization_id = 1;
         $patient = $organization->patients()->inRandomOrder()->first();
 
 
