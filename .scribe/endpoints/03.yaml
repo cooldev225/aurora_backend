@@ -7,7 +7,7 @@ endpoints:
     uri: patients
     metadata:
       title: '[Patient] - List'
-      description: ''
+      description: 'Returns a lists of all patients'
       authenticated: true
       custom: []
     headers:
@@ -27,7 +27,7 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: 'patients/{id}'
+    uri: 'patients/{}'
     metadata:
       title: '[Patient] - Show'
       description: ''
@@ -38,9 +38,9 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      id:
-        name: id
-        description: 'The ID of the patient.'
+      '':
+        name: ''
+        description: ''
         required: true
         example: 1
         type: integer
@@ -58,7 +58,7 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'patients/{id}'
+    uri: 'patients/{}'
     metadata:
       title: '[Patient] - Update'
       description: ''
@@ -69,9 +69,9 @@ endpoints:
       Content-Type: application/json
       Accept: application/json
     urlParameters:
-      id:
-        name: id
-        description: 'The ID of the patient.'
+      '':
+        name: ''
+        description: ''
         required: true
         example: 1
         type: integer
@@ -236,8 +236,38 @@ endpoints:
     responseFields: []
   -
     httpMethods:
+      - GET
+    uri: 'patients/recalls/{patient_id}'
+    metadata:
+      title: '[Recall - List]'
+      description: 'Returns a list of all the recalls set for the patient'
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      patient_id:
+        name: patient_id
+        description: 'The ID of the patient.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: "\r\n[{\r\n    \"id\": 1,\r\n    \"user_id\": 5,\r\n    \"organization_id\": 1,\r\n    \"patient_id\": 1,\r\n    \"time_frame\": 1,\r\n    \"date_recall_due\": \"2022-09-25\",\r\n    \"confirmed\": 0,\r\n    \"reason\": \"Please follow up on your colonoscopy\",\r\n    \"created_at\": \"2022-08-25 12:00:30\",\r\n    \"updated_at\": \"2022-08-25 12:00:30\"\r\n},{\r\n    \"id\": 2,\r\n    \"user_id\": 7,\r\n    \"organization_id\": 1,\r\n    \"patient_id\": 1,\r\n    \"time_frame\": 6,\r\n    \"date_recall_due\": \"2021-12-1\",\r\n    \"confirmed\": 0,\r\n    \"reason\": \"Please book a consult\",\r\n    \"created_at\": \"2021-06-1 12:00:30\",\r\n    \"updated_at\": \"2021-06-1 12:00:30\"\r\n}]\r\n"
+        headers: []
+        description: '200'
+    responseFields: []
+  -
+    httpMethods:
       - POST
-    uri: patient/recalls
+    uri: patients/recalls
     metadata:
       title: '[Recall] - Store'
       description: ''
@@ -277,7 +307,7 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'patient/recalls/{id}'
+    uri: 'patients/recalls/{id}'
     metadata:
       title: '[Recall] - Update'
       description: ''
@@ -323,7 +353,7 @@ endpoints:
   -
     httpMethods:
       - DELETE
-    uri: 'patient/recalls/{id}'
+    uri: 'patients/recalls/{id}'
     metadata:
       title: '[Recall] - Destroy'
       description: ''
@@ -344,34 +374,4 @@ endpoints:
     queryParameters: []
     bodyParameters: []
     responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: 'patient/recalls/{patient_id}'
-    metadata:
-      title: '[Recall - List]'
-      description: 'Returns a list of all the recalls set for the patient'
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      patient_id:
-        name: patient_id
-        description: 'The ID of the patient.'
-        required: true
-        example: 1
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses:
-      -
-        status: 200
-        content: "\r\n[{\r\n    \"id\": 1,\r\n    \"user_id\": 5,\r\n    \"organization_id\": 1,\r\n    \"patient_id\": 1,\r\n    \"time_frame\": 1,\r\n    \"date_recall_due\": \"2022-09-25\",\r\n    \"confirmed\": 0,\r\n    \"reason\": \"Please follow up on your colonoscopy\",\r\n    \"created_at\": \"2022-08-25 12:00:30\",\r\n    \"updated_at\": \"2022-08-25 12:00:30\"\r\n},{\r\n    \"id\": 2,\r\n    \"user_id\": 7,\r\n    \"organization_id\": 2,\r\n    \"patient_id\": 2,\r\n    \"time_frame\": 6,\r\n    \"date_recall_due\": \"2021-12-1\",\r\n    \"confirmed\": 0,\r\n    \"reason\": \"Please book a consult\",\r\n    \"created_at\": \"2021-06-1 12:00:30\",\r\n    \"updated_at\": \"2021-06-1 12:00:30\"\r\n}]\r\n"
-        headers: []
-        description: '200'
     responseFields: []

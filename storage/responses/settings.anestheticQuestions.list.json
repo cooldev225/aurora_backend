@@ -1,0 +1,10 @@
+
+[{
+    "id": 1,
+    "organization_id": 1,
+    "question": "Do you have a pace-maker?"
+},{
+    "id": 2,
+    "organization_id": 1,
+    "question": "Have you had any major surgery's in the past 5 years?"
+}]

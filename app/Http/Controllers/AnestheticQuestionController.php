@@ -12,9 +12,12 @@ class AnestheticQuestionController extends Controller
     /**
      * [Anesthetic Question] - List
      *
+     * A list of all the organizations questions. These questions are used to asses the initial status of an appointments 'procedure_approval_status' 
+     * @group Settings
+     * @responseFile storage/responses/settings.anestheticQuestions.list.json
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
         $organization_id = auth()->user()->organization_id;
 
@@ -22,10 +25,6 @@ class AnestheticQuestionController extends Controller
             'organization_id',
             $organization_id
         );
-
-        if ($request->has('status')) {
-            $anesthetic_questions->where('status', $request->status);
-        }
 
         $anesthetic_questions = $anesthetic_questions->get();
 
@@ -41,16 +40,15 @@ class AnestheticQuestionController extends Controller
     /**
      * [Anesthetic Question] - Store
      *
+     * @group Settings
      * @param  \App\Http\Requests\AnestheticQuestionRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AnestheticQuestionRequest $request)
     {
-        $organization_id = auth()->user()->organization_id;
-
         $anestheticQuestion = AnestheticQuestion::create([
-            ...$request->all(),
-            'organization_id' => $organization_id,
+            'organization_id'   => auth()->user()->organization_id,
+            'question'          =>  $request->question,
         ]);
 
         return response()->json(
@@ -64,7 +62,8 @@ class AnestheticQuestionController extends Controller
 
     /**
      * [Anesthetic Question] - Update
-     *
+     * 
+     * @group Settings
      * @param  \App\Http\Requests\AnestheticQuestionRequest  $request
      * @param  \App\Models\AnestheticQuestion  $anestheticQuestion
      * @return \Illuminate\Http\Response
@@ -73,11 +72,10 @@ class AnestheticQuestionController extends Controller
         AnestheticQuestionRequest $request,
         AnestheticQuestion $anestheticQuestion
     ) {
-        $organization_id = auth()->user()->organization_id;
-
+   
         $anestheticQuestion->update([
-            ...$request->all(),
-            'organization_id' => $organization_id,
+            'organization_id'   => auth()->user()->organization_id,
+            'question'          =>  $request->question,
         ]);
 
         return response()->json(
@@ -92,6 +90,7 @@ class AnestheticQuestionController extends Controller
     /**
      * [Anesthetic Question] - Destroy
      *
+     * @group Settings
      * @param  \App\Models\AnestheticQuestion  $anestheticQuestion
      * @return \Illuminate\Http\Response
      */

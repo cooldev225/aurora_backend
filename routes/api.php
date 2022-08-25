@@ -171,7 +171,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/anesthetists', [EmployeeController::class,'anesthetists']);
 
         Route::get('/health-funds', [HealthFundController::class, 'index']);
-        Route::get('/anesthetic-questions', [AnestheticQuestionController::class,]);
         Route::get('/notification-templates', [NotificationTemplateController::class,'index',]);
      
 

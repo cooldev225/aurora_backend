@@ -21,21 +21,21 @@ endpoints:
         name: username
         description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
         required: false
-        example: zaqokqkske
+        example: uik
         type: string
         custom: []
       email:
         name: email
         description: 'Must be a valid email address.'
         required: false
-        example: pmedhurst@example.net
+        example: samson33@example.org
         type: string
         custom: []
       password:
         name: password
         description: 'Must be at least 6 characters.'
         required: true
-        example: r
+        example: uq
         type: string
         custom: []
     responses: []
@@ -184,21 +184,21 @@ endpoints:
         name: old_password
         description: 'Must be at least 6 characters.'
         required: true
-        example: 'n'
+        example: dcks
         type: string
         custom: []
       new_password:
         name: new_password
         description: 'The value and <code>old_password</code> must be different. Must be at least 6 characters.'
         required: true
-        example: vljp
+        example: aoreua
         type: string
         custom: []
       confirm_password:
         name: confirm_password
         description: 'The value and <code>new_password</code> must match. Must be at least 6 characters.'
         required: true
-        example: ss
+        example: bnybm
         type: string
         custom: []
     responses: []
@@ -221,7 +221,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: a
+        example: iure
         type: string
         custom: []
     queryParameters: []
@@ -254,7 +254,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: rerum
+        example: officiis
         type: string
         custom: []
     queryParameters: []
@@ -279,7 +279,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: placeat
+        example: expedita
         type: string
         custom: []
     queryParameters: []
@@ -379,7 +379,7 @@ endpoints:
         name: id
         description: 'The ID of the bookmark.'
         required: true
-        example: eum
+        example: temporibus
         type: string
         custom: []
     queryParameters: []
@@ -404,7 +404,7 @@ endpoints:
         name: id
         description: 'The ID of the delete.'
         required: true
-        example: provident
+        example: omnis
         type: string
         custom: []
     queryParameters: []
@@ -429,7 +429,7 @@ endpoints:
         name: id
         description: 'The ID of the restore.'
         required: true
-        example: id
+        example: et
         type: string
         custom: []
     queryParameters: []
@@ -571,7 +571,7 @@ endpoints:
         name: id
         description: 'The ID of the admin.'
         required: true
-        example: sint
+        example: et
         type: string
         custom: []
     queryParameters: []
@@ -610,7 +610,7 @@ endpoints:
         name: id
         description: 'The ID of the admin.'
         required: true
-        example: sunt
+        example: id
         type: string
         custom: []
     queryParameters: []
@@ -859,7 +859,7 @@ endpoints:
         name: id
         description: 'The ID of the birth code.'
         required: true
-        example: 13
+        example: 14
         type: integer
         custom: []
     queryParameters: []
@@ -898,7 +898,7 @@ endpoints:
         name: id
         description: 'The ID of the birth code.'
         required: true
-        example: 11
+        example: 13
         type: integer
         custom: []
     queryParameters: []
@@ -1084,7 +1084,7 @@ endpoints:
         name: id
         description: 'The ID of the organization admin.'
         required: true
-        example: sit
+        example: dolor
         type: string
         custom: []
     queryParameters: []
@@ -1123,7 +1123,7 @@ endpoints:
         name: id
         description: 'The ID of the organization admin.'
         required: true
-        example: aut
+        example: omnis
         type: string
         custom: []
     queryParameters: []
@@ -1214,7 +1214,7 @@ endpoints:
         name: id
         description: 'The ID of the organization manager.'
         required: true
-        example: animi
+        example: eos
         type: string
         custom: []
     queryParameters: []
@@ -1253,7 +1253,7 @@ endpoints:
         name: id
         description: 'The ID of the organization manager.'
         required: true
-        example: ratione
+        example: sit
         type: string
         custom: []
     queryParameters: []
@@ -1691,101 +1691,6 @@ endpoints:
       id:
         name: id
         description: 'The ID of the notification template.'
-        required: true
-        example: 1
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - GET
-    uri: anesthetic-questions
-    metadata:
-      title: '[Anesthetic Question] - List'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    queryParameters: []
-    bodyParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-  -
-    httpMethods:
-      - POST
-    uri: anesthetic-questions
-    metadata:
-      title: '[Anesthetic Question] - Store'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    queryParameters: []
-    bodyParameters: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'anesthetic-questions/{id}'
-    metadata:
-      title: '[Anesthetic Question] - Update'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the anesthetic question.'
-        required: true
-        example: 1
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'anesthetic-questions/{id}'
-    metadata:
-      title: '[Anesthetic Question] - Destroy'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the anesthetic question.'
         required: true
         example: 1
         type: integer
@@ -3147,7 +3052,7 @@ endpoints:
         name: appointment
         description: ''
         required: true
-        example: voluptatem
+        example: inventore
         type: string
         custom: []
     queryParameters: []
@@ -3738,49 +3643,49 @@ endpoints:
         name: appointment_id
         description: 'Appointment ID.'
         required: true
-        example: 10
+        example: 13
         type: integer
         custom: []
       description:
         name: description
         description: Description.
         required: true
-        example: et
+        example: ut
         type: string
         custom: []
       diagnosis:
         name: diagnosis
         description: ''
         required: true
-        example: nesciunt
+        example: ratione
         type: string
         custom: []
       clinical_assessment:
         name: clinical_assessment
         description: ''
         required: true
-        example: fugit
+        example: aliquid
         type: string
         custom: []
       treatment:
         name: treatment
         description: ''
         required: true
-        example: sapiente
+        example: esse
         type: string
         custom: []
       history:
         name: history
         description: ''
         required: true
-        example: est
+        example: nobis
         type: string
         custom: []
       additional_details:
         name: additional_details
         description: ''
         required: true
-        example: cum
+        example: veniam
         type: string
         custom: []
     responses: []
@@ -4561,7 +4466,7 @@ endpoints:
                                       <div class="box-content">
                                           <span class="box-text">All</span>
                                           <span class="box-number">
-                                              9 entries - 100 %
+                                              21 entries - 100 %
                                           </span>
                                           <div class="progress" style="height: 3px;">
                                               <div class="progress-bar" style="width: 100%"></div>
@@ -4629,7 +4534,7 @@ endpoints:
                                       <div class="box-content">
                                           <span class="box-text">Error</span>
                                           <span class="box-number">
-                                              9 entries - 100 %
+                                              21 entries - 100 %
                                           </span>
                                           <div class="progress" style="height: 3px;">
                                               <div class="progress-bar" style="width: 100%"></div>
@@ -4733,7 +4638,7 @@ endpoints:
                   $(function() {
                       new Chart(document.getElementById("stats-doughnut-chart"), {
                           type: 'doughnut',
-                          data: {"labels":["Emergency","Alert","Critical","Error","Warning","Notice","Info","Debug"],"datasets":[{"data":[0,0,0,9,0,0,0,0],"backgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"],"hoverBackgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"]}]},
+                          data: {"labels":["Emergency","Alert","Critical","Error","Warning","Notice","Info","Debug"],"datasets":[{"data":[0,0,0,21,0,0,0,0],"backgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"],"hoverBackgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"]}]},
                           options: {
                               legend: {
                                   position: 'bottom'
@@ -5078,7 +4983,7 @@ endpoints:
                                                                       </td>
                                                               <td class="text-center">
                                                                               <a href="http://localhost/log-viewer/logs/2022-08-25/all">
-                                                  <span class="badge badge-level-all">9</span>
+                                                  <span class="badge badge-level-all">21</span>
                                               </a>
                                                                       </td>
                                                               <td class="text-center">
@@ -5092,7 +4997,7 @@ endpoints:
                                                                       </td>
                                                               <td class="text-center">
                                                                               <a href="http://localhost/log-viewer/logs/2022-08-25/error">
-                                                  <span class="badge badge-level-error">9</span>
+                                                  <span class="badge badge-level-error">21</span>
                                               </a>
                                                                       </td>
                                                               <td class="text-center">
@@ -5267,7 +5172,7 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: architecto
+        example: ipsam
         type: string
         custom: []
     queryParameters: []
@@ -5277,7 +5182,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "Log not found in this date [architecto]",
+              "message": "Log not found in this date [ipsam]",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php",
               "line": 1145,
@@ -5719,7 +5624,7 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: nisi
+        example: laborum
         type: string
         custom: []
     queryParameters: []
@@ -5729,7 +5634,7 @@ endpoints:
         status: 500
         content: |-
           {
-              "message": "The log(s) could not be located at : C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\storage\\logs\\laravel-nisi.log",
+              "message": "The log(s) could not be located at : C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\storage\\logs\\laravel-laborum.log",
               "exception": "Arcanedev\\LogViewer\\Exceptions\\FilesystemException",
               "file": "C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\arcanedev\\log-viewer\\src\\Exceptions\\FilesystemException.php",
               "line": 21,
@@ -6180,14 +6085,14 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: voluptas
+        example: animi
         type: string
         custom: []
       level:
         name: level
         description: ''
         required: true
-        example: autem
+        example: tempora
         type: string
         custom: []
     queryParameters: []
@@ -6197,7 +6102,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "Log not found in this date [voluptas]",
+              "message": "Log not found in this date [animi]",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php",
               "line": 1145,
@@ -6639,14 +6544,14 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: magni
+        example: officiis
         type: string
         custom: []
       level:
         name: level
         description: ''
         required: true
-        example: unde
+        example: sed
         type: string
         custom: []
     queryParameters: []
@@ -6659,17 +6564,17 @@ endpoints:
           <html>
               <head>
                   <meta charset="UTF-8" />
-                  <meta http-equiv="refresh" content="0;url='http://localhost/log-viewer/logs/magni'" />
+                  <meta http-equiv="refresh" content="0;url='http://localhost/log-viewer/logs/officiis'" />
 
-                  <title>Redirecting to http://localhost/log-viewer/logs/magni</title>
+                  <title>Redirecting to http://localhost/log-viewer/logs/officiis</title>
               </head>
               <body>
-                  Redirecting to <a href="http://localhost/log-viewer/logs/magni">http://localhost/log-viewer/logs/magni</a>.
+                  Redirecting to <a href="http://localhost/log-viewer/logs/officiis">http://localhost/log-viewer/logs/officiis</a>.
               </body>
           </html>
         headers:
           cache-control: 'no-cache, private'
-          location: 'http://localhost/log-viewer/logs/magni'
+          location: 'http://localhost/log-viewer/logs/officiis'
           content-type: application/json
           access-control-allow-origin: '*'
         description: null
@@ -6698,7 +6603,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           access-control-allow-origin: '*'
-          set-cookie: 'XSRF-TOKEN=eyJpdiI6IjNNcWRLLzk0TFV4NzZnT2NSSHlmWkE9PSIsInZhbHVlIjoic28rQmp0NHBiZmVMYVJMejlxU2RvTHphTUx2d0ZXTVFTWDhnVlIzYkNUZTFCUGZBT0ZTYW5QNlB0cjhxckljR01rTk5ob3BFc0NKTjl0OVYwTFp3V3dnVWRyRHhiV21wbWJpMUFZekVPRzFUdlRqR1NJNVgyQTlvQVpKeTRISS8iLCJtYWMiOiJjZmU3OTNjNDY0NDJkN2Y3Nzg1NmVhNzRhODEzYmE5NGVjOTYyZjAzZmJkYTY5MTk5ZTNjZjc3NjhiMTk2YjQwIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 04:04:05 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6IjZtZDhRVjdSY0cra295UlhIUzRnTlE9PSIsInZhbHVlIjoiY3ZpS3BWbVdUVytwNE1BQTJnZkd2c3pyRjByNEsvQW5BeXZ6Y24yM3dhNG5ORFZoYTc4aFkxczVTVUtFR29kcWFYbEFaZlBpNlpNVy9JK2hTbGxTUFBuZVNKOU9FSkRCcXA0ZHZFKzB4RXdmNVl1eFMyQnF2Mm1mV3RrcWdmRHIiLCJtYWMiOiI1YTc5ZTA3OTg1OWY1OTkzYzQ1MzA1ZTk1YWRlNDcwZDA0M2JhMDhhMDM0NDc0M2FmNzQ3NTAzM2I4NTRmNGZlIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 04:04:05 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6InFXVWtsYXFnck5paFBiWXRORnVpQnc9PSIsInZhbHVlIjoiTjdjcVBUM2EycFNSemdhaGFFNjJ3Q3kwelBnZFoxYmRWV2hmWFJPZkcwVks4QzZhdDlBcXczS25zNnVoaWlQY1BET3VpR25xQ2VmK2VCNndmRE5nQnFSRWNmQXNKdXpBWEVLWVBoSjQxbVNZSEhrNXJKbnRiY3pwZFZiZWk5SWQiLCJtYWMiOiJjMGE0NzczZDIxMWJmMzllMWE3MjJiMzc4NzUxMDA3OTRkOTA0MGIwNTgzMTQ4ZmY4ZDgyZDUwZmE1NDM0NTlhIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 06:13:45 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6InYyRXRXY051K0t1OHN5enZNRmRNK0E9PSIsInZhbHVlIjoiMExMTEVlcXgvU2czZ0FvS2Q2cURPVEhJQlhNN2hGRnl0cCt0MnN3Y3ozcnFISUNEUlRrQkU3U3FEelB5QXQzbmV3T0MyRXRGVjU4cmsvWndmTEFsUFBHTytnMHdYTit3MWw3Q01GMU5HU3RUYzhKdmthUVdmTjRUTFpzRWN3QUEiLCJtYWMiOiIzZGVjMTgxY2QwZDMyYzhmZTcwNWNiNjNkOGVhNDM5NTRkYjg2Yjc0M2Q0NGZhODUxMzFkZGNkZjI3YTAxZTI1IiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 06:13:45 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
         description: null
     responseFields: []
   -
@@ -6743,7 +6648,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           access-control-allow-origin: '*'
-          set-cookie: 'XSRF-TOKEN=eyJpdiI6IlhXRUYzaWtRcnpZYmpOS2hoZUp3SHc9PSIsInZhbHVlIjoiazBFZlluVEhrSWV5L2ZxRFZSZFlKZGphZk8xQnpzVktTRklsV3VNaEVOcE1LcnlSVjdDWVUxWi80Y3liWEN1cVJYQmNvY2ErWlg1OHdwcDVqZkZrclo0K0VubDUxeE9xbFpjbXFFZlhKVXBtQS8xZE1YN2NNL2hZVVNtb0E4L04iLCJtYWMiOiJhMDBjZWY2YzQyNWRiOTViYTNlN2E2ZWZmMTA5OGFmMTQxYjRiYmUwYTUwNWZiMDJiNDFjOWQwMGY1NDFjZDMwIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 04:04:05 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6IkZRbjVCa0VjY2wyUUJWai9VWmM5QWc9PSIsInZhbHVlIjoibk9vQjhRT3NRRnR0V2huNmNvNm1QZVZhZGdLRG54Q2M5WkdObG1oUERZeUxFNFZsaW51djZIcGdSUGtrSXI5THRLTkZrT2w2WmVjM0tVYVFocldDQTJpZk1WYmIrRGFjUjlYb2VhNkw5bWFXREtJQWtnMXFsZG5hbHpyVXZvTWYiLCJtYWMiOiIxYjg0MmQ3NjU1ODFlNTBhNzZiMzgxMzQ0YWIwZGNmZjA1ZmRkNDcxMTUyZWEzMWVmYTY3ZjJjZWNjNGYyMzk0IiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 04:04:05 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6IjFQbXdqT2hVazZZM3drUHV2UTFnNXc9PSIsInZhbHVlIjoiVnZ0MmFzdlgwWUM5QW1TelAwQktvWXN3c1JSL1RCZ25QNjZUdElGRWlhaWZxM2Zzd095dGhES1ZZd0lFb3RLdHBTdzNJN21PZitEV0lScjFCQkIrbnVQbHZpb1Y4eHR4ZE0wWUVFUEloSEd5bFhVNTdHUUtlbWF5OFFsN0hTam8iLCJtYWMiOiI2NzJlNjZiNmFlOTc1MDIyZTIzZDNhMDE5MWRhZmFjNDE4YzRjMDg1OWFlNWU2NjUwZDBhNjM2Y2I3YmM0ZTA0IiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 06:13:45 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6Ii9IQU1xaHZKaHpDdHMwdzNjcXVWWEE9PSIsInZhbHVlIjoiM1dlMWhRMmZSWmVEdFBRNmw2RXZOeUEvWnVVdEx1U3YvZlYvOHFUQS9IMWcwRDNTeDVBb0ZBVGtWQ2NHOFJmTDlOYkdvZjB6c1lFQjk1YlByN0FmQU5SR0xLVkhrd3ZicEQ3SjBhZ3RxV1QyUU05YnU4REc5VUZ6a1FLV1lOMDAiLCJtYWMiOiJiODFmNzk0NjNjMjJkMDMwOTdhOTcwYTZhM2I1NjJmMmEyN2MzNWM1ZTA5OGZlZTFkYTNiYzBhY2VkOTFkNmUxIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 06:13:45 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
         description: null
     responseFields: []
   -
@@ -6764,7 +6669,7 @@ endpoints:
         name: ''
         description: ''
         required: true
-        example: 12
+        example: 15
         type: integer
         custom: []
     queryParameters: []
@@ -7148,7 +7053,7 @@ endpoints:
         name: ''
         description: ''
         required: true
-        example: 12
+        example: 3
         type: integer
         custom: []
     queryParameters: []

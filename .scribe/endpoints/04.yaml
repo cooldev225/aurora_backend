@@ -1,0 +1,109 @@
+name: Settings
+description: ''
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: anesthetic-questions
+    metadata:
+      title: '[Anesthetic Question] - List'
+      description: "A list of all the organizations questions. These questions are used to asses the initial status of an appointments 'procedure_approval_status'"
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 200
+        content: "\r\n[{\r\n    \"id\": 1,\r\n    \"organization_id\": 1,\r\n    \"question\": \"Do you have a pace-maker?\"\r\n},{\r\n    \"id\": 2,\r\n    \"organization_id\": 1,\r\n    \"question\": \"Have you had any major surgery's in the past 5 years?\"\r\n}]\r\n"
+        headers: []
+        description: '200'
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: anesthetic-questions
+    metadata:
+      title: '[Anesthetic Question] - Store'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      question:
+        name: question
+        description: 'The text content for the anesthetic question'
+        required: true
+        example: '"Have you undergone any major surgeries?"'
+        type: string
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'anesthetic-questions/{id}'
+    metadata:
+      title: '[Anesthetic Question] - Update'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the anesthetic question.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters:
+      question:
+        name: question
+        description: 'The text content for the anesthetic question'
+        required: true
+        example: '"Have you undergone any major surgeries?"'
+        type: string
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'anesthetic-questions/{id}'
+    metadata:
+      title: '[Anesthetic Question] - Destroy'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the anesthetic question.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters: []
+    responses: []
+    responseFields: []

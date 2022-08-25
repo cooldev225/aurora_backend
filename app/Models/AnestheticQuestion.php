@@ -9,5 +9,5 @@ class AnestheticQuestion extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['organization_id', 'question', 'status'];
+    protected $fillable = ['organization_id', 'question'];
 }
