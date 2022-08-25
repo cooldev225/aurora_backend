@@ -22,8 +22,6 @@ class AppointmentReferralController extends Controller
         AppointmentReferralRequest $request, Appointment $appointment
     ) {
 
-
-
         $appointmentReferral = $appointment->referral()->first();
 
         $appointmentReferral->update([
@@ -32,7 +30,7 @@ class AppointmentReferralController extends Controller
             'referral_duration'     => $request->referral_duration,
             'referral_expiry_date'  =>  date("Y-m-d", strtotime("+" . $request->referral_duration . " months", strtotime($request->referral_date))),
         ]);
-  
+
         if ($file = $request->file('file')) {
             $file_name = 'referral_file_' . $appointmentReferral->id . '_' . time() . '.' . $file->extension();
             $referral_file_path = '/' . $file->storeAs('files/appointment_referral', $file_name);

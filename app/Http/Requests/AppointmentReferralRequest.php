@@ -8,7 +8,7 @@ use Illuminate\Foundation\Http\FormRequest;
 * @bodyParam referring_doctor_id   int   required  The id of the referring doctor       Example: 2
 * @bodyParam referral_date         date  required  The date the referral was issued     Example: 1993-23-03
 * @bodyParam referral_duration     int   required  The duration the referral is valid   Example: 3
-* @bodyParam file                  file            The referral file                    Example:    
+* @bodyParam file                  file            The referral file                    Example:
 */
 class AppointmentReferralRequest extends FormRequest
 {
@@ -36,7 +36,7 @@ class AppointmentReferralRequest extends FormRequest
     {
         return [
             'referring_doctor_id'   => 'required|integer',
-            'referral_date'         => 'required|date',
+            'referral_date'         => 'required|string',
             'referral_duration'     => 'required|integer',
             'file'                  => 'mimes:pdf',
         ];

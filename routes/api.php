@@ -111,7 +111,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager',
     ])->group(function () {
-      
+
         Route::apiResource('anesthetic-questions', AnestheticQuestionController::class,['except' => ['show']]);
         Route::apiResource('employees', EmployeeController::class,['except' => ['show']]);
         Route::apiResource('specialists', SpecialistController::class,['except' => ['show']]);
@@ -147,28 +147,28 @@ Route::middleware(['auth'])->group(function () {
         );
 
         Route::get('user-appointments', [UserAppointmentController::class, 'index']);
-    
 
-        
+
+
         Route::prefix('appointments')->group(function () {
             Route::apiResource('/', AppointmentController::class, ['except' => ['destroy']]);
-            
+
             Route::get('/confirmation-status', [AppointmentConformationStatusController::class, 'index']);
             Route::put('/confirmation-status/{appointment}', [AppointmentConformationStatusController::class, 'update']);
 
             Route::put('/check-in/{appointment}', [AppointmentAttendanceStatusController::class,'checkIn']);
             Route::put('/check-out/{appointment}', [AppointmentAttendanceStatusController::class, 'checkOut']);
-           
+
             Route::put('/wait-listed/{appointment}', [AppointmentController::class,'waitListed']);
             Route::put('/procedureApprovalStatus/{appointment}', [AppointmentProcedureApprovalController::class,'update']);
             Route::put('/update_collecting_person/{appointment}', [AppointmentCollectingPersonController::class,'update']);
 
-            Route::put('/referral/{appointment}', [AppointmentReferralController::class,'update']);
+            Route::post('/referral/{appointment}', [AppointmentReferralController::class,'update']);
         });
 
-     
 
-    
+
+
 
         Route::get('/available-slots', [
             AppointmentController::class,
@@ -245,7 +245,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('patient-document/{patient}/audio/upload',
             [PatientDocumentAudioController::class, 'upload']
         );
-        
+
         Route::post('patient-document/{patient}/other/upload',
             [PatientDocumentOtherController::class, 'upload']
         );
