@@ -3,31 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PatientRecallRequest;
+use App\Models\Patient;
 use Illuminate\Http\Response;
 use App\Models\PatientRecall;
 
 class PatientRecallController extends BaseOrganizationController
 {
     /**
-     * [Patient Recall] - List
+     * [Patient Recall] - List all recalls for this patient
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Patient $patient)
     {
-        $organization_id = auth()->user()->organization_id;
-
-        $patientRecalls = PatientRecall::where('organization_id', $organization_id)
-            ->with('patient')
-            ->orderByDesc('date_recall_due')
-            ->get();
-
         return response()->json(
             [
-                'message' => 'Patient Recall List',
-                'data' => $patientRecalls,
+                'message' => 'Patient Recall list',
+                'data' => $patient->recalls,
             ],
-            Response::HTTP_OK
+            Response::HTTP_CREATED
         );
     }
     
@@ -39,17 +33,13 @@ class PatientRecallController extends BaseOrganizationController
      */
     public function store(PatientRecallRequest $request)
     {
-        $user_id = auth()->user()->id;
-        $time_frame = $request->time_frame;
-        $date_recall_due = date('Y-m-d', strtotime("+" . $time_frame . " months",
-            strtotime(date('Y-m-d'))));
 
         $patientRecall = PatientRecall::create([
-            'user_id'           => $user_id,
+            'user_id'           => auth()->user()->id,
             'patient_id'        => $request->patient_id,
-            'organization_id'   => $request->organization_id,
-            'date_recall_due'   => $date_recall_due,
-            'time_frame'        => $time_frame,
+            'organization_id'   => $request->user()->organization_id,
+            'date_recall_due'   => date('Y-m-d', strtotime("+" . $request->time_frame . " months",strtotime(date('Y-m-d')))),
+            'time_frame'        => $request->time_frame,
             'confirmed'         => false,
             'reason'            => $request->reason,
         ]);
@@ -74,26 +64,22 @@ class PatientRecallController extends BaseOrganizationController
         PatientRecallRequest $request,
         PatientRecall $patientRecall
     ) {
-        $user_id = auth()->user()->id;
-        $time_frame = $request->time_frame;
-        $date_recall_due = date('Y-m-d', strtotime("+" . $time_frame . " months",
-            strtotime(date('Y-m-d'))));
-
         $patientRecall->update([
-            'user_id'           => $user_id,
+            'user_id'           => auth()->user()->id,
             'patient_id'        => $request->patient_id,
-            'organization_id'   => $request->organization_id,
+            'organization_id'   => $request->user()->organization_id,
+            'date_recall_due'   => date('Y-m-d', strtotime("+" . $request->time_frame . " months",strtotime(date('Y-m-d')))),
             'time_frame'        => $request->time_frame,
-            'date_recall_due'   => $date_recall_due,
+            'confirmed'         => false,
             'reason'            => $request->reason,
         ]);
 
         return response()->json(
             [
-                'message' => 'Patient Recall updated',
+                'message' => 'New Patient Recall Updated',
                 'data' => $patientRecall,
             ],
-            Response::HTTP_OK
+            Response::HTTP_CREATED
         );
     }
 

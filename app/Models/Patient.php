@@ -70,6 +70,15 @@ class Patient extends Model
     }
 
     /**
+     * Return Patient Recalls
+     */
+    public function recalls()
+    {
+        return $this->hasMany(PatientRecall::class, 'patient_id');
+    }
+
+
+    /**
      * Get the patients for organization.
      */
     public function organizations()

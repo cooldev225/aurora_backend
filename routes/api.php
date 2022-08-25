@@ -116,7 +116,6 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('employees', EmployeeController::class,['except' => ['show']]);
         Route::apiResource('specialists', SpecialistController::class,['except' => ['show']]);
         Route::get('/employee-roles', [UserRoleController::class,'employeeRoles']);
-        Route::apiResource('patient-recalls', PatientRecallController::class, ['except' => ['show']]);
         Route::apiResource('report-templates', ReportTemplateController::class,['except' => ['show']]);
         Route::apiResource('pre-admission-sections',PreAdmissionController::class,['except' => ['show']]);
         Route::post('update-pre-admission-consent', [PreAdmissionController::class,'updateConsent']);
@@ -169,7 +168,7 @@ Route::middleware(['auth'])->group(function () {
 
      
 
-    ;
+    
 
         Route::get('/available-slots', [
             AppointmentController::class,
@@ -205,6 +204,9 @@ Route::middleware(['auth'])->group(function () {
             NotificationTemplateController::class,
             'index',
         ]);
+        Route::prefix('patient')->group(function () {
+            Route::apiResource('recalls', PatientRecallController::class, ['except' => ['show']]);
+        });
 
         Route::apiResource('patient-documents',
             PatientDocumentController::class,
