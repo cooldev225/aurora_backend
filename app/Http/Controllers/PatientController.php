@@ -46,6 +46,7 @@ class PatientController extends Controller
             $patientInfo = $patient;
 
             $patientInfo['appointments'] = $patient->appointments()
+                ->where('organization_id', $organization_id)
                 ->orderBy('date', 'DESC')
                 ->orderBy('start_time', 'DESC')
                 ->get();

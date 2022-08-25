@@ -2,8 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Patient;
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam patient_id     string  required  The id of the patient this recall is for          Example: 3
+* @bodyParam time_frame     string  required  The time frame between now and when the recall should be sent in months    Example: 6
+* @bodyParam reason         string  required  The reason for the recall                         Example: Please return for a follow up consolation  
+*/
 class PatientRecallRequest extends FormRequest
 {
     /**
@@ -13,7 +19,12 @@ class PatientRecallRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        $patient = Patient::Find($this->input('patient_id'));
+        $organization_id = auth()->user()->organization_id;
+        if ($patient->organizations->contains($organization_id)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -25,9 +36,8 @@ class PatientRecallRequest extends FormRequest
     {
         return [
             'patient_id'        =>  'required|numeric',
-            'organization_id'   =>  'required|numeric',
             'time_frame'        =>  'required|numeric',
-            'reason'            =>  'string'
+            'reason'            =>  'required|string',
         ];
     }
 

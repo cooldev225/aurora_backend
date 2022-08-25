@@ -1,11 +1,11 @@
 <?php
 
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
-use App\Http\Controllers\AnestheticAnswerController;
 use App\Http\Controllers\AppointmentAttendanceStatusController;
+use App\Http\Controllers\AppointmentCollectingPersonController;
 use App\Http\Controllers\AppointmentConformationStatusController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
@@ -14,14 +14,12 @@ use App\Http\Controllers\AppointmentReferralController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
-use App\Http\Controllers\EmailTemplateController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\OrganizationManagerController;
 use App\Http\Controllers\PatientController;
-use App\Http\Controllers\ProdaDeviceController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
@@ -118,7 +116,6 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('employees', EmployeeController::class,['except' => ['show']]);
         Route::apiResource('specialists', SpecialistController::class,['except' => ['show']]);
         Route::get('/employee-roles', [UserRoleController::class,'employeeRoles']);
-        Route::apiResource('patient-recalls', PatientRecallController::class, ['except' => ['show']]);
         Route::apiResource('report-templates', ReportTemplateController::class,['except' => ['show']]);
         Route::apiResource('pre-admission-sections',PreAdmissionController::class,['except' => ['show']]);
         Route::post('update-pre-admission-consent', [PreAdmissionController::class,'updateConsent']);
@@ -164,14 +161,14 @@ Route::middleware(['auth'])->group(function () {
            
             Route::put('/wait-listed/{appointment}', [AppointmentController::class,'waitListed']);
             Route::put('/procedureApprovalStatus/{appointment}', [AppointmentProcedureApprovalController::class,'update']);
-            Route::put('/update_collecting_person/{id}', [AppointmentController::class,'updateCollectingPerson']);
+            Route::put('/update_collecting_person/{appointment}', [AppointmentCollectingPersonController::class,'update']);
 
             Route::put('/referral/{appointment}', [AppointmentReferralController::class,'update']);
         });
 
      
 
-    ;
+    
 
         Route::get('/available-slots', [
             AppointmentController::class,
@@ -207,6 +204,9 @@ Route::middleware(['auth'])->group(function () {
             NotificationTemplateController::class,
             'index',
         ]);
+        Route::prefix('patient')->group(function () {
+            Route::apiResource('recalls', PatientRecallController::class, ['except' => ['show']]);
+        });
 
         Route::apiResource('patient-documents',
             PatientDocumentController::class,

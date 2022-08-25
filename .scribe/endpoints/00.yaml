@@ -54,3 +54,49 @@ endpoints:
         custom: []
     responses: []
     responseFields: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'appointments/update_collecting_person/{appointment_id}'
+    metadata:
+      title: '[Collecting Person] - Update'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      appointment_id:
+        name: appointment_id
+        description: 'The ID of the appointment.'
+        required: true
+        example: 1
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters:
+      collecting_person_name:
+        name: collecting_person_name
+        description: 'The name of the collecting person'
+        required: true
+        example: 'Jessica Jack'
+        type: string
+        custom: []
+      collecting_person_phone:
+        name: collecting_person_phone
+        description: 'The phone number of the collecting person'
+        required: true
+        example: 04-5112-5521
+        type: string
+        custom: []
+      collecting_person_alternate_contact:
+        name: collecting_person_alternate_contact
+        description: 'The alternate number of the collecting person'
+        required: true
+        example: 03-2346-2344
+        type: string
+        custom: []
+    responses: []
+    responseFields: []
