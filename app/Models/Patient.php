@@ -45,10 +45,10 @@ class Patient extends Model
 
     public function getAllUpcomingAppointmentsAttribute()
     {
-       // $organization_id = auth()->user()->organization_id;
+     $organization_id = auth()->user()->organization_id;
 
         return $this->appointments()
-           // ->where('organization_id', $organization_id)
+           ->where('organization_id', $organization_id)
             ->where('date', '>=', date('Y-m-d'))
             ->get();
     }
