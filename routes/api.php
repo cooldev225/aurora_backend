@@ -142,13 +142,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('user-appointments', [UserAppointmentController::class, 'index']);
     
 
-        
-        Route::prefix('appointments')->group(function () {
-            Route::apiResource('/', AppointmentController::class, ['except' => ['destroy']]);
-            
+        Route::apiResource('appointments', AppointmentController::class, ['except' => ['destroy']]);
+        Route::prefix('appointments')->group(function () {    
             Route::get('/confirmation-status', [AppointmentConformationStatusController::class, 'index']);
             Route::put('/confirmation-status/{appointment}', [AppointmentConformationStatusController::class, 'update']);
-
             Route::put('/check-in/{appointment}', [AppointmentAttendanceStatusController::class,'checkIn']);
             Route::put('/check-out/{appointment}', [AppointmentAttendanceStatusController::class, 'checkOut']);
            
@@ -226,9 +223,8 @@ Route::middleware(['auth'])->group(function () {
         'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
        
-
+        Route::apiResource('patients', PatientController::class, ['except' => ['create']]);
         Route::prefix('patients')->group(function () {
-            Route::apiResource('/',PatientController::class,['except' => ['create']]);
             Route::get('recalls/{patient}', [PatientRecallController::class, 'index']);
             Route::apiResource('recalls', PatientRecallController::class, ['except' => ['show', 'index']]);
             Route::get('appointments/{patient}', [PatientController::class, 'appointments']);

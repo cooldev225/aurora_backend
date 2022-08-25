@@ -455,6 +455,7 @@ class AppointmentController extends BaseOrganizationController
         ]);
 
         AppointmentReferral::create([
+            'appointment_id'                => $appointment->id,
             'referring_doctor_id'           => $request->referring_doctor_id,
             'referral_date'                 => $request->referring_doctor_id,
             'referral_duration'             => $request->referral_duration,

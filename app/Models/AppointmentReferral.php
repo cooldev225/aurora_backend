@@ -33,7 +33,7 @@ class AppointmentReferral extends Model
     }
 
     public function getReferringDoctorNameAttribute(){
-        return ReferringDoctor::find($this->referring_doctor_id)->full_name;
+        return ReferringDoctor::find($this->referring_doctor_id)?->full_name;
     }
 
     public function updateReferralData($data) {
