@@ -36,7 +36,7 @@ class AppointmentReferralFactory extends Factory
             'referral_date'         => $referral_date,
             'referral_duration'     => $referral_duration,
             'referral_expiry_date'  => $referral_expiry_date,
-            'referral_file'         => 'http://www.africau.edu/images/default/sample.pdf',
+            'referral_file'         => 'https://pspdfkit.com/downloads/pspdfkit-web-demo.pdf',
         ];
     }
 }
