@@ -69,7 +69,7 @@ class Appointment extends Model
     }
 
     public function getPreAdmissionFormUrlAttribute() {
-        return $this->pre_admission->pre_admission_file;
+        return $this->pre_admission?->pre_admission_file;
     }
 
     public function getReferralAttribute() {

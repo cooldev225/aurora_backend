@@ -1,0 +1,24 @@
+
+[{
+    "id": 1,
+    "user_id": 5,
+    "organization_id": 1,
+    "patient_id": 1,
+    "time_frame": 1,
+    "date_recall_due": "2022-09-25",
+    "confirmed": 0,
+    "reason": "Please follow up on your colonoscopy",
+    "created_at": "2022-08-25 12:00:30",
+    "updated_at": "2022-08-25 12:00:30"
+},{
+    "id": 2,
+    "user_id": 7,
+    "organization_id": 1,
+    "patient_id": 1,
+    "time_frame": 6,
+    "date_recall_due": "2021-12-1",
+    "confirmed": 0,
+    "reason": "Please book a consult",
+    "created_at": "2021-06-1 12:00:30",
+    "updated_at": "2021-06-1 12:00:30"
+}]

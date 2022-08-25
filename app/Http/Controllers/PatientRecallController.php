@@ -10,9 +10,13 @@ use App\Models\PatientRecall;
 class PatientRecallController extends BaseOrganizationController
 {
     /**
-     * [Patient Recall] - List all recalls for this patient
+     * [Recall - List]
      *
+     * Returns a list of all the recalls set for the patient
+     * 
+     * @group Patients
      * @return \Illuminate\Http\Response
+     * @responseFile storage/responses/patients.recall.list.json
      */
     public function index(Patient $patient)
     {
@@ -26,8 +30,9 @@ class PatientRecallController extends BaseOrganizationController
     }
     
     /**
-     * [Patient Recall] - Store
+     * [Recall] - Store
      *
+     * @group Patients
      * @param  \App\Http\Requests\PatientRecallRequest  $request
      * @return \Illuminate\Http\Response
      */
@@ -54,8 +59,9 @@ class PatientRecallController extends BaseOrganizationController
     }
 
     /**
-     * [Patient Recall] - Update
+     * [Recall] - Update
      *
+     * @group Patients
      * @param  \App\Http\Requests\PatientRecallRequest  $request
      * @param  \App\Models\PatientRecall  $patientRecall
      * @return \Illuminate\Http\Response
@@ -84,8 +90,9 @@ class PatientRecallController extends BaseOrganizationController
     }
 
     /**
-     * [Patient Recall] - Destroy
+     * [Recall] - Destroy
      *
+     * @group Patients
      * @param  \App\Models\PatientRecall  $patientRecall
      * @return \Illuminate\Http\Response
      */

@@ -16,7 +16,6 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('organization_id');
             $table->string('question');
-            $table->enum('status', ['Enabled', 'Disabled'])->default('Enabled');
             $table->timestamps();
         });
     }

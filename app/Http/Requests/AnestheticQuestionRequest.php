@@ -3,7 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
+/**
+* @bodyParam question   string  required  The text content for the anesthetic question     Example: "Have you undergone any major surgeries?"
+*/
 class AnestheticQuestionRequest extends FormRequest
 {
     /**
@@ -24,17 +26,8 @@ class AnestheticQuestionRequest extends FormRequest
     public function rules()
     {
         return [
+            'question' => 'required|string'
         ];
     }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-        ];
-    }
+    
 }

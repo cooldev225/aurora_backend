@@ -12,6 +12,8 @@ class PatientController extends Controller
     /**
      * [Patient] - List
      *
+     * Returns a lists of all patients 
+     * 
      * @group Patients
      * @responseFile storage/responses/patients.show.json
      */
@@ -36,6 +38,7 @@ class PatientController extends Controller
      * [Patient] - Show
      *
      * @group Patients
+     * @param  \App\Models\Patient  $patient
      * @responseFile storage/responses/patients.show.json
      */
     public function show(Patient $patient)
@@ -74,6 +77,7 @@ class PatientController extends Controller
      * [Patient] - Update
      *
      * @param  \App\Http\Requests\PatientRequest  $request
+     * @param  \App\Models\Patient  $patient
      * @group Patients
      * @return \Illuminate\Http\Response
      */
@@ -94,6 +98,7 @@ class PatientController extends Controller
      * [Patient] - Appointment History Information
      *
      * @group Patients
+     * @param  \App\Models\Patient  $patient
      * @responseFile storage/responses/patients.appointments.json
      */
     public function appointments(Patient $patient) {
