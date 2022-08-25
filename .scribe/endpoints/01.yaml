@@ -42,7 +42,7 @@ endpoints:
         name: address
         description: ''
         required: true
-        example: neque
+        example: minus
         type: string
         custom: []
       fax_number:
@@ -145,7 +145,7 @@ endpoints:
         name: address
         description: ''
         required: true
-        example: minus
+        example: delectus
         type: string
         custom: []
       fax_number:

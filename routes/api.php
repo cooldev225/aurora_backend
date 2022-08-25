@@ -134,17 +134,10 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager,receptionist,anesthetist,specialist',
     ])->group(function () {
-        Route::apiResource(
-            'clinics/{clinic_id}/rooms',
-            RoomController::class,
-            ['except' => ['show']]
-        );
 
+        Route::apiResource('clinics/{clinic_id}/rooms',RoomController::class,['except' => ['show']]);
 
-        Route::apiResource('referring-doctors',
-        ReferringDoctorController::class,
-        ['except' => ['show']]
-        );
+        Route::apiResource('referring-doctors', ReferringDoctorController::class,['except' => ['show']]);
 
         Route::get('user-appointments', [UserAppointmentController::class, 'index']);
     
@@ -166,47 +159,21 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/referral/{appointment}', [AppointmentReferralController::class,'update']);
         });
 
-     
-
     
-
-        Route::get('/available-slots', [
-            AppointmentController::class,
-            'availableSlots',
-        ]);
+        Route::get('/available-slots', [AppointmentController::class, 'availableSlots']);
         Route::get('/organizations', [OrganizationController::class, 'index']);
-        Route::get('/appointment-types', [
-            AppointmentTypeController::class,
-            'index',
-        ]);
-        Route::get('appointment-time-requirements', [
-            AppointmentTimeRequirementController::class,
-            'index',
-        ]);
+        Route::get('/appointment-types', [AppointmentTypeController::class,'index']);
+        Route::get('appointment-time-requirements', [AppointmentTimeRequirementController::class,'index']);
         Route::get('/work-hours', [SpecialistController::class, 'workHours']);
-        Route::get('/work-hours-by-week', [
-            SpecialistController::class,
-            'workHoursByWeek',
-        ]);
+        Route::get('/work-hours-by-week', [SpecialistController::class,'workHoursByWeek']);
         Route::get('/clinics', [ClinicController::class, 'index']);
         Route::get('/specialists', [SpecialistController::class, 'index']);
-        Route::get('/anesthetists', [
-            EmployeeController::class,
-            'anesthetists',
-        ]);
-        Route::get('/health-funds', [HealthFundController::class, 'index']);
-        Route::get('/anesthetic-questions', [
-            AnestheticQuestionController::class,
-            'index',
-        ]);
+        Route::get('/anesthetists', [EmployeeController::class,'anesthetists']);
 
-        Route::get('/notification-templates', [
-            NotificationTemplateController::class,
-            'index',
-        ]);
-        Route::prefix('patient')->group(function () {
-            Route::apiResource('recalls', PatientRecallController::class, ['except' => ['show']]);
-        });
+        Route::get('/health-funds', [HealthFundController::class, 'index']);
+        Route::get('/anesthetic-questions', [AnestheticQuestionController::class,]);
+        Route::get('/notification-templates', [NotificationTemplateController::class,'index',]);
+     
 
         Route::apiResource('patient-documents',
             PatientDocumentController::class,
@@ -259,25 +226,21 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager,specialist',
     ])->group(function () {
-        Route::apiResource('patients',
-            PatientController::class,
-            ['except' => ['create']]
-        );
-        Route::get('patients/appointments/{patient}', [PatientController::class, 'appointments']);
+       
 
-        Route::apiResource('letter-templates',
-            LetterTemplateController::class,
-            ['except' => ['show']]
-        );
+        Route::prefix('patients')->group(function () {
+            Route::apiResource('/',PatientController::class,['except' => ['create']]);
+            Route::get('recalls/{patient}', [PatientRecallController::class, 'index']);
+            Route::apiResource('recalls', PatientRecallController::class, ['except' => ['show', 'index']]);
+            Route::get('appointments/{patient}', [PatientController::class, 'appointments']);
+        });
+        
+        Route::apiResource('letter-templates', LetterTemplateController::class, ['except' => ['show']]);
     });
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
         Route::get('/procedure-approvals', [AppointmentProcedureApprovalController::class, 'index']);
-
-        Route::put('appointment/{appointment}/procedure-approvals', [
-            AppointmentProcedureApprovalController::class,
-            'update',
-        ]);
+        Route::put('appointment/{appointment}/procedure-approvals', [ AppointmentProcedureApprovalController::class,'update']);
     });
 });
 

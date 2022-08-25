@@ -12,6 +12,8 @@ class PatientController extends Controller
     /**
      * [Patient] - List
      *
+     * Returns a lists of all patients 
+     * 
      * @group Patients
      * @responseFile storage/responses/patients.show.json
      */
