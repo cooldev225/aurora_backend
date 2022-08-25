@@ -310,18 +310,6 @@
                                     <li class="tocify-item level-2" data-unique="endpoints-GETemployee-roles">
                         <a href="#endpoints-GETemployee-roles">[User&#039;s Role] - Employee Role List</a>
                     </li>
-                                    <li class="tocify-item level-2" data-unique="endpoints-GETpatient-recalls">
-                        <a href="#endpoints-GETpatient-recalls">[Patient Recall] - List</a>
-                    </li>
-                                    <li class="tocify-item level-2" data-unique="endpoints-POSTpatient-recalls">
-                        <a href="#endpoints-POSTpatient-recalls">[Patient Recall] - Store</a>
-                    </li>
-                                    <li class="tocify-item level-2" data-unique="endpoints-PUTpatient-recalls--id-">
-                        <a href="#endpoints-PUTpatient-recalls--id-">[Patient Recall] - Update</a>
-                    </li>
-                                    <li class="tocify-item level-2" data-unique="endpoints-DELETEpatient-recalls--id-">
-                        <a href="#endpoints-DELETEpatient-recalls--id-">[Patient Recall] - Destroy</a>
-                    </li>
                                     <li class="tocify-item level-2" data-unique="endpoints-GETreport-templates">
                         <a href="#endpoints-GETreport-templates">[Report Template] - List</a>
                     </li>
@@ -547,6 +535,18 @@
                                     <li class="tocify-item level-2" data-unique="endpoints-PUTappointments-confirmation-status--appointment_id-">
                         <a href="#endpoints-PUTappointments-confirmation-status--appointment_id-">Updated the Appointment &#039;confirmation_status&#039; along with the reason for the status</a>
                     </li>
+                                    <li class="tocify-item level-2" data-unique="endpoints-GETpatient-recalls">
+                        <a href="#endpoints-GETpatient-recalls">[Patient Recall] - List all recalls for this patient</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="endpoints-POSTpatient-recalls">
+                        <a href="#endpoints-POSTpatient-recalls">[Patient Recall] - Store</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="endpoints-PUTpatient-recalls--id-">
+                        <a href="#endpoints-PUTpatient-recalls--id-">[Patient Recall] - Update</a>
+                    </li>
+                                    <li class="tocify-item level-2" data-unique="endpoints-DELETEpatient-recalls--id-">
+                        <a href="#endpoints-DELETEpatient-recalls--id-">[Patient Recall] - Destroy</a>
+                    </li>
                                                     </ul>
                             </ul>
                     <ul id="tocify-header-5" class="tocify-header">
@@ -575,7 +575,7 @@
                             <li><a href="http://github.com/knuckleswtf/scribe">Documentation powered by Scribe ✍</a></li>
                     </ul>
         <ul class="toc-footer" id="last-updated">
-        <li>Last updated: August 24 2022</li>
+        <li>Last updated: August 25 2022</li>
     </ul>
 </div>
 
@@ -593,7 +593,7 @@ You can switch the language used with the tabs at the top right (or from the nav
 <pre><code class="language-yaml">http://localhost</code></pre>
 
         <h1 id="authenticating-requests">Authenticating requests</h1>
-<p>Authenticate requests to this API's endpoints by sending an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_AUTH_KEY}"</code></strong>.</p>
+<p>This API is authenticated by sending an <strong><code>Authorization</code></strong> header with the value <strong><code>"Bearer {YOUR_AUTH_KEY}"</code></strong>.</p>
 <p>All authenticated endpoints are marked with a <code>requires authentication</code> badge in the documentation below.</p>
 <p>You can retrieve your token by visiting your dashboard and clicking <b>Generate API token</b>.</p>
 
@@ -622,7 +622,7 @@ You can switch the language used with the tabs at the top right (or from the nav
     --form "referring_doctor_id=2" \
     --form "referral_date=1993-23-03" \
     --form "referral_duration=3" \
-    --form "file=@C:\Users\user\AppData\Local\Temp\phpFC14.tmp" </code></pre></div>
+    --form "file=@C:\Users\user\AppData\Local\Temp\php8266.tmp" </code></pre></div>
 
 
 <div class="javascript-example">
@@ -923,7 +923,7 @@ fetch(url, {
     \"name\": \"Frankston Practice\",
     \"email\": \"reception@franksonpracktice.com.au\",
     \"phone_number\": \"04-3456-2342\",
-    \"address\": \"quo\",
+    \"address\": \"neque\",
     \"hospital_provider_number\": \"31452352F\",
     \"VAED_number\": \"234234\",
     \"specimen_collection_point_number\": \"234234\",
@@ -947,7 +947,7 @@ let body = {
     "name": "Frankston Practice",
     "email": "reception@franksonpracktice.com.au",
     "phone_number": "04-3456-2342",
-    "address": "quo",
+    "address": "neque",
     "hospital_provider_number": "31452352F",
     "VAED_number": "234234",
     "specimen_collection_point_number": "234234",
@@ -1047,7 +1047,7 @@ fetch(url, {
                 <input type="text"
                name="address"
                data-endpoint="POSTclinics"
-               value="quo"
+               value="neque"
                data-component="body" hidden>
     <br>
 
@@ -1146,7 +1146,7 @@ fetch(url, {
     \"name\": \"Frankston Practice\",
     \"email\": \"reception@franksonpracktice.com.au\",
     \"phone_number\": \"04-3456-2342\",
-    \"address\": \"in\",
+    \"address\": \"minus\",
     \"hospital_provider_number\": \"31452352F\",
     \"VAED_number\": \"234234\",
     \"specimen_collection_point_number\": \"234234\",
@@ -1170,7 +1170,7 @@ let body = {
     "name": "Frankston Practice",
     "email": "reception@franksonpracktice.com.au",
     "phone_number": "04-3456-2342",
-    "address": "in",
+    "address": "minus",
     "hospital_provider_number": "31452352F",
     "VAED_number": "234234",
     "specimen_collection_point_number": "234234",
@@ -1285,7 +1285,7 @@ fetch(url, {
                 <input type="text"
                name="address"
                data-endpoint="PUTclinics--id-"
-               value="in"
+               value="minus"
                data-component="body" hidden>
     <br>
 
@@ -1610,9 +1610,9 @@ fetch(url, {
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"username\": \"wufveaucaghmnhwozanlqoaieisaaqioeetvxofoagqejosuoaucojnxhcywaqbwsexgvhkdc\",
-    \"email\": \"brisa87@example.com\",
-    \"password\": \"m\"
+    \"username\": \"egcgnnqcb\",
+    \"email\": \"braun.meggie@example.org\",
+    \"password\": \"ca\"
 }"
 </code></pre></div>
 
@@ -1629,9 +1629,9 @@ const headers = {
 };
 
 let body = {
-    "username": "wufveaucaghmnhwozanlqoaieisaaqioeetvxofoagqejosuoaucojnxhcywaqbwsexgvhkdc",
-    "email": "brisa87@example.com",
-    "password": "m"
+    "username": "egcgnnqcb",
+    "email": "braun.meggie@example.org",
+    "password": "ca"
 };
 
 fetch(url, {
@@ -1697,7 +1697,7 @@ fetch(url, {
                 <input type="text"
                name="username"
                data-endpoint="POSTlogin"
-               value="wufveaucaghmnhwozanlqoaieisaaqioeetvxofoagqejosuoaucojnxhcywaqbwsexgvhkdc"
+               value="egcgnnqcb"
                data-component="body" hidden>
     <br>
 <p>Must be at least 2 characters. Must not be greater than 100 characters.</p>
@@ -1707,7 +1707,7 @@ fetch(url, {
                 <input type="text"
                name="email"
                data-endpoint="POSTlogin"
-               value="brisa87@example.com"
+               value="braun.meggie@example.org"
                data-component="body" hidden>
     <br>
 <p>Must be a valid email address.</p>
@@ -1717,7 +1717,7 @@ fetch(url, {
                 <input type="text"
                name="password"
                data-endpoint="POSTlogin"
-               value="m"
+               value="ca"
                data-component="body" hidden>
     <br>
 <p>Must be at least 6 characters.</p>
@@ -2311,9 +2311,9 @@ access-control-allow-origin: *
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"old_password\": \"jtw\",
-    \"new_password\": \"air\",
-    \"confirm_password\": \"b\"
+    \"old_password\": \"\",
+    \"new_password\": \"\",
+    \"confirm_password\": \"\"
 }"
 </code></pre></div>
 
@@ -2330,9 +2330,9 @@ const headers = {
 };
 
 let body = {
-    "old_password": "jtw",
-    "new_password": "air",
-    "confirm_password": "b"
+    "old_password": "",
+    "new_password": "",
+    "confirm_password": ""
 };
 
 fetch(url, {
@@ -2398,7 +2398,7 @@ fetch(url, {
                 <input type="text"
                name="old_password"
                data-endpoint="POSTchange-password"
-               value="jtw"
+               value=""
                data-component="body" hidden>
     <br>
 <p>Must be at least 6 characters.</p>
@@ -2408,7 +2408,7 @@ fetch(url, {
                 <input type="text"
                name="new_password"
                data-endpoint="POSTchange-password"
-               value="air"
+               value=""
                data-component="body" hidden>
     <br>
 <p>The value and <code>old_password</code> must be different. Must be at least 6 characters.</p>
@@ -2418,7 +2418,7 @@ fetch(url, {
                 <input type="text"
                name="confirm_password"
                data-endpoint="POSTchange-password"
-               value="b"
+               value=""
                data-component="body" hidden>
     <br>
 <p>The value and <code>new_password</code> must match. Must be at least 6 characters.</p>
@@ -2439,7 +2439,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/appointment_pre_admissions/show/consectetur" \
+    --get "http://localhost/appointment_pre_admissions/show/ad" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -2447,7 +2447,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/appointment_pre_admissions/show/consectetur"
+    "http://localhost/appointment_pre_admissions/show/ad"
 );
 
 const headers = {
@@ -2535,7 +2535,7 @@ access-control-allow-origin: *
                 <input type="text"
                name="token"
                data-endpoint="GETappointment_pre_admissions-show--token-"
-               value="consectetur"
+               value="ad"
                data-component="url" hidden>
     <br>
 
@@ -2556,7 +2556,7 @@ access-control-allow-origin: *
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/appointment_pre_admissions/validate/consequatur" \
+    "http://localhost/appointment_pre_admissions/validate/ut" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -2564,7 +2564,7 @@ access-control-allow-origin: *
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/appointment_pre_admissions/validate/consequatur"
+    "http://localhost/appointment_pre_admissions/validate/ut"
 );
 
 const headers = {
@@ -2635,7 +2635,7 @@ fetch(url, {
                 <input type="text"
                name="token"
                data-endpoint="POSTappointment_pre_admissions-validate--token-"
-               value="consequatur"
+               value="ut"
                data-component="url" hidden>
     <br>
 
@@ -2656,7 +2656,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/appointment_pre_admissions/store/non" \
+    "http://localhost/appointment_pre_admissions/store/provident" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -2664,7 +2664,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/appointment_pre_admissions/store/non"
+    "http://localhost/appointment_pre_admissions/store/provident"
 );
 
 const headers = {
@@ -2735,7 +2735,7 @@ fetch(url, {
                 <input type="text"
                name="token"
                data-endpoint="POSTappointment_pre_admissions-store--token-"
-               value="non"
+               value="provident"
                data-component="url" hidden>
     <br>
 
@@ -3083,7 +3083,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/mails/bookmark/quaerat" \
+    "http://localhost/mails/bookmark/consectetur" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -3091,7 +3091,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/mails/bookmark/quaerat"
+    "http://localhost/mails/bookmark/consectetur"
 );
 
 const headers = {
@@ -3162,7 +3162,7 @@ fetch(url, {
                 <input type="text"
                name="id"
                data-endpoint="PUTmails-bookmark--id-"
-               value="quaerat"
+               value="consectetur"
                data-component="url" hidden>
     <br>
 <p>The ID of the bookmark.</p>
@@ -3183,7 +3183,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/mails/delete/qui" \
+    "http://localhost/mails/delete/quasi" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -3191,7 +3191,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/mails/delete/qui"
+    "http://localhost/mails/delete/quasi"
 );
 
 const headers = {
@@ -3262,7 +3262,7 @@ fetch(url, {
                 <input type="text"
                name="id"
                data-endpoint="PUTmails-delete--id-"
-               value="qui"
+               value="quasi"
                data-component="url" hidden>
     <br>
 <p>The ID of the delete.</p>
@@ -3283,7 +3283,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/mails/restore/dolor" \
+    "http://localhost/mails/restore/eos" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -3291,7 +3291,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/mails/restore/dolor"
+    "http://localhost/mails/restore/eos"
 );
 
 const headers = {
@@ -3362,7 +3362,7 @@ fetch(url, {
                 <input type="text"
                name="id"
                data-endpoint="PUTmails-restore--id-"
-               value="dolor"
+               value="eos"
                data-component="url" hidden>
     <br>
 <p>The ID of the restore.</p>
@@ -3837,7 +3837,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/admins/voluptatem" \
+    "http://localhost/admins/illo" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -3850,7 +3850,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/admins/voluptatem"
+    "http://localhost/admins/illo"
 );
 
 const headers = {
@@ -3931,7 +3931,7 @@ fetch(url, {
                 <input type="text"
                name="id"
                data-endpoint="PUTadmins--id-"
-               value="voluptatem"
+               value="illo"
                data-component="url" hidden>
     <br>
 <p>The ID of the admin.</p>
@@ -3973,7 +3973,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/admins/ullam" \
+    "http://localhost/admins/sit" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -3981,7 +3981,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/admins/ullam"
+    "http://localhost/admins/sit"
 );
 
 const headers = {
@@ -4052,7 +4052,7 @@ fetch(url, {
                 <input type="text"
                name="id"
                data-endpoint="DELETEadmins--id-"
-               value="ullam"
+               value="sit"
                data-component="url" hidden>
     <br>
 <p>The ID of the admin.</p>
@@ -4835,7 +4835,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/birth-codes/20" \
+    "http://localhost/birth-codes/9" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -4848,7 +4848,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/birth-codes/20"
+    "http://localhost/birth-codes/9"
 );
 
 const headers = {
@@ -4929,7 +4929,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="PUTbirth-codes--id-"
-               value="20"
+               value="9"
                data-component="url" hidden>
     <br>
 <p>The ID of the birth code.</p>
@@ -4971,7 +4971,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/birth-codes/9" \
+    "http://localhost/birth-codes/15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -4979,7 +4979,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/birth-codes/9"
+    "http://localhost/birth-codes/15"
 );
 
 const headers = {
@@ -5050,7 +5050,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEbirth-codes--id-"
-               value="9"
+               value="15"
                data-component="url" hidden>
     <br>
 <p>The ID of the birth code.</p>
@@ -5709,7 +5709,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/organization-admins/tempore" \
+    "http://localhost/organization-admins/optio" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -5722,7 +5722,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/organization-admins/tempore"
+    "http://localhost/organization-admins/optio"
 );
 
 const headers = {
@@ -5803,7 +5803,7 @@ fetch(url, {
                 <input type="text"
                name="id"
                data-endpoint="PUTorganization-admins--id-"
-               value="tempore"
+               value="optio"
                data-component="url" hidden>
     <br>
 <p>The ID of the organization admin.</p>
@@ -5845,7 +5845,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/organization-admins/earum" \
+    "http://localhost/organization-admins/iste" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -5853,7 +5853,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/organization-admins/earum"
+    "http://localhost/organization-admins/iste"
 );
 
 const headers = {
@@ -5924,7 +5924,7 @@ fetch(url, {
                 <input type="text"
                name="id"
                data-endpoint="DELETEorganization-admins--id-"
-               value="earum"
+               value="iste"
                data-component="url" hidden>
     <br>
 <p>The ID of the organization admin.</p>
@@ -6184,7 +6184,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/organization-managers/sed" \
+    "http://localhost/organization-managers/nihil" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -6197,7 +6197,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/organization-managers/sed"
+    "http://localhost/organization-managers/nihil"
 );
 
 const headers = {
@@ -6278,7 +6278,7 @@ fetch(url, {
                 <input type="text"
                name="id"
                data-endpoint="PUTorganization-managers--id-"
-               value="sed"
+               value="nihil"
                data-component="url" hidden>
     <br>
 <p>The ID of the organization manager.</p>
@@ -6320,7 +6320,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/organization-managers/quia" \
+    "http://localhost/organization-managers/molestiae" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -6328,7 +6328,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/organization-managers/quia"
+    "http://localhost/organization-managers/molestiae"
 );
 
 const headers = {
@@ -6399,7 +6399,7 @@ fetch(url, {
                 <input type="text"
                name="id"
                data-endpoint="DELETEorganization-managers--id-"
-               value="quia"
+               value="molestiae"
                data-component="url" hidden>
     <br>
 <p>The ID of the organization manager.</p>
@@ -6647,7 +6647,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/appointment-time-requirements/1" \
+    "http://localhost/appointment-time-requirements/6" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -6660,7 +6660,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/appointment-time-requirements/1"
+    "http://localhost/appointment-time-requirements/6"
 );
 
 const headers = {
@@ -6741,7 +6741,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="PUTappointment-time-requirements--id-"
-               value="1"
+               value="6"
                data-component="url" hidden>
     <br>
 <p>The ID of the appointment time requirement.</p>
@@ -6783,7 +6783,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/appointment-time-requirements/1" \
+    "http://localhost/appointment-time-requirements/11" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -6791,7 +6791,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/appointment-time-requirements/1"
+    "http://localhost/appointment-time-requirements/11"
 );
 
 const headers = {
@@ -6862,7 +6862,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEappointment-time-requirements--id-"
-               value="1"
+               value="11"
                data-component="url" hidden>
     <br>
 <p>The ID of the appointment time requirement.</p>
@@ -7691,7 +7691,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/notification-templates/1" \
+    "http://localhost/notification-templates/12" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -7706,7 +7706,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/notification-templates/1"
+    "http://localhost/notification-templates/12"
 );
 
 const headers = {
@@ -7789,7 +7789,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="PUTnotification-templates--id-"
-               value="1"
+               value="12"
                data-component="url" hidden>
     <br>
 <p>The ID of the notification template.</p>
@@ -7851,7 +7851,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/notification-templates/1" \
+    "http://localhost/notification-templates/2" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -7859,7 +7859,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/notification-templates/1"
+    "http://localhost/notification-templates/2"
 );
 
 const headers = {
@@ -7930,7 +7930,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEnotification-templates--id-"
-               value="1"
+               value="2"
                data-component="url" hidden>
     <br>
 <p>The ID of the notification template.</p>
@@ -9392,517 +9392,6 @@ access-control-allow-origin: *
         </p>
                 </form>
 
-            <h2 id="endpoints-GETpatient-recalls">[Patient Recall] - List</h2>
-
-<p>
-<small class="badge badge-darkred">requires authentication</small>
-</p>
-
-
-
-<span id="example-requests-GETpatient-recalls">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/patient-recalls" \
-    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-recalls"
-);
-
-const headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "GET",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-GETpatient-recalls">
-            <blockquote>
-            <p>Example response (401):</p>
-        </blockquote>
-                <details class="annotation">
-            <summary>
-                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
-            </summary>
-            <pre><code class="language-http">cache-control: no-cache, private
-content-type: application/json
-access-control-allow-origin: *
- </code></pre>
-        </details>         <pre>
-
-<code class="language-json">{
-    &quot;message&quot;: &quot;Unauthenticated.&quot;
-}</code>
- </pre>
-    </span>
-<span id="execution-results-GETpatient-recalls" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-GETpatient-recalls"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-GETpatient-recalls"></code></pre>
-</span>
-<span id="execution-error-GETpatient-recalls" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETpatient-recalls"></code></pre>
-</span>
-<form id="form-GETpatient-recalls" data-method="GET"
-      data-path="patient-recalls"
-      data-authed="1"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETpatient-recalls', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETpatient-recalls"
-                    onclick="tryItOut('GETpatient-recalls');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETpatient-recalls"
-                    onclick="cancelTryOut('GETpatient-recalls');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETpatient-recalls" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-green">GET</small>
-            <b><code>patient-recalls</code></b>
-        </p>
-                <p>
-            <label id="auth-GETpatient-recalls" hidden>Authorization header:
-                <b><code>Bearer </code></b><input type="text"
-                                                                name="Authorization"
-                                                                data-prefix="Bearer "
-                                                                data-endpoint="GETpatient-recalls"
-                                                                data-component="header"></label>
-        </p>
-                </form>
-
-            <h2 id="endpoints-POSTpatient-recalls">[Patient Recall] - Store</h2>
-
-<p>
-<small class="badge badge-darkred">requires authentication</small>
-</p>
-
-
-
-<span id="example-requests-POSTpatient-recalls">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request POST \
-    "http://localhost/patient-recalls" \
-    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"patient_id\": 0,
-    \"organization_id\": 0,
-    \"time_frame\": 0,
-    \"reason\": \"\"
-}"
-</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-recalls"
-);
-
-const headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-let body = {
-    "patient_id": 0,
-    "organization_id": 0,
-    "time_frame": 0,
-    "reason": ""
-};
-
-fetch(url, {
-    method: "POST",
-    headers,
-    body: JSON.stringify(body),
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-POSTpatient-recalls">
-</span>
-<span id="execution-results-POSTpatient-recalls" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-POSTpatient-recalls"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTpatient-recalls"></code></pre>
-</span>
-<span id="execution-error-POSTpatient-recalls" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTpatient-recalls"></code></pre>
-</span>
-<form id="form-POSTpatient-recalls" data-method="POST"
-      data-path="patient-recalls"
-      data-authed="1"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTpatient-recalls', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTpatient-recalls"
-                    onclick="tryItOut('POSTpatient-recalls');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTpatient-recalls"
-                    onclick="cancelTryOut('POSTpatient-recalls');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTpatient-recalls" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-black">POST</small>
-            <b><code>patient-recalls</code></b>
-        </p>
-                <p>
-            <label id="auth-POSTpatient-recalls" hidden>Authorization header:
-                <b><code>Bearer </code></b><input type="text"
-                                                                name="Authorization"
-                                                                data-prefix="Bearer "
-                                                                data-endpoint="POSTpatient-recalls"
-                                                                data-component="header"></label>
-        </p>
-                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <p>
-            <b><code>patient_id</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
-                <input type="number"
-               name="patient_id"
-               data-endpoint="POSTpatient-recalls"
-               value="0"
-               data-component="body" hidden>
-    <br>
-
-        </p>
-                <p>
-            <b><code>organization_id</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
-                <input type="number"
-               name="organization_id"
-               data-endpoint="POSTpatient-recalls"
-               value="0"
-               data-component="body" hidden>
-    <br>
-
-        </p>
-                <p>
-            <b><code>time_frame</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
-                <input type="number"
-               name="time_frame"
-               data-endpoint="POSTpatient-recalls"
-               value="0"
-               data-component="body" hidden>
-    <br>
-
-        </p>
-                <p>
-            <b><code>reason</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
-                <input type="text"
-               name="reason"
-               data-endpoint="POSTpatient-recalls"
-               value=""
-               data-component="body" hidden>
-    <br>
-
-        </p>
-        </form>
-
-            <h2 id="endpoints-PUTpatient-recalls--id-">[Patient Recall] - Update</h2>
-
-<p>
-<small class="badge badge-darkred">requires authentication</small>
-</p>
-
-
-
-<span id="example-requests-PUTpatient-recalls--id-">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/patient-recalls/2" \
-    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json" \
-    --data "{
-    \"patient_id\": 0,
-    \"organization_id\": 0,
-    \"time_frame\": 0,
-    \"reason\": \"\"
-}"
-</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-recalls/2"
-);
-
-const headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-let body = {
-    "patient_id": 0,
-    "organization_id": 0,
-    "time_frame": 0,
-    "reason": ""
-};
-
-fetch(url, {
-    method: "PUT",
-    headers,
-    body: JSON.stringify(body),
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-PUTpatient-recalls--id-">
-</span>
-<span id="execution-results-PUTpatient-recalls--id-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-PUTpatient-recalls--id-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-PUTpatient-recalls--id-"></code></pre>
-</span>
-<span id="execution-error-PUTpatient-recalls--id-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-PUTpatient-recalls--id-"></code></pre>
-</span>
-<form id="form-PUTpatient-recalls--id-" data-method="PUT"
-      data-path="patient-recalls/{id}"
-      data-authed="1"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('PUTpatient-recalls--id-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-PUTpatient-recalls--id-"
-                    onclick="tryItOut('PUTpatient-recalls--id-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-PUTpatient-recalls--id-"
-                    onclick="cancelTryOut('PUTpatient-recalls--id-');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-PUTpatient-recalls--id-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-darkblue">PUT</small>
-            <b><code>patient-recalls/{id}</code></b>
-        </p>
-            <p>
-            <small class="badge badge-purple">PATCH</small>
-            <b><code>patient-recalls/{id}</code></b>
-        </p>
-                <p>
-            <label id="auth-PUTpatient-recalls--id-" hidden>Authorization header:
-                <b><code>Bearer </code></b><input type="text"
-                                                                name="Authorization"
-                                                                data-prefix="Bearer "
-                                                                data-endpoint="PUTpatient-recalls--id-"
-                                                                data-component="header"></label>
-        </p>
-                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="id"
-               data-endpoint="PUTpatient-recalls--id-"
-               value="2"
-               data-component="url" hidden>
-    <br>
-<p>The ID of the patient recall.</p>
-            </p>
-                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
-        <p>
-            <b><code>patient_id</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
-                <input type="number"
-               name="patient_id"
-               data-endpoint="PUTpatient-recalls--id-"
-               value="0"
-               data-component="body" hidden>
-    <br>
-
-        </p>
-                <p>
-            <b><code>organization_id</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
-                <input type="number"
-               name="organization_id"
-               data-endpoint="PUTpatient-recalls--id-"
-               value="0"
-               data-component="body" hidden>
-    <br>
-
-        </p>
-                <p>
-            <b><code>time_frame</code></b>&nbsp;&nbsp;<small>number</small>  &nbsp;
-                <input type="number"
-               name="time_frame"
-               data-endpoint="PUTpatient-recalls--id-"
-               value="0"
-               data-component="body" hidden>
-    <br>
-
-        </p>
-                <p>
-            <b><code>reason</code></b>&nbsp;&nbsp;<small>string</small>     <i>optional</i> &nbsp;
-                <input type="text"
-               name="reason"
-               data-endpoint="PUTpatient-recalls--id-"
-               value=""
-               data-component="body" hidden>
-    <br>
-
-        </p>
-        </form>
-
-            <h2 id="endpoints-DELETEpatient-recalls--id-">[Patient Recall] - Destroy</h2>
-
-<p>
-<small class="badge badge-darkred">requires authentication</small>
-</p>
-
-
-
-<span id="example-requests-DELETEpatient-recalls--id-">
-<blockquote>Example request:</blockquote>
-
-
-<div class="bash-example">
-    <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/patient-recalls/5" \
-    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
-    --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
-
-
-<div class="javascript-example">
-    <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-recalls/5"
-);
-
-const headers = {
-    "Authorization": "Bearer {YOUR_AUTH_KEY}",
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-};
-
-fetch(url, {
-    method: "DELETE",
-    headers,
-}).then(response =&gt; response.json());</code></pre></div>
-
-</span>
-
-<span id="example-responses-DELETEpatient-recalls--id-">
-</span>
-<span id="execution-results-DELETEpatient-recalls--id-" hidden>
-    <blockquote>Received response<span
-                id="execution-response-status-DELETEpatient-recalls--id-"></span>:
-    </blockquote>
-    <pre class="json"><code id="execution-response-content-DELETEpatient-recalls--id-"></code></pre>
-</span>
-<span id="execution-error-DELETEpatient-recalls--id-" hidden>
-    <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-DELETEpatient-recalls--id-"></code></pre>
-</span>
-<form id="form-DELETEpatient-recalls--id-" data-method="DELETE"
-      data-path="patient-recalls/{id}"
-      data-authed="1"
-      data-hasfiles="0"
-      data-isarraybody="0"
-      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
-      autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('DELETEpatient-recalls--id-', this);">
-    <h3>
-        Request&nbsp;&nbsp;&nbsp;
-                    <button type="button"
-                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-DELETEpatient-recalls--id-"
-                    onclick="tryItOut('DELETEpatient-recalls--id-');">Try it out ⚡
-            </button>
-            <button type="button"
-                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-DELETEpatient-recalls--id-"
-                    onclick="cancelTryOut('DELETEpatient-recalls--id-');" hidden>Cancel 🛑
-            </button>&nbsp;&nbsp;
-            <button type="submit"
-                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-DELETEpatient-recalls--id-" hidden>Send Request 💥
-            </button>
-            </h3>
-            <p>
-            <small class="badge badge-red">DELETE</small>
-            <b><code>patient-recalls/{id}</code></b>
-        </p>
-                <p>
-            <label id="auth-DELETEpatient-recalls--id-" hidden>Authorization header:
-                <b><code>Bearer </code></b><input type="text"
-                                                                name="Authorization"
-                                                                data-prefix="Bearer "
-                                                                data-endpoint="DELETEpatient-recalls--id-"
-                                                                data-component="header"></label>
-        </p>
-                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
-                    <p>
-                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
-                <input type="number"
-               name="id"
-               data-endpoint="DELETEpatient-recalls--id-"
-               value="5"
-               data-component="url" hidden>
-    <br>
-<p>The ID of the patient recall.</p>
-            </p>
-                    </form>
-
             <h2 id="endpoints-GETreport-templates">[Report Template] - List</h2>
 
 <p>
@@ -10256,7 +9745,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/report-templates/1" \
+    "http://localhost/report-templates/14" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -10264,7 +9753,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/report-templates/1"
+    "http://localhost/report-templates/14"
 );
 
 const headers = {
@@ -10335,7 +9824,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEreport-templates--id-"
-               value="1"
+               value="14"
                data-component="url" hidden>
     <br>
 <p>The ID of the report template.</p>
@@ -10695,7 +10184,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/pre-admission-sections/1" \
+    "http://localhost/pre-admission-sections/2" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -10703,7 +10192,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/pre-admission-sections/1"
+    "http://localhost/pre-admission-sections/2"
 );
 
 const headers = {
@@ -10774,7 +10263,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEpre-admission-sections--id-"
-               value="1"
+               value="2"
                data-component="url" hidden>
     <br>
 <p>The ID of the pre admission section.</p>
@@ -13482,7 +12971,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/appointments/wait-listed/aut" \
+    "http://localhost/appointments/wait-listed/necessitatibus" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -13490,7 +12979,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/appointments/wait-listed/aut"
+    "http://localhost/appointments/wait-listed/necessitatibus"
 );
 
 const headers = {
@@ -13561,7 +13050,7 @@ fetch(url, {
                 <input type="text"
                name="appointment"
                data-endpoint="PUTappointments-wait-listed--appointment-"
-               value="aut"
+               value="necessitatibus"
                data-component="url" hidden>
     <br>
 
@@ -14373,7 +13862,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/patient-documents-letter/1" \
+    "http://localhost/patient-documents-letter/8" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -14388,7 +13877,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-documents-letter/1"
+    "http://localhost/patient-documents-letter/8"
 );
 
 const headers = {
@@ -14471,7 +13960,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="PUTpatient-documents-letter--id-"
-               value="1"
+               value="8"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient documents letter.</p>
@@ -14533,7 +14022,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/patient-documents-letter/1" \
+    "http://localhost/patient-documents-letter/8" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -14541,7 +14030,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-documents-letter/1"
+    "http://localhost/patient-documents-letter/8"
 );
 
 const headers = {
@@ -14612,7 +14101,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEpatient-documents-letter--id-"
-               value="1"
+               value="8"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient documents letter.</p>
@@ -14633,7 +14122,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/patient-document/1/letter/upload" \
+    "http://localhost/patient-document/11/letter/upload" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -14648,7 +14137,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-document/1/letter/upload"
+    "http://localhost/patient-document/11/letter/upload"
 );
 
 const headers = {
@@ -14727,7 +14216,7 @@ fetch(url, {
                 <input type="number"
                name="patient_id"
                data-endpoint="POSTpatient-document--patient_id--letter-upload"
-               value="1"
+               value="11"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient.</p>
@@ -14910,7 +14399,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/patient-documents-report/1" \
+    "http://localhost/patient-documents-report/15" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -14923,7 +14412,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-documents-report/1"
+    "http://localhost/patient-documents-report/15"
 );
 
 const headers = {
@@ -15004,7 +14493,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="PUTpatient-documents-report--id-"
-               value="1"
+               value="15"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient documents report.</p>
@@ -15046,7 +14535,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/patient-documents-report/1" \
+    "http://localhost/patient-documents-report/9" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -15054,7 +14543,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-documents-report/1"
+    "http://localhost/patient-documents-report/9"
 );
 
 const headers = {
@@ -15125,7 +14614,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEpatient-documents-report--id-"
-               value="1"
+               value="9"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient documents report.</p>
@@ -15146,7 +14635,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/patient-document/1/report/upload" \
+    "http://localhost/patient-document/6/report/upload" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -15161,7 +14650,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-document/1/report/upload"
+    "http://localhost/patient-document/6/report/upload"
 );
 
 const headers = {
@@ -15240,7 +14729,7 @@ fetch(url, {
                 <input type="number"
                name="patient_id"
                data-endpoint="POSTpatient-document--patient_id--report-upload"
-               value="1"
+               value="6"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient.</p>
@@ -15483,25 +14972,25 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/patient-documents-clinical-note/1" \
+    "http://localhost/patient-documents-clinical-note/14" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"appointment_id\": 16,
-    \"description\": \"ab\",
-    \"diagnosis\": \"quaerat\",
-    \"clinical_assessment\": \"exercitationem\",
-    \"treatment\": \"alias\",
-    \"history\": \"enim\",
-    \"additional_details\": \"in\"
+    \"appointment_id\": 11,
+    \"description\": \"sed\",
+    \"diagnosis\": \"iusto\",
+    \"clinical_assessment\": \"natus\",
+    \"treatment\": \"velit\",
+    \"history\": \"praesentium\",
+    \"additional_details\": \"odit\"
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-documents-clinical-note/1"
+    "http://localhost/patient-documents-clinical-note/14"
 );
 
 const headers = {
@@ -15511,13 +15000,13 @@ const headers = {
 };
 
 let body = {
-    "appointment_id": 16,
-    "description": "ab",
-    "diagnosis": "quaerat",
-    "clinical_assessment": "exercitationem",
-    "treatment": "alias",
-    "history": "enim",
-    "additional_details": "in"
+    "appointment_id": 11,
+    "description": "sed",
+    "diagnosis": "iusto",
+    "clinical_assessment": "natus",
+    "treatment": "velit",
+    "history": "praesentium",
+    "additional_details": "odit"
 };
 
 fetch(url, {
@@ -15587,7 +15076,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="PUTpatient-documents-clinical-note--id-"
-               value="1"
+               value="14"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient documents clinical note.</p>
@@ -15598,7 +15087,7 @@ fetch(url, {
                 <input type="number"
                name="appointment_id"
                data-endpoint="PUTpatient-documents-clinical-note--id-"
-               value="16"
+               value="11"
                data-component="body" hidden>
     <br>
 <p>Appointment ID.</p>
@@ -15608,7 +15097,7 @@ fetch(url, {
                 <input type="text"
                name="description"
                data-endpoint="PUTpatient-documents-clinical-note--id-"
-               value="ab"
+               value="sed"
                data-component="body" hidden>
     <br>
 <p>Description.</p>
@@ -15618,7 +15107,7 @@ fetch(url, {
                 <input type="text"
                name="diagnosis"
                data-endpoint="PUTpatient-documents-clinical-note--id-"
-               value="quaerat"
+               value="iusto"
                data-component="body" hidden>
     <br>
 
@@ -15628,7 +15117,7 @@ fetch(url, {
                 <input type="text"
                name="clinical_assessment"
                data-endpoint="PUTpatient-documents-clinical-note--id-"
-               value="exercitationem"
+               value="natus"
                data-component="body" hidden>
     <br>
 
@@ -15638,7 +15127,7 @@ fetch(url, {
                 <input type="text"
                name="treatment"
                data-endpoint="PUTpatient-documents-clinical-note--id-"
-               value="alias"
+               value="velit"
                data-component="body" hidden>
     <br>
 
@@ -15648,7 +15137,7 @@ fetch(url, {
                 <input type="text"
                name="history"
                data-endpoint="PUTpatient-documents-clinical-note--id-"
-               value="enim"
+               value="praesentium"
                data-component="body" hidden>
     <br>
 
@@ -15658,7 +15147,7 @@ fetch(url, {
                 <input type="text"
                name="additional_details"
                data-endpoint="PUTpatient-documents-clinical-note--id-"
-               value="in"
+               value="odit"
                data-component="body" hidden>
     <br>
 
@@ -15679,7 +15168,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/patient-documents-clinical-note/1" \
+    "http://localhost/patient-documents-clinical-note/16" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -15687,7 +15176,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-documents-clinical-note/1"
+    "http://localhost/patient-documents-clinical-note/16"
 );
 
 const headers = {
@@ -15758,7 +15247,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEpatient-documents-clinical-note--id-"
-               value="1"
+               value="16"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient documents clinical note.</p>
@@ -15779,7 +15268,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/patient-document/1/clinical-note/upload" \
+    "http://localhost/patient-document/2/clinical-note/upload" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -15794,7 +15283,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-document/1/clinical-note/upload"
+    "http://localhost/patient-document/2/clinical-note/upload"
 );
 
 const headers = {
@@ -15873,7 +15362,7 @@ fetch(url, {
                 <input type="number"
                name="patient_id"
                data-endpoint="POSTpatient-document--patient_id--clinical-note-upload"
-               value="1"
+               value="2"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient.</p>
@@ -16068,7 +15557,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/patient-documents-audio/1" \
+    "http://localhost/patient-documents-audio/16" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -16081,7 +15570,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-documents-audio/1"
+    "http://localhost/patient-documents-audio/16"
 );
 
 const headers = {
@@ -16162,7 +15651,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="PUTpatient-documents-audio--id-"
-               value="1"
+               value="16"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient documents audio.</p>
@@ -16204,7 +15693,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/patient-documents-audio/1" \
+    "http://localhost/patient-documents-audio/19" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -16212,7 +15701,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-documents-audio/1"
+    "http://localhost/patient-documents-audio/19"
 );
 
 const headers = {
@@ -16283,7 +15772,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEpatient-documents-audio--id-"
-               value="1"
+               value="19"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient documents audio.</p>
@@ -16304,7 +15793,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/patient-document/1/audio/upload" \
+    "http://localhost/patient-document/13/audio/upload" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -16319,7 +15808,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-document/1/audio/upload"
+    "http://localhost/patient-document/13/audio/upload"
 );
 
 const headers = {
@@ -16398,7 +15887,7 @@ fetch(url, {
                 <input type="number"
                name="patient_id"
                data-endpoint="POSTpatient-document--patient_id--audio-upload"
-               value="1"
+               value="13"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient.</p>
@@ -16460,7 +15949,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/patient-document/1/other/upload" \
+    "http://localhost/patient-document/14/other/upload" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -16475,7 +15964,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/patient-document/1/other/upload"
+    "http://localhost/patient-document/14/other/upload"
 );
 
 const headers = {
@@ -16554,7 +16043,7 @@ fetch(url, {
                 <input type="number"
                name="patient_id"
                data-endpoint="POSTpatient-document--patient_id--other-upload"
-               value="1"
+               value="14"
                data-component="url" hidden>
     <br>
 <p>The ID of the patient.</p>
@@ -16943,7 +16432,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/letter-templates/1" \
+    "http://localhost/letter-templates/16" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -16956,7 +16445,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/letter-templates/1"
+    "http://localhost/letter-templates/16"
 );
 
 const headers = {
@@ -17037,7 +16526,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="PUTletter-templates--id-"
-               value="1"
+               value="16"
                data-component="url" hidden>
     <br>
 <p>The ID of the letter template.</p>
@@ -17079,7 +16568,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/letter-templates/1" \
+    "http://localhost/letter-templates/7" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -17087,7 +16576,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/letter-templates/1"
+    "http://localhost/letter-templates/7"
 );
 
 const headers = {
@@ -17158,7 +16647,7 @@ fetch(url, {
                 <input type="number"
                name="id"
                data-endpoint="DELETEletter-templates--id-"
-               value="1"
+               value="7"
                data-component="url" hidden>
     <br>
 <p>The ID of the letter template.</p>
@@ -17705,7 +17194,7 @@ access-control-allow-origin: *
                             &lt;div class=&quot;box-content&quot;&gt;
                                 &lt;span class=&quot;box-text&quot;&gt;All&lt;/span&gt;
                                 &lt;span class=&quot;box-number&quot;&gt;
-                                    5 entries - 100 %
+                                    3 entries - 100 %
                                 &lt;/span&gt;
                                 &lt;div class=&quot;progress&quot; style=&quot;height: 3px;&quot;&gt;
                                     &lt;div class=&quot;progress-bar&quot; style=&quot;width: 100%&quot;&gt;&lt;/div&gt;
@@ -17773,7 +17262,7 @@ access-control-allow-origin: *
                             &lt;div class=&quot;box-content&quot;&gt;
                                 &lt;span class=&quot;box-text&quot;&gt;Error&lt;/span&gt;
                                 &lt;span class=&quot;box-number&quot;&gt;
-                                    5 entries - 100 %
+                                    3 entries - 100 %
                                 &lt;/span&gt;
                                 &lt;div class=&quot;progress&quot; style=&quot;height: 3px;&quot;&gt;
                                     &lt;div class=&quot;progress-bar&quot; style=&quot;width: 100%&quot;&gt;&lt;/div&gt;
@@ -17877,7 +17366,7 @@ access-control-allow-origin: *
         $(function() {
             new Chart(document.getElementById(&quot;stats-doughnut-chart&quot;), {
                 type: &#039;doughnut&#039;,
-                data: {&quot;labels&quot;:[&quot;Emergency&quot;,&quot;Alert&quot;,&quot;Critical&quot;,&quot;Error&quot;,&quot;Warning&quot;,&quot;Notice&quot;,&quot;Info&quot;,&quot;Debug&quot;],&quot;datasets&quot;:[{&quot;data&quot;:[0,0,0,5,0,0,0,0],&quot;backgroundColor&quot;:[&quot;#B71C1C&quot;,&quot;#D32F2F&quot;,&quot;#F44336&quot;,&quot;#FF5722&quot;,&quot;#FF9100&quot;,&quot;#4CAF50&quot;,&quot;#1976D2&quot;,&quot;#90CAF9&quot;],&quot;hoverBackgroundColor&quot;:[&quot;#B71C1C&quot;,&quot;#D32F2F&quot;,&quot;#F44336&quot;,&quot;#FF5722&quot;,&quot;#FF9100&quot;,&quot;#4CAF50&quot;,&quot;#1976D2&quot;,&quot;#90CAF9&quot;]}]},
+                data: {&quot;labels&quot;:[&quot;Emergency&quot;,&quot;Alert&quot;,&quot;Critical&quot;,&quot;Error&quot;,&quot;Warning&quot;,&quot;Notice&quot;,&quot;Info&quot;,&quot;Debug&quot;],&quot;datasets&quot;:[{&quot;data&quot;:[0,0,0,3,0,0,0,0],&quot;backgroundColor&quot;:[&quot;#B71C1C&quot;,&quot;#D32F2F&quot;,&quot;#F44336&quot;,&quot;#FF5722&quot;,&quot;#FF9100&quot;,&quot;#4CAF50&quot;,&quot;#1976D2&quot;,&quot;#90CAF9&quot;],&quot;hoverBackgroundColor&quot;:[&quot;#B71C1C&quot;,&quot;#D32F2F&quot;,&quot;#F44336&quot;,&quot;#FF5722&quot;,&quot;#FF9100&quot;,&quot;#4CAF50&quot;,&quot;#1976D2&quot;,&quot;#90CAF9&quot;]}]},
                 options: {
                     legend: {
                         position: &#039;bottom&#039;
@@ -18296,11 +17785,11 @@ access-control-allow-origin: *
             &lt;tbody&gt;
                                     &lt;tr&gt;
                                                     &lt;td class=&quot;text-left&quot;&gt;
-                                                                    &lt;span class=&quot;badge badge-primary&quot;&gt;2022-08-24&lt;/span&gt;
+                                                                    &lt;span class=&quot;badge badge-primary&quot;&gt;2022-08-25&lt;/span&gt;
                                                             &lt;/td&gt;
                                                     &lt;td class=&quot;text-center&quot;&gt;
-                                                                    &lt;a href=&quot;http://localhost/log-viewer/logs/2022-08-24/all&quot;&gt;
-                                        &lt;span class=&quot;badge badge-level-all&quot;&gt;5&lt;/span&gt;
+                                                                    &lt;a href=&quot;http://localhost/log-viewer/logs/2022-08-25/all&quot;&gt;
+                                        &lt;span class=&quot;badge badge-level-all&quot;&gt;3&lt;/span&gt;
                                     &lt;/a&gt;
                                                             &lt;/td&gt;
                                                     &lt;td class=&quot;text-center&quot;&gt;
@@ -18313,8 +17802,8 @@ access-control-allow-origin: *
                                                                     &lt;span class=&quot;badge empty&quot;&gt;0&lt;/span&gt;
                                                             &lt;/td&gt;
                                                     &lt;td class=&quot;text-center&quot;&gt;
-                                                                    &lt;a href=&quot;http://localhost/log-viewer/logs/2022-08-24/error&quot;&gt;
-                                        &lt;span class=&quot;badge badge-level-error&quot;&gt;5&lt;/span&gt;
+                                                                    &lt;a href=&quot;http://localhost/log-viewer/logs/2022-08-25/error&quot;&gt;
+                                        &lt;span class=&quot;badge badge-level-error&quot;&gt;3&lt;/span&gt;
                                     &lt;/a&gt;
                                                             &lt;/td&gt;
                                                     &lt;td class=&quot;text-center&quot;&gt;
@@ -18330,13 +17819,13 @@ access-control-allow-origin: *
                                                                     &lt;span class=&quot;badge empty&quot;&gt;0&lt;/span&gt;
                                                             &lt;/td&gt;
                                                 &lt;td class=&quot;text-right&quot;&gt;
-                            &lt;a href=&quot;http://localhost/log-viewer/logs/2022-08-24&quot; class=&quot;btn btn-sm btn-info&quot;&gt;
+                            &lt;a href=&quot;http://localhost/log-viewer/logs/2022-08-25&quot; class=&quot;btn btn-sm btn-info&quot;&gt;
                                 &lt;i class=&quot;fa fa-search&quot;&gt;&lt;/i&gt;
                             &lt;/a&gt;
-                            &lt;a href=&quot;http://localhost/log-viewer/logs/2022-08-24/download&quot; class=&quot;btn btn-sm btn-success&quot;&gt;
+                            &lt;a href=&quot;http://localhost/log-viewer/logs/2022-08-25/download&quot; class=&quot;btn btn-sm btn-success&quot;&gt;
                                 &lt;i class=&quot;fa fa-download&quot;&gt;&lt;/i&gt;
                             &lt;/a&gt;
-                            &lt;a href=&quot;#delete-log-modal&quot; class=&quot;btn btn-sm btn-danger&quot; data-log-date=&quot;2022-08-24&quot;&gt;
+                            &lt;a href=&quot;#delete-log-modal&quot; class=&quot;btn btn-sm btn-danger&quot; data-log-date=&quot;2022-08-25&quot;&gt;
                                 &lt;i class=&quot;fa fa-trash-o&quot;&gt;&lt;/i&gt;
                             &lt;/a&gt;
                         &lt;/td&gt;
@@ -18602,7 +18091,7 @@ fetch(url, {
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/log-viewer/logs/eligendi" \
+    --get "http://localhost/log-viewer/logs/repellendus" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -18610,7 +18099,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/log-viewer/logs/eligendi"
+    "http://localhost/log-viewer/logs/repellendus"
 );
 
 const headers = {
@@ -18641,7 +18130,7 @@ access-control-allow-origin: *
         </details>         <pre>
 
 <code class="language-json">{
-    &quot;message&quot;: &quot;Log not found in this date [eligendi]&quot;,
+    &quot;message&quot;: &quot;Log not found in this date [repellendus]&quot;,
     &quot;exception&quot;: &quot;Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException&quot;,
     &quot;file&quot;: &quot;C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php&quot;,
     &quot;line&quot;: 1145,
@@ -19114,7 +18603,7 @@ access-control-allow-origin: *
                 <input type="text"
                name="date"
                data-endpoint="GETlog-viewer-logs--date-"
-               value="eligendi"
+               value="repellendus"
                data-component="url" hidden>
     <br>
 
@@ -19135,7 +18624,7 @@ access-control-allow-origin: *
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/log-viewer/logs/atque/download" \
+    --get "http://localhost/log-viewer/logs/alias/download" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -19143,7 +18632,7 @@ access-control-allow-origin: *
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/log-viewer/logs/atque/download"
+    "http://localhost/log-viewer/logs/alias/download"
 );
 
 const headers = {
@@ -19174,7 +18663,7 @@ access-control-allow-origin: *
         </details>         <pre>
 
 <code class="language-json">{
-    &quot;message&quot;: &quot;The log(s) could not be located at : C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\storage\\logs\\laravel-atque.log&quot;,
+    &quot;message&quot;: &quot;The log(s) could not be located at : C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\storage\\logs\\laravel-alias.log&quot;,
     &quot;exception&quot;: &quot;Arcanedev\\LogViewer\\Exceptions\\FilesystemException&quot;,
     &quot;file&quot;: &quot;C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\arcanedev\\log-viewer\\src\\Exceptions\\FilesystemException.php&quot;,
     &quot;line&quot;: 21,
@@ -19656,7 +19145,7 @@ access-control-allow-origin: *
                 <input type="text"
                name="date"
                data-endpoint="GETlog-viewer-logs--date--download"
-               value="atque"
+               value="alias"
                data-component="url" hidden>
     <br>
 
@@ -19677,7 +19166,7 @@ access-control-allow-origin: *
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/log-viewer/logs/molestiae/facere" \
+    --get "http://localhost/log-viewer/logs/minus/in" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -19685,7 +19174,7 @@ access-control-allow-origin: *
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/log-viewer/logs/molestiae/facere"
+    "http://localhost/log-viewer/logs/minus/in"
 );
 
 const headers = {
@@ -19716,7 +19205,7 @@ access-control-allow-origin: *
         </details>         <pre>
 
 <code class="language-json">{
-    &quot;message&quot;: &quot;Log not found in this date [molestiae]&quot;,
+    &quot;message&quot;: &quot;Log not found in this date [minus]&quot;,
     &quot;exception&quot;: &quot;Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException&quot;,
     &quot;file&quot;: &quot;C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php&quot;,
     &quot;line&quot;: 1145,
@@ -20189,7 +19678,7 @@ access-control-allow-origin: *
                 <input type="text"
                name="date"
                data-endpoint="GETlog-viewer-logs--date---level-"
-               value="molestiae"
+               value="minus"
                data-component="url" hidden>
     <br>
 
@@ -20199,7 +19688,7 @@ access-control-allow-origin: *
                 <input type="text"
                name="level"
                data-endpoint="GETlog-viewer-logs--date---level-"
-               value="facere"
+               value="in"
                data-component="url" hidden>
     <br>
 
@@ -20220,7 +19709,7 @@ access-control-allow-origin: *
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/log-viewer/logs/officia/doloremque/search" \
+    --get "http://localhost/log-viewer/logs/corrupti/ut/search" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -20228,7 +19717,7 @@ access-control-allow-origin: *
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/log-viewer/logs/officia/doloremque/search"
+    "http://localhost/log-viewer/logs/corrupti/ut/search"
 );
 
 const headers = {
@@ -20253,7 +19742,7 @@ fetch(url, {
                 <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
             </summary>
             <pre><code class="language-http">cache-control: no-cache, private
-location: http://localhost/log-viewer/logs/officia
+location: http://localhost/log-viewer/logs/corrupti
 content-type: application/json
 access-control-allow-origin: *
  </code></pre>
@@ -20263,12 +19752,12 @@ access-control-allow-origin: *
 &lt;html&gt;
     &lt;head&gt;
         &lt;meta charset=&quot;UTF-8&quot; /&gt;
-        &lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;url=&#039;http://localhost/log-viewer/logs/officia&#039;&quot; /&gt;
+        &lt;meta http-equiv=&quot;refresh&quot; content=&quot;0;url=&#039;http://localhost/log-viewer/logs/corrupti&#039;&quot; /&gt;
 
-        &lt;title&gt;Redirecting to http://localhost/log-viewer/logs/officia&lt;/title&gt;
+        &lt;title&gt;Redirecting to http://localhost/log-viewer/logs/corrupti&lt;/title&gt;
     &lt;/head&gt;
     &lt;body&gt;
-        Redirecting to &lt;a href=&quot;http://localhost/log-viewer/logs/officia&quot;&gt;http://localhost/log-viewer/logs/officia&lt;/a&gt;.
+        Redirecting to &lt;a href=&quot;http://localhost/log-viewer/logs/corrupti&quot;&gt;http://localhost/log-viewer/logs/corrupti&lt;/a&gt;.
     &lt;/body&gt;
 &lt;/html&gt;</code>
  </pre>
@@ -20326,7 +19815,7 @@ access-control-allow-origin: *
                 <input type="text"
                name="date"
                data-endpoint="GETlog-viewer-logs--date---level--search"
-               value="officia"
+               value="corrupti"
                data-component="url" hidden>
     <br>
 
@@ -20336,7 +19825,7 @@ access-control-allow-origin: *
                 <input type="text"
                name="level"
                data-endpoint="GETlog-viewer-logs--date---level--search"
-               value="doloremque"
+               value="ut"
                data-component="url" hidden>
     <br>
 
@@ -20392,7 +19881,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 access-control-allow-origin: *
-set-cookie: XSRF-TOKEN=eyJpdiI6InFXQUZONTEraWY3L2tGZG9xaEgyc0E9PSIsInZhbHVlIjoieXNzazYxUWducjBMWGo1RCthNlI4ZnlMd01RdHlPQmpmeFJhRTk0OHc3RFlvRjRhTDN4QU9mb1pheDBwbkVkMVU3cXBnbUlOOEFMMzFuRUNKeHdid2dnUWZ6WjIvV01zLzdSZHlKNVJOWkljdUJNUjVtMTNnS1lzcWo2eXdSeEciLCJtYWMiOiI0MTE5M2JlZjgyMWNkNWQ1OTU1NGU5YTU0NDliZGZjMWYzMzY4ZWUzNzE2YmY1YTc5MTlhNzQ1MjgyNDEyZDVlIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6ImZnOVNWR09TMXhsTlJrSXlxc3BQb3c9PSIsInZhbHVlIjoiaVE1SkVCYUVwQ0R4NmhzRDNIMlJLR0Q3bGFQdTl5NXVkMEQ3N1hFbzFKSVdTSThBTGxnQ3JLY1hvdk4yQ3Z0T3ZKK1JmejF4U3YrbU9GWFZtL3plVmFjL2hYMjlzdXBJa1Q3SnFFVWlPTGJQS0orbkU2VVZQRUowZUhXM1ZyWUUiLCJtYWMiOiI3NDdkMjY2NjcwNmNlZjUwN2I3ZmFiMWQyZmQ4ZjA2MzZmZjRiYzU5ZDA2ZTFkNGU5ZWQzNDFjZmRlOGNlNjgxIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+set-cookie: XSRF-TOKEN=eyJpdiI6IkRxK2JmMFF5b3M0RnQzNzNOTjlhTEE9PSIsInZhbHVlIjoiQnBlL250MmpJSEtscmlmbVFKVWlIbHljRXp2UEwvOU1jckx2ZUwxNkxyaU90NUU0T2FjS1orYW1CUzdCQ3ZaZFhLTkNNdEpyNFgvRyszMUZBblB5OUp2ZGhmbjdqQnBTaWxxcWtRU2lnTFdMYzJ4YWRZSmtvQkhPdjdNZit4YUsiLCJtYWMiOiI5ZDZjYjY2ZWM3MzFkZWVmZWY1ZTVjNWVhOTM0ZDU1ZWU1NWU3ZmU0Y2FjNWM3Zjk0MzgzMGMwZGMzNzRmMTViIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 03:31:21 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6InZqTWRacWNzZVdGZ0NCc0xUK0twbHc9PSIsInZhbHVlIjoiNmRoeTJpbzNDSlFOTWdtUHFBRzN3NUJ0cnI5WnJJeGVrMnJyampMK3hic1E2TTMxczJjOTN3akNxRTU2OVVnWmZpTFhxUzM1SCtibHdxSGhNN0VzRlFMMGt5dERFOHdWM1V2MlNiVkRHV2hJbFI0Y3RZdHowU0FNS05HTVZqeFEiLCJtYWMiOiI3YjdiMjk3Nzc5MGU3NDBkNzAyZmIwMzIyZTM1YmRhMWVjMDU4NGQwZDMzY2JmNDVkOWMzNjdmOTVkYTVkNTYyIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 03:31:21 GMT; Max-Age=7200; path=/; httponly; samesite=lax
  </code></pre>
         </details>         <pre>
 
@@ -20588,7 +20077,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 access-control-allow-origin: *
-set-cookie: XSRF-TOKEN=eyJpdiI6IlFOQnRqM2UzWW5IL002RUR4NUl1L1E9PSIsInZhbHVlIjoiR0lBNkJ5bkRIMDIzUVFZb25lbUpRVmxPcHNjMGJVVXU3YmNkWC9wMjBaTG9SckFHbUpJek4wbUFyNitPQVpVbVp1SDFtK3VKeDNreVJMVWFqeUh0SjVPU2VlK09JM3YvRmNQL1daMEZrUG1TMlNiOFhVSERvMTJTaG04eGE1cmIiLCJtYWMiOiIxMjkzOWYyNTgyNzk4ZTRlMzgzYjkyN2I0MzVmOTMzYzZlYmFjN2Q4NGMxN2Y2Y2I0ZDNiNDE1Y2Y1YjAyNmJlIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6Ii90bDI4QndlYkF0T3JpNUJYaHFVUGc9PSIsInZhbHVlIjoiRXZjajdRWjc4RzNweDQyVWZTeXNxNzU2ckIvYmFmdUg0cE1hTm5RamVGQ1p5RUJZb0lmK0xxYjgxUVArRWhNcnFScEZ2REEzV2p6OXF3TFZtdDU0QytpMXhMVnVGY2l5ZXo0WHRkZ3BIN2VrajFwdk0wVTIyeDBIWjUyWm5hOXUiLCJtYWMiOiJlM2QxMjg2MmU4NjRhYzFhOWE0MWM1OTE3ODRiZWVkZGMxOTQ1Y2FiZjI5NzgyNzUyZWY3YzQyZDg5MzUyMThkIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+set-cookie: XSRF-TOKEN=eyJpdiI6Im9tS2JucXkrbDl0K0xTdDg2L0I5WUE9PSIsInZhbHVlIjoiZWxMaFh2QnBHSUFhS2JBRXFLbUJTa3prZzdWSUdEOFlJRzhhYUMvZzluSXZ6MjBQN1JLQVJHTHNkYTlhczVBUnRxUFJ0dXRGbHBvdk9JOC9FR3Y0NndRRG9UcXB2cXRFeUpoL2lRemxMdFowYUU4cmY1bFMvMXg0KzNLVFEzOTkiLCJtYWMiOiI1MTIwMTZjMmVlMTJhMmQxNWYwZTAwMGM0YzlkZjE4OTUyZTVlNzM3OGM2NTA4MWFmYjQxMDQ3NjU1YmRlNTZlIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 03:31:21 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6IlFNRHR3aFZJZHFCeHdQRWVQQUFYNnc9PSIsInZhbHVlIjoiQWpheWY3ZmlyTE56REUzZlgyd1Rxd005QmNmck5Wc3RvcFZBS3JLZDdWQTVPOW43Myt4N055WURqUitIUS90UlhWc0s2UldxaG5iTXhCMm5KV1lJSnNHRXFpWVVRWjgwVWdQTVA1SVJxS1NPcFkxeVVLYmxWY3h5ZlNnZERWZnEiLCJtYWMiOiJkMDU5Y2U4NWNhMjMyNTZiODllZTBkYWYyNjQxNWU4OWYwM2U2NDlmOGU3Yzg2ZmYyYTJjMTM2NzQ1MjllNTNkIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 03:31:21 GMT; Max-Age=7200; path=/; httponly; samesite=lax
  </code></pre>
         </details>         <pre>
 
@@ -20660,7 +20149,7 @@ set-cookie: XSRF-TOKEN=eyJpdiI6IlFOQnRqM2UzWW5IL002RUR4NUl1L1E9PSIsInZhbHVlIjoiR
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/mails/6" \
+    --get "http://localhost/mails/13" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -20668,7 +20157,7 @@ set-cookie: XSRF-TOKEN=eyJpdiI6IlFOQnRqM2UzWW5IL002RUR4NUl1L1E9PSIsInZhbHVlIjoiR
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/mails/6"
+    "http://localhost/mails/13"
 );
 
 const headers = {
@@ -21104,7 +20593,7 @@ access-control-allow-origin: *
                 <input type="number"
                name=""
                data-endpoint="GETmails---"
-               value="6"
+               value="13"
                data-component="url" hidden>
     <br>
 
@@ -21125,7 +20614,7 @@ access-control-allow-origin: *
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/mails/13" \
+    "http://localhost/mails/10" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -21133,7 +20622,7 @@ access-control-allow-origin: *
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/mails/13"
+    "http://localhost/mails/10"
 );
 
 const headers = {
@@ -21204,7 +20693,7 @@ fetch(url, {
                 <input type="number"
                name=""
                data-endpoint="DELETEmails---"
-               value="13"
+               value="10"
                data-component="url" hidden>
     <br>
 
@@ -22152,6 +21641,493 @@ fetch(url, {
 <p>The reason this confirmation status was set.</p>
         </p>
         </form>
+
+            <h2 id="endpoints-GETpatient-recalls">[Patient Recall] - List all recalls for this patient</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-GETpatient-recalls">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request GET \
+    --get "http://localhost/patient/recalls" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/patient/recalls"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "GET",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-GETpatient-recalls">
+            <blockquote>
+            <p>Example response (401):</p>
+        </blockquote>
+                <details class="annotation">
+            <summary>
+                <small onclick="textContent = parentElement.parentElement.open ? 'Show headers' : 'Hide headers'">Show headers</small>
+            </summary>
+            <pre><code class="language-http">cache-control: no-cache, private
+content-type: application/json
+access-control-allow-origin: *
+ </code></pre>
+        </details>         <pre>
+
+<code class="language-json">{
+    &quot;message&quot;: &quot;Unauthenticated.&quot;
+}</code>
+ </pre>
+    </span>
+<span id="execution-results-GETpatient-recalls" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-GETpatient-recalls"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-GETpatient-recalls"></code></pre>
+</span>
+<span id="execution-error-GETpatient-recalls" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-GETpatient-recalls"></code></pre>
+</span>
+<form id="form-GETpatient-recalls" data-method="GET"
+      data-path="patient/recalls"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('GETpatient-recalls', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-GETpatient-recalls"
+                    onclick="tryItOut('GETpatient-recalls');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-GETpatient-recalls"
+                    onclick="cancelTryOut('GETpatient-recalls');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-GETpatient-recalls" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-green">GET</small>
+            <b><code>patient/recalls</code></b>
+        </p>
+                <p>
+            <label id="auth-GETpatient-recalls" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="GETpatient-recalls"
+                                                                data-component="header"></label>
+        </p>
+                </form>
+
+            <h2 id="endpoints-POSTpatient-recalls">[Patient Recall] - Store</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-POSTpatient-recalls">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost/patient/recalls" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"patient_id\": \"3\",
+    \"time_frame\": \"6\",
+    \"reason\": \"Please return for a follow up consolation\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/patient/recalls"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "patient_id": "3",
+    "time_frame": "6",
+    "reason": "Please return for a follow up consolation"
+};
+
+fetch(url, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-POSTpatient-recalls">
+</span>
+<span id="execution-results-POSTpatient-recalls" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-POSTpatient-recalls"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-POSTpatient-recalls"></code></pre>
+</span>
+<span id="execution-error-POSTpatient-recalls" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-POSTpatient-recalls"></code></pre>
+</span>
+<form id="form-POSTpatient-recalls" data-method="POST"
+      data-path="patient/recalls"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('POSTpatient-recalls', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-POSTpatient-recalls"
+                    onclick="tryItOut('POSTpatient-recalls');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-POSTpatient-recalls"
+                    onclick="cancelTryOut('POSTpatient-recalls');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-POSTpatient-recalls" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-black">POST</small>
+            <b><code>patient/recalls</code></b>
+        </p>
+                <p>
+            <label id="auth-POSTpatient-recalls" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="POSTpatient-recalls"
+                                                                data-component="header"></label>
+        </p>
+                        <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>patient_id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="patient_id"
+               data-endpoint="POSTpatient-recalls"
+               value="3"
+               data-component="body" hidden>
+    <br>
+<p>The id of the patient this recall is for</p>
+        </p>
+                <p>
+            <b><code>time_frame</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="time_frame"
+               data-endpoint="POSTpatient-recalls"
+               value="6"
+               data-component="body" hidden>
+    <br>
+<p>The time frame between now and when the recall should be sent in months</p>
+        </p>
+                <p>
+            <b><code>reason</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="reason"
+               data-endpoint="POSTpatient-recalls"
+               value="Please return for a follow up consolation"
+               data-component="body" hidden>
+    <br>
+<p>The reason for the recall</p>
+        </p>
+        </form>
+
+            <h2 id="endpoints-PUTpatient-recalls--id-">[Patient Recall] - Update</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-PUTpatient-recalls--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request PUT \
+    "http://localhost/patient/recalls/7" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json" \
+    --data "{
+    \"patient_id\": \"3\",
+    \"time_frame\": \"6\",
+    \"reason\": \"Please return for a follow up consolation\"
+}"
+</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/patient/recalls/7"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+let body = {
+    "patient_id": "3",
+    "time_frame": "6",
+    "reason": "Please return for a follow up consolation"
+};
+
+fetch(url, {
+    method: "PUT",
+    headers,
+    body: JSON.stringify(body),
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-PUTpatient-recalls--id-">
+</span>
+<span id="execution-results-PUTpatient-recalls--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-PUTpatient-recalls--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-PUTpatient-recalls--id-"></code></pre>
+</span>
+<span id="execution-error-PUTpatient-recalls--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-PUTpatient-recalls--id-"></code></pre>
+</span>
+<form id="form-PUTpatient-recalls--id-" data-method="PUT"
+      data-path="patient/recalls/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('PUTpatient-recalls--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-PUTpatient-recalls--id-"
+                    onclick="tryItOut('PUTpatient-recalls--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-PUTpatient-recalls--id-"
+                    onclick="cancelTryOut('PUTpatient-recalls--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-PUTpatient-recalls--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-darkblue">PUT</small>
+            <b><code>patient/recalls/{id}</code></b>
+        </p>
+            <p>
+            <small class="badge badge-purple">PATCH</small>
+            <b><code>patient/recalls/{id}</code></b>
+        </p>
+                <p>
+            <label id="auth-PUTpatient-recalls--id-" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="PUTpatient-recalls--id-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="PUTpatient-recalls--id-"
+               value="7"
+               data-component="url" hidden>
+    <br>
+<p>The ID of the recall.</p>
+            </p>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <p>
+            <b><code>patient_id</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="patient_id"
+               data-endpoint="PUTpatient-recalls--id-"
+               value="3"
+               data-component="body" hidden>
+    <br>
+<p>The id of the patient this recall is for</p>
+        </p>
+                <p>
+            <b><code>time_frame</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="time_frame"
+               data-endpoint="PUTpatient-recalls--id-"
+               value="6"
+               data-component="body" hidden>
+    <br>
+<p>The time frame between now and when the recall should be sent in months</p>
+        </p>
+                <p>
+            <b><code>reason</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
+                <input type="text"
+               name="reason"
+               data-endpoint="PUTpatient-recalls--id-"
+               value="Please return for a follow up consolation"
+               data-component="body" hidden>
+    <br>
+<p>The reason for the recall</p>
+        </p>
+        </form>
+
+            <h2 id="endpoints-DELETEpatient-recalls--id-">[Patient Recall] - Destroy</h2>
+
+<p>
+<small class="badge badge-darkred">requires authentication</small>
+</p>
+
+
+
+<span id="example-requests-DELETEpatient-recalls--id-">
+<blockquote>Example request:</blockquote>
+
+
+<div class="bash-example">
+    <pre><code class="language-bash">curl --request DELETE \
+    "http://localhost/patient/recalls/8" \
+    --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
+    --header "Content-Type: application/json" \
+    --header "Accept: application/json"</code></pre></div>
+
+
+<div class="javascript-example">
+    <pre><code class="language-javascript">const url = new URL(
+    "http://localhost/patient/recalls/8"
+);
+
+const headers = {
+    "Authorization": "Bearer {YOUR_AUTH_KEY}",
+    "Content-Type": "application/json",
+    "Accept": "application/json",
+};
+
+fetch(url, {
+    method: "DELETE",
+    headers,
+}).then(response =&gt; response.json());</code></pre></div>
+
+</span>
+
+<span id="example-responses-DELETEpatient-recalls--id-">
+</span>
+<span id="execution-results-DELETEpatient-recalls--id-" hidden>
+    <blockquote>Received response<span
+                id="execution-response-status-DELETEpatient-recalls--id-"></span>:
+    </blockquote>
+    <pre class="json"><code id="execution-response-content-DELETEpatient-recalls--id-"></code></pre>
+</span>
+<span id="execution-error-DELETEpatient-recalls--id-" hidden>
+    <blockquote>Request failed with error:</blockquote>
+    <pre><code id="execution-error-message-DELETEpatient-recalls--id-"></code></pre>
+</span>
+<form id="form-DELETEpatient-recalls--id-" data-method="DELETE"
+      data-path="patient/recalls/{id}"
+      data-authed="1"
+      data-hasfiles="0"
+      data-isarraybody="0"
+      data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
+      autocomplete="off"
+      onsubmit="event.preventDefault(); executeTryOut('DELETEpatient-recalls--id-', this);">
+    <h3>
+        Request&nbsp;&nbsp;&nbsp;
+                    <button type="button"
+                    style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-tryout-DELETEpatient-recalls--id-"
+                    onclick="tryItOut('DELETEpatient-recalls--id-');">Try it out ⚡
+            </button>
+            <button type="button"
+                    style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-canceltryout-DELETEpatient-recalls--id-"
+                    onclick="cancelTryOut('DELETEpatient-recalls--id-');" hidden>Cancel 🛑
+            </button>&nbsp;&nbsp;
+            <button type="submit"
+                    style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
+                    id="btn-executetryout-DELETEpatient-recalls--id-" hidden>Send Request 💥
+            </button>
+            </h3>
+            <p>
+            <small class="badge badge-red">DELETE</small>
+            <b><code>patient/recalls/{id}</code></b>
+        </p>
+                <p>
+            <label id="auth-DELETEpatient-recalls--id-" hidden>Authorization header:
+                <b><code>Bearer </code></b><input type="text"
+                                                                name="Authorization"
+                                                                data-prefix="Bearer "
+                                                                data-endpoint="DELETEpatient-recalls--id-"
+                                                                data-component="header"></label>
+        </p>
+                <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
+                    <p>
+                <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+                <input type="number"
+               name="id"
+               data-endpoint="DELETEpatient-recalls--id-"
+               value="8"
+               data-component="url" hidden>
+    <br>
+<p>The ID of the recall.</p>
+            </p>
+                    </form>
 
         <h1 id="patients">Patients</h1>
 

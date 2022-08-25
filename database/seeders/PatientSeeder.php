@@ -17,7 +17,7 @@ class PatientSeeder extends Seeder
      */
     public function run()
     {
-        Patient::factory(20)->create();
+        Patient::factory(50)->create();
 
         $arrPatients = Patient::all();
 

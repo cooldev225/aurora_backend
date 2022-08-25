@@ -23,21 +23,21 @@ endpoints:
         name: username
         description: 'Must be at least 2 characters. Must not be greater than 100 characters.'
         required: false
-        example: wufveaucaghmnhwozanlqoaieisaaqioeetvxofoagqejosuoaucojnxhcywaqbwsexgvhkdc
+        example: egcgnnqcb
         type: string
         custom: []
       email:
         name: email
         description: 'Must be a valid email address.'
         required: false
-        example: brisa87@example.com
+        example: braun.meggie@example.org
         type: string
         custom: []
       password:
         name: password
         description: 'Must be at least 6 characters.'
         required: true
-        example: m
+        example: ca
         type: string
         custom: []
     responses: []
@@ -186,21 +186,21 @@ endpoints:
         name: old_password
         description: 'Must be at least 6 characters.'
         required: true
-        example: jtw
+        example: ''
         type: string
         custom: []
       new_password:
         name: new_password
         description: 'The value and <code>old_password</code> must be different. Must be at least 6 characters.'
         required: true
-        example: air
+        example: ''
         type: string
         custom: []
       confirm_password:
         name: confirm_password
         description: 'The value and <code>new_password</code> must match. Must be at least 6 characters.'
         required: true
-        example: b
+        example: ''
         type: string
         custom: []
     responses: []
@@ -223,7 +223,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: consectetur
+        example: ad
         type: string
         custom: []
     queryParameters: []
@@ -256,7 +256,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: consequatur
+        example: ut
         type: string
         custom: []
     queryParameters: []
@@ -281,7 +281,7 @@ endpoints:
         name: token
         description: ''
         required: true
-        example: non
+        example: provident
         type: string
         custom: []
     queryParameters: []
@@ -381,7 +381,7 @@ endpoints:
         name: id
         description: 'The ID of the bookmark.'
         required: true
-        example: quaerat
+        example: consectetur
         type: string
         custom: []
     queryParameters: []
@@ -406,7 +406,7 @@ endpoints:
         name: id
         description: 'The ID of the delete.'
         required: true
-        example: qui
+        example: quasi
         type: string
         custom: []
     queryParameters: []
@@ -431,7 +431,7 @@ endpoints:
         name: id
         description: 'The ID of the restore.'
         required: true
-        example: dolor
+        example: eos
         type: string
         custom: []
     queryParameters: []
@@ -573,7 +573,7 @@ endpoints:
         name: id
         description: 'The ID of the admin.'
         required: true
-        example: voluptatem
+        example: illo
         type: string
         custom: []
     queryParameters: []
@@ -612,7 +612,7 @@ endpoints:
         name: id
         description: 'The ID of the admin.'
         required: true
-        example: ullam
+        example: sit
         type: string
         custom: []
     queryParameters: []
@@ -861,7 +861,7 @@ endpoints:
         name: id
         description: 'The ID of the birth code.'
         required: true
-        example: 20
+        example: 9
         type: integer
         custom: []
     queryParameters: []
@@ -900,7 +900,7 @@ endpoints:
         name: id
         description: 'The ID of the birth code.'
         required: true
-        example: 9
+        example: 15
         type: integer
         custom: []
     queryParameters: []
@@ -1086,7 +1086,7 @@ endpoints:
         name: id
         description: 'The ID of the organization admin.'
         required: true
-        example: tempore
+        example: optio
         type: string
         custom: []
     queryParameters: []
@@ -1125,7 +1125,7 @@ endpoints:
         name: id
         description: 'The ID of the organization admin.'
         required: true
-        example: earum
+        example: iste
         type: string
         custom: []
     queryParameters: []
@@ -1216,7 +1216,7 @@ endpoints:
         name: id
         description: 'The ID of the organization manager.'
         required: true
-        example: sed
+        example: nihil
         type: string
         custom: []
     queryParameters: []
@@ -1255,7 +1255,7 @@ endpoints:
         name: id
         description: 'The ID of the organization manager.'
         required: true
-        example: quia
+        example: molestiae
         type: string
         custom: []
     queryParameters: []
@@ -1339,7 +1339,7 @@ endpoints:
         name: id
         description: 'The ID of the appointment time requirement.'
         required: true
-        example: 1
+        example: 6
         type: integer
         custom: []
     queryParameters: []
@@ -1378,7 +1378,7 @@ endpoints:
         name: id
         description: 'The ID of the appointment time requirement.'
         required: true
-        example: 1
+        example: 11
         type: integer
         custom: []
     queryParameters: []
@@ -1641,7 +1641,7 @@ endpoints:
         name: id
         description: 'The ID of the notification template.'
         required: true
-        example: 1
+        example: 12
         type: integer
         custom: []
     queryParameters: []
@@ -1694,7 +1694,7 @@ endpoints:
         name: id
         description: 'The ID of the notification template.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     queryParameters: []
@@ -2085,157 +2085,6 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: patient-recalls
-    metadata:
-      title: '[Patient Recall] - List'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    queryParameters: []
-    bodyParameters: []
-    responses:
-      -
-        status: 401
-        content: '{"message":"Unauthenticated."}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          access-control-allow-origin: '*'
-        description: null
-    responseFields: []
-  -
-    httpMethods:
-      - POST
-    uri: patient-recalls
-    metadata:
-      title: '[Patient Recall] - Store'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    queryParameters: []
-    bodyParameters:
-      patient_id:
-        name: patient_id
-        description: ''
-        required: true
-        example: 0.0
-        type: number
-        custom: []
-      organization_id:
-        name: organization_id
-        description: ''
-        required: true
-        example: 0.0
-        type: number
-        custom: []
-      time_frame:
-        name: time_frame
-        description: ''
-        required: true
-        example: 0.0
-        type: number
-        custom: []
-      reason:
-        name: reason
-        description: ''
-        required: false
-        example: ''
-        type: string
-        custom: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - PUT
-      - PATCH
-    uri: 'patient-recalls/{id}'
-    metadata:
-      title: '[Patient Recall] - Update'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the patient recall.'
-        required: true
-        example: 2
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters:
-      patient_id:
-        name: patient_id
-        description: ''
-        required: true
-        example: 0.0
-        type: number
-        custom: []
-      organization_id:
-        name: organization_id
-        description: ''
-        required: true
-        example: 0.0
-        type: number
-        custom: []
-      time_frame:
-        name: time_frame
-        description: ''
-        required: true
-        example: 0.0
-        type: number
-        custom: []
-      reason:
-        name: reason
-        description: ''
-        required: false
-        example: ''
-        type: string
-        custom: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - DELETE
-    uri: 'patient-recalls/{id}'
-    metadata:
-      title: '[Patient Recall] - Destroy'
-      description: ''
-      authenticated: true
-      custom: []
-    headers:
-      Authorization: 'Bearer {YOUR_AUTH_KEY}'
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the patient recall.'
-        required: true
-        example: 5
-        type: integer
-        custom: []
-    queryParameters: []
-    bodyParameters: []
-    responses: []
-    responseFields: []
-  -
-    httpMethods:
-      - GET
     uri: report-templates
     metadata:
       title: '[Report Template] - List'
@@ -2335,7 +2184,7 @@ endpoints:
         name: id
         description: 'The ID of the report template.'
         required: true
-        example: 1
+        example: 14
         type: integer
         custom: []
     queryParameters: []
@@ -2444,7 +2293,7 @@ endpoints:
         name: id
         description: 'The ID of the pre admission section.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     queryParameters: []
@@ -3300,7 +3149,7 @@ endpoints:
         name: appointment
         description: ''
         required: true
-        example: aut
+        example: necessitatibus
         type: string
         custom: []
     queryParameters: []
@@ -3533,7 +3382,7 @@ endpoints:
         name: id
         description: 'The ID of the patient documents letter.'
         required: true
-        example: 1
+        example: 8
         type: integer
         custom: []
     queryParameters: []
@@ -3586,7 +3435,7 @@ endpoints:
         name: id
         description: 'The ID of the patient documents letter.'
         required: true
-        example: 1
+        example: 8
         type: integer
         custom: []
     queryParameters: []
@@ -3611,7 +3460,7 @@ endpoints:
         name: patient_id
         description: 'The ID of the patient.'
         required: true
-        example: 1
+        example: 11
         type: integer
         custom: []
     queryParameters: []
@@ -3697,7 +3546,7 @@ endpoints:
         name: id
         description: 'The ID of the patient documents report.'
         required: true
-        example: 1
+        example: 15
         type: integer
         custom: []
     queryParameters: []
@@ -3736,7 +3585,7 @@ endpoints:
         name: id
         description: 'The ID of the patient documents report.'
         required: true
-        example: 1
+        example: 9
         type: integer
         custom: []
     queryParameters: []
@@ -3761,7 +3610,7 @@ endpoints:
         name: patient_id
         description: 'The ID of the patient.'
         required: true
-        example: 1
+        example: 6
         type: integer
         custom: []
     queryParameters: []
@@ -3882,7 +3731,7 @@ endpoints:
         name: id
         description: 'The ID of the patient documents clinical note.'
         required: true
-        example: 1
+        example: 14
         type: integer
         custom: []
     queryParameters: []
@@ -3891,49 +3740,49 @@ endpoints:
         name: appointment_id
         description: 'Appointment ID.'
         required: true
-        example: 16
+        example: 11
         type: integer
         custom: []
       description:
         name: description
         description: Description.
         required: true
-        example: ab
+        example: sed
         type: string
         custom: []
       diagnosis:
         name: diagnosis
         description: ''
         required: true
-        example: quaerat
+        example: iusto
         type: string
         custom: []
       clinical_assessment:
         name: clinical_assessment
         description: ''
         required: true
-        example: exercitationem
+        example: natus
         type: string
         custom: []
       treatment:
         name: treatment
         description: ''
         required: true
-        example: alias
+        example: velit
         type: string
         custom: []
       history:
         name: history
         description: ''
         required: true
-        example: enim
+        example: praesentium
         type: string
         custom: []
       additional_details:
         name: additional_details
         description: ''
         required: true
-        example: in
+        example: odit
         type: string
         custom: []
     responses: []
@@ -3956,7 +3805,7 @@ endpoints:
         name: id
         description: 'The ID of the patient documents clinical note.'
         required: true
-        example: 1
+        example: 16
         type: integer
         custom: []
     queryParameters: []
@@ -3981,7 +3830,7 @@ endpoints:
         name: patient_id
         description: 'The ID of the patient.'
         required: true
-        example: 1
+        example: 2
         type: integer
         custom: []
     queryParameters: []
@@ -4074,7 +3923,7 @@ endpoints:
         name: id
         description: 'The ID of the patient documents audio.'
         required: true
-        example: 1
+        example: 16
         type: integer
         custom: []
     queryParameters: []
@@ -4113,7 +3962,7 @@ endpoints:
         name: id
         description: 'The ID of the patient documents audio.'
         required: true
-        example: 1
+        example: 19
         type: integer
         custom: []
     queryParameters: []
@@ -4138,7 +3987,7 @@ endpoints:
         name: patient_id
         description: 'The ID of the patient.'
         required: true
-        example: 1
+        example: 13
         type: integer
         custom: []
     queryParameters: []
@@ -4191,7 +4040,7 @@ endpoints:
         name: patient_id
         description: 'The ID of the patient.'
         required: true
-        example: 1
+        example: 14
         type: integer
         custom: []
     queryParameters: []
@@ -4328,7 +4177,7 @@ endpoints:
         name: id
         description: 'The ID of the letter template.'
         required: true
-        example: 1
+        example: 16
         type: integer
         custom: []
     queryParameters: []
@@ -4367,7 +4216,7 @@ endpoints:
         name: id
         description: 'The ID of the letter template.'
         required: true
-        example: 1
+        example: 7
         type: integer
         custom: []
     queryParameters: []
@@ -4714,7 +4563,7 @@ endpoints:
                                       <div class="box-content">
                                           <span class="box-text">All</span>
                                           <span class="box-number">
-                                              5 entries - 100 %
+                                              3 entries - 100 %
                                           </span>
                                           <div class="progress" style="height: 3px;">
                                               <div class="progress-bar" style="width: 100%"></div>
@@ -4782,7 +4631,7 @@ endpoints:
                                       <div class="box-content">
                                           <span class="box-text">Error</span>
                                           <span class="box-number">
-                                              5 entries - 100 %
+                                              3 entries - 100 %
                                           </span>
                                           <div class="progress" style="height: 3px;">
                                               <div class="progress-bar" style="width: 100%"></div>
@@ -4886,7 +4735,7 @@ endpoints:
                   $(function() {
                       new Chart(document.getElementById("stats-doughnut-chart"), {
                           type: 'doughnut',
-                          data: {"labels":["Emergency","Alert","Critical","Error","Warning","Notice","Info","Debug"],"datasets":[{"data":[0,0,0,5,0,0,0,0],"backgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"],"hoverBackgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"]}]},
+                          data: {"labels":["Emergency","Alert","Critical","Error","Warning","Notice","Info","Debug"],"datasets":[{"data":[0,0,0,3,0,0,0,0],"backgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"],"hoverBackgroundColor":["#B71C1C","#D32F2F","#F44336","#FF5722","#FF9100","#4CAF50","#1976D2","#90CAF9"]}]},
                           options: {
                               legend: {
                                   position: 'bottom'
@@ -5227,11 +5076,11 @@ endpoints:
                       <tbody>
                                               <tr>
                                                               <td class="text-left">
-                                                                              <span class="badge badge-primary">2022-08-24</span>
+                                                                              <span class="badge badge-primary">2022-08-25</span>
                                                                       </td>
                                                               <td class="text-center">
-                                                                              <a href="http://localhost/log-viewer/logs/2022-08-24/all">
-                                                  <span class="badge badge-level-all">5</span>
+                                                                              <a href="http://localhost/log-viewer/logs/2022-08-25/all">
+                                                  <span class="badge badge-level-all">3</span>
                                               </a>
                                                                       </td>
                                                               <td class="text-center">
@@ -5244,8 +5093,8 @@ endpoints:
                                                                               <span class="badge empty">0</span>
                                                                       </td>
                                                               <td class="text-center">
-                                                                              <a href="http://localhost/log-viewer/logs/2022-08-24/error">
-                                                  <span class="badge badge-level-error">5</span>
+                                                                              <a href="http://localhost/log-viewer/logs/2022-08-25/error">
+                                                  <span class="badge badge-level-error">3</span>
                                               </a>
                                                                       </td>
                                                               <td class="text-center">
@@ -5261,13 +5110,13 @@ endpoints:
                                                                               <span class="badge empty">0</span>
                                                                       </td>
                                                           <td class="text-right">
-                                      <a href="http://localhost/log-viewer/logs/2022-08-24" class="btn btn-sm btn-info">
+                                      <a href="http://localhost/log-viewer/logs/2022-08-25" class="btn btn-sm btn-info">
                                           <i class="fa fa-search"></i>
                                       </a>
-                                      <a href="http://localhost/log-viewer/logs/2022-08-24/download" class="btn btn-sm btn-success">
+                                      <a href="http://localhost/log-viewer/logs/2022-08-25/download" class="btn btn-sm btn-success">
                                           <i class="fa fa-download"></i>
                                       </a>
-                                      <a href="#delete-log-modal" class="btn btn-sm btn-danger" data-log-date="2022-08-24">
+                                      <a href="#delete-log-modal" class="btn btn-sm btn-danger" data-log-date="2022-08-25">
                                           <i class="fa fa-trash-o"></i>
                                       </a>
                                   </td>
@@ -5420,7 +5269,7 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: eligendi
+        example: repellendus
         type: string
         custom: []
     queryParameters: []
@@ -5430,7 +5279,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "Log not found in this date [eligendi]",
+              "message": "Log not found in this date [repellendus]",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php",
               "line": 1145,
@@ -5872,7 +5721,7 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: atque
+        example: alias
         type: string
         custom: []
     queryParameters: []
@@ -5882,7 +5731,7 @@ endpoints:
         status: 500
         content: |-
           {
-              "message": "The log(s) could not be located at : C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\storage\\logs\\laravel-atque.log",
+              "message": "The log(s) could not be located at : C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\storage\\logs\\laravel-alias.log",
               "exception": "Arcanedev\\LogViewer\\Exceptions\\FilesystemException",
               "file": "C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\arcanedev\\log-viewer\\src\\Exceptions\\FilesystemException.php",
               "line": 21,
@@ -6333,14 +6182,14 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: molestiae
+        example: minus
         type: string
         custom: []
       level:
         name: level
         description: ''
         required: true
-        example: facere
+        example: in
         type: string
         custom: []
     queryParameters: []
@@ -6350,7 +6199,7 @@ endpoints:
         status: 404
         content: |-
           {
-              "message": "Log not found in this date [molestiae]",
+              "message": "Log not found in this date [minus]",
               "exception": "Symfony\\Component\\HttpKernel\\Exception\\NotFoundHttpException",
               "file": "C:\\Users\\user\\Projects\\Aurora\\Aurora_back_end\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php",
               "line": 1145,
@@ -6792,14 +6641,14 @@ endpoints:
         name: date
         description: ''
         required: true
-        example: officia
+        example: corrupti
         type: string
         custom: []
       level:
         name: level
         description: ''
         required: true
-        example: doloremque
+        example: ut
         type: string
         custom: []
     queryParameters: []
@@ -6812,17 +6661,17 @@ endpoints:
           <html>
               <head>
                   <meta charset="UTF-8" />
-                  <meta http-equiv="refresh" content="0;url='http://localhost/log-viewer/logs/officia'" />
+                  <meta http-equiv="refresh" content="0;url='http://localhost/log-viewer/logs/corrupti'" />
 
-                  <title>Redirecting to http://localhost/log-viewer/logs/officia</title>
+                  <title>Redirecting to http://localhost/log-viewer/logs/corrupti</title>
               </head>
               <body>
-                  Redirecting to <a href="http://localhost/log-viewer/logs/officia">http://localhost/log-viewer/logs/officia</a>.
+                  Redirecting to <a href="http://localhost/log-viewer/logs/corrupti">http://localhost/log-viewer/logs/corrupti</a>.
               </body>
           </html>
         headers:
           cache-control: 'no-cache, private'
-          location: 'http://localhost/log-viewer/logs/officia'
+          location: 'http://localhost/log-viewer/logs/corrupti'
           content-type: application/json
           access-control-allow-origin: '*'
         description: null
@@ -6851,7 +6700,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           access-control-allow-origin: '*'
-          set-cookie: 'XSRF-TOKEN=eyJpdiI6InFXQUZONTEraWY3L2tGZG9xaEgyc0E9PSIsInZhbHVlIjoieXNzazYxUWducjBMWGo1RCthNlI4ZnlMd01RdHlPQmpmeFJhRTk0OHc3RFlvRjRhTDN4QU9mb1pheDBwbkVkMVU3cXBnbUlOOEFMMzFuRUNKeHdid2dnUWZ6WjIvV01zLzdSZHlKNVJOWkljdUJNUjVtMTNnS1lzcWo2eXdSeEciLCJtYWMiOiI0MTE5M2JlZjgyMWNkNWQ1OTU1NGU5YTU0NDliZGZjMWYzMzY4ZWUzNzE2YmY1YTc5MTlhNzQ1MjgyNDEyZDVlIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6ImZnOVNWR09TMXhsTlJrSXlxc3BQb3c9PSIsInZhbHVlIjoiaVE1SkVCYUVwQ0R4NmhzRDNIMlJLR0Q3bGFQdTl5NXVkMEQ3N1hFbzFKSVdTSThBTGxnQ3JLY1hvdk4yQ3Z0T3ZKK1JmejF4U3YrbU9GWFZtL3plVmFjL2hYMjlzdXBJa1Q3SnFFVWlPTGJQS0orbkU2VVZQRUowZUhXM1ZyWUUiLCJtYWMiOiI3NDdkMjY2NjcwNmNlZjUwN2I3ZmFiMWQyZmQ4ZjA2MzZmZjRiYzU5ZDA2ZTFkNGU5ZWQzNDFjZmRlOGNlNjgxIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6IkRxK2JmMFF5b3M0RnQzNzNOTjlhTEE9PSIsInZhbHVlIjoiQnBlL250MmpJSEtscmlmbVFKVWlIbHljRXp2UEwvOU1jckx2ZUwxNkxyaU90NUU0T2FjS1orYW1CUzdCQ3ZaZFhLTkNNdEpyNFgvRyszMUZBblB5OUp2ZGhmbjdqQnBTaWxxcWtRU2lnTFdMYzJ4YWRZSmtvQkhPdjdNZit4YUsiLCJtYWMiOiI5ZDZjYjY2ZWM3MzFkZWVmZWY1ZTVjNWVhOTM0ZDU1ZWU1NWU3ZmU0Y2FjNWM3Zjk0MzgzMGMwZGMzNzRmMTViIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 03:31:21 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6InZqTWRacWNzZVdGZ0NCc0xUK0twbHc9PSIsInZhbHVlIjoiNmRoeTJpbzNDSlFOTWdtUHFBRzN3NUJ0cnI5WnJJeGVrMnJyampMK3hic1E2TTMxczJjOTN3akNxRTU2OVVnWmZpTFhxUzM1SCtibHdxSGhNN0VzRlFMMGt5dERFOHdWM1V2MlNiVkRHV2hJbFI0Y3RZdHowU0FNS05HTVZqeFEiLCJtYWMiOiI3YjdiMjk3Nzc5MGU3NDBkNzAyZmIwMzIyZTM1YmRhMWVjMDU4NGQwZDMzY2JmNDVkOWMzNjdmOTVkYTVkNTYyIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 03:31:21 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
         description: null
     responseFields: []
   -
@@ -6896,7 +6745,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           access-control-allow-origin: '*'
-          set-cookie: 'XSRF-TOKEN=eyJpdiI6IlFOQnRqM2UzWW5IL002RUR4NUl1L1E9PSIsInZhbHVlIjoiR0lBNkJ5bkRIMDIzUVFZb25lbUpRVmxPcHNjMGJVVXU3YmNkWC9wMjBaTG9SckFHbUpJek4wbUFyNitPQVpVbVp1SDFtK3VKeDNreVJMVWFqeUh0SjVPU2VlK09JM3YvRmNQL1daMEZrUG1TMlNiOFhVSERvMTJTaG04eGE1cmIiLCJtYWMiOiIxMjkzOWYyNTgyNzk4ZTRlMzgzYjkyN2I0MzVmOTMzYzZlYmFjN2Q4NGMxN2Y2Y2I0ZDNiNDE1Y2Y1YjAyNmJlIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6Ii90bDI4QndlYkF0T3JpNUJYaHFVUGc9PSIsInZhbHVlIjoiRXZjajdRWjc4RzNweDQyVWZTeXNxNzU2ckIvYmFmdUg0cE1hTm5RamVGQ1p5RUJZb0lmK0xxYjgxUVArRWhNcnFScEZ2REEzV2p6OXF3TFZtdDU0QytpMXhMVnVGY2l5ZXo0WHRkZ3BIN2VrajFwdk0wVTIyeDBIWjUyWm5hOXUiLCJtYWMiOiJlM2QxMjg2MmU4NjRhYzFhOWE0MWM1OTE3ODRiZWVkZGMxOTQ1Y2FiZjI5NzgyNzUyZWY3YzQyZDg5MzUyMThkIiwidGFnIjoiIn0%3D; expires=Wed, 24 Aug 2022 07:51:09 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
+          set-cookie: 'XSRF-TOKEN=eyJpdiI6Im9tS2JucXkrbDl0K0xTdDg2L0I5WUE9PSIsInZhbHVlIjoiZWxMaFh2QnBHSUFhS2JBRXFLbUJTa3prZzdWSUdEOFlJRzhhYUMvZzluSXZ6MjBQN1JLQVJHTHNkYTlhczVBUnRxUFJ0dXRGbHBvdk9JOC9FR3Y0NndRRG9UcXB2cXRFeUpoL2lRemxMdFowYUU4cmY1bFMvMXg0KzNLVFEzOTkiLCJtYWMiOiI1MTIwMTZjMmVlMTJhMmQxNWYwZTAwMGM0YzlkZjE4OTUyZTVlNzM3OGM2NTA4MWFmYjQxMDQ3NjU1YmRlNTZlIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 03:31:21 GMT; Max-Age=7200; path=/; samesite=lax; laravel_session=eyJpdiI6IlFNRHR3aFZJZHFCeHdQRWVQQUFYNnc9PSIsInZhbHVlIjoiQWpheWY3ZmlyTE56REUzZlgyd1Rxd005QmNmck5Wc3RvcFZBS3JLZDdWQTVPOW43Myt4N055WURqUitIUS90UlhWc0s2UldxaG5iTXhCMm5KV1lJSnNHRXFpWVVRWjgwVWdQTVA1SVJxS1NPcFkxeVVLYmxWY3h5ZlNnZERWZnEiLCJtYWMiOiJkMDU5Y2U4NWNhMjMyNTZiODllZTBkYWYyNjQxNWU4OWYwM2U2NDlmOGU3Yzg2ZmYyYTJjMTM2NzQ1MjllNTNkIiwidGFnIjoiIn0%3D; expires=Thu, 25 Aug 2022 03:31:21 GMT; Max-Age=7200; path=/; httponly; samesite=lax'
         description: null
     responseFields: []
   -
@@ -6917,7 +6766,7 @@ endpoints:
         name: ''
         description: ''
         required: true
-        example: 6
+        example: 13
         type: integer
         custom: []
     queryParameters: []
@@ -7301,7 +7150,7 @@ endpoints:
         name: ''
         description: ''
         required: true
-        example: 13
+        example: 10
         type: integer
         custom: []
     queryParameters: []
@@ -7844,5 +7693,142 @@ endpoints:
         example: 'They patient was too sick to attend'
         type: string
         custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - GET
+    uri: patient/recalls
+    metadata:
+      title: '[Patient Recall] - List all recalls for this patient'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters: []
+    responses:
+      -
+        status: 401
+        content: '{"message":"Unauthenticated."}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          access-control-allow-origin: '*'
+        description: null
+    responseFields: []
+  -
+    httpMethods:
+      - POST
+    uri: patient/recalls
+    metadata:
+      title: '[Patient Recall] - Store'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    queryParameters: []
+    bodyParameters:
+      patient_id:
+        name: patient_id
+        description: 'The id of the patient this recall is for'
+        required: true
+        example: '3'
+        type: string
+        custom: []
+      time_frame:
+        name: time_frame
+        description: 'The time frame between now and when the recall should be sent in months'
+        required: true
+        example: '6'
+        type: string
+        custom: []
+      reason:
+        name: reason
+        description: 'The reason for the recall'
+        required: true
+        example: 'Please return for a follow up consolation'
+        type: string
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - PUT
+      - PATCH
+    uri: 'patient/recalls/{id}'
+    metadata:
+      title: '[Patient Recall] - Update'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the recall.'
+        required: true
+        example: 7
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters:
+      patient_id:
+        name: patient_id
+        description: 'The id of the patient this recall is for'
+        required: true
+        example: '3'
+        type: string
+        custom: []
+      time_frame:
+        name: time_frame
+        description: 'The time frame between now and when the recall should be sent in months'
+        required: true
+        example: '6'
+        type: string
+        custom: []
+      reason:
+        name: reason
+        description: 'The reason for the recall'
+        required: true
+        example: 'Please return for a follow up consolation'
+        type: string
+        custom: []
+    responses: []
+    responseFields: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'patient/recalls/{id}'
+    metadata:
+      title: '[Patient Recall] - Destroy'
+      description: ''
+      authenticated: true
+      custom: []
+    headers:
+      Authorization: 'Bearer {YOUR_AUTH_KEY}'
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the recall.'
+        required: true
+        example: 8
+        type: integer
+        custom: []
+    queryParameters: []
+    bodyParameters: []
     responses: []
     responseFields: []
