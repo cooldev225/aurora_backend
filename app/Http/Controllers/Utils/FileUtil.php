@@ -34,7 +34,7 @@ class FileUtil extends Controller
         switch($type)
         {
             case FileType::$ReferralFile:
-                return 'referral_file_' + $id + '.' + $ext;
+                return 'referral_file_' . $id . '.' . $ext;
                 break;
             default:
                 break;

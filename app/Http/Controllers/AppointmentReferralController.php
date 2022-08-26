@@ -39,7 +39,7 @@ class AppointmentReferralController extends Controller
 
             $path = FileUtil::getStoragePath(FileType::$ReferralFile);
 
-            $file_name = FileUtil::getStoragePath(FileType::$ReferralFile, $appointmentReferral->id, $file->extension());
+            $file_name = FileUtil::getFileName(FileType::$ReferralFile, $appointmentReferral->id, $file->extension());
 
             $file->storeAs($path, $file_name);
 
