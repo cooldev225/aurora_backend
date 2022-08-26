@@ -44,8 +44,7 @@ class EmployeeFactory extends Factory
         $work_hours = [];
 
         foreach ($week_days as $week_day) {
-            $clinics = Clinic::select('id', 'name')
-                ->where('organization_id', $user->organization_id)
+            $clinics = $user->organization()->clinics()
                 ->inRandomOrder()
                 ->first()
                 ->toArray();

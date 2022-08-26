@@ -14,6 +14,21 @@ class Employee extends Model
         'document_letter_footer', 'signature'
     ];
 
+    protected $appends = [
+        'role'
+    ];
+
+
+    /**
+     * Return Specialist Name
+     */
+    public function getRoleAttribute()
+    {
+ 
+
+        return $this->user->role;
+    }
+
     /**
      * Return User
      */
