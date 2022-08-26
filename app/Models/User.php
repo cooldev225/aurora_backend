@@ -93,7 +93,7 @@ class User extends Authenticatable implements JWTSubject
             'organization_id'   =>  $organization_id,
             'password'          =>  $password
         );
-        Notification::sendUserNotification($data, $user, 'user_created');
+       //Notification::sendUserNotification($data, $user, 'user_created');
 
         return $user;
     }
