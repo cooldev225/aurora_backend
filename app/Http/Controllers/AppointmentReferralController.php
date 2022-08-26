@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\AppointmentReferralRequest;
+use App\Http\Requests\AppointmentReferralFileRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 use App\Http\Constants\FileType;
 
@@ -57,4 +60,21 @@ class AppointmentReferralController extends Controller
             Response::HTTP_OK
         );
     }
+
+    /**
+     * [Referral] - File
+     *
+     * @group Appointments
+     * @param  \App\Http\Requests\AppointmentReferralFileRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function file(
+        AppointmentReferralFileRequest $request
+    ) {
+        return response(Storage::disk('local')->get('files/appointment_referral/' . $request->path), 200)
+              ->header('Content-Type', 'application/pdf');
+    }
+
+
 }

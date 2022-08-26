@@ -54,7 +54,6 @@ use App\Http\Controllers\UserAppointmentController;
 */
 
 Route::post('/login', [UserController::class, 'login']);
-
 Route::middleware(['auth'])->group(function () {
 
     Route::post('/verify_token', [UserController::class, 'verify_token']);
@@ -129,6 +128,11 @@ Route::middleware(['auth'])->group(function () {
         Route::get('payments', [PaymentController::class, 'index']);
         Route::get('payments/{appointment}', [PaymentController::class, 'show']);
         Route::post('payments', [PaymentController::class, 'store']);
+    });
+    Route::middleware([
+        'ensure.role:organizationAdmin,organizationManager,receptionist,anesthetist,specialist',
+    ])->group(function () {
+        Route::post('/appointments/referral/file', [AppointmentReferralController::class,'file']);
     });
 
     Route::middleware([
