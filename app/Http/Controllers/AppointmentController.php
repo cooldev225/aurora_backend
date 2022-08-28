@@ -248,7 +248,7 @@ class AppointmentController extends BaseOrganizationController
             // extendable
         }
 
-        if ($request->filled('time_requirement')) {
+        if ($request->time_requirement != 0) {
             $appointment_time_requirement = AppointmentTimeRequirement::find(
                 $request->time_requirement
             );
