@@ -2,10 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\AppointmentReferralRequest;
+use App\Http\Requests\AppointmentReferralFileRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
+
+use App\Http\Constants\FileType;
+
+use App\Http\Controllers\Utils\FileUtil;
 
 class AppointmentReferralController extends Controller
 {
@@ -32,10 +39,15 @@ class AppointmentReferralController extends Controller
         ]);
 
         if ($file = $request->file('file')) {
-            $file_name = 'referral_file_' . $appointmentReferral->id . '_' . time() . '.' . $file->extension();
-            $referral_file_path = '/' . $file->storeAs('files/appointment_referral', $file_name);
+
+            $path = FileUtil::getStoragePath(FileType::$ReferralFile);
+
+            $file_name = FileUtil::getFileName(FileType::$ReferralFile, $appointmentReferral->id, $file->extension());
+
+            $file->storeAs($path, $file_name);
+
             Log::info('PATH: $referral_file_path');
-            $appointmentReferral->referral_file = $referral_file_path;
+            $appointmentReferral->referral_file = $file_name;
             $appointmentReferral->save();
         }
 
@@ -48,4 +60,21 @@ class AppointmentReferralController extends Controller
             Response::HTTP_OK
         );
     }
+
+    /**
+     * [Referral] - File
+     *
+     * @group Appointments
+     * @param  \App\Http\Requests\AppointmentReferralFileRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function file(
+        AppointmentReferralFileRequest $request
+    ) {
+        return response(Storage::disk('local')->get('files/appointment_referral/' . $request->path), 200)
+              ->header('Content-Type', 'application/pdf');
+    }
+
+
 }
