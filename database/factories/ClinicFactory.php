@@ -19,7 +19,7 @@ class ClinicFactory extends Factory
     public function definition()
     {
         return [
-            'organization_id'           => Organization::inRandomOrder()->first()->id,
+            'organization_id'           => 2,
             'name'                      => $this->faker->catchPhrase(),
             'email'                     => $this->faker->unique()->safeEmail(),
             'phone_number'              => $this->faker->numerify('0#-####-####'),

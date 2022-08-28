@@ -14,7 +14,24 @@ class ClinicSeeder extends Seeder
      */
     public function run()
     {
-        Clinic::factory(2)->create(['organization_id' => 1]);
+        Clinic::factory(1)->create([
+            'organization_id' => 1,
+            'name' => 'Bayside Day Procedure And Specialist Centre'
+        ]);
+        Clinic::factory(1)->create([
+            'organization_id' => 1,
+            'name' => 'Bayswater Day Procedure And Specialist Centre'
+        ]);
+        Clinic::factory(1)->create([
+            'organization_id' => 1,
+            'name' => 'Rosebud Day Hospital'
+        ]);
+
+        Clinic::factory(1)->create([
+            'organization_id' => 1,
+            'name' => 'Hampton Day Hospital'
+        ]);
+
         Clinic::factory(2)->create(['organization_id' => 2]);
     }
 }

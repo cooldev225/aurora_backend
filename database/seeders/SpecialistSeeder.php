@@ -17,5 +17,6 @@ class SpecialistSeeder extends Seeder
     public function run()
     {
         Specialist::factory(10)->create();
+        
     }
 }
