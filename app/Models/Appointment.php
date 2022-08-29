@@ -152,7 +152,7 @@ class Appointment extends Model
     /**
      * Return Pre Admission
      */
-    public function pre_admission()
+    public function preAdmission()
     {
         return $this->hasOne(AppointmentPreAdmission::class);
     }

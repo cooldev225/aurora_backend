@@ -68,11 +68,12 @@ Route::middleware(['auth'])->group(function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Appointment Pre Admission Routes (role:none)
-    Route::prefix('appointment_pre_admissions')->group(function () {
+    Route::prefix('appointments/pre-admissions')->group(function () {
         Route::get('/show/{token}',         [AppointmentPreAdmissionController::class,'show',]);
         Route::post('/validate/{token}',    [AppointmentPreAdmissionController::class, 'validate_pre_admission']);
         Route::post('/store/{token}',       [AppointmentPreAdmissionController::class,'store']);
     });
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Internal Mail Routes (role:all)
@@ -215,10 +216,6 @@ Route::middleware(['auth'])->group(function () {
             [PatientDocumentOtherController::class, 'upload']
         );
 
-        Route::post('pre-admission/{appointment}/upload', [
-            AppointmentPreAdmissionController::class,
-            'upload',
-        ]);
     });
 
     Route::middleware([

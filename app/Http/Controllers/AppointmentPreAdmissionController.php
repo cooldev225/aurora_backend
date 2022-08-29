@@ -9,6 +9,7 @@ use App\Models\Patient;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use PDF;
 
 class AppointmentPreAdmissionController extends Controller
 {
@@ -104,10 +105,9 @@ class AppointmentPreAdmissionController extends Controller
      * @param  string  $token
      * @return \Illuminate\Http\Response
      */
-    public function store($token, AppointmentPreAdmissionRequest $request)
+    public function store(AppointmentPreAdmissionRequest $request, $token)
     {
-        $preAdmission = AppointmentPreAdmission::where('token', $token)
-            ->first();
+        $preAdmission = AppointmentPreAdmission::where('token', $token)->get();
 
         if ($preAdmission == null) {
             return response()->json(
@@ -131,24 +131,26 @@ class AppointmentPreAdmissionController extends Controller
             );
         }
 
-        $appointment = $preAdmission->appointment;
+        $appointment = $preAdmission->appointment;        
         $patient = $appointment->patient();
-        Patient::where('id', $appointment->patient_id)
-            ->update($request->only($patient->getFillable()));
+
+        Patient::where('id', $appointment->patient_id)->update($request->only($patient->getFillable()));
         
-        $pdf = $request->pdf;
-        $pdf = str_replace('data:application/pdf;base64,', '', $pdf);
-        $pdf = base64_decode($pdf);
+        $data = [
+            'title' => 'Pre-admission form: '. $appointment->patient_name->full,
+            'date' => date('d/m/Y'),
+        ]; 
+            
+        $pdf = PDF::loadView('pdfs/patientPreAdmissionForm', $data);
+
         $file_name = 'pre_admission_' . $appointment->id . '_' . time() . '.pdf';
         $file_path = '/files/appointment_pre_admission/' . $file_name;
 
-        Storage::put($file_path, $pdf);
+        Storage::put($file_path, $pdf->output());
         $file_url = url($file_path);
         $preAdmission->pre_admission_file = $file_url;
         $preAdmission->status = 'CREATED';
         $preAdmission->save();
-
-        $data = $preAdmission->getAppointmentPreAdmissionData();
 
         return response()->json(
             [
@@ -157,6 +159,37 @@ class AppointmentPreAdmissionController extends Controller
             ],
             Response::HTTP_OK
         );
+    }
+
+        /**
+     * [Pre Admission] - Create Pre Admission
+     *
+     * @param  string  $token
+     * @return \Illuminate\Http\Response
+     */
+    public function testPDF()
+    {
+        $appointment = Appointment::first();
+        $preAdmission = $appointment->preAdmission;
+        $patient = Patient::first();
+  
+        $data = [
+            'title' => 'Pre-admission form: '. $appointment->patient_name->full,
+            'date' => date('d/m/Y'),
+        ]; 
+            
+        $pdf = PDF::loadView('pdfs/patientPreAdmissionForm', $data);
+
+        $file_name = 'pre_admission_' . $appointment->id . '_' . time() . '.pdf';
+        $file_path = '/files/appointment_pre_admission/' . $file_name;
+
+        Storage::put($file_path, $pdf->output());
+        $file_url = url($file_path);
+        $preAdmission->pre_admission_file = $file_url;
+        $preAdmission->status = 'CREATED';
+        $preAdmission->save();
+     
+        return 'Success';
     }
 
     /**
