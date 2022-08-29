@@ -11,6 +11,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
 use App\Http\Controllers\AppointmentReferralController;
+use App\Http\Controllers\AppointmentSearchAvailableController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
@@ -161,7 +162,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
 
-        Route::get('/available-slots', [AppointmentController::class, 'availableSlots']);
+        Route::get('/available-slots', [AppointmentSearchAvailableController::class, 'index']);
         Route::get('/organizations', [OrganizationController::class, 'index']);
         Route::get('/appointment-types', [AppointmentTypeController::class,'index']);
         Route::get('appointment-time-requirements', [AppointmentTimeRequirementController::class,'index']);
