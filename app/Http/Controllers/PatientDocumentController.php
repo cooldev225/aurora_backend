@@ -16,11 +16,9 @@ class PatientDocumentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Patient $patient)
     {
-        $patient_id = $request->patient_id;
-
-        $patientDocumentList = PatientDocument::where('patient_id', $patient_id)
+        $patientDocumentList = $patient->patientDocuments
             ->with('letter')
             ->with('report')
             ->with('specialist_audio')

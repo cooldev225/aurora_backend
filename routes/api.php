@@ -176,10 +176,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/notification-templates', [NotificationTemplateController::class,'index',]);
 
 
-        Route::apiResource('patient-documents',
-            PatientDocumentController::class,
-            ['except' => ['index', 'show', 'update', 'destroy']]
-        );
+
         Route::post('patient-documents/upload', [PatientDocumentController::class, 'upload']);
 
         Route::apiResource('patient-documents-letter',
@@ -233,6 +230,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('recalls/{patient}', [PatientRecallController::class, 'index']);
             Route::apiResource('recalls', PatientRecallController::class, ['except' => ['show', 'index']]);
             Route::get('appointments/{patient}', [PatientController::class, 'appointments']);
+           
+            Route::get('documents/{patient}', [PatientController::class, 'index']);
+            Route::post('documents/{patient}', [PatientController::class, 'store']);
+            Route::put('documents/{patient}', [PatientController::class, 'update']);
         });
 
         Route::apiResource('letter-templates', LetterTemplateController::class, ['except' => ['show']]);
