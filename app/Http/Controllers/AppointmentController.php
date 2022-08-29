@@ -532,7 +532,7 @@ class AppointmentController extends BaseOrganizationController
             'referring_doctor_id'           => $request->referring_doctor_id,
             'referral_date'                 => $request->referring_doctor_id,
             'referral_duration'             => $request->referral_duration,
-            'is_no_referral'                => $request->is_no_referral,
+            'is_no_referral'                => false,
         ]);
 
         return response()->json(
