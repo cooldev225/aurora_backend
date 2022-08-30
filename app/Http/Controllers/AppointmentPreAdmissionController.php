@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use PDF;
+use Carbon\Carbon;
 
 class AppointmentPreAdmissionController extends Controller
 {
@@ -64,12 +65,12 @@ class AppointmentPreAdmissionController extends Controller
         }
 
         $appointment = $preAdmission->appointment;
-        $patient = $appointment->patient();
+        $patient = $appointment->patient;
 
         $date_of_birth = $request->date_of_birth;
         $last_name = $request->last_name;
-
-        if ($patient->date_of_birth != $date_of_birth
+        $compare_birthday = Carbon::parse($patient->date_of_birth)->format('Y-m-d');
+        if ($compare_birthday != $date_of_birth
             || strtolower($patient->last_name) != strtolower($last_name)
         ) {
             return response()->json(
@@ -101,7 +102,7 @@ class AppointmentPreAdmissionController extends Controller
      */
     public function store(AppointmentPreAdmissionRequest $request, $token)
     {
-        $preAdmission = AppointmentPreAdmission::where('token', $token)->get();
+        $preAdmission = AppointmentPreAdmission::where('token', $token)->first();
 
         if ($preAdmission == null) {
             return response()->json(
@@ -125,16 +126,16 @@ class AppointmentPreAdmissionController extends Controller
             );
         }
 
-        $appointment = $preAdmission->appointment;        
+        $appointment = $preAdmission->appointment;
         $patient = $appointment->patient();
 
         Patient::where('id', $appointment->patient_id)->update($request->only($patient->getFillable()));
-        
+
         $data = [
             'title' => 'Pre-admission form: '. $appointment->patient_name->full,
             'date' => date('d/m/Y'),
-        ]; 
-            
+        ];
+
         $pdf = PDF::loadView('pdfs/patientPreAdmissionForm', $data);
 
         $file_name = 'pre_admission_' . $appointment->id . '_' . time() . '.pdf';
@@ -166,12 +167,12 @@ class AppointmentPreAdmissionController extends Controller
         $appointment = Appointment::first();
         $preAdmission = $appointment->preAdmission;
         $patient = Patient::first();
-  
+
         $data = [
             'title' => 'Pre-admission form: '. $appointment->patient_name->full,
             'date' => date('d/m/Y'),
-        ]; 
-            
+        ];
+
         $pdf = PDF::loadView('pdfs/patientPreAdmissionForm', $data);
 
         $file_name = 'pre_admission_' . $appointment->id . '_' . time() . '.pdf';
@@ -182,7 +183,7 @@ class AppointmentPreAdmissionController extends Controller
         $preAdmission->pre_admission_file = $file_url;
         $preAdmission->status = 'CREATED';
         $preAdmission->save();
-     
+
         return 'Success';
     }
 
