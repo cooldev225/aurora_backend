@@ -24,7 +24,6 @@ class Patient extends Model
     protected $appends = array(
         'full_name',
         'billing',
-        'all_upcoming_appointments',
         'int_contact_number'
     );
 
@@ -43,15 +42,6 @@ class Patient extends Model
         return $this->billing()->get(); 
     }
 
-    public function getAllUpcomingAppointmentsAttribute()
-    {
-     $organization_id = auth()->user()->organization_id;
-
-        return $this->appointments()
-           ->where('organization_id', $organization_id)
-            ->where('date', '>=', date('Y-m-d'))
-            ->get();
-    }
 
     /**
      * Return Patient Billing
@@ -84,7 +74,6 @@ class Patient extends Model
     {
         return $this->hasMany(PatientDocument::class, 'patient_id');
     }
-
 
     /**
      * Get the patients for organization.
