@@ -27,10 +27,9 @@ class AppointmentPreAdmissionController extends Controller
         if ($preAdmission == null) {
             return response()->json(
                 [
-                    'message'   => 'Appointment Pre Admission',
-                    'data'      => null,
+                    'message'   => 'No Matching Pre-Admission',
                 ],
-                Response::HTTP_OK
+                Response::HTTP_NOT_FOUND
             );
         }
 
@@ -51,18 +50,16 @@ class AppointmentPreAdmissionController extends Controller
      * @param  string  $token
      * @return \Illuminate\Http\Response
      */
-    public function validate_pre_admission($token, Request $request)
+    public function validatePreAdmission(Request $request, $token)
     {
-        $preAdmission = AppointmentPreAdmission::where('token', $token)
-            ->first();
+        $preAdmission = AppointmentPreAdmission::where('token', $token)->first();
 
         if ($preAdmission == null) {
             return response()->json(
                 [
-                    'message'   => 'Appointment Pre Admission',
-                    'data'      => null,
+                    'message'   => 'No Matching Pre-Admission',
                 ],
-                Response::HTTP_OK
+                Response::HTTP_NOT_FOUND
             );
         }
 
@@ -75,20 +72,17 @@ class AppointmentPreAdmissionController extends Controller
         if ($patient->date_of_birth != $date_of_birth
             || strtolower($patient->last_name) != strtolower($last_name)
         ) {
-            $data = $preAdmission->getAppointmentPreAdmissionData();
-
             return response()->json(
                 [
                     'message'   => 'Please check you have entered your Date of birth and Last name correctly.',
-                    'data'      => $data,
                 ],
-                Response::HTTP_OK
+                Response::HTTP_FORBIDDEN
             );
         }
 
+        $data = $preAdmission->getAppointmentPreAdmissionData();
         $preAdmission->status = 'VALIDATED';
         $preAdmission->save();
-        $data = $preAdmission->getAppointmentPreAdmissionData();
 
         return response()->json(
             [

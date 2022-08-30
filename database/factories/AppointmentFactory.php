@@ -68,7 +68,7 @@ class AppointmentFactory extends Factory
             $procedure_approval_status = 'NOT_RELEVANT';
         } else {
             $procedure_approval_status = $this->faker->randomElement([
-                'NOT_ACCESSED',
+                'NOT_ASSESSED',
                 'NOT_APPROVED',
                 'APPROVED',
             ]);

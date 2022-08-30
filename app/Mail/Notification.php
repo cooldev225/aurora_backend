@@ -13,7 +13,8 @@ class Notification
         $notificationType,
         $notificationTemplate = null
     ) {
-        $patient = $appointment->patient();
+        $patient = $appointment->patient;
+
         if ($notificationTemplate == null) {
             $notificationTemplate = NotificationTemplate::where(
                 'type',

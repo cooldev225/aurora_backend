@@ -70,7 +70,7 @@ Route::middleware(['auth'])->group(function () {
     // Appointment Pre Admission Routes (role:none)
     Route::prefix('appointments/pre-admissions')->group(function () {
         Route::get('/show/{token}',         [AppointmentPreAdmissionController::class,'show',]);
-        Route::post('/validate/{token}',    [AppointmentPreAdmissionController::class, 'validate_pre_admission']);
+        Route::post('/validate/{token}',    [AppointmentPreAdmissionController::class, 'validatePreAdmission']);
         Route::post('/store/{token}',       [AppointmentPreAdmissionController::class,'store']);
     });
 
@@ -238,7 +238,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::middleware(['ensure.role:anesthetist'])->group(function () {
         Route::get('/procedure-approvals', [AppointmentProcedureApprovalController::class, 'index']);
-        Route::put('appointment/{appointment}/procedure-approvals', [ AppointmentProcedureApprovalController::class,'update']);
+        Route::put('appointment/procedure-approvals/{appointment}', [ AppointmentProcedureApprovalController::class,'update']);
     });
 });
 

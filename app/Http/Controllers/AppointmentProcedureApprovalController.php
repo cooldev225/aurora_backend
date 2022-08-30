@@ -19,21 +19,20 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
     public function index()
     {
         $anesthetist_employee_id = auth()->user()->employee->id;
-
         $today = date('Y-m-d');
-        $patients = Appointment::
-            where('anesthetist_id', $anesthetist_employee_id)
-            ->where('procedure_approval_status', '!=', ProcedureApprovalStatus::NOT_RELEVANT)
-            ->where('date', '>=', $today)
-            ->orderBy('date')
-            ->orderBy('start_time')
-            ->get()
-            ->toArray();
+
 
         return response()->json(
             [
-                'message' => 'Patient List',
-                'data' => $patients,
+                'message' => 'Procedure Approval List',
+                'data' => Appointment::
+                            where('anesthetist_id', $anesthetist_employee_id)
+                            ->where('procedure_approval_status', '!=', ProcedureApprovalStatus::NOT_RELEVANT)
+                            ->where('date', '>=', $today)
+                            ->orderBy('date')
+                            ->orderBy('start_time')
+                            ->get()
+                            ->toArray()
             ],
             200
         );
@@ -52,8 +51,9 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
     ) {
         $appointment->procedure_approval_status = $request->procedure_approval_status;
         $appointment->save();
-        $appointment->pre_admission->note = $request->note;
-        $appointment->pre_admission->save();
+        $preadmission = $appointment->preAdmission;
+        $preadmission->note = $request->note;
+        $preadmission->save();
 
         if ($appointment->procedure_approval_status == ProcedureApprovalStatus::APPROVED) {
             Notification::sendAppointmentNotification($appointment, 'procedure_approved');

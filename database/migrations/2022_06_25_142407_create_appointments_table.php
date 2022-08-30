@@ -24,13 +24,13 @@ return new class extends Migration {
             $table->boolean('is_wait_listed')->default(false);
             $table
                 ->enum('procedure_approval_status', [
-                    'NOT_ACCESSED',
+                    'NOT_ASSESSED',
                     'NOT_APPROVED',
                     'APPROVED',
                     'NOT_RELEVANT',
                     'CONSULT_REQUIRED'
                 ])
-                ->default('NOT_ACCESSED');
+                ->default('NOT_ASSESSED');
             $table
                 ->enum('confirmation_status', [
                     'PENDING',

@@ -29,7 +29,7 @@ class AppointmentProcedureApprovalRequest extends FormRequest
     public function rules()
     {
         return [
-            'procedure_approval_status' => 'in:NOT_APPROVED,APPROVED,CONSULT_REQUIRED',
+            'procedure_approval_status' => 'in:NOT_ASSESSED,NOT_APPROVED,APPROVED,CONSULT_REQUIRED',
         ];
     }
 
