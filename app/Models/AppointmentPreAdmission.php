@@ -18,6 +18,7 @@ class AppointmentPreAdmission extends Model
     }
 
     public function getAppointmentPreAdmissionData() {
+
         $appointment = $this->appointment;
         $organization = $appointment->organization;
         $data = [
@@ -31,7 +32,7 @@ class AppointmentPreAdmission extends Model
             return $data;
         }
 
-        $patient = $appointment->patient();
+        $patient = $appointment->patient;
         $specialist = $appointment->specialist();
         $employee = $specialist->employee;
         $user = $employee->user;
