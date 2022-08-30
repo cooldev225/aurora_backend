@@ -79,7 +79,7 @@ class AppointmentPreAdmissionController extends Controller
 
             return response()->json(
                 [
-                    'message'   => 'Credential is not correct',
+                    'message'   => 'Please check you have entered your Date of birth and Last name correctly.',
                     'data'      => $data,
                 ],
                 Response::HTTP_OK
