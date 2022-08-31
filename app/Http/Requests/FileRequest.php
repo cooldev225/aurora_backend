@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
 * @bodyParam path                  string   required  The path is file name of referral pdf       Example: referral_file_4.pdf
 */
-class AppointmentReferralFileRequest extends FormRequest
+class FileRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

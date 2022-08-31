@@ -43,10 +43,9 @@ class AppointmentReferralController extends Controller
             $path = FileUtil::getStoragePath(FileType::$ReferralFile);
 
             $file_name = FileUtil::getFileName(FileType::$ReferralFile, $appointmentReferral->id, $file->extension());
-
+            
             $file->storeAs($path, $file_name);
 
-            Log::info('PATH: $referral_file_path');
             $appointmentReferral->referral_file = $file_name;
             $appointmentReferral->save();
         }
@@ -60,21 +59,5 @@ class AppointmentReferralController extends Controller
             Response::HTTP_OK
         );
     }
-
-    /**
-     * [Referral] - File
-     *
-     * @group Appointments
-     * @param  \App\Http\Requests\AppointmentReferralFileRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-
-    public function file(
-        AppointmentReferralFileRequest $request
-    ) {
-        return response(Storage::disk('local')->get('files/appointment_referral/' . $request->path), 200)
-              ->header('Content-Type', 'application/pdf');
-    }
-
 
 }

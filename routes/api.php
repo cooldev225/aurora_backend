@@ -28,6 +28,7 @@ use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\LetterTemplateController;
 use App\Http\Controllers\NotificationTestController;
 use App\Http\Controllers\PaymentController;
@@ -42,6 +43,7 @@ use App\Http\Controllers\PatientDocumentLetterController;
 use App\Http\Controllers\PatientDocumentOtherController;
 use App\Http\Controllers\PatientDocumentReportController;
 use App\Http\Controllers\UserAppointmentController;
+use App\Http\Requests\FileRequest;
 
 /*
 |--------------------------------------------------------------------------
@@ -56,6 +58,8 @@ use App\Http\Controllers\UserAppointmentController;
 
 Route::post('/login', [UserController::class, 'login']);
 Route::middleware(['auth'])->group(function () {
+
+    Route::post('/file', [FileController::class,'show']);
 
     Route::post('/verify_token', [UserController::class, 'verify_token']);
     Route::post('/logout', [UserController::class, 'logout']);
@@ -130,11 +134,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('payments', [PaymentController::class, 'index']);
         Route::get('payments/{appointment}', [PaymentController::class, 'show']);
         Route::post('payments', [PaymentController::class, 'store']);
-    });
-    Route::middleware([
-        'ensure.role:organizationAdmin,organizationManager,receptionist,anesthetist,specialist',
-    ])->group(function () {
-        Route::post('/appointments/referral/file', [AppointmentReferralController::class,'file']);
     });
 
     Route::middleware([

@@ -21,14 +21,13 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
         $anesthetist_employee_id = auth()->user()->employee->id;
         $today = date('Y-m-d');
 
-
         return response()->json(
             [
                 'message' => 'Procedure Approval List',
                 'data' => Appointment::
                             where('anesthetist_id', $anesthetist_employee_id)
                             ->where('procedure_approval_status', '!=', ProcedureApprovalStatus::NOT_RELEVANT)
-                            ->where('date', '>=', $today)
+                            //->where('date', '>=', $today)
                             ->orderBy('date')
                             ->orderBy('start_time')
                             ->get()
