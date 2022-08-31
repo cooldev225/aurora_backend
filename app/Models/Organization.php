@@ -68,7 +68,7 @@ class Organization extends Model
      */
     public function patients()
     {
-        return $this->belongsToMany(Patient::class);
+        return $this->belongsToMany(Patient::class)->with('upcomingAppointments');
     }
 
     /**

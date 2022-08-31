@@ -60,6 +60,14 @@ class Patient extends Model
     }
 
     /**
+     * Returns Patients Upcoming Appointment
+     */
+    public function upcomingAppointments()
+    {
+        return $this->hasMany(Appointment::class, 'patient_id')->where('date', '>=', date('Y-m-d'));
+    }
+
+    /**
      * Return Patient Recalls
      */
     public function recalls()
