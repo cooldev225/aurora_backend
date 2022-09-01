@@ -4,6 +4,7 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Clinic;
+use App\Models\HRMUserBaseSchedule;
 use App\Models\User;
 use App\Models\Organization;
 use App\Models\UserRole;
@@ -41,6 +42,15 @@ class EmployeeFactory extends Factory
             'sunday',
         ];
 
+
+        HRMUserBaseSchedule::create([
+            'user_id'   => $user->id,
+            'clinic_id' => Organization::find($organization_id)->clinics->first()->id,
+            'start_time' => $this->faker->randomElement([ '07:00:00', '08:30:00','06:30:00']),
+            'end_time' => $this->faker->randomElement( ['16:00:00', '14:30:00','12:30:00']),
+            'week_day' => $this->faker->randomElement( ["MON", "TUE","WED"]),
+        ]);
+
         $work_hours = [];
 
         foreach ($week_days as $week_day) {
@@ -51,7 +61,6 @@ class EmployeeFactory extends Factory
 
             $work_hours = $work_hours + [
                 $week_day => [
-                    'available' => mt_rand(1, 2) == 1 ? true : false,
                     'appointment_type' => $this->faker->randomElement([
                         'procedure',
                         'consultation',

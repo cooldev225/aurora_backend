@@ -9,6 +9,7 @@ use App\Models\UserRole;
 use App\Models\Employee;
 use App\Models\AppointmentTimeRequirement;
 use App\Http\Requests\SpecialistRequest;
+use App\Models\User;
 
 class SpecialistController extends Controller
 {
@@ -45,6 +46,8 @@ class SpecialistController extends Controller
      */
     protected function workHoursByDate(Request $request, $date)
     {
+
+        /*
         $specialist_table = (new Specialist())->getTable();
         $employee_table = (new Employee())->getTable();
 
@@ -134,6 +137,7 @@ class SpecialistController extends Controller
                 }
             }
         }
+        */
 
         return $specialists;
     }
@@ -145,20 +149,42 @@ class SpecialistController extends Controller
      */
     public function workHours(Request $request)
     {
-        $date = date('Y-m-d');
 
+        if ($request->filled('specialist_ids')) {
+            //aDD FILTER FOR SELECTED SPECIALISTS
+        }
+
+        $date = date('Y-m-d');
         if ($request->has('date')) {
             $date = date('Y-m-d', strtotime($request->date));
         }
 
-        $return = [];
+        $day = 'MON';//date('D', strtotime($request->date));
 
-        $return[$date] = $this->workHoursByDate($request, $date);
+        $specialists = User::
+        where('organization_id', auth()->user()->organization_id)
+        ->where('role_id', 5) // pull out to enum
+        ->whereHas('hrmUserBaseSchedules', function($query) use ($day)
+        {
+            $query->where('week_day', $day);
+        })
+        ->with([
+            'employee.specialist.appointments' => function ($query) use ($date) {
+            $query->where('date','=', $date);
+            }
+        ])
+        ->with([
+            'hrmUserBaseSchedules' => function ($query) use ($day) {
+                $query->where('week_day', $day);
+            }
+        ])
+        ->get();
+
 
         return response()->json(
             [
-                'message' => 'Available Specialist List and work hours by day',
-                'data' => $return,
+                'message' => 'Available Specialist On date' . $request->date,
+                'data' => $specialists,
             ],
             Response::HTTP_OK
         );

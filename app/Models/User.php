@@ -69,6 +69,14 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Organization::class)->first();
     }
 
+        /**
+     * Return Organization
+     */
+    public function hrmUserBaseSchedules()
+    {
+        return $this->hasMany(HRMUserBaseSchedule::class);
+    }
+
     /**
      * Return Organization
      */
@@ -76,6 +84,7 @@ class User extends Authenticatable implements JWTSubject
     {
         return $this->role()->slug == 'admin';
     }
+
 
     /**
      * Return Employee
@@ -118,4 +127,5 @@ class User extends Authenticatable implements JWTSubject
 
         return $translated;
     }
+
 }

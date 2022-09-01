@@ -40,9 +40,9 @@ class AppointmentFactory extends Factory
 
         $appointment_time = $organization->appointment_length;
 
-        if ($appointment_type->appointment_time == 'double') {
+        if ($appointment_type->appointment_time == 'DOUBLE') {
             $appointment_time = $appointment_time * 2;
-        } elseif ($appointment_type->appointment_time == 'triple') {
+        } elseif ($appointment_type->appointment_time == 'TRIPLE') {
             $appointment_time = $appointment_time * 3;
         }
 

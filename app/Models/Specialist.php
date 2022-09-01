@@ -166,4 +166,8 @@ class Specialist extends Model
 
         return $appointments;
     }
+
+    public function appointments(){
+        return $this->hasMany(Appointment::class);
+    }
 }
