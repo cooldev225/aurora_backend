@@ -177,9 +177,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/health-funds', [HealthFundController::class, 'index']);
 
 
-
-
-        Route::post('patient-documents/upload', [PatientDocumentController::class, 'upload']);
+        Route::apiResource('patient/documents', PatientDocumentController::class);
 
         Route::apiResource('patient-documents-letter',
             PatientDocumentLetterController::class,
