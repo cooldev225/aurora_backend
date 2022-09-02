@@ -68,29 +68,6 @@ class AppointmentSearchAvailableController extends BaseOrganizationController
         $appointments = $appointments->get();
         $specialists_by_week = [];
 
-        foreach ($specialists as $key => $specialist) {
-            $work_hours = (array) json_decode($specialist['work_hours']);
-            $specialists[$key]['work_hours'] = $work_hours;
-
-            foreach ($work_hours as $week => $availability) {
-                if (
-                    $availability->available &&
-                    (empty($clinic_id) ||
-                        $clinic_id == $availability->locations->id) &&
-                    (empty($appointment_type) ||
-                        $appointment_type->type ==
-                        $availability->appointment_type)
-                ) {
-                    if (empty($specialists_by_week[$week])) {
-                        $specialists_by_week[$week] = [];
-                    }
-
-                    $specialists_by_week[$week][$specialist['id']] =
-                        $availability->time_slot;
-                }
-            }
-        }
-
         $today = date('Y-m-d');
         $day_of_weeks = [];
 

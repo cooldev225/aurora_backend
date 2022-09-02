@@ -24,19 +24,9 @@ class AppointmentFactory extends Factory
     {
         $organization = Organization::first();
         $organization_id = 1;
-        $patient = $organization->patients()->inRandomOrder()->first();
-
-
-        $specialist = Specialist::organizationSpecialists($organization_id)
-            ->inRandomOrder()
-            ->first();
-
-        $appointment_type = AppointmentType::where(
-            'organization_id',
-            $organization_id
-        )
-            ->inRandomOrder()
-            ->first();
+        $patient = $organization->patients->random(1)->first();
+        $specialist =  $organization->users->where('role_id', 5)->random(1)->first();
+        $appointment_type = $organization->appointmentTypes->random(1)->first();
 
         $appointment_time = $organization->appointment_length;
 
