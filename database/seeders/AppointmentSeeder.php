@@ -61,8 +61,7 @@ class AppointmentSeeder extends Seeder
             'date' => $date,
         ]);
 
-        $appointment_time = Organization::find($appointment->organization_id)
-            ->appointment_length;
+        $appointment_time = Organization::find($appointment->organization_id)->appointment_length;
 
         $allAppointments = Appointment::all();
         $conflict = 1;
@@ -70,8 +69,7 @@ class AppointmentSeeder extends Seeder
         while ($conflict > 0) {
             $conflict = 0;
 
-            $appointment->start_time = date(
-                'H:i:s',
+            $appointment->start_time = date(      'H:i:s',
                 strtotime($appointment->start_time) + $appointment_time * 60
             );
             $appointment->end_time = date(

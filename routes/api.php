@@ -170,9 +170,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/health-funds', [HealthFundController::class, 'index']);
 
-
-    
-
     });
 
     Route::middleware([

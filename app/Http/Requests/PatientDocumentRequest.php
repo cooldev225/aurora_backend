@@ -26,6 +26,8 @@ class PatientDocumentRequest extends FormRequest
         return [
             'document_name' => 'required',
             'document_type' => 'required',
+            'appointment_id'=> 'required',
+            'specialist_id' => 'required',
             'file'          => 'required',
         ];
     }

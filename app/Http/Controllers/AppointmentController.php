@@ -137,8 +137,7 @@ class AppointmentController extends BaseOrganizationController
      * @param  \App\Http\Requests\AppointmentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AppointmentRequest $request)
-    {
+    public function store(AppointmentRequest $request) {
         $patient = Patient::find($request->patient_id);
         if ($patient) {
             $patient->update([
@@ -248,10 +247,7 @@ class AppointmentController extends BaseOrganizationController
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(
-        AppointmentRequest $request,
-        Appointment $appointment
-    ) {
+    public function update(AppointmentRequest $request,Appointment $appointment) {
       
 
         $appointment->update([

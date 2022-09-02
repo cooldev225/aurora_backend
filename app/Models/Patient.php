@@ -76,11 +76,11 @@ class Patient extends Model
     }
 
     /**
-     * Return Patient Recalls
+     * Return Patient documents
      */
-    public function patientDocuments()
+    public function documents()
     {
-        return $this->hasMany(PatientDocument::class, 'patient_id');
+        return $this->hasMany(PatientDocument::class);
     }
 
     /**

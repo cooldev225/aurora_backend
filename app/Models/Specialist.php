@@ -62,7 +62,6 @@ class Specialist extends Model
             $specialist_table . '.employee_id',    
             $specialist_table . '.id',
             $employee_table . '.user_id',
-            $employee_table . '.work_hours',
             'anesthetist_id',
             DB::raw(
                 "CONCAT(anesthetist_users.first_name, ' ', anesthetist_users.last_name) AS anesthetist_name"
@@ -165,5 +164,9 @@ class Specialist extends Model
             ->where($appointment_table . '.organization_id', $organization_id);
 
         return $appointments;
+    }
+
+    public function appointments(){
+        return $this->hasMany(Appointment::class);
     }
 }

@@ -15,20 +15,13 @@ return new class extends Migration {
         Schema::create('appointment_types', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id');
-            $table
-                ->enum('type', ['consultation', 'procedure'])
-                ->default('procedure');
+            $table->enum('type', ['CONSULTATION', 'PROCEDURE'])->default('procedure');
+            $table->boolean('anesthetist_required')->default(false);
             $table->string('color')->nullable();
-            $table->string('mbs_code')->nullable();
-            $table->string('mbs_description')->nullable();
-            $table->string('clinical_code')->nullable();
             $table->string('name');
-            $table->enum('invoice_by', ['Clinic', 'Specialist']);
-            $table->float('procedure_price')->nullable();
+            $table->enum('invoice_by', ['CLINIC', 'SPECIALIST'])->default('CLINIC');
             $table->integer('arrival_time');
-            $table
-                ->enum('appointment_time', ['single', 'double', 'triple'])
-                ->default('single');
+            $table->enum('appointment_time', ['SINGLE', 'DOUBLE', 'TRIPLE'])->default('SINGLE');
             $table->integer('payment_tier_1')->default(0);
             $table->integer('payment_tier_2')->default(0);
             $table->integer('payment_tier_3')->default(0);
@@ -40,8 +33,6 @@ return new class extends Migration {
             $table->integer('payment_tier_9')->default(0);
             $table->integer('payment_tier_10')->default(0);
             $table->integer('payment_tier_11')->default(0);
-            $table->boolean('anesthetist_required')->default(false);
-            $table->enum('status', ['Enabled', 'Disabled'])->default('Enabled');
             $table->timestamps();
         });
     }
