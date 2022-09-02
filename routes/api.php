@@ -37,12 +37,7 @@ use App\Http\Controllers\PreAdmissionController;
 use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
-use App\Http\Controllers\PatientDocumentAudioController;
-use App\Http\Controllers\PatientDocumentClinicalNoteController;
 use App\Http\Controllers\PatientDocumentController;
-use App\Http\Controllers\PatientDocumentLetterController;
-use App\Http\Controllers\PatientDocumentOtherController;
-use App\Http\Controllers\PatientDocumentReportController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Requests\FileRequest;
 
@@ -175,45 +170,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('/health-funds', [HealthFundController::class, 'index']);
 
-
-        Route::apiResource('patient/documents', PatientDocumentController::class);
-
-        Route::apiResource('patient-documents-letter',
-            PatientDocumentLetterController::class,
-            ['except' => ['index', 'show']]
-        );
-        Route::post('patient-document/{patient}/letter/upload',
-            [PatientDocumentLetterController::class, 'upload']
-        );
-
-        Route::apiResource('patient-documents-report',
-            PatientDocumentReportController::class,
-            ['except' => ['index', 'show']]
-        );
-        Route::post('patient-document/{patient}/report/upload',
-            [PatientDocumentReportController::class, 'upload']
-        );
-
-        Route::apiResource('patient-documents-clinical-note',
-            PatientDocumentClinicalNoteController::class,
-            ['except' => ['index', 'show']]
-        );
-        Route::post('patient-document/{patient}/clinical-note/upload',
-            [PatientDocumentClinicalNoteController::class, 'upload']
-        );
-
-        Route::apiResource('patient-documents-audio',
-            PatientDocumentAudioController::class,
-            ['except' => ['index', 'show']]
-        );
-        Route::post('patient-document/{patient}/audio/upload',
-            [PatientDocumentAudioController::class, 'upload']
-        );
-
-        Route::post('patient-document/{patient}/other/upload',
-            [PatientDocumentOtherController::class, 'upload']
-        );
-
     });
 
     Route::middleware([
@@ -226,9 +182,8 @@ Route::middleware(['auth'])->group(function () {
             Route::apiResource('recalls', PatientRecallController::class, ['except' => ['show', 'index']]);
             Route::get('appointments/{patient}', [PatientController::class, 'appointments']);
            
-            Route::get('documents/{patient}', [PatientController::class, 'index']);
-            Route::post('documents/{patient}', [PatientController::class, 'store']);
-            Route::put('documents/{patient}', [PatientController::class, 'update']);
+            Route::get('documents/{patient}', [PatientDocumentController::class, 'index']);
+            Route::post('documents/{patient}', [PatientDocumentController::class, 'store']);
         });
 
         Route::apiResource('letter-templates', LetterTemplateController::class, ['except' => ['show']]);

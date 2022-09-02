@@ -125,7 +125,7 @@ class Appointment extends Model
      */
     public function specialist()
     {
-        return $this->belongsTo(Specialist::class, 'specialist_id')->first();
+        return $this->belongsTo(User::class, 'specialist_id');
     }
 
      /**

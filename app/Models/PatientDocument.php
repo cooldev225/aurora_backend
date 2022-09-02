@@ -3,9 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PatientDocument extends Model
 {
+    use HasFactory;
     protected $fillable = [
         'patient_id', 'document_name', 'appointment_id', 'specialist_id',
         'document_type', 'created_by', 'file_path', 'is_updatable',
