@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\DocumentOrigin;
+use App\Enum\DocumentType;
 use App\Http\Requests\PatientDocumentReportStoreRequest;
 use App\Http\Requests\PatientDocumentReportUpdateRequest;
 use App\Http\Requests\PatientDocumentReportUploadRequest;
@@ -18,21 +20,25 @@ class PatientDocumentReportController extends Controller
      * @param  \App\Http\Requests\PatientDocumentLetterStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(PatientDocumentReportStoreRequest $request)
+    public function store(PatientDocumentReportStoreRequest $request, Patient $patient)
     {
-        $user_id = auth()->user()->id;
-        $data = [
-            ...$request->all(),
-            'document_type' => 'REPORT',
-            'created_by'    => $user_id,
-        ];
-        $patient_document = PatientDocument::create($data);
+        $file_type = 'PDF';
+        // generate PDF from report data
 
-        $patient_report = PatientReport::create([
-            ...$request->all(),
-            'patient_document_id' => $patient_document->id,
+        $patientDocument = PatientDocument::create([
+            'patient_id'        => $patient->id,
+            'appointment_id'    => $request->appointment_id,
+            'specialist_id'     => $request->specialist_id,
+            'document_name'     => $request->document_name,
+            'document_type'     => DocumentType::REPORT,
+            'file_type'         => $file_type,
+            'origin'            => DocumentOrigin::CREATED,
+            'created_by'        => auth()->user()->id,
+            'file_path'         => 'pdf',
+            'is_updatable'      => true
         ]);
-        $patient_report->generatePDFFile();
+
+        // Create PAtient Report Model for future editing
 
         return response()->json(
             [
@@ -52,56 +58,16 @@ class PatientDocumentReportController extends Controller
     public function update(
         PatientDocumentReportUpdateRequest $request,
         PatientReport $patient_documents_report
-    )
-    {
-        $patient_documents_report->update([
-            ...$request->all(),
-        ]);
-        $patient_documents_report->generatePDFFile();
-
-        return response()->json(
-            [
-                'message' => 'Patient Report Updated',
-            ],
-            Response::HTTP_CREATED
-        );
-    }
-    
-    /**
-     * [Patient Document Report] - Upload
-     *
-     * @param  \App\Http\Requests\PatientRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function upload(
-        Patient $patient,
-        PatientDocumentReportUploadRequest $request
     ) {
-        $user_id = auth()->user()->id;
-        $data = [
-            ...$request->all(),
-            'patient_id'    => $patient->id,
-            'document_type' => 'REPORT',
-            'created_by'    => $user_id,
-        ];
-        $patient_document = PatientDocument::create($data);
-
-        $file_path = '';
-        if ($file = $request->file('file')) {
-            $file_name = 'patient_report_' . $patient_document->id
-                . '_' . time() . '.' . $file->extension();
-            $file_path = '/' . $file->storeAs('files/patient_documents', $file_name);
-            $patient_document->file_path = url($file_path);
-            $patient_document->save();
-        }
 
         return response()->json(
             [
-                'message' => 'Patient Report Uploaded',
+                'message' => 'Not Implemented',
             ],
             Response::HTTP_CREATED
         );
     }
+
 
     /**
      * [Patient Document Report] - Destroy
@@ -109,10 +75,10 @@ class PatientDocumentReportController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function destroy(PatientReport $patient_report)
+    public function destroy(PatientReport $patientReport)
     {
-        $patient_report->patient_document->delete();
-        $patient_report->delete();
+        $patientReport->patientDocument->delete();
+        $patientReport->delete();
 
         return response()->json(
             [
