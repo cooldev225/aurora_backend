@@ -20,23 +20,20 @@ class AppointmentTypeFactory extends Factory
         return [
             'organization_id' => Organization::inRandomOrder()->first()->id,
             'type' => $this->faker->randomElement([
-                'consultation',
-                'procedure',
+                'CONSULTATION',
+                'PROCEDURE',
             ]),
             'color' => $this->faker->hexcolor(),
-            'mbs_code' => $this->faker->numberBetween(1000, 12345),
-            'clinical_code' => $this->faker->numberBetween(1234567, 3234567),
             'name' => $this->faker->catchPhrase(),
             'invoice_by' => $this->faker->randomElement([
-                'Clinic',
-                'Specialist',
+                'CLINIC',
+                'SPECIALIST',
             ]),
             'arrival_time' => $this->faker->numberBetween(1, 123),
-            'procedure_price' => $this->faker->numberBetween(1, 123) * 100.0,
             'appointment_time' => $this->faker->randomElement([
-                'single',
-                'double',
-                'triple',
+                'SINGLE',
+                'DOUBLE',
+                'TRIPLE',
             ]),
             'payment_tier_1' => $this->faker->numberBetween(0, 300),
             'payment_tier_2' => $this->faker->numberBetween(0, 300),
@@ -53,7 +50,6 @@ class AppointmentTypeFactory extends Factory
                 true,
                 false,
             ]),
-            'status' => $this->faker->randomElement(['Enabled', 'Disabled']),
         ];
     }
 }

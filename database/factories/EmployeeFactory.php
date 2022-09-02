@@ -51,6 +51,15 @@ class EmployeeFactory extends Factory
             'week_day' => $this->faker->randomElement( ["MON", "TUE","WED"]),
         ]);
 
+        HRMUserBaseSchedule::create([
+            'user_id'   => $user->id,
+            'clinic_id' => Organization::find($organization_id)->clinics->first()->id,
+            'start_time' => $this->faker->randomElement([ '07:00:00', '08:30:00','06:30:00']),
+            'end_time' => $this->faker->randomElement( ['16:00:00', '14:30:00','12:30:00']),
+            'week_day' => $this->faker->randomElement( ["THU", "FRI", "SAT"]),
+        ]);
+
+
         $work_hours = [];
 
         foreach ($week_days as $week_day) {

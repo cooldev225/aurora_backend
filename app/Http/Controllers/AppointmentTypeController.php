@@ -12,6 +12,7 @@ class AppointmentTypeController extends Controller
     /**
      * [Appointment Type] - List
      *
+     * @group Appointments
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
@@ -41,6 +42,7 @@ class AppointmentTypeController extends Controller
     /**
      * [Appointment Type] - Store
      *
+     * @group Appointments
      * @param  \App\Http\Requests\AppointmentTypeRequest  $request
      * @return \Illuminate\Http\Response
      */
@@ -65,6 +67,7 @@ class AppointmentTypeController extends Controller
     /**
      * [Appointment Type] - Update
      *
+     * @group Appointments
      * @param  \App\Http\Requests\AppointmentTypeRequest  $request
      * @param  \App\Models\AppointmentType  $appointmentType
      * @return \Illuminate\Http\Response
@@ -92,6 +95,7 @@ class AppointmentTypeController extends Controller
     /**
      * [Appointment Type] - Destroy
      *
+     * @group Appointments
      * @param  \App\Models\AppointmentType  $appointmentType
      * @return \Illuminate\Http\Response
      */
