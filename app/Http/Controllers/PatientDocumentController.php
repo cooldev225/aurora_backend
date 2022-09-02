@@ -18,23 +18,11 @@ class PatientDocumentController extends Controller
      */
     public function index(Patient $patient)
     {
-        $patientDocumentList = $patient->patientDocuments
-            ->with('letter')
-            ->with('report')
-            ->with('specialist_audio')
-            ->with('clinical_note')
-            ->orderByDesc('updated_at')
-            ->get()->toArray();
-
-        foreach ($patientDocumentList as $key => $patient_document) {
-            $patient_document['file_type'] = 'jpg';
-            $patientDocumentList[$key] = $patient_document;
-        }
 
         return response()->json(
             [
                 'message' => 'Patient Document List',
-                'data'    => $patientDocumentList,
+                'data'    => $patient->documents,
             ],
             Response::HTTP_OK
         );
@@ -46,29 +34,9 @@ class PatientDocumentController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Patient $patient)
     {
-        $user_id = auth()->user()->id;
-        $data = $request->all();
-        $data['created_by'] = $user_id;
-        $patientDocument = PatientDocument::createDocument($data);
 
-        return response()->json(
-            [
-                'message' => 'Patient Document Created',
-                'data'    => $patientDocument,
-            ],
-            Response::HTTP_CREATED
-        );
-    }
-
-    /**
-     * [Patient Document] - Upload
-     *
-     * @param  \App\Http\Requests\PatientRequest  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function upload(PatientDocumentRequest $request, Patient $patient) {
         $patientDocument = PatientDocument::create([
             'patient_id'     => $patient->id,
             'appointment_id' => $request->appointment_id,
@@ -78,33 +46,12 @@ class PatientDocumentController extends Controller
             'created_by'     => auth()->user()->id,
         ]);
 
-        if ($file = $request->file('document')) {
-            $arrImageExtensions = [
-                'png', 'jpe', 'jpeg', 'jpg', 'gif',
-                'bmp', 'ico', 'tiff', 'tif', 'svg'
-            ];
-
-            $file_extension = strtolower($file->extension());
-            $file_type = 'OTHER';
-            if (in_array($file_extension, $arrImageExtensions)) {
-                $file_type = 'IMAGE';
-            } else if ($file_extension == 'PDF') {
-                $file_type = 'PDF';
-            }
-
-            $file_name = 'document_' . $patientDocument->id . '_' . time() . '.' . $file_extension;
-            $document_path = '/' . $file->storeAs('files/patient_documents', $file_name);
-
-            $patientDocument->file_path = url($document_path);
-            $patientDocument->file_type = $file_type;
-        }
-
-        $patientDocument->save();
+        //UPLOAD FILE
 
         return response()->json(
             [
-                'message' => 'Patient Document Uploaded',
-                'data'    => $patientDocument,
+                'message' => 'Patient Document Created',
+                'data'    => $patientDocument
             ],
             Response::HTTP_CREATED
         );

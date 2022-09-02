@@ -122,7 +122,6 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('employees', EmployeeController::class,['except' => ['show']]);
         Route::apiResource('specialists', SpecialistController::class,['except' => ['show']]);
         Route::get('/employee-roles', [UserRoleController::class,'employeeRoles']);
-        Route::apiResource('report-templates', ReportTemplateController::class,['except' => ['show']]);
         Route::apiResource('pre-admission-sections',PreAdmissionController::class,['except' => ['show']]);
         Route::post('update-pre-admission-consent', [PreAdmissionController::class,'updateConsent']);
         Route::get('get-pre-admission-consent', [PreAdmissionController::class,'getConsent',]);
@@ -137,7 +136,7 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager,receptionist,anesthetist,specialist',
     ])->group(function () {
-
+        Route::apiResource('report-templates', ReportTemplateController::class,['except' => ['show']]);
         Route::apiResource('clinics/{clinic_id}/rooms',RoomController::class,['except' => ['show']]);
 
         Route::apiResource('referring-doctors', ReferringDoctorController::class,['except' => ['show']]);
@@ -177,9 +176,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/health-funds', [HealthFundController::class, 'index']);
 
 
-
-
-        Route::post('patient-documents/upload', [PatientDocumentController::class, 'upload']);
+        Route::apiResource('patient/documents', PatientDocumentController::class);
 
         Route::apiResource('patient-documents-letter',
             PatientDocumentLetterController::class,
