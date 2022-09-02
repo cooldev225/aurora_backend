@@ -10,7 +10,7 @@ class Employee extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_id', 'type', 'work_hours', 'document_letter_header',
+        'user_id', 'type', 'document_letter_header',
         'document_letter_footer', 'signature'
     ];
 
@@ -51,36 +51,6 @@ class Employee extends Model
     public function specialist_from_anesthetist()
     {
         return $this->hasOne(Specialist::class, 'anesthetist_id');
-    }
-
-    /**
-     * Return $pathologist_list
-     */
-    public static function pathologists($organization_id = null)
-    {
-        if ($organization_id == null) {
-            $organization_id = auth()->user()->organization_id;
-        }
-
-        $user_table = (new User())->getTable();
-        $user_role_table = (new UserRole())->getTable();
-
-        $pathologist_list = self::leftJoin(
-            $user_table,
-            'user_id',
-            '=',
-            $user_table . '.id'
-        )
-            ->leftJoin(
-                $user_role_table,
-                'role_id',
-                '=',
-                $user_role_table . '.id'
-            )
-            ->where($user_table . '.organization_id', $organization_id)
-            ->where('slug', 'pathologist');
-
-        return $pathologist_list;
     }
 
     /**

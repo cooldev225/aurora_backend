@@ -12,6 +12,7 @@ use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
 use App\Http\Controllers\AppointmentReferralController;
 use App\Http\Controllers\AppointmentSearchAvailableController;
+use App\Http\Controllers\AppointmentSpecialistController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
@@ -103,12 +104,12 @@ Route::middleware(['auth'])->group(function () {
      ////////////////////////////////////////////////////////////////////////////////////
     // Organization Admin Only Routes (role:organizationAdmin)
     Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
-        Route::apiResource('clinics',               ClinicController::class,['except' => ['show']]);
-        Route::apiResource('organization-admins',   OrganizationAdminController::class,['except' => ['show']]);
-        Route::apiResource('organization-managers', OrganizationManagerController::class,['except' => ['show']]);
-        Route::apiResource('appointment-time-requirements',AppointmentTimeRequirementController::class,['except' => ['show']]);
-        Route::apiResource('appointment-types',AppointmentTypeController::class,['except' => ['show']]);
-        Route::apiResource('notification-templates', NotificationTemplateController::class, ['except' => ['show']]);
+        Route::apiResource('clinics',                       ClinicController::class,['except' => ['show']]);
+        Route::apiResource('organization-admins',           OrganizationAdminController::class,['except' => ['show']]);
+        Route::apiResource('organization-managers',         OrganizationManagerController::class,['except' => ['show']]);
+        Route::apiResource('appointment-time-requirements', AppointmentTimeRequirementController::class,['except' => ['show']]);
+        Route::apiResource('appointment-types',             AppointmentTypeController::class,['except' => ['show']]);
+        Route::apiResource('notification-templates',        NotificationTemplateController::class, ['except' => ['show']]);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -126,10 +127,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('update-pre-admission-consent', [PreAdmissionController::class,'updateConsent']);
         Route::get('get-pre-admission-consent', [PreAdmissionController::class,'getConsent',]);
 
-        Route::post('/notification-test', [
-            NotificationTestController::class,
-            'testSendNotification',
-        ]);
+        Route::post('/notification-test', [NotificationTestController::class,'testSendNotification']);
 
         Route::get('payments', [PaymentController::class, 'index']);
         Route::get('payments/{appointment}', [PaymentController::class, 'show']);
@@ -146,9 +144,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('user-appointments', [UserAppointmentController::class, 'index']);
 
-
+        Route::get('/appointments/specialists', [AppointmentSpecialistController::class, 'index']);
         Route::apiResource('appointments', AppointmentController::class, ['except' => ['destroy']]);
         Route::prefix('appointments')->group(function () {
+            Route::get('/byDate', [AppointmentConformationStatusController::class, 'index']);
+            
             Route::get('/confirmation-status', [AppointmentConformationStatusController::class, 'index']);
             Route::put('/confirmation-status/{appointment}', [AppointmentConformationStatusController::class, 'update']);
             Route::put('/check-in/{appointment}', [AppointmentAttendanceStatusController::class,'checkIn']);
@@ -162,18 +162,20 @@ Route::middleware(['auth'])->group(function () {
         });
 
 
-        Route::get('/available-slots', [AppointmentSearchAvailableController::class, 'index']);
+        Route::get('/available-timeslots', [AppointmentSearchAvailableController::class, 'index']);
         Route::get('/organizations', [OrganizationController::class, 'index']);
         Route::get('/appointment-types', [AppointmentTypeController::class,'index']);
         Route::get('appointment-time-requirements', [AppointmentTimeRequirementController::class,'index']);
-        Route::get('/work-hours', [SpecialistController::class, 'workHours']);
-        Route::get('/work-hours-by-week', [SpecialistController::class,'workHoursByWeek']);
+
+       
+        
+        //Route::get('/work-hours-by-week', [SpecialistController::class,'workHoursByWeek']);
         Route::get('/clinics', [ClinicController::class, 'index']);
         Route::get('/specialists', [SpecialistController::class, 'index']);
         Route::get('/anesthetists', [EmployeeController::class,'anesthetists']);
 
         Route::get('/health-funds', [HealthFundController::class, 'index']);
-        Route::get('/notification-templates', [NotificationTemplateController::class,'index',]);
+
 
 
 

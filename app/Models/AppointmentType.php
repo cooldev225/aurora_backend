@@ -34,4 +34,22 @@ class AppointmentType extends Model
         'anesthetist_required',
         'status',
     ];
+
+    protected $appends = [
+        'appointment_length_as_number'
+    ];
+
+        /**
+     * Return the appointment_time attribute as a number
+     */
+    public function getAppointmentLengthAsNumberAttribute()
+    {
+        if ($this->appointment_time == 'SINGLE') {
+            return 1;
+        } else if ($this->appointment_time == 'DOUBLE') {
+            return 2;
+        }else{
+            return 3;
+        }
+    }
 }

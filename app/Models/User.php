@@ -26,11 +26,17 @@ class User extends Authenticatable implements JWTSubject
         'address',
     ];
 
-    protected $appends = array('role');
+    protected $appends = array('role_name', 'full_name');
 
-    public function getRoleAttribute()
+    public function getRoleNameAttribute()
     {
-        return $this->role()->name;
+        return $this->role->name;
+    }
+
+    
+    public function getFullNameAttribute()
+    {
+        return $this->title . " " . $this->first_name . " " . $this->last_name;
     }
 
     /**
@@ -58,7 +64,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function role()
     {
-        return $this->belongsTo(UserRole::class)->first();
+        return $this->belongsTo(UserRole::class);
     }
 
     /**
@@ -69,13 +75,22 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Organization::class)->first();
     }
 
+        /**
+     * Return Organization
+     */
+    public function hrmUserBaseSchedules()
+    {
+        return $this->hasMany(HRMUserBaseSchedule::class);
+    }
+
     /**
      * Return Organization
      */
     public function isAdmin()
     {
-        return $this->role()->slug == 'admin';
+        return $this->role->slug == 'admin';
     }
+
 
     /**
      * Return Employee
@@ -118,4 +133,5 @@ class User extends Authenticatable implements JWTSubject
 
         return $translated;
     }
+
 }

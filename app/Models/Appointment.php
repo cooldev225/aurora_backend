@@ -41,8 +41,8 @@ class Appointment extends Model
 
     public function getSpecialistNameAttribute()
     {
-        $specialist_user = $this->specialist()->employee->user;
-        return 'Dr ' .$specialist_user->first_name .' '. $specialist_user->last_name;  
+        //$specialist_user = $this->specialist()->employee->user;
+        return 'Dr First Last';//'Dr ' .$specialist_user->first_name .' '. $specialist_user->last_name;  
     }
 
     public function getClinicDetailsAttribute()

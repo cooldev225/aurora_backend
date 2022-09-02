@@ -43,9 +43,6 @@ class SpecialistFactory extends Factory
         $anesthetist_user->organization_id = $organization_id;
         $anesthetist_user->save();
 
-        $anesthetist->work_hours = $employee->work_hours;
-        $anesthetist->save();
-
         return [
             'employee_id' => $employee->id,
             'anesthetist_id' => $anesthetist->id,

@@ -55,13 +55,23 @@ class Organization extends Model
         return false;  
     }
 
-        /**
+    /**
      * Get the clinics for organization.
      */
     public function clinics()
     {
         return $this->hasMany(Clinic::class);
     }
+
+    
+    /**
+     * Get the appointment types for organization.
+     */
+    public function appointmentTypes()
+    {
+        return $this->hasMany(AppointmentType::class);
+    }
+
 
         /**
      * Get the patients for organization.

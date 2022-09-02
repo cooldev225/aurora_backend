@@ -92,7 +92,6 @@ class EmployeeController extends Controller
         $employee = Employee::create([
             'user_id' => $user->id,
             'type' => $request->type,
-            'work_hours' => json_encode($request->work_hours),
         ]);
 
         if ($role->slug == 'specialist') {
@@ -180,7 +179,6 @@ class EmployeeController extends Controller
 
         $employee->update([
             'type' => $request->type,
-            'work_hours' => $request->work_hours,
         ]);
 
         if ($role->slug == 'specialist') {
