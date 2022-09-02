@@ -59,35 +59,8 @@ class EmployeeFactory extends Factory
             'week_day' => $this->faker->randomElement( ["THU", "FRI", "SAT"]),
         ]);
 
-
-        $work_hours = [];
-
-        foreach ($week_days as $week_day) {
-            $clinics = $user->organization()->clinics()
-                ->inRandomOrder()
-                ->first()
-                ->toArray();
-
-            $work_hours = $work_hours + [
-                $week_day => [
-                    'appointment_type' => $this->faker->randomElement([
-                        'procedure',
-                        'consultation',
-                    ]),
-                    'time_slot' => $this->faker->randomElement([
-                        ['06:00:00', '17:30:00'],
-                        ['07:00:00', '18:00:00'],
-                        ['08:00:00', '19:00:00'],
-                        ['09:00:00', '19:30:00'],
-                    ]),
-                    'locations' => $clinics,
-                ],
-            ];
-        }
-
         return [
             'user_id' => $user->id,
-            'work_hours' => json_encode($work_hours),
             'document_letter_header' => $this->faker->imageUrl(),
             'document_letter_footer' => $this->faker->imageUrl(),
             'signature' => $this->faker->imageUrl(),
