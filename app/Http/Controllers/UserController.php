@@ -79,7 +79,7 @@ class UserController extends Controller
             [
                 'email' => $user->email,
                 'username' => $user->username,
-                'role' => $user->role()->slug,
+                'role' => $user->role->slug,
                 'access_token' => $token,
             ],
             Response::HTTP_OK
@@ -100,7 +100,7 @@ class UserController extends Controller
             [
                 'email' => $user->email,
                 'username' => $user->username,
-                'role' => $user->role()->slug,
+                'role' => $user->role->slug,
                 'access_token' => $token,
                 'profile' => auth()->user(),
             ],

@@ -14,23 +14,16 @@ use App\Models\User;
 class SpecialistController extends Controller
 {
     /**
-     * Instantiate a new AdminController instance.
-     */
-    public function __construct()
-    {
-        $this->specialist_role = UserRole::where('slug', 'specialist')->first();
-    }
-
-    /**
      * [Specialist] - List
      *
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
     {
-        $specialist_list = Specialist::organizationSpecialists();
-
-        $specialists = $specialist_list->get();
+        $specialists = User::
+        where('organization_id', auth()->user()->organization_id)
+        ->where('role_id', 5)
+        ->get();
 
         return response()->json(
             [
@@ -41,45 +34,6 @@ class SpecialistController extends Controller
         );
     }
 
-    /**
-     * [Specialist] - Work Hours By Week
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function workHoursByWeek(Request $request)
-    {
-        $date = date('Y-m-d');
-
-        if ($request->has('date')) {
-            $date = date('Y-m-d', strtotime($request->date));
-        }
-
-        $search_dates = [];
-        $appointment_date = date_create($date);
-
-        for ($i = 0; $i < 7; $i++) {
-            $search_dates[] = date_format($appointment_date, 'Y-m-d');
-            date_add(
-                $appointment_date,
-                date_interval_create_from_date_string('1 day')
-            );
-        }
-
-        $return = [];
-
-        foreach ($search_dates as $search_date) {
-            $return[$search_date] = $this->workHoursByDate($request, $date);
-        }
-
-        return response()->json(
-            [
-                'message' =>
-                    'Available Specialist List and work hours by Week ',
-                'data' => $return,
-            ],
-            Response::HTTP_OK
-        );
-    }
 
     /**
      * [Specialist] - Store

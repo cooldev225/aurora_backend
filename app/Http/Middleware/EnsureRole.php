@@ -24,7 +24,7 @@ class EnsureRole
 
         $role = auth()
             ->user()
-            ->role();
+            ->role;
 
         if (!in_array($role->slug, $slugs) && $role->slug != 'admin') {
             return response()->json(
