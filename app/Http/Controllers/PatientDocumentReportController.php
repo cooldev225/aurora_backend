@@ -10,7 +10,9 @@ use App\Http\Requests\PatientDocumentReportUploadRequest;
 use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientReport;
+use PDF;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 
 class PatientDocumentReportController extends Controller
 {
@@ -23,7 +25,18 @@ class PatientDocumentReportController extends Controller
     public function store(PatientDocumentReportStoreRequest $request, Patient $patient)
     {
         $file_type = 'PDF';
-        // generate PDF from report data
+
+        $pdfData = [
+            'patient'     => $patient,
+            'appointment' => Appointment::find('appointment_id'),
+            'specialist'  => auth()->user(),
+            'report_body' => $request->body,
+        ];
+
+        $pdf = PDF::loadView('pdfs/patientDocumentReport', $pdfData);
+        $file_name = 'patient_report' . $patient->id . '_' . time() . '.pdf';
+        $file_path = '/files/patient_documents/' . $file_name;
+        Storage::put($file_path, $pdf->output());
 
         $patientDocument = PatientDocument::create([
             'patient_id'        => $patient->id,
@@ -34,7 +47,7 @@ class PatientDocumentReportController extends Controller
             'file_type'         => $file_type,
             'origin'            => DocumentOrigin::CREATED,
             'created_by'        => auth()->user()->id,
-            'file_path'         => 'pdf',
+            'file_path'         => $file_path,
             'is_updatable'      => true
         ]);
 
