@@ -143,7 +143,7 @@ class Appointment extends Model
         return $this->belongsTo(
             AppointmentType::class,
             'appointment_type_id'
-        )->first();
+        );
     }
 
     /**
@@ -206,7 +206,7 @@ class Appointment extends Model
             '[AppointmentDate]'     => date('jS, F', strtotime($this->date)),
             '[AppointmentDay]'      => date('l', strtotime($this->date)),
             
-            '[AppointmentType]'     => $this->type()->name,
+            '[AppointmentType]'     => $this->type->name,
             '[Specialist]'          => $specialist_name,
             
             '[ClinicName]'          => $this->clinic->name,
