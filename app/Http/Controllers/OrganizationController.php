@@ -30,32 +30,10 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        $user_table = (new User())->getTable();
-
-        $result = null;
-        $message = '';
-
-        if (auth()->user()->isAdmin()) {
-            $result = Organization::combineWithBaseUrl()
-                ->leftJoin($user_table, 'owner_id', '=', $user_table . '.id')
-                ->get();
-
-            $message = 'Organization List';
-        } else {
-            $result = Organization::combineWithBaseUrl()
-                ->leftJoin($user_table, 'owner_id', '=', $user_table . '.id')
-                ->where('organization_id', auth()->user()->organization_id)
-                ->first();
-
-            $result = [$result];
-
-            $message = 'Current Organization Info';
-        }
 
         return response()->json(
             [
-                'message' => $message,
-                'data' => $result,
+                'message' => 'Not Implemented',
             ],
             Response::HTTP_OK
         );

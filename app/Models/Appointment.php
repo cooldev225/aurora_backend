@@ -172,76 +172,6 @@ class Appointment extends Model
     }
 
     /**
-     * Return $appointments
-     */
-    public static function organizationAppointments($organization_id = null)
-    {
-        if ($organization_id == null) {
-            $organization_id = auth()->user()->organization_id;
-        }
-
-        $appointment_table = (new Appointment())->getTable();
-        $patient_table = (new Patient())->getTable();
-        $specialist_table = (new Specialist())->getTable();
-        $patient_billing_table = (new PatientBilling())->getTable();
-
-        $appointments = self::select('*', "{$appointment_table}.*")
-            ->leftJoin(
-                $specialist_table,
-                'specialist_id',
-                '=',
-                "{$specialist_table}.id"
-            )
-            ->leftJoin($patient_table, 'patient_id', '=', "{$patient_table}.id")
-            ->leftJoin(
-                $patient_billing_table,
-                "{$patient_billing_table}.patient_id",
-                '=',
-                "{$patient_table}.id"
-            )
-            ->where($appointment_table . '.organization_id', $organization_id);
-
-        return $appointments;
-    }
-
-    /**
-     * Return Joined Eloquent with AppointmentType
-     */
-    public static function organizationAppointmentsWithType(
-        $organization_id = null
-    ) {
-        $appointment_type_table = (new AppointmentType())->getTable();
-        $clinic_table = (new Clinic())->getTable();
-        $appointment_table = (new Appointment())->getTable();
-        $employee_table = (new Employee())->getTable();
-        $user_table = (new User())->getTable();
-
-
-        return self::organizationAppointments($organization_id)
-            ->select(
-                '*',
-                "{$clinic_table}.name AS clinic_name",
-                "{$appointment_type_table}.name AS procedure_name",
-                "{$appointment_type_table}.name AS appointment_type_name",
-                "{$appointment_table}.patient_id"
-            )
-            ->leftJoin(
-                $appointment_type_table,
-                'appointment_type_id',
-                '=',
-                "{$appointment_type_table}.id"
-            )
-            ->leftJoin($clinic_table, 'clinic_id', '=', "{$clinic_table}.id")
-            ->leftJoin(
-                $employee_table,
-                'employee_id',
-                '=',
-                $employee_table . '.id'
-            )
-            ->leftJoin($user_table, 'user_id', '=', $user_table . '.id');
-    }
-
-    /**
      * translate Recall message template
      */
     protected function recallTranslate()
@@ -257,10 +187,6 @@ class Appointment extends Model
     public function translate($template)
     {
         $patient = $this->patient();
-        $specialist = $this->specialist();
-        $specialist_employee = $specialist->employee;
-        $specialist_user = $specialist_employee->user;
-        $specialist_name = $specialist_user->title . ' ' . $specialist_user->first_name . ' ' . $specialist_user->last_name;
 
         $clinic = $this->clinic;
 

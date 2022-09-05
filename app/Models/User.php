@@ -72,7 +72,7 @@ class User extends Authenticatable implements JWTSubject
      */
     public function organization()
     {
-        return $this->belongsTo(Organization::class)->first();
+        return $this->belongsTo(Organization::class);
     }
 
         /**
@@ -83,20 +83,21 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(HRMUserBaseSchedule::class);
     }
 
+            /**
+     * Return Organization
+     */
+    public function appointments()
+    {
+        $field_key = ($this->role_id === 5) ? 'specialist_id' : 'anesthetist_id';
+        return $this->hasMany(Appointment::class, $field_key);
+    }
+
     /**
      * Return Organization
      */
     public function isAdmin()
     {
         return $this->role->slug == 'admin';
-    }
-
-
-    /**
-     * Return Employee
-     */
-    public function employee() {
-        return $this->hasOne(Employee::class);
     }
 
     public static function create(array $attributes = []) {

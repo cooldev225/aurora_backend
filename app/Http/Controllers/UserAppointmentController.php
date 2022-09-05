@@ -22,12 +22,12 @@ class UserAppointmentController extends BaseOrganizationController
         $appointments = [];
 
         if ($role == 'Specialist') {
-            $specialist_id = auth()->user()->employee->specialist->id;
+            $specialist_id = auth()->user()->id;
             $appointments = Appointment::where('organization_id', $organization_id)
                 ->where('specialist_id', $specialist_id)
                 ->get();
         } else if ($role == 'Anesthetist') {
-            $specialist_id = auth()->user()->employee->specialist_from_anesthetist->id;
+            $specialist_id = auth()->user()->id;
             $appointments = Appointment::where('organization_id', $organization_id)
                 ->where('specialist_id', $specialist_id)
                 ->get();

@@ -97,33 +97,4 @@ class Organization extends Model
         return $this->belongsTo(User::class, 'owner_id')->first();
     }
 
-    /**
-     * Return Owner user
-     */
-    public static function combineWithBaseUrl()
-    {
-        $base_url = url('/');
-        $organization_table = (new self())->getTable();
-
-        $select = "*,
-            {$organization_table}.id,
-            CASE
-                WHEN SUBSTRING(logo, 1, 1) = '/'
-                    THEN CONCAT('{$base_url}', logo)
-                ELSE logo
-            END AS logo,
-            CASE
-                WHEN SUBSTRING(document_letter_header, 1, 1) = '/'
-                    THEN CONCAT('{$base_url}', document_letter_header)
-                ELSE document_letter_header
-            END AS document_letter_header,
-            CASE
-                WHEN SUBSTRING(document_letter_footer, 1, 1) = '/'
-                    THEN CONCAT('{$base_url}', document_letter_footer)
-                ELSE document_letter_footer
-            END AS document_letter_footer
-        ";
-
-        return self::selectRaw($select);
-    }
 }

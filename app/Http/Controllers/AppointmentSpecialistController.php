@@ -4,11 +4,6 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
-use App\Models\Specialist;
-use App\Models\UserRole;
-use App\Models\Employee;
-use App\Models\AppointmentTimeRequirement;
-use App\Http\Requests\SpecialistRequest;
 use App\Models\User;
 
 class AppointmentSpecialistController extends Controller
@@ -41,7 +36,7 @@ class AppointmentSpecialistController extends Controller
             $query->where('week_day', $day);
         })
         ->with([
-            'employee.specialist.appointments' => function ($query) use ($date) {
+            'appointments' => function ($query) use ($date) {
             $query->where('date','=', $date);
             }
         ])
