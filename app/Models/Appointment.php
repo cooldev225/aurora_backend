@@ -155,11 +155,11 @@ class Appointment extends Model
     }
 
     public function specialist(){
-        return $this->hasOne(User::class, 'specialist_id');
+        return $this->hasOne(User::class, 'id','specialist_id');
      }
 
      public function anesthetist(){
-        return $this->hasOne(User::class, 'anesthetist_id');
+        return $this->hasOne(User::class,'id', 'anesthetist_id');
      }
 
     /**
@@ -187,7 +187,7 @@ class Appointment extends Model
      */
     public function translate($template)
     {
-        $patient = $this->patient();
+        $patient = $this->patient;
 
         $clinic = $this->clinic;
 
@@ -207,7 +207,7 @@ class Appointment extends Model
             '[AppointmentDay]'      => date('l', strtotime($this->date)),
             
             '[AppointmentType]'     => $this->type->name,
-            '[Specialist]'          => $specialist_name,
+            '[Specialist]'          => $this->specialist->full_name,
             
             '[ClinicName]'          => $this->clinic->name,
             '[ClinicPhone]'         => $clinic->phone_number,
