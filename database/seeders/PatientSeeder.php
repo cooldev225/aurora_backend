@@ -7,6 +7,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Patient;
 use App\Models\PatientBilling;
+use App\Models\PatientDocument;
 
 class PatientSeeder extends Seeder
 {
@@ -37,7 +38,7 @@ class PatientSeeder extends Seeder
             PatientBilling::create([
                 'patient_id'    =>  $patient->id
             ]);
-
+            
             $patient->organizations()->attach(1);
         }
     }

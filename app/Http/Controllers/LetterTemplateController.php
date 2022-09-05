@@ -66,15 +66,12 @@ class LetterTemplateController extends BaseOrganizationController
         LetterTemplateRequest $request,
         LetterTemplate $letterTemplate
     ) {
-        $organization_id = auth()->user()->organization_id;
-
-        if ($letterTemplate->organization_id != $organization_id) {
-            return $this->forbiddenOrganization();
-        }
+        // Check if the user is authorized to update the associated organization
+        $this->authorize('update', $letterTemplate->organization);
 
         $letterTemplate->update([
             ...$request->all(),
-            'organization_id' => $organization_id,
+            'organization_id' => auth()->user()->organization_id,
         ]);
 
         return response()->json(
