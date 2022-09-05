@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Patient;
 use App\Models\Appointment;
@@ -22,7 +21,7 @@ class AppointmentSeeder extends Seeder
     {
         $dates = [];
 
-        for ($i = -1; $i < 1; $i++) {
+        for ($i = -2; $i < 3; $i++) {
             $dates[] = date('Y-m-d', strtotime("+{$i} days"));
         }
 
