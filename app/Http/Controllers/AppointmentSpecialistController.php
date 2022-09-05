@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ConfirmationStatus;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -30,14 +31,15 @@ class AppointmentSpecialistController extends Controller
 
         $specialists = User::
         where('organization_id', auth()->user()->organization_id)
-        ->where('role_id', 5) // pull out to enum
+        ->where('role_id', 5) // pull out to enum 
         ->whereHas('hrmUserBaseSchedules', function($query) use ($day)
         {
             $query->where('week_day', $day);
         })
         ->with([
             'appointments' => function ($query) use ($date) {
-            $query->where('date','=', $date);
+            $query->where('date','=', $date)
+            ->where('confirmation_status', '!=', ConfirmationStatus::CANCELED);
             }
         ])
         ->with([

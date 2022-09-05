@@ -119,15 +119,6 @@ class Appointment extends Model
         return $this->belongsTo(AppointmentType::class, 'appointment_type_id');
     }
 
-
-    /**
-     * Return Specialist
-     */
-    public function specialist()
-    {
-        return $this->belongsTo(User::class, 'specialist_id');
-    }
-
      /**
      * Return AppointmentReferral
      */
@@ -152,7 +143,7 @@ class Appointment extends Model
         return $this->belongsTo(
             AppointmentType::class,
             'appointment_type_id'
-        )->first();
+        );
     }
 
     /**
@@ -163,6 +154,14 @@ class Appointment extends Model
         return $this->hasOne(AppointmentPreAdmission::class);
     }
 
+    public function specialist(){
+        return $this->hasOne(User::class, 'id','specialist_id');
+     }
+
+     public function anesthetist(){
+        return $this->hasOne(User::class,'id', 'anesthetist_id');
+     }
+
     /**
      * Return Recall NotificationTemplate
      */
@@ -170,6 +169,8 @@ class Appointment extends Model
     {
         return NotificationTemplate::where('type', 'recall')->first();
     }
+
+
 
     /**
      * translate Recall message template
@@ -186,7 +187,7 @@ class Appointment extends Model
      */
     public function translate($template)
     {
-        $patient = $this->patient();
+        $patient = $this->patient;
 
         $clinic = $this->clinic;
 
@@ -205,8 +206,8 @@ class Appointment extends Model
             '[AppointmentDate]'     => date('jS, F', strtotime($this->date)),
             '[AppointmentDay]'      => date('l', strtotime($this->date)),
             
-            '[AppointmentType]'     => $this->type()->name,
-            '[Specialist]'          => $specialist_name,
+            '[AppointmentType]'     => $this->type->name,
+            '[Specialist]'          => $this->specialist->full_name,
             
             '[ClinicName]'          => $this->clinic->name,
             '[ClinicPhone]'         => $clinic->phone_number,

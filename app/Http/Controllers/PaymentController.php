@@ -44,7 +44,7 @@ class PaymentController extends BaseOrganizationController
     public function show(Appointment $appointment)
     {
       
-        $appointmentType = $appointment->type();
+        $appointmentType = $appointment->type;
 
         $paymentData = array(
             'payment_tier_1'    => $appointmentType->payment_tier_1,

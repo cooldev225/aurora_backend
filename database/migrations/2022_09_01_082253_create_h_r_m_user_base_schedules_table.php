@@ -29,7 +29,7 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->enum('appointment_type_restriction', [
-                'PROCEDURES',
+                'PROCEDURE',
                 'CONSULTATION',
                 'NONE',
             ])->default('NONE');
