@@ -16,7 +16,7 @@ class PatientReport extends Model
     /**
      * Return Patient Document
      */
-    public function patient_document()
+    public function patientDocument()
     {
         return $this->belongsTo(PatientDocument::class);
     }
@@ -27,16 +27,5 @@ class PatientReport extends Model
     public function patient()
     {
         return $this->belongsTo(Patient::class);
-    }
-
-    public function generatePDFFile() {
-        ////////////////////////////////////////////////////////////////////////
-        // Generate PDF
-        $file_path = '';
-
-        $patient_document = $this->patient_document;
-        $patient_document->file_type = 'PDF';
-        $patient_document->file_path = $file_path;
-        $patient_document->save();
     }
 }
