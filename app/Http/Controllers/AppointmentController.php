@@ -5,13 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
-use App\Models\AppointmentType;
 use App\Models\Patient;
-use App\Models\Specialist;
 use App\Models\PatientBilling;
-use App\Models\AppointmentTimeRequirement;
-use App\Http\Requests\AppointmentRequest;
-
 use App\Mail\Notification;
 use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
@@ -26,6 +21,7 @@ class AppointmentController extends BaseOrganizationController
      */
     public function index(Request $request)
     {
+        /*
         $appointment_table = (new Appointment())->getTable();
 
         $appointments = Appointment::organizationAppointmentsWithType()->orderBy(
@@ -108,12 +104,11 @@ class AppointmentController extends BaseOrganizationController
                     }
                 }
             }
-        }
+        }*/
 
         return response()->json(
             [
-                'message' => 'Appointment List',
-                'data' => $return,
+                'message' => 'Not Implemented',
             ],
             Response::HTTP_OK
         );
@@ -137,7 +132,7 @@ class AppointmentController extends BaseOrganizationController
      * @param  \App\Http\Requests\AppointmentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(AppointmentRequest $request) {
+    public function store(Request $request) {
         $patient = Patient::find($request->patient_id);
         if ($patient) {
             $patient->update([
@@ -247,7 +242,7 @@ class AppointmentController extends BaseOrganizationController
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(AppointmentRequest $request,Appointment $appointment) {
+    public function update(Request $request,Appointment $appointment) {
       
 
         $appointment->update([

@@ -66,7 +66,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout', [UserController::class, 'logout']);
     Route::post('/refresh', [UserController::class, 'refresh']);
 
-    Route::get('/users', [UserController::class, 'index']);
+
     Route::post('/update-profile', [UserController::class, 'updateProfile']);
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
@@ -117,9 +117,12 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware([
         'ensure.role:organizationAdmin,organizationManager',
     ])->group(function () {
+        Route::apiResource('users', UserController::class);
 
         Route::apiResource('anesthetic-questions', AnestheticQuestionController::class,['except' => ['show']]);
-        Route::apiResource('employees', EmployeeController::class,['except' => ['show']]);
+        
+        //Route::apiResource('employees', EmployeeController::class,['except' => ['show']]);
+
         Route::apiResource('specialists', SpecialistController::class,['except' => ['show']]);
         Route::get('/employee-roles', [UserRoleController::class,'employeeRoles']);
         Route::apiResource('report-templates', ReportTemplateController::class,['except' => ['show']]);

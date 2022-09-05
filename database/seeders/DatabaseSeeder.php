@@ -22,8 +22,6 @@ class DatabaseSeeder extends Seeder
             RoomSeeder::class,
             UserSeeder::class,
             PatientSeeder::class,
-            SpecialistSeeder::class,
-            EmployeeSeeder::class,
             HealthFundSeeder::class,
             AnestheticQuestionSeeder::class,
             ReferringDoctorSeeder::class,

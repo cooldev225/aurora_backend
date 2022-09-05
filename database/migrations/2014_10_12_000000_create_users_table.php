@@ -30,6 +30,12 @@ return new class extends Migration {
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('address')->nullable();
+            $table
+            ->enum('type', ['full-time', 'part-time', 'contract', 'casual'])
+            ->default('full-time');
+        $table->string('document_letter_header')->nullable();
+        $table->string('document_letter_footer')->nullable();
+        $table->string('signature')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

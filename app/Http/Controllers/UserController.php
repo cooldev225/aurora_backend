@@ -18,14 +18,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $organization_id = auth()->user()->organization_id;
-
-        $users = User::where('organization_id', $organization_id)->get();
+        $organization = auth()->user()->organization;
 
         return response()->json(
             [
-                'message' => 'User List',
-                'data' => $this->withBaseUrl($users),
+                'message' => 'Employee List',
+                'data' => $organization->users,
             ],
             Response::HTTP_OK
         );
@@ -273,5 +271,60 @@ class UserController extends Controller
         }
 
         return $user;
+    }
+
+    
+    /**
+     * [Employee] - Destroy
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $user)
+    {
+
+        $user->delete();
+
+        return response()->json(
+            [
+                'message' => 'Employee Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
+    }
+
+       /**
+     * [Employee] - Store
+     *
+     * @param  \App\Http\Requests\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request, User $user)
+    {
+        return response()->json(
+            [
+                'message' => 'User Store Not Implemented',
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+        /**
+     * [Employee] - Update
+     *
+     * @param  \App\Http\Requests\Request  $request
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
+    {
+
+        return response()->json(
+            [
+                'message' => 'User Update Not Implemented',
+            ],
+            Response::HTTP_OK
+        );
     }
 }
