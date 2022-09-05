@@ -22,7 +22,7 @@ class AppointmentSeeder extends Seeder
     {
         $dates = [];
 
-        for ($i = -2; $i < 2; $i++) {
+        for ($i = -1; $i < 1; $i++) {
             $dates[] = date('Y-m-d', strtotime("+{$i} days"));
         }
 
