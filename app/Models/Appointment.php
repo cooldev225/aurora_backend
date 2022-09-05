@@ -119,15 +119,6 @@ class Appointment extends Model
         return $this->belongsTo(AppointmentType::class, 'appointment_type_id');
     }
 
-
-    /**
-     * Return Specialist
-     */
-    public function specialist()
-    {
-        return $this->belongsTo(Specialist::class, 'specialist_id')->first();
-    }
-
      /**
      * Return AppointmentReferral
      */
@@ -163,6 +154,14 @@ class Appointment extends Model
         return $this->hasOne(AppointmentPreAdmission::class);
     }
 
+    public function specialist(){
+        return $this->hasOne(User::class, 'specialist_id');
+     }
+
+     public function anesthetist(){
+        return $this->hasOne(User::class, 'anesthetist_id');
+     }
+
     /**
      * Return Recall NotificationTemplate
      */
@@ -170,6 +169,8 @@ class Appointment extends Model
     {
         return NotificationTemplate::where('type', 'recall')->first();
     }
+
+
 
     /**
      * translate Recall message template

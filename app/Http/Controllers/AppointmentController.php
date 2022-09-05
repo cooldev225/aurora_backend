@@ -11,6 +11,7 @@ use App\Mail\Notification;
 use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
+use App\Models\User;
 
 class AppointmentController extends BaseOrganizationController
 {
@@ -205,8 +206,7 @@ class AppointmentController extends BaseOrganizationController
             'appointment_type_id'           => $request->appointment_type_id,
             'clinic_id'                     => $request->clinic_id,
             'specialist_id'                 => $request->specialist_id,
-            'anesthetist_id'                => $request->anesthetist_id,
-            'room_id'                       => $request->room_id,
+            'anesthetist_id'                => User::where('role_id', 9)->first()->id, // TEMP
             'note'                          => $request->note,
             'charge_type'                   => $request->charge_type,     
         ]);
