@@ -64,7 +64,7 @@ class UserSeeder extends Seeder
                     'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
                     'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
                     'week_day' => $this->faker->randomElement(["MON", "TUE"]),
-                    'appointment_type_restriction'=> $this->faker->randomElement(["NONE", "PROCEDURES", "CONSULTATION"]),
+                    'appointment_type_restriction'=> $this->faker->randomElement(["NONE", "PROCEDURE", "CONSULTATION"]),
                 ]);
 
                 HRMUserBaseSchedule::create([
@@ -73,7 +73,7 @@ class UserSeeder extends Seeder
                     'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
                     'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
                     'week_day' => $this->faker->randomElement(["WED", "THU"]),
-                    'appointment_type_restriction'=> $this->faker->randomElement(["NONE", "PROCEDURES", "CONSULTATION"]),
+                    'appointment_type_restriction'=> $this->faker->randomElement(["NONE", "PROCEDURE", "CONSULTATION"]),
                 ]);
 
                 HRMUserBaseSchedule::create([
@@ -82,7 +82,7 @@ class UserSeeder extends Seeder
                     'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
                     'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
                     'week_day' => $this->faker->randomElement(["FRI", "SAT"]),
-                    'appointment_type_restriction'=> $this->faker->randomElement(["NONE", "PROCEDURES", "CONSULTATION"]),
+                    'appointment_type_restriction'=> $this->faker->randomElement(["NONE", "PROCEDURE", "CONSULTATION"]),
                 ]);
             }
         }
