@@ -2,12 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Organization;
+use App\Models\PreAdmissionSection;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
-class OrganizationPolicy
+class PreAdmissionSectionPolicy
 {
     use HandlesAuthorization;
 
@@ -32,17 +31,17 @@ class OrganizationPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']);
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']);
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\PreAdmissionSection  $preAdmissionSection
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Organization $organization)
+    public function view(User $user, PreAdmissionSection $preAdmissionSection)
     {
         return false;
     }
@@ -55,41 +54,41 @@ class OrganizationPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']);
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\PreAdmissionSection  $preAdmissionSection
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Organization $organization)
+    public function update(User $user, PreAdmissionSection $preAdmissionSection)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $preAdmissionSection->organization_id == $user->organization->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\PreAdmissionSection  $preAdmissionSection
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Organization $organization)
+    public function delete(User $user, PreAdmissionSection $preAdmissionSection)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $preAdmissionSection->organization_id == $user->organization->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\PreAdmissionSection  $preAdmissionSection
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Organization $organization)
+    public function restore(User $user, PreAdmissionSection $preAdmissionSection)
     {
         return false;
     }
@@ -98,25 +97,11 @@ class OrganizationPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\PreAdmissionSection  $preAdmissionSection
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Organization $organization)
+    public function forceDelete(User $user, PreAdmissionSection $preAdmissionSection)
     {
         return false;
-    }
-
-    /**
-     * Determine whether the user is able to manage the organization
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function manage(User $user, Organization $organization)
-    {
-        return $user->organization->id === $organization->id
-                        ? Response::allow()
-                        : Response::deny('Different Organization');
     }
 }

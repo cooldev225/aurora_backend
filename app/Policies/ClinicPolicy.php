@@ -2,12 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Organization;
+use App\Models\Clinic;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
-class OrganizationPolicy
+class ClinicPolicy
 {
     use HandlesAuthorization;
 
@@ -39,10 +38,10 @@ class OrganizationPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Clinic  $clinic
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Organization $organization)
+    public function view(User $user, Clinic $clinic)
     {
         return false;
     }
@@ -55,41 +54,41 @@ class OrganizationPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->hasRole('organizationAdmin');
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Clinic  $clinic
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Organization $organization)
+    public function update(User $user, Clinic $clinic)
     {
-        return false;
+        return $user->hasRole('organizationAdmin') && $clinic->organization_id == $user->organization->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Clinic  $clinic
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Organization $organization)
+    public function delete(User $user, Clinic $clinic)
     {
-        return false;
+        return $user->hasRole('organizationAdmin') && $clinic->organization_id == $user->organization->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Clinic  $clinic
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Organization $organization)
+    public function restore(User $user, Clinic $clinic)
     {
         return false;
     }
@@ -98,25 +97,11 @@ class OrganizationPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Clinic  $clinic
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Organization $organization)
+    public function forceDelete(User $user, Clinic $clinic)
     {
         return false;
-    }
-
-    /**
-     * Determine whether the user is able to manage the organization
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
-     * @return \Illuminate\Auth\Access\Response|bool
-     */
-    public function manage(User $user, Organization $organization)
-    {
-        return $user->organization->id === $organization->id
-                        ? Response::allow()
-                        : Response::deny('Different Organization');
     }
 }
