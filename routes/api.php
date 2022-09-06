@@ -20,7 +20,6 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\OrganizationManagerController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SpecialistController;
@@ -101,7 +100,6 @@ Route::middleware(['auth'])->group(function () {
     Route::middleware(['ensure.role:organizationAdmin'])->group(function () {
         Route::apiResource('clinics',                       ClinicController::class,['except' => ['show']]);
         Route::apiResource('organization-admins',           OrganizationAdminController::class,['except' => ['show']]);
-        Route::apiResource('organization-managers',         OrganizationManagerController::class,['except' => ['show']]);
         Route::apiResource('appointment-time-requirements', AppointmentTimeRequirementController::class,['except' => ['show']]);
         Route::apiResource('appointment-types',             AppointmentTypeController::class,['except' => ['show']]);
         Route::apiResource('notification-templates',        NotificationTemplateController::class, ['except' => ['show']]);
