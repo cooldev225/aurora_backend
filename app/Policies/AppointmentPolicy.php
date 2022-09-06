@@ -2,12 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Organization;
+use App\Models\Appointment;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
-use Illuminate\Auth\Access\Response;
 
-class OrganizationPolicy
+class AppointmentPolicy
 {
     use HandlesAuthorization;
 
@@ -39,12 +38,12 @@ class OrganizationPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Organization $organization)
+    public function view(User $user, Appointment $appointment)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $appointment->organization_id == $user->organization->id;
     }
 
     /**
@@ -55,41 +54,41 @@ class OrganizationPolicy
      */
     public function create(User $user)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']);
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Organization $organization)
+    public function update(User $user, Appointment $appointment)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']) && $appointment->organization_id == $user->organization->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Organization $organization)
+    public function delete(User $user, Appointment $appointment)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']) && $appointment->organization_id == $user->organization->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Organization $organization)
+    public function restore(User $user, Appointment $appointment)
     {
         return false;
     }
@@ -98,25 +97,23 @@ class OrganizationPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Organization $organization)
+    public function forceDelete(User $user, Appointment $appointment)
     {
         return false;
     }
 
     /**
-     * Determine whether the user is able to manage the organization
+     * Determine whether the user can update the waitListed status of the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Organization  $organization
+     * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function manage(User $user, Organization $organization)
+    public function waitListed(User $user)
     {
-        return $user->organization->id === $organization->id
-                        ? Response::allow()
-                        : Response::deny('Different Organization');
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']);
     }
 }
