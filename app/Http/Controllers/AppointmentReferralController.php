@@ -28,8 +28,10 @@ class AppointmentReferralController extends Controller
     public function update(
         AppointmentReferralRequest $request, Appointment $appointment
     ) {
+        $appointmentReferral = $appointment->referral;
 
-        $appointmentReferral = $appointment->referral()->first();
+        // Verify the user can access this function via policy
+        $this->authorize('update', $appointmentReferral);
 
         $appointmentReferral->update([
             'referring_doctor_id'   => $request->referring_doctor_id,

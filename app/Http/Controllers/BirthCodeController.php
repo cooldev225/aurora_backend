@@ -15,6 +15,9 @@ class BirthCodeController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', BirthCode::class);
+
         $birthCodes = BirthCode::all();
 
         return response()->json(
@@ -34,6 +37,9 @@ class BirthCodeController extends Controller
      */
     public function store(BirthCodeRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', BirthCode::class);
+
         $birthCode = BirthCode::create([
             'code' => $request->code,
             'description' => $request->description,
@@ -57,6 +63,9 @@ class BirthCodeController extends Controller
      */
     public function update(BirthCodeRequest $request, BirthCode $birthCode)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $birthCode);
+
         $birthCode->update([
             'code' => $request->code,
             'description' => $request->description,
@@ -79,6 +88,9 @@ class BirthCodeController extends Controller
      */
     public function destroy(BirthCode $birthCode)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $birthCode);
+
         $birthCode->delete();
 
         return response()->json(

@@ -19,6 +19,10 @@ class PatientDocumentClinicalNoteController extends Controller
      */
     public function store(PatientDocumentClinicalNoteStoreRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientDocument::class);
+        $this->authorize('create', PatientClinicalNote::class);
+
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
@@ -51,6 +55,9 @@ class PatientDocumentClinicalNoteController extends Controller
         PatientClinicalNote $patient_documents_clinical_note
     )
     {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $patient_documents_clinical_note);
+
         $patient_documents_clinical_note->update([
             ...$request->all(),
         ]);
@@ -73,6 +80,10 @@ class PatientDocumentClinicalNoteController extends Controller
         Patient $patient,
         PatientDocumentClinicalNoteUploadRequest $request
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientDocument::class);
+        $this->authorize('create', PatientClinicalNote::class);
+
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
@@ -106,7 +117,13 @@ class PatientDocumentClinicalNoteController extends Controller
      */
     public function destroy(PatientClinicalNote $patient_clinical_note)
     {
-        $patient_clinical_note->patient_document->delete();
+        $patient_document = $patient_clinical_note->patient_document;
+
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $patient_document);
+        $this->authorize('delete', $patient_clinical_note);
+
+        $patient_document->delete();
         $patient_clinical_note->delete();
 
         return response()->json(

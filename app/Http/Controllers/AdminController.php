@@ -26,6 +26,9 @@ class AdminController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', User::class);
+
         $result = User::where('role_id', $this->admin_role->id)->get();
 
         return response()->json(
@@ -45,6 +48,9 @@ class AdminController extends Controller
      */
     public function store(UserRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', User::class);
+
         $user = User::create([
             'username' => $request->username,
             'email' => $request->email,
@@ -68,12 +74,14 @@ class AdminController extends Controller
      * [Admin User] - Update
      *
      * @param  \App\Http\Requests\AdminRequest  $request
-     * @param  $user_id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminRequest $request, $user_id)
+    public function update(AdminRequest $request, User $user)
     {
-        $user = User::find($user_id);
+        // Verify the user can access this function via policy
+        $this->authorize('update', $user);
+
         $user->update([
             'username' => $request->username,
             'email' => $request->email,
@@ -94,12 +102,14 @@ class AdminController extends Controller
     /**
      * [Admin User] - Destroy
      *
-     * @param  $user_id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_id)
+    public function destroy(User $user)
     {
-        $user = User::find($user_id);
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $user);
+
         $user->delete();
 
         return response()->json(

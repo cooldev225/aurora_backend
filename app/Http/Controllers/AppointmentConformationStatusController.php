@@ -6,7 +6,7 @@ use App\Http\Requests\AppointmentConformationStatusListRequest;
 use App\Http\Requests\AppointmentConformationStatusUpdateRequest;
 use App\Models\Appointment;
 
-class AppointmentConformationStatusController extends BaseOrganizationController
+class AppointmentConformationStatusController extends Controller
 {
     /**
      * Display a listing of all appointments per their confirmation_status.
@@ -16,6 +16,8 @@ class AppointmentConformationStatusController extends BaseOrganizationController
      */
     public function index(AppointmentConformationStatusListRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', Appointment::class);
 
         $appointments = Appointment::
             where('organization_id', auth()->user()->organization_id)
@@ -48,7 +50,8 @@ class AppointmentConformationStatusController extends BaseOrganizationController
      */
     public function update(AppointmentConformationStatusUpdateRequest $request, Appointment $appointment)
     {
-
+        // Verify the user can access this function via policy
+        $this->authorize('update', $appointment);
     
         $appointment->confirmation_status = $request->confirmation_status;
         $appointment->confirmation_status_reason = $request->confirmation_status_reason;

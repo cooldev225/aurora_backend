@@ -16,6 +16,9 @@ class ProdaDeviceController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', ProdaDevice::class);
+
         $organization_id = auth()->user()->organization_id;
         $proda_device_table = (new ProdaDevice())->getTable();
         $clinic_table = (new Clinic())->getTable();
@@ -47,6 +50,9 @@ class ProdaDeviceController extends Controller
      */
     public function store(ProdaDeviceRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', ProdaDevice::class);
+
         $prodaDevice = new ProdaDevice();
         $prodaDevice->device_name = $request->device_name;
         $prodaDevice->otac = $request->otac;
@@ -76,6 +82,9 @@ class ProdaDeviceController extends Controller
         ProdaDeviceRequest $request,
         ProdaDevice $prodaDevice
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $prodaDevice);
+
         $prodaDevice->device_name = $request->device_name;
         $prodaDevice->otac = $request->otac;
         $prodaDevice->key_expiry = $request->key_expiry;
@@ -101,6 +110,9 @@ class ProdaDeviceController extends Controller
      */
     public function destroy(ProdaDevice $prodaDevice)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $prodaDevice);
+
         $prodaDevice->delete();
 
         return response()->json(

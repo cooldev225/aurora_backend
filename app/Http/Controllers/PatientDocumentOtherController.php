@@ -19,6 +19,9 @@ class PatientDocumentOtherController extends Controller
         Patient $patient,
         PatientDocumentOtherUploadRequest $request
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientDocument::class);
+
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),

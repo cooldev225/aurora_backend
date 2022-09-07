@@ -9,7 +9,7 @@ use App\Models\Appointment;
 use App\Mail\Notification;
 
 
-class AppointmentProcedureApprovalController extends BaseOrganizationController
+class AppointmentProcedureApprovalController extends Controller
 {
     /**
      * [Appointment Procedure Approval] - List
@@ -18,6 +18,9 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', Appointment::class);
+
         $anesthetist_user_id = auth()->user()->id;
         $today = date('Y-m-d');
 
@@ -48,6 +51,9 @@ class AppointmentProcedureApprovalController extends BaseOrganizationController
         AppointmentProcedureApprovalRequest $request,
         Appointment $appointment
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $appointment);
+
         $appointment->procedure_approval_status = $request->procedure_approval_status;
         $appointment->save();
         $preadmission = $appointment->preAdmission;

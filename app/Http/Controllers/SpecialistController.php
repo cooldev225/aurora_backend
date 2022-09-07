@@ -15,6 +15,9 @@ class SpecialistController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', User::class);
+
         $organization = auth()->user()->organization;
         $specialists = $organization
                 ->users

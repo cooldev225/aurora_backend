@@ -16,6 +16,9 @@ class RoomController extends Controller
      */
     public function index($clinic_id)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', Room::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $room = Room::where('organization_id', $organization_id)
@@ -40,6 +43,9 @@ class RoomController extends Controller
      */
     public function store(RoomRequest $request, $clinic_id)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', Room::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $room = Room::create([
@@ -67,6 +73,9 @@ class RoomController extends Controller
      */
     public function update(RoomRequest $request, $clinic_id, Room $room)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $room);
+
         $organization_id = auth()->user()->organization_id;
 
         $room->update([
@@ -93,6 +102,9 @@ class RoomController extends Controller
      */
     public function destroy($clinic_id, Room $room)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $room);
+
         $room->delete();
 
         return response()->json(

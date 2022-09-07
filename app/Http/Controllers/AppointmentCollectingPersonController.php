@@ -20,6 +20,8 @@ class AppointmentCollectingPersonController extends Controller
     public function update(
         AppointmentCollectingPersonRequest $request, Appointment $appointment
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $appointment);
 
         $appointment->update([
             'collecting_person_name'                 => $request->collecting_person_name,

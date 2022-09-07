@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use App\Models\AppointmentTimeRequirement;
 use App\Http\Requests\AppointmentTimeRequirementRequest;
 
-class AppointmentTimeRequirementController extends BaseOrganizationController
+class AppointmentTimeRequirementController extends Controller
 {
     /**
      * [Appointment Time Requirement] - List
@@ -15,6 +15,9 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', AppointmentTimeRequirement::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $appointmentTimeRequirement = AppointmentTimeRequirement::where(
@@ -39,6 +42,9 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
      */
     public function store(AppointmentTimeRequirementRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', AppointmentTimeRequirement::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $appointmentTimeRequirement = AppointmentTimeRequirement::create([
@@ -67,11 +73,10 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
         AppointmentTimeRequirementRequest $request,
         AppointmentTimeRequirement $appointmentTimeRequirement
     ) {
-        $organization_id = auth()->user()->organization_id;
+        // Verify the user can access this function via policy
+        $this->authorize('update', $appointmentTimeRequirement);
 
-        if ($appointmentTimeRequirement->organization_id != $organization_id) {
-            return $this->forbiddenOrganization();
-        }
+        $organization_id = auth()->user()->organization_id;
 
         $appointmentTimeRequirement->update([
             ...$request->all(),
@@ -97,6 +102,9 @@ class AppointmentTimeRequirementController extends BaseOrganizationController
     public function destroy(
         AppointmentTimeRequirement $appointmentTimeRequirement
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $appointmentTimeRequirement);
+
         $appointmentTimeRequirement->delete();
 
         return response()->json(

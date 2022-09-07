@@ -18,6 +18,9 @@ class UserController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', User::class);
+
         $organization = auth()->user()->organization;
 
         return response()->json(
@@ -150,6 +153,9 @@ class UserController extends Controller
     {
         $user = auth()->user();
 
+        // Verify the user can access this function via policy
+        $this->authorize('updateProfile', $user);
+
         $user->update($request->all());
 
         if ($file = $request->file('photo')) {
@@ -226,6 +232,9 @@ class UserController extends Controller
 
         $user = auth()->user();
 
+        // Verify the user can access this function via policy
+        $this->authorize('updateProfile', $user);
+
         $user->update([
             'password' => Hash::make($request->new_password),
         ]);
@@ -282,6 +291,8 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $user);
 
         $user->delete();
 
@@ -302,6 +313,9 @@ class UserController extends Controller
      */
     public function store(Request $request, User $user)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', User::class);
+
         return response()->json(
             [
                 'message' => 'User Store Not Implemented',
@@ -319,6 +333,8 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $user);
 
         return response()->json(
             [

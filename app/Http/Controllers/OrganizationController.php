@@ -30,6 +30,8 @@ class OrganizationController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', Organization::class);
 
         return response()->json(
             [
@@ -47,6 +49,9 @@ class OrganizationController extends Controller
      */
     public function store(OrganizationRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', Organization::class);
+
         if ($request->filled('id')) {
             $organization = Organization::find($request->id);
 
@@ -117,6 +122,9 @@ class OrganizationController extends Controller
         OrganizationRequest $request,
         Organization $organization
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $organization);
+
         $owner = $organization->owner();
         $owner->update([
             'username'      => $request->username,
@@ -171,6 +179,9 @@ class OrganizationController extends Controller
      */
     public function destroy(Organization $organization)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $organization);
+
         $owner = $organization->owner();
         $owner->delete();
         $organization->delete();

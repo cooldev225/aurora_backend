@@ -7,7 +7,7 @@ use App\Http\Requests\ClinicRequest;
 use App\Models\Clinic;
 use App\Models\ProdaDevice;
 
-class ClinicController extends BaseOrganizationController
+class ClinicController extends Controller
 {
     /**
      * [Clinic] - List
@@ -19,6 +19,9 @@ class ClinicController extends BaseOrganizationController
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', Clinic::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $clinics = Clinic::where('organization_id', $organization_id)
@@ -42,6 +45,9 @@ class ClinicController extends BaseOrganizationController
      */
     public function store(ClinicRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', Clinic::class);
+
         $clinic = Clinic::create([
             'organization_id'           => auth()->user()->organization_id,
             'name'                      =>  $request->name,
@@ -89,6 +95,8 @@ class ClinicController extends BaseOrganizationController
      */
     public function update(ClinicRequest $request, Clinic $clinic)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $clinic);
   
         $clinic->update([
             'name'                     =>  $request->name,
@@ -134,6 +142,9 @@ class ClinicController extends BaseOrganizationController
      */
     public function destroy(Clinic $clinic)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $clinic);
+
         $proda_device = $clinic->proda_device;
 
         if (!empty($proda_device)) {

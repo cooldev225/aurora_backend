@@ -15,6 +15,9 @@ class HealthFundController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', HealthFund::class);
+
         $healthFund = HealthFund::all();
 
         return response()->json(
@@ -34,6 +37,9 @@ class HealthFundController extends Controller
      */
     public function store(HealthFundRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', HealthFund::class);
+
         $healthFund = HealthFund::create([
             'name' => $request->name,
             'code' => $request->code,
@@ -60,6 +66,9 @@ class HealthFundController extends Controller
      */
     public function update(HealthFundRequest $request, HealthFund $healthFund)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $healthFund);
+
         $healthFund->update([
             'name' => $request->name,
             'code' => $request->code,
@@ -85,6 +94,9 @@ class HealthFundController extends Controller
      */
     public function destroy(HealthFund $healthFund)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $healthFund);
+
         $healthFund->delete();
 
         return response()->json(
