@@ -18,6 +18,8 @@ class PatientDocumentController extends Controller
      */
     public function index(Patient $patient)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', PatientDocument::class);
 
         return response()->json(
             [
@@ -36,6 +38,8 @@ class PatientDocumentController extends Controller
      */
     public function store(Request $request, Patient $patient)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientDocument::class);
 
         $patientDocument = PatientDocument::create([
             'patient_id'     => $patient->id,

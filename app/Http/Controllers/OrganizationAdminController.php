@@ -29,6 +29,9 @@ class OrganizationAdminController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', User::class);
+
         $organization_id = auth()->user()->organization_id;
         $organization_admins = User::where('organization_id', $organization_id)
             ->where('role_id', $this->organization_admin_role->id)
@@ -51,6 +54,9 @@ class OrganizationAdminController extends Controller
      */
     public function store(UserRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', User::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $user = User::create([
@@ -77,23 +83,15 @@ class OrganizationAdminController extends Controller
      * [Organization Admin] - Update
      *
      * @param  \App\Http\Requests\UserRequest  $request
-     * @param  $user_id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminRequest $request, $user_id)
+    public function update(AdminRequest $request, User $user)
     {
-        $user = User::find($user_id);
-        $organization_id = auth()->user()->organization_id;
+        // Verify the user can access this function via policy
+        $this->authorize('update', $user);
 
-        if ($user->organization_id != $organization_id) {
-            return response()->json(
-                [
-                    'message' =>
-                        'Could not update an admin in different Organization',
-                ],
-                Response::HTTP_FORBIDDEN
-            );
-        }
+        $organization_id = auth()->user()->organization_id;
 
         $user->update([
             'username' => $request->username,
@@ -116,23 +114,13 @@ class OrganizationAdminController extends Controller
     /**
      * [Organization Admin] - Destroy
      *
-     * @param  $user_id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_id)
+    public function destroy(User $user)
     {
-        $user = User::find($user_id);
-        $organization_id = auth()->user()->organization_id;
-
-        if ($user->organization_id != $organization_id) {
-            return response()->json(
-                [
-                    'message' =>
-                        'Could not remove an admin in different Organization',
-                ],
-                Response::HTTP_FORBIDDEN
-            );
-        }
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $user);
 
         $user->delete();
 

@@ -17,6 +17,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', Appointment::class);
 
         $paymentList = Appointment::
             where('organization_id', auth()->user()->organization_id)
@@ -43,6 +45,9 @@ class PaymentController extends Controller
      */
     public function show(Appointment $appointment)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('view', Appointment::class);
+        $this->authorize('viewAll', AppointmentPayment::class);
       
         $appointmentType = $appointment->type();
 
@@ -67,7 +72,7 @@ class PaymentController extends Controller
                 'data' =>  [
                     'appointment'   => $appointment->toArray(),
                     'payment'       => $paymentData,
-                    'payment_list'  => $appointment->payments()->get()
+                    'payment_list'  => $appointment->payments
                 ]
             ],
             Response::HTTP_OK
@@ -83,6 +88,8 @@ class PaymentController extends Controller
     public function store(
         AppointmentPaymentRequest $request, )
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', AppointmentPayment::class);
  
         $payment = AppointmentPayment::create([
             'appointment_id'    => $request->appointment_id,

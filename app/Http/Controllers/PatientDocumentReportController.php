@@ -24,6 +24,9 @@ class PatientDocumentReportController extends Controller
      */
     public function store(PatientDocumentReportStoreRequest $request, Patient $patient)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientDocument::class);
+
         $file_type = 'PDF';
 
         $pdfData = [
@@ -72,6 +75,8 @@ class PatientDocumentReportController extends Controller
         PatientDocumentReportUpdateRequest $request,
         PatientReport $patient_documents_report
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $patient_documents_report);
 
         return response()->json(
             [
@@ -90,7 +95,13 @@ class PatientDocumentReportController extends Controller
      */
     public function destroy(PatientReport $patientReport)
     {
-        $patientReport->patientDocument->delete();
+        $patient_document = $patientReport->patient_document;
+
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $patient_document);
+        $this->authorize('delete', $patientReport);
+
+        $patient_document->delete();
         $patientReport->delete();
 
         return response()->json(

@@ -43,7 +43,7 @@ class AppointmentPaymentPolicy
      */
     public function view(User $user, AppointmentPayment $appointmentPayment)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $appointmentPayment->appointment->organization_id == $user->organization->id;
     }
 
     /**

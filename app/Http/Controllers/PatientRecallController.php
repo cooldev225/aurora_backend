@@ -20,6 +20,9 @@ class PatientRecallController extends Controller
      */
     public function index(Patient $patient)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', PatientRecall::class);
+
         return response()->json(
             [
                 'message' => 'Patient Recall list',
@@ -38,6 +41,8 @@ class PatientRecallController extends Controller
      */
     public function store(PatientRecallRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientRecall::class);
 
         $patientRecall = PatientRecall::create([
             'user_id'           => auth()->user()->id,
@@ -70,6 +75,9 @@ class PatientRecallController extends Controller
         PatientRecallRequest $request,
         PatientRecall $patientRecall
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $patientRecall);
+
         $patientRecall->update([
             'user_id'           => auth()->user()->id,
             'patient_id'        => $request->patient_id,
@@ -98,6 +106,9 @@ class PatientRecallController extends Controller
      */
     public function destroy(PatientRecall $patientRecall)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $patientRecall);
+    
         $patientRecall->delete();
 
         return response()->json(

@@ -74,7 +74,7 @@ class AdminController extends Controller
      * [Admin User] - Update
      *
      * @param  \App\Http\Requests\AdminRequest  $request
-     * @param  $user_id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function update(AdminRequest $request, User $user)
@@ -102,7 +102,7 @@ class AdminController extends Controller
     /**
      * [Admin User] - Destroy
      *
-     * @param  $user_id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)

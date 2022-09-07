@@ -20,6 +20,10 @@ class PatientDocumentAudioController extends Controller
      */
     public function store(PatientDocumentAudioStoreRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientDocument::class);
+        $this->authorize('create', PatientSpecialistAudio::class);
+
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
@@ -66,6 +70,10 @@ class PatientDocumentAudioController extends Controller
     ) {
         $patient_document = $patient_documents_audio->patient_document;
 
+        // Verify the user can access this function via policy
+        $this->authorize('update', $patient_document);
+        $this->authorize('update', $patient_documents_audio);
+
         $data = $request->all();
         if ($file = $request->file('file')) {
             $file_extension = $file->extension();
@@ -96,6 +104,10 @@ class PatientDocumentAudioController extends Controller
         Patient $patient,
         PatientDocumentAudioUploadRequest $request
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientDocument::class);
+        $this->authorize('create', PatientSpecialistAudio::class);
+
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
@@ -141,7 +153,13 @@ class PatientDocumentAudioController extends Controller
      */
     public function destroy(PatientSpecialistAudio $patient_documents_audio)
     {
-        $patient_documents_audio->patient_document->delete();
+        $patient_document = $patient_documents_audio->patient_document;
+
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $patient_document);
+        $this->authorize('delete', $patient_documents_audio);
+
+        $patient_document->delete();
         $patient_documents_audio->delete();
 
         return response()->json(

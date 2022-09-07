@@ -15,6 +15,9 @@ class ReportTemplateController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', ReportTemplate::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $report_template = ReportTemplate::where(
@@ -42,6 +45,9 @@ class ReportTemplateController extends Controller
      */
     public function store(ReportTemplateRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', ReportTemplate::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $report_template = ReportTemplate::createTemplate([
@@ -70,6 +76,9 @@ class ReportTemplateController extends Controller
         ReportTemplateRequest $request,
         ReportTemplate $report_template
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $report_template);
+
         $organization_id = auth()->user()->organization_id;
 
         $report_template = $report_template->update([
@@ -95,6 +104,9 @@ class ReportTemplateController extends Controller
      */
     public function destroy(ReportTemplate $report_template)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $report_template);
+
         $report_template->delete();
 
         return response()->json(

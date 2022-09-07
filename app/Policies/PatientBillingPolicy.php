@@ -31,7 +31,7 @@ class PatientBillingPolicy
      */
     public function viewAny(User $user)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']);
     }
 
     /**

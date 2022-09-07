@@ -15,6 +15,9 @@ class PatientBillingController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', PatientBilling::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $patientBillings = PatientBilling::where(
@@ -38,6 +41,9 @@ class PatientBillingController extends Controller
      */
     public function store(PatientBillingRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientBilling::class);
+
         $patientBilling = PatientBilling::create([
             ...$request->all(),
             'patient_id' => $request->☻patient_id,
@@ -63,6 +69,9 @@ class PatientBillingController extends Controller
         PatientBillingRequest $request,
         PatientBilling $patientBilling
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $patientBilling);
+
         $patientBilling->update([
             ...$request->all(),
             'patient_id' => $request->☻patient_id,
@@ -85,6 +94,9 @@ class PatientBillingController extends Controller
      */
     public function destroy(PatientBilling $patientBilling)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $patientBilling);
+
         $patientBilling->delete();
 
         return response()->json(

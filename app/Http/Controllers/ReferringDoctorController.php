@@ -17,6 +17,9 @@ class ReferringDoctorController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', ReferringDoctor::class);
+
         $referringDoctors = ReferringDoctor::all();
 
         return response()->json(
@@ -35,6 +38,9 @@ class ReferringDoctorController extends Controller
      */
     public function list()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', ReferringDoctor::class);
+
         $referringDoctors = ReferringDoctor::select(
             'id',
             DB::raw('CONCAT(title, " ", first_name, " ", last_name) AS full_name'),
@@ -61,6 +67,9 @@ class ReferringDoctorController extends Controller
      */
     public function search(Request $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', ReferringDoctor::class);
+
         $term = $request->term;
 
         if (trim($term) == '') {
@@ -112,6 +121,9 @@ class ReferringDoctorController extends Controller
      */
     public function store(ReferringDoctorRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', ReferringDoctor::class);
+
         $referringDoctor = ReferringDoctor::create([
             ...$request->all()
         ]);
@@ -136,6 +148,9 @@ class ReferringDoctorController extends Controller
         ReferringDoctorRequest $request,
         ReferringDoctor $referringDoctor
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $referringDoctor);
+
         $referringDoctor->update([
             ...$request->all()
         ]);
@@ -157,6 +172,9 @@ class ReferringDoctorController extends Controller
      */
     public function destroy(ReferringDoctor $referringDoctor)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $referringDoctor);
+
         $referringDoctor->delete();
 
         return response()->json(

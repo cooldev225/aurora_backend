@@ -16,7 +16,7 @@ class PatientReport extends Model
     /**
      * Return Patient Document
      */
-    public function patientDocument()
+    public function patient_document()
     {
         return $this->belongsTo(PatientDocument::class);
     }

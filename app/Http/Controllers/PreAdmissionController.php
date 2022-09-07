@@ -17,6 +17,9 @@ class PreAdmissionController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', PreAdmissionSection::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $pre_admission_section = PreAdmissionSection::where(
@@ -43,6 +46,9 @@ class PreAdmissionController extends Controller
      */
     public function store(PreAdmissionSectionRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PreAdmissionSection::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $pre_admission_section = PreAdmissionSection::where(
@@ -84,6 +90,9 @@ class PreAdmissionController extends Controller
         PreAdmissionSectionRequest $request,
         PreAdmissionSection $pre_admission_section
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $pre_admission_section);
+
         $organization_id = auth()->user()->organization_id;
 
         $pre_admission_section = $pre_admission_section->update([
@@ -109,6 +118,9 @@ class PreAdmissionController extends Controller
      */
     public function destroy(PreAdmissionSection $pre_admission_section)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $pre_admission_section);
+
         $pre_admission_section->delete();
 
         return response()->json(
@@ -127,12 +139,18 @@ class PreAdmissionController extends Controller
      */
     public function updateConsent(PreAdmissionConsentRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PreAdmissionConsent::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $pre_admission_consent = PreAdmissionConsent::where(
             'organization_id',
             $organization_id
         )->firstOrCreate();
+
+        // Verify the user can access this function via policy
+        $this->authorize('update', $pre_admission_consent);
 
         $pre_admission_consent->update([
             'organization_id' => $organization_id,
@@ -162,6 +180,9 @@ class PreAdmissionController extends Controller
             'organization_id',
             $organization_id
         )->firstOrCreate();
+        
+        // Verify the user can access this function via policy
+        $this->authorize('view', $pre_admission_consent);
 
         return response()->json(
             [

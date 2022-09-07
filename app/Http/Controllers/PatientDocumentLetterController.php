@@ -20,6 +20,10 @@ class PatientDocumentLetterController extends Controller
      */
     public function store(PatientDocumentLetterStoreRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientDocument::class);
+        $this->authorize('create', PatientLetter::class);
+
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
@@ -54,6 +58,9 @@ class PatientDocumentLetterController extends Controller
         PatientLetter $patient_documents_letter
     )
     {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $patient_documents_letter);
+
         $patient_documents_letter->update([
             ...$request->all(),
         ]);
@@ -77,6 +84,10 @@ class PatientDocumentLetterController extends Controller
         Patient $patient,
         PatientDocumentLetterUploadRequest $request
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientDocument::class);
+        $this->authorize('create', PatientLetter::class);
+
         $user_id = auth()->user()->id;
         $data = [
             ...$request->all(),
@@ -111,7 +122,13 @@ class PatientDocumentLetterController extends Controller
      */
     public function destroy(PatientLetter $patient_letter)
     {
-        $patient_letter->patient_document->delete();
+        $patient_document = $patient_letter->patient_document;
+
+        // Verify the user can access this function via policy
+        $this->authorize('create', $patient_document);
+        $this->authorize('create', $patient_letter);
+
+        $patient_document->delete();
         $patient_letter->delete();
 
         return response()->json(

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 use App\Http\Requests\PatientRequest;
+use App\Models\Appointment;
 use App\Models\Organization;
 use App\Models\Patient;
 
@@ -19,6 +20,9 @@ class PatientController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', Patient::class);
+
         $organization_id = auth()->user()->organization_id;
         $patients = Organization::find($organization_id)
             ->patients()
@@ -43,34 +47,26 @@ class PatientController extends Controller
      */
     public function show(Patient $patient)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('view', $patient);
 
         $organization_id = auth()->user()->organization_id;
-        if ($patient->isPartOfOrganization($organization_id)) {
-            $patientInfo = $patient;
 
-            $patientInfo['appointments'] = $patient->appointments()
-                ->where('organization_id', $organization_id)
-                ->orderBy('date', 'DESC')
-                ->orderBy('start_time', 'DESC')
-                ->get();
-    
-            return response()->json(
-                [
-                    'message' => 'Patient Detail Info',
-                    'data' => $patientInfo,
-                ],
-                Response::HTTP_OK
-            );
-        }
+        $patientInfo = $patient;
+
+        $patientInfo['appointments'] = $patient->appointments()
+            ->where('organization_id', $organization_id)
+            ->orderBy('date', 'DESC')
+            ->orderBy('start_time', 'DESC')
+            ->get();
 
         return response()->json(
             [
-                'message' => 'Patient not a part of users organization',
+                'message' => 'Patient Detail Info',
+                'data' => $patientInfo,
             ],
-            Response::HTTP_UNAUTHORIZED
-        );
-
-      
+            Response::HTTP_OK
+        );      
     }
 
     /**
@@ -83,6 +79,9 @@ class PatientController extends Controller
      */
     public function update(PatientRequest $request, Patient $patient)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $patient);
+
         $patient->update($request->all());
 
         return response()->json(
@@ -102,8 +101,11 @@ class PatientController extends Controller
      * @responseFile storage/responses/patients.appointments.json
      */
     public function appointments(Patient $patient) {
+        // Verify the user can access this function via policy
+        $this->authorize('view', $patient);
+        $this->authorize('viewAll', Appointment::class);
 
-$organization_id = auth()->user()->organization_id;
+        $organization_id = auth()->user()->organization_id;
 
         $appointments = [
             'patientId' => $patient->id,

@@ -29,6 +29,9 @@ class OrganizationManagerController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', User::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $organization_managers = User::where(
@@ -55,6 +58,9 @@ class OrganizationManagerController extends Controller
      */
     public function store(UserRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('store', User::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $user = User::create([
@@ -81,23 +87,15 @@ class OrganizationManagerController extends Controller
      * [Organization Manager] - Update
      *
      * @param  \App\Http\Requests\UserRequest  $request
-     * @param  $user_id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(AdminRequest $request, $user_id)
+    public function update(AdminRequest $request, User $user)
     {
-        $user = User::find($user_id);
-        $organization_id = auth()->user()->organization_id;
+        // Verify the user can access this function via policy
+        $this->authorize('update', $user);
 
-        if ($user->organization_id != $organization_id) {
-            return response()->json(
-                [
-                    'message' =>
-                        'Could not update a manager in different Organization',
-                ],
-                Response::HTTP_FORBIDDEN
-            );
-        }
+        $organization_id = auth()->user()->organization_id;
 
         $user->update([
             'username' => $request->username,
@@ -120,23 +118,13 @@ class OrganizationManagerController extends Controller
     /**
      * [Organization Manager] - Destroy
      *
-     * @param  $user_id
+     * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy($user_id)
+    public function destroy(User $user)
     {
-        $user = User::find($user_id);
-        $organization_id = auth()->user()->organization_id;
-
-        if ($user->organization_id != $organization_id) {
-            return response()->json(
-                [
-                    'message' =>
-                        'Could not remove a manager in different Organization',
-                ],
-                Response::HTTP_FORBIDDEN
-            );
-        }
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $user);
 
         $user->delete();
 
