@@ -19,6 +19,14 @@ class ReportTemplate extends Model
         return $this->hasMany(ReportSection::class, 'template_id');
     }
 
+    /**
+     * Return Organization
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
     public static function createTemplate($data)
     {
         $templateObj = self::create($data);

@@ -125,7 +125,7 @@ class OrganizationController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $organization);
 
-        $owner = $organization->owner();
+        $owner = $organization->owner;
         $owner->update([
             'username'      => $request->username,
             'email'         => $request->email,
@@ -182,7 +182,7 @@ class OrganizationController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('delete', $organization);
 
-        $owner = $organization->owner();
+        $owner = $organization->owner;
         $owner->delete();
         $organization->delete();
 

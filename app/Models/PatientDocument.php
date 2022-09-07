@@ -17,7 +17,8 @@ class PatientDocument extends Model
     /**
      * Return Patient
      */
-    public function patient() {
+    public function patient()
+    {
         return $this->belongsTo(Patient::class);
     }
 
@@ -32,16 +33,16 @@ class PatientDocument extends Model
     /**
      * Return Specialist
      */
-    public function specialist() {
+    public function specialist()
+    {
         return $this->belongsTo(Specialist::class);
     }
 
     /**
      * Return Appointment
      */
-    public function appointment() {
+    public function appointment()
+    {
         return $this->belongsTo(Appointment::class);
     }
-
-
 }

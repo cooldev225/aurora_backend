@@ -31,6 +31,14 @@ class PatientRecall extends Model
         return $this->belongsTo(Patient::class, 'patient_id');
     }
 
+    /**
+     * Return Organization
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
     public static function translate($template, $patient_recall) {
         $words = [
             '[PatientFirstName]'    => $patient_recall->first_name,

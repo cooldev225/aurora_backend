@@ -11,6 +11,9 @@ class AppointmentTimeRequirement extends Model
 
     protected $fillable = ['organization_id', 'title', 'type', 'base_time'];
 
+    /**
+     * Return Organization
+     */
     public function organization()
     {
         return $this->belongsTo(Organization::class);

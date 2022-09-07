@@ -29,11 +29,21 @@ class AppointmentReferral extends Model
      */
     public function appointment()
     {
-        return $this->belongsTo(Appointment::class, 'appointment_id');
+        return $this->belongsTo(Appointment::class);
     }
 
-    public function getReferringDoctorNameAttribute(){
-        return ReferringDoctor::find($this->referring_doctor_id)?->full_name;
+    /**
+     * Return Referring Doctor
+     */
+    public function referring_doctor()
+    {
+        return $this->belongsTo(ReferringDoctor::class);
+    }
+
+    public function getReferringDoctorNameAttribute()
+    {
+        $referring_doctor = $this->referring_doctor;
+        return $referring_doctor ? $referring_doctor->full_name : null;
     }
 
     public function updateReferralData($data) {
