@@ -130,7 +130,7 @@ Route::middleware(['auth'])->group(function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     // API Resources
-    Route::apiResource('/admins',                        AdminController::class, ['except' => ['show']]);
+    Route::apiResource('/admins',                        AdminController::class, ['except' => ['show']])->parameters(['admins' => 'user']);
     Route::apiResource('/anesthetic-questions',          AnestheticQuestionController::class,['except' => ['show']]);
     Route::apiResource('/appointments',                  AppointmentController::class, ['except' => ['destroy']]);
     Route::apiResource('/appointment-time-requirements', AppointmentTimeRequirementController::class,['except' => ['show']]);

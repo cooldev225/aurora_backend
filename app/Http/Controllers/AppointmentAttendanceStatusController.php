@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 
-class AppointmentAttendanceStatusController extends BaseOrganizationController
+class AppointmentAttendanceStatusController extends Controller
 {
     /**
      * Check In
@@ -17,11 +17,8 @@ class AppointmentAttendanceStatusController extends BaseOrganizationController
      */
     public function checkIn(Request $request, Appointment $appointment)
     {
-        $organization_id = auth()->user()->organization_id;
-
-        if ($appointment->organization_id != $organization_id) {
-            return $this->forbiddenOrganization();
-        }
+        // Check if the user is authorized to update the associated organization
+        $this->authorize('update', $appointment->organization);
 
         ////////////////////////////////////////////////////////////////////////
         // Update the referral information
@@ -55,11 +52,8 @@ class AppointmentAttendanceStatusController extends BaseOrganizationController
      */
     public function checkOut(Request $request, Appointment $appointment)
     {
-        $organization_id = auth()->user()->organization_id;
-
-        if ($appointment->organization_id != $organization_id) {
-            return $this->forbiddenOrganization();
-        }
+        // Check if the user is authorized to update the associated organization
+        $this->authorize('update', $appointment->organization);
 
         $appointment->attendance_status = AttendanceStatus::CHECKED_OUT;
 

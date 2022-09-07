@@ -19,6 +19,9 @@ class AnestheticQuestionController extends Controller
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', AnestheticQuestion::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $anesthetic_questions = AnestheticQuestion::where(
@@ -46,6 +49,9 @@ class AnestheticQuestionController extends Controller
      */
     public function store(AnestheticQuestionRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', AnestheticQuestion::class);
+
         $anestheticQuestion = AnestheticQuestion::create([
             'organization_id'   => auth()->user()->organization_id,
             'question'          =>  $request->question,
@@ -72,6 +78,8 @@ class AnestheticQuestionController extends Controller
         AnestheticQuestionRequest $request,
         AnestheticQuestion $anestheticQuestion
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $anestheticQuestion);
    
         $anestheticQuestion->update([
             'organization_id'   => auth()->user()->organization_id,
@@ -96,6 +104,9 @@ class AnestheticQuestionController extends Controller
      */
     public function destroy(AnestheticQuestion $anestheticQuestion)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $anestheticQuestion);
+
         $anestheticQuestion->delete();
 
         return response()->json(

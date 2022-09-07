@@ -8,7 +8,7 @@ use App\Http\Requests\ReferringDoctorRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ReferringDoctorController extends BaseOrganizationController
+class ReferringDoctorController extends Controller
 {
     /**
      * [Referring Doctor] - All

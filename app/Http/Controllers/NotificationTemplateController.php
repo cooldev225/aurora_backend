@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use App\Models\NotificationTemplate;
 use App\Http\Requests\NotificationTemplateRequest;
 
-class NotificationTemplateController extends BaseOrganizationController
+class NotificationTemplateController extends Controller
 {
     /**
      * [Notification Template] - List
@@ -15,6 +15,9 @@ class NotificationTemplateController extends BaseOrganizationController
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', NotificationTemplate::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $notificationTemplates = NotificationTemplate::where(
@@ -39,6 +42,9 @@ class NotificationTemplateController extends BaseOrganizationController
      */
     public function store(NotificationTemplateRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', NotificationTemplate::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $notificationTemplate = NotificationTemplate::create([
@@ -70,8 +76,8 @@ class NotificationTemplateController extends BaseOrganizationController
         NotificationTemplateRequest $request,
         NotificationTemplate $notificationTemplate
     ) {
-        // Check if the user is authorized to update the associated organization
-        $this->authorize('update', $notificationTemplate->organization);
+        // Verify the user can access this function via policy
+        $this->authorize('update', $notificationTemplate);
 
         $notificationTemplate->update([
             'organization_id' => auth()->user()->organization_id,
@@ -99,6 +105,9 @@ class NotificationTemplateController extends BaseOrganizationController
      */
     public function destroy(NotificationTemplate $notificationTemplate)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $notificationTemplate);
+
         $notificationTemplate->delete();
 
         return response()->json(

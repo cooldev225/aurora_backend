@@ -7,7 +7,7 @@ use App\Models\Patient;
 use Illuminate\Http\Response;
 use App\Models\PatientRecall;
 
-class PatientRecallController extends BaseOrganizationController
+class PatientRecallController extends Controller
 {
     /**
      * [Recall - List]

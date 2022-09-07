@@ -8,7 +8,7 @@ use App\Models\AppointmentPayment;
 use Illuminate\Http\Response;
 use App\Mail\Notification;
 
-class PaymentController extends BaseOrganizationController
+class PaymentController extends Controller
 {
     /**
      * [Payment] - List

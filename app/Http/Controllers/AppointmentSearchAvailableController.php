@@ -9,7 +9,7 @@ use App\Models\AppointmentType;
 use App\Models\Specialist;
 use App\Models\AppointmentTimeRequirement;
 
-class AppointmentSearchAvailableController extends BaseOrganizationController
+class AppointmentSearchAvailableController extends Controller
 {
 
     /**

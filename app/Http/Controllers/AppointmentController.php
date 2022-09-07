@@ -12,7 +12,7 @@ use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
 
-class AppointmentController extends BaseOrganizationController
+class AppointmentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -106,6 +106,9 @@ class AppointmentController extends BaseOrganizationController
             }
         }*/
 
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', Appointment::class);
+
         return response()->json(
             [
                 'message' => 'Not Implemented',
@@ -117,6 +120,9 @@ class AppointmentController extends BaseOrganizationController
 
     public function show(Appointment $appointment)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('view', $appointment);
+
         return response()->json(
             [
                 'message' => 'Appointment List',
@@ -132,9 +138,19 @@ class AppointmentController extends BaseOrganizationController
      * @param  \App\Http\Requests\AppointmentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
+        // Verify the user can access this function via policy
+        $this->authorize('create', Appointment::class);
+        $this->authorize('create', AppointmentReferral::class);
+        $this->authorize('create', AppointmentPreAdmission::class);
+
         $patient = Patient::find($request->patient_id);
         if ($patient) {
+            // Verify the user can access this function via policy
+            $this->authorize('update', $patient);
+            $this->authorize('update', $patient->billing);
+
             $patient->update([
                 'first_name'                    => $request->first_name,
                 'last_name'                     => $request->last_name,
@@ -162,6 +178,10 @@ class AppointmentController extends BaseOrganizationController
                 'health_fund_expiry_date'        => $request->health_fund_expiry_date,
              ]);
         } else {
+            // Verify the user can access this function via policy
+            $this->authorize('create', Patient::class);
+            $this->authorize('create', PatientBilling::class);
+
             $patient = Patient::create([
                 'first_name'                    => $request->first_name,
                 'last_name'                     => $request->last_name,
@@ -242,9 +262,14 @@ class AppointmentController extends BaseOrganizationController
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,Appointment $appointment) {
+    public function update(Request $request, Appointment $appointment)
+    {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $appointment);
+        $this->authorize('update', $appointment->patient);
+        $this->authorize('update', $appointment->patient->billing);
+        $this->authorize('update', $appointment->referral);
       
-
         $appointment->update([
             'appointment_type_id'           => $request->appointment_type_id,
             'room_id'                       => $request->room_id,
@@ -306,13 +331,10 @@ class AppointmentController extends BaseOrganizationController
      */
     public function confirm(Request $request)
     {
-        $organization_id = auth()->user()->organization_id;
-
         $appointment = Appointment::find($request->id);
 
-        if ($appointment->organization_id != $organization_id) {
-            return $this->forbiddenOrganization();
-        }
+        // Verify the user can access this function via policy
+        $this->authorize('update', $appointment);
 
         $appointment->confirmation_status = 'CONFIRMED';
 
@@ -335,13 +357,10 @@ class AppointmentController extends BaseOrganizationController
      */
     public function waitListed(Request $request)
     {
-        $organization_id = auth()->user()->organization_id;
-
         $appointment = Appointment::find($request->id);
 
-        if ($appointment->organization_id != $organization_id) {
-            return $this->forbiddenOrganization();
-        }
+        // Verify the user can access this function via policy
+        $this->authorize('waitListed', $appointment);
 
         $appointment->is_wait_listed = (bool) $request->is_wait_listed;
 

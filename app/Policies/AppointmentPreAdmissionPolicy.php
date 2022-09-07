@@ -66,7 +66,7 @@ class AppointmentPreAdmissionPolicy
      */
     public function update(User $user, AppointmentPreAdmission $appointmentPreAdmission)
     {
-        return false;
+        return true;
     }
 
     /**

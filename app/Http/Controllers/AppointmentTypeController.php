@@ -17,6 +17,9 @@ class AppointmentTypeController extends Controller
      */
     public function index(Request $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', AppointmentType::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $appointmentTypes = AppointmentType::where(
@@ -48,6 +51,9 @@ class AppointmentTypeController extends Controller
      */
     public function store(AppointmentTypeRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', AppointmentType::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $appointmentType = AppointmentType::create([
@@ -76,6 +82,9 @@ class AppointmentTypeController extends Controller
         AppointmentTypeRequest $request,
         AppointmentType $appointmentType
     ) {
+        // Verify the user can access this function via policy
+        $this->authorize('update', $appointmentType);
+
         $organization_id = auth()->user()->organization_id;
 
         $appointmentType->update([
@@ -101,6 +110,9 @@ class AppointmentTypeController extends Controller
      */
     public function destroy(AppointmentType $appointmentType)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $appointmentType);
+
         $appointmentType->delete();
 
         return response()->json(

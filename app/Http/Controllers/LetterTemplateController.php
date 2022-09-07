@@ -6,7 +6,7 @@ use Illuminate\Http\Response;
 use App\Models\LetterTemplate;
 use App\Http\Requests\LetterTemplateRequest;
 
-class LetterTemplateController extends BaseOrganizationController
+class LetterTemplateController extends Controller
 {
     /**
      * [Letter Template] - List
@@ -15,6 +15,9 @@ class LetterTemplateController extends BaseOrganizationController
      */
     public function index()
     {
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', LetterTemplate::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $letterTemplates = LetterTemplate::where(
@@ -39,6 +42,9 @@ class LetterTemplateController extends BaseOrganizationController
      */
     public function store(LetterTemplateRequest $request)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('create', LetterTemplate::class);
+
         $organization_id = auth()->user()->organization_id;
 
         $letterTemplate = LetterTemplate::create([
@@ -66,8 +72,8 @@ class LetterTemplateController extends BaseOrganizationController
         LetterTemplateRequest $request,
         LetterTemplate $letterTemplate
     ) {
-        // Check if the user is authorized to update the associated organization
-        $this->authorize('update', $letterTemplate->organization);
+        // Verify the user can access this function via policy
+        $this->authorize('update', $letterTemplate);
 
         $letterTemplate->update([
             ...$request->all(),
@@ -91,6 +97,9 @@ class LetterTemplateController extends BaseOrganizationController
      */
     public function destroy(LetterTemplate $letterTemplate)
     {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $letterTemplate);
+
         $letterTemplate->delete();
 
         return response()->json(

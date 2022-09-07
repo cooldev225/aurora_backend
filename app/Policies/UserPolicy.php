@@ -28,7 +28,7 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function viewAny(User $user, int $organization_id)
+    public function viewAny(User $user, int $organization_id = null)
     {
         return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']) && $user->organization->id == $organization_id;
     }
@@ -51,7 +51,7 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user, int $organization_id)
+    public function create(User $user, int $organization_id = null)
     {
         return $user->hasRole('organizationAdmin') && $user->organization->id == $organization_id;
     }
@@ -63,9 +63,9 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, User $model, int $organization_id)
+    public function update(User $user, User $model)
     {
-        return $user->hasRole('organizationAdmin') && $user->organization->id == $organization_id;
+        return $user->hasRole('organizationAdmin') && $user->organization->id == $model->organization->id;
     }
 
     /**
@@ -75,9 +75,9 @@ class UserPolicy
      * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, User $model, int $organization_id)
+    public function delete(User $user, User $model)
     {
-        return $user->hasRole('organizationAdmin') && $user->organization->id == $organization_id;
+        return $user->hasRole('organizationAdmin') && $user->organization->id == $model->organization->id;
     }
 
     /**

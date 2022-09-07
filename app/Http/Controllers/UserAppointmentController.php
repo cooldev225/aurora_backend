@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Appointment;
 
 
-class UserAppointmentController extends BaseOrganizationController
+class UserAppointmentController extends Controller
 {
     /**
      * [User Appointment] - List

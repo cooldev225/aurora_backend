@@ -14,7 +14,8 @@ class HRMUserBaseScheduleController extends Controller
      */
     public function index()
     {
-        //
+        // Verify the user can access this function via policy
+        $this->authorize('viewAll', HRMUserBaseSchedule::class);
     }
 
     /**
@@ -24,7 +25,8 @@ class HRMUserBaseScheduleController extends Controller
      */
     public function create()
     {
-        //
+        // Verify the user can access this function via policy
+        $this->authorize('create', HRMUserBaseSchedule::class);
     }
 
     /**
@@ -35,7 +37,8 @@ class HRMUserBaseScheduleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Verify the user can access this function via policy
+        $this->authorize('create', HRMUserBaseSchedule::class);
     }
 
     /**
@@ -46,7 +49,8 @@ class HRMUserBaseScheduleController extends Controller
      */
     public function show(HRMUserBaseSchedule $hRMUserBaseSchedule)
     {
-        //
+        // Verify the user can access this function via policy
+        $this->authorize('view', $hRMUserBaseSchedule);
     }
 
     /**
@@ -57,7 +61,8 @@ class HRMUserBaseScheduleController extends Controller
      */
     public function edit(HRMUserBaseSchedule $hRMUserBaseSchedule)
     {
-        //
+        // Verify the user can access this function via policy
+        $this->authorize('update', $hRMUserBaseSchedule);
     }
 
     /**
@@ -69,7 +74,8 @@ class HRMUserBaseScheduleController extends Controller
      */
     public function update(Request $request, HRMUserBaseSchedule $hRMUserBaseSchedule)
     {
-        //
+        // Verify the user can access this function via policy
+        $this->authorize('update', $hRMUserBaseSchedule);
     }
 
     /**
@@ -80,6 +86,7 @@ class HRMUserBaseScheduleController extends Controller
      */
     public function destroy(HRMUserBaseSchedule $hRMUserBaseSchedule)
     {
-        //
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $hRMUserBaseSchedule);
     }
 }
