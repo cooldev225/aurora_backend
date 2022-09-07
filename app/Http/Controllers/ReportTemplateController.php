@@ -16,7 +16,7 @@ class ReportTemplateController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', ReportTemplate::class);
+        $this->authorize('viewAny', ReportTemplate::class);
 
         $organization_id = auth()->user()->organization_id;
 

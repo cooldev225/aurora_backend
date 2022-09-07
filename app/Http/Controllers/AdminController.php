@@ -27,7 +27,7 @@ class AdminController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', User::class);
+        $this->authorize('viewAny', User::class);
 
         $result = User::where('role_id', $this->admin_role->id)->get();
 

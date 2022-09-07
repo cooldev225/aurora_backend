@@ -21,7 +21,7 @@ class PatientController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', Patient::class);
+        $this->authorize('viewAny', Patient::class);
 
         $organization_id = auth()->user()->organization_id;
         $patients = Organization::find($organization_id)
@@ -103,7 +103,7 @@ class PatientController extends Controller
     public function appointments(Patient $patient) {
         // Verify the user can access this function via policy
         $this->authorize('view', $patient);
-        $this->authorize('viewAll', Appointment::class);
+        $this->authorize('viewAny', Appointment::class);
 
         $organization_id = auth()->user()->organization_id;
 

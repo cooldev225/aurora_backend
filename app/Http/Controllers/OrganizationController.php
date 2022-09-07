@@ -31,7 +31,7 @@ class OrganizationController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', Organization::class);
+        $this->authorize('viewAny', Organization::class);
 
         return response()->json(
             [

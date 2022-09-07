@@ -17,7 +17,7 @@ class UserAppointmentController extends Controller
     public function index(Request $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', Appointment::class);
+        $this->authorize('viewAny', Appointment::class);
 
         $role = auth()->user()->role;
         $organization_id = auth()->user()->organization_id;

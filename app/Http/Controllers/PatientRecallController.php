@@ -21,7 +21,7 @@ class PatientRecallController extends Controller
     public function index(Patient $patient)
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', PatientRecall::class);
+        $this->authorize('viewAny', PatientRecall::class);
 
         return response()->json(
             [

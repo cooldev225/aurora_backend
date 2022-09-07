@@ -20,7 +20,7 @@ class AnestheticQuestionController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', AnestheticQuestion::class);
+        $this->authorize('viewAny', AnestheticQuestion::class);
 
         $organization_id = auth()->user()->organization_id;
 

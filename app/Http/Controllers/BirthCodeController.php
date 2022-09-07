@@ -16,7 +16,7 @@ class BirthCodeController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', BirthCode::class);
+        $this->authorize('viewAny', BirthCode::class);
 
         $birthCodes = BirthCode::all();
 

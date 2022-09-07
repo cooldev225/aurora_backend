@@ -18,7 +18,7 @@ class PreAdmissionController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', PreAdmissionSection::class);
+        $this->authorize('viewAny', PreAdmissionSection::class);
 
         $organization_id = auth()->user()->organization_id;
 

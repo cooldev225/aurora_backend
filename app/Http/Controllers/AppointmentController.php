@@ -108,7 +108,7 @@ class AppointmentController extends Controller
         }*/
 
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', Appointment::class);
+        $this->authorize('viewAny', Appointment::class);
 
         return response()->json(
             [

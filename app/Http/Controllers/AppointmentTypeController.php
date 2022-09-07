@@ -18,7 +18,7 @@ class AppointmentTypeController extends Controller
     public function index(Request $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', AppointmentType::class);
+        $this->authorize('viewAny', AppointmentType::class);
 
         $organization_id = auth()->user()->organization_id;
 
@@ -52,7 +52,7 @@ class AppointmentTypeController extends Controller
     public function store(AppointmentTypeRequest $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('create', AppointmentType::class);
+        // $this->authorize('create', AppointmentType::class);
 
         $organization_id = auth()->user()->organization_id;
 

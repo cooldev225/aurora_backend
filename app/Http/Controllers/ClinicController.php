@@ -20,7 +20,7 @@ class ClinicController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', Clinic::class);
+        $this->authorize('viewAny', Clinic::class);
 
         $organization_id = auth()->user()->organization_id;
 

@@ -17,7 +17,7 @@ class RoomController extends Controller
     public function index($clinic_id)
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', Room::class);
+        $this->authorize('viewAny', Room::class);
 
         $organization_id = auth()->user()->organization_id;
 
