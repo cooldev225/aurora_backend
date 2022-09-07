@@ -143,7 +143,6 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/notification-templates',        NotificationTemplateController::class, ['except' => ['show']]);
     Route::apiResource('/organizations',                 OrganizationController::class, ['except' => ['show']]);
     Route::apiResource('/organization-admins',           OrganizationAdminController::class,['except' => ['show']])->parameters(['organization_admin' => 'user']);
-    Route::apiResource('/organization-managers',         OrganizationManagerController::class,['except' => ['show']])->parameters(['organization_manager' => 'user']);
     Route::apiResource('/patients',                      PatientController::class, ['except' => ['create']]);
     Route::apiResource('/pre-admission-sections',        PreAdmissionController::class,['except' => ['show']]);
     Route::apiResource('/referring-doctors',             ReferringDoctorController::class,['except' => ['show']]);
