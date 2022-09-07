@@ -18,7 +18,7 @@ class AppointmentSpecialistController extends Controller
     public function index(Request $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', [User::class, auth()->user()->organization_id]);
+        $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
 
         if ($request->filled('specialist_ids')) {
             //aDD FILTER FOR SELECTED SPECIALISTS

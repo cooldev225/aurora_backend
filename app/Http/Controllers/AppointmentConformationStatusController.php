@@ -17,7 +17,7 @@ class AppointmentConformationStatusController extends Controller
     public function index(AppointmentConformationStatusListRequest $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', Appointment::class);
+        $this->authorize('viewAny', Appointment::class);
 
         $appointments = Appointment::
             where('organization_id', auth()->user()->organization_id)

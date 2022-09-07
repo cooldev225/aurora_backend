@@ -17,7 +17,7 @@ class ProdaDeviceController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', ProdaDevice::class);
+        $this->authorize('viewAny', ProdaDevice::class);
 
         $organization_id = auth()->user()->organization_id;
         $proda_device_table = (new ProdaDevice())->getTable();

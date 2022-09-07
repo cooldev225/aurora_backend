@@ -18,7 +18,7 @@ class PaymentController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', Appointment::class);
+        $this->authorize('viewAny', Appointment::class);
 
         $paymentList = Appointment::
             where('organization_id', auth()->user()->organization_id)
@@ -47,7 +47,7 @@ class PaymentController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('view', Appointment::class);
-        $this->authorize('viewAll', AppointmentPayment::class);
+        $this->authorize('viewAny', AppointmentPayment::class);
       
         $appointmentType = $appointment->type;
 

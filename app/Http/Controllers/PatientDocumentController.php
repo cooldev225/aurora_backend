@@ -19,7 +19,7 @@ class PatientDocumentController extends Controller
     public function index(Patient $patient)
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', PatientDocument::class);
+        $this->authorize('viewAny', PatientDocument::class);
 
         return response()->json(
             [

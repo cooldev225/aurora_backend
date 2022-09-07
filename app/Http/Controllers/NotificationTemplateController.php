@@ -16,7 +16,7 @@ class NotificationTemplateController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', NotificationTemplate::class);
+        $this->authorize('viewAny', NotificationTemplate::class);
 
         $organization_id = auth()->user()->organization_id;
 

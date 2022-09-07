@@ -30,7 +30,7 @@ class OrganizationAdminController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', User::class);
+        $this->authorize('viewAny', User::class);
 
         $organization_id = auth()->user()->organization_id;
         $organization_admins = User::where('organization_id', $organization_id)

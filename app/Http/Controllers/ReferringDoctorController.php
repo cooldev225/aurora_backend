@@ -18,7 +18,7 @@ class ReferringDoctorController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', ReferringDoctor::class);
+        $this->authorize('viewAny', ReferringDoctor::class);
 
         $referringDoctors = ReferringDoctor::all();
 
@@ -39,7 +39,7 @@ class ReferringDoctorController extends Controller
     public function list()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', ReferringDoctor::class);
+        $this->authorize('viewAny', ReferringDoctor::class);
 
         $referringDoctors = ReferringDoctor::select(
             'id',
@@ -68,7 +68,7 @@ class ReferringDoctorController extends Controller
     public function search(Request $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', ReferringDoctor::class);
+        $this->authorize('viewAny', ReferringDoctor::class);
 
         $term = $request->term;
 

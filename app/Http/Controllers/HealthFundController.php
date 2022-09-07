@@ -16,7 +16,7 @@ class HealthFundController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', HealthFund::class);
+        $this->authorize('viewAny', HealthFund::class);
 
         $healthFund = HealthFund::all();
 

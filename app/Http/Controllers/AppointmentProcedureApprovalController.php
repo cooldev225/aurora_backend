@@ -19,7 +19,7 @@ class AppointmentProcedureApprovalController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', Appointment::class);
+        $this->authorize('viewAny', Appointment::class);
 
         $anesthetist_user_id = auth()->user()->id;
         $today = date('Y-m-d');

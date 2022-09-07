@@ -16,7 +16,7 @@ class AppointmentTimeRequirementController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', AppointmentTimeRequirement::class);
+        $this->authorize('viewAny', AppointmentTimeRequirement::class);
 
         $organization_id = auth()->user()->organization_id;
 

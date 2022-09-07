@@ -15,7 +15,7 @@ class HRMUserBaseScheduleController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', HRMUserBaseSchedule::class);
+        $this->authorize('viewAny', HRMUserBaseSchedule::class);
     }
 
     /**

@@ -16,7 +16,7 @@ class PatientBillingController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAll', PatientBilling::class);
+        $this->authorize('viewAny', PatientBilling::class);
 
         $organization_id = auth()->user()->organization_id;
 
