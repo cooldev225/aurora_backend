@@ -23,7 +23,7 @@ class Appointment extends Model
     protected $appends = [
         'patient_name', 'patient_details', 'specialist_name',
         'appointment_type', 'aus_formatted_date', 'formatted_appointment_time',
-        'is_pre_admission_form_complete', 'referral','clinic_details'
+        'is_pre_admission_form_complete', 'referral', 'clinic_details'
     ];
 
 
@@ -47,7 +47,7 @@ class Appointment extends Model
     public function getClinicDetailsAttribute()
     {   
         return [
-            'name' => $this->clinic()->first()->name,
+            'name' => $this->clinic->name,
         ];
     }
 
@@ -70,7 +70,7 @@ class Appointment extends Model
     }
 
     public function getIsPreAdmissionFormCompleteAttribute() {
-        if($this->preAdmission->pre_admission_file){
+        if($this->pre_admission->pre_admission_file){
             return true;
         }
         return false;
@@ -78,12 +78,12 @@ class Appointment extends Model
 
 
     public function getReferralAttribute() {
-        return $this->referral()->first();
+        return $this->referral;
     }
 
     public function getAppointmentTypeAttribute()
     {
-        return $this->appointmentType()->first();
+        return $this->appointment_type;
     }
 
     /**
@@ -107,15 +107,15 @@ class Appointment extends Model
      */
     public function clinic()
     {
-        return $this->belongsTo(Clinic::class, 'clinic_id');
+        return $this->belongsTo(Clinic::class);
     }
 
     /**
      * Return Appointment Type
      */
-    public function appointmentType()
+    public function appointment_type()
     {
-        return $this->belongsTo(AppointmentType::class, 'appointment_type_id');
+        return $this->belongsTo(AppointmentType::class);
     }
 
      /**
@@ -131,35 +131,34 @@ class Appointment extends Model
      */
     public function payments()
     {
-        return $this->hasMany(AppointmentPayment::class, 'appointment_id');
-    }
-
-    /**
-     * Return AppointmentType
-     */
-    public function type()
-    {
-        return $this->belongsTo(
-            AppointmentType::class,
-            'appointment_type_id'
-        );
+        return $this->hasMany(AppointmentPayment::class);
     }
 
     /**
      * Return Pre Admission
      */
-    public function preAdmission()
+    public function pre_admission()
     {
         return $this->hasOne(AppointmentPreAdmission::class);
     }
 
-    public function specialist(){
-        return $this->hasOne(User::class, 'id','specialist_id');
-     }
+    /**
+     * Return Room
+     */
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
 
-     public function anesthetist(){
+    public function specialist()
+    {
+        return $this->hasOne(User::class, 'id','specialist_id');
+    }
+
+    public function anesthetist()
+    {
         return $this->hasOne(User::class,'id', 'anesthetist_id');
-     }
+    }
 
     /**
      * Return Recall NotificationTemplate

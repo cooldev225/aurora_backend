@@ -52,4 +52,12 @@ class AppointmentType extends Model
             return 3;
         }
     }
+
+    /**
+     * Return Organization
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 }

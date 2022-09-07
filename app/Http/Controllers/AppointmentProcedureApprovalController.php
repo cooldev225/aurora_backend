@@ -56,7 +56,7 @@ class AppointmentProcedureApprovalController extends Controller
 
         $appointment->procedure_approval_status = $request->procedure_approval_status;
         $appointment->save();
-        $preadmission = $appointment->preAdmission;
+        $preadmission = $appointment->pre_admission;
         $preadmission->note = $request->note;
         $preadmission->save();
 

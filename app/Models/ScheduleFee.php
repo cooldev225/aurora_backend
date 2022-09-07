@@ -14,4 +14,12 @@ class ScheduleFee extends Model
         'medicare_fee_75', 'medicare_fee_85', 'procedure_or_consultation',
         'dva_in', 'dva_out', 'tac', 'work_cover', 'status'
     ];
+
+    /**
+     * Return Organization
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 }

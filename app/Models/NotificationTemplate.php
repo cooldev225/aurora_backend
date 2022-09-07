@@ -142,4 +142,12 @@ class NotificationTemplate extends Model
             'description' => 'This notification is sent to the patient when the anesthetist approved their procedure.',
         ]);
     }
+
+    /**
+     * Return Organization
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 }

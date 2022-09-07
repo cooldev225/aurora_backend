@@ -35,7 +35,7 @@ class AppointmentPayment extends Model
     }
 
     /**
-     * Return Appointment
+     * Return Confirmed User
      */
     public function confirmed_user()
     {

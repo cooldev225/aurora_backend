@@ -28,4 +28,12 @@ class PatientBilling extends Model
         'account_holder_id',
         'fund_excess',
     ];
+
+    /**
+     * Return Patient
+     */
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
 }

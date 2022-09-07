@@ -19,7 +19,7 @@ class OrganizationSeeder extends Seeder
 
         # assign user_organization of organization
         foreach ($all_organizations as $org) {
-            $user = $org->owner();
+            $user = $org->owner;
             $org->logo = 'https://picsum.photos/420/320?image=' . $org->id;
             $org->save();
 

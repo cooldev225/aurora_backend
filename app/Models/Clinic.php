@@ -28,4 +28,12 @@ class Clinic extends Model
     {
         return $this->hasOne(ProdaDevice::class);
     }
+
+    /**
+     * Return Organization
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 }

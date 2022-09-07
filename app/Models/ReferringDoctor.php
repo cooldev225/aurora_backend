@@ -19,7 +19,8 @@ class ReferringDoctor extends Model
         'full_name'
     ];
 
-    public function getFullNameAttribute(){
+    public function getFullNameAttribute()
+    {
         return $this->title . ' ' . $this->first_name . ' ' . $this->last_name;
     }
 }

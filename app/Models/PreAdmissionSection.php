@@ -19,6 +19,14 @@ class PreAdmissionSection extends Model
         return $this->hasMany(PreAdmissionQuestion::class);
     }
 
+    /**
+     * Return Organization
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
+
     public static function createSection($data)
     {
         $sectionObj = self::create($data);

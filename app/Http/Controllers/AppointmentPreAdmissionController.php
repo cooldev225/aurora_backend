@@ -184,7 +184,7 @@ class AppointmentPreAdmissionController extends Controller
  
 
         $appointment = Appointment::first();
-        $preAdmission = $appointment->preAdmission;
+        $preAdmission = $appointment->pre_admission;
         $patient = Patient::first();
 
         $preAdmissionAnswers = json_decode($test);

@@ -10,4 +10,12 @@ class AnestheticQuestion extends Model
     use HasFactory;
 
     protected $fillable = ['organization_id', 'question'];
+
+    /**
+     * Return Organization
+     */
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 }

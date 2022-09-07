@@ -67,7 +67,7 @@ class Organization extends Model
     /**
      * Get the appointment types for organization.
      */
-    public function appointmentTypes()
+    public function appointment_Types()
     {
         return $this->hasMany(AppointmentType::class);
     }
@@ -78,7 +78,7 @@ class Organization extends Model
      */
     public function patients()
     {
-        return $this->belongsToMany(Patient::class)->with('upcomingAppointments');
+        return $this->belongsToMany(Patient::class)->with('upcoming_appointments');
     }
 
     /**
@@ -94,7 +94,7 @@ class Organization extends Model
      */
     public function owner()
     {
-        return $this->belongsTo(User::class, 'owner_id')->first();
+        return $this->belongsTo(User::class, 'owner_id');
     }
 
 }
