@@ -49,7 +49,7 @@ class PaymentController extends Controller
         $this->authorize('view', Appointment::class);
         $this->authorize('viewAll', AppointmentPayment::class);
       
-        $appointmentType = $appointment->type();
+        $appointmentType = $appointment->type;
 
         $paymentData = array(
             'payment_tier_1'    => $appointmentType->payment_tier_1,

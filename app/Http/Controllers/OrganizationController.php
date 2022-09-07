@@ -73,6 +73,9 @@ class OrganizationController extends Controller
             'name'                      => $request->name,
             'max_clinics'               => $request->max_clinics,
             'max_employees'             => $request->max_employees,
+            'appointment_length'        => $request->appointment_length,
+            'start_time'                => $request->start_time,
+            'end_time'                  => $request->end_time,
             'owner_id'                  => $owner->id,
         ]);
 

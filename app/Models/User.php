@@ -88,8 +88,8 @@ class User extends Authenticatable implements JWTSubject
      */
     public function appointments()
     {
-        $field_key = ($this->role_id === 5) ? 'specialist_id' : 'anesthetist_id';
-        return $this->hasMany(Appointment::class, $field_key);
+        $field_key = 'specialist_id'; //Make a switch for anesthetist role
+        return $this->hasMany(Appointment::class,  $field_key, 'id' );
     }
 
     /**

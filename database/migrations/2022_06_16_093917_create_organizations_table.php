@@ -15,14 +15,19 @@ return new class extends Migration {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('logo')->nullable();
-            $table->integer('max_clinics')->nullable();
-            $table->integer('max_employees')->nullable();
+
+            $table->integer('max_clinics');
+            $table->integer('max_employees');
             $table->foreignId('owner_id');
+
             $table->boolean('is_hospital')->default(true);
-            $table->integer('appointment_length')->nullable();
+            $table->integer('appointment_length');
+            $table->time('start_time');
+            $table->time('end_time');
+
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
 
+            $table->string('logo')->nullable();
             $table->string('document_letter_header')->nullable();
             $table->string('document_letter_footer')->nullable();
 
