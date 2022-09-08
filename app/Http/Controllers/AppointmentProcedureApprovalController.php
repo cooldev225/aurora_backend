@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ConfirmationStatus;
 use App\Enum\ProcedureApprovalStatus;
 use App\Http\Requests\AppointmentProcedureApprovalRequest;
 use App\Models\Appointment;
@@ -30,11 +31,12 @@ class AppointmentProcedureApprovalController extends Controller
                 'data' => Appointment::
                             where('anesthetist_id', $anesthetist_user_id)
                             ->where('procedure_approval_status', '!=', ProcedureApprovalStatus::NOT_RELEVANT)
-                            //->where('date', '>=', $today)
+                            ->where('date', '>=', $today)
+                            ->where('confirmation_status', '!=', ConfirmationStatus::CANCELED)
                             ->orderBy('date')
+                            ->with('appointment_type')
                             ->orderBy('start_time')
                             ->get()
-                            ->toArray()
             ],
             200
         );
