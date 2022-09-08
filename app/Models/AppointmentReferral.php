@@ -35,18 +35,4 @@ class AppointmentReferral extends Model
     public function getReferringDoctorNameAttribute(){
         return ReferringDoctor::find($this->referring_doctor_id)?->full_name;
     }
-
-    public function updateReferralData($data) {
-        $this->referring_doctor_id = $data['referring_doctor_id'];
-        $this->referral_date = $data['referral_date'];
-        $this->referral_duration = $data['referral_duration'];
-        $this->referral_expiry_date = date(
-            "Y-m-d", strtotime(
-                "+" . $this->referral_duration . " months",
-                strtotime($this->referral_date)
-            )
-        );
-
-        $this->save();
-    }
 }
