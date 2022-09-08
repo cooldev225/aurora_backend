@@ -12,6 +12,7 @@ use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
 use App\Models\User;
+use Carbon\Carbon;
 
 class AppointmentController extends Controller
 {
@@ -226,7 +227,7 @@ class AppointmentController extends Controller
             'appointment_type_id'           => $request->appointment_type_id,
             'clinic_id'                     => $request->clinic_id,
             'specialist_id'                 => $request->specialist_id,
-            'anesthetist_id'                => User::where('role_id', 9)->first()->id, // TEMP
+            'anesthetist_id'                => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay(strtotime($request->time_slot[0]),strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
             'note'                          => $request->note,
             'charge_type'                   => $request->charge_type,     
         ]);

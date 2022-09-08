@@ -33,6 +33,7 @@ return new class extends Migration
                 'CONSULTATION',
                 'NONE',
             ])->default('NONE');
+            $table->foreignId('anesthetist_id')->nullable();
             $table->timestamps();
         });
     }

@@ -57,6 +57,8 @@ class UserSeeder extends Seeder
         foreach (User::all() as $user) {
             if ($user->role_id == 5) {
 
+                $ana1 = User::factory(1)->create(['role_id' => 9, 'organization_id' => $user->organization->id])->first();
+                $ana2 = User::factory(1)->create(['role_id' => 9, 'organization_id' => $user->organization->id])->first();
 
                 HRMUserBaseSchedule::create([
                     'user_id'   => $user->id,
@@ -65,6 +67,7 @@ class UserSeeder extends Seeder
                     'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
                     'week_day' => $this->faker->randomElement(["MON", "TUE"]),
                     'appointment_type_restriction'=> $this->faker->randomElement(["NONE", "PROCEDURE", "CONSULTATION"]),
+                    'anesthetist_id'=>  $ana1->id
                 ]);
 
                 HRMUserBaseSchedule::create([
@@ -74,6 +77,7 @@ class UserSeeder extends Seeder
                     'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
                     'week_day' => $this->faker->randomElement(["WED", "THU"]),
                     'appointment_type_restriction'=> $this->faker->randomElement(["NONE", "PROCEDURE", "CONSULTATION"]),
+                    'anesthetist_id'=> $ana1->id,
                 ]);
 
                 HRMUserBaseSchedule::create([
@@ -83,6 +87,7 @@ class UserSeeder extends Seeder
                     'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
                     'week_day' => $this->faker->randomElement(["FRI", "SAT"]),
                     'appointment_type_restriction'=> $this->faker->randomElement(["NONE", "PROCEDURE", "CONSULTATION"]),
+                    'anesthetist_id'=> $ana2->id,
                 ]);
             }
         }
