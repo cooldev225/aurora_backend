@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
-use App\Http\Requests\OrganizationRequest;
+use App\Http\Requests\OrganizationCreateRequest;
+use App\Http\Requests\OrganizationUpdateRequest;
 use App\Models\NotificationTemplate;
 use App\Models\User;
 use App\Models\UserRole;
@@ -41,22 +42,37 @@ class OrganizationController extends Controller
         );
     }
 
+
     /**
-     * [Organization] - Store
+     * [Organization] - Show
      *
-     * @param  \App\Http\Requests\OrganizationRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(OrganizationRequest $request)
+    public function show(Organization $organization)
     {
         // Verify the user can access this function via policy
         $this->authorize('create', Organization::class);
 
-        if ($request->filled('id')) {
-            $organization = Organization::find($request->id);
+        return response()->json(
+            [
+                'message'   => 'View Organization',
+                'data'      => $organization,
+            ],
+            Response::HTTP_OK
+        );
+    }
 
-            return $this->update($request, $organization);
-        }
+
+    /**
+     * [Organization] - Store
+     *
+     * @param  \App\Http\Requests\OrganizationCreateRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(OrganizationCreateRequest $request)
+    {
+        // Verify the user can access this function via policy
+        $this->authorize('create', Organization::class);
 
         $owner = User::create([
             'username'      => $request->username,
@@ -81,25 +97,7 @@ class OrganizationController extends Controller
 
         $owner->organization_id = $organization->id;
         $owner->save();
-        if ($file = $request->file('logo')) {
-            $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $logo_path = '/' . $file->storeAs('images/organization', $file_name);
-            $organization->logo = $logo_path;
-        }
 
-        if ($file = $request->file('header')) {
-            $file_name = 'header_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $header_path = '/' . $file->storeAs('images/organization', $file_name);
-            $organization->document_letter_header = $header_path;
-        }
-
-        if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $footer_path = '/' . $file->storeAs('images/organization', $file_name);
-            $organization->document_letter_footer = $footer_path;
-        }
-
-        $organization->save();
         NotificationTemplate::CreateOrganizationNotification($organization);
 
         return response()->json(
@@ -119,27 +117,21 @@ class OrganizationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(
-        OrganizationRequest $request,
+        OrganizationUpdateRequest $request,
         Organization $organization
     ) {
         // Verify the user can access this function via policy
         $this->authorize('update', $organization);
 
-        $owner = $organization->owner;
-        $owner->update([
-            'username'      => $request->username,
-            'email'         => $request->email,
-            'first_name'    => $request->first_name,
-            'last_name'     => $request->last_name,
-            'role_id'       => $this->organization_admin_role->id,
-            'mobile_number' => $request->mobile_number,
-        ]);
-
         $organization->update([
             'name'                      => $request->name,
             'max_clinics'               => $request->max_clinics,
             'max_employees'             => $request->max_employees,
-            'owner_id'                  => $owner->id,
+            'appointment_length'        => $request->appointment_length,
+            'start_time'                => $request->start_time,
+            'end_time'                  => $request->end_time,
+            'has_billing'               => $request->has_billing,
+            'has_coding'                => $request->has_coding,
         ]);
 
         if ($file = $request->file('logo')) {
