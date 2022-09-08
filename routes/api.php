@@ -40,6 +40,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Requests\FileRequest;
+use App\Models\PatientBilling;
 
 /*
 |--------------------------------------------------------------------------
@@ -112,6 +113,7 @@ Route::middleware(['auth'])->group(function () {
     // Patient Routes
     Route::prefix('patients')->group(function () {
         Route::get('/appointments/{patient}', [PatientController::class, 'appointments']);
+        Route::put('/billing/{patient}',      [PatientBilling::class, 'update']);
        
         Route::get('/documents/{patient}',    [PatientDocumentController::class, 'index']);
         Route::post('/documents/{patient}',   [PatientDocumentController::class, 'store']);
