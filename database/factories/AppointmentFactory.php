@@ -85,7 +85,6 @@ class AppointmentFactory extends Factory
             'clinic_id'                 => $clinic_id,
             'specialist_id'             => $specialist->id,
             'room_id'                   => $room_id,
-            'anesthetist_id'            => $specialist->anesthetist_id,
             'appointment_type_id'       => $appointment_type->id,
             'date'                      => $this->faker->date(),
             'arrival_time'              => $arrival_time,
