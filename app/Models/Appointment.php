@@ -22,8 +22,8 @@ class Appointment extends Model
     ];
     protected $appends = [
         'patient_name', 'patient_details', 'specialist_name',
-        'appointment_type', 'aus_formatted_date', 'formatted_appointment_time',
-        'is_pre_admission_form_complete', 'referral', 'clinic_details'
+        'aus_formatted_date', 'formatted_appointment_time',
+        'is_pre_admission_form_complete', 'clinic_details'
     ];
 
 
@@ -76,15 +76,6 @@ class Appointment extends Model
         return false;
     }
 
-
-    public function getReferralAttribute() {
-        return $this->referral;
-    }
-
-    public function getAppointmentTypeAttribute()
-    {
-        return $this->appointment_type;
-    }
 
     /**
      * Return Organization
