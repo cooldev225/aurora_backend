@@ -41,6 +41,7 @@ class AppointmentSpecialistController extends Controller
         ->with([
             'appointments' => function ($query) use ($date) {
             $query->where('date','=', $date)
+            ->with('appointment_type')
             ->where('confirmation_status', '!=', ConfirmationStatus::CANCELED);
             }
         ])

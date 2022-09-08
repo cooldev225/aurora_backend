@@ -56,7 +56,7 @@ class Patient extends Model
      */
     public function appointments()
     {
-        return $this->hasMany(Appointment::class, 'patient_id');
+        return $this->hasMany(Appointment::class, 'patient_id')->with('appointment_type')->with('referral');
     }
 
     /**
@@ -64,7 +64,9 @@ class Patient extends Model
      */
     public function upcoming_appointments()
     {
-        return $this->hasMany(Appointment::class, 'patient_id')->where('date', '>=', date('Y-m-d'));
+        return $this->hasMany(Appointment::class, 'patient_id')
+        ->where('date', '>=', date('Y-m-d'))
+        ->with('appointment_type');
     }
 
     /**
