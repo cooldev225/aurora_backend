@@ -205,6 +205,21 @@ class User extends Authenticatable implements JWTSubject
         return false;
     }
 
+     /*
+    * Get user hrmUserBaseSchedules at a certain time on a certain day
+    *
+    * @param string $time
+    * @param string $day
+    * @return boolean
+    */
+    public function hrmUserBaseSchedulesTimeDay($time, $day)
+    {
+        return $this->hrmUserBaseSchedules
+            ->where('week_day', $day)
+            ->where('start_time', '<=', date('H:i:s', $time))
+            ->where('end_time', '>', date('H:i:s', $time))->first();
+    }
+
     /*
     * Check if a specialist is has an appointment at a certain time on a certain day
     *

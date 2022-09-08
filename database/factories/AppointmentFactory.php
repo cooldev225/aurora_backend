@@ -9,6 +9,7 @@ use App\Models\Room;
 use App\Models\Organization;
 use App\Models\Specialist;
 use App\Models\AppointmentType;
+use Carbon\Carbon;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Appointment>
@@ -79,14 +80,17 @@ class AppointmentFactory extends Factory
             'MISSED',
         ]);
 
+        $date = $this->faker->date();
+
         return [
             'patient_id'                => $patient->id,
             'organization_id'           => $organization_id,
             'clinic_id'                 => $clinic_id,
             'specialist_id'             => $specialist->id,
             'room_id'                   => $room_id,
+            'anesthetist_id'            => $specialist->hrmUserBaseSchedulesTimeDay(strtotime($start_time),strtoupper(Carbon::parse($date)->format('D')))?->anesthetist_id,
             'appointment_type_id'       => $appointment_type->id,
-            'date'                      => $this->faker->date(),
+            'date'                      => $date,
             'arrival_time'              => $arrival_time,
             'start_time'                => $start_time,
             'end_time'                  => $end_time,
