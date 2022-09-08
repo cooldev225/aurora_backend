@@ -30,7 +30,7 @@ class AppointmentAttendanceStatusController extends Controller
             'referring_doctor_id'   =>  $request->referring_doctor_id,
             'referral_date'         =>  Carbon::create($request->referral_date)->toDateString(),
             'referral_duration'     =>  $request->referral_duration,
-            'referral_expiry_date'  =>  Carbon::create($request->referral_date)->addMonths($request->referral_duration)
+            'referral_expiry_date'  =>  Carbon::create($request->referral_date)->addMonths($request->referral_duration)->toDateString()
         ]);
 
         ////////////////////////////////////////////////////////////////////////
