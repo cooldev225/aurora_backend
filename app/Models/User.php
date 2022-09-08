@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
 class User extends Authenticatable implements JWTSubject
@@ -33,7 +34,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->role->name;
     }
 
-    
+
     public function getFullNameAttribute()
     {
         return $this->title . " " . $this->first_name . " " . $this->last_name;
@@ -75,7 +76,7 @@ class User extends Authenticatable implements JWTSubject
         return $this->belongsTo(Organization::class);
     }
 
-        /**
+    /**
      * Return Organization
      */
     public function hrmUserBaseSchedules()
@@ -83,14 +84,30 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(HRMUserBaseSchedule::class);
     }
 
-            /**
+    /*
+    * Get HRMUserBaseSChedule at time
+    *
+    * @param string $time
+    * @param string $day
+    * @return HRMUSerBaseSCehdual
+    */
+    public function hrmUserBaseScheduleAtTimeDay($time, $day)
+    {
+        return $this->hrmUserBaseSchedules
+            ->where('week_day', $day)
+            ->where('start_time', '<=', date('H:i:s', $time))
+            ->where('end_time', '>', date('H:i:s', $time))->first();
+    }
+
+    /**
      * Return Organization
      */
     public function appointments()
     {
         $field_key = 'specialist_id'; //Make a switch for anesthetist role
-        return $this->hasMany(Appointment::class,  $field_key, 'id' );
+        return $this->hasMany(Appointment::class,  $field_key, 'id');
     }
+
 
     /**
      * Return Organization
@@ -100,7 +117,8 @@ class User extends Authenticatable implements JWTSubject
         return $this->role->slug == 'admin';
     }
 
-    public static function create(array $attributes = []) {
+    public static function create(array $attributes = [])
+    {
         $user = static::query()->create($attributes);
 
         $organization_id = auth()->user()->organization_id;
@@ -109,11 +127,11 @@ class User extends Authenticatable implements JWTSubject
             'organization_id'   =>  $organization_id,
             'password'          =>  $password
         );
-       //Notification::sendUserNotification($data, $user, 'user_created');
+        //Notification::sendUserNotification($data, $user, 'user_created');
 
         return $user;
     }
-    
+
     /**
      * translate template
      */
@@ -166,6 +184,67 @@ class User extends Authenticatable implements JWTSubject
             return true;
         }
 
+        return false;
+    }
+
+    /*
+    * Check if a user is available to work at a certain time on a certain day
+    *
+    * @param string $time
+    * @param string $day
+    * @return boolean
+    */
+    public function canWorkAt($time, $day)
+    {
+        if (count($this->hrmUserBaseSchedules
+            ->where('week_day', $day)
+            ->where('start_time', '<=', date('H:i:s', $time))
+            ->where('end_time', '>', date('H:i:s', $time))) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    /*
+    * Check if a specialist is has an appointment at a certain time on a certain day
+    *
+    * @param string $time
+    * @param string $day
+    * @return boolean
+    */
+    public function hasAppointmentAtTime($time, $date)
+    {
+        if (count($this->appointments
+            ->where('date',  date('Y-m-d', $date))
+            ->where('start_time',  '<=', date('H:i:s', $time))
+            ->where('end_time',  '>', date('H:i:s', $time))) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
+    /*
+    * Check if a specialist can undergo a certain appointment at at a certain time on a certain day
+    *
+    * @param string $time
+    * @param string $day
+    * @return boolean
+    */
+    public function canAppointmentTypeAt($time, $day, $appointmentType)
+    {
+        $schedule = $this->hrmUserBaseSchedules
+            ->where('week_day', $day)
+            ->where('start_time', '<=', date('H:i:s', $time))
+            ->where('end_time', '>', date('H:i:s', $time))
+            ->first();
+
+        if ($schedule->appointment_type_restriction == "NONE") {
+
+            return true;
+        } else if ($schedule->appointment_type_restriction == $appointmentType->type) {
+            return true;
+        }
         return false;
     }
 }
