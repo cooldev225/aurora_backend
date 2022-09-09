@@ -216,20 +216,20 @@ class AppointmentController extends Controller
             $patient->organizations()->attach(Organization::find(auth()->user()->organization_id));
         }
 
-        $start_time = Carbon::create($request->time_slot[0])->toTimeString();
-        $end_time = Carbon::create($request->time_slot[1])->toTimeString();
+        $start_time = Carbon::create($request->time_slot[0]);
+        $end_time = Carbon::create($request->time_slot[1]);
 
         $appointment = Appointment::create([
             'date'                          => $request->date, 
             'arrival_time'                  => $request->arrival_time,
-            'start_time'                    => $start_time,
-            'end_time'                      => $end_time,
+            'start_time'                    => $start_time->toTimeString(),
+            'end_time'                      => $end_time->toTimeString(),
             'patient_id'                    => $patient->id,
             'organization_id'               => auth()->user()->organization_id,
             'appointment_type_id'           => $request->appointment_type_id,
             'clinic_id'                     => $request->clinic_id,
             'specialist_id'                 => $request->specialist_id,
-            'anesthetist_id'                => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($start_time,strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
+            'anesthetist_id'                => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($start_time->timestamp,strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
             'note'                          => $request->note,
             'charge_type'                   => $request->charge_type,     
         ]);
