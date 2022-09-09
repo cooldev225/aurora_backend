@@ -156,7 +156,7 @@ class AppointmentController extends Controller
             $patient->update([
                 'first_name'                    => $request->first_name,
                 'last_name'                     => $request->last_name,
-                'date_of_birth'                 => date('Y-m-d', strtotime($request->date_of_birth)),
+                'date_of_birth'                 => Carbon::create($request->date_of_birth)->toDateString(),
                 'contact_number'                => $request->contact_number,
                 'address'                       => $request->address,
                 'email'                         => $request->email,
@@ -187,7 +187,7 @@ class AppointmentController extends Controller
             $patient = Patient::create([
                 'first_name'                    => $request->first_name,
                 'last_name'                     => $request->last_name,
-                'date_of_birth'                 => date('Y-m-d', strtotime($request->date_of_birth)),
+                'date_of_birth'                 => Carbon::create($request->date_of_birth)->toDateString(),
                 'contact_number'                => $request->contact_number,
                 'address'                       => $request->address,
                 'email'                         => $request->email,
@@ -216,18 +216,20 @@ class AppointmentController extends Controller
             $patient->organizations()->attach(Organization::find(auth()->user()->organization_id));
         }
 
+        $start_time = Carbon::create($request->time_slot[0])->toTimeString();
+        $end_time = Carbon::create($request->time_slot[1])->toTimeString();
 
         $appointment = Appointment::create([
             'date'                          => $request->date, 
             'arrival_time'                  => $request->arrival_time,
-            'start_time'                    => date('H:i:s', strtotime($request->time_slot[0])),
-            'end_time'                      => date('H:i:s', strtotime($request->time_slot[1])),
+            'start_time'                    => $start_time,
+            'end_time'                      => $end_time,
             'patient_id'                    => $patient->id,
             'organization_id'               => auth()->user()->organization_id,
             'appointment_type_id'           => $request->appointment_type_id,
             'clinic_id'                     => $request->clinic_id,
             'specialist_id'                 => $request->specialist_id,
-            'anesthetist_id'                => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay(strtotime($request->time_slot[0]),strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
+            'anesthetist_id'                => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($start_time,strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
             'note'                          => $request->note,
             'charge_type'                   => $request->charge_type,     
         ]);
@@ -276,13 +278,13 @@ class AppointmentController extends Controller
             'room_id'                       => $request->room_id,
             'note'                          => $request->note,
             'charge_type'                   => $request->charge_type,
-            'end_time'                      => date('H:i:s', strtotime($request->time_slot[1])),
+            'end_time'                      => Carbon::create($request->time_slot[1])->toTimeString(),
         ]);
 
         $appointment->patient()->update([
             'first_name'                    => $request->first_name,
             'last_name'                     => $request->last_name,
-            'date_of_birth'                 => date('Y-m-d', strtotime($request->date_of_birth)),
+            'date_of_birth'                 => Carbon::create($request->date_of_birth)->toTimeString(),
             'contact_number'                => $request->contact_number,
             'address'                       => $request->address,
             'email'                         => $request->email,

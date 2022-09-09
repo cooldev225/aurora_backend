@@ -6,6 +6,7 @@ use App\Enum\ConfirmationStatus;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 
 class AppointmentSpecialistController extends Controller
 {
@@ -26,10 +27,10 @@ class AppointmentSpecialistController extends Controller
 
         $date = date('Y-m-d');
         if ($request->has('date')) {
-            $date = date('Y-m-d', strtotime($request->date));
+            $date = Carbon::create($request->date)->toDateString();
         }
 
-        $day = date('D', strtotime($request->date));
+        $day = Carbon::create($request->date)->day;
 
         $specialists = User::
         where('organization_id', auth()->user()->organization_id)
