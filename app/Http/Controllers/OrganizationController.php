@@ -2,28 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRole;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\OrganizationCreateRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
 use App\Models\NotificationTemplate;
 use App\Models\User;
-use App\Models\UserRole;
 use App\Models\Organization;
 
 class OrganizationController extends Controller
 {
-    /**
-     * Instantiate a new AdminController instance.
-     */
-    public function __construct()
-    {
-        $this->organization_admin_role = UserRole::where(
-            'slug',
-            'organizationAdmin'
-        )->first();
-    }
-
     /**
      * [Organization] - List
      *
@@ -81,7 +70,7 @@ class OrganizationController extends Controller
             'last_name'     => $request->last_name,
             'password'      => Hash::make($request->password),
             'raw_password'  => $request->password,
-            'role_id'       => $this->organization_admin_role->id,
+            'role_id'       => UserRole::ORGANIZATION_ADMIN,
             'mobile_number' => $request->mobile_number,
         ]);
 

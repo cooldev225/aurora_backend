@@ -2,26 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRole;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\UserRole;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\AdminRequest;
 
 class OrganizationAdminController extends Controller
 {
-    /**
-     * Instantiate a new OrganizationAdminController instance.
-     */
-    public function __construct()
-    {
-        $this->organization_admin_role = UserRole::where(
-            'slug',
-            'organizationAdmin'
-        )->first();
-    }
-
     /**
      * [Organization Admin] - List
      *
@@ -34,7 +23,7 @@ class OrganizationAdminController extends Controller
 
         $organization_id = auth()->user()->organization_id;
         $organization_admins = User::where('organization_id', $organization_id)
-            ->where('role_id', $this->organization_admin_role->id)
+            ->where('role_id', UserRole::ORGANIZATION_ADMIN)
             ->get();
 
         return response()->json(
