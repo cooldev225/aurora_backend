@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Enum\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Clinic;
 use App\Models\Patient;
@@ -26,7 +27,7 @@ class AppointmentFactory extends Factory
         $organization = Organization::first();
         $organization_id = 1;
         $patient = $organization->patients->random(1)->first();
-        $specialist =  $organization->users->where('role_id', 5)->random(1)->first();
+        $specialist =  $organization->users->where('role_id', UserRole::ORGANIZATION_ADMIN)->random(1)->first();
         $appointment_type = $organization->appointment_types->random(1)->first();
 
         $appointment_time = $organization->appointment_length;

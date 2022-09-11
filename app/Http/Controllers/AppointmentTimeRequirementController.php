@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Response;
 use App\Models\AppointmentTimeRequirement;
 use App\Http\Requests\AppointmentTimeRequirementRequest;
+use Carbon\Carbon;
 
 class AppointmentTimeRequirementController extends Controller
 {
@@ -50,7 +51,7 @@ class AppointmentTimeRequirementController extends Controller
         $appointmentTimeRequirement = AppointmentTimeRequirement::create([
             ...$request->all(),
             'organization_id' => $organization_id,
-            'base_time' => date('H:i:s', strtotime($request->base_time)),
+            'base_time' => Carbon::create($request->base_time)->toTimeString(),
         ]);
 
         return response()->json(
@@ -81,7 +82,7 @@ class AppointmentTimeRequirementController extends Controller
         $appointmentTimeRequirement->update([
             ...$request->all(),
             'organization_id' => $organization_id,
-            'base_time' => date('H:i:s', strtotime($request->base_time)),
+            'base_time' => Carbon::create($request->base_time)->toTimeString(),
         ]);
 
         return response()->json(

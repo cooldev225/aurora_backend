@@ -2,9 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Enum\UserRole;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\User;
-use App\Models\UserRole;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Organization>
@@ -19,8 +19,7 @@ class OrganizationFactory extends Factory
     public function definition()
     {
         $owner = User::factory()->create([
-            'role_id' => UserRole::where('slug', 'organizationAdmin')->first()
-                ->id,
+            'role_id' => UserRole::ORGANIZATION_ADMIN,
         ]);
 
         return [
