@@ -25,6 +25,8 @@ class FileController extends Controller
             $folder = "appointment_referral/";
         }else if($request->type === "PRE_ADMISSION"){
             $folder = "appointment_pre_admission/";
+        }else if($request->type === "PATIENT_DOCUMENT"){
+            $folder = "patient_documents/";
         } 
 
        
