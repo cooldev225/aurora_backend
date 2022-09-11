@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRole;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
@@ -57,7 +58,7 @@ class AppointmentSearchAvailableController extends Controller
 
             // Get All specialist working on given day
             $specialists = User::where('organization_id', auth()->user()->organization_id)
-                ->where('role_id', 5) 
+                ->where('role_id', UserRole::SPECIALIST) 
                 ->whereHas('hrmUserBaseSchedules', function ($query) use ($day, $clinicId ) {
                     $query->where('week_day', $day);
                     if($clinicId != ""){

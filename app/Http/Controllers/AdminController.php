@@ -2,23 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRole;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Models\UserRole;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\AdminRequest;
 
 class AdminController extends Controller
 {
-    /**
-     * Instantiate a new AdminController instance.
-     */
-    public function __construct()
-    {
-        $this->admin_role = UserRole::where('slug', 'admin')->first();
-    }
-
     /**
      * [Admin User] - List
      *
@@ -29,7 +21,7 @@ class AdminController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('viewAny', User::class);
 
-        $result = User::where('role_id', $this->admin_role->id)->get();
+        $result = User::where('role_id', UserRole::ADMIN)->get();
 
         return response()->json(
             [

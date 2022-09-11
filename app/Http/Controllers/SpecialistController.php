@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRole;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -21,7 +22,7 @@ class SpecialistController extends Controller
         $organization = auth()->user()->organization;
         $specialists = $organization
                 ->users
-                ->where('role_id', 5)
+                ->where('role_id', UserRole::SPECIALIST)
                 ->all();
 
 
