@@ -50,7 +50,7 @@ class AdminController extends Controller
             'last_name' => $request->last_name,
             'password' => Hash::make($request->password),
             'raw_password' => $request->password,
-            'role_id' => $this->admin_role->id,
+            'role_id' => UserRole::ADMIN,
         ]);
 
         return response()->json(
@@ -79,7 +79,7 @@ class AdminController extends Controller
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'role_id' => $this->admin_role->id,
+            'role_id' => UserRole::ADMIN,
         ]);
 
         return response()->json(
