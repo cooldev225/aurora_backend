@@ -191,9 +191,9 @@ class Appointment extends Model
             '[PatientLastName]'  => $patient->last_name,
 
             '[AppointmentTime]'     => $this->start_time,
-            '[AppointmentFullDate]' => date('d/m/Y', strtotime($this->date)),
-            '[AppointmentDate]'     => date('jS, F', strtotime($this->date)),
-            '[AppointmentDay]'      => date('l', strtotime($this->date)),
+            '[AppointmentFullDate]' => Carbon::create($this->date)->format('d/m/Y'),
+            '[AppointmentDate]'     => Carbon::create($this->date)->format('jS, F'),
+            '[AppointmentDay]'      => Carbon::create($this->date)->format('l'),
             
             '[AppointmentType]'     => $this->type->name,
             '[Specialist]'          => $this->specialist->full_name,
@@ -240,7 +240,7 @@ class Appointment extends Model
         foreach ($arrTemplates as $template) {
             $organization_id = $template->organization_id;
             $days_before = $template->days_before;
-            $appointment_date = date('Y-m-d', strtotime("+" . $days_before . " days"));
+            $appointment_date = now()->addDays($days_before)->toDateString();
 
             $appointments = Appointment::where('organization_id', $organization_id)
                 ->where('date', $appointment_date)
@@ -259,7 +259,7 @@ class Appointment extends Model
         foreach ($arrTemplates as $template) {
             $organization_id = $template->organization_id;
             $days_before = $template->days_before;
-            $appointment_date = date('Y-m-d', strtotime("+" . $days_before . " days"));
+            $appointment_date = now()->addDays($days_before)->toDateString();
 
             $appointments = Appointment::where('organization_id', $organization_id)
                 ->where('date', $appointment_date)

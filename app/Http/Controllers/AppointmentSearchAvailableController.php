@@ -11,6 +11,7 @@ use App\Models\Specialist;
 use App\Models\AppointmentTimeRequirement;
 use App\Models\Clinic;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class AppointmentSearchAvailableController extends Controller
@@ -40,7 +41,7 @@ class AppointmentSearchAvailableController extends Controller
         Log::info($clinicId );
 
         // Search date date
-        $searchDate =  strtotime('+'.$request->x_weeks .' weeks',strtotime('monday this week'));
+        $searchDate =  Carbon::create('monday this week')->addWeeks($request->x_weeks);
 
         // Time Frame To Search
         $timeframeParameters = $this->getTimeFrameParameter($request->time_requirement);
@@ -98,11 +99,11 @@ class AppointmentSearchAvailableController extends Controller
 
             array_push($availableStartTimes, [
                 'day' => $day,
-                'date' => date('d/m/Y', $searchDate),
+                'date' => $searchDate->format('d/m/Y'),
                 'available_timeslots' => $availableTimeslots
             ]);
 
-            $searchDate = strtotime("+1 day", $searchDate);
+            $searchDate = $searchDate->addDay();
         }
 
 
@@ -120,11 +121,11 @@ class AppointmentSearchAvailableController extends Controller
 
         $organization = auth()->user()->organization;
         $timeslotLength = $organization->appointment_length;
-        $startTime = strtotime($organization->start_time);
-        $endTime = strtotime($organization->end_time);
+        $startTime = Carbon::create($organization->start_time)->timestamp;
+        $endTime = Carbon::create($organization->end_time)->timestamp;
         if ($time_requirement) {
             $timeRequirement = AppointmentTimeRequirement::find($time_requirement);
-            $baseTime = strtotime($timeRequirement->base_time);
+            $baseTime = Carbon::create($timeRequirement->base_time)->timestamp;
             if ($timeRequirement->type == 'After') {
                 if ($startTime < $baseTime) {
                     $startTime = $baseTime;

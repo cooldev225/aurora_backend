@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-use App\Http\Requests\AppointmentReferralRequest;
-use App\Http\Requests\AppointmentReferralFileRequest;
+use Carbon\Carbon;
 use App\Models\Appointment;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Http\Constants\FileType;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
-use App\Http\Constants\FileType;
-
 use App\Http\Controllers\Utils\FileUtil;
+
+use App\Http\Requests\AppointmentReferralRequest;
+use App\Http\Requests\AppointmentReferralFileRequest;
 
 class AppointmentReferralController extends Controller
 {
@@ -35,9 +36,9 @@ class AppointmentReferralController extends Controller
 
         $appointmentReferral->update([
             'referring_doctor_id'   => $request->referring_doctor_id,
-            'referral_date'         =>  date('Y-m-d', strtotime($request->referral_date)),
+            'referral_date'         =>  Carbon::create($request->referral_date)->toDateString(),
             'referral_duration'     => $request->referral_duration,
-            'referral_expiry_date'  =>  date("Y-m-d", strtotime("+" . $request->referral_duration . " months", strtotime($request->referral_date))),
+            'referral_expiry_date'  =>  Carbon::create($request->referral_date)->addMonths($request->referral_duration)->toDateString(),
         ]);
 
         if ($file = $request->file('file')) {
