@@ -39,7 +39,6 @@ class AppointmentSeeder extends Seeder
                 AppointmentPreAdmission::create([
                     'appointment_id'        =>  $appointment->id,
                     'token'                 =>  md5($appointment->id),
-                    'pre_admission_file'    =>  "https://pspdfkit.com/downloads/pspdfkit-web-demo.pdf"
                 ]);
 
                 $appointment->patient_id = $patient->id;
