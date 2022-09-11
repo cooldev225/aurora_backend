@@ -176,9 +176,7 @@ class Appointment extends Model
      */
     public function translate($template)
     {
-        $patient = $this->patient;
 
-        $clinic = $this->clinic;
 
         $preadmission_url = 'https://dev.aurorasw.com.au/#/appointment_pre_admissions/show/'
             . md5($this->id) . '/form_1';
@@ -187,22 +185,22 @@ class Appointment extends Model
             . md5($this->id) . '/confirm';
 
         $words = [
-            '[PatientFirstName]' => $patient->first_name,
-            '[PatientLastName]'  => $patient->last_name,
+            '[PatientFirstName]' => $this->patient->first_name,
+            '[PatientLastName]'  => $this->patient->last_name,
 
             '[AppointmentTime]'     => $this->start_time,
             '[AppointmentFullDate]' => date('d/m/Y', strtotime($this->date)),
             '[AppointmentDate]'     => date('jS, F', strtotime($this->date)),
             '[AppointmentDay]'      => date('l', strtotime($this->date)),
             
-            '[AppointmentType]'     => $this->type->name,
+            '[AppointmentType]'     => $this->appointment_type->name,
             '[Specialist]'          => $this->specialist->full_name,
             
             '[ClinicName]'          => $this->clinic->name,
-            '[ClinicPhone]'         => $clinic->phone_number,
+            '[ClinicPhone]'         => $this->clinic->phone_number,
             
-            '[ClinicAddress]'       => $clinic->address,
-            '[ClinicEmail]'         => $clinic->email,
+            '[ClinicAddress]'       => $this->clinic->address,
+            '[ClinicEmail]'         => $this->clinic->email,
 
             '[PreAdmissionURL]'     => $preadmission_url,
             '[ConfirmURL]'          => $confirm_url,
