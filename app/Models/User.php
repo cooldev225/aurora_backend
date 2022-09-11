@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Enum\UserRole;
+use App\Enum\UserRole as UserRoleEnum;
 use App\Mail\Notification;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -31,7 +31,7 @@ class User extends Authenticatable implements JWTSubject
     protected $appends = array('role_name', 'full_name');
 
     protected $casts = [
-        'role_id' => UserRole::class,
+        'role_id' => UserRoleEnum::class,
     ];
 
     public function getRoleNameAttribute()
