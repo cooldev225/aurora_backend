@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AppointmentCreateRequest;
+use App\Http\Requests\AppointmentUpdateRequest;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
@@ -140,7 +142,7 @@ class AppointmentController extends Controller
      * @param  \App\Http\Requests\AppointmentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AppointmentCreateRequest $request)
     {
         // Verify the user can access this function via policy
         $this->authorize('create', Appointment::class);
@@ -265,13 +267,13 @@ class AppointmentController extends Controller
      * @param  \App\Models\Appointment  $appointment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Appointment $appointment)
+    public function update(AppointmentUpdateRequest $request, Appointment $appointment)
     {
         // Verify the user can access this function via policy
         $this->authorize('update', $appointment);
         $this->authorize('update', $appointment->patient);
-        $this->authorize('update', $appointment->patient->billing);
-        $this->authorize('update', $appointment->referral);
+        $this->authorize('update', $appointment->patient->billing->first());
+        $this->authorize('update', $appointment->referral->first());
       
         $appointment->update([
             'appointment_type_id'           => $request->appointment_type_id,
