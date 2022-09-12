@@ -18,12 +18,7 @@ class AppointmentCollectingPersonRequest extends FormRequest
      */
     public function authorize()
     {
-        $appointment = $this->route('appointment');
-        $organization_id = auth()->user()->organization_id;
-        if ($appointment->organization_id == $organization_id) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
