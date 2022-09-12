@@ -151,7 +151,7 @@ class AppointmentController extends Controller
         if ($patient) {
             // Verify the user can access this function via policy
             $this->authorize('update', $patient);
-            $this->authorize('update', $patient->billing);
+            $this->authorize('update', $patient->billing->first());
 
             $patient->update([
                 'first_name'                    => $request->first_name,
