@@ -6,7 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
 use App\Http\Controllers\AppointmentAttendanceStatusController;
 use App\Http\Controllers\AppointmentCollectingPersonController;
-use App\Http\Controllers\AppointmentConformationStatusController;
+use App\Http\Controllers\AppointmentConfirmationStatusController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
@@ -72,9 +72,9 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('appointments')->group(function () {
         Route::put('/wait-listed/{appointment}',              [AppointmentController::class,'waitListed']);
 
-        Route::get('/byDate',                                 [AppointmentConformationStatusController::class, 'index']);
-        Route::get('/confirmation-status',                    [AppointmentConformationStatusController::class, 'index']);
-        Route::put('/confirmation-status/{appointment}',      [AppointmentConformationStatusController::class, 'update']);
+        Route::get('/byDate',                                 [AppointmentConfirmationStatusController::class, 'index']);
+        Route::get('/confirmation-status',                    [AppointmentConfirmationStatusController::class, 'index']);
+        Route::put('/confirmation-status/{appointment}',      [AppointmentConfirmationStatusController::class, 'update']);
 
         Route::put('/check-in/{appointment}',                 [AppointmentAttendanceStatusController::class,'checkIn']);
         Route::put('/check-out/{appointment}',                [AppointmentAttendanceStatusController::class, 'checkOut']);
