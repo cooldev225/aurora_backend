@@ -79,10 +79,10 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/check-in/{appointment}',                 [AppointmentAttendanceStatusController::class,'checkIn']);
         Route::put('/check-out/{appointment}',                [AppointmentAttendanceStatusController::class, 'checkOut']);
 
-        Route::put('/procedureApprovalStatus/{appointment}',  [AppointmentProcedureApprovalController::class,'update']);
+        Route::put('/procedure-approval-status/{appointment}',  [AppointmentProcedureApprovalController::class,'update']);
         Route::post('/referral/{appointment}',                [AppointmentReferralController::class,'update']);
         Route::get('/specialists',                            [AppointmentSpecialistController::class, 'index']);
-        Route::put('/update_collecting_person/{appointment}', [AppointmentCollectingPersonController::class,'update']);
+        Route::put('/update-collecting-person/{appointment}', [AppointmentCollectingPersonController::class,'update']);
     });
     
 
@@ -155,13 +155,15 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
     // Route::get('/anesthetists',                                  [EmployeeController::class,'anesthetists']);
-    Route::put('/appointment/procedure-approvals/{appointment}', [AppointmentProcedureApprovalController::class,'update']);
+  
     Route::get('/available-timeslots',                           [AppointmentSearchAvailableController::class, 'index']);
     Route::get('/employee-roles',                                [UserRoleController::class,'employeeRoles']);
     Route::post('/file',                                         [FileController::class,'show']);
-    Route::get('/procedure-approvals',                           [AppointmentProcedureApprovalController::class, 'index']);
+   
     Route::get('/user-appointments',                             [UserAppointmentController::class, 'index']);
 
+
+    Route::get('/procedure-approvals',                           [AppointmentProcedureApprovalController::class, 'index']);
 
     Route::post('/notification-test', [NotificationTestController::class,'testSendNotification']);
 });
