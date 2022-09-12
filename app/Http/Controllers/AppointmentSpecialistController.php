@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class AppointmentSpecialistController extends Controller
 {
@@ -31,7 +32,7 @@ class AppointmentSpecialistController extends Controller
             $date = Carbon::create($request->date)->toDateString();
         }
 
-        $day = Carbon::create($request->date)->day;
+        $day = Carbon::create($request->date)->dayOfWeek;
 
         $specialists = User::
         where('organization_id', auth()->user()->organization_id)
