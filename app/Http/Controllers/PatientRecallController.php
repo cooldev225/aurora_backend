@@ -47,6 +47,7 @@ class PatientRecallController extends Controller
         $patientRecall = PatientRecall::create([
             'user_id'           => auth()->user()->id,
             'patient_id'        => $request->patient_id,
+            'appointment_id'    => $request->appointment_id,
             'organization_id'   => $request->user()->organization_id,
             'date_recall_due'   => now()->addMonths($request->time_frame)->toDateString(),
             'time_frame'        => $request->time_frame,

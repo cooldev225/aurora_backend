@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AppointmentConformationStatusListRequest;
-use App\Http\Requests\AppointmentConformationStatusUpdateRequest;
+use App\Http\Requests\AppointmentConfirmationStatusListRequest;
+use App\Http\Requests\AppointmentConfirmationStatusUpdateRequest;
 use App\Models\Appointment;
 
-class AppointmentConformationStatusController extends Controller
+class AppointmentConfirmationStatusController extends Controller
 {
     /**
      * Display a listing of all appointments per their confirmation_status.
      *
-     * @param  \Illuminate\Http\AppointmentConformationStatusListRequest  $request
+     * @param  \Illuminate\Http\AppointmentConfirmationStatusListRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(AppointmentConformationStatusListRequest $request)
+    public function index(AppointmentConfirmationStatusListRequest $request)
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', Appointment::class);
@@ -45,10 +45,10 @@ class AppointmentConformationStatusController extends Controller
     /**
      * Updated the Appointment 'confirmation_status' along with the reason for the status
      *
-     * @param  \Illuminate\Http\AppointmentConformationStatusUpdateRequest  $request
+     * @param  \Illuminate\Http\AppointmentConfirmationStatusUpdateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(AppointmentConformationStatusUpdateRequest $request, Appointment $appointment)
+    public function update(AppointmentConfirmationStatusUpdateRequest $request, Appointment $appointment)
     {
         // Verify the user can access this function via policy
         $this->authorize('update', $appointment);
