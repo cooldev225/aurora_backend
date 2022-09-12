@@ -30,7 +30,7 @@ class AppointmentSeeder extends Seeder
 
         foreach ($patients as $patient) {
             foreach ($dates as $date) {
-                $appointment = $this->createAppointment($date);
+                $appointment = $this->createAppointment($date, $patient);
 
                 AppointmentReferral::factory()->create(
                     ['appointment_id' => $appointment->id]
@@ -53,10 +53,11 @@ class AppointmentSeeder extends Seeder
      *
      * @return Appointment
      */
-    public function createAppointment($date)
+    public function createAppointment($date,  $patient)
     {
         $appointment = Appointment::factory()->create([
             'date' => $date,
+            'patient_id'=>  $patient->id
         ]);
 
         $appointment_time = Organization::find($appointment->organization_id)->appointment_length;

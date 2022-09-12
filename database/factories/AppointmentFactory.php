@@ -26,7 +26,6 @@ class AppointmentFactory extends Factory
     {
         $organization = Organization::first();
         $organization_id = 1;
-        $patient = $organization->patients->random(1)->first();
         $specialist = $organization->users->where('role_id', UserRole::SPECIALIST)->random(1)->first();
         $appointment_type = $organization->appointment_types->random(1)->first();
 
@@ -84,7 +83,6 @@ class AppointmentFactory extends Factory
         $date = $this->faker->date();
 
         return [
-            'patient_id'                => $patient->id,
             'organization_id'           => $organization_id,
             'clinic_id'                 => $clinic_id,
             'specialist_id'             => $specialist->id,
