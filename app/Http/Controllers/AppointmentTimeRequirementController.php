@@ -49,9 +49,9 @@ class AppointmentTimeRequirementController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $appointmentTimeRequirement = AppointmentTimeRequirement::create([
-            ...$request->all(),
+            'title'           => $request->title,
             'organization_id' => $organization_id,
-            'base_time' => Carbon::create($request->base_time)->toTimeString(),
+            'base_time'       => Carbon::create($request->base_time)->toTimeString(),
         ]);
 
         return response()->json(
@@ -80,9 +80,9 @@ class AppointmentTimeRequirementController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $appointmentTimeRequirement->update([
-            ...$request->all(),
+            'title'           => $request->title,
             'organization_id' => $organization_id,
-            'base_time' => Carbon::create($request->base_time)->toTimeString(),
+            'base_time'       => Carbon::create($request->base_time)->toTimeString(),
         ]);
 
         return response()->json(

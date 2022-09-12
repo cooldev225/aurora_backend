@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class HealthFundRequest extends FormRequest
+class AppointmentPreAdmissionValidateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,22 +24,8 @@ class HealthFundRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'    => '',
-            'code'    => '',
-            'fund'    => '',
-            'contact' => '',
-            'issues'  => '',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
+            'last_name'     => 'required|string',
+            'date_of_birth' => 'required|date'
         ];
     }
 }

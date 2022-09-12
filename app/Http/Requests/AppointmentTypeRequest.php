@@ -23,6 +23,7 @@ class AppointmentTypeRequest extends FormRequest
      */
     public function authorize()
     {
+        return true;
     }
 
     /**
@@ -33,9 +34,9 @@ class AppointmentTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'                  => 'required',
+            'name'                  => 'required|string',
             'type'                  => 'required|in:CONSULTATION,PROCEDURE',
-            'color'                 => 'required',
+            'color'                 => 'required|string',
             'anesthetist_required'  => 'required|boolean',
             'invoice_by'            => 'required|in:CLINIC,SPECIALIST',
             'arrival_time'          => 'required',
