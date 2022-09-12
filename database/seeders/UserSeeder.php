@@ -2,9 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Enum\UserRole;
 use App\Models\HRMUserBaseSchedule;
 use App\Models\User;
-use App\Models\UserRole;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 
@@ -25,27 +25,21 @@ class UserSeeder extends Seeder
         User::factory()->create([
             'username'          => 'admin',
             'email'             => 'admin@mail.com',
-            'role_id'           => UserRole::where('slug', 'admin')->first()->id,
+            'role_id'           => UserRole::ADMIN,
             'organization_id'   => 1,
         ]);
-
-        $org_admin_role = UserRole::where('slug', 'organizationAdmin')
-            ->first()->id;
 
         User::factory()->create([
             'username'          => 'org-admin',
             'email'             => 'organizationAdmin@mail.com',
-            'role_id'           => $org_admin_role,
+            'role_id'           => UserRole::ORGANIZATION_ADMIN,
             'organization_id'   => 1,
         ]);
-
-        $org_manager_role = UserRole::where('slug', 'organizationManager')
-            ->first()->id;
 
         User::factory()->create([
             'username'          => 'org-manager',
             'email'             => 'organizationManager@mail.com',
-            'role_id'           => $org_manager_role,
+            'role_id'           => UserRole::ORGANIZATION_MANAGER,
             'organization_id'   => 1,
         ]);
 
@@ -55,10 +49,10 @@ class UserSeeder extends Seeder
 
 
         foreach (User::all() as $user) {
-            if ($user->role_id == 5) {
+            if ($user->role_id == UserRole::SPECIALIST) {
 
-                $ana1 = User::factory(1)->create(['role_id' => 9, 'organization_id' => $user->organization->id])->first();
-                $ana2 = User::factory(1)->create(['role_id' => 9, 'organization_id' => $user->organization->id])->first();
+                $ana1 = User::factory(1)->create(['role_id' => UserRole::ANESTHETIST, 'organization_id' => $user->organization->id])->first();
+                $ana2 = User::factory(1)->create(['role_id' => UserRole::ANESTHETIST, 'organization_id' => $user->organization->id])->first();
 
                 HRMUserBaseSchedule::create([
                     'user_id'   => $user->id,

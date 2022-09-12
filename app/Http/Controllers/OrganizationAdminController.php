@@ -53,7 +53,7 @@ class OrganizationAdminController extends Controller
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'role_id' => $this->organization_admin_role->id,
+            'role_id' => UserRole::ORGANIZATION_ADMIN,
             'organization_id' => $organization_id,
             'password' => Hash::make($request->password),
             'raw_password' => $request->password,
@@ -87,7 +87,7 @@ class OrganizationAdminController extends Controller
             'email' => $request->email,
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
-            'role_id' => $this->organization_admin_role->id,
+            'role_id' => UserRole::ORGANIZATION_ADMIN,
             'organization_id' => $organization_id,
         ]);
 
