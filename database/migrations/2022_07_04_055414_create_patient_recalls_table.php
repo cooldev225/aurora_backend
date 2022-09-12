@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('organization_id');
+            $table->foreignId('appointment_id');
             $table->foreignId('patient_id');
             $table->integer('time_frame');
             $table->date('date_recall_due');

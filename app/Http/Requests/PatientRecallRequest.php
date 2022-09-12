@@ -6,9 +6,10 @@ use App\Models\Patient;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
-* @bodyParam patient_id     string  required  The id of the patient this recall is for          Example: 3
-* @bodyParam time_frame     string  required  The time frame between now and when the recall should be sent in months    Example: 6
-* @bodyParam reason         string  required  The reason for the recall                         Example: Please return for a follow up consolation  
+* @bodyParam patient_id      string  required  The id of the patient this recall is for          Example: 3
+* @bodyParam appointment_id  string  required  The id of the appointment the recall is for          Example: 3
+* @bodyParam time_frame      string  required  The time frame between now and when the recall should be sent in months    Example: 6
+* @bodyParam reason          string  required  The reason for the recall                         Example: Please return for a follow up consolation  
 */
 class PatientRecallRequest extends FormRequest
 {
@@ -36,6 +37,7 @@ class PatientRecallRequest extends FormRequest
     {
         return [
             'patient_id'        =>  'required|numeric',
+            'appointment_id'    =>  'required|numeric',
             'time_frame'        =>  'required|numeric',
             'reason'            =>  'required|string',
         ];
