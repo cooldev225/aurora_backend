@@ -92,7 +92,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/show/{token}',         [AppointmentPreAdmissionController::class,'show',]);
         Route::post('/validate/{token}',    [AppointmentPreAdmissionController::class, 'validatePreAdmission']);
         Route::post('/store/{token}',       [AppointmentPreAdmissionController::class,'store']);
-        Route::put('/upload/{appointment}', [AppointmentPreAdmissionController::class, 'upload']);
+        Route::post('/upload/{appointment}', [AppointmentPreAdmissionController::class, 'upload']);
     });
 
     Route::post('update-pre-admission-consent', [PreAdmissionController::class,'updateConsent']);
