@@ -82,7 +82,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/procedure-approval-status/{appointment}',  [AppointmentProcedureApprovalController::class,'update']);
         Route::post('/referral/{appointment}',                [AppointmentReferralController::class,'update']);
         Route::get('/specialists',                            [AppointmentSpecialistController::class, 'index']);
-        Route::put('/update-collecting-person/{appointment}', [AppointmentCollectingPersonController::class,'update']);
+        Route::put('/collecting-person/{appointment}',        [AppointmentCollectingPersonController::class,'update']);
     });
     
 
