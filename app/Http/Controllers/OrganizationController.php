@@ -63,25 +63,31 @@ class OrganizationController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('create', Organization::class);
 
+        $i = 3;
+        $code = substr($request->name, 0, $i);
+        while(Organization::where('code', $code)->count() > 0){
+            $code = substr($request->name, 0, ++$i);
+        };
+
         $owner = User::create([
-            'username'      => $request->username,
+            'username'      => $code.'admin',
             'email'         => $request->email,
             'first_name'    => $request->first_name,
             'last_name'     => $request->last_name,
-            'password'      => Hash::make($request->password),
+            'password'      => Hash::make('paxxw0rd'),
             'raw_password'  => $request->password,
             'role_id'       => UserRole::ORGANIZATION_ADMIN,
             'mobile_number' => $request->mobile_number,
         ]);
 
+        
+
         $organization = Organization::create([
             'name'                      => $request->name,
-            'max_clinics'               => $request->max_clinics,
-            'max_employees'             => $request->max_employees,
-            'appointment_length'        => $request->appointment_length,
-            'start_time'                => $request->start_time,
-            'end_time'                  => $request->end_time,
+            'code'                      => $code,
             'owner_id'                  => $owner->id,
+            ...$request->validated(),
+       
         ]);
 
         $owner->organization_id = $organization->id;

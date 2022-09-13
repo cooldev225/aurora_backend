@@ -10,10 +10,8 @@ use Illuminate\Foundation\Http\FormRequest;
 * @bodyParam appointment_length number   required 
 * @bodyParam start_time         number   required 
 * @bodyParam end_time           number   required 
-* @bodyParam has_billing        bool     required 
-* @bodyParam has_coding         bool     required 
-* @bodyParam username           string   required  
-* @bodyParam password           string   required 
+* @bodyParam has_billing        bool      
+* @bodyParam has_coding         bool      
 * @bodyParam email              string   required 
 * @bodyParam first_name         string   required 
 * @bodyParam last_name          string   required 
@@ -41,15 +39,13 @@ class OrganizationCreateRequest extends FormRequest
         return [
 
             'name'                => 'required',
-            'max_clinics'         => 'required|number',
-            'max_employees'       => 'required|number',
-            'appointment_length'  => 'required|number',
+            'max_clinics'         => 'required|numeric',
+            'max_employees'       => 'required|numeric',
+            'appointment_length'  => 'required|numeric',
             'start_time'          => 'required|date_format:H:i',
             'end_time'            => 'required|date_format:H:i',
-            'has_billing'         => 'required|boolean',
-            'has_coding'          => 'required|boolean',
-            'username'            => 'required|string|min:2|max:100|unique:users',
-            'password'            => 'required|string',
+            'has_billing'         => 'boolean',
+            'has_coding'          => 'boolean',
             'email'               => 'required|string|email|max:100',
             'first_name'          => 'required|string',
             'last_name'           => 'required|string',
