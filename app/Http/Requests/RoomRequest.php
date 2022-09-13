@@ -25,7 +25,6 @@ class RoomRequest extends FormRequest
     {
         return [
             'name'      => 'required',
-            'clinic_id' => 'required|numeric',
         ];
     }
 

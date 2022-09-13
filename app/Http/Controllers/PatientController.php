@@ -82,7 +82,7 @@ class PatientController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $patient);
 
-        $patient->update($request->all());
+        $patient->update($request->verified());
 
         return response()->json(
             [

@@ -45,14 +45,11 @@ class PatientRecallController extends Controller
         $this->authorize('create', PatientRecall::class);
 
         $patientRecall = PatientRecall::create([
+            ...$request->verified(),
             'user_id'           => auth()->user()->id,
-            'patient_id'        => $request->patient_id,
-            'appointment_id'    => $request->appointment_id,
-            'organization_id'   => $request->user()->organization_id,
+            'organization_id'   => auth()->user()->organization_id,
             'date_recall_due'   => now()->addMonths($request->time_frame)->toDateString(),
-            'time_frame'        => $request->time_frame,
             'confirmed'         => false,
-            'reason'            => $request->reason,
         ]);
 
         return response()->json(
@@ -80,13 +77,11 @@ class PatientRecallController extends Controller
         $this->authorize('update', $patientRecall);
 
         $patientRecall->update([
+            ...$request->verified(),
             'user_id'           => auth()->user()->id,
-            'patient_id'        => $request->patient_id,
-            'organization_id'   => $request->user()->organization_id,
+            'organization_id'   => auth()->user()->organization_id,
             'date_recall_due'   => now()->addMonths($request->time_frame)->toDateString(),
-            'time_frame'        => $request->time_frame,
             'confirmed'         => false,
-            'reason'            => $request->reason,
         ]);
 
         return response()->json(

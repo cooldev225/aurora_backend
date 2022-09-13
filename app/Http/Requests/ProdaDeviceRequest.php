@@ -28,6 +28,7 @@ class ProdaDeviceRequest extends FormRequest
             'key_expiry'    => 'required|date',
             'device_expiry' => 'required|date',
             'clinic_id'     => 'required|numeric',
+            'otac'          => '',
         ];
     }
 

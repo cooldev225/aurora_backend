@@ -49,7 +49,7 @@ class ClinicController extends Controller
         $this->authorize('create', Clinic::class);
 
         $clinic = Clinic::create([
-            'organization_id'           => auth()->user()->organization_id,
+            'organization_id' => auth()->user()->organization_id,
             ...$request->safe()->except(['document_letter_header', 'document_letter_footer']),
         ]);
 

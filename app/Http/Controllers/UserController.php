@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use Validator;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
@@ -37,22 +38,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'string|min:2|max:100',
-            'email' => 'email',
-            'password' => 'required|string|min:6',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(
-                $validator->errors(),
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
-        }
-
-        $auth_params = $validator->validated();
+        $auth_params = $request->validated();
 
         if (empty($auth_params['email'])) {
             $user = User::where('username', $auth_params['username'])->first();
@@ -67,7 +55,7 @@ class UserController extends Controller
             }
         }
 
-        if (!($token = auth()->attempt($validator->validated()))) {
+        if (!($token = auth()->attempt($request->validated()))) {
             return response()->json(
                 ['error' => 'Unauthorized'],
                 Response::HTTP_UNAUTHORIZED

@@ -24,9 +24,7 @@ class PatientBillingController extends Controller
         $this->authorize('update', $patient);
 
         $patient->patientBilling->update([
-            'patient_id' => $patient->patient_id,
-            ...$request->all(),
-          
+            ...$request->verified(),
         ]);
 
         return response()->json(

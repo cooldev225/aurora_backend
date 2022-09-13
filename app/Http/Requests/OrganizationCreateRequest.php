@@ -38,8 +38,9 @@ class OrganizationCreateRequest extends FormRequest
      */
     public function rules()
     {
-        return [
+        $user_request = new UserRequest();
 
+        return [
             'name'                => 'required',
             'max_clinics'         => 'required|number',
             'max_employees'       => 'required|number',
@@ -48,11 +49,11 @@ class OrganizationCreateRequest extends FormRequest
             'end_time'            => 'required|date_format:H:i',
             'has_billing'         => 'required|boolean',
             'has_coding'          => 'required|boolean',
-            'username'            => 'required|string|min:2|max:100|unique:users',
-            'password'            => 'required|string',
-            'email'               => 'required|string|email|max:100',
-            'first_name'          => 'required|string',
-            'last_name'           => 'required|string',
+            'logo'                => '',
+            'header'                => '',
+            'footer'                => '',
+
+            ...$user_request->rules(),
             'mobile_number'       => 'required|string',
         ];
     }

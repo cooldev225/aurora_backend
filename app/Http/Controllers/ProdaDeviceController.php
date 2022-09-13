@@ -53,14 +53,10 @@ class ProdaDeviceController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('create', ProdaDevice::class);
 
-        $prodaDevice = new ProdaDevice();
-        $prodaDevice->device_name = $request->device_name;
-        $prodaDevice->otac = $request->otac;
-        $prodaDevice->key_expiry = $request->key_expiry;
-        $prodaDevice->device_expiry = $request->device_expiry;
-        $prodaDevice->clinic_id = $request->clinic_id;
-
-        $prodaDevice->save_with_key();
+        $prodaDevice = ProdaDevice::create([
+            ...$request->validated(),
+            ...generate_public_private_keys(),
+        ]);
 
         return response()->json(
             [
@@ -85,13 +81,9 @@ class ProdaDeviceController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $prodaDevice);
 
-        $prodaDevice->device_name = $request->device_name;
-        $prodaDevice->otac = $request->otac;
-        $prodaDevice->key_expiry = $request->key_expiry;
-        $prodaDevice->device_expiry = $request->device_expiry;
-        $prodaDevice->clinic_id = $request->clinic_id;
-
-        $prodaDevice->save_with_key();
+        $prodaDevice->update([
+            ...$request->validated(),
+        ]);
 
         return response()->json(
             [

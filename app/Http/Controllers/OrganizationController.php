@@ -64,25 +64,50 @@ class OrganizationController extends Controller
         $this->authorize('create', Organization::class);
 
         $owner = User::create([
-            'username'      => $request->username,
-            'email'         => $request->email,
-            'first_name'    => $request->first_name,
-            'last_name'     => $request->last_name,
+            ...$request->safe()->only([
+                'username',
+                'email',
+                'first_name',
+                'last_name',
+            ]),
             'password'      => Hash::make($request->password),
             'raw_password'  => $request->password,
             'role_id'       => UserRole::ORGANIZATION_ADMIN,
             'mobile_number' => $request->mobile_number,
         ]);
 
-        $organization = Organization::create([
-            'name'                      => $request->name,
-            'max_clinics'               => $request->max_clinics,
-            'max_employees'             => $request->max_employees,
-            'appointment_length'        => $request->appointment_length,
-            'start_time'                => $request->start_time,
-            'end_time'                  => $request->end_time,
-            'owner_id'                  => $owner->id,
-        ]);
+        $organization = Organization::create(
+            $request->safe()->only([
+                'name',
+                'max_clinics',
+                'max_employees',
+                'appointment_length',
+                'start_time',
+                'end_time',
+                'has_billing',
+                'has_coding',
+            ]
+        ));
+
+        if ($file = $request->file('logo')) {
+            $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
+            $logo_path = '/' . $file->storeAs('images/organization', $file_name);
+            $organization->logo = $logo_path;
+        }
+
+        if ($file = $request->file('header')) {
+            $file_name = 'header_' . $organization->id . '_' . time() . '.' . $file->extension();
+            $header_path = '/' . $file->storeAs('images/organization', $file_name);
+            $organization->document_letter_header = $header_path;
+        }
+
+        if ($file = $request->file('footer')) {
+            $file_name = 'footer_' . $organization->id . '_' . time() . '.' . $file->extension();
+            $footer_path = '/' . $file->storeAs('images/organization', $file_name);
+            $organization->document_letter_footer = $footer_path;
+        }
+
+        $organization->save();
 
         $owner->organization_id = $organization->id;
         $owner->save();
@@ -112,16 +137,18 @@ class OrganizationController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $organization);
 
-        $organization->update([
-            'name'                      => $request->name,
-            'max_clinics'               => $request->max_clinics,
-            'max_employees'             => $request->max_employees,
-            'appointment_length'        => $request->appointment_length,
-            'start_time'                => $request->start_time,
-            'end_time'                  => $request->end_time,
-            'has_billing'               => $request->has_billing,
-            'has_coding'                => $request->has_coding,
-        ]);
+        $organization->update(
+            $request->safe()->only([
+                'name',
+                'max_clinics',
+                'max_employees',
+                'appointment_length',
+                'start_time',
+                'end_time',
+                'has_billing',
+                'has_coding',
+            ]
+        ));
 
         if ($file = $request->file('logo')) {
             $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();

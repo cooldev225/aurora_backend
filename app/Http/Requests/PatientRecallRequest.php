@@ -20,12 +20,7 @@ class PatientRecallRequest extends FormRequest
      */
     public function authorize()
     {
-        $patient = Patient::Find($this->input('patient_id'));
-        $organization_id = auth()->user()->organization_id;
-        if ($patient->organizations->contains($organization_id)) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**

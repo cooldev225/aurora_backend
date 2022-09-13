@@ -48,12 +48,9 @@ class ReportTemplateController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('create', ReportTemplate::class);
 
-        $organization_id = auth()->user()->organization_id;
-
         $report_template = ReportTemplate::createTemplate([
-            'organization_id' => $organization_id,
-            'title' => $request->title,
-            'sections' => $request->sections,
+            'organization_id' => auth()->user()->organization_id,
+            ...$request->verified(),
         ]);
 
         return response()->json(
@@ -79,12 +76,8 @@ class ReportTemplateController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $report_template);
 
-        $organization_id = auth()->user()->organization_id;
-
         $report_template = $report_template->update([
-            'organization_id' => $organization_id,
-            'title' => $request->title,
-            'sections' => $request->sections,
+            ...$request->verified(),
         ]);
 
         return response()->json(

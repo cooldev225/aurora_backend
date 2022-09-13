@@ -85,20 +85,14 @@ class PaymentController extends Controller
      * @param  \App\Http\Requests\AppointmentPaymentRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(
-        AppointmentPaymentRequest $request, )
+    public function store(AppointmentPaymentRequest $request)
     {
         // Verify the user can access this function via policy
         $this->authorize('create', AppointmentPayment::class);
  
         $payment = AppointmentPayment::create([
-            'appointment_id'    => $request->appointment_id,
-            'confirmed_by'      => auth()->user()->id,
-            'amount'            => $request->amount,
-            'payment_type'      => $request->payment_type,
-            'is_deposit'        => $request->is_deposit,
-            'is_send_receipt'   => $request->is_send_receipt,
-            'email'             => $request->email,
+            $request->validated(),
+            'confirmed_by' => auth()->user()->id,
         ]);
 
         Notification::sendPaymentNotification($payment, 'payment_made');
