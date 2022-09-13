@@ -21,7 +21,7 @@ class Appointment extends Model
         'collecting_person_alternate_contact',
     ];
     protected $appends = [
-        'patient_name', 'patient_details', 'specialist_name',
+        'patient_name', 'patient_details', 'specialist_name','appointment_type_name',
         'aus_formatted_date', 'formatted_appointment_time',
         'is_pre_admission_form_complete', 'clinic_details'
     ];
@@ -30,6 +30,11 @@ class Appointment extends Model
     public function getAusFormattedDateAttribute()
     {
         return Carbon::parse($this->date)->format('d-m-Y'); 
+    }
+
+    public function getAppointmentTypeNameAttribute()
+    {
+        return $this->appointment_type->name; 
     }
 
     public function getFormattedAppointmentTimeAttribute()
