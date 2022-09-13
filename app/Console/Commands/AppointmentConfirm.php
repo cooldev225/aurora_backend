@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Appointment;
+use App\Notifications\AppointmentNotification;
 use Illuminate\Console\Command;
 
 class AppointmentConfirm extends Command
@@ -28,7 +29,7 @@ class AppointmentConfirm extends Command
      */
     public function handle()
     {
-        Appointment::sendAppointmentConfirmNotification();
+        AppointmentNotification::sendAppointmentConfirmNotifications();
 
         $this->info('Successfully sent Appointment Confirm');
     }

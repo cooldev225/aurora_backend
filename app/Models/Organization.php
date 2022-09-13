@@ -72,6 +72,15 @@ class Organization extends Model
         return $this->hasMany(AppointmentType::class);
     }
 
+    /**
+     * Get the notification templates for organization.
+     */
+    public function notificationTemplates()
+    {
+        return $this->hasMany(NotificationTemplate::class);
+    }
+
+
 
         /**
      * Get the patients for organization.

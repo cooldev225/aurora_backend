@@ -12,6 +12,7 @@ use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
 use App\Models\User;
+use App\Notifications\AppointmentNotification;
 use Carbon\Carbon;
 
 class AppointmentController extends Controller
@@ -247,7 +248,7 @@ class AppointmentController extends Controller
             'token'                         => md5($appointment->id)
         ]);
 
-        Notification::sendAppointmentNotification($appointment, 'appointment_booked');
+        AppointmentNotification::send($appointment, 'appointment_booked');
 
         return response()->json(
             [
