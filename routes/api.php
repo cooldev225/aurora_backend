@@ -16,11 +16,9 @@ use App\Http\Controllers\AppointmentSpecialistController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
-use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\OrganizationManagerController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SpecialistController;
@@ -37,6 +35,7 @@ use App\Http\Controllers\PreAdmissionController;
 use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\OrganizationSettingsController;
 use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Requests\FileRequest;
@@ -160,15 +159,15 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
     // Route::get('/anesthetists',                                  [EmployeeController::class,'anesthetists']);
-  
-    Route::get('/available-timeslots',                           [AppointmentSearchAvailableController::class, 'index']);
-    Route::get('/employee-roles',                                [UserRoleController::class,'employeeRoles']);
-    Route::post('/file',                                         [FileController::class,'show']);
+    Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
+    Route::get('/available-timeslots',             [AppointmentSearchAvailableController::class, 'index']);
+    Route::get('/employee-roles',                  [UserRoleController::class,'employeeRoles']);
+    Route::post('/file',                           [FileController::class,'show']);
    
-    Route::get('/user-appointments',                             [UserAppointmentController::class, 'index']);
+    Route::get('/user-appointments',               [UserAppointmentController::class, 'index']);
 
 
-    Route::get('/procedure-approvals',                           [AppointmentProcedureApprovalController::class, 'index']);
+    Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);
 
-    Route::post('/notification-test', [NotificationTestController::class,'testSendNotification']);
+    Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);
 });
