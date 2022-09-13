@@ -41,7 +41,7 @@ class AppointmentSearchAvailableController extends Controller
         Log::info($clinicId );
 
         // Search date date
-        $searchDate =  Carbon::create('monday this week')->addWeeks($request->x_weeks);
+        $searchDate =  Carbon::create('monday this week')->addWeeks($request->x_weeks ?? 0);
 
         // Time Frame To Search
         $timeframeParameters = $this->getTimeFrameParameter($request->time_requirement);
