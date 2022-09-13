@@ -75,7 +75,7 @@ class AppointmentSearchAvailableController extends Controller
                     // Check each specialist available in timeslot and that that they can undergo that appointment type
                     if ($specialist->canWorkAt($time, $day) && $specialist->canAppointmentTypeAt($time, $day, $appointmentType)) {   
                         // Check if specialist already has an appointment in timeslot
-                        if(!$specialist->hasAppointmentAtTime($time, $searchDate)){
+                        if(!$specialist->hasAppointmentAtTime($time, $searchDate->timestamp)){
                             $hrmUserBaseSchedule = $specialist->hrmUserBaseScheduleAtTimeDay($time, $day);
                             array_push($availableTimeslots, [
                               'time' =>  date('H:i', $time),
