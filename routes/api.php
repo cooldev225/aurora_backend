@@ -55,6 +55,14 @@ use App\Models\PatientBilling;
 
 Route::post('/login', [UserController::class, 'login']);
 
+////////////////////////////////////////////////////////////////////////////////////
+// Appointment Pre Admission Routes (that don't require auth)
+Route::prefix('appointments/pre-admissions')->group(function () {
+    Route::get('/show/{token}',         [AppointmentPreAdmissionController::class,'show',]);
+    Route::post('/validate/{token}',    [AppointmentPreAdmissionController::class, 'validatePreAdmission']);
+    Route::post('/store/{token}',       [AppointmentPreAdmissionController::class,'store']);
+});
+
 Route::middleware(['auth'])->group(function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -84,19 +92,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/specialists',                            [AppointmentSpecialistController::class, 'index']);
         Route::put('/collecting-person/{appointment}',        [AppointmentCollectingPersonController::class,'update']);
     });
-    
 
     ////////////////////////////////////////////////////////////////////////////////////
-    // Appointment Pre Admission Routes
-    Route::prefix('appointments/pre-admissions')->group(function () {
-        Route::get('/show/{token}',         [AppointmentPreAdmissionController::class,'show',]);
-        Route::post('/validate/{token}',    [AppointmentPreAdmissionController::class, 'validatePreAdmission']);
-        Route::post('/store/{token}',       [AppointmentPreAdmissionController::class,'store']);
-        Route::post('/upload/{appointment}', [AppointmentPreAdmissionController::class, 'upload']);
-    });
-
+    // Appointment Pre Admission Routes (that do require auth)
+    Route::post('/appointments/pre-admissions/upload/{appointment}', [AppointmentPreAdmissionController::class, 'upload']);
     Route::post('update-pre-admission-consent', [PreAdmissionController::class,'updateConsent']);
-    Route::get('get-pre-admission-consent',     [PreAdmissionController::class,'getConsent',]);
+    Route::get('get-pre-admission-consent',     [PreAdmissionController::class,'getConsent']);
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Internal Mail Routes

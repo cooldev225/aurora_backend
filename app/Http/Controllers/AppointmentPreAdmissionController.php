@@ -25,9 +25,6 @@ class AppointmentPreAdmissionController extends Controller
     {
         $preAdmission = AppointmentPreAdmission::where('token', $token)
             ->first();
-            
-        // Verify the user can access this function via policy
-        $this->authorize('view', $preAdmission);
 
         if ($preAdmission == null) {
             return response()->json(
@@ -58,9 +55,6 @@ class AppointmentPreAdmissionController extends Controller
     public function validatePreAdmission(Request $request, $token)
     {
         $preAdmission = AppointmentPreAdmission::where('token', $token)->first();
-            
-        // Verify the user can access this function via policy
-        $this->authorize('update', $preAdmission);
 
         if ($preAdmission == null) {
             return response()->json(
@@ -111,9 +105,6 @@ class AppointmentPreAdmissionController extends Controller
     public function store(AppointmentPreAdmissionRequest $request, $token)
     {
         $preAdmission = AppointmentPreAdmission::where('token', $token)->first();
-            
-        // Verify the user can access this function via policy
-        $this->authorize('update', $preAdmission);
 
         if ($preAdmission == null) {
             return response()->json(
