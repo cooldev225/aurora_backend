@@ -99,7 +99,7 @@ class AppointmentSearchAvailableController extends Controller
 
             array_push($availableStartTimes, [
                 'day' => $day,
-                'date' => $searchDate->format('d/m/Y'),
+                'date' => $searchDate->format('Y-m-d'),
                 'available_timeslots' => $availableTimeslots
             ]);
 
