@@ -15,7 +15,7 @@ return new class extends Migration {
         Schema::create('organizations', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-
+            $table->string('code');
             $table->integer('max_clinics');
             $table->integer('max_employees');
             $table->foreignId('owner_id');

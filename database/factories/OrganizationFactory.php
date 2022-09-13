@@ -21,9 +21,10 @@ class OrganizationFactory extends Factory
         $owner = User::factory()->create([
             'role_id' => UserRole::ORGANIZATION_ADMIN,
         ]);
-
+$name=  $this->faker->company();
         return [
-            'name'                   => $this->faker->company(),
+            'name'                   => $name,
+            'code'                   => substr($name, 0, 3),
             'logo'                   => $this->faker->imageUrl(),
             'max_clinics'            => mt_rand(1, 9999),
             'max_employees'          => mt_rand(1, 9999),
