@@ -115,12 +115,15 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('patients')->group(function () {
         Route::get('/appointments/{patient}', [PatientController::class, 'appointments']);
         Route::put('/billing/{patient}',      [PatientBilling::class, 'update']);
-       
-        Route::get('/documents/{patient}',    [PatientDocumentController::class, 'index']);
-        Route::post('/documents/{patient}',   [PatientDocumentController::class, 'store']);
 
         Route::apiResource('/recalls',        PatientRecallController::class, ['except' => ['show', 'index']]);
         Route::get('/recalls/{patient}',      [PatientRecallController::class, 'index']);
+
+        Route::prefix('documents')->group(function () {
+            Route::get('/{patient}',    [PatientDocumentController::class, 'index']);
+            Route::post('/{patient}',   [PatientDocumentController::class, 'store']);
+            Route::post('report/{patient}',    [PatientDocumentController::class, 'index']);
+        });
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
