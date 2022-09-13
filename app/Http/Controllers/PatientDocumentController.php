@@ -24,7 +24,7 @@ class PatientDocumentController extends Controller
         return response()->json(
             [
                 'message' => 'Patient Document List',
-                'data'    => $patient->documents->sortByDesc('created_at'),
+                'data'    => $patient->documents,
             ],
             Response::HTTP_OK
         );
