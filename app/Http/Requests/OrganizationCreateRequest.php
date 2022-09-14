@@ -36,8 +36,6 @@ class OrganizationCreateRequest extends FormRequest
      */
     public function rules()
     {
-        $user_request = new UserRequest();
-
         return [
             'name'                => 'required',
             'max_clinics'         => 'required|numeric',
