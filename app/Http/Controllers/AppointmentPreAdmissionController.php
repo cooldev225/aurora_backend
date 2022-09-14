@@ -26,9 +26,6 @@ class AppointmentPreAdmissionController extends Controller
     {
         $preAdmission = AppointmentPreAdmission::where('token', $token)
             ->first();
-            
-        // Verify the user can access this function via policy
-        $this->authorize('view', $preAdmission);
 
         if ($preAdmission == null) {
             return response()->json(
@@ -59,9 +56,6 @@ class AppointmentPreAdmissionController extends Controller
     public function validatePreAdmission(AppointmentPreAdmissionValidateRequest $request, $token)
     {
         $preAdmission = AppointmentPreAdmission::where('token', $token)->first();
-            
-        // Verify the user can access this function via policy
-        $this->authorize('update', $preAdmission);
 
         if ($preAdmission == null) {
             return response()->json(
@@ -112,9 +106,6 @@ class AppointmentPreAdmissionController extends Controller
     public function store(AppointmentPreAdmissionRequest $request, $token)
     {
         $preAdmission = AppointmentPreAdmission::where('token', $token)->first();
-            
-        // Verify the user can access this function via policy
-        $this->authorize('update', $preAdmission);
 
         if ($preAdmission == null) {
             return response()->json(
@@ -225,8 +216,8 @@ class AppointmentPreAdmissionController extends Controller
 
         if ($file = $request->file('file')) {
             $file_name = 'pre_admission_' . $appointment->id . '_' . time() . '.pdf';
-            $file_path = '/' . $file->storeAs('files/appointment_pre_admission', $file_name);
-            $pre_admission->pre_admission_file = url($file_path);
+            $file->storeAs('files/appointment_pre_admission', $file_name);
+            $pre_admission->pre_admission_file = $file_name;
             $pre_admission->save();
         }
 

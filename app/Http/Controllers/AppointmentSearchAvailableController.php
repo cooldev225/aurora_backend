@@ -41,7 +41,7 @@ class AppointmentSearchAvailableController extends Controller
         Log::info($clinicId );
 
         // Search date date
-        $searchDate =  Carbon::create('monday this week')->addWeeks($request->x_weeks);
+        $searchDate =  Carbon::create('monday this week')->addWeeks($request->x_weeks ?? 0);
 
         // Time Frame To Search
         $timeframeParameters = $this->getTimeFrameParameter($request->time_requirement);
@@ -75,7 +75,7 @@ class AppointmentSearchAvailableController extends Controller
                     // Check each specialist available in timeslot and that that they can undergo that appointment type
                     if ($specialist->canWorkAt($time, $day) && $specialist->canAppointmentTypeAt($time, $day, $appointmentType)) {   
                         // Check if specialist already has an appointment in timeslot
-                        if(!$specialist->hasAppointmentAtTime($time, $searchDate)){
+                        if(!$specialist->hasAppointmentAtTime($time, $searchDate->timestamp)){
                             $hrmUserBaseSchedule = $specialist->hrmUserBaseScheduleAtTimeDay($time, $day);
                             array_push($availableTimeslots, [
                               'time' =>  date('H:i', $time),
@@ -99,7 +99,7 @@ class AppointmentSearchAvailableController extends Controller
 
             array_push($availableStartTimes, [
                 'day' => $day,
-                'date' => $searchDate->format('d/m/Y'),
+                'date' => $searchDate->format('Y-m-d'),
                 'available_timeslots' => $availableTimeslots
             ]);
 

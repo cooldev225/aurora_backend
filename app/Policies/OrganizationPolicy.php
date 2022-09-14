@@ -67,7 +67,7 @@ class OrganizationPolicy
      */
     public function update(User $user, Organization $organization)
     {
-        return false;
+        return  $user->hasAnyRole(['organizationAdmin']) && $organization->id === $user->organization_id;
     }
 
     /**

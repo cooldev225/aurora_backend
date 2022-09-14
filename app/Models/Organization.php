@@ -12,7 +12,7 @@ class Organization extends Model
     protected $fillable = [
         'name', 'logo', 'max_clinics', 'max_employees', 'proda_device_id',
         'owner_id', 'is_hospital', 'appointment_length', 'start_time', 'end_time','status',
-        'document_letter_header', 'document_letter_footer'
+        'document_letter_header', 'document_letter_footer', 'code'
     ];
 
     protected $appends = array('user_count', 'clinic_count', 'is_max_users', 'is_max_clinics');
@@ -71,6 +71,15 @@ class Organization extends Model
     {
         return $this->hasMany(AppointmentType::class);
     }
+
+    /**
+     * Get the notification templates for organization.
+     */
+    public function notificationTemplates()
+    {
+        return $this->hasMany(NotificationTemplate::class);
+    }
+
 
 
         /**

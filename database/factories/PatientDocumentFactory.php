@@ -22,6 +22,7 @@ class PatientDocumentFactory extends Factory
             'created_by'        =>  0,
             'file_path'         =>  $this->faker->numberBetween(1, 5).'.pdf',
             'is_updatable'      =>  false,
+            'file_type'         =>  'PDF',
         ];
     
     }

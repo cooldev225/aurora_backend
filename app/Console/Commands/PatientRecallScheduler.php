@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\PatientRecall;
+use App\Notifications\RecallNotification;
 use Illuminate\Console\Command;
 
 class PatientRecallScheduler extends Command
@@ -28,7 +29,7 @@ class PatientRecallScheduler extends Command
      */
     public function handle()
     {
-        PatientRecall::sendCurrentRecalls();
+        RecallNotification::sendCurrentRecalls();
 
         $this->info('Successfully sent Recall Messages');
     }

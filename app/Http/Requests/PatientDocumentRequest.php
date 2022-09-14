@@ -25,9 +25,9 @@ class PatientDocumentRequest extends FormRequest
     {
         return [
             'document_name' => 'required',
-            'document_type' => 'required',
-            'appointment_id'=> 'required',
-            'specialist_id' => 'required',
+            'document_type' => 'required|in:LETTER,REPORT,CLINICAL_NOTE,PATHOLOGY_REPORT,AUDIO,USB_CAPTURE,OTHER',
+            'appointment_id'=> 'numeric',
+            'specialist_id' => 'numeric',
             'file'          => 'required',
         ];
     }

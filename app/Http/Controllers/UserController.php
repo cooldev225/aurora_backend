@@ -3,12 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\UserRequest;
+use App\Mail\NewEmployee;
 use Validator;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -20,7 +24,7 @@ class UserController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAny', User::class);
+        $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
 
         $organization = auth()->user()->organization;
 
@@ -299,14 +303,37 @@ class UserController extends Controller
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, User $user)
+    public function store(UserRequest $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('create', User::class);
+        $this->authorize('create', [User::class, auth()->user()->organization_id]);
+
+        $first_name = $request->first_name;
+        $last_name = $request->last_name;
+        $username = auth()->user()->organization->code . $first_name[0] . $last_name;
+        $i = 0;
+            while(User::whereUsername($username)->exists())
+            {
+                $i++;
+                $username = $first_name[0] . $last_name . $i;
+            }
+
+        $raw_password = Str::random(14);    
+
+        //Create New Employee
+        $user = User::create([
+            'organization_id' => auth()->user()->organization_id,
+            'username' => $username,
+            'password' => Hash::make($raw_password),
+            ...$request->validated()
+        ]);
+
+        //Send An email to the user with their credentials and al link
+        Mail::to($user->email)->send(new NewEmployee($user, $raw_password));
 
         return response()->json(
             [
-                'message' => 'User Store Not Implemented',
+                'message' => 'User Created',
             ],
             Response::HTTP_OK
         );

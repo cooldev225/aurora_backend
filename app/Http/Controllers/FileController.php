@@ -31,7 +31,6 @@ class FileController extends Controller
 
        
         $path = 'files/' . $folder . $request->path;
-        Log::info($path);
         return response(Storage::disk('local')->get($path), 200)
               ->header('Content-Type', 'application/pdf');
     }

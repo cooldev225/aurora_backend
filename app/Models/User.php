@@ -122,21 +122,6 @@ class User extends Authenticatable implements JWTSubject
         return $this->role->slug == 'admin';
     }
 
-    public static function create(array $attributes = [])
-    {
-        $user = static::query()->create($attributes);
-
-        $organization_id = auth()->user()->organization_id;
-        $password = isset($attributes['raw_password']) ? $attributes['raw_password'] : '';
-        $data = array(
-            'organization_id'   =>  $organization_id,
-            'password'          =>  $password
-        );
-        //Notification::sendUserNotification($data, $user, 'user_created');
-
-        return $user;
-    }
-
     /**
      * translate template
      */

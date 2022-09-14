@@ -13,7 +13,7 @@ class PatientDocumentController extends Controller
     /**
      * [Patient Document] - List
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function index(Patient $patient)
@@ -36,26 +36,32 @@ class PatientDocumentController extends Controller
      * @param  \App\Http\Requests\PatientRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Patient $patient)
+    public function store(PatientDocumentRequest $request, Patient $patient)
     {
         // Verify the user can access this function via policy
         $this->authorize('create', PatientDocument::class);
 
-        $patientDocument = PatientDocument::create([
+        $patient_document = PatientDocument::create([
+            ...$request->validated(),
             'patient_id'     => $patient->id,
-            'appointment_id' => $request->appointment_id,
-            'specialist_id'  => $request->specialist_id,
-            'document_name'  => $request->document_name,
-            'document_type'  => $request->document_type,
             'created_by'     => auth()->user()->id,
+            'is_updatable'   => false,
+            'origin'         => 'UPLOADED'
         ]);
 
-        //UPLOAD FILE
+        if ($file = $request->file('file')) {
+            $file_name = 'patient_document_' . $patient_document->id
+                . '_' . time() . '.' . $file->extension();
+            $file->storeAs('files/patient_documents', $file_name);
+            $patient_document->file_type =  $file->extension();
+            $patient_document->file_path = $file_name;
+            $patient_document->save();
+        }
 
         return response()->json(
             [
                 'message' => 'Patient Document Created',
-                'data'    => $patientDocument
+                'data'    => $patient_document
             ],
             Response::HTTP_CREATED
         );

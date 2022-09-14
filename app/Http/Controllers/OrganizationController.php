@@ -63,51 +63,32 @@ class OrganizationController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('create', Organization::class);
 
+        $i = 3;
+        $code = substr($request->name, 0, $i);
+        while(Organization::where('code', $code)->count() > 0){
+            $code = substr($request->name, 0, ++$i);
+        };
+
         $owner = User::create([
             ...$request->safe()->only([
-                'username',
                 'email',
                 'first_name',
                 'last_name',
             ]),
-            'password'      => Hash::make($request->password),
+            'username'      => $code.'admin',
+            'password'      => Hash::make('paxxw0rd'),
             'raw_password'  => $request->password,
             'role_id'       => UserRole::ORGANIZATION_ADMIN,
             'mobile_number' => $request->mobile_number,
         ]);
 
-        $organization = Organization::create(
-            $request->safe()->only([
-                'name',
-                'max_clinics',
-                'max_employees',
-                'appointment_length',
-                'start_time',
-                'end_time',
-                'has_billing',
-                'has_coding',
-            ]
-        ));
-
-        if ($file = $request->file('logo')) {
-            $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $logo_path = '/' . $file->storeAs('images/organization', $file_name);
-            $organization->logo = $logo_path;
-        }
-
-        if ($file = $request->file('header')) {
-            $file_name = 'header_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $header_path = '/' . $file->storeAs('images/organization', $file_name);
-            $organization->document_letter_header = $header_path;
-        }
-
-        if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $footer_path = '/' . $file->storeAs('images/organization', $file_name);
-            $organization->document_letter_footer = $footer_path;
-        }
-
-        $organization->save();
+        $organization = Organization::create([
+            'name'                      => $request->name,
+            'code'                      => $code,
+            'owner_id'                  => $owner->id,
+            ...$request->validated(),
+       
+        ]);
 
         $owner->organization_id = $organization->id;
         $owner->save();

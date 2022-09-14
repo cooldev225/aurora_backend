@@ -16,11 +16,9 @@ use App\Http\Controllers\AppointmentSpecialistController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
-use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\OrganizationManagerController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\SpecialistController;
@@ -37,6 +35,7 @@ use App\Http\Controllers\PreAdmissionController;
 use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
+use App\Http\Controllers\OrganizationSettingsController;
 use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Requests\FileRequest;
@@ -54,6 +53,14 @@ use App\Models\PatientBilling;
 */
 
 Route::post('/login', [UserController::class, 'login']);
+
+////////////////////////////////////////////////////////////////////////////////////
+// Appointment Pre Admission Routes (that don't require auth)
+Route::prefix('appointments/pre-admissions')->group(function () {
+    Route::get('/show/{token}',         [AppointmentPreAdmissionController::class,'show',]);
+    Route::post('/validate/{token}',    [AppointmentPreAdmissionController::class, 'validatePreAdmission']);
+    Route::post('/store/{token}',       [AppointmentPreAdmissionController::class,'store']);
+});
 
 Route::middleware(['auth'])->group(function () {
 
@@ -84,19 +91,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/specialists',                            [AppointmentSpecialistController::class, 'index']);
         Route::put('/collecting-person/{appointment}',        [AppointmentCollectingPersonController::class,'update']);
     });
-    
 
     ////////////////////////////////////////////////////////////////////////////////////
-    // Appointment Pre Admission Routes
-    Route::prefix('appointments/pre-admissions')->group(function () {
-        Route::get('/show/{token}',         [AppointmentPreAdmissionController::class,'show',]);
-        Route::post('/validate/{token}',    [AppointmentPreAdmissionController::class, 'validatePreAdmission']);
-        Route::post('/store/{token}',       [AppointmentPreAdmissionController::class,'store']);
-        Route::post('/upload/{appointment}', [AppointmentPreAdmissionController::class, 'upload']);
-    });
-
+    // Appointment Pre Admission Routes (that do require auth)
+    Route::post('/appointments/pre-admissions/upload/{appointment}', [AppointmentPreAdmissionController::class, 'upload']);
     Route::post('update-pre-admission-consent', [PreAdmissionController::class,'updateConsent']);
-    Route::get('get-pre-admission-consent',     [PreAdmissionController::class,'getConsent',]);
+    Route::get('get-pre-admission-consent',     [PreAdmissionController::class,'getConsent']);
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Internal Mail Routes
@@ -115,12 +115,15 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('patients')->group(function () {
         Route::get('/appointments/{patient}', [PatientController::class, 'appointments']);
         Route::put('/billing/{patient}',      [PatientBilling::class, 'update']);
-       
-        Route::get('/documents/{patient}',    [PatientDocumentController::class, 'index']);
-        Route::post('/documents/{patient}',   [PatientDocumentController::class, 'store']);
 
         Route::apiResource('/recalls',        PatientRecallController::class, ['except' => ['show', 'index']]);
         Route::get('/recalls/{patient}',      [PatientRecallController::class, 'index']);
+
+        Route::prefix('documents')->group(function () {
+            Route::get('/{patient}',    [PatientDocumentController::class, 'index']);
+            Route::post('/{patient}',   [PatientDocumentController::class, 'store']);
+            Route::post('report/{patient}',    [PatientDocumentController::class, 'index']);
+        });
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -156,15 +159,15 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
     // Route::get('/anesthetists',                                  [EmployeeController::class,'anesthetists']);
-  
-    Route::get('/available-timeslots',                           [AppointmentSearchAvailableController::class, 'index']);
-    Route::get('/employee-roles',                                [UserRoleController::class,'employeeRoles']);
-    Route::post('/file',                                         [FileController::class,'show']);
+    Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
+    Route::get('/available-timeslots',             [AppointmentSearchAvailableController::class, 'index']);
+    Route::get('/employee-roles',                  [UserRoleController::class,'employeeRoles']);
+    Route::post('/file',                           [FileController::class,'show']);
    
-    Route::get('/user-appointments',                             [UserAppointmentController::class, 'index']);
+    Route::get('/user-appointments',               [UserAppointmentController::class, 'index']);
 
 
-    Route::get('/procedure-approvals',                           [AppointmentProcedureApprovalController::class, 'index']);
+    Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);
 
-    Route::post('/notification-test', [NotificationTestController::class,'testSendNotification']);
+    Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);
 });
