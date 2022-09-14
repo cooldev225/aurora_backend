@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam title       string      required   The name of time requirement
+* @bodyParam base_time   timestamp   required   The timestamp of the time requirement
+*/
 class AppointmentTimeRequirementRequest extends FormRequest
 {
     /**
@@ -24,27 +28,8 @@ class AppointmentTimeRequirementRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'     => 'required',
+            'title'     => 'required|string',
             'base_time' => 'required',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'title' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'base_time' => [
-                'description' => '',
-                'example'     => '',
-            ],
         ];
     }
 }

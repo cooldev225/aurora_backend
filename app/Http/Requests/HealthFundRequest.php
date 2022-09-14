@@ -4,6 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam name      string   required   The name of the health fund
+* @bodyParam code      string   required   The code of the health fund
+* @bodyParam fund      string   required   The parent fund of the fund
+* @bodyParam contact   string   required   The contact at the fund
+* @bodyParam issues    string   required   Existing issues with the fund
+*/
 class HealthFundRequest extends FormRequest
 {
     /**
@@ -24,22 +31,11 @@ class HealthFundRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'    => '',
-            'code'    => '',
-            'fund'    => '',
-            'contact' => '',
-            'issues'  => '',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
+            'name'    => 'required|string',
+            'code'    => 'required|string',
+            'fund'    => 'required|string',
+            'contact' => 'required|string',
+            'issues'  => 'required|string',
         ];
     }
 }

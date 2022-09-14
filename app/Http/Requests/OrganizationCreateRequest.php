@@ -51,35 +51,4 @@ class OrganizationCreateRequest extends FormRequest
             'mobile_number'       => 'required|string',
         ];
     }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'name' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'username' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'email' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'first_name' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'last_name' => [
-                'description' => '',
-                'example'     => '',
-            ],
-        ];
-    }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-
 /**
 * @bodyParam name                 string  required  The name of the appointment type                                Example: Colonoscopy
 * @bodyParam type                 enum    required  The type of the appointment type ('PROCEDURE','CONSULT')        Example: PROCEDURE

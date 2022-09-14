@@ -4,6 +4,13 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam device_name     string   required   The name of the proda device                      Example: My Device
+* @bodyParam key_expiry      date     required   The expiry date of the key for the proda device   Example: 2022-09-01
+* @bodyParam device_expiry   date     required   The expiry date of the proda device               Example: 2022-09-01
+* @bodyParam clinic_id       int      required   The clinic where the proda device is kept         Example: 1
+* @bodyParam otac            int      required   The OTAC for the proda device                     Example:
+*/
 class ProdaDeviceRequest extends FormRequest
 {
     /**
@@ -27,35 +34,8 @@ class ProdaDeviceRequest extends FormRequest
             'device_name'   => 'required',
             'key_expiry'    => 'required|date',
             'device_expiry' => 'required|date',
-            'clinic_id'     => 'required|numeric',
-            'otac'          => '',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'device_name' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'key_expiry' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'device_expiry' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'clinic_id' => [
-                'description' => '',
-                'example'     => '',
-            ],
+            'clinic_id'     => 'required|numeric|exists:clinics',
+            'otac'          => 'required|numeric',
         ];
     }
 }

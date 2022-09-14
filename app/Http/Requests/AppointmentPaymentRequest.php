@@ -4,6 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam appointment_id    string  required  The ID of the associated appointment                                     Example: 1
+* @bodyParam amount            enum    required  The amount to be paid (in cents)                                         Example: 12345
+* @bodyParam payment_type      string  required  The type of payment being made                                           Example: 
+* @bodyParam is_deposit        bool    required  Whether the payment is a deposit or not                                  Example: true
+* @bodyParam is_send_receipt   bool    required  Whether a receipt should be sent                                         Example: true
+* @bodyParam email             string            The email to send the receipt to (required if is_send_receipt is true)
+*/
 class AppointmentPaymentRequest extends FormRequest
 {
     /**
@@ -24,39 +32,12 @@ class AppointmentPaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'appointment_id'    => 'required|integer',
+            'appointment_id'    => 'required|integer|exists:appointments',
             'amount'            => 'required|numeric',
             'payment_type'      => 'required|string',
             'is_deposit'        => 'required|boolean',
-            'is_send_receipt'   => '',
-            'email'             => '',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'appointment_id' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'amount' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'payment_type' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'is_deposit' => [
-                'description' => '',
-                'example'     => '',
-            ],
+            'is_send_receipt'   => 'required|boolean',
+            'email'             => 'required_if:is_send_receipt,true|email',
         ];
     }
 }

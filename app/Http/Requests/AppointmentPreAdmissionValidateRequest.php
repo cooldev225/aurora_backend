@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam last_name       string  required  The last name of the patient   Example: Citizen
+* @bodyParam date_of_birth   date    required  The patients date of birth     Example: 1992-01-01
+*/
 class AppointmentPreAdmissionValidateRequest extends FormRequest
 {
     /**
