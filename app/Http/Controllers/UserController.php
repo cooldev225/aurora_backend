@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\PasswordUpdateRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserRequest;
 use App\Mail\NewEmployee;
 use Validator;
@@ -84,7 +86,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function verify_token(Request $request)
+    public function verify_token()
     {
         $user = auth()->user();
         $token = auth()->fromUser($user);
@@ -141,14 +143,14 @@ class UserController extends Controller
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function updateProfile(Request $request)
+    public function updateProfile(ProfileUpdateRequest $request)
     {
         $user = auth()->user();
 
         // Verify the user can access this function via policy
         $this->authorize('updateProfile', $user);
 
-        $user->update($request->all());
+        $user->update($request->safe()->except(['photo']));
 
         if ($file = $request->file('photo')) {
             $file_name =
@@ -192,24 +194,8 @@ class UserController extends Controller
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function changePassword(Request $request)
+    public function changePassword(PasswordUpdateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'old_password' => 'required|string|min:6',
-            'new_password' => 'required|string|min:6|different:old_password',
-            'confirm_password' => 'required|string|min:6|same:new_password',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'errors' => $validator->errors(),
-                ],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
-        }
-
         if (!Hash::check($request->old_password, Auth::user()->password)) {
             return response()->json(
                 [
