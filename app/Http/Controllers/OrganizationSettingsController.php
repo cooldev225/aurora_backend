@@ -22,20 +22,20 @@ class OrganizationSettingsController extends Controller
 
         if ($file = $request->file('logo')) {
             $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $logo_path = '/' . $file->storeAs('images/organization/', $file_name);
-            $organization->logo = $logo_path;
+            $file->storeAs('images/organization/', $file_name);
+            $organization->logo = $file_name;
         }
 
         if ($file = $request->file('document_letter_header')) {
             $file_name = 'header_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $header_path = '/' . $file->storeAs('images/organization/', $file_name);
-            $organization->document_letter_header = $header_path;
+            $file->storeAs('images/organization/', $file_name);
+            $organization->document_letter_header = $file_name;
         }
 
         if ($file = $request->file('document_letter_footer')) {
             $file_name = 'footer_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $footer_path = '/' . $file->storeAs('images/organization/', $file_name);
-            $organization->document_letter_footer = $footer_path;
+            $file->storeAs('images/organization/', $file_name);
+            $organization->document_letter_footer = $file_name;
         }
 
         $organization->save();

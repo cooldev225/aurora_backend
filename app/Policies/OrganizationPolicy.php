@@ -32,7 +32,7 @@ class OrganizationPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']);
+        return $user->hasAnyRole(['admin']);
     }
 
     /**
