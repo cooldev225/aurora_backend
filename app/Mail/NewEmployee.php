@@ -35,6 +35,7 @@ class NewEmployee extends Mailable
      */
     public function build()
     {
-        return $this->view('email.newEmployee');
+        return $this->view('email.newEmployee')
+                    ->subject('Welcome to Aurora '. $this->user->first_name);
     }
 }
