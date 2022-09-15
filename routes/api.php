@@ -168,6 +168,7 @@ Route::middleware(['auth'])->group(function () {
 
 
     Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);
+    Route::put('appointment/procedure-approvals/{appointment}',    [AppointmentProcedureApprovalController::class, 'update']);
 
     Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);
 });
