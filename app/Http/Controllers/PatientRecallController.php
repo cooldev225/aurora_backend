@@ -45,7 +45,7 @@ class PatientRecallController extends Controller
         $this->authorize('create', PatientRecall::class);
 
         $patientRecall = PatientRecall::create([
-            ...$request->verified(),
+            ...$request->validated(),
             'user_id'           => auth()->user()->id,
             'organization_id'   => auth()->user()->organization_id,
             'date_recall_due'   => now()->addMonths($request->time_frame)->toDateString(),
@@ -77,7 +77,7 @@ class PatientRecallController extends Controller
         $this->authorize('update', $patientRecall);
 
         $patientRecall->update([
-            ...$request->verified(),
+            ...$request->validated(),
             'user_id'           => auth()->user()->id,
             'organization_id'   => auth()->user()->organization_id,
             'date_recall_due'   => now()->addMonths($request->time_frame)->toDateString(),

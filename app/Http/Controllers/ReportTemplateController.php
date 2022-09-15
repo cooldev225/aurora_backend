@@ -50,7 +50,7 @@ class ReportTemplateController extends Controller
 
         $report_template = ReportTemplate::createTemplate([
             'organization_id' => auth()->user()->organization_id,
-            ...$request->verified(),
+            ...$request->validated(),
         ]);
 
         return response()->json(
@@ -77,7 +77,7 @@ class ReportTemplateController extends Controller
         $this->authorize('update', $report_template);
 
         $report_template = $report_template->update([
-            ...$request->verified(),
+            ...$request->validated(),
         ]);
 
         return response()->json(

@@ -49,7 +49,7 @@ class NotificationTemplateController extends Controller
 
         $notificationTemplate = NotificationTemplate::create([
             'organization_id' => $organization_id,
-            ...$request->verified(),
+            ...$request->validated(),
         ]);
 
         return response()->json(
@@ -75,7 +75,7 @@ class NotificationTemplateController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $notificationTemplate);
 
-        $notificationTemplate->update($request->verified());
+        $notificationTemplate->update($request->validated());
 
         return response()->json(
             [

@@ -48,7 +48,7 @@ class LetterTemplateController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $letterTemplate = LetterTemplate::create([
-            ...$request->verified(),
+            ...$request->validated(),
             'organization_id' => $organization_id,
         ]);
 
@@ -76,7 +76,7 @@ class LetterTemplateController extends Controller
         $this->authorize('update', $letterTemplate);
 
         $letterTemplate->update([
-            ...$request->verified(),
+            ...$request->validated(),
             'organization_id' => auth()->user()->organization_id,
         ]);
 
