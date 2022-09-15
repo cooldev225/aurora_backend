@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PatientIndexRequest;
 use Illuminate\Http\Response;
 use App\Http\Requests\PatientRequest;
 use App\Models\Appointment;
@@ -18,16 +19,23 @@ class PatientController extends Controller
      * @group Patients
      * @responseFile storage/responses/patients.show.json
      */
-    public function index()
+    public function index(PatientIndexRequest $request)
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', Patient::class);
 
-        $organization_id = auth()->user()->organization_id;
-        $patients = Organization::find($organization_id)
-            ->patients()
-            ->get()
-            ->toArray();
+        $params = $request->validated();
+        
+        $patients = Organization::find(auth()->user()->organization_id)
+                                ->patients();
+
+        foreach ($params as $column => $param) {
+            if (!empty($param)) {
+                $patients = $patients->where($column, '=', $param);
+            }
+        }
+
+        $patients = $patients->get()->toArray();
 
         return response()->json(
             [
