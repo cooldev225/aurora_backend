@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
-* @bodyParam title   string   required   The name of the pre-admission section   Example: Allergies
+* @bodyParam sections   string[]   required   The names of the pre-admission sections
 */
 class PreAdmissionSectionRequest extends FormRequest
 {
@@ -27,7 +27,7 @@ class PreAdmissionSectionRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required|string',
+            'sections' => 'required',
         ];
     }
 }
