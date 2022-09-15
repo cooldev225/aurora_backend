@@ -4,6 +4,14 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam photo        file              The users profile photo
+*
+* @bodyParam first_name   string  required  The first name of the user          Example: Sam
+* @bodyParam last_name    string  required  The last name of the user           Example: Citizen
+* @bodyParam email        string  required  The users email address             Example: sam.citizen@user.com
+* @bodyParam role_id      enum    required  The ID of the users assigned role   Example: 1
+*/
 class ProfileUpdateRequest extends FormRequest
 {
     /**
@@ -26,7 +34,7 @@ class ProfileUpdateRequest extends FormRequest
         $user_request = new UserRequest();
 
         return [
-            'photo' => '',
+            'photo' => 'mimes:jpg,png,bmp',
 
             ...$user_request->rules(),
         ];

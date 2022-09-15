@@ -37,17 +37,17 @@ class ClinicRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'                             => 'required',
-            'email'                            => 'required',
-            'phone_number'                     => 'required',
-            'address'                          => 'required',
-            'fax_number'                       => '',
-            'hospital_provider_number'         => '',
-            'VAED_number'                      => '',
-            'document_letter_header'           => '',
-            'document_letter_footer'           => '',
-            'specimen_collection_point_number' => '',
-            'lspn_id'                          => '',
+            'name'                             => 'required|string',
+            'email'                            => 'required|email',
+            'phone_number'                     => 'required|string',
+            'address'                          => 'required|string',
+            'fax_number'                       => 'required|string',
+            'hospital_provider_number'         => 'required|string',
+            'VAED_number'                      => 'required|string',
+            'document_letter_header'           => 'required|string',
+            'document_letter_footer'           => 'required|string',
+            'specimen_collection_point_number' => 'required|string',
+            'lspn_id'                          => 'required|numeric',
         ];
     }
 }

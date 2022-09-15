@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam title      string     required  The name of the report template                  Example: My Report
+* @bodyParam sections   string[]   required  An array of sections to appear on the template
+*/
 class ReportTemplateRequest extends FormRequest
 {
     /**
@@ -24,23 +28,8 @@ class ReportTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'sections' => '',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'title' => [
-                'description' => '',
-                'example'     => '',
-            ],
+            'title'    => 'required|string',
+            'sections' => 'required|array',
         ];
     }
 }
