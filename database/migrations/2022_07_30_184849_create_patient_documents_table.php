@@ -44,6 +44,7 @@ return new class extends Migration
             $table->foreignId('created_by');
             $table->string('file_path')->nullable();
             $table->boolean('is_updatable')->default(true);
+            $table->boolean('is_seen')->default(true);
 
             $table->timestamps();
         });
