@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\PreAdmissionConsentRequest;
 use App\Http\Requests\PreAdmissionSectionRequest;
 use App\Models\PreAdmissionConsent;
@@ -27,7 +28,7 @@ class PreAdmissionController extends Controller
             $organization_id
         )
             ->with('questions')
-            ->first();
+            ->get();
 
         return response()->json(
             [
@@ -51,31 +52,88 @@ class PreAdmissionController extends Controller
 
         $organization_id = auth()->user()->organization_id;
 
+        $pre_admission_section_list = PreAdmissionSection::where(
+            'organization_id',
+            $organization_id
+        )
+            ->with('questions')
+            ->get();
+        foreach($pre_admission_section_list as $pre_admission_section){
+            $is_updated = false;
+            for($i=0;$i<count($request->sections);$i++){
+                if($pre_admission_section->id === $request->sections[$i]['id']){
+                    $this->authorize('update', $pre_admission_section);
+                    
+                    $pre_admission_section->update([
+                        'organization_id' => $organization_id,
+                        'title' => $request->sections[$i]['title'],
+                        'questions' => $request->sections[$i]['questions'],
+                    ]);
+                    //$this->update($pre_admission_section);
+                    $is_updated = true;
+                    break;
+                }
+            }
+            if(!$is_updated){
+                $this->destroy($pre_admission_section);
+            }
+        }
+            
+        foreach($request->sections as $pre_admission_section){
+            if(!isset($pre_admission_section['id'])){
+                //$this->authorize('create', $pre_admission_section);
+
+                PreAdmissionSection::createSection([
+                    'organization_id' => $organization_id,
+                    'title' => $pre_admission_section['title'],
+                    'questions' => $pre_admission_section['questions'],
+                ]);
+                //$this->create($sectionObj);
+            }
+        }
+
         $pre_admission_section = PreAdmissionSection::where(
             'organization_id',
             $organization_id
         )
             ->with('questions')
-            ->first();
+            ->get();
 
-        if (!empty($pre_admission_section)) {
-            return $this->update($request, $pre_admission_section);
-        }
+        return response()->json(
+            [
+                'message' => 'Pre Admission Section List',
+                'data' => $pre_admission_section,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * [Pre Admission] - Create
+     *
+     * @param  \App\Models\PreAdmissionSection  $pre_admission_section
+     * @return \Illuminate\Http\Response
+     */
+    public function create(
+        PreAdmissionSection $pre_admission_section
+    ) {
+        // Verify the user can access this function via policy
+        $this->authorize('create', $pre_admission_section);
 
         $organization_id = auth()->user()->organization_id;
 
         $pre_admission_section = PreAdmissionSection::createSection([
             'organization_id' => $organization_id,
-            'title' => $request->title,
-            'questions' => $request->questions,
+            'title' => $pre_admission_section->title,
+            'questions' => $pre_admission_section->questions,
         ]);
 
         return response()->json(
             [
-                'message' => 'New Pre Admission Section created',
+                'message' => 'Pre Admission Section updated',
                 'data' => $pre_admission_section,
             ],
-            Response::HTTP_CREATED
+            Response::HTTP_OK
         );
     }
 
