@@ -44,10 +44,7 @@ class AdminController extends Controller
         $this->authorize('create', User::class);
 
         $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            ...$request->safe()->except(['password']),
             'password' => Hash::make($request->password),
             'raw_password' => $request->password,
             'role_id' => UserRole::ADMIN,
@@ -75,10 +72,7 @@ class AdminController extends Controller
         $this->authorize('update', $user);
 
         $user->update([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            ...$request->safe()->except(['password']),
             'role_id' => UserRole::ADMIN,
         ]);
 

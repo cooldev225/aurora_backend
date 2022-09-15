@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam confirmation_status   enum   required   The appointment confirmation status: PENDING,CONFIRMED,CANCELLED,MISSED   Example: CANCELLED
+* @bodyParam appointment_range     enum   required   The range of appointment to return: FUTURE,PAST,ALL                       Example: FUTURE
+*/
 class AppointmentConfirmationStatusListRequest extends FormRequest
 {
     /**
@@ -25,26 +29,7 @@ class AppointmentConfirmationStatusListRequest extends FormRequest
     {
         return [
             'confirmation_status' => ['required','in:PENDING,CONFIRMED,CANCELED,MISSED'],
-            'appointment_range' => ['required','in:FUTURE,PAST,ALL'],
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'confirmation_status'  => [
-                'description' => 'The appointment confirmation Status in request: PENDING,CONFIRMED,CANCELLED,MISSED',
-                'example'     => 'CANCELLED',
-            ],
-            'appointment_range'  => [
-                'description' => 'The range off appointment to return: FUTURE,PAST,ALL',
-                'example'     => 'FUTURE',
-            ],
+            'appointment_range'   => ['required','in:FUTURE,PAST,ALL'],
         ];
     }
 }

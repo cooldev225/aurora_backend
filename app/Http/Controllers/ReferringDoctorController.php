@@ -125,7 +125,7 @@ class ReferringDoctorController extends Controller
         $this->authorize('create', ReferringDoctor::class);
 
         $referringDoctor = ReferringDoctor::create([
-            ...$request->all()
+            ...$request->validated()
         ]);
 
         return response()->json(
@@ -152,7 +152,7 @@ class ReferringDoctorController extends Controller
         $this->authorize('update', $referringDoctor);
 
         $referringDoctor->update([
-            ...$request->all()
+            ...$request->validated()
         ]);
 
         return response()->json(

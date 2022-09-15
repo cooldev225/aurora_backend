@@ -40,13 +40,7 @@ class HealthFundController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('create', HealthFund::class);
 
-        $healthFund = HealthFund::create([
-            'name' => $request->name,
-            'code' => $request->code,
-            'fund' => $request->fund,
-            'contact' => $request->contact,
-            'issues' => $request->issues,
-        ]);
+        $healthFund = HealthFund::create($request->validated());
 
         return response()->json(
             [
@@ -69,13 +63,7 @@ class HealthFundController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $healthFund);
 
-        $healthFund->update([
-            'name' => $request->name,
-            'code' => $request->code,
-            'fund' => $request->fund,
-            'contact' => $request->contact,
-            'issues' => $request->issues,
-        ]);
+        $healthFund->update($request->validated());
 
         return response()->json(
             [

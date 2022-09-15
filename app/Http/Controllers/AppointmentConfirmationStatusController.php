@@ -53,9 +53,7 @@ class AppointmentConfirmationStatusController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $appointment);
     
-        $appointment->confirmation_status = $request->confirmation_status;
-        $appointment->confirmation_status_reason = $request->confirmation_status_reason;
-        $appointment->save();
+        $appointment->update($request->validated());
 
         return response()->json(
             [

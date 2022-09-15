@@ -9,6 +9,4 @@ enum ConfirmationStatus: string
     case CONFIRMED = 'CONFIRMED';
     case CANCELED = 'CANCELED';
     case MISSED = 'MISSED';
-
- 
 }

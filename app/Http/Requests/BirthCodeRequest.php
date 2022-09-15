@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam code          string  required  The 4-digit birth code
+* @bodyParam description   string  required  The description of the birth code
+*/
 class BirthCodeRequest extends FormRequest
 {
     /**
@@ -25,26 +29,7 @@ class BirthCodeRequest extends FormRequest
     {
         return [
             'code'        => 'required|numeric|digits:4',
-            'description' => 'required',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'code' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'description' => [
-                'description' => '',
-                'example'     => '',
-            ],
+            'description' => 'required|string',
         ];
     }
 }

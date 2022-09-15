@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam confirmation_status          enum     required  The appointment confirmation status: PENDING,CONFIRMED,CANCELLED,MISSED   Example: CANCELLED
+* @bodyParam confirmation_status_reason   string             The reason this confirmation status was set                               Example: The patient was too sick to attend
+*/
 class AppointmentConfirmationStatusUpdateRequest extends FormRequest
 {
     /**
@@ -13,12 +17,7 @@ class AppointmentConfirmationStatusUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        $appointment = $this->route('appointment');
-        $organization_id = auth()->user()->organization_id;
-        if ($appointment->organization_id == $organization_id) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -29,27 +28,8 @@ class AppointmentConfirmationStatusUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'confirmation_status' =>  ['required','in:PENDING,CONFIRMED,CANCELED,MISSED'],
-            'confirmation_status_reason' => '',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'confirmation_status'  => [
-                'description' => 'The appointment confirmation Status: PENDING,CONFIRMED,CANCELLED,MISSED',
-                'example'     => 'CANCELLED',
-            ],
-            'confirmation_status_reason'  => [
-                'description' => 'The reason this confirmation status was set',
-                'example'     => 'They patient was too sick to attend',
-            ],
+            'confirmation_status'        =>  ['required','in:PENDING,CONFIRMED,CANCELED,MISSED'],
+            'confirmation_status_reason' => 'nullable',
         ];
     }
 }

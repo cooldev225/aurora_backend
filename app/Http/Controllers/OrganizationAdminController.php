@@ -49,10 +49,7 @@ class OrganizationAdminController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $user = User::create([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            ...$request->safe()->except(['password']),
             'role_id' => UserRole::ORGANIZATION_ADMIN,
             'organization_id' => $organization_id,
             'password' => Hash::make($request->password),
@@ -83,12 +80,8 @@ class OrganizationAdminController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $user->update([
-            'username' => $request->username,
-            'email' => $request->email,
-            'first_name' => $request->first_name,
-            'last_name' => $request->last_name,
+            ...$request->safe()->except(['password']),
             'role_id' => UserRole::ORGANIZATION_ADMIN,
-            'organization_id' => $organization_id,
         ]);
 
         return response()->json(

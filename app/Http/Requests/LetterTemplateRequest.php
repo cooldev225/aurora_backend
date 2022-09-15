@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam heading   string  required  The heading of the letter template
+* @bodyParam body      string  required  The body of the letter template
+*/
 class LetterTemplateRequest extends FormRequest
 {
     /**

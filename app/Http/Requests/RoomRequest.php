@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam name   string   required   The name of the room   Example: Colonoscopy Suite
+*/
 class RoomRequest extends FormRequest
 {
     /**
@@ -24,27 +27,7 @@ class RoomRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'      => 'required',
-            'clinic_id' => 'required|numeric',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'name' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'clinic_id' => [
-                'description' => '',
-                'example'     => '',
-            ],
+            'name'      => 'required|string',
         ];
     }
 }

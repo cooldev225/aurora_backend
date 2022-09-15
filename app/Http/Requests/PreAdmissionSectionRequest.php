@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam sections   string[]   required   The names of the pre-admission sections
+*/
 class PreAdmissionSectionRequest extends FormRequest
 {
     /**
@@ -25,19 +28,6 @@ class PreAdmissionSectionRequest extends FormRequest
     {
         return [
             'sections' => 'required',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'sections' => [
-            ],
         ];
     }
 }

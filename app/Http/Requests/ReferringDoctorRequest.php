@@ -4,6 +4,23 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam provider_no     string   required  The doctors provider number                                  Example: 12345678
+* @bodyParam title           string   required  The title of the doctor                                      Example: Dr.
+* @bodyParam first_name      string   required  The referring doctors first name                             Example: Sam
+* @bodyParam last_name       string   required  The referring doctors last name                              Example: Citizen
+* @bodyParam address         string   required  The full address of the referring doctors practice address   Example: 123 Example St, Melbourne, 3000
+* @bodyParam street          string   required  The street of the referring doctors practice address         Example: 123 Example St
+* @bodyParam city            string   required  The city of the referring doctors practice address           Example: Melbourne
+* @bodyParam state           string   required  The state of the referring doctors practice address          Example: Victoria
+* @bodyParam country         string   required  The country of the referring doctors practice address        Example: Australia
+* @bodyParam postcode        string   required  The postcode of the referring doctors practice address       Example: 3000
+* @bodyParam phone           string   required  The referring doctors phone number                           Example: 03-1234-5678
+* @bodyParam fax             string   required  The referring doctors fax number                             Example: 03-4321-8765
+* @bodyParam mobile          string   required  The referring doctors mobile number                          Example: 04-5678-4321
+* @bodyParam email           string   required  The referring doctors email address                          Example: sam.citizen@referring.com
+* @bodyParam practice_name   string   required  The name of the referring doctors practice                   Example: Sam Citizen's Practice
+*/
 class ReferringDoctorRequest extends FormRequest
 {
     /**
@@ -39,77 +56,6 @@ class ReferringDoctorRequest extends FormRequest
             'mobile'        => 'required|string',
             'email'         => 'required|string',
             'practice_name' => 'required|string',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'provider_no' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'title' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'first_name' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'last_name' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'address' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'street' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'city' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'state' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'country' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'postcode' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'phone' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'fax' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'mobile' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'email' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'practice_name' => [
-                'description' => '',
-                'example'     => '',
-            ],
         ];
     }
 }

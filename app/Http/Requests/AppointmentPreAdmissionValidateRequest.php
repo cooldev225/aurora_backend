@@ -5,10 +5,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
-* @bodyParam title      string     required  The name of the report template                  Example: My Report
-* @bodyParam sections   string[]   required  An array of sections to appear on the template
+* @bodyParam last_name       string  required  The last name of the patient   Example: Citizen
+* @bodyParam date_of_birth   date    required  The patients date of birth     Example: 1992-01-01
 */
-class ReportTemplateRequest extends FormRequest
+class AppointmentPreAdmissionValidateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,8 +28,8 @@ class ReportTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'    => 'required|string',
-            'sections' => 'required|array',
+            'last_name'     => 'required|string',
+            'date_of_birth' => 'required|date'
         ];
     }
 }

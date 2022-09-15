@@ -58,7 +58,7 @@ class AppointmentTypeController extends Controller
 
         $appointmentType = AppointmentType::create([
             'organization_id' => $organization_id,
-            ...$request->all(),
+            ...$request->validated(),
         ]);
 
         return response()->json(
@@ -89,7 +89,7 @@ class AppointmentTypeController extends Controller
 
         $appointmentType->update([
             'organization_id' => $organization_id,
-            ...$request->all(),
+            ...$request->validated(),
         ]);
 
         return response()->json(

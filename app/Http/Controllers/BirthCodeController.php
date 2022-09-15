@@ -40,10 +40,7 @@ class BirthCodeController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('create', BirthCode::class);
 
-        $birthCode = BirthCode::create([
-            'code' => $request->code,
-            'description' => $request->description,
-        ]);
+        $birthCode = BirthCode::create($request->validated());
 
         return response()->json(
             [
@@ -66,10 +63,7 @@ class BirthCodeController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $birthCode);
 
-        $birthCode->update([
-            'code' => $request->code,
-            'description' => $request->description,
-        ]);
+        $birthCode->update($request->validated());
 
         return response()->json(
             [

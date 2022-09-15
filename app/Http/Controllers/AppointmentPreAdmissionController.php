@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AppointmentPreAdmissionRequest;
+use App\Http\Requests\AppointmentPreAdmissionValidateRequest;
 use App\Models\Appointment;
 use App\Models\AppointmentPreAdmission;
 use App\Models\Patient;
@@ -52,7 +53,7 @@ class AppointmentPreAdmissionController extends Controller
      * @param  string  $token
      * @return \Illuminate\Http\Response
      */
-    public function validatePreAdmission(Request $request, $token)
+    public function validatePreAdmission(AppointmentPreAdmissionValidateRequest $request, $token)
     {
         $preAdmission = AppointmentPreAdmission::where('token', $token)->first();
 
@@ -68,7 +69,7 @@ class AppointmentPreAdmissionController extends Controller
         $appointment = $preAdmission->appointment;
         $patient = $appointment->patient;
 
-        $date_of_birth = $request->date_of_birth;
+        $date_of_birth = Carbon::create($request->date_of_birth)->format('Y-m-d');
         $last_name = $request->last_name;
 
         $compare_birthday = Carbon::parse($patient->date_of_birth)->format('Y-m-d');
@@ -79,7 +80,7 @@ class AppointmentPreAdmissionController extends Controller
                 [
                     'message'   => 'Please check you have entered your Date of birth and Last name correctly.',
                 ],
-                Response::HTTP_FORBIDDEN
+                Response::HTTP_UNPROCESSABLE_ENTITY //Equivalent to a validation error
             );
         }
 
@@ -131,7 +132,7 @@ class AppointmentPreAdmissionController extends Controller
         $appointment = $preAdmission->appointment;
         $patient = $appointment->patient;
 
-        Patient::where('id', $appointment->patient_id)->update($request->only($patient->getFillable()));
+        Patient::where('id', $appointment->patient_id)->update($request->safe()->only($patient->getFillable()));
       
         $preAdmissionAnswers = json_decode($request->pre_admission_answers);
 

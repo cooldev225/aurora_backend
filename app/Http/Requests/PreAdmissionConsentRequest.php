@@ -4,6 +4,9 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam text   string   required   The consent acceptance text to be displayed   Example: I consent to the clinic storing my medical information
+*/
 class PreAdmissionConsentRequest extends FormRequest
 {
     /**
@@ -24,22 +27,7 @@ class PreAdmissionConsentRequest extends FormRequest
     public function rules()
     {
         return [
-            'text' => 'required',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'text' => [
-                'description' => '',
-                'example'     => '',
-            ],
+            'text' => 'required|string',
         ];
     }
 }

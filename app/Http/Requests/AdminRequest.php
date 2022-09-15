@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam username     string   required   The username to be given to the admin user
+* @bodyParam email        number   required   The email address of the user
+*/
 class AdminRequest extends FormRequest
 {
     /**
@@ -26,25 +30,6 @@ class AdminRequest extends FormRequest
         return [
             'username'  => 'required|string|min:2|max:100',
             'email'     => 'required|string|email|max:100',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'username' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'email' => [
-                'description' => '',
-                'example'     => '',
-            ]
         ];
     }
 }

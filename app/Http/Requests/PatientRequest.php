@@ -2,8 +2,34 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\NotificationMethod;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
+/**
+* @bodyParam title                        string   required   The patients preferred title                                           Example: Miss
+* @bodyParam first_name                   string   required   The patients first name                                                Example: Jessica
+* @bodyParam last_name                    string   required   The patients last name                                                 Example: Smith
+* @bodyParam date_of_birth                date     required   The patients date of birth                                             Example: 1993-10-09
+* @bodyParam contact_number               string   required   The patients contact number                                            Example: 04-8234-2342
+* @bodyParam gender                       string   required   The patients gender                                                    Example: Undisclosed
+* @bodyParam address                      string   required   The patients address                                                   Example: 14 Panorama Dr, Mildura
+* @bodyParam marital_status               string   required   The patients martial status                                            Example: SINGLE
+* @bodyParam birth_place_code             string   required   The patients birth place code                                          Example: AU242
+* @bodyParam country_of_birth             string   required   The patients birth country                                             Example: Australia
+* @bodyParam birth_state                  string   required   'The patients birth state                                              Example: Victoria
+* @bodyParam allergies                    string   required   The patients allergies                                                 Example: Allergic rhinitis (hay fever), eczema, hives
+* @bodyParam aborginality                 bool     required   Does the patient identify as an Aboriginal or Torres Strait Islander   Example: true
+* @bodyParam occupation                   string   required   The patients occupation                                                Example: Student
+* @bodyParam height                       int      required   The patients reported height (cm)                                      Example: 175
+* @bodyParam weight                       int      required   The patients reported weight (kg)                                      Example: 96
+* @bodyParam appointment_confirm_method   enum     required   The patients preferred appointment confirm method (SMS, EMAIL, MAIL)   Example: SMS
+* @bodyParam send_recall_method           enum     required   The patients preferred send recall confirm method (SMS, EMAIL, MAIL)   Example: MAIL
+* @bodyParam kin_name                     string   required   The patients next of kin name                                          Example: Josh Doe
+* @bodyParam kin_relationship             string   required   The patients next of kin relationship                                  Example: Father
+* @bodyParam kin_phone_number             string   required   The patients next of kin phone number                                  Example: 04-8234-2342
+* @bodyParam clinical_alerts              string   required   The patient clinical alerts                                            Example: Jessica is permanently in a wheelchair
+*/
 class PatientRequest extends FormRequest
 {
     /**
@@ -13,12 +39,7 @@ class PatientRequest extends FormRequest
      */
     public function authorize()
     {
-        $patient = $this->route('patient');
-        $organization_id = auth()->user()->organization_id;
-        if ($patient->isPartOfOrganization($organization_id)) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -29,124 +50,28 @@ class PatientRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'             => '',
-            'first_name'        => 'required',
-            'last_name'         => 'required',
-            'date_of_birth'     => 'required',
-            'contact_number'    => 'required',
-            'gender'            => '',
-            'address'           => '',
-            'marital_status'    => '',
-            'birth_place_code'  => '',
-            'country_of_birth'  => '',
-            'birth_state'       => '',
-            'allergies'         => '',
-            'aborginality'      => '',
-            'occupation'        => '',
-            'height'            => '',
-            'weight'            => '',
-            'appointment_confirm_method' => '',
-            'send_recall_method'=> '',
-            'kin_name'          => '',
-            'kin_relationship'  => '',
-            'kin_phone_number'  => '',
-            'clinical_alerts'   => '',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'title' => [
-                'description' => 'The patients preferred title',
-                'example'     => 'Miss',
-            ],
-            'first_name' => [
-                'description' => 'The patients first name',
-                'example'     => 'Jessica',
-            ],
-            'last_name' => [
-                'description' => 'The patients last name',
-                'example'     => 'Smith',
-            ],
-            'date_of_birth' => [
-                'description' => 'The patients date of birth',
-                'example'     => '1993-10-09',
-            ],
-            'contact_number' => [
-                'description' => 'The patients contact number',
-                'example'     => '04-8234-2342',
-            ],
-            'gender' => [
-                'description' => 'The patients gender',
-                'example'     => 'Undisclosed',
-            ],
-            'address' => [
-                'description' => 'The patients address',
-                'example'     => '14 Panorama Dr, Mildura',
-            ],
-            'birth_place_code' => [
-                'description' => 'The patients birth place code',
-                'example'     => 'AU242',
-            ],
-            'country_of_birth' => [
-                'description' => 'The patients birth country',
-                'example'     => 'Australia',
-            ],
-            'birth_state' => [
-                'description' => 'The patients birth state',
-                'example'     => 'Victoria',
-            ],
-            'allergies' => [
-                'description' => 'The patients allergies',
-                'example'     => 'Allergic rhinitis (hay fever), eczema, hives',
-            ],
-            'aborginality' => [
-                'description' => 'Does the patient identify as an Aboriginal or Torres Strait Islander',
-                'example'     => '1',
-            ],
-            'occupation' => [
-                'description' => 'The patients occupation',
-                'example'     => 'Student',
-            ],
-            'height' => [
-                'description' => 'The patients reported height (cm)',
-                'example'     => '175',
-            ],
-            'weight' => [
-                'description' => 'The patients reported weight (kg)',
-                'example'     => '96',
-            ],
-            'appointment_confirm_method' => [
-                'description' => 'The patients preferred appointment confirm method',
-                'example'     => 'SMS',
-            ],
-            'send_recall_method' => [
-                'description' => 'The patients preferred send recall confirm method',
-                'example'     => 'MAIL',
-            ],
-            'kin_name' => [
-                'description' => 'The patients next of kin name',
-                'example'     => 'Josh Doe',
-            ],
-            'kin_relationship' => [
-                'description' => 'The patients next of kin relationship',
-                'example'     => 'Father',
-            ],
-            'kin_phone_number' => [
-                'description' => 'The patients next of kin phone number',
-                'example'     => '04-8234-2342',
-            ],
-            'clinical_alerts' => [
-                'description' => 'The patient clinical alerts',
-                'example'     => 'Jessica is permanently ina wheelchair',
-            ],
-          
+            'title'                      => 'required|string',
+            'first_name'                 => 'required|string',
+            'last_name'                  => 'required|string',
+            'date_of_birth'              => 'required|date_format:Y-m-d',
+            'contact_number'             => 'required|string',
+            'gender'                     => 'required|string',
+            'address'                    => 'required|string',
+            'marital_status'             => 'required|string',
+            'birth_place_code'           => 'required|string',
+            'country_of_birth'           => 'required|string',
+            'birth_state'                => 'required|string',
+            'allergies'                  => 'required|string',
+            'aborginality'               => 'required|boolean',
+            'occupation'                 => 'required|string',
+            'height'                     => 'required|numeric',
+            'weight'                     => 'required|numeric',
+            'appointment_confirm_method' => ['required', new Enum(NotificationMethod::class)],
+            'send_recall_method'         => ['required', new Enum(NotificationMethod::class)],
+            'kin_name'                   => 'required|string',
+            'kin_relationship'           => 'required|string',
+            'kin_phone_number'           => 'required|string',
+            'clinical_alerts'            => 'nullable|string',
         ];
     }
 }

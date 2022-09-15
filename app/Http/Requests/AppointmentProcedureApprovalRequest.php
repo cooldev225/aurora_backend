@@ -2,8 +2,13 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\ProcedureApprovalStatus;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
+/**
+* @bodyParam perocedure_approval_status   enum   required   The status of the appointment procedures approval   Example: NOT_RELEVANT
+*/
 class AppointmentProcedureApprovalRequest extends FormRequest
 {
     /**
@@ -13,12 +18,7 @@ class AppointmentProcedureApprovalRequest extends FormRequest
      */
     public function authorize()
     {
-        $appointment = $this->route('appointment');
-        $organization_id = auth()->user()->organization_id;
-        if ($appointment->organization_id == $organization_id) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
@@ -29,22 +29,7 @@ class AppointmentProcedureApprovalRequest extends FormRequest
     public function rules()
     {
         return [
-            'procedure_approval_status' => 'in:NOT_ASSESSED,NOT_APPROVED,APPROVED,CONSULT_REQUIRED',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'procedure_approval_status'  => [
-                'description' => '',
-                'example'     => '',
-            ],
+            'procedure_approval_status' => ['required', new Enum(ProcedureApprovalStatus::class)],
         ];
     }
 }

@@ -37,7 +37,6 @@ class OrganizationCreateRequest extends FormRequest
     public function rules()
     {
         return [
-
             'name'                => 'required',
             'max_clinics'         => 'required|numeric',
             'max_employees'       => 'required|numeric',
@@ -50,37 +49,6 @@ class OrganizationCreateRequest extends FormRequest
             'first_name'          => 'required|string',
             'last_name'           => 'required|string',
             'mobile_number'       => 'required|string',
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            'name' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'username' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'email' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'first_name' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'last_name' => [
-                'description' => '',
-                'example'     => '',
-            ],
         ];
     }
 }

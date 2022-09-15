@@ -4,7 +4,6 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-
 /**
 * @bodyParam name                 string  required  The name of the appointment type                                Example: Colonoscopy
 * @bodyParam type                 enum    required  The type of the appointment type ('PROCEDURE','CONSULT')        Example: PROCEDURE
@@ -23,6 +22,7 @@ class AppointmentTypeRequest extends FormRequest
      */
     public function authorize()
     {
+        return true;
     }
 
     /**
@@ -33,9 +33,9 @@ class AppointmentTypeRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'                  => 'required',
+            'name'                  => 'required|string',
             'type'                  => 'required|in:CONSULTATION,PROCEDURE',
-            'color'                 => 'required',
+            'color'                 => 'required|string',
             'anesthetist_required'  => 'required|boolean',
             'invoice_by'            => 'required|in:CLINIC,SPECIALIST',
             'arrival_time'          => 'required',

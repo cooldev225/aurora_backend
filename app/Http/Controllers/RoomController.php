@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Response;
 use App\Models\Room;
+use App\Models\Clinic;
+use Illuminate\Http\Response;
 use App\Http\Requests\RoomRequest;
 
 class RoomController extends Controller
@@ -14,7 +15,7 @@ class RoomController extends Controller
      * @param  $clinic_id
      * @return \Illuminate\Http\Response
      */
-    public function index($clinic_id)
+    public function index(Clinic $clinic)
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', Room::class);
@@ -22,7 +23,7 @@ class RoomController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $room = Room::where('organization_id', $organization_id)
-            ->where('clinic_id', $clinic_id)
+            ->where('clinic_id', $clinic->id)
             ->get();
 
         return response()->json(
@@ -41,17 +42,15 @@ class RoomController extends Controller
      * @param  $clinic_id
      * @return \Illuminate\Http\Response
      */
-    public function store(RoomRequest $request, $clinic_id)
+    public function store(RoomRequest $request, Clinic $clinic)
     {
         // Verify the user can access this function via policy
         $this->authorize('create', Room::class);
 
-        $organization_id = auth()->user()->organization_id;
-
         $room = Room::create([
-            'name' => $request->name,
-            'organization_id' => $organization_id,
-            'clinic_id' => $clinic_id,
+            ...$request->validated(),
+            'organization_id' => auth()->user()->organization_id,
+            'clinic_id' => $clinic->id,
         ]);
 
         return response()->json(
@@ -71,18 +70,12 @@ class RoomController extends Controller
      * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function update(RoomRequest $request, $clinic_id, Room $room)
+    public function update(RoomRequest $request, Clinic $clinic, Room $room)
     {
         // Verify the user can access this function via policy
         $this->authorize('update', $room);
 
-        $organization_id = auth()->user()->organization_id;
-
-        $room->update([
-            'name' => $request->name,
-            'organization_id' => $organization_id,
-            'clinic_id' => $clinic_id,
-        ]);
+        $room->update($request->validated());
 
         return response()->json(
             [
@@ -100,7 +93,7 @@ class RoomController extends Controller
      * @param  \App\Models\Room  $room
      * @return \Illuminate\Http\Response
      */
-    public function destroy($clinic_id, Room $room)
+    public function destroy(Clinic $clinic, Room $room)
     {
         // Verify the user can access this function via policy
         $this->authorize('delete', $room);

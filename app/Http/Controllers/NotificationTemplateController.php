@@ -49,11 +49,7 @@ class NotificationTemplateController extends Controller
 
         $notificationTemplate = NotificationTemplate::create([
             'organization_id' => $organization_id,
-            'type' => $request->type,
-            'days_before' => $request->days_before,
-            'subject' => $request->subject,
-            'sms_template' => $request->sms_template,
-            'email_print_template' => $request->email_print_template,
+            ...$request->validated(),
         ]);
 
         return response()->json(
@@ -79,14 +75,7 @@ class NotificationTemplateController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $notificationTemplate);
 
-        $notificationTemplate->update([
-            'organization_id' => auth()->user()->organization_id,
-            'type' => $request->type,
-            'days_before' => $request->days_before,
-            'subject' => $request->subject,
-            'sms_template' => $request->sms_template,
-            'email_print_template' => $request->email_print_template,
-        ]);
+        $notificationTemplate->update($request->validated());
 
         return response()->json(
             [

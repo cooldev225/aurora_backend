@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\AttendanceStatus;
+use App\Http\Requests\AppointmentAttendanceStatusCheckInRequest;
 use Illuminate\Http\Response;
 use App\Models\Appointment;
 use Carbon\Carbon;
@@ -16,7 +17,7 @@ class AppointmentAttendanceStatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function checkIn(Request $request, Appointment $appointment)
+    public function checkIn(AppointmentAttendanceStatusCheckInRequest $request, Appointment $appointment)
     {
         // Check if the user is authorized to update the models
         $this->authorize('update', $appointment);
@@ -53,7 +54,7 @@ class AppointmentAttendanceStatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function checkOut(Request $request, Appointment $appointment)
+    public function checkOut(Appointment $appointment)
     {
         // Check if the user is authorized to update the models
         $this->authorize('update', $appointment);

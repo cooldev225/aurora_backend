@@ -4,6 +4,19 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+* @bodyParam name                               string   required   The name of the clinic                               Example: Example Practice
+* @bodyParam email                              string   required   The Email of the clinic                              Example: practice@test.com
+* @bodyParam phone_number                       string   required   The Phone number of the clinic                       Example: 04-1234-5678
+* @bodyParam address                            string   required   The address of the clinic                            Example: 123 Example St, Melbourne
+* @bodyParam fax_number                         string   required   The fax number of the clinic                         Example: 03-4321-8765
+* @bodyParam hospital_provider_number           string   required   The provider number of the clinic                    Example: 12345678F
+* @bodyParam VAED_number                        string   required   The VAED number of the clinic                        Example: 123456
+* @bodyParam document_letter_header             string   required   The document header of the clinic                    Example: Example Practice
+* @bodyParam document_letter_footer             string   required   The document footer of the clinic                    Example: Example Practice
+* @bodyParam specimen_collection_point_number   string   required   The specimen collection point number of the clinic   Example: 123456
+* @bodyParam lspn_id                            int      required   The LSPN id of the clinic                            Example: 123456
+*/
 class ClinicRequest extends FormRequest
 {
     /**
@@ -24,64 +37,17 @@ class ClinicRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'                      => 'required',
-            'email'                     => 'required',
-            'phone_number'              => 'required',
-            'address'                   => 'required',
-            'fax_number'                => '',
-            'hospital_provider_number'  => '',
-            'VAED_number'               => '',
-            'document_letter_header'    => '',
-            'document_letter_footer'    => '',
-            'specimen_collection_point_number' => '',
-            'lspn_id'                   => '',    
-        ];
-    }
-
-    /**
-     * Get the description of body parameters.
-     *
-     * @return array<string, array>
-     */
-    public function bodyParameters()
-    {
-        return [
-            "name" => [
-                'description' => 'The name of the clinic',
-                'example'     => "Frankston Practice",
-            ],
-            'email' => [
-                'description' => 'The Email of the clinic',
-                'example'     => 'reception@franksonpracktice.com.au',
-            ],
-            'phone_number' => [
-                'description' => 'The Phone number of the clinic',
-                'example'     => '04-3456-2342',
-            ],
-            'hospital_provider_number' => [
-                'description' => 'The provider number of the clinic',
-                'example'     => '31452352F',
-            ],
-            'VAED_number' => [
-                'description' => 'The VAED number of the clinic',
-                'example'     => '234234',
-            ],
-            'specimen_collection_point_number' => [
-                'description' => 'The specimen collection point number of the clinic',
-                'example'     => '234234',
-            ],
-            'lspn_id' => [
-                'description' => 'The LSPN id of the clinic',
-                'example'     => '234234',
-            ],
-            'document_header' => [
-                'description' => 'The document header of the clinic',
-                'example'     => '234234',
-            ],
-            'document_footer' => [
-                'description' => 'The document footer of the clinic',
-                'example'     => '234234',
-            ],
+            'name'                             => 'required|string',
+            'email'                            => 'required|email',
+            'phone_number'                     => 'required|string',
+            'address'                          => 'required|string',
+            'fax_number'                       => 'required|string',
+            'hospital_provider_number'         => 'required|string',
+            'VAED_number'                      => 'required|string',
+            'document_letter_header'           => 'required|string',
+            'document_letter_footer'           => 'required|string',
+            'specimen_collection_point_number' => 'required|string',
+            'lspn_id'                          => 'required|numeric',
         ];
     }
 }

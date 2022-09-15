@@ -23,11 +23,7 @@ class AppointmentCollectingPersonController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $appointment);
 
-        $appointment->update([
-            'collecting_person_name'                 => $request->collecting_person_name,
-            'collecting_person_phone'                => $request->collecting_person_phone,
-            'collecting_person_alternate_contact'    => $request->collecting_person_alternate_contact,
-        ]);
+        $appointment->update($request->validated());
 
         return response()->json(
             [
