@@ -24,7 +24,7 @@ class PreAdmissionSectionRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
+            'sections' => 'required',
         ];
     }
 
@@ -36,9 +36,7 @@ class PreAdmissionSectionRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'title' => [
-                'description' => '',
-                'example'     => '',
+            'sections' => [
             ],
         ];
     }
