@@ -26,7 +26,8 @@ class PatientController extends Controller
 
         $params = $request->validated();
         
-        $patients = Patient::whereOrganizationId(auth()->user()->organization_id);
+        $patients = Organization::find(auth()->user()->organization_id)
+                                ->patients();
 
         foreach ($params as $column => $param) {
             if (!empty($param)) {
