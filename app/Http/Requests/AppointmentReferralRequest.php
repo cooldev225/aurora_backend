@@ -30,7 +30,7 @@ class AppointmentReferralRequest extends FormRequest
     public function rules()
     {
         return [
-            'referring_doctor_id'   => 'required|integer|exists:referring_doctors',
+            'referring_doctor_id'   => 'required|integer|exists:referring_doctors,id',
             'referral_date'         => 'required|date',
             'referral_duration'     => 'required|integer',
             'file'                  => 'mimes:pdf',

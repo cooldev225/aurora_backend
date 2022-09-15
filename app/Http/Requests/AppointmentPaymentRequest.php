@@ -32,7 +32,7 @@ class AppointmentPaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'appointment_id'    => 'required|integer|exists:appointments',
+            'appointment_id'    => 'required|integer|exists:appointments,id',
             'amount'            => 'required|numeric',
             'payment_type'      => 'required|string',
             'is_deposit'        => 'required|boolean',

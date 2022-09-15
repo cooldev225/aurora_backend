@@ -39,9 +39,9 @@ class PatientBillingRequest extends FormRequest
     public function rules()
     {
         return [
-            'medicare_number'               => 'required|numeric',
-            'medicare_reference_number'     => 'required|numeric',
-            'medicare_expiry_date'          => 'required|date',
+            'medicare_number'               => 'numeric',
+            'medicare_reference_number'     => 'numeric',
+            'medicare_expiry_date'          => 'date',
 
             'pension_card_number'           => 'numeric',
             'pension_card_date'             => 'date',
@@ -52,7 +52,7 @@ class PatientBillingRequest extends FormRequest
             'health_care_card_number'       => 'numeric',
             'health_care_card_date'         => 'date',
 
-            'health_fund_id'                => 'numeric|exists:health_funds',
+            'health_fund_id'                => 'numeric|exists:health_funds,id',
             'health_fund_membership_number' => 'numeric',
             'health_fund_reference_number'  => 'numeric', 
             'health_fund_expiry_date'       => 'date',

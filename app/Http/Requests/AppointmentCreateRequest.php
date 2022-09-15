@@ -49,8 +49,6 @@ use Illuminate\Validation\Rules\Enum;
 * @bodyParam referral_duration               int        required   The duration the referral is valid                                     Example: 3
 * @bodyParam file                            file                  The referral file
 *
-* @bodyParam pre_admission_answers           string[]   required   The patients answers to the pre-admission questions
-*
 * @bodyParam clinic_id                       int        required   The ID of the clinic where the appointment is occurring
 * @bodyParam appointment_type_id             int        required   The ID of the appointment type
 * @bodyParam specialist_id                   int        required   The ID of the specialist attending the appointment
@@ -59,6 +57,8 @@ use Illuminate\Validation\Rules\Enum;
 * @bodyParam time_slot                       string     required   The time slot of the appointment
 * @bodyParam note                            string     required   Notes for the appointment
 * @bodyParam charge_type                     enum       required   The charge type for the appointment
+* @bodyParam anesthetic_answers              string[]   required   The answers to anesthetic questions
+* @bodyParam anesthetic_questions            bool       required   If anesthetic questions were provided
 */
 class AppointmentCreateRequest extends FormRequest
 {
@@ -79,27 +79,26 @@ class AppointmentCreateRequest extends FormRequest
      */
     public function rules()
     {
-        // The rules from the patient request are also necessary for this
-        // however they are already included in the pre-admission request
-        // so have been omitted here
-
         $patient_billing_request = new PatientBillingRequest();
-        $appointment_referral_request = new AppointmentReferralRequest();
-        $appointment_preadmission_request = new AppointmentPreAdmissionRequest();
+        $patient_request = new PatientRequest();
 
         return [
-            'clinic_id'                 => 'numeric|exists:clinics',
-            'appointment_type_id'       => 'required|numeric|exists:appointment_types',
-            'specialist_id'             => 'required|numeric|exists:users',
-            'date'                      => 'required|date',
-            'arrival_time'              => 'required|date',
-            'time_slot'                 => 'required|array',
-            'note'                      => 'nullable|string',
-            'charge_type'               => [new Enum(ChargeType::class)],
+            'clinic_id'            => 'numeric|exists:clinics,id',
+            'appointment_type_id'  => 'required|numeric|exists:appointment_types,id',
+            'specialist_id'        => 'required|numeric|exists:users,id',
+            'date'                 => 'required|date',
+            'arrival_time'         => 'required|string',
+            'time_slot'            => 'required|array',
+            'note'                 => 'nullable|string',
+            'charge_type'          => [new Enum(ChargeType::class)],
+            'anesthetic_answers'   => 'required_if:anesthetic_questions,true|array',
+            'anesthetic_questions' => 'required|boolean',
+            'referring_doctor_id'  => 'nullable|integer|exists:referring_doctors,id',
+            'referral_date'        => 'nullable|date',
+            'referral_duration'    => 'nullable|integer',
 
             ...$patient_billing_request->rules(),
-            ...$appointment_referral_request->rules(),
-            ...$appointment_preadmission_request->rules(),
+            ...$patient_request->rules(),
         ];
     }
 }

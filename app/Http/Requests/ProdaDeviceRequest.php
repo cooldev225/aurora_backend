@@ -34,7 +34,7 @@ class ProdaDeviceRequest extends FormRequest
             'device_name'   => 'required',
             'key_expiry'    => 'required|date',
             'device_expiry' => 'required|date',
-            'clinic_id'     => 'required|numeric|exists:clinics',
+            'clinic_id'     => 'required|numeric|exists:clinics,id',
             'otac'          => 'required|numeric',
         ];
     }

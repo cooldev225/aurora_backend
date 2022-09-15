@@ -31,8 +31,8 @@ class PatientRecallRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id'        =>  'required|numeric|exists:patients',
-            'appointment_id'    =>  'required|numeric|exists:appointments',
+            'patient_id'        =>  'required|numeric|exists:patients,id',
+            'appointment_id'    =>  'required|numeric|exists:appointments,id',
             'time_frame'        =>  'required|numeric',
             'reason'            =>  'required|string',
         ];

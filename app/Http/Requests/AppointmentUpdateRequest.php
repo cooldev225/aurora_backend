@@ -79,8 +79,8 @@ class AppointmentUpdateRequest extends FormRequest
         $appointment_referral_request = new AppointmentReferralRequest();
 
         return [
-            'room_id'                   => 'nullable|numeric|exists:rooms',
-            'appointment_type_id'       => 'required|numeric|exists:appointment_types',
+            'room_id'                   => 'nullable|numeric|exists:rooms,id',
+            'appointment_type_id'       => 'required|numeric|exists:appointment_types,id',
             'time_slot'                 => 'required|array',
             'note'                      => 'nullable|string',
             'charge_type'               => [new Enum(ChargeType::class)],

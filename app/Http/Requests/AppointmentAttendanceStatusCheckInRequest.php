@@ -29,7 +29,7 @@ class AppointmentAttendanceStatusCheckInRequest extends FormRequest
     public function rules()
     {
         return [
-            'referring_doctor_id' => 'nullable|required_with:referral_date,referral_duration|exists:referring_doctors',
+            'referring_doctor_id' => 'nullable|required_with:referral_date,referral_duration|exists:referring_doctors,id',
             'referral_date'       => 'nullable|required_with:referring_doctor_id,referral_duration|date',
             'referral_duration'   => 'nullable|required_with:referring_doctor_id,referral_date|numeric',
         ];
