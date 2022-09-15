@@ -25,7 +25,8 @@ class OrganizationController extends Controller
 
         return response()->json(
             [
-                'message' => 'Not Implemented',
+                'message' => 'All Organizations',
+                'data'    => Organization::all(),
             ],
             Response::HTTP_OK
         );

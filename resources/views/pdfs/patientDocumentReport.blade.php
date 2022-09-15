@@ -1,12 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ $patient->full_name }}</title>
+    <title></title>
 </head>
 <body>
-PATIENT DOCUMENT REPORT
-
-
 
 </body>
 </html>

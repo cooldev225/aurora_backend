@@ -19,21 +19,24 @@ class FileController extends Controller
      */
 
     public function show(FileRequest $request) {
-
         $folder = "";
         if($request->type === "REFERRAL"){
-            $folder = "appointment_referral/";
+            $folder = "files/appointment_referral/";
         }else if($request->type === "PRE_ADMISSION"){
-            $folder = "appointment_pre_admission/";
+            $folder = "files/appointment_pre_admission/";
         }else if($request->type === "PATIENT_DOCUMENT"){
-            $folder = "patient_documents/";
-        } 
-
+            $folder = "files/patient_documents/";
+        }
        
-        $path = 'files/' . $folder . $request->path;
-        return response(Storage::disk('local')->get($path), 200)
-              ->header('Content-Type', 'application/pdf');
+        $path = $folder . $request->path;
+        $file = Storage::disk('local')->get($path);
+        if(Storage::mimeType($file)  === 'pdf'){
+            return response($file, 200)
+            ->header('Content-Type', 'application/pdf');
+        }else{
+            return response($file, 200)
+            ->header('Content-Type', 'image/png');
+        }  
     }
-
 
 }

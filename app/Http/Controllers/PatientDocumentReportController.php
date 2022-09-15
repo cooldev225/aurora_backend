@@ -7,6 +7,7 @@ use App\Enum\DocumentType;
 use App\Http\Requests\PatientDocumentReportStoreRequest;
 use App\Http\Requests\PatientDocumentReportUpdateRequest;
 use App\Http\Requests\PatientDocumentReportUploadRequest;
+use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientReport;
@@ -30,6 +31,7 @@ class PatientDocumentReportController extends Controller
         $file_type = 'PDF';
 
         $pdfData = [
+            'organization'     => auth()->user()->organization,
             'patient'     => $patient,
             'appointment' => Appointment::find('appointment_id'),
             'specialist'  => auth()->user(),
@@ -37,11 +39,11 @@ class PatientDocumentReportController extends Controller
         ];
 
         $pdf = PDF::loadView('pdfs/patientDocumentReport', $pdfData);
-        $file_name = 'patient_report' . $patient->id . '_' . time() . '.pdf';
+        $file_name = 'patient_report_' . $patient->id . '_' . time() . '.pdf';
         $file_path = '/files/patient_documents/' . $file_name;
         Storage::put($file_path, $pdf->output());
 
-        $patientDocument = PatientDocument::create([
+        PatientDocument::create([
             'patient_id'        => $patient->id,
             'appointment_id'    => $request->appointment_id,
             'specialist_id'     => $request->specialist_id,
@@ -50,7 +52,7 @@ class PatientDocumentReportController extends Controller
             'file_type'         => $file_type,
             'origin'            => DocumentOrigin::CREATED,
             'created_by'        => auth()->user()->id,
-            'file_path'         => $file_path,
+            'file_path'         => $file_name,
             'is_updatable'      => true
         ]);
 
@@ -63,6 +65,7 @@ class PatientDocumentReportController extends Controller
             Response::HTTP_CREATED
         );
     }
+
 
     /**
      * [Patient Document Report] - Update

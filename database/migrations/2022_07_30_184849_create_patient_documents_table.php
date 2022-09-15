@@ -30,10 +30,10 @@ return new class extends Migration
             ])->default('LETTER');
 
             $table->enum('file_type', [
-                'IMAGE',
+                'PNG',
                 'PDF',
                 'OTHER',
-            ])->default('IMAGE');
+            ])->default('OTHER');
 
             $table->enum('origin', [
                 'CREATED',
