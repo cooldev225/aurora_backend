@@ -2,21 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\FileType;
 use Carbon\Carbon;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Constants\FileType;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
-use App\Http\Controllers\Utils\FileUtil;
-
 use App\Http\Requests\AppointmentReferralRequest;
 use App\Http\Requests\AppointmentReferralFileRequest;
 
 class AppointmentReferralController extends Controller
 {
+    protected $filepath;
+
+    public function __construct()
+    {
+        // Set the associated filepath for uploads in this controller
+        $this->filepath = config('filesystem.filepaths.referral_file');
+    }
 
     /**
      * [Referral] - Update
@@ -42,12 +46,9 @@ class AppointmentReferralController extends Controller
         ]);
 
         if ($file = $request->file('file')) {
-
-            $path = FileUtil::getStoragePath(FileType::$ReferralFile);
-
-            $file_name = FileUtil::getFileName(FileType::$ReferralFile, $appointmentReferral->id, $file->extension());
+            $file_name = getFileName(FileType::REFERRAL, $appointmentReferral->id, $file->extension());
             
-            $file->storeAs($path, $file_name);
+            $file->storeAs($this->filepath, $file_name);
 
             $appointmentReferral->referral_file = $file_name;
             $appointmentReferral->save();
