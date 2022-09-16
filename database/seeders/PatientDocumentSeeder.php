@@ -3,11 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Appointment;
-use App\Models\PatientClinicalNote;
 use App\Models\PatientDocument;
-use App\Models\PatientLetter;
-use App\Models\PatientReport;
-use App\Models\PatientSpecialistAudio;
 use Illuminate\Database\Seeder;
 
 class PatientDocumentSeeder extends Seeder
@@ -25,8 +21,9 @@ class PatientDocumentSeeder extends Seeder
         foreach ($appointments as $appointment) {
             PatientDocument::factory(2)->create([
                 'patient_id'        =>  $appointment->patient_id,
+                'organization_id'   =>  $appointment->organization_id,
                 'appointment_id'    =>  $appointment->id,
-                'specialist_id'     =>  $appointment->specialist->id,
+                'specialist_id'     =>  $appointment->specialist_id,
             ]);
         }
 

@@ -29,6 +29,7 @@ class PatientDocumentRequest extends FormRequest
             'appointment_id'=> 'numeric',
             'specialist_id' => 'numeric',
             'file'          => 'required',
+            'is_seen'       => 'boolean',
         ];
     }
 

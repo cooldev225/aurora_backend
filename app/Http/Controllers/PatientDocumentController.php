@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PatientDocumentRequest;
 use App\Models\Patient;
 use App\Models\PatientDocument;
-use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
 class PatientDocumentController extends Controller
