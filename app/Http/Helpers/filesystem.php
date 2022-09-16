@@ -25,3 +25,15 @@ if (!function_exists('getModelIdFromFilename')) {
         return $file_parts[1];
     }
 }
+
+if (!function_exists('getUserOrganizationFilePath')) {
+    function getUserOrganizationFilePath($prefix = 'files') {
+        $user = auth()->user();
+
+        if (!$user) {
+            return null;
+        }
+
+        return "{$prefix}/{$user->organization_id}";
+    }
+}

@@ -14,14 +14,6 @@ use App\Http\Requests\AppointmentReferralFileRequest;
 
 class AppointmentReferralController extends Controller
 {
-    protected $filepath;
-
-    public function __construct()
-    {
-        // Set the associated filepath for uploads in this controller
-        $this->filepath = config('filesystem.filepaths.referral_file');
-    }
-
     /**
      * [Referral] - Update
      *
@@ -47,8 +39,18 @@ class AppointmentReferralController extends Controller
 
         if ($file = $request->file('file')) {
             $file_name = getFileName(FileType::REFERRAL, $appointmentReferral->id, $file->extension());
+            $filepath = getUserOrganizationFilePath();
+
+            if (!$filepath) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
             
-            $file->storeAs($this->filepath, $file_name);
+            $file->storeAs($filepath, $file_name);
 
             $appointmentReferral->referral_file = $file_name;
             $appointmentReferral->save();

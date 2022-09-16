@@ -5,18 +5,16 @@ namespace App\Http\Controllers;
 use App\Enum\FileType;
 use Illuminate\Http\Response;
 use App\Http\Requests\FileRequest;
-use Illuminate\Support\Facades\Log;
-use App\Models\AppointmentPreAdmission;
-use App\Models\AppointmentReferral;
-use App\Models\PatientDocument;
 use Illuminate\Support\Facades\Storage;
 
 
 class FileController extends Controller
 {
+    protected $files = [FileType::REFERRAL, FileType::PRE_ADMISSION, FileType::PATIENT_DOCUMENT];
+    protected $images = [];
 
     /**
-     * [Referral] - File
+     * Return a particular file for viewing
      *
      * @group Appointments
      * @param  \App\Http\Requests\FileRequest  $request
@@ -38,38 +36,33 @@ class FileController extends Controller
 
         // Get enum associated with the submitted file type
         $file_type = $file_type->getConstant($request->type);
-        $file_prefix = $file_type->value;
 
-        $folder = config("filesystems.filepaths.{$file_prefix}");
-
-        $model_id = getModelIdFromFilename($file_prefix, $request->path);
-
-        switch ($file_type) {
-            case FileType::REFERRAL:
-                $model = AppointmentReferral::find($model_id);
-                $file_owner = $model->patient()->first();
-                break;
-            case FileType::PRE_ADMISSION:
-                $model = AppointmentPreAdmission::find($model_id);
-                $file_owner = $model->patient()->first();
-                break;
-            case FileType::PATIENT_DOCUMENT:
-                $model = PatientDocument::find($model_id);
-                $file_owner = $model->patient()->first();
+        if (in_array($file_type, $this->files)) {
+            $folder = getUserOrganizationFilePath();
         }
 
-        // Ensure the person making this request can view this document
-        $this->authorize('view', $file_owner);
-       
-        $path = $folder . $request->path;
-        $file = Storage::disk('local')->get($path);
-        if(Storage::mimeType($file)  === 'pdf'){
-            return response($file, 200)
-            ->header('Content-Type', 'application/pdf');
-        }else{
-            return response($file, 200)
-            ->header('Content-Type', 'image/png');
-        }  
-    }
+        if (in_array($file_type, $this->images)) {
+            $folder = getUserOrganizationFilePath('images');
+        }
 
+        $path = "{$folder}/{$request->path}";
+        $file = Storage::disk('local')->get($path);
+
+        if (!$file) {
+            // If there's no file, return a 404.
+            // Likely this is because the user doesn't have access
+            return response()->json(
+                [
+                    'message'   => 'Could not find file',
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if(Storage::mimeType($file)  === 'pdf') {
+            return response($file, Response::HTTP_OK)->header('Content-Type', 'application/pdf');
+        }
+
+        return response($file, Response::HTTP_OK)->header('Content-Type', 'image/png');
+    }
 }
