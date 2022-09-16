@@ -48,8 +48,8 @@ class PaymentController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('view', Appointment::class);
         $this->authorize('viewAny', AppointmentPayment::class);
-      
-        $appointmentType = $appointment->type;
+
+        $appointmentType = $appointment->appointment_type;
 
         $paymentData = array(
             'payment_tier_1'    => $appointmentType->payment_tier_1,
@@ -89,7 +89,7 @@ class PaymentController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('create', AppointmentPayment::class);
- 
+
         $payment = AppointmentPayment::create([
             $request->validated(),
             'confirmed_by' => auth()->user()->id,
