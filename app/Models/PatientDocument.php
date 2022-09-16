@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,6 +14,18 @@ class PatientDocument extends Model
         'document_type', 'created_by', 'file_path', 'is_updatable',
         'origin'
     ];
+
+    protected $appends = [
+        'document_info'
+    ];
+
+    public function getDocumentInfoAttribute(){
+        return [
+            'patient' => $this->patient->full_name . ' (' . Carbon::parse($this->patient->date_of_birth)->format('d-m-Y'). ')',
+            'specialist' => $this->specialist->full_name,
+            'appointment' => $this->appointment->aus_formatted_date . ' ' . $this->appointment->formatted_appointment_time . ' @ ' . $this->appointment->clinic->name,
+        ];
+    }
 
     /**
      * Return Patient
@@ -35,7 +48,7 @@ class PatientDocument extends Model
      */
     public function specialist()
     {
-        return $this->belongsTo(Specialist::class);
+        return $this->belongsTo(User::class);
     }
 
     /**

@@ -37,7 +37,8 @@ use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrganizationSettingsController;
 use App\Http\Controllers\PatientDocumentController;
-use App\Http\Controllers\SpecialistMessageController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\PatientDocumentReportController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Requests\FileRequest;
 use App\Models\PatientBilling;
@@ -121,9 +122,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/recalls/{patient}',      [PatientRecallController::class, 'index']);
 
         Route::prefix('documents')->group(function () {
-            Route::get('/{patient}',    [PatientDocumentController::class, 'index']);
-            Route::post('/{patient}',   [PatientDocumentController::class, 'store']);
-            Route::post('report/{patient}',    [PatientDocumentController::class, 'index']);
+            Route::post('/{patient}',         [PatientDocumentController::class, 'store']);
+            Route::post('report/{patient}',   [PatientDocumentReportController::class, 'store']);
         });
     });
 
@@ -167,7 +167,7 @@ Route::middleware(['auth'])->group(function () {
    
     Route::get('/user-appointments',               [UserAppointmentController::class, 'index']);
 
-    Route::get('/specialist/messages',               [SpecialistMessageController::class, 'index']);
+    Route::get('/documents',                       [DocumentController::class, 'index']);
 
 
     Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);
