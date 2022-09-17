@@ -83,7 +83,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Return Organization
+     * Return hrmUserBaseSchedules
      */
     public function hrmUserBaseSchedules()
     {
@@ -262,7 +262,7 @@ class User extends Authenticatable implements JWTSubject
             foreach ($attributes['hrm_user_base_schedules'] as $schedule) {
                 $schedule = (object) $schedule;
                 $scheduleObj = null;
-                if (isset($schedule->id)) {
+                if (isset($schedule->id) && $schedule->id!=null) {
                     $scheduleObj = HRMUserBaseSchedule::find($schedule->id);
                 }
                 if ($scheduleObj == null) {
