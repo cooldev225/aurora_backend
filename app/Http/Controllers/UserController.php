@@ -2,9 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\PasswordUpdateRequest;
-use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserRequest;
 use App\Mail\NewEmployee;
 use Validator;
@@ -15,6 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use App\Http\Requests\AdminRequest;
 
 class UserController extends Controller
 {
@@ -29,11 +27,17 @@ class UserController extends Controller
         $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
 
         $organization = auth()->user()->organization;
-
+        $users = User::where(
+            'organization_id',
+            $organization->id
+        )
+            ->with('hrmUserBaseSchedules')
+            ->get();
         return response()->json(
             [
                 'message' => 'Employee List',
-                'data' => $organization->users,
+                //'data' => $organization->users,
+                'data' => $users,
             ],
             Response::HTTP_OK
         );
@@ -44,9 +48,22 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginRequest $request)
+    public function login(Request $request)
     {
-        $auth_params = $request->validated();
+        $validator = Validator::make($request->all(), [
+            'username' => 'string|min:2|max:100',
+            'email' => 'email',
+            'password' => 'required|string|min:6',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                $validator->errors(),
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        $auth_params = $validator->validated();
 
         if (empty($auth_params['email'])) {
             $user = User::where('username', $auth_params['username'])->first();
@@ -61,7 +78,7 @@ class UserController extends Controller
             }
         }
 
-        if (!($token = auth()->attempt($request->validated()))) {
+        if (!($token = auth()->attempt($validator->validated()))) {
             return response()->json(
                 ['error' => 'Unauthorized'],
                 Response::HTTP_UNAUTHORIZED
@@ -86,7 +103,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function verify_token()
+    public function verify_token(Request $request)
     {
         $user = auth()->user();
         $token = auth()->fromUser($user);
@@ -143,14 +160,14 @@ class UserController extends Controller
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function updateProfile(ProfileUpdateRequest $request)
+    public function updateProfile(Request $request)
     {
         $user = auth()->user();
 
         // Verify the user can access this function via policy
         $this->authorize('updateProfile', $user);
 
-        $user->update($request->safe()->except(['photo']));
+        $user->update($request->all());
 
         if ($file = $request->file('photo')) {
             $file_name =
@@ -194,8 +211,24 @@ class UserController extends Controller
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function changePassword(PasswordUpdateRequest $request)
+    public function changePassword(Request $request)
     {
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string|min:6',
+            'new_password' => 'required|string|min:6|different:old_password',
+            'confirm_password' => 'required|string|min:6|same:new_password',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(
+                [
+                    'success' => false,
+                    'errors' => $validator->errors(),
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
         if (!Hash::check($request->old_password, Auth::user()->password)) {
             return response()->json(
                 [
@@ -285,7 +318,7 @@ class UserController extends Controller
        /**
      * [Employee] - Store
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param  \App\Http\Requests\UserRequest  $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
@@ -304,7 +337,7 @@ class UserController extends Controller
                 $username = $first_name[0] . $last_name . $i;
             }
 
-        $raw_password = Str::random(14);    
+        $raw_password = Str::random(14);
 
         //Create New Employee
         $user = User::create([
@@ -314,12 +347,15 @@ class UserController extends Controller
             ...$request->validated()
         ]);
 
+        $this->update($request, $user);
+
         //Send An email to the user with their credentials and al link
         Mail::to($user->email)->send(new NewEmployee($user, $raw_password));
 
         return response()->json(
             [
                 'message' => 'User Created',
+                'data' => User::find($user->id)
             ],
             Response::HTTP_OK
         );
@@ -328,18 +364,28 @@ class UserController extends Controller
         /**
      * [Employee] - Update
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param  \App\Http\Requests\UserRequest  $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
         // Verify the user can access this function via policy
         $this->authorize('update', $user);
+        $organization_id = auth()->user()->organization_id;
 
+        $user = $user->update([
+            ...$request->validated(),
+            'organization_id' => $organization_id,
+            'mobile_number' => $request->mobile_number,
+            'address' => $request->address,
+            'type' => $request->type,
+            'hrm_user_base_schedules' => $request->hrm_user_base_schedules,
+        ]);
         return response()->json(
             [
-                'message' => 'User Update Not Implemented',
+                'message' => 'User updated',
+                'data' => $user,
             ],
             Response::HTTP_OK
         );
