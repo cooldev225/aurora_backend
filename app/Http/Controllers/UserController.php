@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\PasswordUpdateRequest;
+use App\Http\Requests\ProfileUpdateRequest;
 use App\Http\Requests\UserRequest;
 use App\Mail\NewEmployee;
 use Validator;
@@ -12,7 +15,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use App\Http\Requests\AdminRequest;
 
 class UserController extends Controller
 {
@@ -48,22 +50,9 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'username' => 'string|min:2|max:100',
-            'email' => 'email',
-            'password' => 'required|string|min:6',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(
-                $validator->errors(),
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
-        }
-
-        $auth_params = $validator->validated();
+        $auth_params = $request->validated();
 
         if (empty($auth_params['email'])) {
             $user = User::where('username', $auth_params['username'])->first();
@@ -78,7 +67,7 @@ class UserController extends Controller
             }
         }
 
-        if (!($token = auth()->attempt($validator->validated()))) {
+        if (!($token = auth()->attempt($request->validated()))) {
             return response()->json(
                 ['error' => 'Unauthorized'],
                 Response::HTTP_UNAUTHORIZED
@@ -103,7 +92,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function verify_token(Request $request)
+    public function verify_token()
     {
         $user = auth()->user();
         $token = auth()->fromUser($user);
@@ -160,14 +149,14 @@ class UserController extends Controller
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function updateProfile(Request $request)
+    public function updateProfile(ProfileUpdateRequest $request)
     {
         $user = auth()->user();
 
         // Verify the user can access this function via policy
         $this->authorize('updateProfile', $user);
 
-        $user->update($request->all());
+        $user->update($request->safe()->except(['photo']));
 
         if ($file = $request->file('photo')) {
             $file_name =
@@ -211,24 +200,8 @@ class UserController extends Controller
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function changePassword(Request $request)
+    public function changePassword(PasswordUpdateRequest $request)
     {
-        $validator = Validator::make($request->all(), [
-            'old_password' => 'required|string|min:6',
-            'new_password' => 'required|string|min:6|different:old_password',
-            'confirm_password' => 'required|string|min:6|same:new_password',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'errors' => $validator->errors(),
-                ],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
-        }
-
         if (!Hash::check($request->old_password, Auth::user()->password)) {
             return response()->json(
                 [
@@ -315,7 +288,7 @@ class UserController extends Controller
         );
     }
 
-       /**
+    /**
      * [Employee] - Store
      *
      * @param  \App\Http\Requests\UserRequest  $request
@@ -361,7 +334,7 @@ class UserController extends Controller
         );
     }
 
-        /**
+    /**
      * [Employee] - Update
      *
      * @param  \App\Http\Requests\UserRequest  $request

@@ -71,17 +71,17 @@ class OrganizationController extends Controller
         };
 
         $owner = User::create([
+            ...$request->safe()->only([
+                'email',
+                'first_name',
+                'last_name',
+            ]),
             'username'      => $code.'admin',
-            'email'         => $request->email,
-            'first_name'    => $request->first_name,
-            'last_name'     => $request->last_name,
             'password'      => Hash::make('paxxw0rd'),
             'raw_password'  => $request->password,
             'role_id'       => UserRole::ORGANIZATION_ADMIN,
             'mobile_number' => $request->mobile_number,
         ]);
-
-        
 
         $organization = Organization::create([
             'name'                      => $request->name,
@@ -119,16 +119,18 @@ class OrganizationController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $organization);
 
-        $organization->update([
-            'name'                      => $request->name,
-            'max_clinics'               => $request->max_clinics,
-            'max_employees'             => $request->max_employees,
-            'appointment_length'        => $request->appointment_length,
-            'start_time'                => $request->start_time,
-            'end_time'                  => $request->end_time,
-            'has_billing'               => $request->has_billing,
-            'has_coding'                => $request->has_coding,
-        ]);
+        $organization->update(
+            $request->safe()->only([
+                'name',
+                'max_clinics',
+                'max_employees',
+                'appointment_length',
+                'start_time',
+                'end_time',
+                'has_billing',
+                'has_coding',
+            ]
+        ));
 
         if ($file = $request->file('logo')) {
             $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
