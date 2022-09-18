@@ -258,7 +258,7 @@ class User extends Authenticatable implements JWTSubject
     {
         parent::update($attributes, $options);
         $arrID = [];
-        if(is_array($attributes['hrm_user_base_schedules'])){
+        if(array_key_exists('hrm_user_base_schedules', $attributes)){
             foreach ($attributes['hrm_user_base_schedules'] as $schedule) {
                 $schedule = (object) $schedule;
                 $scheduleObj = null;

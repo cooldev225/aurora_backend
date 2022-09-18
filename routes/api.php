@@ -38,6 +38,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrganizationSettingsController;
 use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAppointmentController;
+use App\Http\Controllers\UserProfileController;
 use App\Http\Requests\FileRequest;
 use App\Models\PatientBilling;
 
@@ -70,7 +71,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout',          [UserController::class, 'logout']);
     Route::post('/refresh',         [UserController::class, 'refresh']);
 
-    Route::post('/update-profile',  [UserController::class, 'updateProfile']);
+    Route::post('/update-profile',  [UserProfileController::class, 'update']);
     Route::get('/profile',          [UserController::class, 'profile']);
     Route::post('/change-password', [UserController::class, 'changePassword']);
 
