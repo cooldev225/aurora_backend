@@ -46,7 +46,7 @@ class PaymentController extends Controller
     public function show(Appointment $appointment)
     {
         // Verify the user can access this function via policy
-        $this->authorize('view', $appointment);
+        $this->authorize('view', [Appointment::class, $appointment]);
         $this->authorize('viewAny', AppointmentPayment::class);
 
         $appointmentType = $appointment->appointment_type;
