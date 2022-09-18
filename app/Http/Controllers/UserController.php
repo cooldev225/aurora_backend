@@ -345,15 +345,10 @@ class UserController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('update', $user);
-        $organization_id = auth()->user()->organization_id;
 
         $user = $user->update([
             ...$request->validated(),
-            'organization_id' => $organization_id,
-            'mobile_number' => $request->mobile_number,
-            'address' => $request->address,
-            'type' => $request->type,
-            'hrm_user_base_schedules' => $request->hrm_user_base_schedules,
+          'hrm_user_base_schedules' => $request->hrm_user_base_schedules,
         ]);
         return response()->json(
             [
