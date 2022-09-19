@@ -29,7 +29,7 @@ class Appointment extends Model
 
     public function getAusFormattedDateAttribute()
     {
-        return Carbon::parse($this->date)->format('d-m-Y'); 
+        return Carbon::parse($this->date)->format('d/m/Y'); 
     }
 
     public function getAppointmentTypeNameAttribute()
