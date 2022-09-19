@@ -2,19 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\PasswordUpdateRequest;
-use App\Http\Requests\ProfileUpdateRequest;
-use App\Http\Requests\UserRequest;
-use App\Mail\NewEmployee;
 use Validator;
-use Illuminate\Http\Response;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
+use App\Enum\FileType;
+use App\Mail\NewEmployee;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use App\Http\Requests\UserRequest;
+use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\PasswordUpdateRequest;
 
 class UserController extends Controller
 {
@@ -153,9 +154,8 @@ class UserController extends Controller
         $user->update($request->safe()->except(['photo']));
 
         if ($file = $request->file('photo')) {
-            $file_name =
-                'photo_' . $user->id . '_' . time() . '.' . $file->extension();
-            $photo_path = '/' . $file->storeAs('images/user', $file_name);
+            $file_name = generateFileName(FileType::USER_PHOTO, $user->id, $file->extension());
+            $photo_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
             $user->photo = $photo_path;
             $user->save();
         }

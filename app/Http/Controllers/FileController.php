@@ -10,7 +10,14 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    protected $images = [];
+    protected $images = [
+        FileType::CLINIC_HEADER,
+        FileType::CLINIC_FOOTER,
+        FileType::ORGANIZATION_LOGO,
+        FileType::ORGANIZATION_HEADER,
+        FileType::ORGANIZATION_FOOTER,
+        FileType::USER_PHOTO,
+];
 
     /**
      * Return a particular file for viewing
