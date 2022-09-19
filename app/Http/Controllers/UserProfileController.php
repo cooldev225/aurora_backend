@@ -15,7 +15,7 @@ class UserProfileController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function profile()
+    public function show()
     {
         return response()->json(
             $this->withBaseUrlForSingleUser(auth()->user())

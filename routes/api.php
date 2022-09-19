@@ -38,6 +38,7 @@ use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrganizationSettingsController;
 use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAppointmentController;
+use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Requests\FileRequest;
@@ -54,7 +55,7 @@ use App\Models\PatientBilling;
 |
 */
 
-Route::post('/login', [UserController::class, 'login']);
+Route::post('/login', [UserAuthenticationController::class, 'login']);
 
 ////////////////////////////////////////////////////////////////////////////////////
 // Appointment Pre Admission Routes (that don't require auth)
@@ -68,12 +69,12 @@ Route::middleware(['auth'])->group(function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Account & Auth Routes
-    Route::post('/verify_token',    [UserController::class, 'verify_token']);
-    Route::post('/logout',          [UserController::class, 'logout']);
-    Route::post('/refresh',         [UserController::class, 'refresh']);
+    Route::post('/verify_token',    [UserAuthenticationController::class, 'verify_token']);
+    Route::post('/logout',          [UserAuthenticationController::class, 'logout']);
+    Route::post('/refresh',         [UserAuthenticationController::class, 'refresh']);
 
     Route::post('/update-profile',  [UserProfileController::class, 'update']);
-    Route::get('/profile',          [UserController::class, 'profile']);
+    Route::get('/profile',          [UserProfileController::class, 'show']);
     Route::post('/change-password', [UserPasswordController::class, 'update']);
 
     ////////////////////////////////////////////////////////////////////////////////////
