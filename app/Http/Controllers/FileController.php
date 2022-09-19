@@ -10,7 +10,6 @@ use Illuminate\Support\Facades\Storage;
 
 class FileController extends Controller
 {
-    protected $files = [FileType::REFERRAL, FileType::PRE_ADMISSION, FileType::PATIENT_DOCUMENT];
     protected $images = [];
 
     /**
@@ -37,13 +36,7 @@ class FileController extends Controller
         // Get enum associated with the submitted file type
         $file_type = $file_type->getConstant($request->type);
 
-        if (in_array($file_type, $this->files)) {
-            $folder = getUserOrganizationFilePath();
-        }
-
-        if (in_array($file_type, $this->images)) {
-            $folder = getUserOrganizationFilePath('images');
-        }
+        $folder = getUserOrganizationFilePath(in_array($file_type, $this->images) ? 'images' : 'files');
 
         $path = "{$folder}/{$request->path}";
         $file = Storage::disk('local')->get($path);

@@ -38,7 +38,7 @@ class AppointmentReferralController extends Controller
         ]);
 
         if ($file = $request->file('file')) {
-            $file_name = getFileName(FileType::REFERRAL, $appointmentReferral->id, $file->extension());
+            $file_name = generateFileName(FileType::REFERRAL, $appointmentReferral->id, $file->extension());
             $filepath = getUserOrganizationFilePath();
 
             if (!$filepath) {

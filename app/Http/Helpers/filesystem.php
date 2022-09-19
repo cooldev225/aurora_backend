@@ -3,9 +3,9 @@
 use App\Enum\FileType;
 
 if (!function_exists('getFileName')) {
-    function getFileName(FileType $type, $id, $extension, $name = null)
+    function generateFileName(FileType $type, $model_id, $extension, $name = null)
     {
-        $filename = "{$type->value}_{$id}";
+        $filename = "{$type->value}_{$model_id}";
 
         if ($name) {
             $filename += "_{$name}";
