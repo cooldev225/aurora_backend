@@ -54,4 +54,20 @@ class UserProfileController extends Controller
         );
     }
 
+        /**
+     * Change avatar path to url
+     */
+    protected function withBaseUrlForSingleUser($user)
+    {
+        $base_url = url('/');
+
+        $user = $user->toArray();
+
+        if (substr($user['photo'], 0, 1) == '/') {
+            $user['photo'] = $base_url . $user['photo'];
+        }
+
+        return $user;
+    }
+
 }

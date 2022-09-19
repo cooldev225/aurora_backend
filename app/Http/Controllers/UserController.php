@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserRequest;
 use App\Mail\NewEmployee;
 use Illuminate\Http\Response;
@@ -17,7 +18,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UserIndexRequest $request)
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
@@ -27,13 +28,17 @@ class UserController extends Controller
             'organization_id',
             $organization->id
         )
-            ->with('hrmUserBaseSchedules')
-            ->get();
+            ->with('hrmUserBaseSchedules');
+            
+
+        if($request->role_id){
+            $users->where('role_id', $request->role_id);
+        }
+
         return response()->json(
             [
                 'message' => 'Employee List',
-                //'data' => $organization->users,
-                'data' => $users,
+                'data' => $users->get(),
             ],
             Response::HTTP_OK
         );
@@ -59,21 +64,7 @@ class UserController extends Controller
         return $user_list;
     }
 
-    /**
-     * Change avatar path to url
-     */
-    protected function withBaseUrlForSingleUser($user)
-    {
-        $base_url = url('/');
 
-        $user = $user->toArray();
-
-        if (substr($user['photo'], 0, 1) == '/') {
-            $user['photo'] = $base_url . $user['photo'];
-        }
-
-        return $user;
-    }
 
     
     /**

@@ -156,7 +156,6 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/pre-admission-sections',        PreAdmissionController::class,['except' => ['show']]);
     Route::apiResource('/referring-doctors',             ReferringDoctorController::class,['except' => ['show']]);
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
-    Route::apiResource('/specialists',                   SpecialistController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
 
     ////////////////////////////////////////////////////////////////////////////////////
