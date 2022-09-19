@@ -24,7 +24,7 @@ class AppointmentSearchAvailableController extends Controller
      * @param  \App\Http\Requests\Request  $request
      * @param  \App\Models\Appointment  $appointment
      * @urlParam clinic_id           A Clinic id.                                Example: 1
-     * @urlParam x_weeks             Number of weeks on the future to search.    Example: 2
+     * @urlParam date                Number of weeks on the future to search.    Example: 2015-07-02
      * @urlParam specialist_id       A Specialist user Id.                            Example: 16
      * @urlParam appointment_type_id An Appointment Type id.                     Example: 3
      * @urlParam time_requirement    A Time Requirement Id.                      Example: 4
@@ -41,7 +41,8 @@ class AppointmentSearchAvailableController extends Controller
         Log::info($clinicId );
 
         // Search date date
-        $searchDate =  Carbon::create('monday this week')->addWeeks($request->x_weeks ?? 0);
+        Log::info($request->date);
+        $searchDate = Carbon::createFromFormat('d/m/Y', $request->date)->startOfWeek();
 
         // Time Frame To Search
         $timeframeParameters = $this->getTimeFrameParameter($request->time_requirement);
