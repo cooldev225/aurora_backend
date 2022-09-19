@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('patient_documents', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id');
+            $table->foreignId('organization_id');
+            $table->foreignId('patient_id')->nullable();
             $table->foreignId('appointment_id')->nullable();
             $table->foreignId('specialist_id')->nullable();
             $table->string('document_name')->nullable();
@@ -44,6 +45,7 @@ return new class extends Migration
             $table->foreignId('created_by');
             $table->string('file_path')->nullable();
             $table->boolean('is_updatable')->default(true);
+            $table->boolean('is_seen')->default(true);
 
             $table->timestamps();
         });
