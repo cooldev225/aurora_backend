@@ -29,11 +29,17 @@ class UserController extends Controller
         $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
 
         $organization = auth()->user()->organization;
-
+        $users = User::where(
+            'organization_id',
+            $organization->id
+        )
+            ->with('hrmUserBaseSchedules')
+            ->get();
         return response()->json(
             [
                 'message' => 'Employee List',
-                'data' => $organization->users,
+                //'data' => $organization->users,
+                'data' => $users,
             ],
             Response::HTTP_OK
         );
@@ -282,10 +288,10 @@ class UserController extends Controller
         );
     }
 
-       /**
+    /**
      * [Employee] - Store
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param  \App\Http\Requests\UserRequest  $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
@@ -304,7 +310,7 @@ class UserController extends Controller
                 $username = $first_name[0] . $last_name . $i;
             }
 
-        $raw_password = Str::random(14);    
+        $raw_password = Str::random(14);
 
         //Create New Employee
         $user = User::create([
@@ -314,32 +320,40 @@ class UserController extends Controller
             ...$request->validated()
         ]);
 
+        $this->update($request, $user);
+
         //Send An email to the user with their credentials and al link
         Mail::to($user->email)->send(new NewEmployee($user, $raw_password));
 
         return response()->json(
             [
                 'message' => 'User Created',
+                'data' => User::find($user->id)
             ],
             Response::HTTP_OK
         );
     }
 
-        /**
+    /**
      * [Employee] - Update
      *
-     * @param  \App\Http\Requests\Request  $request
+     * @param  \App\Http\Requests\UserRequest  $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, User $user)
     {
         // Verify the user can access this function via policy
         $this->authorize('update', $user);
 
+        $user = $user->update([
+            ...$request->validated(),
+          'hrm_user_base_schedules' => $request->hrm_user_base_schedules,
+        ]);
         return response()->json(
             [
-                'message' => 'User Update Not Implemented',
+                'message' => 'User updated',
+                'data' => $user,
             ],
             Response::HTTP_OK
         );

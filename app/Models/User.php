@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Log;
 use Tymon\JWTAuth\Contracts\JWTSubject;
+use App\Models\HRMUserBaseSchedule;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -82,7 +83,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Return Organization
+     * Return hrmUserBaseSchedules
      */
     public function hrmUserBaseSchedules()
     {
@@ -251,5 +252,39 @@ class User extends Authenticatable implements JWTSubject
             return true;
         }
         return false;
+    }
+
+    public function update(array $attributes = [], array $options = [])
+    {
+        parent::update($attributes, $options);
+        $arrID = [];
+        if(is_array($attributes['hrm_user_base_schedules'])){
+            foreach ($attributes['hrm_user_base_schedules'] as $schedule) {
+                $schedule = (object) $schedule;
+                $scheduleObj = null;
+                if (isset($schedule->id) && $schedule->id!=null) {
+                    $scheduleObj = HRMUserBaseSchedule::find($schedule->id);
+                }
+                if ($scheduleObj == null) {
+                    $scheduleObj = new HRMUserBaseSchedule();
+                    $scheduleObj->user_id = $this->id;
+                }
+                $scheduleObj->clinic_id = $schedule->clinic_id;
+                $scheduleObj->week_day = $schedule->week_day;
+                $scheduleObj->start_time = $schedule->start_time;
+                $scheduleObj->end_time = $schedule->end_time;
+                $scheduleObj->anesthetist_id = $schedule->anesthetist_id;
+                $scheduleObj->save();
+                $arrID[] = $scheduleObj->id;
+            }
+        }
+
+        HRMUserBaseSchedule::where('user_id', $this->id)
+            ->whereNotIn('id', $arrID)
+            ->delete();
+
+        return User::where('id', $this->id)
+            ->with('hrmUserBaseSchedules')
+            ->first();
     }
 }
