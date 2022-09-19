@@ -2,16 +2,25 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\FileType;
+use Illuminate\Http\Response;
 use App\Http\Requests\FileRequest;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 
 class FileController extends Controller
 {
+    protected $images = [
+        FileType::CLINIC_HEADER,
+        FileType::CLINIC_FOOTER,
+        FileType::ORGANIZATION_LOGO,
+        FileType::ORGANIZATION_HEADER,
+        FileType::ORGANIZATION_FOOTER,
+        FileType::USER_PHOTO,
+];
 
     /**
-     * [Referral] - File
+     * Return a particular file for viewing
      *
      * @group Appointments
      * @param  \App\Http\Requests\FileRequest  $request
@@ -19,24 +28,41 @@ class FileController extends Controller
      */
 
     public function show(FileRequest $request) {
-        $folder = "";
-        if($request->type === "REFERRAL"){
-            $folder = "files/appointment_referral/";
-        }else if($request->type === "PRE_ADMISSION"){
-            $folder = "files/appointment_pre_admission/";
-        }else if($request->type === "PATIENT_DOCUMENT"){
-            $folder = "files/patient_documents/";
-        }
-       
-        $path = $folder . $request->path;
-        $file = Storage::disk('local')->get($path);
-        if(Storage::mimeType($file)  === 'pdf'){
-            return response($file, 200)
-            ->header('Content-Type', 'application/pdf');
-        }else{
-            return response($file, 200)
-            ->header('Content-Type', 'image/png');
-        }  
-    }
+        $file_type = new \ReflectionEnum(FileType::class);
 
+        if (!$file_type->hasConstant($request->type)) {
+            //If the file type provided is not valid, return an error
+            return response()->json(
+                [
+                    'message'   => 'Please select a valid file type',
+                ],
+                Response::HTTP_UNPROCESSABLE_ENTITY
+            );
+        }
+
+        // Get enum associated with the submitted file type
+        $file_type = $file_type->getConstant($request->type);
+
+        $folder = getUserOrganizationFilePath(in_array($file_type, $this->images) ? 'images' : 'files');
+
+        $path = "{$folder}/{$request->path}";
+        $file = Storage::disk('local')->get($path);
+
+        if (!$file) {
+            // If there's no file, return a 404.
+            // Likely this is because the user doesn't have access
+            return response()->json(
+                [
+                    'message'   => 'Could not find file',
+                ],
+                Response::HTTP_NOT_FOUND
+            );
+        }
+
+        if(Storage::mimeType($file)  === 'pdf') {
+            return response($file, Response::HTTP_OK)->header('Content-Type', 'application/pdf');
+        }
+
+        return response($file, Response::HTTP_OK)->header('Content-Type', 'image/png');
+    }
 }

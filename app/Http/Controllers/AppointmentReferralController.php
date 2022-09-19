@@ -2,22 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\FileType;
 use Carbon\Carbon;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Http\Constants\FileType;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
-use App\Http\Controllers\Utils\FileUtil;
-
 use App\Http\Requests\AppointmentReferralRequest;
 use App\Http\Requests\AppointmentReferralFileRequest;
 
 class AppointmentReferralController extends Controller
 {
-
     /**
      * [Referral] - Update
      *
@@ -42,12 +38,19 @@ class AppointmentReferralController extends Controller
         ]);
 
         if ($file = $request->file('file')) {
+            $file_name = generateFileName(FileType::REFERRAL, $appointmentReferral->id, $file->extension());
+            $filepath = getUserOrganizationFilePath();
 
-            $path = FileUtil::getStoragePath(FileType::$ReferralFile);
-
-            $file_name = FileUtil::getFileName(FileType::$ReferralFile, $appointmentReferral->id, $file->extension());
+            if (!$filepath) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
             
-            $file->storeAs($path, $file_name);
+            $file->storeAs($filepath, $file_name);
 
             $appointmentReferral->referral_file = $file_name;
             $appointmentReferral->save();

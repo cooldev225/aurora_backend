@@ -2,14 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
+use App\Enum\FileType;
 use App\Enum\UserRole;
+use App\Models\Organization;
 use Illuminate\Http\Response;
+use App\Models\NotificationTemplate;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\OrganizationCreateRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
-use App\Models\NotificationTemplate;
-use App\Models\User;
-use App\Models\Organization;
 
 class OrganizationController extends Controller
 {
@@ -133,20 +134,20 @@ class OrganizationController extends Controller
         ));
 
         if ($file = $request->file('logo')) {
-            $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $logo_path = '/' . $file->storeAs('images/organization', $file_name);
+            $file_name = generateFileName(FileType::ORGANIZATION_LOGO, $organization->id, $file->extension());
+            $logo_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
             $organization->logo = $logo_path;
         }
 
         if ($file = $request->file('header')) {
-            $file_name = 'header_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $header_path = '/' . $file->storeAs('images/organization', $file_name);
+            $file_name = generateFileName(FileType::ORGANIZATION_FOOTER, $organization->id, $file->extension());
+            $header_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
             $organization->document_letter_header = $header_path;
         }
 
         if ($file = $request->file('footer')) {
-            $file_name = 'footer_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $footer_path = '/' . $file->storeAs('images/organization', $file_name);
+            $file_name = generateFileName(FileType::ORGANIZATION_FOOTER, $organization->id, $file->extension());
+            $footer_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
             $organization->document_letter_footer = $footer_path;
         }
 

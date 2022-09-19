@@ -18,4 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/test', function() {
+    $filename = str_replace('pre_admission', '', 'pre_admission_51_1663207992.pdf');
+        $file_parts = explode('_', $filename);
+
+        dd($file_parts);
+});
+
 Route::get('/test-pdf', [AppointmentPreAdmissionController::class, 'testPDF']);

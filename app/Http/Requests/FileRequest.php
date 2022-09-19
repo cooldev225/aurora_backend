@@ -5,7 +5,8 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
-* @bodyParam path                  string   required  The path is file name of referral pdf       Example: referral_file_4.pdf
+* @bodyParam type   string   required   The type of file that is being returned   Example: REFERRAL
+* @bodyParam path   string   required   The name of the file being returned   Example: referral_file_4.pdf
 */
 class FileRequest extends FormRequest
 {
@@ -16,10 +17,6 @@ class FileRequest extends FormRequest
      */
     public function authorize()
     {
-        /**
-         * To do
-         * Need to add auth condition
-         */
         return true;
     }
 
@@ -31,6 +28,7 @@ class FileRequest extends FormRequest
     public function rules()
     {
         return [
+            'type'   => 'required|string',
             'path'   => 'required|string',
         ];
     }
