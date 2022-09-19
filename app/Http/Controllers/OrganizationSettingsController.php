@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\FileType;
 use Illuminate\Http\Request;
 
 class OrganizationSettingsController extends Controller
@@ -21,21 +22,21 @@ class OrganizationSettingsController extends Controller
         $this->authorize('update', $organization);
 
         if ($file = $request->file('logo')) {
-            $file_name = 'logo_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $file->storeAs('images/organization/', $file_name);
-            $organization->logo = $file_name;
+            $file_name = generateFileName(FileType::ORGANIZATION_LOGO, $organization->id, $file->extension());
+            $logo_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
+            $organization->logo = $logo_path;
         }
 
-        if ($file = $request->file('document_letter_header')) {
-            $file_name = 'header_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $file->storeAs('images/organization/', $file_name);
-            $organization->document_letter_header = $file_name;
+        if ($file = $request->file('header')) {
+            $file_name = generateFileName(FileType::ORGANIZATION_FOOTER, $organization->id, $file->extension());
+            $header_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
+            $organization->document_letter_header = $header_path;
         }
 
-        if ($file = $request->file('document_letter_footer')) {
-            $file_name = 'footer_' . $organization->id . '_' . time() . '.' . $file->extension();
-            $file->storeAs('images/organization/', $file_name);
-            $organization->document_letter_footer = $file_name;
+        if ($file = $request->file('footer')) {
+            $file_name = generateFileName(FileType::ORGANIZATION_FOOTER, $organization->id, $file->extension());
+            $footer_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
+            $organization->document_letter_footer = $footer_path;
         }
 
         $organization->save();

@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AppointmentPreAdmissionRequest;
-use App\Http\Requests\AppointmentPreAdmissionValidateRequest;
-use App\Models\Appointment;
-use App\Models\AppointmentPreAdmission;
-use App\Models\Patient;
-use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
 use PDF;
 use Carbon\Carbon;
+use App\Enum\FileType;
+use App\Models\Patient;
+use App\Models\Appointment;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
+use App\Models\AppointmentPreAdmission;
+use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\AppointmentPreAdmissionRequest;
+use App\Http\Requests\AppointmentPreAdmissionValidateRequest;
 
 class AppointmentPreAdmissionController extends Controller
 {
@@ -215,8 +216,9 @@ class AppointmentPreAdmissionController extends Controller
         $this->authorize('update', $pre_admission);
 
         if ($file = $request->file('file')) {
-            $file_name = 'pre_admission_' . $appointment->id . '_' . time() . '.pdf';
-            $file->storeAs('files/appointment_pre_admission', $file_name);
+            $file_name = generateFileName(FileType::REFERRAL, $pre_admission->id, $file->extension());
+            $filepath = getUserOrganizationFilePath();
+            $file->storeAs($filepath, $file_name);
             $pre_admission->pre_admission_file = $file_name;
             $pre_admission->save();
         }

@@ -74,4 +74,20 @@ return [
         public_path('images') => storage_path('app/images'),
         public_path('files') => storage_path('app/files'),
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | File paths
+    |--------------------------------------------------------------------------
+    |
+    | Here we can configure the file and folder paths for different kinds of
+    | files that will get uploaded by users.
+    |
+    */
+
+    'filepaths' => [
+        'referral'         => 'files/appointment_referral/',
+        'pre_admission'    => 'files/appointment_pre_admission/',
+        'patient_document' => 'files/patient_documents/',
+    ],
 ];

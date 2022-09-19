@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\FileType;
 use Illuminate\Http\Response;
 use App\Http\Requests\ClinicRequest;
 use App\Models\Clinic;
@@ -55,14 +56,14 @@ class ClinicController extends Controller
 
 
         if ($file = $request->file('document_letter_header')) {
-            $file_name = 'header_' . $clinic->id . '_' . time() . '.' . $file->extension();
-            $header_path = '/' . $file->storeAs('images/clinic', $file_name);
+            $file_name = generateFileName(FileType::CLINIC_HEADER, $clinic->id, $file->extension());
+            $header_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
             $clinic->document_letter_header = $header_path;
         }
 
         if ($file = $request->file('document_letter_footer')) {
-            $file_name = 'footer_' . $clinic->id . '_' . time() . '.' . $file->extension();
-            $footer_path = '/' . $file->storeAs('images/clinic', $file_name);
+            $file_name = generateFileName(FileType::CLINIC_FOOTER, $clinic->id, $file->extension());
+            $footer_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
             $clinic->document_letter_footer = $footer_path;
         }
 
@@ -93,14 +94,14 @@ class ClinicController extends Controller
         $clinic->update($request->safe()->except(['document_letter_header', 'document_letter_footer']));
 
         if ($file = $request->file('document_letter_header')) {
-            $file_name = 'header_' . $clinic->id . '_' . time() . '.' . $file->extension();
-            $header_path = '/' . $file->storeAs('images/clinic', $file_name);
+            $file_name = generateFileName(FileType::CLINIC_HEADER, $clinic->id, $file->extension());
+            $header_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
             $clinic->document_header = $header_path;
         }
 
         if ($file = $request->file('document_letter_footer')) {
-            $file_name = 'footer_' . $clinic->id . '_' . time() . '.' . $file->extension();
-            $footer_path = '/' . $file->storeAs('images/clinic', $file_name);
+            $file_name = generateFileName(FileType::CLINIC_FOOTER, $clinic->id, $file->extension());
+            $footer_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
             $clinic->document_footer = $footer_path;
         }
 
