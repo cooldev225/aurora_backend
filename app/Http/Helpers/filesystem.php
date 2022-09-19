@@ -8,10 +8,10 @@ if (!function_exists('getFileName')) {
         $filename = "{$type->value}_{$model_id}";
 
         if ($name) {
-            $filename += "_{$name}";
+            $filename .= "_{$name}";
         }
 
-        $filename += ".{$extension}";
+        $filename .= ".{$extension}";
 
         return $filename;
     }
