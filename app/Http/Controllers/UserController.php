@@ -2,17 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\LoginRequest;
-use App\Http\Requests\PasswordUpdateRequest;
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserRequest;
 use App\Mail\NewEmployee;
-use Validator;
 use Illuminate\Http\Response;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -23,7 +18,7 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(UserIndexRequest $request)
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
@@ -33,204 +28,23 @@ class UserController extends Controller
             'organization_id',
             $organization->id
         )
-            ->with('hrmUserBaseSchedules')
-            ->get();
+            ->with('hrmUserBaseSchedules');
+            
+
+        if($request->role_id){
+            $users->where('role_id', $request->role_id);
+        }
+
         return response()->json(
             [
                 'message' => 'Employee List',
-                //'data' => $organization->users,
-                'data' => $users,
+                'data' => $users->get(),
             ],
             Response::HTTP_OK
         );
     }
 
-    /**
-     * [Authentication] - User Login
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function login(LoginRequest $request)
-    {
-        $auth_params = $request->validated();
 
-        if (empty($auth_params['email'])) {
-            $user = User::where('username', $auth_params['username'])->first();
-
-            if (empty($user)) {
-                return response()->json(
-                    ['error' => 'Unauthorized'],
-                    Response::HTTP_UNAUTHORIZED
-                );
-            } else {
-                $auth_params['email'] = $user->email;
-            }
-        }
-
-        if (!($token = auth()->attempt($request->validated()))) {
-            return response()->json(
-                ['error' => 'Unauthorized'],
-                Response::HTTP_UNAUTHORIZED
-            );
-        }
-
-        $user = auth()->user();
-
-        return response()->json(
-            [
-                'email' => $user->email,
-                'username' => $user->username,
-                'role' => $user->role->slug,
-                'access_token' => $token,
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * [Authentication] - Verify Token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function verify_token()
-    {
-        $user = auth()->user();
-        $token = auth()->fromUser($user);
-
-        return response()->json(
-            [
-                'email' => $user->email,
-                'username' => $user->username,
-                'role' => $user->role->slug,
-                'access_token' => $token,
-                'profile' => auth()->user(),
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * [Authentication] - User Logout
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function logout()
-    {
-        auth()->logout();
-
-        return response()->json(['message' => 'User successfully logged out.']);
-    }
-
-    /**
-     * [Authentication] - Refresh Token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function refresh()
-    {
-        return $this->respondWithToken(auth()->refresh());
-    }
-
-    /**
-     * [User] - User Profile
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    public function profile()
-    {
-        return response()->json(
-            $this->withBaseUrlForSingleUser(auth()->user())
-        );
-    }
-
-    /**
-     * [User] - Update User Profile
-     *
-     * @param  Illuminate\Http\Request
-     * @return \Illuminate\Http\Response
-     */
-    public function updateProfile(ProfileUpdateRequest $request)
-    {
-        $user = auth()->user();
-
-        // Verify the user can access this function via policy
-        $this->authorize('updateProfile', $user);
-
-        $user->update($request->safe()->except(['photo']));
-
-        if ($file = $request->file('photo')) {
-            $file_name =
-                'photo_' . $user->id . '_' . time() . '.' . $file->extension();
-            $photo_path = '/' . $file->storeAs('images/user', $file_name);
-            $user->photo = $photo_path;
-            $user->save();
-        }
-
-        return response()->json(
-            [
-                'message' => 'User Profile updated',
-                'data' => $user,
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * Get the token array structure.
-     *
-     * @param  string $token
-     *
-     * @return \Illuminate\Http\JsonResponse
-     */
-    protected function respondWithToken($token)
-    {
-        return response()->json([
-            'access_token' => $token,
-            'token_type' => 'bearer',
-            'expires_in' =>
-                auth()
-                    ->factory()
-                    ->getTTL() * 60,
-        ]);
-    }
-
-    /**
-     * [User] - Update Password
-     *
-     * @param  Illuminate\Http\Request
-     * @return \Illuminate\Http\Response
-     */
-    public function changePassword(PasswordUpdateRequest $request)
-    {
-        if (!Hash::check($request->old_password, Auth::user()->password)) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'errors' => [
-                        'old_password' => 'Old password didn\'t match.',
-                    ],
-                ],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
-        }
-
-        $user = auth()->user();
-
-        // Verify the user can access this function via policy
-        $this->authorize('updateProfile', $user);
-
-        $user->update([
-            'password' => Hash::make($request->new_password),
-        ]);
-
-        return response()->json(
-            [
-                'success' => true,
-                'message' => 'Password changed successfully',
-            ],
-            Response::HTTP_OK
-        );
-    }
 
     /**
      * Change avatar path to url
@@ -250,21 +64,7 @@ class UserController extends Controller
         return $user_list;
     }
 
-    /**
-     * Change avatar path to url
-     */
-    protected function withBaseUrlForSingleUser($user)
-    {
-        $base_url = url('/');
 
-        $user = $user->toArray();
-
-        if (substr($user['photo'], 0, 1) == '/') {
-            $user['photo'] = $base_url . $user['photo'];
-        }
-
-        return $user;
-    }
 
     
     /**
