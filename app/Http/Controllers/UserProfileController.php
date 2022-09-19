@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ProfileUpdateRequest;
+use App\Enum\FileType;
 use Illuminate\Http\Response;
-
+use App\Http\Requests\ProfileUpdateRequest;
 
 class UserProfileController extends Controller
 {
@@ -38,9 +38,8 @@ class UserProfileController extends Controller
         $user->update($request->safe()->except(['photo']));
 
         if ($file = $request->file('photo')) {
-            $file_name =
-                'photo_' . $user->id . '_' . time() . '.' . $file->extension();
-            $photo_path = '/' . $file->storeAs('images/user', $file_name);
+            $file_name = generateFileName(FileType::USER_PHOTO, $user->id, $file->extension());
+            $photo_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
             $user->photo = $photo_path;
             $user->save();
         }
