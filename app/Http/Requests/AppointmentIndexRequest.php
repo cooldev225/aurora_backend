@@ -8,8 +8,11 @@ use Illuminate\Foundation\Http\FormRequest;
 * @bodyParam procedure_approval_status  string   
 * @bodyParam confirmation_status        string   
 * @bodyParam is_wait_listed             boolean e.g 1 or 0  
-* @bodyParam before_date                string  
-* @bodyParam after_date                 string  
+* @bodyParam before_date                date  
+* @bodyParam after_date                 date  
+* @bodyParam patient_id                 int 
+* @bodyParam anesthetist_id                 int 
+* @bodyParam specialist_id                 int  
 */
 class AppointmentIndexRequest extends FormRequest
 {
