@@ -23,10 +23,6 @@ class AppointmentSpecialistController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
 
-        if ($request->filled('specialist_ids')) {
-            //aDD FILTER FOR SELECTED SPECIALISTS
-        }
-
         $date = date('Y-m-d');
         if ($request->has('date')) {
             $date = Carbon::create($request->date)->toDateString();

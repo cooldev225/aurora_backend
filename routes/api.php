@@ -21,9 +21,7 @@ use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PatientController;
 use App\Http\Controllers\RoomController;
-use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
@@ -37,11 +35,9 @@ use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrganizationSettingsController;
 use App\Http\Controllers\PatientDocumentController;
-use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
-use App\Http\Requests\FileRequest;
 use App\Models\PatientBilling;
 
 /*
@@ -160,16 +156,10 @@ Route::middleware(['auth'])->group(function () {
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
-    // Route::get('/anesthetists',                                  [EmployeeController::class,'anesthetists']);
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
     Route::get('/available-timeslots',             [AppointmentSearchAvailableController::class, 'index']);
-    Route::get('/employee-roles',                  [UserRoleController::class,'employeeRoles']);
     Route::post('/file',                           [FileController::class,'show']);
-   
-    Route::get('/user-appointments',               [UserAppointmentController::class, 'index']);
 
-
-    Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);
     Route::put('appointment/procedure-approvals/{appointment}',    [AppointmentProcedureApprovalController::class, 'update']);
 
     Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);

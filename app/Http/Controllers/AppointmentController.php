@@ -3,19 +3,20 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AppointmentCreateRequest;
+use App\Http\Requests\AppointmentIndexRequest;
 use App\Http\Requests\AppointmentUpdateRequest;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\PatientBilling;
-use App\Mail\Notification;
 use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
 use App\Models\User;
 use App\Notifications\AppointmentNotification;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class AppointmentController extends Controller
 {
@@ -24,99 +25,35 @@ class AppointmentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(AppointmentIndexRequest $request)
     {
-        /*
-        $appointment_table = (new Appointment())->getTable();
-
-        $appointments = Appointment::organizationAppointmentsWithType()->orderBy(
-            "{$appointment_table}.date"
-        );
-
-        $return = ['today' => [], 'tomorrow' => [], 'future' => []];
-        $today = date('Y-m-d');
-
-        $status = $request->status;
-
-        if ($status == 'unconfirmed') {
-            $appointments->where('confirmation_status', 'PENDING');
-
-            $tomorrow = date_create($today);
-            date_add($tomorrow, date_interval_create_from_date_string('1 day'));
-            $tomorrow = date_format($tomorrow, 'Y-m-d');
-
-            $appointments = $appointments
-                ->where("{$appointment_table}.date", '>=', $today)
-                ->get();
-
-            foreach ($appointments as $appointment) {
-                if ($appointment->date == $today) {
-                    $return['today'][] = $appointment;
-                }
-
-                if ($appointment->date == $tomorrow) {
-                    $return['tomorrow'][] = $appointment;
-                }
-
-                if ($appointment->date > $tomorrow) {
-                    $return['future'][] = $appointment;
-                }
-            }
-        } elseif ($status == 'unapproved') {
-            $appointments->where('procedure_approval_status', 'NOT_APPROVED');
-
-            $return = $appointments
-                ->where("{$appointment_table}.date", '>=', $today)
-                ->get();
-        } elseif ($status == 'wait-listed') {
-            $appointments->where('is_wait_listed', true);
-
-            $return = $appointments
-                ->where("{$appointment_table}.date", '>=', $today)
-                ->get();
-        } elseif ($status == 'cancellation') {
-            $appointments->where('confirmation_status', 'CANCELED');
-
-            $return = $appointments->get();
-        } elseif ($status == 'available') {
-            $appointments
-                ->where('procedure_approval_status', 'APPROVED')
-                ->where('confirmation_status', 'CONFIRMED')
-                ->where("{$appointment_table}.date", '>=', $today);
-
-            $appointments = $appointments->get();
-
-            $search_dates = [];
-            $appointment_date = date_create($today);
-
-            for ($i = 0; $i < 7; $i++) {
-                $search_dates[] = date_format($appointment_date, 'Y-m-d');
-                date_add(
-                    $appointment_date,
-                    date_interval_create_from_date_string('1 day')
-                );
-            }
-
-            $return = [];
-
-            foreach ($search_dates as $search_date) {
-                $formatted_date = date('D jS', strtotime($search_date));
-                $return[$formatted_date] = [];
-
-                foreach ($appointments as $appointment) {
-                    if ($appointment->date == $search_date) {
-                        $return[$formatted_date][] = $appointment;
-                    }
-                }
-            }
-        }*/
-
         // Verify the user can access this function via policy
         $this->authorize('viewAny', Appointment::class);
 
+        $appointments = Appointment::
+                            where('organization_id', auth()->user()->organization_id)
+                            ->orderBy('date')
+                            ->orderBy('start_time');
+                            Log::info($request->validated());
+        $params = $request->validated();
+        foreach ($params as $column => $param) {
+            if (!empty($param)) {
+                if($param == 'after_date'){
+                    $appointments = $appointments->where('date', '=>', $param);
+                }else if($param == 'before_date'){
+                    $appointments = $appointments->where('date', '<=', $param);
+                }else{
+                    $appointments = $appointments->where($column, '=', $param);
+                }
+                
+            }
+        }
+
+
         return response()->json(
             [
-                'message' => 'Not Implemented',
+                'message' => 'Appointments',
+                'data'    =>  $appointments->get(),
             ],
             Response::HTTP_OK
         );

@@ -13,36 +13,6 @@ use App\Mail\Notification;
 class AppointmentProcedureApprovalController extends Controller
 {
     /**
-     * [Appointment Procedure Approval] - List
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // Verify the user can access this function via policy
-        $this->authorize('viewAny', Appointment::class);
-
-        $anesthetist_user_id = auth()->user()->id;
-        $today = date('Y-m-d');
-
-        return response()->json(
-            [
-                'message' => 'Procedure Approval List',
-                'data' => Appointment::
-                            where('anesthetist_id', $anesthetist_user_id)
-                            ->where('procedure_approval_status', '!=', ProcedureApprovalStatus::NOT_RELEVANT)
-                            ->where('date', '>=', $today)
-                            ->where('confirmation_status', '!=', ConfirmationStatus::CANCELED)
-                            ->orderBy('date')
-                            ->with('appointment_type')
-                            ->orderBy('start_time')
-                            ->get()
-            ],
-            200
-        );
-    }
-
-    /**
      * [Appointment Procedure Approval] - Update Status
      *
      * @param  \App\Http\Requests\AppointmentProcedureApprovalRequest  $request
