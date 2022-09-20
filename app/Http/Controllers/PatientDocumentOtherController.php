@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PatientDocumentOtherUploadRequest;
+use App\Enum\FileType;
 use App\Models\Patient;
-use App\Models\PatientDocument;
 use Illuminate\Http\Response;
+use App\Models\PatientDocument;
+use App\Http\Requests\PatientDocumentOtherUploadRequest;
 
 class PatientDocumentOtherController extends Controller
 {
@@ -33,9 +34,9 @@ class PatientDocumentOtherController extends Controller
 
         $file_path = '';
         if ($file = $request->file('file')) {
-            $file_name = 'patient_letter_' . $patient_document->id
-                . '_' . time() . '.' . $file->extension();
-            $file_path = '/' . $file->storeAs('files/patient_documents', $file_name);
+            $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
+            $file_path = '/' . $file->storeAs(getUserOrganizationFilePath(), $file_name);
+
             $patient_document->file_path = url($file_path);
             $patient_document->save();
         }

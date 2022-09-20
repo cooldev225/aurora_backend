@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\FileType;
+use App\Models\Patient;
+use App\Models\PatientLetter;
+use Illuminate\Http\Response;
+use App\Models\PatientDocument;
 use App\Http\Requests\PatientDocumentLetterStoreRequest;
 use App\Http\Requests\PatientDocumentLetterUpdateRequest;
 use App\Http\Requests\PatientDocumentLetterUploadRequest;
-use App\Models\Patient;
-use App\Models\PatientDocument;
-use App\Models\PatientLetter;
-use Illuminate\Http\Response;
 
 class PatientDocumentLetterController extends Controller
 {
@@ -99,9 +100,9 @@ class PatientDocumentLetterController extends Controller
 
         $file_path = '';
         if ($file = $request->file('file')) {
-            $file_name = 'patient_letter_' . $patient_document->id
-                . '_' . time() . '.' . $file->extension();
-            $file_path = '/' . $file->storeAs('files/patient_documents', $file_name);
+            $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
+            $file_path = '/' . $file->storeAs(getUserOrganizationFilePath(), $file_name);
+
             $patient_document->file_path = url($file_path);
             $patient_document->save();
         }

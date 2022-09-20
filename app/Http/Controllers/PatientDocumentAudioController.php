@@ -2,13 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\FileType;
+use App\Models\Patient;
+use Illuminate\Http\Response;
+use App\Models\PatientDocument;
+use App\Models\PatientSpecialistAudio;
 use App\Http\Requests\PatientDocumentAudioStoreRequest;
 use App\Http\Requests\PatientDocumentAudioUpdateRequest;
 use App\Http\Requests\PatientDocumentAudioUploadRequest;
-use App\Models\Patient;
-use App\Models\PatientDocument;
-use App\Models\PatientSpecialistAudio;
-use Illuminate\Http\Response;
 
 class PatientDocumentAudioController extends Controller
 {
@@ -34,11 +35,9 @@ class PatientDocumentAudioController extends Controller
 
         $file_path = '';
         if ($file = $request->file('file')) {
-            $file_extension = $file->extension();
-            $file_name = 'patient_specialist_audio_' . $patient_document->id
-                . '_' . time() . '.' . $file_extension;
-            $file_path = '/' . $file->storeAs('files/patient_documents', $file_name);
-            $file_type = $patient_document->getFileType($file_extension);
+            $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
+            $file_path = '/' . $file->storeAs(getUserOrganizationFilePath(), $file_name);
+            $file_type = $patient_document->getFileType($file->extension());
 
             $patient_document->file_path = url($file_path);
             $patient_document->file_type = $file_type;
@@ -76,11 +75,9 @@ class PatientDocumentAudioController extends Controller
 
         $data = $request->all();
         if ($file = $request->file('file')) {
-            $file_extension = $file->extension();
-            $file_name = 'patient_specialist_audio_' . $patient_document->id
-                . '_' . time() . '.' . $file_extension;
-            $file_path = '/' . $file->storeAs('files/patient_documents', $file_name);
-            $file_type = $patient_document->getFileType($file_extension);
+            $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
+            $file_path = '/' . $file->storeAs(getUserOrganizationFilePath(), $file_name);
+            $file_type = $patient_document->getFileType($file->extension());
 
             $data['file_path'] = $file_path;
             $data['file_type'] = $file_type;
@@ -119,11 +116,9 @@ class PatientDocumentAudioController extends Controller
 
         $file_path = '';
         if ($file = $request->file('file')) {
-            $file_extension = $file->extension();
-            $file_name = 'patient_specialist_audio_' . $patient_document->id
-                . '_' . time() . '.' . $file_extension;
-            $file_path = '/' . $file->storeAs('files/patient_documents', $file_name);
-            $file_type = $patient_document->getFileType($file_extension);
+            $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
+            $file_path = '/' . $file->storeAs(getUserOrganizationFilePath(), $file_name);
+            $file_type = $patient_document->getFileType($file->extension());
 
             $patient_document->file_path = url($file_path);
             $patient_document->file_type = $file_type;
