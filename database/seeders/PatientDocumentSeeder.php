@@ -18,23 +18,16 @@ class PatientDocumentSeeder extends Seeder
 
         $appointments = Appointment::all();
 
+
         foreach ($appointments as $appointment) {
+            $received  = rand(0, 3);
             PatientDocument::factory(2)->create([
-                'patient_id'        =>  $appointment->patient_id,
+                'patient_id'        =>  $received == 1 ?  null : $appointment->patient_id,
                 'organization_id'   =>  $appointment->organization_id,
-                'appointment_id'    =>  $appointment->id,
+                'appointment_id'    =>   $appointment->id,
                 'specialist_id'     =>  $appointment->specialist_id,
+                'origin'            => $received  == 1 ? 'RECEIVED' : 'UPLOADED' 
             ]);
         }
-
-      
-
-     
-
-        
-       // PatientReport::factory(10)->create();
-       // PatientSpecialistAudio::factory(10)->create();
-       // PatientLetter::factory(10)->create();
-       // PatientClinicalNote::factory(10)->create();
     }
 }
