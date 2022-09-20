@@ -143,7 +143,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/appointment-types',             AppointmentTypeController::class,['except' => ['show']]);
     Route::apiResource('/birth-codes',                   BirthCodeController::class,['except' => ['show']]);
     Route::apiResource('/clinics',                       ClinicController::class,['except' => ['show']]);
-    Route::apiResource('/clinics/{clinic_id}/rooms',     RoomController::class,['except' => ['show']]);
+    Route::apiResource('/clinics/{clinic}/rooms',         RoomController::class,['except' => ['show']]);
     Route::apiResource('/health-funds',                  HealthFundController::class,['except' => ['show']]);
     Route::apiResource('/letter-templates',              LetterTemplateController::class, ['except' => ['show']]);
     Route::apiResource('/notification-templates',        NotificationTemplateController::class, ['except' => ['show']]);
