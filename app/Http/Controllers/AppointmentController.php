@@ -34,7 +34,6 @@ class AppointmentController extends Controller
                             where('organization_id', auth()->user()->organization_id)
                             ->orderBy('date')
                             ->orderBy('start_time');
-                            Log::info($request->validated());
         $params = $request->validated();
         foreach ($params as $column => $param) {
             if (!empty($param)) {

@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PatientRecallIndexRequest;
 use App\Http\Requests\PatientRecallRequest;
-use App\Models\Patient;
 use Illuminate\Http\Response;
 use App\Models\PatientRecall;
 
@@ -18,17 +18,28 @@ class PatientRecallController extends Controller
      * @return \Illuminate\Http\Response
      * @responseFile storage/responses/patients.recall.list.json
      */
-    public function index(Patient $patient)
+    public function index(PatientRecallIndexRequest $request)
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', PatientRecall::class);
 
+        $recalls = PatientRecall::where('organization_id', auth()->user()->organization_id);
+
+        $params = $request->validated();
+        foreach ($params as $column => $param) {
+            if (!empty($param)) {
+                    $recalls = $recalls->where($column, '=', $param);                
+            }
+        }
+
+        $recalls->with('sentLogs');
+
         return response()->json(
             [
                 'message' => 'Patient Recall list',
-                'data' => $patient->recalls,
+                'data' => $recalls->get(),
             ],
-            Response::HTTP_CREATED
+            200
         );
     }
     

@@ -115,7 +115,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/appointments/{patient}', [PatientController::class, 'appointments']);
         Route::put('/billing/{patient}',      [PatientBilling::class, 'update']);
 
-        Route::apiResource('/recalls',        PatientRecallController::class, ['except' => ['show', 'index']]);
+        Route::apiResource('/recalls',        PatientRecallController::class, ['except' => ['show']]);
         Route::get('/recalls/{patient}',      [PatientRecallController::class, 'index']);
 
         Route::prefix('documents')->group(function () {

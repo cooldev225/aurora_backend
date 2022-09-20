@@ -16,7 +16,8 @@ return new class extends Migration {
             $table->id();
             $table->foreignId('patient_recall_id');
             $table->dateTime('recall_sent_at');
-            $table->enum('sent_by', ['Mail', 'Email'])->default('Mail');
+            $table->enum('sent_by', ['MAIL', 'EMAIL', 'SMS'])->default('MAIL');
+            $table->foreignId('user_id')->nullable();
             $table->timestamps();
         });
     }

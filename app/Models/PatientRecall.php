@@ -2,12 +2,9 @@
 
 namespace App\Models;
 
-use App\Mail\Notification;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Query\JoinClause;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+
 
 class PatientRecall extends Model
 {
@@ -23,6 +20,29 @@ class PatientRecall extends Model
         'reason',
     ];
 
+    protected $appends = [
+        'summery'
+    ];
+
+    public function getSummeryAttribute(){
+        return [
+            'patient_name' => $this->patient->full_name,
+            'patient_contact_number' => $this->patient->contact_number,
+            'specialist_name' => $this->user->full_name,
+            'appointment_type' => $this->appointment->appointment_type->name,
+            'appointment_clinic' => $this->appointment->clinic->name,
+            'appointment_date' => $this->appointment->aus_formatted_date,
+        ];
+    }
+
+    /**
+     * Return Patient
+     */
+    public function sentLogs()
+    {
+        return $this->hasMany(PatientRecallSentLog::class);
+    }
+
     /**
      * Return Patient
      */
@@ -30,6 +50,23 @@ class PatientRecall extends Model
     {
         return $this->belongsTo(Patient::class, 'patient_id');
     }
+
+      /**
+     * Return Patient
+     */
+    public function appointment()
+    {
+        return $this->belongsTo(Appointment::class);
+    }
+
+    /**
+     * Return User
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
 
     /**
      * Return Organization
