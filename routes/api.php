@@ -25,6 +25,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
+use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\LetterTemplateController;
 use App\Http\Controllers\NotificationTestController;
@@ -35,6 +36,7 @@ use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrganizationSettingsController;
 use App\Http\Controllers\PatientDocumentController;
+use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
@@ -115,13 +117,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/appointments/{patient}', [PatientController::class, 'appointments']);
         Route::put('/billing/{patient}',      [PatientBilling::class, 'update']);
 
-        Route::apiResource('/recalls',        PatientRecallController::class, ['except' => ['show']]);
+        Route::apiResource('/recalls',        PatientRecallController::class, ['except' => ['show', 'index']]);
         Route::get('/recalls/{patient}',      [PatientRecallController::class, 'index']);
 
         Route::prefix('documents')->group(function () {
-            Route::get('/{patient}',    [PatientDocumentController::class, 'index']);
-            Route::post('/{patient}',   [PatientDocumentController::class, 'store']);
-            Route::post('report/{patient}',    [PatientDocumentController::class, 'index']);
+            Route::post('/{patient}',         [PatientDocumentController::class, 'store']);
+            Route::post('report/{patient}',   [PatientDocumentReportController::class, 'store']);
         });
     });
 
@@ -159,7 +160,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
     Route::get('/available-timeslots',             [AppointmentSearchAvailableController::class, 'index']);
     Route::post('/file',                           [FileController::class,'show']);
+   
+    Route::get('/user-appointments',               [UserAppointmentController::class, 'index']);
+    Route::get('/documents',                       [DocumentController::class, 'index']);
 
+
+    Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);
     Route::put('appointment/procedure-approvals/{appointment}',    [AppointmentProcedureApprovalController::class, 'update']);
 
     Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);
