@@ -8,6 +8,9 @@ use App\Models\Appointment;
 use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
+use App\Models\PatientRecall;
+use App\Models\PatientRecallSentLog;
+use App\Models\User;
 use Faker\Factory;
 
 class AppointmentSeeder extends Seeder
@@ -40,6 +43,41 @@ class AppointmentSeeder extends Seeder
                     'appointment_id'        =>  $appointment->id,
                     'token'                 =>  md5($appointment->id),
                 ]);
+                if (rand(0, 3) == 1) {
+                    $recall = PatientRecall::factory()->create([
+                        'user_id'            =>  $appointment->specialist_id,
+                        'appointment_id'     =>  $appointment->id,
+                        'organization_id'    =>  $appointment->organization_id,
+                        'patient_id'         =>  $appointment->patient_id,
+                    ]);
+                    if (rand(0, 3) == 1) {
+                        $recallLog = PatientRecallSentLog::create([
+                            'patient_recall_id' => $recall->id,
+                            'recall_sent_at'   => $faker->dateTimeThisYear('+1 month')->format('Y-m-d H:i:s'),
+                            'sent_by'     => $faker->randomElement(['MAIL', 'EMAIL', 'SMS']),
+                        ]);
+
+                        if ($recallLog->sent_by == 'MAIL') {
+                            $recallLog->user_id =  User::where('role_id', '4')->inRandomOrder()->first()->id;
+                            $recallLog->save();
+                            if (rand(0, 1) == 1) {
+                                PatientRecallSentLog::create([
+                                    'patient_recall_id' => $recall->id,
+                                    'recall_sent_at'   => $faker->dateTimeThisYear('+1 month')->format('Y-m-d H:i:s'),
+                                    'sent_by'     => 'MAIL',
+                                    'user_id' =>  User::where('role_id', '4')->inRandomOrder()->first()->id
+                                ]);
+                            } else {
+                                $recall->confirmed = 1;
+                                $recall->save();
+                            }
+                        } else {
+                            $recall->confirmed = 1;
+                            $recall->save();
+                        }
+                    }
+                }
+
 
                 $appointment->patient_id = $patient->id;
 
@@ -57,7 +95,7 @@ class AppointmentSeeder extends Seeder
     {
         $appointment = Appointment::factory()->create([
             'date' => $date,
-            'patient_id'=>  $patient->id
+            'patient_id' =>  $patient->id
         ]);
 
         $appointment_time = Organization::find($appointment->organization_id)->appointment_length;
@@ -68,7 +106,8 @@ class AppointmentSeeder extends Seeder
         while ($conflict > 0) {
             $conflict = 0;
 
-            $appointment->start_time = date(      'H:i:s',
+            $appointment->start_time = date(
+                'H:i:s',
                 strtotime($appointment->start_time) + $appointment_time * 60
             );
             $appointment->end_time = date(

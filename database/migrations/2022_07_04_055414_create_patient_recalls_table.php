@@ -18,7 +18,7 @@ return new class extends Migration {
             $table->foreignId('organization_id');
             $table->foreignId('appointment_id');
             $table->foreignId('patient_id');
-            $table->integer('time_frame');
+            $table->integer('time_frame')->nullable();
             $table->date('date_recall_due');
             $table->boolean('confirmed')->default(false);
             $table->text('reason')->nullable();

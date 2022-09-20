@@ -17,7 +17,8 @@ class PatientRecallFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'reason'                 => $this->faker->catchPhrase(),
+            'date_recall_due'        => $this->faker->dateTimeBetween('+0 days', '+2 years')
         ];
     }
 }
