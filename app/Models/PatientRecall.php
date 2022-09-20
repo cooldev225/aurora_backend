@@ -13,6 +13,7 @@ class PatientRecall extends Model
     protected $fillable = [
         'user_id',
         'organization_id',
+        'appointment_id',
         'patient_id',
         'time_frame',
         'date_recall_due',
