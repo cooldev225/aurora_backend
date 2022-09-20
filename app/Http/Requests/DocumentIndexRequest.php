@@ -33,13 +33,14 @@ class DocumentIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'specialist_id'    => 'nullable|int',
-            'appointment_id'   => 'nullable|int',
-            'patient_id'       => 'nullable|int',
-            'before_date'      => 'nullable|date',
-            'after_date'       => 'nullable|date',
-            'is_seen'          => 'nullable|boolean',
-            'origin'           => 'nullable|In:CREATED,RECEIVED,UPLOADED',
+            'specialist_id'         => 'nullable|int',
+            'appointment_id'        => 'nullable|int',
+            'patient_id'            => 'nullable|int',
+            'before_date'           => 'nullable|date',
+            'after_date'            => 'nullable|date',
+            'is_seen'               => 'nullable|boolean',
+            'origin'                => 'nullable|In:CREATED,RECEIVED,UPLOADED',
+            'is_missing_information'    =>'nullable|boolean',
         ];
     }
 }

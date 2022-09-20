@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Enum\FileType;
 use Illuminate\Http\Response;
 use App\Http\Requests\FileRequest;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -47,7 +49,7 @@ class FileController extends Controller
 
         $path = "{$folder}/{$request->path}";
         $file = Storage::disk('local')->get($path);
-
+        Log::info($path);
         if (!$file) {
             // If there's no file, return a 404.
             // Likely this is because the user doesn't have access

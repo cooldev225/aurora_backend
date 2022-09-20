@@ -21,9 +21,9 @@ class PatientDocument extends Model
 
     public function getDocumentInfoAttribute(){
         return [
-            'patient' => $this->patient->full_name . ' (' . Carbon::parse($this->patient->date_of_birth)->format('d-m-Y'). ')',
-            'specialist' => $this->specialist->full_name,
-            'appointment' => $this->appointment->aus_formatted_date . ' ' . $this->appointment->formatted_appointment_time . ' @ ' . $this->appointment->clinic->name,
+            'patient' => $this->patient ? $this->patient->full_name . ' (' . Carbon::parse($this->patient->date_of_birth)->format('d-m-Y'). ')' : '',
+            'specialist' => $this->specialist?->full_name,
+            'appointment' =>  $this->appointment ? $this->appointment->aus_formatted_date . ' ' . $this->appointment->formatted_appointment_time . ' @ ' . $this->appointment->clinic->name : '',
         ];
     }
 

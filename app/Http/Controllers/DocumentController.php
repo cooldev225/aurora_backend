@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\DocumentIndexRequest;
 use App\Models\PatientDocument;
 use Illuminate\Http\Response;
-
+use Illuminate\Support\Facades\Log;
 
 class DocumentController extends Controller
 {
@@ -22,14 +22,18 @@ class DocumentController extends Controller
         $documents = PatientDocument::where('organization_id', auth()->user()->organization_id);
 
         foreach ($params as $column => $param) {
-            if (!empty($param)) {
-                if($param == 'before_date'){
+
+            if ($column == 'is_missing_information' && $param == 1) {
+                Log::info('is_missing_patient' . $param);
+                $documents = $documents->whereNull('patient_id')->orWhereNull('specialist_id');
+            } else if (!empty($param)) {
+                if ($param == 'before_date') {
                     $documents = $documents->where('created_at', '<=', $param);
-                }else if ($param == 'after_date'){
+                } else if ($param == 'after_date') {
                     $documents = $documents->where('created_at', '>=', $param);
-                }else{
+                } else {
                     $documents = $documents->where($column, $param);
-                } 
+                }
             }
         }
 
