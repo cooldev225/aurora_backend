@@ -11,26 +11,6 @@ use App\Http\Requests\PatientDocumentRequest;
 class PatientDocumentController extends Controller
 {
     /**
-     * [Patient Document] - List
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Patient $patient)
-    {
-        // Verify the user can access this function via policy
-        $this->authorize('viewAny', PatientDocument::class);
-
-        return response()->json(
-            [
-                'message' => 'Patient Document List',
-                'data'    => $patient->documents,
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
      * [Patient Document] - Store
      *
      * @param  \App\Http\Requests\PatientRequest  $request
