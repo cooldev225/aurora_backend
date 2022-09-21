@@ -2,7 +2,7 @@
 
 use App\Enum\FileType;
 
-if (!function_exists('getFileName')) {
+if (!function_exists('generateFileName')) {
     function generateFileName(FileType $type, $model_id, $extension, $name = null)
     {
         $filename = "{$type->value}_{$model_id}";

@@ -42,7 +42,7 @@ class OrganizationController extends Controller
     public function show(Organization $organization)
     {
         // Verify the user can access this function via policy
-        $this->authorize('create', Organization::class);
+        $this->authorize('update', $organization);
 
         return response()->json(
             [
@@ -89,7 +89,7 @@ class OrganizationController extends Controller
             'code'                      => $code,
             'owner_id'                  => $owner->id,
             ...$request->validated(),
-       
+
         ]);
 
         $owner->organization_id = $organization->id;
