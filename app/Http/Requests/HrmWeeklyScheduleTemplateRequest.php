@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreHrmScheduleTimeslotsRequest extends FormRequest
+class HrmWeeklyScheduleTemplateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class StoreHrmScheduleTimeslotsRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'clinic_id' => 'required|numeric',
+            'role_id'   => 'required|numeric',
+            'user_id'   => 'nullable|numeric',
         ];
     }
 }

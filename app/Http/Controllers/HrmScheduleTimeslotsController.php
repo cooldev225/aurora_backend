@@ -3,74 +3,45 @@
 namespace App\Http\Controllers;
 
 use App\Models\HrmScheduleTimeslots;
-use App\Http\Requests\StoreHrmScheduleTimeslotsRequest;
-use App\Http\Requests\UpdateHrmScheduleTimeslotsRequest;
+use App\Http\Requests\HrmScheduleTimeslotsRequest;
+
 
 class HrmScheduleTimeslotsController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreHrmScheduleTimeslotsRequest  $request
+     * @param  \App\Http\Requests\HrmScheduleTimeslotsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreHrmScheduleTimeslotsRequest $request)
+    public function store(HrmScheduleTimeslotsRequest $request)
     {
-        //
+        $hrmScheduleTimeslots = HrmScheduleTimeslots::create($request->validated());
+        return response()->json(
+            [
+                'message' => 'Schedule templated created',
+                'data'    => $hrmScheduleTimeslots,
+            ],
+            200
+        );
     }
 
     /**
-     * Display the specified resource.
+     * update a resource in storage.
      *
-     * @param  \App\Models\HrmScheduleTimeslots  $hrmScheduleTimeslots
+     * @param  \App\Http\Requests\HrmScheduleTimeslotsRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(HrmScheduleTimeslots $hrmScheduleTimeslots)
+    public function update(HrmScheduleTimeslotsRequest $request, HrmScheduleTimeslots $hrmScheduleTimeslots)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\HrmScheduleTimeslots  $hrmScheduleTimeslots
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(HrmScheduleTimeslots $hrmScheduleTimeslots)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateHrmScheduleTimeslotsRequest  $request
-     * @param  \App\Models\HrmScheduleTimeslots  $hrmScheduleTimeslots
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateHrmScheduleTimeslotsRequest $request, HrmScheduleTimeslots $hrmScheduleTimeslots)
-    {
-        //
+        $hrmScheduleTimeslots->update($request->validated());
+        return response()->json(
+            [
+                'message' => 'Timeslot updated',
+                'data'    => $hrmScheduleTimeslots,
+            ],
+            200
+        );
     }
 
     /**
@@ -81,6 +52,12 @@ class HrmScheduleTimeslotsController extends Controller
      */
     public function destroy(HrmScheduleTimeslots $hrmScheduleTimeslots)
     {
-        //
+        $hrmScheduleTimeslots->delete();
+        return response()->json(
+            [
+                'message' => 'Schedule timeslot deleted',
+            ],
+            204
+        );
     }
 }

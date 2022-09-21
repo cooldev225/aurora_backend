@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\HrmWeeklyScheduleTemplateIndexRequest;
 use App\Models\HrmWeeklyScheduleTemplate;
-use App\Http\Requests\StoreHrmWeeklyScheduleTemplateRequest;
-use App\Http\Requests\UpdateHrmWeeklyScheduleTemplateRequest;
+use App\Http\Requests\HrmWeeklyScheduleTemplateRequest;
+
 
 class HrmWeeklyScheduleTemplateController extends Controller
 {
@@ -30,58 +30,41 @@ class HrmWeeklyScheduleTemplateController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreHrmWeeklyScheduleTemplateRequest  $request
+     * @param  \App\Http\Requests\HrmWeeklyScheduleTemplateRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreHrmWeeklyScheduleTemplateRequest $request)
+    public function store(HrmWeeklyScheduleTemplateRequest $request)
     {
-        //
+        $hrmWeeklyScheduleTemplate = HrmWeeklyScheduleTemplate::create($request->validated());
+        return response()->json(
+            [
+                'message' => 'Schedule templated created',
+                'data'    => $hrmWeeklyScheduleTemplate,
+            ],
+            200
+        );
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\HrmWeeklyScheduleTemplate  $hrmWeeklyScheduleTemplate
-     * @return \Illuminate\Http\Response
-     */
-    public function show(HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\HrmWeeklyScheduleTemplate  $hrmWeeklyScheduleTemplate
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\UpdateHrmWeeklyScheduleTemplateRequest  $request
+     * @param  \App\Http\Requests\HrmWeeklyScheduleTemplateRequest  $request
      * @param  \App\Models\HrmWeeklyScheduleTemplate  $hrmWeeklyScheduleTemplate
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateHrmWeeklyScheduleTemplateRequest $request, HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
+    public function update(HrmWeeklyScheduleTemplateRequest $request, HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
-        //
+        $hrmWeeklyScheduleTemplate->update($request->validated());
+        return response()->json(
+            [
+                'message' => 'Schedule templated updated',
+                'data'    => $hrmWeeklyScheduleTemplate,
+            ],
+            200
+        );
     }
 
     /**
@@ -92,6 +75,12 @@ class HrmWeeklyScheduleTemplateController extends Controller
      */
     public function destroy(HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
-        //
+        $hrmWeeklyScheduleTemplate->delete();
+        return response()->json(
+            [
+                'message' => 'Schedule templated deleted',
+            ],
+            204
+        );
     }
 }
