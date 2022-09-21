@@ -20,6 +20,7 @@ use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\PatientDocumentReportController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationTemplateController;
@@ -165,7 +166,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
     Route::get('/available-timeslots',             [AppointmentSearchAvailableController::class, 'index']);
     Route::post('/file',                           [FileController::class,'show']);
-   
+
     Route::get('/user-appointments',               [UserAppointmentController::class, 'index']);
     Route::get('/documents',                       [DocumentController::class, 'index']);
 
