@@ -27,6 +27,7 @@ use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FileController;
+use App\Http\Controllers\HrmWeeklyScheduleTemplateController;
 use App\Http\Controllers\LetterTemplateController;
 use App\Http\Controllers\NotificationTestController;
 use App\Http\Controllers\PaymentController;
@@ -126,6 +127,10 @@ Route::middleware(['auth'])->group(function () {
         });
     });
 
+    Route::prefix('hrm')->group(function () {
+        Route::apiResource('/schedule-templates', HrmWeeklyScheduleTemplateController::class, ['except' => ['show']]);
+    });
+
     ////////////////////////////////////////////////////////////////////////////////////
     // Payment Routes
     Route::prefix('payments')->group(function () {
@@ -143,7 +148,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/appointment-types',             AppointmentTypeController::class,['except' => ['show']]);
     Route::apiResource('/birth-codes',                   BirthCodeController::class,['except' => ['show']]);
     Route::apiResource('/clinics',                       ClinicController::class,['except' => ['show']]);
-    Route::apiResource('/clinics/{clinic}/rooms',         RoomController::class,['except' => ['show']]);
+    Route::apiResource('/clinics/{clinic}/rooms',        RoomController::class,['except' => ['show']]);
     Route::apiResource('/health-funds',                  HealthFundController::class,['except' => ['show']]);
     Route::apiResource('/letter-templates',              LetterTemplateController::class, ['except' => ['show']]);
     Route::apiResource('/notification-templates',        NotificationTemplateController::class, ['except' => ['show']]);

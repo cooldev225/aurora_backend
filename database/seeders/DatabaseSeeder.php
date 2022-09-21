@@ -31,7 +31,8 @@ class DatabaseSeeder extends Seeder
             ReportTemplateSeeder::class,
             PatientDocumentSeeder::class,
             PreAdmissionSeeder::class,
-            ScheduleFeeSeeder::class
+            ScheduleFeeSeeder::class,
+            HrmWeeklyScheduleTemplateSeeder::class,
         ]);
     }
 }
