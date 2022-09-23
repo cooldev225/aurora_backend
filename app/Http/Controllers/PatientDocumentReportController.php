@@ -46,14 +46,14 @@ class PatientDocumentReportController extends Controller
             array_push($reportData, $value);
         }
 
-        // return $reportData;
-
         $pdfData = [
             'title'           => 'Patient Document Report',
             'patientName'     => $request->patientName,
             'referringDoctor' => $request->referringDoctor,
             'date'            => date('d/m/Y'),
             'reportData'      => $reportData,
+            'header_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_header,
+            'footer_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_footer,
         ];
 
         $pdf = PDF::loadView('pdfs/patientDocumentReport', $pdfData);

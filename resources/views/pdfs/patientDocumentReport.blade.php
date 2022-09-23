@@ -4,6 +4,9 @@
     <title>{{ $title }}</title>
 </head>
 <body>
+    <div>
+        <img src="{{ storage_path('app/'.$header_image) }}" style="width: 100%;">
+    </div>
     <h1>{{ $title }}</h1>
     <div>
         <span>Date</span><p>{{ $date }}</p>
@@ -21,6 +24,8 @@
         <h3>{{ $report[1]}}</h3>
 
     @endforeach
-
+    <div>
+        <img src="{{ storage_path('app/'.$footer_image) }}" style="width: 100%;">
+    </div>
 </body>
 </html>
