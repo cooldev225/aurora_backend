@@ -9,7 +9,7 @@ class HrmWeeklyScheduleTemplate extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['clinic_id','role_id','default_employee'];
+    protected $fillable = ['clinic_id','role_id','user_id'];
 
     /**
      * Returns user
