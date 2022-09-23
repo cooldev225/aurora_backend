@@ -24,8 +24,9 @@ class PatientDocumentReportStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id' => 'integer|required',
-            'body'       => 'string|required',
+            'patient_id'      => 'integer|required',
+            'patientName'     => 'string|required',
+            'referringDoctor' => 'string|required',
         ];
     }
 
@@ -37,14 +38,14 @@ class PatientDocumentReportStoreRequest extends FormRequest
     public function bodyParameters()
     {
         return [
-            'patient_id' => [
-                'description' => '',
-                'example'     => '',
-            ],
-            'body' => [
-                'description' => '',
-                'example'     => '',
-            ],
+            // 'patient_id' => [
+            //     'description' => '',
+            //     'example'     => '',
+            // ],
+            // 'body' => [
+            //     'description' => '',
+            //     'example'     => '',
+            // ],
         ];
     }
 }
