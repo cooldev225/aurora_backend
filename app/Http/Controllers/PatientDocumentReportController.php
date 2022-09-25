@@ -11,9 +11,13 @@ use App\Models\Appointment;
 use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientReport;
+use App\Models\ReportSection;
+use App\Models\ReportAutoText;
+
 use PDF;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Arr;
 
 class PatientDocumentReportController extends Controller
 {
@@ -29,13 +33,27 @@ class PatientDocumentReportController extends Controller
         $this->authorize('create', PatientDocument::class);
 
         $file_type = 'PDF';
+        $reportData = array();
+        foreach ($request->reportData as $data) {
+            $sectionTitle = ReportSection::find($data['sectionId'])->title;
+            $text = $data['free_text_default'];
+            $tempAutoTextData = array();
+            foreach($data['value'] as $key) {
+                $autoText = ReportAutoText::find($key)->text;
+                array_push($tempAutoTextData, $autoText);
+            }
+            $value = [$sectionTitle, $text, $tempAutoTextData];
+            array_push($reportData, $value);
+        }
 
         $pdfData = [
-            'organization'     => auth()->user()->organization,
-            'patient'     => $patient,
-            'appointment' => Appointment::find('appointment_id'),
-            'specialist'  => auth()->user(),
-            'report_body' => $request->body,
+            'title'           => 'Patient Document Report',
+            'patientName'     => $request->patientName,
+            'referringDoctor' => $request->referringDoctor,
+            'date'            => date('d/m/Y'),
+            'reportData'      => $reportData,
+            'header_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_header,
+            'footer_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_footer,
         ];
 
         $pdf = PDF::loadView('pdfs/patientDocumentReport', $pdfData);
@@ -45,15 +63,16 @@ class PatientDocumentReportController extends Controller
 
         PatientDocument::create([
             'patient_id'        => $patient->id,
-            'appointment_id'    => $request->appointment_id,
-            'specialist_id'     => $request->specialist_id,
-            'document_name'     => $request->document_name,
+            'appointment_id'    => $request->appointmentId,
+            'specialist_id'     => $request->specialistId,
+            'document_name'     => $request->documentName,
             'document_type'     => DocumentType::REPORT,
             'file_type'         => $file_type,
             'origin'            => DocumentOrigin::CREATED,
             'created_by'        => auth()->user()->id,
             'file_path'         => $file_name,
-            'is_updatable'      => true
+            'is_updatable'      => true,
+            'organization_id'   => auth()->user()->organization_id,
         ]);
 
         // Create PAtient Report Model for future editing
