@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\DocumentOrigin;
 use App\Enum\DocumentType;
+use App\Enum\FileType;
 use App\Http\Requests\PatientDocumentReportStoreRequest;
 use App\Http\Requests\PatientDocumentReportUpdateRequest;
 use App\Http\Requests\PatientDocumentReportUploadRequest;
@@ -59,9 +60,12 @@ class PatientDocumentReportController extends Controller
         $pdf = PDF::loadView('pdfs/patientDocumentReport', $pdfData);
         $file_name = 'patient_report_' . $patient->id . '_' . time() . '.pdf';
         $file_path = '/files/patient_documents/' . $file_name;
-        Storage::put($file_path, $pdf->output());
 
-        PatientDocument::create([
+
+        
+ 
+
+        $patient_document = PatientDocument::create([
             'patient_id'        => $patient->id,
             'appointment_id'    => $request->appointmentId,
             'specialist_id'     => $request->specialistId,
@@ -70,10 +74,17 @@ class PatientDocumentReportController extends Controller
             'file_type'         => $file_type,
             'origin'            => DocumentOrigin::CREATED,
             'created_by'        => auth()->user()->id,
-            'file_path'         => $file_name,
             'is_updatable'      => true,
             'organization_id'   => auth()->user()->organization_id,
         ]);
+
+              
+        $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, 'pdf');
+        $file_path = getUserOrganizationFilePath();
+       
+        Storage::put($file_path . '/' . $file_name, $pdf->output());
+        $patient_document->file_path = $file_name;
+        $patient_document->save();
 
         // Create PAtient Report Model for future editing
 
