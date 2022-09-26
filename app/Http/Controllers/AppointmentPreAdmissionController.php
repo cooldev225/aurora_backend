@@ -190,10 +190,10 @@ class AppointmentPreAdmissionController extends Controller
 
         $pdf = PDF::loadView('pdfs/patientPreAdmissionForm', $data);
 
-        $file_name = 'pre_admission_' . $appointment->id . '_' . time() . '.pdf';
-        $file_path = '/files/appointment_pre_admission/' . $file_name;
-
-        Storage::put($file_path, $pdf->output());
+        $file_name = generateFileName(FileType::PRE_ADMISSION, $preAdmission->id, 'pdf');
+        $file_path = getUserOrganizationFilePath();
+       
+        Storage::put($file_path . '/' . $file_name, $pdf->output());
         $file_url = url($file_path);
         $preAdmission->pre_admission_file = $file_url;
         $preAdmission->status = 'CREATED';
@@ -216,7 +216,7 @@ class AppointmentPreAdmissionController extends Controller
         $this->authorize('update', $pre_admission);
 
         if ($file = $request->file('file')) {
-            $file_name = generateFileName(FileType::REFERRAL, $pre_admission->id, $file->extension());
+            $file_name = generateFileName(FileType::PRE_ADMISSION, $pre_admission->id, $file->extension());
             $filepath = getUserOrganizationFilePath();
             $file->storeAs($filepath, $file_name);
             $pre_admission->pre_admission_file = $file_name;
