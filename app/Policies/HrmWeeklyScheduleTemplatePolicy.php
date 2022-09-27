@@ -18,7 +18,7 @@ class HrmWeeklyScheduleTemplatePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']);
     }
 
     /**
@@ -30,7 +30,7 @@ class HrmWeeklyScheduleTemplatePolicy
      */
     public function view(User $user, HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']) && $hrmWeeklyScheduleTemplate->clinic->organization_id == $user->organization->id;
     }
 
     /**
@@ -41,7 +41,7 @@ class HrmWeeklyScheduleTemplatePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']);
     }
 
     /**
@@ -53,7 +53,7 @@ class HrmWeeklyScheduleTemplatePolicy
      */
     public function update(User $user, HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
-        //
+        return true;//$user->hasAnyRole(['organizationAdmin']) && $hrmWeeklyScheduleTemplate->clinic->organization_id == $user->organization->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class HrmWeeklyScheduleTemplatePolicy
      */
     public function delete(User $user, HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']) && $hrmWeeklyScheduleTemplate->clinic->organization_id == $user->organization->id;
     }
 
     /**
@@ -77,7 +77,7 @@ class HrmWeeklyScheduleTemplatePolicy
      */
     public function restore(User $user, HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']) && $hrmWeeklyScheduleTemplate->clinic->organization_id == $user->organization->id;
     }
 
     /**
@@ -89,6 +89,6 @@ class HrmWeeklyScheduleTemplatePolicy
      */
     public function forceDelete(User $user, HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']) && $hrmWeeklyScheduleTemplate->clinic->organization_id == $user->organization->id;
     }
 }

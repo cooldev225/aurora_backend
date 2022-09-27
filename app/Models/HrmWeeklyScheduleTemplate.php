@@ -19,6 +19,14 @@ class HrmWeeklyScheduleTemplate extends Model
         return $this->hasOne(User::class);
     }
 
+    /**
+     * Returns user
+     */
+    public function clinic()
+    {
+        return $this->hasOne(Clinic::class);
+    }
+
         /**
      * Returns timeslots
      */

@@ -17,6 +17,7 @@ class HrmWeeklyScheduleTemplateController extends Controller
     public function index(HrmWeeklyScheduleTemplateIndexRequest $request)
     {
 
+        $this->authorize('viewAny', HrmWeeklyScheduleTemplate::class);
         return response()->json(
             [
                 'message' => 'Clinic List',
@@ -37,6 +38,7 @@ class HrmWeeklyScheduleTemplateController extends Controller
      */
     public function store(HrmWeeklyScheduleTemplateRequest $request)
     {
+        $this->authorize('create', HrmWeeklyScheduleTemplate::class);
         $hrmWeeklyScheduleTemplate = HrmWeeklyScheduleTemplate::create($request->validated());
         return response()->json(
             [
@@ -57,6 +59,7 @@ class HrmWeeklyScheduleTemplateController extends Controller
      */
     public function update(HrmWeeklyScheduleTemplateRequest $request, HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
+        $this->authorize('update', $hrmWeeklyScheduleTemplate);
         $hrmWeeklyScheduleTemplate->update($request->validated());
         return response()->json(
             [
@@ -75,6 +78,7 @@ class HrmWeeklyScheduleTemplateController extends Controller
      */
     public function destroy(HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
+        $this->authorize('delete', $hrmWeeklyScheduleTemplate);
         $hrmWeeklyScheduleTemplate->delete();
         return response()->json(
             [
