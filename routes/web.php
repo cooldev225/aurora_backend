@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AppointmentPreAdmissionController;
+use App\Http\Controllers\HL7TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,3 +27,4 @@ Route::get('/test', function() {
 });
 
 Route::get('/test-pdf', [AppointmentPreAdmissionController::class, 'testPDF']);
+Route::get('/test-hl7parse', [HL7TestController::class, 'testHL7Parse']);
