@@ -6,7 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Aurora API</title>
-
+    <style>
+        .pdf-iframe {
+            width: 100%;
+            height: 600px;
+        }
+    </style>
 </head>
 
 <body style="font-size: 1.5rem">
@@ -38,13 +43,8 @@
         <table>
 
             <h3>Document Contents</h3>
-            @foreach ($data_content as $data)
-                @if($data['type'] == 'PDF')
-                <iframe style="width:100%; height:600px"src="data:application/pdf;base64,{{$data['content']}}">
-                @else
-                    {!! $data['content'] !!} <br />
-                @endif
-            @endforeach
+
+            {!! $data_content !!} <br />
 
 
 
