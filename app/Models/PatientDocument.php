@@ -10,8 +10,8 @@ class PatientDocument extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'patient_id', 'document_name', 'appointment_id', 'specialist_id',
-        'document_type', 'created_by', 'file_path', 'is_updatable',
+        'patient_id', 'document_name', 'appointment_id', 'specialist_id', 'file_type',
+        'document_type','document_body', 'created_by', 'file_path', 'is_updatable',
         'origin', 'organization_id'
     ];
 

@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.0.2",
+        "aranyasen/hl7": "^2.1",
         "arcanedev/log-viewer": "^9.0",
         "aws/aws-sdk-php": "^3.234",
         "barryvdh/laravel-dompdf": "^2.0",
@@ -36,7 +37,8 @@
         },
         "files": [
             "app/Http/Helpers/security.php",
-            "app/Http/Helpers/filesystem.php"
+            "app/Http/Helpers/filesystem.php",
+            "app/Http/Helpers/HL7formatting.php"
         ]
     },
     "autoload-dev": {
