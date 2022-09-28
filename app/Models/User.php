@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\HRMUserBaseSchedule;
+use App\Models\SpecialistClinicRelation;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -77,6 +78,14 @@ class User extends Authenticatable implements JWTSubject
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+
+    /**
+     * Return Provider Number
+     */
+    public function specialistClinicRelations()
+    {
+        return $this->hasMany(SpecialistClinicRelation::class, 'specialist_id');
     }
 
     /**
@@ -275,13 +284,35 @@ class User extends Authenticatable implements JWTSubject
                 $arrID[] = $scheduleObj->id;
             }
         }
-
         HRMUserBaseSchedule::where('user_id', $this->id)
             ->whereNotIn('id', $arrID)
             ->delete();
-
+        
+        $arrID = [];
+        if(array_key_exists('specialist_clinic_relations', $attributes)){
+            foreach ($attributes['specialist_clinic_relations'] as $provider) {
+                $provider = (object) $provider;
+                $providerObj = null;
+                if (isset($provider->id) && $provider->id!=null) {
+                    $providerObj = SpecialistClinicRelation::find($provider->id);
+                }
+                if ($providerObj == null) {
+                    $providerObj = new SpecialistClinicRelation();
+                    $providerObj->specialist_id = $this->id;
+                }
+                $providerObj->clinic_id = $provider->clinic_id;
+                $providerObj->provider_number = $provider->provider_number;
+                $providerObj->save();
+                $arrID[] = $providerObj->id;
+            }
+        }
+        SpecialistClinicRelation::where('specialist_id', $this->id)
+            ->whereNotIn('id', $arrID)
+            ->delete();
+        
         return User::where('id', $this->id)
             ->with('hrmUserBaseSchedules')
+            ->with('specialistClinicRelations')
             ->first();
     }
 }

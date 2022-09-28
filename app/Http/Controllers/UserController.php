@@ -28,7 +28,8 @@ class UserController extends Controller
             'organization_id',
             $organization->id
         )
-            ->with('hrmUserBaseSchedules');
+        ->with('hrmUserBaseSchedules')
+        ->with('specialistClinicRelations');
             
 
         if($request->role_id){
@@ -148,7 +149,8 @@ class UserController extends Controller
 
         $user = $user->update([
             ...$request->validated(),
-          'hrm_user_base_schedules' => $request->hrm_user_base_schedules,
+            'hrm_user_base_schedules' => $request->hrm_user_base_schedules,
+            'specialist_clinic_relations' => $request->specialist_clinic_relations,
         ]);
         return response()->json(
             [
