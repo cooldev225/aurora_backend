@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('appointment_id')->nullable();
             $table->foreignId('specialist_id')->nullable();
             $table->string('document_name')->nullable();
+            $table->longText('document_body')->nullable();
             $table->enum('document_type', [
                 'LETTER',
                 'REPORT',
@@ -33,6 +34,7 @@ return new class extends Migration
             $table->enum('file_type', [
                 'PNG',
                 'PDF',
+                'HTML',
                 'OTHER',
             ])->default('OTHER');
 
