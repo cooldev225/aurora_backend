@@ -13,7 +13,7 @@ class HrmWeeklyScheduleTemplateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,8 +25,10 @@ class HrmWeeklyScheduleTemplateRequest extends FormRequest
     {
         return [
             'clinic_id' => 'required|numeric',
+            'type'      => 'required|in:PERMANENT,CONTRACTOR,CASUAL',
             'role_id'   => 'required|numeric',
             'user_id'   => 'nullable|numeric',
+            'timeslots' => 'required|array',
         ];
     }
 }
