@@ -50,11 +50,7 @@ class DocumentController extends Controller
     }
 
     public function update(DocumentUpdateRequest $request, PatientDocument $patientDocument ){
-        $params = $request->validated();
-        if($params['patient_id']) {
-            $patientDocument->patient_id = $params['patient_id'];
-        }
-        $patientDocument->save();
+        $patientDocument->update($request->validated());
         return response()->json(
             [
                 'message' => 'Document Updated',

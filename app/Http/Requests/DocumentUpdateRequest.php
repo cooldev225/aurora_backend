@@ -27,8 +27,8 @@ class DocumentUpdateRequest extends FormRequest
             'patient_id'    => 'nullable|integer',
             'appointment_id'=> 'nullable|integer',
             'specialist_id' => 'nullable|integer',
-            'document_name'=>  'nullable|string',
-            'document_type'=> 'nullable|in:LETTER,REPORT,CLINICAL_NOTE,PATHOLOGY_REPORT,AUDIO,USB_CAPTURE,OTHER',
+            'document_name' =>  'required|string',
+            'document_type' => 'required|in:LETTER,REPORT,CLINICAL_NOTE,PATHOLOGY_REPORT,AUDIO,USB_CAPTURE,OTHER',
         ];
     }
 }
