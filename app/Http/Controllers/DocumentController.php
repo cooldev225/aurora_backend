@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DocumentIndexRequest;
 use App\Http\Requests\DocumentPatientAssignRequest;
+use App\Http\Requests\DocumentUpdateRequest;
 use App\Models\Patient;
 use App\Models\PatientDocument;
 use Illuminate\Http\Response;
@@ -17,7 +18,7 @@ class DocumentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(DocumentIndexRequest $request)
+    public function index(DocumentIndexRequest $request )
     {
 
         $params = $request->validated();
@@ -48,6 +49,17 @@ class DocumentController extends Controller
         );
     }
 
+    public function update(DocumentUpdateRequest $request, PatientDocument $patientDocument ){
+        $patientDocument->update($request->validated());
+        return response()->json(
+            [
+                'message' => 'Document Updated',
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /* 
     public function patient(DocumentPatientAssignRequest $request)
     {
         $params = $request->validated();
@@ -74,5 +86,5 @@ class DocumentController extends Controller
                 Response::HTTP_NO_CONTENT
             );
         }
-    }
+    }*/
 }

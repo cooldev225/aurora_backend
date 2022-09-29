@@ -172,7 +172,7 @@ Route::middleware(['auth'])->group(function () {
     // Patient Document Routes
     Route::prefix('documents')->group(function () {
         Route::get('/',              [DocumentController::class, 'index']);
-        Route::post('/patient',             [DocumentController::class, 'patient']);
+        Route::put('/{patientDocument}',             [DocumentController::class, 'update']);
     });
 
     Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);
