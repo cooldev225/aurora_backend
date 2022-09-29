@@ -42,6 +42,7 @@ use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\UserProfileSignatureController;
 use App\Models\PatientBilling;
 
 /*
@@ -73,9 +74,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout',          [UserAuthenticationController::class, 'logout']);
     Route::post('/refresh',         [UserAuthenticationController::class, 'refresh']);
 
-    Route::post('/update-profile',  [UserProfileController::class, 'update']);
-    Route::get('/profile',          [UserProfileController::class, 'show']);
-    Route::post('/change-password', [UserPasswordController::class, 'update']);
+    Route::post('/update-profile',   [UserProfileController::class, 'update']);
+    Route::get('/profile',           [UserProfileController::class, 'show']);
+    Route::post('/change-password',  [UserPasswordController::class, 'update']);
+    Route::post('/change-signature', [UserProfileSignatureController::class, 'update']);
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Appointment Routes
