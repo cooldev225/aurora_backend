@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('hrm_weekly_schedule_templates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('clinic_id');
+            $table->enum('type',['PERMANENT', 'CONTRACTOR', 'CASUAL']);
             $table->integer('role_id');
             $table->foreignId('user_id')->nullable();
             $table->timestamps();
