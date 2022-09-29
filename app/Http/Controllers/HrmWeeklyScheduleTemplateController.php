@@ -61,16 +61,7 @@ class HrmWeeklyScheduleTemplateController extends Controller
         HrmWeeklyScheduleTemplateRequest $request, 
         HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate
     ){
-        return response()->json(
-            [
-                'message' => 'Schedule templated updated',
-                'request'    => $request,
-                'hrmWeeklyScheduleTemplate'    => $hrmWeeklyScheduleTemplate,
-            ],
-            200
-        );
         $this->authorize('update', $hrmWeeklyScheduleTemplate);
-        $a = $hrmWeeklyScheduleTemplate;
         $hrmWeeklyScheduleTemplate = $hrmWeeklyScheduleTemplate->update([
             ...$request->validated(),
             'timeslots' => $request->timeslots,
@@ -78,7 +69,6 @@ class HrmWeeklyScheduleTemplateController extends Controller
         return response()->json(
             [
                 'message' => 'Schedule templated updated',
-                'a'    => $a,
                 'data'    => $hrmWeeklyScheduleTemplate,
             ],
             200
