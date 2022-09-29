@@ -10,6 +10,18 @@ class PatientAlertPolicy
 {
     use HandlesAuthorization;
 
+        /**
+     * Perform pre-authorization checks.
+     *
+     * @param  \App\Models\User  $user
+     * @return void|bool
+     */
+    public function before(User $user)
+    {
+        return true;
+    }
+
+
     /**
      * Determine whether the user can view any models.
      *
@@ -18,7 +30,7 @@ class PatientAlertPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +42,7 @@ class PatientAlertPolicy
      */
     public function view(User $user, PatientAlert $patientAlert)
     {
-        //
+        return true;
     }
 
     /**
@@ -41,7 +53,7 @@ class PatientAlertPolicy
      */
     public function create(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -53,7 +65,7 @@ class PatientAlertPolicy
      */
     public function update(User $user, PatientAlert $patientAlert)
     {
-        //
+        return true;
     }
 
     /**
@@ -65,7 +77,7 @@ class PatientAlertPolicy
      */
     public function delete(User $user, PatientAlert $patientAlert)
     {
-        //
+        return true;
     }
 
     /**
@@ -77,7 +89,7 @@ class PatientAlertPolicy
      */
     public function restore(User $user, PatientAlert $patientAlert)
     {
-        //
+        return true;
     }
 
     /**
@@ -89,6 +101,6 @@ class PatientAlertPolicy
      */
     public function forceDelete(User $user, PatientAlert $patientAlert)
     {
-        //
+        return true;
     }
 }

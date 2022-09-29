@@ -6,6 +6,7 @@ use App\Models\PatientAlert;
 use App\Http\Requests\PatientAlertRequest;
 use App\Models\Patient;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Log;
 
 class PatientAlertController extends Controller
 {
@@ -27,11 +28,14 @@ class PatientAlertController extends Controller
      */
     public function store(PatientAlertRequest $request, Patient $patient)
     {
+        Log::debug('Add PAtient Alert');
+        
+        /*$this->authorize('create', PatientAlert::class);
         PatientAlert::create([
             ...$request->validated(),
             'patient_id' => $patient->id,
             'created_by' => auth()->user()->id
-        ]);
+        ]);*/
 
         return response()->json(
             [

@@ -129,7 +129,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('report/{patient}',   [PatientDocumentReportController::class, 'store']);
         });
 
-        Route::post('/alerts/{patient}', [PatientAlertController::class,'store']);
+        Route::post('/alerts/{patient}', [PatientAlertController::class, 'store']);
     });
 
     Route::prefix('hrm')->group(function () {
