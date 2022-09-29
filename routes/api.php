@@ -168,8 +168,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/file',                           [FileController::class,'show']);
 
     Route::get('/user-appointments',               [UserAppointmentController::class, 'index']);
-    Route::get('/documents',                       [DocumentController::class, 'index']);
 
+    // Patient Document Routes
+    Route::prefix('documents')->group(function () {
+        Route::get('/',              [DocumentController::class, 'index']);
+        Route::put('/{patientDocument}',             [DocumentController::class, 'update']);
+    });
 
     Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);
     Route::put('appointment/procedure-approvals/{appointment}',    [AppointmentProcedureApprovalController::class, 'update']);
