@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DocumentIndexRequest;
+use App\Http\Requests\DocumentPatientAssignRequest;
+use App\Models\Patient;
 use App\Models\PatientDocument;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -44,5 +46,33 @@ class DocumentController extends Controller
             ],
             Response::HTTP_OK
         );
+    }
+
+    public function patient(DocumentPatientAssignRequest $request)
+    {
+        $params = $request->validated();
+        $patient = Patient::find($params['patient_id']);
+        $document = Patient::find($params['document_id']);
+        if($patient && $document)
+        {
+            $document->patient_id = $patient->id;
+            $document::save();
+            return response()->json(
+                [
+                    'message' => 'Document Updated',
+                    'data'    => $patient->id,
+                ],
+                Response::HTTP_OK
+            );
+        }
+        else
+        {
+            return response()->json(
+                [
+                    'message' => 'Data is not existed!',
+                ],
+                Response::HTTP_NO_CONTENT
+            );
+        }
     }
 }
