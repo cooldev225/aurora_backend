@@ -50,7 +50,11 @@ class DocumentController extends Controller
     }
 
     public function update(DocumentUpdateRequest $request, PatientDocument $patientDocument ){
-        $patientDocument->update($request->validated());
+        $params = $request->validated();
+        if($params['patient_id']) {
+            $patientDocument->patient_id = $params['patient_id'];
+        }
+        $patientDocument->save();
         return response()->json(
             [
                 'message' => 'Document Updated',
@@ -58,33 +62,4 @@ class DocumentController extends Controller
             Response::HTTP_OK
         );
     }
-
-    /* 
-    public function patient(DocumentPatientAssignRequest $request)
-    {
-        $params = $request->validated();
-        $patient = Patient::find($params['patient_id']);
-        $document = PatientDocument::find($params['document_id']);
-        if($patient && $document)
-        {
-            $document->patient_id = $patient->id;
-            $document->save();
-            return response()->json(
-                [
-                    'message' => 'Document Updated',
-                    'data'    => $patient->id,
-                ],
-                Response::HTTP_OK
-            );
-        }
-        else
-        {
-            return response()->json(
-                [
-                    'message' => 'Data is not existed!',
-                ],
-                Response::HTTP_NO_CONTENT
-            );
-        }
-    }*/
 }
