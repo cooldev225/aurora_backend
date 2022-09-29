@@ -69,6 +69,7 @@ class UserAuthenticationController extends Controller
                 'role' => $user->role->slug,
                 'access_token' => $token,
                 'profile' => auth()->user(),
+                'organization' => auth()->user()->organization,
             ],
             Response::HTTP_OK
         );
