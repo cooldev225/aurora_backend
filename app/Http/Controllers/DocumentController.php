@@ -52,11 +52,11 @@ class DocumentController extends Controller
     {
         $params = $request->validated();
         $patient = Patient::find($params['patient_id']);
-        $document = Patient::find($params['document_id']);
+        $document = PatientDocument::find($params['document_id']);
         if($patient && $document)
         {
             $document->patient_id = $patient->id;
-            $document::save();
+            $document->save();
             return response()->json(
                 [
                     'message' => 'Document Updated',
