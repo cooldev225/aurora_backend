@@ -60,6 +60,15 @@ class Patient extends Model
     }
 
     /**
+     * Return Patient Appointment
+     */
+    public function alerts()
+    {
+        return $this->hasMany(PatientAlert::class);
+    }
+
+
+    /**
      * Returns Patients Upcoming Appointment
      */
     public function upcoming_appointments()

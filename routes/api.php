@@ -37,12 +37,14 @@ use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrganizationSettingsController;
+use App\Http\Controllers\PatientAlertController;
+use App\Http\Controllers\PatientBillingController;
 use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
-use App\Models\PatientBilling;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -117,7 +119,7 @@ Route::middleware(['auth'])->group(function () {
     // Patient Routes
     Route::prefix('patients')->group(function () {
         Route::get('/appointments/{patient}', [PatientController::class, 'appointments']);
-        Route::put('/billing/{patient}',      [PatientBilling::class, 'update']);
+        Route::put('/billing/{patient}',      [PatientBillingController::class, 'update']);
 
         Route::apiResource('/recalls',        PatientRecallController::class, ['except' => ['show', 'index']]);
         Route::get('/recalls/{patient}',      [PatientRecallController::class, 'index']);
@@ -126,6 +128,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{patient}',         [PatientDocumentController::class, 'store']);
             Route::post('report/{patient}',   [PatientDocumentReportController::class, 'store']);
         });
+
+        Route::post('/alerts/{patient}', [PatientAlertController::class,'store']);
     });
 
     Route::prefix('hrm')->group(function () {
@@ -160,7 +164,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/referring-doctors',             ReferringDoctorController::class,['except' => ['show']]);
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
-
+ 
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
