@@ -25,7 +25,6 @@ $name=  $this->faker->company();
         return [
             'name'                   => $name,
             'code'                   => substr($name, 0, 3),
-            'logo'                   => $this->faker->imageUrl(),
             'max_clinics'            => mt_rand(1, 9999),
             'max_employees'          => mt_rand(1, 9999),
             'owner_id'               => $owner->id,
