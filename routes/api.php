@@ -163,7 +163,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/referring-doctors',             ReferringDoctorController::class,['except' => ['show']]);
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
- 
+
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
@@ -181,4 +181,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('appointment/procedure-approvals/{appointment}',    [AppointmentProcedureApprovalController::class, 'update']);
 
     Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);
+
+    // Employee Routes
+    Route::prefix('users')->group(function () {
+        Route::put('/password/update/{employee}',             [UserPasswordController::class, 'updateEmployeePassword']);
+    });
 });
