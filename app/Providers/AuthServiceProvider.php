@@ -63,6 +63,7 @@ use App\Policies\ReferringDoctorPolicy;
 use App\Models\PatientDocumentsActionLog;
 use App\Models\AppointmentTimeRequirement;
 use App\Models\HrmWeeklyScheduleTemplate;
+use App\Models\PatientAlert;
 use App\Policies\AnestheticQuestionPolicy;
 use App\Policies\AppointmentPaymentPolicy;
 use App\Policies\AppointmentReferralPolicy;
@@ -78,6 +79,7 @@ use App\Policies\AppointmentPreAdmissionPolicy;
 use App\Policies\PatientDocumentsActionLogPolicy;
 use App\Policies\AppointmentTimeRequirementPolicy;
 use App\Policies\HrmWeeklyScheduleTemplatePolicy;
+use App\Policies\PatientAlertPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -106,6 +108,7 @@ class AuthServiceProvider extends ServiceProvider
         NotificationTemplate::class       => NotificationTemplatePolicy::class,
         Organization::class               => OrganizationPolicy::class,
         Patient::class                    => PatientPolicy::class,
+        PatientAlert::class               => PatientAlertPolicy::class,
         PatientBilling::class             => PatientBillingPolicy::class,
         PatientClinicalNote::class        => PatientClinicalNotePolicy::class,
         PatientDocument::class            => PatientDocumentPolicy::class,
