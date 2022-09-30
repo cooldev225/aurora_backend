@@ -37,3 +37,15 @@ if (!function_exists('getUserOrganizationFilePath')) {
         return "{$prefix}/{$user->organization_id}";
     }
 }
+
+if (!function_exists('getUserProfileSignatureFilePath')) {
+    function getUserProfileSignatureFilePath($prefix = 'images') {
+        $user = auth()->user();
+
+        if (!$user) {
+            return null;
+        }
+
+        return "{$prefix}/signature/{$user->id}";
+    }
+}

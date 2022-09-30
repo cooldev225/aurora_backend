@@ -75,9 +75,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/refresh',         [UserAuthenticationController::class, 'refresh']);
 
     Route::post('/update-profile',   [UserProfileController::class, 'update']);
-    Route::get('/profile',           [UserProfileController::class, 'show']);
     Route::post('/change-password',  [UserPasswordController::class, 'update']);
-    Route::post('/change-signature', [UserProfileSignatureController::class, 'update']);
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Profile Routes
+    Route::prefix('profile')->group(function () {
+        Route::get('/',                        [UserProfileController::class,'show']);
+        Route::post('/signature',              [UserProfileSignatureController::class,'update']);
+    });
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Appointment Routes
