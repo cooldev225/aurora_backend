@@ -38,7 +38,6 @@ use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrganizationSettingsController;
 use App\Http\Controllers\PatientDocumentController;
-use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
@@ -129,7 +128,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('hrm')->group(function () {
-        Route::apiResource('/schedule-templates', HrmWeeklyScheduleTemplateController::class, ['except' => ['show']]);
+        Route::apiResource('hrm-weekly-schedule-template', HrmWeeklyScheduleTemplateController::class, ['except' => ['show']]);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -167,13 +166,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/available-timeslots',             [AppointmentSearchAvailableController::class, 'index']);
     Route::post('/file',                           [FileController::class,'show']);
 
-    Route::get('/user-appointments',               [UserAppointmentController::class, 'index']);
-
     // Patient Document Routes
     Route::prefix('documents')->group(function () {
         Route::get('/',              [DocumentController::class, 'index']);
         Route::put('/{patientDocument}',             [DocumentController::class, 'update']);
     });
+
 
     Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);
     Route::put('appointment/procedure-approvals/{appointment}',    [AppointmentProcedureApprovalController::class, 'update']);

@@ -53,7 +53,8 @@ class HrmWeeklyScheduleTemplatePolicy
      */
     public function update(User $user, HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate)
     {
-        return true;//$user->hasAnyRole(['organizationAdmin']) && $hrmWeeklyScheduleTemplate->clinic->organization_id == $user->organization->id;
+        return $user->hasAnyRole(['organizationAdmin']);
+        //return true;//$user->hasAnyRole(['organizationAdmin']) && $hrmWeeklyScheduleTemplate->clinic->organization_id == $user->organization->id;
     }
 
     /**

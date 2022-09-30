@@ -289,7 +289,7 @@ class User extends Authenticatable implements JWTSubject
             ->delete();
         
         $arrID = [];
-        if(array_key_exists('specialist_clinic_relations', $attributes)){
+        if(array_key_exists('specialist_clinic_relations', $attributes)&&$attributes['specialist_clinic_relations']){
             foreach ($attributes['specialist_clinic_relations'] as $provider) {
                 $provider = (object) $provider;
                 $providerObj = null;
