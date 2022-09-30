@@ -24,8 +24,15 @@ class Patient extends Model
     protected $appends = array(
         'full_name',
         'billing',
-        'int_contact_number'
+        'int_contact_number',
+        'active_alerts',
     );
+
+    public function getActiveAlertsAttribute()
+    {
+        return $this->alerts->where('is_dismissed', 0);
+    }
+
 
     public function getIntContactNumberAttribute()
     {
@@ -60,7 +67,7 @@ class Patient extends Model
     }
 
     /**
-     * Return Patient Appointment
+     * Return Patient alerts
      */
     public function alerts()
     {

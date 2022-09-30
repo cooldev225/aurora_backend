@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PatientAlert extends Model
 {
     protected $fillable = [
-    'created_by', 'alert_level','explanation'
+    'patient_id','created_by', 'alert_level','explanation', 'title'
     ];
 
     protected $appends = [
@@ -20,6 +20,6 @@ class PatientAlert extends Model
     
     public function getCreatedByNameAttribute()
     {
-        return User::find('created_by')->full_name;  
+        return User::find($this->created_by)->full_name;  
     }
 }

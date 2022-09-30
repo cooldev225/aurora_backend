@@ -61,7 +61,6 @@ class PatientController extends Controller
         $organization_id = auth()->user()->organization_id;
 
         $patientInfo = $patient;
-
         $patientInfo['appointments'] = $patient->appointments()
             ->where('organization_id', $organization_id)
             ->orderBy('date', 'DESC')

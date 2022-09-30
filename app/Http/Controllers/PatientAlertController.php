@@ -28,14 +28,13 @@ class PatientAlertController extends Controller
      */
     public function store(PatientAlertRequest $request, Patient $patient)
     {
-        Log::debug('Add PAtient Alert');
-        
-        /*$this->authorize('create', PatientAlert::class);
+       
+        Log::debug($request);
+        $this->authorize('create', PatientAlert::class);
         PatientAlert::create([
             ...$request->validated(),
-            'patient_id' => $patient->id,
             'created_by' => auth()->user()->id
-        ]);*/
+        ]);
 
         return response()->json(
             [

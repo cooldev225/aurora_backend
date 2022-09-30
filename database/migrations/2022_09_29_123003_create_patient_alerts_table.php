@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('created_by');
             $table->enum('alert_level',['NOTICE', 'WARNING','BLACKLISTED'])->default('NOTICE');
             $table->boolean('is_dismissed')->default(false);
+            $table->text('title');
             $table->text('explanation');
             $table->timestamps();
         });

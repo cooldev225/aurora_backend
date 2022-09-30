@@ -5,8 +5,10 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
+* @bodyParam patient_id      string  required  The id of the patient this alert  is for    
 * @bodyParam alert_level     string         required  The level of the alert       Example: DANGER
-* @bodyParam explanation  required  Explanation for the alert   Example:This patient is aggressive 
+* @bodyParam tile  required  title for the alert   Example:Aggressive 
+* @bodyParam explanation    Explanation for the alert   Example:on date something happened
 */
 class PatientAlertRequest extends FormRequest
 {
@@ -17,7 +19,7 @@ class PatientAlertRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -28,8 +30,10 @@ class PatientAlertRequest extends FormRequest
     public function rules()
     {
         return [
+            'patient_id'        => 'required|numeric|exists:patients,id',
             'alert_level'       => 'required|in:NOTICE,WARNING,BLACKLISTED',
-            'explanation'       => 'required|string',
+            'title'             => 'required|string',
+            'explanation'       => 'nullable|string',
         ];
     }
 }
