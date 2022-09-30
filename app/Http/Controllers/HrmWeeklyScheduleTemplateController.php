@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\HrmWeeklyScheduleTemplateIndexRequest;
 use App\Models\HrmWeeklyScheduleTemplate;
 use App\Http\Requests\HrmWeeklyScheduleTemplateRequest;
-
+use Illuminate\Support\Facades\Log;
 
 class HrmWeeklyScheduleTemplateController extends Controller
 {
@@ -61,6 +61,7 @@ class HrmWeeklyScheduleTemplateController extends Controller
         HrmWeeklyScheduleTemplateRequest $request, 
         HrmWeeklyScheduleTemplate $hrmWeeklyScheduleTemplate
     ){
+        Log::info($hrmWeeklyScheduleTemplate);
         $this->authorize('update', $hrmWeeklyScheduleTemplate);
         $hrmWeeklyScheduleTemplate = $hrmWeeklyScheduleTemplate->update([
             ...$request->validated(),
