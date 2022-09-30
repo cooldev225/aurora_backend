@@ -15,3 +15,9 @@ enum FileType: string
     case USER_PHOTO = 'user_photo';
     case USER_SIGNATURE = 'user_signature';
 }
+
+enum ImageType: string
+{
+    case PNG = 'png';
+    case JPEG = 'jpeg';
+}

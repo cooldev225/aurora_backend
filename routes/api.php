@@ -81,6 +81,7 @@ Route::middleware(['auth'])->group(function () {
     // Profile Routes
     Route::prefix('profile')->group(function () {
         Route::get('/',                        [UserProfileController::class,'show']);
+        Route::post('/signature/view',         [UserProfileSignatureController::class,'view']);
         Route::post('/signature',              [UserProfileSignatureController::class,'update']);
     });
 
