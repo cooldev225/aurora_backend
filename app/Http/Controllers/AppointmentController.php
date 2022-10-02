@@ -233,8 +233,10 @@ class AppointmentController extends Controller
             'clinical_alerts'               => $request->clinical_alerts,
         ]);
 
+        //return ($appointment);
+        $patient = Patient::find($request->patient_id);
 
-        $appointment->patient()->billing()->update([
+        $patient->billing()->update([
            'medicare_number'                => $request->medicare_number,
            'medicare_reference_number'      => $request->medicare_reference_number,
            'medicare_expiry_date'           => Carbon::create($request->medicare_expiry_date)->toDateString(),
