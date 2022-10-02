@@ -15,39 +15,9 @@ use Illuminate\Support\Facades\Log;
 class UserProfileSignatureController extends Controller
 {
 
-    /**
-     * [User] - Update Password
-     *
-     * @param  Illuminate\Http\Request
-     * @return \Illuminate\Http\Response
-     */
-    public function view()
-    {
-        $user = auth()->user();
-        $this->authorize('updateProfile', $user);
-        $folder = getUserOrganizationFilePath('images');
-        $file_name = generateFileName(FileType::USER_SIGNATURE, $user->id, 'png');
-
-        $path = "{$folder}/{$file_name}";
-
-        $file = Storage::disk('local')->get($path);
-        Log::info($path);
-        if (!$file) {
-            // If there's no file, return a 404.
-            // Likely this is because the user doesn't have access
-            return response()->json(
-                [
-                    'message'   => 'Could not find file',
-                ],
-                Response::HTTP_NOT_FOUND
-            );
-        }
-
-        return response($file, Response::HTTP_OK)->header('Content-Type', 'image/png');
-    }
 
     /**
-     * [User] - Update Password
+     * [User] - Update Profile Picture
      *
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
