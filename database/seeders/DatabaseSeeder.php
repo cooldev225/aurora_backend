@@ -33,6 +33,7 @@ class DatabaseSeeder extends Seeder
             PreAdmissionSeeder::class,
             ScheduleFeeSeeder::class,
             HrmWeeklyScheduleTemplateSeeder::class,
+            BulletinSeeder::class,
         ]);
     }
 }

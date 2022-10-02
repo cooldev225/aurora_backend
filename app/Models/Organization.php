@@ -63,6 +63,14 @@ class Organization extends Model
         return $this->hasMany(Clinic::class);
     }
 
+        /**
+     * Get the bulletins for organization.
+     */
+    public function bulletins()
+    {
+        return $this->hasMany(Bulletin::class);
+    }
+
     
     /**
      * Get the appointment types for organization.
