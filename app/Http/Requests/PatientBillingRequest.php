@@ -16,7 +16,7 @@ use Illuminate\Foundation\Http\FormRequest;
 * @bodyParam health_care_card_date           date             The patients health care card expiry date
 * @bodyParam health_fund_id                  number           The patients health fund id
 * @bodyParam health_fund_membership_number   number           The patients health fund membership number
-* @bodyParam health_fund_reference_number    number           The patients health fund reference number   
+* @bodyParam health_fund_reference_number    number           The patients health fund reference number
 * @bodyParam health_fund_expiry_date         date             The patients health fund expiry date
 */
 class PatientBillingRequest extends FormRequest
@@ -39,23 +39,23 @@ class PatientBillingRequest extends FormRequest
     public function rules()
     {
         return [
-            'medicare_number'               => 'numeric',
-            'medicare_reference_number'     => 'numeric',
-            'medicare_expiry_date'          => 'date',
+            'medicare_number'               => 'nullable|numeric',
+            'medicare_reference_number'     => 'nullable|numeric',
+            'medicare_expiry_date'          => 'nullable|date',
 
-            'pension_card_number'           => 'numeric',
-            'pension_card_date'             => 'date',
+            'pension_card_number'           => 'nullable|numeric',
+            'pension_card_date'             => 'nullable|date',
 
-            'concession_number'             => 'numeric',
-            'concession_expiry_date'        => 'date',
+            'concession_number'             => 'nullable|numeric',
+            'concession_expiry_date'        => 'nullable|date',
 
-            'health_care_card_number'       => 'numeric',
-            'health_care_card_date'         => 'date',
+            'health_care_card_number'       => 'nullable|numeric',
+            'health_care_card_date'         => 'nullable|date',
 
-            'health_fund_id'                => 'numeric|exists:health_funds,id',
-            'health_fund_membership_number' => 'numeric',
-            'health_fund_reference_number'  => 'numeric', 
-            'health_fund_expiry_date'       => 'date',
+            'health_fund_id'                => 'nullable|numeric|exists:health_funds,id',
+            'health_fund_membership_number' => 'nullable|numeric',
+            'health_fund_reference_number'  => 'nullable|numeric',
+            'health_fund_expiry_date'       => 'nullable|date',
         ];
     }
 }
