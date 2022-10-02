@@ -3,8 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
-class UpdateBulletinRequest extends FormRequest
+/**
+* @bodyParam title   string  required  The title of the bulletin
+* @bodyParam body    string  required  The body of the bulletin
+*/
+class BulletinRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +16,7 @@ class UpdateBulletinRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +27,8 @@ class UpdateBulletinRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string',
+            'body'  => 'required|string',
         ];
     }
 }

@@ -3,8 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bulletin;
-use App\Http\Requests\StoreBulletinRequest;
-use App\Http\Requests\UpdateBulletinRequest;
+use App\Http\Requests\BulletinRequest;
 use Illuminate\Http\Response;
 
 class BulletinController extends Controller
@@ -25,25 +24,32 @@ class BulletinController extends Controller
         );
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\StoreBulletinRequest  $request
+     * @param  \App\Http\Requests\BulletinRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(StoreBulletinRequest $request)
-    {
-        //
+    public function store(BulletinRequest $request)
+    { 
+        // Verify the user can access this function via policy
+         $this->authorize('create', Bulletin::class);
+
+        $bulletin = Bulletin::create([
+            'organization_id' => auth()->user()->organization_id,
+            'created_by' => auth()->user()->id,
+            ...$request->validated(),
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'New BulletinW created',
+                'data' => $bulletin,
+            ],
+            Response::HTTP_CREATED
+        );
+
     }
 
     /**
@@ -54,19 +60,18 @@ class BulletinController extends Controller
      */
     public function show(Bulletin $bulletin)
     {
-        //
+    // Verify the user can access this function via policy
+    $this->authorize('show', $bulletin);
+
+    return response()->json(
+        [
+            'message' => 'Bulletin requested',
+            'data' => $bulletin,
+        ],
+        Response::HTTP_OK
+    );
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Bulletin  $bulletin
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Bulletin $bulletin)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -75,9 +80,22 @@ class BulletinController extends Controller
      * @param  \App\Models\Bulletin  $bulletin
      * @return \Illuminate\Http\Response
      */
-    public function update(UpdateBulletinRequest $request, Bulletin $bulletin)
+    public function update(BulletinRequest $request, Bulletin $bulletin)
     {
-        //
+          // Verify the user can access this function via policy
+          $this->authorize('update', $bulletin);
+
+          $bulletin->update([
+              ...$request->validated(),
+          ]);
+  
+          return response()->json(
+              [
+                  'message' => 'Bulletin updated',
+                  'data' => $bulletin,
+              ],
+              Response::HTTP_OK
+          );
     }
 
     /**
@@ -88,6 +106,16 @@ class BulletinController extends Controller
      */
     public function destroy(Bulletin $bulletin)
     {
-        //
+         // Verify the user can access this function via policy
+         $this->authorize('delete', $bulletin);
+
+         $bulletin->delete();
+ 
+         return response()->json(
+             [
+                 'message' => 'Bulletin Removed',
+             ],
+             Response::HTTP_NO_CONTENT
+         );
     }
 }

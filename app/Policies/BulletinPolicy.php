@@ -18,7 +18,7 @@ class BulletinPolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return true;
     }
 
     /**
@@ -30,7 +30,7 @@ class BulletinPolicy
      */
     public function view(User $user, Bulletin $bulletin)
     {
-        //
+        return $user->organization_id == $bulletin->organization_id;
     }
 
     /**
@@ -41,7 +41,7 @@ class BulletinPolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']);
     }
 
     /**
@@ -53,7 +53,7 @@ class BulletinPolicy
      */
     public function update(User $user, Bulletin $bulletin)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']);
     }
 
     /**
@@ -65,7 +65,7 @@ class BulletinPolicy
      */
     public function delete(User $user, Bulletin $bulletin)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']);
     }
 
     /**
@@ -77,7 +77,7 @@ class BulletinPolicy
      */
     public function restore(User $user, Bulletin $bulletin)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']);
     }
 
     /**
@@ -89,6 +89,6 @@ class BulletinPolicy
      */
     public function forceDelete(User $user, Bulletin $bulletin)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']);
     }
 }

@@ -26,6 +26,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
+use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HrmWeeklyScheduleTemplateController;
@@ -77,6 +78,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-profile',  [UserProfileController::class, 'update']);
     Route::get('/profile',          [UserProfileController::class, 'show']);
     Route::post('/change-password', [UserPasswordController::class, 'update']);
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Appointment Routes
@@ -163,6 +166,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/referring-doctors',             ReferringDoctorController::class,['except' => ['show']]);
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
+    Route::apiResource('/bulletins',                     BulletinController::class);
  
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
