@@ -21,13 +21,6 @@ class Clinic extends Model
 
     ];
 
-    /**
-     * Return Proda Device
-     */
-    public function proda_device()
-    {
-        return $this->hasOne(ProdaDevice::class);
-    }
 
     /**
      * Return Organization

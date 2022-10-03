@@ -10,7 +10,7 @@ class Organization extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'logo', 'max_clinics', 'max_employees', 'proda_device_id',
+        'name', 'logo', 'max_clinics', 'max_employees', 
         'owner_id', 'is_hospital', 'appointment_length', 'start_time', 'end_time','status',
         'document_letter_header', 'document_letter_footer', 'code'
     ];

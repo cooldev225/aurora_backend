@@ -19,7 +19,6 @@ class DatabaseSeeder extends Seeder
             OrganizationSeeder::class,
             AppointmentTypeSeeder::class,
             ClinicSeeder::class,
-            ProdaDeviceSeeder::class,
             RoomSeeder::class,
             UserSeeder::class,
             PatientSeeder::class,

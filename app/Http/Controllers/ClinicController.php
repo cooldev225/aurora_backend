@@ -6,7 +6,6 @@ use App\Enum\FileType;
 use Illuminate\Http\Response;
 use App\Http\Requests\ClinicRequest;
 use App\Models\Clinic;
-use App\Models\ProdaDevice;
 
 class ClinicController extends Controller
 {
@@ -127,12 +126,6 @@ class ClinicController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('delete', $clinic);
-
-        $proda_device = $clinic->proda_device;
-
-        if (!empty($proda_device)) {
-            $proda_device->delete();
-        }
 
         $clinic->delete();
 

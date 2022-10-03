@@ -10,7 +10,6 @@ use App\Models\Patient;
 use App\Models\BirthCode;
 use App\Models\HealthFund;
 use App\Models\Appointment;
-use App\Models\ProdaDevice;
 use App\Models\ScheduleFee;
 use App\Models\Organization;
 use App\Policies\MailPolicy;
@@ -40,7 +39,6 @@ use App\Models\PatientClinicalNote;
 use App\Models\PreAdmissionConsent;
 use App\Models\PreAdmissionSection;
 use App\Policies\AppointmentPolicy;
-use App\Policies\ProdaDevicePolicy;
 use App\Policies\ScheduleFeePolicy;
 use App\Models\NotificationTemplate;
 use App\Models\PatientRecallSentLog;
@@ -118,7 +116,6 @@ class AuthServiceProvider extends ServiceProvider
         PreAdmissionConsent::class        => PreAdmissionConsentPolicy::class,
         PreAdmissionQuestion::class       => PreAdmissionQuestionPolicy::class,
         PreAdmissionSection::class        => PreAdmissionSectionPolicy::class,
-        ProdaDevice::class                => ProdaDevicePolicy::class,
         ReferringDoctor::class            => ReferringDoctorPolicy::class,
         ReportAutoText::class             => ReportAutoTextPolicy::class,
         ReportSection::class              => ReportSectionPolicy::class,
