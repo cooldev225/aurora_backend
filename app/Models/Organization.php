@@ -98,6 +98,7 @@ class Organization extends Model
         return $this->belongsToMany(Patient::class)->with('upcoming_appointments');
     }
 
+
     /**
      * Get the users for organization.
      */
@@ -112,6 +113,15 @@ class Organization extends Model
     public function owner()
     {
         return $this->belongsTo(User::class, 'owner_id');
+    }
+
+
+        /**
+     * Return Schedule Timeslots
+     */
+    public function scheduleTimeslots()
+    {
+        return $this->hasMany(HrmScheduleTimeslot::class);
     }
 
 }

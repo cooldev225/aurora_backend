@@ -37,13 +37,6 @@ class Clinic extends Model
         return $this->belongsTo(Organization::class);
     }
 
-    /**
-     * Return Schedule templates
-     */
-    public function scheduleTemplates()
-    {
-        return $this->hasMany(HrmWeeklyScheduleTemplate::class);
-    }
 
 
     
