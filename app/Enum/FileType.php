@@ -13,4 +13,11 @@ enum FileType: string
     case ORGANIZATION_HEADER = 'header_organization';
     case ORGANIZATION_FOOTER = 'footer_organization';
     case USER_PHOTO = 'user_photo';
+    case USER_SIGNATURE = 'user_signature';
+}
+
+enum ImageType: string
+{
+    case PNG = 'png';
+    case JPEG = 'jpeg';
 }

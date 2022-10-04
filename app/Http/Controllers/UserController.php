@@ -31,6 +31,7 @@ class UserController extends Controller
         ->with('scheduleTimeslots')
         ->with('specialistClinicRelations');
 
+
         if($request->role_id){
             $users->where('role_id', $request->role_id);
         }

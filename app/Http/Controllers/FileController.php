@@ -19,7 +19,8 @@ class FileController extends Controller
         FileType::ORGANIZATION_HEADER,
         FileType::ORGANIZATION_FOOTER,
         FileType::USER_PHOTO,
-];
+        FileType::USER_SIGNATURE,
+    ];
 
     /**
      * Return a particular file for viewing

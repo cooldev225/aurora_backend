@@ -44,6 +44,9 @@ use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\UserProfileSignatureController;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -74,9 +77,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout',          [UserAuthenticationController::class, 'logout']);
     Route::post('/refresh',         [UserAuthenticationController::class, 'refresh']);
 
+
     Route::post('/update-profile',  [UserProfileController::class, 'update']);
     Route::get('/profile',          [UserProfileController::class, 'show']);
-    Route::post('/change-password', [UserPasswordController::class, 'update']);
+
+    Route::post('/change-password',  [UserPasswordController::class, 'update']);
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Profile Routes
+    Route::prefix('profile')->group(function () {
+        Route::get('/',                        [UserProfileController::class,'show']);
+        Route::post('/signature',              [UserProfileSignatureController::class,'update']);
+    });
+
 
 
 
@@ -166,7 +179,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
     Route::apiResource('/bulletins',                     BulletinController::class);
-    
+
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
@@ -184,4 +197,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('appointment/procedure-approvals/{appointment}',    [AppointmentProcedureApprovalController::class, 'update']);
 
     Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);
+
+    // User Routes
+    Route::prefix('users')->group(function () {
+        Route::post('/change-password',             [UserPasswordController::class, 'update']);
+    });
 });

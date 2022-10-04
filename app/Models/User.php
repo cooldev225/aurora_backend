@@ -25,6 +25,8 @@ class User extends Authenticatable implements JWTSubject
         'date_of_birth',
         'mobile_number',
         'address',
+        'education_code',
+        'sign_off',
     ];
 
     protected $appends = array('role_name', 'full_name');
