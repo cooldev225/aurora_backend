@@ -19,8 +19,9 @@ class UserPasswordController extends Controller
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function update(PasswordUpdateRequest $request)
+    public function update(PasswordUpdateRequest $request, User $user = null)
     {
+        return $user;
         if (!Hash::check($request->old_password, Auth::user()->password)) {
             return response()->json(
                 [
@@ -74,7 +75,7 @@ class UserPasswordController extends Controller
         $user = auth()->user();
 
         // Verify the user can access this function via policy
-        $this->authorize('updateProfile', $user);
+        $this->authorize('organizationAdmin', $user);
 
         $employee->update([
             'password' => Hash::make($request->new_password),

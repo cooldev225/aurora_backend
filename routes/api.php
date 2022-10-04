@@ -76,9 +76,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/update-profile',  [UserProfileController::class, 'update']);
     Route::get('/profile',          [UserProfileController::class, 'show']);
-    Route::post('/change-password', [UserPasswordController::class, 'update']);
-
-
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Appointment Routes
@@ -185,8 +182,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);
 
-    // Employee Routes
+    // User Routes
     Route::prefix('users')->group(function () {
-        Route::put('/password/update/{employee}',             [UserPasswordController::class, 'updateEmployeePassword']);
+        Route::put('/change-password/{user}',             [UserPasswordController::class, 'update']);
     });
 });
