@@ -55,44 +55,4 @@ class UserPasswordController extends Controller
             Response::HTTP_OK
         );
     }
-
-    /**
-     * [User] - Update Password
-     *
-     * @param  Illuminate\Http\Request
-     * @return \Illuminate\Http\Response
-     */
-    public function updateEmployeePassword( PasswordUpdateRequest $request, User $employee)
-    {
-        if (!Hash::check($request->old_password, Auth::user()->password)) {
-            return response()->json(
-                [
-                    'success' => false,
-                    'errors' => [
-                        'old_password' => 'Old password didn\'t match.',
-                    ],
-                ],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
-        }
-
-        $user = auth()->user();
-
-        // Verify the user can access this function via policy
-        $this->authorize('organizationAdmin', $user);
-
-        $employee->update([
-            'password' => Hash::make($request->new_password),
-        ]);
-
-        return response()->json(
-            [
-                'success' => true,
-                'message' => 'Password changed successfully',
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-
 }
