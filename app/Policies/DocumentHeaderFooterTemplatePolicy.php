@@ -18,7 +18,7 @@ class DocumentHeaderFooterTemplatePolicy
      */
     public function viewAny(User $user)
     {
-        //
+        return $user->hasAnyRole(['organizationAdmin']);
     }
 
     /**
@@ -30,7 +30,7 @@ class DocumentHeaderFooterTemplatePolicy
      */
     public function view(User $user, DocumentHeaderFooterTemplate $documentHeaderFooterTemplate)
     {
-        //
+        return false;
     }
 
     /**
@@ -41,7 +41,7 @@ class DocumentHeaderFooterTemplatePolicy
      */
     public function create(User $user)
     {
-        //
+        return $user->hasRole('organizationAdmin');
     }
 
     /**
@@ -53,7 +53,7 @@ class DocumentHeaderFooterTemplatePolicy
      */
     public function update(User $user, DocumentHeaderFooterTemplate $documentHeaderFooterTemplate)
     {
-        //
+        return $user->hasRole('organizationAdmin') && $documentHeaderFooterTemplate->organization_id == $user->organization->id;
     }
 
     /**
@@ -65,7 +65,7 @@ class DocumentHeaderFooterTemplatePolicy
      */
     public function delete(User $user, DocumentHeaderFooterTemplate $documentHeaderFooterTemplate)
     {
-        //
+        return $user->hasRole('organizationAdmin') && $documentHeaderFooterTemplate->organization_id == $user->organization->id;
     }
 
     /**
