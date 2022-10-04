@@ -16,11 +16,11 @@ return new class extends Migration
         Schema::create('appointment_codes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('appointment_id');
-            $table->text('procedures_undertaken');
-            $table->text('extra_items_used'); 
-            $table->text('indication_codes');
-            $table->text('diagnosis_codes');
-            $table->boolean('is_complete');
+            $table->text('procedures_undertaken')->nullable();
+            $table->text('extra_items_used')->nullable(); 
+            $table->text('indication_codes')->nullable();
+            $table->text('diagnosis_codes')->nullable();
+            $table->boolean('is_complete')->default(false);
             $table->timestamps();
         });
     }
