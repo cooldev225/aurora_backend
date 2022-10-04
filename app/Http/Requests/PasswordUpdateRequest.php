@@ -29,7 +29,7 @@ class PasswordUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'id'               => 'nullable|string',
+            'id'               => 'nullable|integer',
             'old_password'     => 'required|string|min:6',
             'new_password'     => 'required|string|min:6|different:old_password',
             'confirm_password' => 'required|string|min:6|same:new_password',
