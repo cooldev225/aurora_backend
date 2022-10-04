@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\FileType;
+use Illuminate\Http\Response;
 use App\Models\DocumentHeaderFooterTemplate;
 use App\Http\Requests\DocumentHeaderFooterTemplateRequest;
 use Illuminate\Http\Request;
@@ -16,7 +17,23 @@ class DocumentHeaderFooterTemplateController extends Controller
      */
     public function index()
     {
-        //
+        // Verify the user can access this function via policy
+        $this->authorize('viewAny', DocumentHeaderFooterTemplate::class);
+
+        $organization_id = auth()->user()->organization_id;
+
+        $templates = DocumentHeaderFooterTemplate::where(
+            'organization_id',
+            $organization_id
+        )->get();
+
+        return response()->json(
+            [
+                'message' => 'Letter Template List',
+                'data' => $templates,
+            ],
+            Response::HTTP_OK
+        );
     }
 
 
