@@ -18,7 +18,7 @@ class HrmScheduleTimeslotSeeder extends Seeder
     public function run()
     {
         $this->faker = Faker::create();
-        $users = User::all();
+        $users = User::where('role_id', 5)->get();
         $days = ['MON','TUS','WED','THU','FRI','SAT','SUN'];
         foreach ($users as $user) {
             foreach($days as $day){
@@ -30,8 +30,9 @@ class HrmScheduleTimeslotSeeder extends Seeder
                         'week_day'  => $day,
                         'category'  => 'WORKING',
                         'user_id'   => $user->id,
-                        'start_time'=> $this->faker->randomElement(['08:00:00', '09:30:00', '10:30:00']),
-                        'end_time' => $this->faker->randomElement(['12:00:00', '13:00:00', '12:30:00']),
+                        'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
+                        'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
+
                         'is_template' =>true,
 
                     ]);
@@ -44,8 +45,8 @@ class HrmScheduleTimeslotSeeder extends Seeder
                         'week_day'  => $day,
                         'category'  => 'WORKING',
                         'user_id'   => $user->id,
-                        'start_time'=> $this->faker->randomElement(['13:00:00', '13:30:00', '14:30:00']),
-                        'end_time' => $this->faker->randomElement(['16:00:00', '18:30:00', '20:30:00']),
+                        'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
+                        'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
                         'is_template' =>true,
 
                     ]);
