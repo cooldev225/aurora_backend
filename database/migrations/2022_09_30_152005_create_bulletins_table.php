@@ -7,18 +7,20 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration
 {
     /**
-     * Run the migrations.
+ * Run the migrations.
      *
      * @return void
      */
     public function up()
     {
-        Schema::create('hrm_weekly_schedule_templates', function (Blueprint $table) {
+        Schema::create('bulletins', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('clinic_id');
-            $table->enum('type',['PERMANENT', 'CONTRACTOR', 'CASUAL']);
-            $table->integer('role_id');
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('organization_id');
+            $table->text('title');
+            $table->foreignId('created_by');
+            $table->longText('body');
+            $table->text('included_roles')->nullable();
+            $table->date('expiry_date')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hrm_weekly_schedule_templates');
+        Schema::dropIfExists('bulletins');
     }
 };

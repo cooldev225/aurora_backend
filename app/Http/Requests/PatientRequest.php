@@ -7,7 +7,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
 /**
-* @bodyParam title                        string   required   The patients preferred title                                           Example: Miss
+* @bodyParam title                        string   nullable   The patients preferred title                                           Example: Miss
 * @bodyParam first_name                   string   required   The patients first name                                                Example: Jessica
 * @bodyParam last_name                    string   required   The patients last name                                                 Example: Smith
 * @bodyParam date_of_birth                date     required   The patients date of birth                                             Example: 1993-10-09
@@ -50,27 +50,27 @@ class PatientRequest extends FormRequest
     public function rules()
     {
         return [
-            'title'                      => 'required|string',
-            'first_name'                 => 'required|string',
+            'title'                      => 'nullable|string',
+            'first_name'                  => 'required|string',
             'last_name'                  => 'required|string',
-            'date_of_birth'              => 'required|date_format:Y-m-d',
-            'contact_number'             => 'required|string',
-            'gender'                     => 'required|string',
-            'address'                    => 'required|string',
-            'marital_status'             => 'required|string',
-            'birth_place_code'           => 'required|string',
-            'country_of_birth'           => 'required|string',
-            'birth_state'                => 'required|string',
-            'allergies'                  => 'required|string',
-            'aborginality'               => 'required|boolean',
-            'occupation'                 => 'required|string',
-            'height'                     => 'required|numeric',
-            'weight'                     => 'required|numeric',
-            'appointment_confirm_method' => ['required', new Enum(NotificationMethod::class)],
-            'send_recall_method'         => ['required', new Enum(NotificationMethod::class)],
-            'kin_name'                   => 'required|string',
-            'kin_relationship'           => 'required|string',
-            'kin_phone_number'           => 'required|string',
+            'date_of_birth'              => 'required',
+            'contact_number'             => 'nullable|string',
+            'gender'                     => 'nullable|string',
+            'address'                    => 'nullable|string',
+            'marital_status'             => 'nullable|string',
+            'birth_place_code'           => 'nullable|string',
+            'country_of_birth'           => 'nullable|string',
+            'birth_state'                => 'nullable|string',
+            'allergies'                  => 'nullable|string',
+            'aborginality'               => 'nullable|boolean',
+            'occupation'                 => 'nullable|string',
+            'height'                     => 'nullable|numeric',
+            'weight'                     => 'nullable|numeric',
+            'appointment_confirm_method' => ['nullable', new Enum(NotificationMethod::class)],
+            'send_recall_method'         => ['nullable', new Enum(NotificationMethod::class)],
+            'kin_name'                   => 'nullable|string',
+            'kin_relationship'           => 'nullable|string',
+            'kin_phone_number'           => 'nullable|string',
             'clinical_alerts'            => 'nullable|string',
         ];
     }

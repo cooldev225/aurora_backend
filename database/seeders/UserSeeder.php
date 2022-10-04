@@ -43,6 +43,14 @@ class UserSeeder extends Seeder
             'organization_id'   => 1,
         ]);
 
+        User::factory()->create([
+            'username'          => 'specialist',
+            'email'             => 'specialist@mail.com',
+            'role_id'           => UserRole::SPECIALIST,
+            'organization_id'   => 1,
+        ]);
+
+
 
         User::factory(40)->create();
 

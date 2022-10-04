@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class HrmScheduleTimeslotsRequest extends FormRequest
+class HrmScheduleTimeslotRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,13 @@ class HrmScheduleTimeslotsRequest extends FormRequest
     public function rules()
     {
         return [
-            'hrm_week_schedule_template_id' => 'required|numeric',
+            'user_id'                       => 'required|numeric',
             'week_day'                      => 'required|in:MON,TUS,WED,THU,FRI,SAT,SUN',
             'category'                      => 'nullable|in:WORKING,BREAK,LEAVE',
             'start_time'                    => 'required',
             'end_time'                      => 'required',
-            'restriction'                   => 'nullable|in:CONSULTATION,PROCEDURES,NONE'
+            'restriction'                   => 'nullable|in:CONSULTATION,PROCEDURES,NONE',
+            'is_template'                   => 'required|boolean',
         ];
     }
 }

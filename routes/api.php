@@ -26,9 +26,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
+use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FileController;
-use App\Http\Controllers\HrmWeeklyScheduleTemplateController;
+use App\Http\Controllers\HrmScheduleTimeslotController;
 use App\Http\Controllers\LetterTemplateController;
 use App\Http\Controllers\NotificationTestController;
 use App\Http\Controllers\PaymentController;
@@ -43,7 +44,6 @@ use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
-
 
 /*
 |--------------------------------------------------------------------------
@@ -77,6 +77,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-profile',  [UserProfileController::class, 'update']);
     Route::get('/profile',          [UserProfileController::class, 'show']);
     Route::post('/change-password', [UserPasswordController::class, 'update']);
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Appointment Routes
@@ -132,7 +134,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('hrm')->group(function () {
-        Route::apiResource('hrm-weekly-schedule-template', HrmWeeklyScheduleTemplateController::class, ['except' => ['show']]);
+        Route::apiResource('/hrm-schedule-timeslot', HrmScheduleTimeslotController::class);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -163,6 +165,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/referring-doctors',             ReferringDoctorController::class,['except' => ['show']]);
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
+    Route::apiResource('/bulletins',                     BulletinController::class);
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes

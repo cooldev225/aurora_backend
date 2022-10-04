@@ -10,7 +10,6 @@ use App\Models\Patient;
 use App\Models\BirthCode;
 use App\Models\HealthFund;
 use App\Models\Appointment;
-use App\Models\ProdaDevice;
 use App\Models\ScheduleFee;
 use App\Models\Organization;
 use App\Policies\MailPolicy;
@@ -40,7 +39,6 @@ use App\Models\PatientClinicalNote;
 use App\Models\PreAdmissionConsent;
 use App\Models\PreAdmissionSection;
 use App\Policies\AppointmentPolicy;
-use App\Policies\ProdaDevicePolicy;
 use App\Policies\ScheduleFeePolicy;
 use App\Models\NotificationTemplate;
 use App\Models\PatientRecallSentLog;
@@ -62,7 +60,6 @@ use App\Policies\PatientDocumentPolicy;
 use App\Policies\ReferringDoctorPolicy;
 use App\Models\PatientDocumentsActionLog;
 use App\Models\AppointmentTimeRequirement;
-use App\Models\HrmWeeklyScheduleTemplate;
 use App\Models\PatientAlert;
 use App\Policies\AnestheticQuestionPolicy;
 use App\Policies\AppointmentPaymentPolicy;
@@ -78,7 +75,6 @@ use App\Policies\PatientSpecialistAudioPolicy;
 use App\Policies\AppointmentPreAdmissionPolicy;
 use App\Policies\PatientDocumentsActionLogPolicy;
 use App\Policies\AppointmentTimeRequirementPolicy;
-use App\Policies\HrmWeeklyScheduleTemplatePolicy;
 use App\Policies\PatientAlertPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -100,7 +96,6 @@ class AuthServiceProvider extends ServiceProvider
         BirthCode::class                  => BirthCodePolicy::class,
         Clinic::class                     => ClinicPolicy::class,
         HRMUserBaseSchedule::class        => HRMUserBaseSchedulePolicy::class,
-        HrmWeeklyScheduleTemplate::class  => HrmWeeklyScheduleTemplatePolicy::class,
         HealthFund::class                 => HealthFundPolicy::class,
         HealthFundFee::class              => HealthFundFeePolicy::class,
         LetterTemplate::class             => LetterTemplatePolicy::class,
@@ -121,7 +116,6 @@ class AuthServiceProvider extends ServiceProvider
         PreAdmissionConsent::class        => PreAdmissionConsentPolicy::class,
         PreAdmissionQuestion::class       => PreAdmissionQuestionPolicy::class,
         PreAdmissionSection::class        => PreAdmissionSectionPolicy::class,
-        ProdaDevice::class                => ProdaDevicePolicy::class,
         ReferringDoctor::class            => ReferringDoctorPolicy::class,
         ReportAutoText::class             => ReportAutoTextPolicy::class,
         ReportSection::class              => ReportSectionPolicy::class,

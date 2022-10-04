@@ -3,8 +3,11 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
-
-class HrmWeeklyScheduleTemplateRequest extends FormRequest
+/**
+* @bodyParam title   string  required  The title of the bulletin
+* @bodyParam body    string  required  The body of the bulletin
+*/
+class BulletinRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +27,8 @@ class HrmWeeklyScheduleTemplateRequest extends FormRequest
     public function rules()
     {
         return [
-            'clinic_id' => 'required|numeric',
-            'type'      => 'required|in:PERMANENT,CONTRACTOR,CASUAL',
-            'role_id'   => 'required|numeric',
-            'user_id'   => 'nullable|numeric',
-            'timeslots' => 'required|array',
+            'title' => 'required|string',
+            'body'  => 'required|string',
         ];
     }
 }

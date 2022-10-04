@@ -89,11 +89,19 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Return hrmUserBaseSchedules
+     * Return hrmUserBaseSchedules REMOVE
      */
     public function hrmUserBaseSchedules()
     {
         return $this->hasMany(HRMUserBaseSchedule::class);
+    }
+
+    /**
+     * Return Schedule Timeslots
+     */
+    public function scheduleTimeslots()
+    {
+        return $this->hasMany(HrmScheduleTimeslot::class);
     }
 
     /*

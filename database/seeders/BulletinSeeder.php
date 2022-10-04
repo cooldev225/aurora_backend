@@ -2,11 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bulletin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\ProdaDevice;
 
-class ProdaDeviceSeeder extends Seeder
+class BulletinSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +15,7 @@ class ProdaDeviceSeeder extends Seeder
      */
     public function run()
     {
-        ProdaDevice::factory(4)->create();
+        Bulletin::factory(10)->create();
+
     }
 }

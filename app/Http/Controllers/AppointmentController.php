@@ -44,7 +44,7 @@ class AppointmentController extends Controller
                 }else{
                     $appointments = $appointments->where($column, '=', $param);
                 }
-                
+
             }
         }
 
@@ -106,17 +106,17 @@ class AppointmentController extends Controller
             $patient->billing()->update([
                 'medicare_number'                => $request->medicare_number,
                 'medicare_reference_number'      => $request->medicare_reference_number,
-                'medicare_expiry_date'           => $request->medicare_expiry_date,
+                'medicare_expiry_date'           => Carbon::create($request->medicare_expiry_date)->toDateString(),
                 'concession_number'              => $request->concession_number,
-                'concession_expiry_date'         => $request->concession_expiry_date,
+                'concession_expiry_date'         => Carbon::create($request->concession_expiry_date)->toDateString(),
                 'pension_number'                 => $request->pension_number,
-                'pension_expiry_date'            => $request->pension_expiry_date,
+                'pension_expiry_date'            =>  Carbon::create($request->pension_expiry_date)->toDateString(),
                 'healthcare_card_number'         => $request->healthcare_card_number,
-                'healthcare_card_expiry_date'    => $request->healthcare_card_expiry_date,
+                'healthcare_card_expiry_date'    =>  Carbon::create($request->healthcare_card_expiry_date)->toDateString(),
                 'health_fund_id'                 => $request->health_fund_id,
                 'health_fund_membership_number'  => $request->health_fund_membership_number,
                 'health_fund_reference_number'   => $request->health_fund_reference_number,
-                'health_fund_expiry_date'        => $request->health_fund_expiry_date,
+                'health_fund_expiry_date'        =>  Carbon::create($request->health_fund_expiry_date)->toDateString(),
              ]);
         } else {
             // Verify the user can access this function via policy
@@ -136,20 +136,20 @@ class AppointmentController extends Controller
             ]);
 
             PatientBilling::create([
-                'patient_id'                     => $patient->id, 
+                'patient_id'                     => $patient->id,
                 'medicare_number'                => $request->medicare_number,
                 'medicare_reference_number'      => $request->medicare_reference_number,
-                'medicare_expiry_date'           => $request->medicare_expiry_date,
+                'medicare_expiry_date'           => Carbon::create($request->medicare_expiry_date)->toDateString(),
                 'concession_number'              => $request->concession_number,
-                'concession_expiry_date'         => $request->concession_expiry_date,
+                'concession_expiry_date'         => Carbon::create($request->concession_expiry_date)->toDateString(),
                 'pension_number'                 => $request->pension_number,
-                'pension_expiry_date'            => $request->pension_expiry_date,
+                'pension_expiry_date'            => Carbon::create($request->pension_expiry_date)->toDateString(),
                 'healthcare_card_number'         => $request->healthcare_card_number,
-                'healthcare_card_expiry_date'    => $request->healthcare_card_expiry_date,
+                'healthcare_card_expiry_date'    => Carbon::create($request->healthcare_card_expiry_date)->toDateString(),
                 'health_fund_id'                 => $request->health_fund_id,
                 'health_fund_membership_number'  => $request->health_fund_membership_number,
                 'health_fund_reference_number'   => $request->health_fund_reference_number,
-                'health_fund_expiry_date'        => $request->health_fund_expiry_date,  
+                'health_fund_expiry_date'        => Carbon::create($request->health_fund_expiry_date)->toDateString(),
             ]);
 
             $patient->organizations()->attach(Organization::find(auth()->user()->organization_id));
@@ -159,7 +159,7 @@ class AppointmentController extends Controller
         $end_time = Carbon::create($request->time_slot[1]);
 
         $appointment = Appointment::create([
-            'date'                          => $request->date, 
+            'date'                          => Carbon::create($request->date)->toDateString(),
             'arrival_time'                  => $request->arrival_time,
             'start_time'                    => $start_time->toTimeString(),
             'end_time'                      => $end_time->toTimeString(),
@@ -170,13 +170,14 @@ class AppointmentController extends Controller
             'specialist_id'                 => $request->specialist_id,
             'anesthetist_id'                => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($start_time->timestamp,strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
             'note'                          => $request->note,
-            'charge_type'                   => $request->charge_type,     
+            'charge_type'                   => $request->charge_type,
+            'room_id'                       => $request->room_id,
         ]);
 
         AppointmentReferral::create([
             'appointment_id'                => $appointment->id,
             'referring_doctor_id'           => $request->referring_doctor_id,
-            'referral_date'                 => $request->referring_doctor_id,
+            'referral_date'                 =>  Carbon::create($request->referral_date)->toDateString(),
             'referral_duration'             => $request->referral_duration,
             'is_no_referral'                => false,
         ]);
@@ -211,7 +212,7 @@ class AppointmentController extends Controller
         $this->authorize('update', $appointment->patient);
         $this->authorize('update', $appointment->patient->billing->first());
         $this->authorize('update', $appointment->referral->first());
-      
+
         $appointment->update([
             'appointment_type_id'           => $request->appointment_type_id,
             'room_id'                       => $request->room_id,
@@ -221,37 +222,38 @@ class AppointmentController extends Controller
         ]);
 
         $appointment->patient()->update([
-            'first_name'                    => $request->first_name,
+            'first_name'                     => $request->first_name,
             'last_name'                     => $request->last_name,
-            'date_of_birth'                 => Carbon::create($request->date_of_birth)->toTimeString(),
+            'date_of_birth'                 => Carbon::create($request->date_of_birth)->toDateString(),
             'contact_number'                => $request->contact_number,
             'address'                       => $request->address,
             'email'                         => $request->email,
-            'appointment_confirm_method'    => $request->appointment_confirm_method,
+            'appointment_confirm_method'     => $request->appointment_confirm_method,
             'allergies'                     => $request->allergies,
             'clinical_alerts'               => $request->clinical_alerts,
         ]);
 
+        //return ($appointment);
+        $patient = Patient::find($request->patient_id);
 
-        $appointment->patient()->billing()->update([
+        $patient->billing()->update([
            'medicare_number'                => $request->medicare_number,
            'medicare_reference_number'      => $request->medicare_reference_number,
-           'medicare_expiry_date'           => $request->medicare_expiry_date,
+           'medicare_expiry_date'           => Carbon::create($request->medicare_expiry_date)->toDateString(),
            'concession_number'              => $request->concession_number,
-           'concession_expiry_date'         => $request->concession_expiry_date,
-           'pension_number'                 => $request->pension_number,
-           'pension_expiry_date'            => $request->pension_expiry_date,
+           'concession_expiry_date'         => Carbon::create($request->concession_expiry_date)->toDateString(),
+           'pension_expiry_date'            => Carbon::create($request->pension_expiry_date)->toDateString(),
            'healthcare_card_number'         => $request->healthcare_card_number,
-           'healthcare_card_expiry_date'    => $request->healthcare_card_expiry_date,
+           'healthcare_card_expiry_date'    => Carbon::create($request->healthcare_card_expiry_date)->toDateString(),
            'health_fund_id'                 => $request->health_fund_id,
            'health_fund_membership_number'  => $request->health_fund_membership_number,
            'health_fund_reference_number'   => $request->health_fund_reference_number,
-           'health_fund_expiry_date'        => $request->health_fund_expiry_date,
+           'health_fund_expiry_date'        => Carbon::create($request->health_fund_expiry_date)->toDateString(),
         ]);
 
-        $appointment->referral->update([ 
+        $appointment->referral->update([
             'referring_doctor_id'           => $request->referring_doctor_id,
-            'referral_date'                 => $request->referring_doctor_id,
+            'referral_date'                 =>  Carbon::create($request->referral_date)->toDateString(),
             'referral_duration'             => $request->referral_duration,
             'is_no_referral'                => false,
         ]);

@@ -15,12 +15,15 @@ return new class extends Migration
     {
         Schema::create('hrm_schedule_timeslots', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('hrm_weekly_schedule_template_id');
+            $table->foreignId('organization_id');
+            $table->foreignId('clinic_id');
             $table->enum('week_day', ['MON','TUS','WED','THU','FRI','SAT','SUN']);
             $table->enum('category', ['WORKING','BREAK'])->default('WORKING');
             $table->enum('restriction', ['CONSULTATIONS','PROCEDURES','NONE'])->default('NONE');
+            $table->foreignId('user_id');
             $table->time('start_time');
             $table->time('end_time');
+            $table->boolean('is_template');
             $table->timestamps();
         });
     }
