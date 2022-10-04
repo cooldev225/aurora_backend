@@ -32,7 +32,7 @@ class HrmScheduleTimeslotSeeder extends Seeder
                         'user_id'   => $user->id,
                         'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
                         'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
-
+                        'restriction' => $this->faker->randomElement(['NONE', 'PROCEDURE', 'CONSULTATION']),
                         'is_template' =>true,
 
                     ]);
