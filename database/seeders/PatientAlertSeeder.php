@@ -4,9 +4,8 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use App\Models\ProdaDevice;
 
-class ProdaDeviceSeeder extends Seeder
+class PatientAlertSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -15,6 +14,6 @@ class ProdaDeviceSeeder extends Seeder
      */
     public function run()
     {
-        ProdaDevice::factory(4)->create();
+        //
     }
 }

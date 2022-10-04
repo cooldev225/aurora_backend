@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Models\Bulletin;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class HrmScheduleTimeslotsSeeder extends Seeder
+class BulletinSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +15,7 @@ class HrmScheduleTimeslotsSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Bulletin::factory(10)->create();
+
     }
 }

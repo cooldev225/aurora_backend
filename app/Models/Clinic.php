@@ -21,13 +21,6 @@ class Clinic extends Model
 
     ];
 
-    /**
-     * Return Proda Device
-     */
-    public function proda_device()
-    {
-        return $this->hasOne(ProdaDevice::class);
-    }
 
     /**
      * Return Organization
@@ -37,13 +30,6 @@ class Clinic extends Model
         return $this->belongsTo(Organization::class);
     }
 
-    /**
-     * Return Schedule templates
-     */
-    public function scheduleTemplates()
-    {
-        return $this->hasMany(HrmWeeklyScheduleTemplate::class);
-    }
 
 
     

@@ -4,10 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-/**
-* @bodyParam role_id      int   required  The role_id to filter user   Example: 3
-*/
-class HrmWeeklyScheduleTemplateIndexRequest extends FormRequest
+class DocumentUpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,7 +24,11 @@ class HrmWeeklyScheduleTemplateIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'clinic_id'    => 'required|int',
+            'patient_id'    => 'nullable|integer',
+            'appointment_id'=> 'nullable|integer',
+            'specialist_id' => 'nullable|integer',
+            'document_name' =>  'required|string',
+            'document_type' => 'required|in:LETTER,REPORT,CLINICAL_NOTE,PATHOLOGY_REPORT,AUDIO,USB_CAPTURE,OTHER',
         ];
     }
 }

@@ -13,12 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('hrm_weekly_schedule_templates', function (Blueprint $table) {
+        Schema::create('patient_alerts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('clinic_id');
-            $table->enum('type',['PERMANENT', 'CONTRACTOR', 'CASUAL']);
-            $table->integer('role_id');
-            $table->foreignId('user_id')->nullable();
+            $table->foreignId('patient_id');
+            $table->foreignId('created_by');
+            $table->enum('alert_level',['NOTICE', 'WARNING','BLACKLISTED'])->default('NOTICE');
+            $table->boolean('is_dismissed')->default(false);
+            $table->text('title');
+            $table->text('explanation');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hrm_weekly_schedule_templates');
+        Schema::dropIfExists('patient_alerts');
     }
 };

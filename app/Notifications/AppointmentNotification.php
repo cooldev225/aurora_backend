@@ -11,7 +11,7 @@ class AppointmentNotification
 {
     public static function send($appointment, $type){
 
-        $notificationTemplate =   $appointment->organization->notificationTemplates::where('type', $type)->first();
+        $notificationTemplate =   $appointment->organization->notificationTemplates->where('type', $type)->first();
         $channel = $appointment->patient->appointment_confirm_method;
         $patient = $appointment->patient;
         $template = $channel == 'SMS' ? $notificationTemplate->sms_template : $notificationTemplate->email_print_template;

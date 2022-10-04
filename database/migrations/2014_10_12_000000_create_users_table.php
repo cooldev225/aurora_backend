@@ -35,6 +35,8 @@ return new class extends Migration {
             ->default('full-time');
         $table->string('document_letter_header')->nullable();
         $table->string('document_letter_footer')->nullable();
+        $table->string('sign_off')->nullable();
+        $table->string('education_code')->nullable();
         $table->string('signature')->nullable();
             $table->rememberToken();
             $table->timestamps();

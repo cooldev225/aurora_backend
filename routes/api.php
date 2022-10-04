@@ -26,9 +26,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
+use App\Http\Controllers\BulletinController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FileController;
-use App\Http\Controllers\HrmWeeklyScheduleTemplateController;
+use App\Http\Controllers\HrmScheduleTimeslotController;
 use App\Http\Controllers\LetterTemplateController;
 use App\Http\Controllers\NotificationTestController;
 use App\Http\Controllers\PaymentController;
@@ -37,13 +38,15 @@ use App\Http\Controllers\ReferringDoctorController;
 use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrganizationSettingsController;
+use App\Http\Controllers\PatientAlertController;
+use App\Http\Controllers\PatientBillingController;
 use App\Http\Controllers\PatientDocumentController;
-use App\Http\Controllers\UserAppointmentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserProfileSignatureController;
-use App\Models\PatientBilling;
+
+
 
 /*
 |--------------------------------------------------------------------------
@@ -83,6 +86,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/',                        [UserProfileController::class,'show']);
         Route::post('/signature',              [UserProfileSignatureController::class,'update']);
     });
+
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Appointment Routes
@@ -124,7 +129,7 @@ Route::middleware(['auth'])->group(function () {
     // Patient Routes
     Route::prefix('patients')->group(function () {
         Route::get('/appointments/{patient}', [PatientController::class, 'appointments']);
-        Route::put('/billing/{patient}',      [PatientBilling::class, 'update']);
+        Route::put('/billing/{patient}',      [PatientBillingController::class, 'update']);
 
         Route::apiResource('/recalls',        PatientRecallController::class, ['except' => ['show', 'index']]);
         Route::get('/recalls/{patient}',      [PatientRecallController::class, 'index']);
@@ -133,10 +138,12 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{patient}',         [PatientDocumentController::class, 'store']);
             Route::post('report/{patient}',   [PatientDocumentReportController::class, 'store']);
         });
+
+        Route::post('/alerts', [PatientAlertController::class, 'store']);
     });
 
     Route::prefix('hrm')->group(function () {
-        Route::apiResource('/schedule-templates', HrmWeeklyScheduleTemplateController::class, ['except' => ['show']]);
+        Route::apiResource('/hrm-schedule-timeslot', HrmScheduleTimeslotController::class);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -167,15 +174,19 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/referring-doctors',             ReferringDoctorController::class,['except' => ['show']]);
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
-
+    Route::apiResource('/bulletins',                     BulletinController::class);
+    
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
     Route::get('/available-timeslots',             [AppointmentSearchAvailableController::class, 'index']);
     Route::post('/file',                           [FileController::class,'show']);
 
-    Route::get('/user-appointments',               [UserAppointmentController::class, 'index']);
-    Route::get('/documents',                       [DocumentController::class, 'index']);
+    // Patient Document Routes
+    Route::prefix('documents')->group(function () {
+        Route::get('/',              [DocumentController::class, 'index']);
+        Route::put('/{patientDocument}',             [DocumentController::class, 'update']);
+    });
 
 
     Route::get('/procedure-approvals',             [AppointmentProcedureApprovalController::class, 'index']);

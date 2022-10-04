@@ -28,7 +28,8 @@ class UserController extends Controller
             'organization_id',
             $organization->id
         )
-        ->with('hrmUserBaseSchedules')
+        ->with('hrmUserBaseSchedules') //REMOVE
+        ->with('scheduleTimeslots') //REPLACEMENT
         ->with('specialistClinicRelations');
             
 
