@@ -3,11 +3,11 @@
 namespace App\Models;
 
 use App\Enum\UserRole as UserRoleEnum;
+use App\Models\HrmScheduleTimeslot;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
-use App\Models\HRMUserBaseSchedule;
 use App\Models\SpecialistClinicRelation;
 
 class User extends Authenticatable implements JWTSubject
@@ -89,14 +89,6 @@ class User extends Authenticatable implements JWTSubject
     }
 
     /**
-     * Return hrmUserBaseSchedules REMOVE
-     */
-    public function hrmUserBaseSchedules()
-    {
-        return $this->hasMany(HRMUserBaseSchedule::class);
-    }
-
-    /**
      * Return Schedule Timeslots
      */
     public function scheduleTimeslots()
@@ -113,7 +105,7 @@ class User extends Authenticatable implements JWTSubject
     */
     public function hrmUserBaseScheduleAtTimeDay($time, $day)
     {
-        return $this->hrmUserBaseSchedules
+        return $this->scheduleTimeslots
             ->where('week_day', $day)
             ->where('start_time', '<=', date('H:i:s', $time))
             ->where('end_time', '>', date('H:i:s', $time))->first();
@@ -201,7 +193,7 @@ class User extends Authenticatable implements JWTSubject
     */
     public function canWorkAt($time, $day)
     {
-        if (count($this->hrmUserBaseSchedules
+        if (count($this->scheduleTimeslots
             ->where('week_day', $day)
             ->where('start_time', '<=', date('H:i:s', $time))
             ->where('end_time', '>', date('H:i:s', $time))) > 0) {
@@ -211,7 +203,7 @@ class User extends Authenticatable implements JWTSubject
     }
 
      /*
-    * Get user hrmUserBaseSchedules at a certain time on a certain day
+    * Get user scheduleTimeslots at a certain time on a certain day
     *
     * @param string $time
     * @param string $day
@@ -219,7 +211,7 @@ class User extends Authenticatable implements JWTSubject
     */
     public function hrmUserBaseSchedulesTimeDay($time, $day)
     {
-        return $this->hrmUserBaseSchedules
+        return $this->scheduleTimeslots
             ->where('week_day', $day)
             ->where('start_time', '<=', date('H:i:s', $time))
             ->where('end_time', '>', date('H:i:s', $time))->first();
@@ -253,16 +245,15 @@ class User extends Authenticatable implements JWTSubject
     */
     public function canAppointmentTypeAt($time, $day, $appointmentType)
     {
-        $schedule = $this->hrmUserBaseSchedules
+        $schedule = $this->scheduleTimeslots
             ->where('week_day', $day)
             ->where('start_time', '<=', date('H:i:s', $time))
             ->where('end_time', '>', date('H:i:s', $time))
             ->first();
 
-        if ($schedule->appointment_type_restriction == "NONE") {
-
+        if ($schedule->restriction == "NONE") {
             return true;
-        } else if ($schedule->appointment_type_restriction == $appointmentType->type) {
+        } else if ($schedule->restriction == $appointmentType->type) {
             return true;
         }
         return false;
@@ -272,15 +263,15 @@ class User extends Authenticatable implements JWTSubject
     {
         parent::update($attributes, $options);
         $arrID = [];
-        if(array_key_exists('hrm_user_base_schedules', $attributes)){
-            foreach ($attributes['hrm_user_base_schedules'] as $schedule) {
+        if(array_key_exists('schedule_timeslots', $attributes)){
+            foreach ($attributes['schedule_timeslots'] as $schedule) {
                 $schedule = (object) $schedule;
                 $scheduleObj = null;
                 if (isset($schedule->id) && $schedule->id!=null) {
-                    $scheduleObj = HRMUserBaseSchedule::find($schedule->id);
+                    $scheduleObj = HrmScheduleTimeslot::find($schedule->id);
                 }
                 if ($scheduleObj == null) {
-                    $scheduleObj = new HRMUserBaseSchedule();
+                    $scheduleObj = new HrmScheduleTimeslot();
                     $scheduleObj->user_id = $this->id;
                 }
                 $scheduleObj->clinic_id = $schedule->clinic_id;
@@ -292,10 +283,10 @@ class User extends Authenticatable implements JWTSubject
                 $arrID[] = $scheduleObj->id;
             }
         }
-        HRMUserBaseSchedule::where('user_id', $this->id)
+        HrmScheduleTimeslot::where('user_id', $this->id)
             ->whereNotIn('id', $arrID)
             ->delete();
-        
+
         $arrID = [];
         if(array_key_exists('specialist_clinic_relations', $attributes)&&$attributes['specialist_clinic_relations']){
             foreach ($attributes['specialist_clinic_relations'] as $provider) {
@@ -317,9 +308,9 @@ class User extends Authenticatable implements JWTSubject
         SpecialistClinicRelation::where('specialist_id', $this->id)
             ->whereNotIn('id', $arrID)
             ->delete();
-        
+
         return User::where('id', $this->id)
-            ->with('hrmUserBaseSchedules')
+            ->with('scheduleTimeslots')
             ->with('specialistClinicRelations')
             ->first();
     }

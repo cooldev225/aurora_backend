@@ -33,7 +33,7 @@ class AppointmentSpecialistController extends Controller
         $specialists = User::
         where('organization_id', auth()->user()->organization_id)
         ->where('role_id', UserRole::SPECIALIST)
-        ->whereHas('hrmUserBaseSchedules', function($query) use ($day)
+        ->whereHas('scheduleTimeslots', function($query) use ($day)
         {
             $query->where('week_day', $day);
         })
@@ -45,7 +45,7 @@ class AppointmentSpecialistController extends Controller
             }
         ])
         ->with([
-            'hrmUserBaseSchedules' => function ($query) use ($day) {
+            'scheduleTimeslots' => function ($query) use ($day) {
                 $query->where('week_day', $day);
             }
         ])

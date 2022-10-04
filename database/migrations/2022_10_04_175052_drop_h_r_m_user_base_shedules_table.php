@@ -4,14 +4,23 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration
-{
+return new class extends Migration {
     /**
      * Run the migrations.
      *
      * @return void
      */
     public function up()
+    {
+        Schema::dropIfExists('h_r_m_user_base_schedules');
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down(Blueprint $table)
     {
         Schema::create('h_r_m_user_base_schedules', function (Blueprint $table) {
             $table->id();
@@ -36,15 +45,5 @@ return new class extends Migration
             $table->foreignId('anesthetist_id')->nullable();
             $table->timestamps();
         });
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::dropIfExists('h_r_m_user_base_schedules');
     }
 };
