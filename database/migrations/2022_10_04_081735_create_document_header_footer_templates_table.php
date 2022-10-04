@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('document_header_footer_templates', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id');
+            $table->text('title');
             $table->text('header_file');
             $table->text('footer_file');
             $table->boolean('is_organization_default')->default(false);
