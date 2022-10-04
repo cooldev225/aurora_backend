@@ -32,7 +32,7 @@ class AppointmentSearchAvailableController extends Controller
      */
     public function index(Request $request)
     {
-       
+
         // Appointment Type
         $appointmentType = AppointmentType::find($request->appointment_type_id)->first();
 
@@ -60,8 +60,8 @@ class AppointmentSearchAvailableController extends Controller
 
             // Get All specialist working on given day
             $specialists = User::where('organization_id', auth()->user()->organization_id)
-                ->where('role_id', UserRole::SPECIALIST) 
-                ->whereHas('hrmUserBaseSchedules', function ($query) use ($day, $clinicId ) {
+                ->where('role_id', UserRole::SPECIALIST)
+                ->whereHas('scheduleTimeslots', function ($query) use ($day, $clinicId ) {
                     $query->where('week_day', $day);
                     if($clinicId != ""){
                         $query->where('clinic_id', $clinicId );
@@ -72,9 +72,9 @@ class AppointmentSearchAvailableController extends Controller
             $timeslotFilled = false;
             for ($time = $startTime; $time < $endTime; $time += $timeslotLength * 60) {
                 foreach ($specialists as $specialist) {
-                    
+
                     // Check each specialist available in timeslot and that that they can undergo that appointment type
-                    if ($specialist->canWorkAt($time, $day) && $specialist->canAppointmentTypeAt($time, $day, $appointmentType)) {   
+                    if ($specialist->canWorkAt($time, $day) && $specialist->canAppointmentTypeAt($time, $day, $appointmentType)) {
                         // Check if specialist already has an appointment in timeslot
                         if(!$specialist->hasAppointmentAtTime($time, $searchDate->timestamp)){
                             $hrmUserBaseSchedule = $specialist->hrmUserBaseScheduleAtTimeDay($time, $day);
@@ -86,16 +86,16 @@ class AppointmentSearchAvailableController extends Controller
                               'clinic_name' => Clinic::find($hrmUserBaseSchedule->clinic_id)->name,
                             ]);
                             $timeslotFilled = true;
-                        } 
+                        }
                         if($timeslotFilled){
                             $timeslotFilled = false;
                             break;
                         }
-                       
+
                     }
-                    
+
                 }
-          
+
             }
 
             array_push($availableStartTimes, [

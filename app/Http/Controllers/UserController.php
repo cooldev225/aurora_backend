@@ -28,8 +28,7 @@ class UserController extends Controller
             'organization_id',
             $organization->id
         )
-        ->with('hrmUserBaseSchedules') //REMOVE
-        ->with('scheduleTimeslots') //REPLACEMENT
+        ->with('scheduleTimeslots')
         ->with('specialistClinicRelations');
 
 
@@ -150,7 +149,7 @@ class UserController extends Controller
 
         $user = $user->update([
             ...$request->validated(),
-            'hrm_user_base_schedules' => $request->hrm_user_base_schedules,
+            'schedule_timeslots' => $request->schedule_timeslots,
             'specialist_clinic_relations' => $request->specialist_clinic_relations,
         ]);
         return response()->json(

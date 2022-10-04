@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('clinic_id');
             $table->enum('week_day', ['MON','TUS','WED','THU','FRI','SAT','SUN']);
             $table->enum('category', ['WORKING','BREAK'])->default('WORKING');
-            $table->enum('restriction', ['CONSULTATIONS','PROCEDURES','NONE'])->default('NONE');
+            $table->enum('restriction', ['CONSULTATION','PROCEDURE','NONE'])->default('NONE');
             $table->foreignId('user_id');
             $table->time('start_time');
             $table->time('end_time');

@@ -34,7 +34,7 @@ use App\Models\AnestheticQuestion;
 use App\Models\AppointmentPayment;
 use App\Policies\HealthFundPolicy;
 use App\Models\AppointmentReferral;
-use App\Models\HRMUserBaseSchedule;
+use App\Models\HrmScheduleTimeslot;
 use App\Models\PatientClinicalNote;
 use App\Models\PreAdmissionConsent;
 use App\Models\PreAdmissionSection;
