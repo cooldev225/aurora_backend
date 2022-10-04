@@ -7,7 +7,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-
+use Illuminate\Support\Arr;
 
 class UserPasswordController extends Controller
 {
@@ -19,9 +19,9 @@ class UserPasswordController extends Controller
      * @param  Illuminate\Http\Request
      * @return \Illuminate\Http\Response
      */
-    public function update(PasswordUpdateRequest $request, User $user = null)
+    public function update(PasswordUpdateRequest $request)
     {
-        return $user;
+        $params = $request->validated();;
         if (!Hash::check($request->old_password, Auth::user()->password)) {
             return response()->json(
                 [
@@ -35,6 +35,10 @@ class UserPasswordController extends Controller
         }
 
         $user = auth()->user();
+
+        if(Arr::exists($params, 'id')) {
+            $user = User::find($params['id']);
+        }
 
         // Verify the user can access this function via policy
         $this->authorize('updateProfile', $user);

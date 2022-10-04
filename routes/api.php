@@ -184,6 +184,6 @@ Route::middleware(['auth'])->group(function () {
 
     // User Routes
     Route::prefix('users')->group(function () {
-        Route::put('/change-password/{user}',             [UserPasswordController::class, 'update']);
+        Route::post('/change-password',             [UserPasswordController::class, 'update']);
     });
 });
