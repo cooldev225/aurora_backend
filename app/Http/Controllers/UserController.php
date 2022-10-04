@@ -31,7 +31,7 @@ class UserController extends Controller
         ->with('hrmUserBaseSchedules') //REMOVE
         ->with('scheduleTimeslots') //REPLACEMENT
         ->with('specialistClinicRelations');
-            
+
 
         if($request->role_id){
             $users->where('role_id', $request->role_id);
@@ -68,7 +68,7 @@ class UserController extends Controller
 
 
 
-    
+
     /**
      * [Employee] - Destroy
      *

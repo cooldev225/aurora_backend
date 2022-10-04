@@ -77,7 +77,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout',          [UserAuthenticationController::class, 'logout']);
     Route::post('/refresh',         [UserAuthenticationController::class, 'refresh']);
 
-    Route::post('/update-profile',   [UserProfileController::class, 'update']);
+
+    Route::post('/update-profile',  [UserProfileController::class, 'update']);
+    Route::get('/profile',          [UserProfileController::class, 'show']);
+
     Route::post('/change-password',  [UserPasswordController::class, 'update']);
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -86,6 +89,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/',                        [UserProfileController::class,'show']);
         Route::post('/signature',              [UserProfileSignatureController::class,'update']);
     });
+
 
 
 
@@ -175,7 +179,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
     Route::apiResource('/bulletins',                     BulletinController::class);
-    
+
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
@@ -193,4 +197,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('appointment/procedure-approvals/{appointment}',    [AppointmentProcedureApprovalController::class, 'update']);
 
     Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);
+
+    // User Routes
+    Route::prefix('users')->group(function () {
+        Route::post('/change-password',             [UserPasswordController::class, 'update']);
+    });
 });
