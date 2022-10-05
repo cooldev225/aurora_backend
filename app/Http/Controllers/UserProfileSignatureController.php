@@ -30,6 +30,7 @@ class UserProfileSignatureController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('updateProfile', $user);
 
+
         $file_name = generateFileName(FileType::USER_SIGNATURE, $user->id, 'png');
         $image = $params['signature'];
 
@@ -40,6 +41,8 @@ class UserProfileSignatureController extends Controller
         Storage::disk('local')->put(getUserOrganizationFilePath('images').'/'.$file_name, base64_decode($image));
 
         $user->signature = $file_name;
+        $user->education_code = $request->education_code; 
+        $user->sign_off = $request->sign_off; 
         $user->save();
 
         return response()->json(
