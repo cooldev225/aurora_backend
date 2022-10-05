@@ -33,6 +33,7 @@ return new class extends Migration {
             $table->integer('payment_tier_9')->default(0);
             $table->integer('payment_tier_10')->default(0);
             $table->integer('payment_tier_11')->default(0);
+            $table->foreignId('report_template')->nullable();
             $table->timestamps();
         });
     }
