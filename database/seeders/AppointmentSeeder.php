@@ -154,25 +154,28 @@ class AppointmentSeeder extends Seeder
     {
         $organization = Organization::where('id', 1)->first();
         $specialists = $organization->users->where('role_id', UserRole::SPECIALIST)->shuffle();
-        $clinic =Clinic::where('organization_id', 1)->get()->random(1)->first();
         $filteredSpecialist = null;
         foreach ($specialists as $specialist) {
-            $hrmTimeSchedule = $this->getHrmTimeSchedule($specialist->id, $date, $clinic->id);
+            $formattedDate = strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek);
+            $hrmTimeSchedule = HrmScheduleTimeslot::where([
+                ['user_id', '=', $specialist->id],
+                ['organization_id', '=', 1],
+                ['week_day', '=', $formattedDate]
+            ])->first();
+
             if ($hrmTimeSchedule !== null) {
                 return [
                     'specialist' => $specialist,
-                    'clinic' => $clinic,
                     'hrmTimeSchedule' => $hrmTimeSchedule
                 ];
             }else {
                 $filteredSpecialist = $specialist;
             }
         }
-//        $specialist = $organization->users->where('role_id', UserRole::SPECIALIST)->random(1)->first();
         $this->faker = Faker::create();
         $hrmTimeSchedule = HrmScheduleTimeslot::create([
             'organization_id' => 1,
-            'clinic_id' => $clinic->id,
+            'clinic_id' =>1,
             'week_day' => strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek),
             'category' => 'WORKING',
             'user_id' => $filteredSpecialist->id,
@@ -180,10 +183,8 @@ class AppointmentSeeder extends Seeder
             'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
             'is_template' => true,
         ]);
-//        dd($specialist->id,  strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek), $clinic->id);
         return [
             'specialist' => $specialist,
-            'clinic' => $clinic,
             'hrmTimeSchedule' => $hrmTimeSchedule
         ];
     }
