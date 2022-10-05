@@ -25,7 +25,7 @@ class HrmScheduleTimeslotRequest extends FormRequest
     {
         return [
             'user_id'                       => 'required|numeric',
-            'week_day'                      => 'required|in:MON,TUS,WED,THU,FRI,SAT,SUN',
+            'week_day'                      => 'required|in:MON,TUE,WED,THU,FRI,SAT,SUN',
             'category'                      => 'nullable|in:WORKING,BREAK,LEAVE',
             'start_time'                    => 'required',
             'end_time'                      => 'required',
