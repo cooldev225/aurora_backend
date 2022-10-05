@@ -25,7 +25,10 @@ class DocumentHeaderFooterTemplateController extends Controller
         $templates = DocumentHeaderFooterTemplate::where(
             'organization_id',
             $organization_id
-        )->get();
+        )
+        //->with('organization')
+        //->with('getfooterfile')
+        ->get();
 
         return response()->json(
             [
@@ -46,27 +49,42 @@ class DocumentHeaderFooterTemplateController extends Controller
      */
     public function store(DocumentHeaderFooterTemplateRequest $request)
     {
-        $organization = auth()->user()->organization_id;
+        // Verify the user can access this function via policy
+        $this->authorize('create', DocumentHeaderFooterTemplate::class);
 
+        $organization_id = auth()->user()->organization_id;
 
         $header = "";
-        if ($file = $request->file('document_header')) {
-            $file_name = generateFileName(FileType::DOCUMENT_HEADER, $organization->id, $file->extension());
+        if ($file = $request->file('header_file')) {
+            $file_name = generateFileName(FileType::DOCUMENT_HEADER, $organization_id, $file->extension());
+            $filepath = getUserOrganizationFilePath();
+            $file->storeAs($filepath, $file_name);
             $header = $file_name;
         }
 
         $footer = "";
-        if ($file = $request->file('document_footer')) {
-            $file_name = generateFileName(FileType::DOCUMENT_FOOTER, $organization->id, $file->extension());
+        if ($file = $request->file('footer_file')) {
+            $file_name = generateFileName(FileType::DOCUMENT_FOOTER, $organization_id, $file->extension());
+            $filepath = getUserOrganizationFilePath();
+            $file->storeAs($filepath, $file_name);
             $footer = $file_name;
         }
 
-        DocumentHeaderFooterTemplate::create([
-            'organization_id' => $organization->id(),
+        $documentHeaderFooterTemplate = DocumentHeaderFooterTemplate::create([
+            'title'           => $request->title,
+            'organization_id' => $organization_id,
             'header_file'     => $header,
             'footer_file'     => $footer,
             'user_id'         => $request->user_id ? $request->user_id : null,
         ]);
+
+        return response()->json(
+            [
+                'message' => 'New Document Header/Footer Template created',
+                'data' => $documentHeaderFooterTemplate,
+            ],
+            Response::HTTP_CREATED
+        );
     }
     
 
