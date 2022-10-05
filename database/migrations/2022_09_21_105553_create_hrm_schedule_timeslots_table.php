@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('organization_id');
             $table->foreignId('clinic_id');
-            $table->enum('week_day', ['MON','TUS','WED','THU','FRI','SAT','SUN']);
+            $table->enum('week_day', ['MON','TUE','WED','THU','FRI','SAT','SUN']);
             $table->enum('category', ['WORKING','BREAK'])->default('WORKING');
             $table->enum('restriction', ['CONSULTATION','PROCEDURE','NONE'])->default('NONE');
             $table->foreignId('user_id');
