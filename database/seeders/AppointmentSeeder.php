@@ -154,14 +154,49 @@ class AppointmentSeeder extends Seeder
     {
         $organization = Organization::where('id', 1)->first();
         $specialists = $organization->users->where('role_id', UserRole::SPECIALIST)->shuffle();
+        $clinic =Clinic::where('organization_id', 1)->get()->random(1)->first();
         $filteredSpecialist = null;
         foreach ($specialists as $specialist) {
-            $formattedDate = strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek);
-            $hrmTimeSchedule = HrmScheduleTimeslot::where([
-                ['user_id', '=', $specialist->id],
-                ['organization_id', '=', 1],
-                ['week_day', '=', $formattedDate]
-            ])->first();
+            $hrmTimeSchedule = $this->getHrmTimeSchedule($specialist->id, $date, $clinic->id);
+            if ($hrmTimeSchedule !== null) {
+                return [
+                    'specialist' => $specialist,
+                    'clinic' => $clinic,
+                    'hrmTimeSchedule' => $hrmTimeSchedule
+                ];
+            }else {
+                $filteredSpecialist = $specialist;
+            }
+        }
+//        $specialist = $organization->users->where('role_id', UserRole::SPECIALIST)->random(1)->first();
+        $this->faker = Faker::create();
+        $hrmTimeSchedule = HrmScheduleTimeslot::create([
+            'organization_id' => 1,
+            'clinic_id' => $clinic->id,
+            'week_day' => strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek),
+            'category' => 'WORKING',
+            'user_id' => $filteredSpecialist->id,
+            'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
+            'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
+            'is_template' => true,
+        ]);
+//        dd($specialist->id,  strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek), $clinic->id);
+        return [
+            'specialist' => $specialist,
+            'clinic' => $clinic,
+            'hrmTimeSchedule' => $hrmTimeSchedule
+        ];
+    }
+
+    public function getHrmTimeSchedule(int $userId, string $date, int $clinicId)
+    {
+        $formattedDate = strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek);
+        $hrmScheduleTime = HrmScheduleTimeslot::where([
+            ['user_id', '=', $userId],
+            ['organization_id', '=', 1],
+            ['clinic_id', '=', $clinicId],
+            ['week_day', '=', $formattedDate]
+        ])->first();
 
             if ($hrmTimeSchedule !== null) {
                 return [
