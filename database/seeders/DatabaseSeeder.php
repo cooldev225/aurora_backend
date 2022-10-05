@@ -25,6 +25,7 @@ class DatabaseSeeder extends Seeder
             HealthFundSeeder::class,
             AnestheticQuestionSeeder::class,
             ReferringDoctorSeeder::class,
+            HrmScheduleTimeslotSeeder::class,
             AppointmentSeeder::class,
             AppointmentTimeRequirementSeeder::class,
             NotificationTemplateSeeder::class,
@@ -33,7 +34,6 @@ class DatabaseSeeder extends Seeder
             PreAdmissionSeeder::class,
             ScheduleFeeSeeder::class,
             BulletinSeeder::class,
-            HrmScheduleTimeslotSeeder::class,
         ]);
     }
 }
