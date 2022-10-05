@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CodingIndexRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Response;
 
@@ -13,7 +14,7 @@ class CodingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(CodingIndexRequest $request)
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', Appointment::class);
@@ -24,13 +25,16 @@ class CodingController extends Controller
                 'documents' => function ($query) {
                     $query->where('document_type', 'REPORT');
                 }
-            ])
-        ->get();
+            ]);
+
+        if($request->is_complete){
+            $appointments::where('is_complete', $request->is_complete);
+        }
 
         return response()->json(
             [
                 'message' => 'Admin List',
-                'data' => $appointments,
+                'data' => $appointments->get(),
             ],
             Response::HTTP_OK
         );
