@@ -91,6 +91,23 @@ class Appointment extends Model
     }
 
     /**
+     * Return Organization
+     */
+    public function codes()
+    {
+        return $this->hasOne(AppointmentCodes::class);
+    }
+
+    /**
+     * Return Organization
+     */
+    public function documents()
+    {
+        return $this->hasMany(PatientDocument::class);
+    }
+
+
+    /**
      * Return Patient that the appointment belongs to
      */
     public function patient()

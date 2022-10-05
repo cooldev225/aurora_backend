@@ -27,6 +27,7 @@ use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
 use App\Http\Controllers\BulletinController;
+use App\Http\Controllers\CodingController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HrmScheduleTimeslotController;
@@ -156,6 +157,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/',              [PaymentController::class, 'index']);
         Route::post('/',             [PaymentController::class, 'store']);
         Route::get('/{appointment}', [PaymentController::class, 'show']);
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Coding Routes
+    Route::prefix('coding')->group(function () {
+        Route::get('/',              [CodingController::class, 'index']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

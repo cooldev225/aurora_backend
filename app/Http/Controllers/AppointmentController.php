@@ -8,6 +8,7 @@ use App\Http\Requests\AppointmentUpdateRequest;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
+use App\Models\AppointmentCodes;
 use App\Models\Patient;
 use App\Models\PatientBilling;
 use App\Models\AppointmentPreAdmission;
@@ -152,6 +153,8 @@ class AppointmentController extends Controller
                 'health_fund_expiry_date'        => Carbon::create($request->health_fund_expiry_date)->toDateString(),
             ]);
 
+          
+
             $patient->organizations()->attach(Organization::find(auth()->user()->organization_id));
         }
 
@@ -172,6 +175,10 @@ class AppointmentController extends Controller
             'note'                          => $request->note,
             'charge_type'                   => $request->charge_type,
             'room_id'                       => $request->room_id,
+        ]);
+
+        AppointmentCodes::create([ 
+            'appointment_id'                => $appointment->id
         ]);
 
         AppointmentReferral::create([
