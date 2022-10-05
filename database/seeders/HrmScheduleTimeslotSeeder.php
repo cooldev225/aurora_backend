@@ -18,22 +18,21 @@ class HrmScheduleTimeslotSeeder extends Seeder
     public function run()
     {
         $this->faker = Faker::create();
-        $users = User::where('role_id', 5)->get();
-        $days = ['MON','TUS','WED','THU','FRI','SAT','SUN'];
+        $users = User::where('organization_id', 1)->get();
+        $days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
         foreach ($users as $user) {
-            foreach($days as $day){
+            foreach ($days as $day) {
                 $clinic_id = Clinic::where('organization_id', 1)->inRandomOrder()->first()->id;
                 if (rand(0, 5) > 2) {
                     HrmScheduleTimeslot::create([
                         'organization_id' => 1,
                         'clinic_id' => $clinic_id,
-                        'week_day'  => $day,
-                        'category'  => 'WORKING',
-                        'user_id'   => $user->id,
+                        'week_day' => $day,
+                        'category' => 'WORKING',
+                        'user_id' => $user->id,
                         'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
                         'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
-                        'restriction' => $this->faker->randomElement(['NONE', 'PROCEDURE', 'CONSULTATION']),
-                        'is_template' =>true,
+                        'is_template' => true,
 
                     ]);
                 }
@@ -42,16 +41,15 @@ class HrmScheduleTimeslotSeeder extends Seeder
                     HrmScheduleTimeslot::create([
                         'organization_id' => 1,
                         'clinic_id' => $clinic_id,
-                        'week_day'  => $day,
-                        'category'  => 'WORKING',
-                        'user_id'   => $user->id,
+                        'week_day' => $day,
+                        'category' => 'WORKING',
+                        'user_id' => $user->id,
                         'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
                         'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
-                        'is_template' =>true,
+                        'is_template' => true,
 
                     ]);
                 }
-
             }
         }
     }
