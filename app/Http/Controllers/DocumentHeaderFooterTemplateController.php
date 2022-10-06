@@ -32,7 +32,7 @@ class DocumentHeaderFooterTemplateController extends Controller
 
         return response()->json(
             [
-                'message' => 'Letter Template List',
+                'message' => 'Document Header/Footer Template List',
                 'data' => $templates,
             ],
             Response::HTTP_OK
@@ -147,6 +147,15 @@ class DocumentHeaderFooterTemplateController extends Controller
      */
     public function destroy(DocumentHeaderFooterTemplate $documentHeaderFooterTemplate)
     {
-        //
+        $this->authorize('delete', $documentHeaderFooterTemplate);
+
+        $documentHeaderFooterTemplate->delete();
+
+        return response()->json(
+            [
+                'message' => 'Document Header/Footer Template Removed',
+            ],
+            Response::HTTP_NO_CONTENT
+        );
     }
 }
