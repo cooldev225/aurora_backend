@@ -70,14 +70,25 @@ class DocumentHeaderFooterTemplateController extends Controller
             $footer = $file_name;
         }
 
-        $documentHeaderFooterTemplate = DocumentHeaderFooterTemplate::create([
-            'title'           => $request->title,
-            'organization_id' => $organization_id,
-            'header_file'     => $header,
-            'footer_file'     => $footer,
-            'user_id'         => $request->user_id ? $request->user_id : null,
-        ]);
-
+        $documentHeaderFooterTemplate = null;
+        if(!$request->id){
+            $documentHeaderFooterTemplate = DocumentHeaderFooterTemplate::create([
+                'title'           => $request->title,
+                'organization_id' => $organization_id,
+                'header_file'     => $header,
+                'footer_file'     => $footer,
+                'user_id'         => $request->user_id ? $request->user_id : null,
+            ]);
+        }else{
+            $documentHeaderFooterTemplate = DocumentHeaderFooterTemplate::find($request->id);
+            $documentHeaderFooterTemplate->title = $request->title;
+            if($header != "")
+                $documentHeaderFooterTemplate->header_file = $header;
+            if($footer != "")
+                $documentHeaderFooterTemplate->footer_file = $footer;
+            $documentHeaderFooterTemplate->save();
+        }
+        
         return response()->json(
             [
                 'message' => 'New Document Header/Footer Template created',
@@ -109,7 +120,23 @@ class DocumentHeaderFooterTemplateController extends Controller
      */
     public function update(DocumentHeaderFooterTemplateRequest $request, DocumentHeaderFooterTemplate $documentHeaderFooterTemplate)
     {
-        //
+        // Verify the user can access this function via policy
+        $this->authorize('update', $documentHeaderFooterTemplate);
+
+        $organization_id = auth()->user()->organization_id;
+
+        $documentHeaderFooterTemplate = $documentHeaderFooterTemplate->update([
+            'organization_id' => $organization_id,
+            ...$request->validated(),
+        ]);
+
+        return response()->json(
+            [
+                'message' => 'Document Header/Footer Template updated',
+                'data' => $documentHeaderFooterTemplate,
+            ],
+            Response::HTTP_OK
+        );
     }
 
     /**
