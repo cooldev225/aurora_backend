@@ -29,28 +29,28 @@ class Appointment extends Model
 
     public function getAusFormattedDateAttribute()
     {
-        return Carbon::parse($this->date)->format('d/m/Y'); 
+        return Carbon::parse($this->date)->format('d/m/Y');
     }
 
     public function getAppointmentTypeNameAttribute()
     {
-        return $this->appointment_type->name; 
+        return $this->appointment_type->name;
     }
 
     public function getFormattedAppointmentTimeAttribute()
     {
         $start = Carbon::parse($this->start_time)->format('H:i');
         $end = Carbon::parse($this->end_time)->format('H:i');
-        return $start . "-" . $end; 
+        return $start . "-" . $end;
     }
 
     public function getSpecialistNameAttribute()
     {
-        return $this->specialist->title .' '. $this->specialist->first_name .' '. $this->specialist->last_name;  
+        return $this->specialist->title .' '. $this->specialist->first_name .' '. $this->specialist->last_name;
     }
 
     public function getClinicDetailsAttribute()
-    {   
+    {
         return [
             'name' => $this->clinic->name,
         ];
@@ -138,7 +138,7 @@ class Appointment extends Model
     {
         return $this->hasOne(AppointmentReferral::class);
     }
-    
+
     /**
      * Return Return Payments
      */
@@ -172,7 +172,7 @@ class Appointment extends Model
     {
         return $this->hasOne(User::class,'id', 'anesthetist_id');
     }
-    
+
     /**
      * Check conflict
      */
