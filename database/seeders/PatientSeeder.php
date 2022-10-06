@@ -18,23 +18,12 @@ class PatientSeeder extends Seeder
      */
     public function run()
     {
-        Patient::factory(10)->create();
+        Patient::factory(30)->create();
 
         $arrPatients = Patient::all();
 
         foreach ($arrPatients as $patient) {
-            if ($patient->id == 1) {
-                $patient->email = 'kaylee@ojc.com.au';
-                $patient->appointment_confirm_method = 'email';
-            } else if ($patient->id == 2) { 
-                $patient->contact_number = '04-8118-3422';
-                $patient->appointment_confirm_method = 'sms';
-            }
-
-            if ($patient->id >= 1 && $patient->id <= 2) {
-                $patient->save();
-            }
-
+            
             PatientBilling::create([
                 'patient_id'    =>  $patient->id
             ]);
