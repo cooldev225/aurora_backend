@@ -46,6 +46,8 @@ use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserProfileSignatureController;
+use App\Http\Controllers\SpecialistController;
+
 use App\Models\AppointmentCodes;
 
 /*
@@ -208,5 +210,11 @@ Route::middleware(['auth'])->group(function () {
     // User Routes
     Route::prefix('users')->group(function () {
         Route::post('/change-password',             [UserPasswordController::class, 'update']);
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Patient Routes
+    Route::prefix('specialists')->group(function () {
+        Route::get('/', [SpecialistController::class, 'index']);
     });
 });
