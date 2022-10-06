@@ -46,8 +46,7 @@ use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\UserProfileSignatureController;
-
-
+use App\Models\AppointmentCodes;
 
 /*
 |--------------------------------------------------------------------------
@@ -163,6 +162,7 @@ Route::middleware(['auth'])->group(function () {
     // Coding Routes
     Route::prefix('coding')->group(function () {
         Route::get('/',              [CodingController::class, 'index']);
+        Route::put('/{appointment}',              [AppointmentCodes::class, 'update']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

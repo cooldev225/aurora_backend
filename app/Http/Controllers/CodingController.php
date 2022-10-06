@@ -20,6 +20,18 @@ class CodingController extends Controller
         $this->authorize('viewAny', Appointment::class);
 
         $appointments = Appointment::where('organization_id', auth()->user()->organization_id)
+            ->whereHas(
+                'appointment_type',
+                function ($query) {
+                    $query->where('type',  'PROCEDURE');
+                }
+            )
+            ->whereHas(
+                'documents',
+                function ($query) {
+                    $query->where('document_type', 'REPORT');
+                }
+            )
             ->with('codes')
             ->with([
                 'documents' => function ($query) {
@@ -27,7 +39,7 @@ class CodingController extends Controller
                 }
             ]);
 
-        if($request->is_complete){
+        if ($request->is_complete) {
             $appointments::where('is_complete', $request->is_complete);
         }
 
@@ -40,7 +52,7 @@ class CodingController extends Controller
         );
     }
 
-   /**
+    /**
      * [Admin User] - List
      *
      * @return \Illuminate\Http\Response
@@ -60,5 +72,4 @@ class CodingController extends Controller
             Response::HTTP_OK
         );
     }
-
 }
