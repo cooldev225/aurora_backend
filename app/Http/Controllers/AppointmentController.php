@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AppointmentCreateRequest;
 use App\Http\Requests\AppointmentIndexRequest;
 use App\Http\Requests\AppointmentUpdateRequest;
+use App\Models\AppointmentType;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
@@ -156,13 +157,12 @@ class AppointmentController extends Controller
         }
 
         $start_time = Carbon::create($request->time_slot[0]);
-        $end_time = Carbon::create($request->time_slot[1]);
 
         $appointment = Appointment::create([
             'date'                          => Carbon::create($request->date)->toDateString(),
             'arrival_time'                  => $request->arrival_time,
             'start_time'                    => $start_time->toTimeString(),
-            'end_time'                      => $end_time->toTimeString(),
+            'end_time'                      => $this->aptEndTime($request)->toTimeString(),
             'patient_id'                    => $patient->id,
             'organization_id'               => auth()->user()->organization_id,
             'appointment_type_id'           => $request->appointment_type_id,
@@ -218,7 +218,7 @@ class AppointmentController extends Controller
             'room_id'                       => $request->room_id,
             'note'                          => $request->note,
             'charge_type'                   => $request->charge_type,
-            'end_time'                      => Carbon::create($request->time_slot[1])->toTimeString(),
+            'end_time'                      => $this->aptEndTime($request)->toTimeString(),
         ]);
 
         $appointment->patient()->update([
@@ -323,5 +323,12 @@ class AppointmentController extends Controller
             ],
             Response::HTTP_OK
         );
+    }
+
+    public function aptEndTime (Request $request) {
+        $start_time = Carbon::create($request->time_slot[0]);
+        $organization = User::find($request->specialist_id)->organization()->first();
+        $appointmentType = AppointmentType::find($request->appointment_type_id)->first();
+        return Carbon::create($start_time)->addMinutes($organization->appointment_length * $appointmentType->AppointmentLengthAsNumber);
     }
 }
