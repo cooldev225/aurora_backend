@@ -30,7 +30,10 @@ class Clinic extends Model
         return $this->belongsTo(Organization::class);
     }
 
+//    Return HRM schedule time slots
 
-
-    
+    public function hrmScheduleTimeslot()
+    {
+        return $this->hasMany(HrmScheduleTimeslot::class);
+    }
 }

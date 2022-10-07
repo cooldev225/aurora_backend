@@ -27,6 +27,7 @@ use App\Http\Controllers\NotificationTemplateController;
 use App\Http\Controllers\PatientRecallController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
 use App\Http\Controllers\BulletinController;
+use App\Http\Controllers\CodingController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\HrmScheduleTimeslotController;
@@ -44,7 +45,13 @@ use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
+
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
+
+use App\Http\Controllers\UserProfileSignatureController;
+use App\Models\AppointmentCodes;
+
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -74,9 +81,19 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/logout',          [UserAuthenticationController::class, 'logout']);
     Route::post('/refresh',         [UserAuthenticationController::class, 'refresh']);
 
+
     Route::post('/update-profile',  [UserProfileController::class, 'update']);
     Route::get('/profile',          [UserProfileController::class, 'show']);
-    Route::post('/change-password', [UserPasswordController::class, 'update']);
+
+    Route::post('/change-password',  [UserPasswordController::class, 'update']);
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Profile Routes
+    Route::prefix('profile')->group(function () {
+        Route::get('/',                        [UserProfileController::class,'show']);
+        Route::post('/signature',              [UserProfileSignatureController::class,'update']);
+    });
+
 
 
 
@@ -146,6 +163,13 @@ Route::middleware(['auth'])->group(function () {
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
+    // Coding Routes
+    Route::prefix('coding')->group(function () {
+        Route::get('/',              [CodingController::class, 'index']);
+        Route::put('/{appointment}',              [AppointmentCodes::class, 'update']);
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////////
     // API Resources
     Route::apiResource('/admins',                        AdminController::class, ['except' => ['show']])->parameters(['admins' => 'user']);
     Route::apiResource('/anesthetic-questions',          AnestheticQuestionController::class,['except' => ['show']]);
@@ -166,8 +190,10 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
     Route::apiResource('/bulletins',                     BulletinController::class);
+
     Route::apiResource('/document-header-footer-templates',DocumentHeaderFooterTemplateController::class,['except' => ['show']]);
     
+
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
@@ -185,4 +211,9 @@ Route::middleware(['auth'])->group(function () {
     Route::put('appointment/procedure-approvals/{appointment}',    [AppointmentProcedureApprovalController::class, 'update']);
 
     Route::post('/notification-test',              [NotificationTestController::class,'testSendNotification']);
+
+    // User Routes
+    Route::prefix('users')->group(function () {
+        Route::post('/change-password',             [UserPasswordController::class, 'update']);
+    });
 });

@@ -15,4 +15,13 @@ enum FileType: string
     case DOCUMENT_FOOTER = 'document_footer';
     case CLINIC_HEADER = 'clinic_header';
     case CLINIC_FOOTER = 'clinic_footer';
+
+    case USER_SIGNATURE = 'user_signature';
 }
+
+enum ImageType: string
+{
+    case PNG = 'png';
+    case JPEG = 'jpeg';
+}
+

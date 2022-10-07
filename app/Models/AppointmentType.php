@@ -33,6 +33,7 @@ class AppointmentType extends Model
         'payment_tier_11',
         'anesthetist_required',
         'status',
+        'report_template',
     ];
 
     protected $appends = [

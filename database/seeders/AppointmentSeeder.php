@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Patient;
 use App\Models\Appointment;
+use App\Models\AppointmentCodes;
 use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
@@ -24,7 +25,7 @@ class AppointmentSeeder extends Seeder
     {
         $dates = [];
 
-        for ($i = -2; $i < 3; $i++) {
+        for ($i = -3; $i < 5; $i++) {
             $dates[] = date('Y-m-d', strtotime("+{$i} days"));
         }
 
@@ -32,8 +33,14 @@ class AppointmentSeeder extends Seeder
         $faker = Factory::create();
 
         foreach ($patients as $patient) {
-            foreach ($dates as $date) {
+             $date = $dates[rand(0, count($dates)-1)];
+
                 $appointment = $this->createAppointment($date, $patient);
+
+                AppointmentCodes::factory()->create(
+                    ['appointment_id' => $appointment->id],
+                );
+
 
                 AppointmentReferral::factory()->create(
                     ['appointment_id' => $appointment->id]
@@ -82,7 +89,7 @@ class AppointmentSeeder extends Seeder
                 $appointment->patient_id = $patient->id;
 
                 $appointment->save();
-            }
+            
         }
     }
 
