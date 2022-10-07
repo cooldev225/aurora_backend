@@ -21,18 +21,17 @@ class Patient extends Model
         'kin_phone_number', 'clinical_alert',
     ];
 
-    protected $appends = array(
+    protected $appends = [
         'full_name',
         'billing',
         'int_contact_number',
         'active_alerts',
-    );
+    ];
 
     public function getActiveAlertsAttribute()
     {
         return $this->alerts->where('is_dismissed', 0);
     }
-
 
     public function getIntContactNumberAttribute()
     {
