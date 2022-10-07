@@ -76,6 +76,7 @@ use App\Policies\AppointmentPreAdmissionPolicy;
 use App\Policies\PatientDocumentsActionLogPolicy;
 use App\Policies\AppointmentTimeRequirementPolicy;
 use App\Policies\PatientAlertPolicy;
+use App\Policies\DocumentHeaderFooterTemplatePolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -95,6 +96,7 @@ class AuthServiceProvider extends ServiceProvider
         AppointmentType::class            => AppointmentTypePolicy::class,
         BirthCode::class                  => BirthCodePolicy::class,
         Clinic::class                     => ClinicPolicy::class,
+        DocumentHeaderFooterTemplate::class=> DocumentHeaderFooterTemplatePolicy::class,
         HRMUserBaseSchedule::class        => HRMUserBaseSchedulePolicy::class,
         HealthFund::class                 => HealthFundPolicy::class,
         HealthFundFee::class              => HealthFundFeePolicy::class,
