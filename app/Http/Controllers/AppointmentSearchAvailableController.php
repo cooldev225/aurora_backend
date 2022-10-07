@@ -13,7 +13,6 @@ use App\Models\AppointmentTimeRequirement;
 use App\Models\Clinic;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class AppointmentSearchAvailableController extends Controller
 {
@@ -49,6 +48,7 @@ class AppointmentSearchAvailableController extends Controller
         $timeslotLength = $timeframeParameters['timeslotLength'];
         $startTime = $timeframeParameters['startTime'];
         $endTime = $timeframeParameters['endTime'];;
+
         // Return a week long list of available appointment slots within the given parameters
         $days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
         $availableStartTimes = [];
@@ -74,27 +74,15 @@ class AppointmentSearchAvailableController extends Controller
                     })->get();
             }
 
-            $timeslotFilled = false;
             for ($time = $startTime; $time < $endTime; $time += $timeslotLength * 60) {
                 foreach ($specialists as $specialist) {
-                    // Check each specialist available in timeslot and that that they can undergo that appointment type
-                    if ($specialist->canWorkAt($time, $day) && $specialist->canAppointmentTypeAt($time, $day, $appointmentType)) {
-                        // Check if specialist already has an appointment in timeslot
-                        if (!$specialist->hasAppointmentAtTime($time, $searchDate->timestamp)) {
-                            $hrmUserBaseSchedule = $specialist->hrmUserBaseScheduleAtTimeDay($time, $day);
-                            array_push($availableTimeslots, [
-                                'time' => date('H:i', $time),
-                                'specialist_name' => $specialist->full_name,
-                                'specialist_id' => $specialist->id,
-                                'clinic_id' => $hrmUserBaseSchedule->clinic_id,
-                                'clinic_name' => Clinic::find($hrmUserBaseSchedule->clinic_id)->name,
-                            ]);
-                            $timeslotFilled = true;
-                        }
-                        if ($timeslotFilled) {
-                            $timeslotFilled = false;
-                            break;
-                        }
+                    // check specialist available for selected time slot
+                    $filteredSpecialist = $this->getSpecialistforSlot($specialist, $time, $day, $searchDate, $appointmentType);
+                    if (!$filteredSpecialist) {
+                        continue;
+                    } else {
+                        array_push($availableTimeslots, $filteredSpecialist);
+                        break;
                     }
                 }
             }
@@ -106,17 +94,34 @@ class AppointmentSearchAvailableController extends Controller
 
             $searchDate = $searchDate->addDay();
         }
-
         return response()->json(
-            [
-                'message' => 'METHOD NOT IMPLEMENTED',
-                'data' => $availableStartTimes
-            ],
+            ['message' => 'METHOD NOT IMPLEMENTED',
+                'data' => $availableStartTimes],
             Response::HTTP_OK
         );
     }
 
-    private function getTimeFrameParameter($time_requirement)
+    private
+    function getSpecialistforSlot($specialist, $time, $day, $searchDate, $aptType)
+    {
+        if ($specialist->canWorkAt($time, $day) && $specialist->canAppointmentTypeAt($time, $day, $aptType)) {
+            // Check if specialist already has an appointment in timeslot
+            if (!$specialist->hasAppointmentAtTime($time, $searchDate->timestamp)) {
+                $hrmUserBaseSchedule = $specialist->hrmUserBaseScheduleAtTimeDay($time, $day);
+                return [
+                    'time' => date('H:i', $time),
+                    'specialist_name' => $specialist->full_name,
+                    'specialist_id' => $specialist->id,
+                    'clinic_id' => $hrmUserBaseSchedule->clinic_id,
+                    'clinic_name' => Clinic::find($hrmUserBaseSchedule->clinic_id)->name,
+                ];
+            }
+        }
+        return false;
+    }
+
+    private
+    function getTimeFrameParameter($time_requirement)
     {
 
         $organization = auth()->user()->organization;
