@@ -49,43 +49,58 @@ class DocumentHeaderFooterTemplateController extends Controller
      */
     public function store(DocumentHeaderFooterTemplateRequest $request)
     {
-        // Verify the user can access this function via policy
-        $this->authorize('create', DocumentHeaderFooterTemplate::class);
-
+        $action = 'create';
+        $documentHeaderFooterTemplate = null;
         $organization_id = auth()->user()->organization_id;
+
+        // Verify the user can access this function via policy
+        if(!$request->id){
+            $this->authorize($action, DocumentHeaderFooterTemplate::class);
+
+            $documentHeaderFooterTemplate = DocumentHeaderFooterTemplate::create([
+                'title'           => $request->title,
+                'organization_id' => $organization_id,
+                'header_file'     => 'null',
+                'footer_file'     => 'null',
+                'user_id'         => $request->user_id ? $request->user_id : null,
+            ]);
+        }else{
+            $action = 'update';
+            $documentHeaderFooterTemplate = DocumentHeaderFooterTemplate::find($request->id);
+
+            $this->authorize($action, $documentHeaderFooterTemplate);
+
+            $documentHeaderFooterTemplate->title = $request->title;
+            $documentHeaderFooterTemplate->save();
+        }
 
         $header = "";
         if ($file = $request->file('header_file')) {
-            $file_name = generateFileName(FileType::DOCUMENT_HEADER, $organization_id, $file->extension());
+            $file_name = generateFileName(
+                FileType::DOCUMENT_HEADER, 
+                $organization_id . "_" . $documentHeaderFooterTemplate->id, 
+                $file->extension()
+            );
             $filepath = getUserOrganizationFilePath();
             $file->storeAs($filepath, $file_name);
             $header = $file_name;
+
+            $documentHeaderFooterTemplate->header_file = $header;
+            $documentHeaderFooterTemplate->save();
         }
 
         $footer = "";
         if ($file = $request->file('footer_file')) {
-            $file_name = generateFileName(FileType::DOCUMENT_FOOTER, $organization_id, $file->extension());
+            $file_name = generateFileName(
+                FileType::DOCUMENT_FOOTER, 
+                $organization_id . "_" . $documentHeaderFooterTemplate->id, 
+                $file->extension()
+            );
             $filepath = getUserOrganizationFilePath();
             $file->storeAs($filepath, $file_name);
             $footer = $file_name;
-        }
 
-        $documentHeaderFooterTemplate = null;
-        if(!$request->id){
-            $documentHeaderFooterTemplate = DocumentHeaderFooterTemplate::create([
-                'title'           => $request->title,
-                'organization_id' => $organization_id,
-                'header_file'     => $header,
-                'footer_file'     => $footer,
-                'user_id'         => $request->user_id ? $request->user_id : null,
-            ]);
-        }else{
-            $documentHeaderFooterTemplate = DocumentHeaderFooterTemplate::find($request->id);
-            $documentHeaderFooterTemplate->title = $request->title;
-            if($header != "")
-                $documentHeaderFooterTemplate->header_file = $header;
-            if($footer != "")
-                $documentHeaderFooterTemplate->footer_file = $footer;
+            $documentHeaderFooterTemplate->footer_file = $footer;
             $documentHeaderFooterTemplate->save();
         }
         

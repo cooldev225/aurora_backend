@@ -53,7 +53,7 @@ class DocumentHeaderFooterTemplatePolicy
      */
     public function update(User $user, DocumentHeaderFooterTemplate $documentHeaderFooterTemplate)
     {
-        return $user->hasRole('organizationAdmin');// && $documentHeaderFooterTemplate->organization_id == $user->organization->id;
+        return $user->hasRole('organizationAdmin') && $documentHeaderFooterTemplate->organization_id == $user->organization->id;
     }
 
     /**
