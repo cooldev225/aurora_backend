@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Enum\UserRole;
+use App\Models\Clinic;
+use App\Models\SpecialistClinicRelation;
 use App\Models\User;
 use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
@@ -62,5 +64,18 @@ class UserSeeder extends Seeder
                 $ana2 = User::factory(1)->create(['role_id' => UserRole::ANESTHETIST, 'organization_id' => $user->organization->id])->first();
             }
         }
+
+        $specialists = User::where('role_id',5)->get();
+
+        foreach($specialists as $user){
+            foreach(Clinic::where('organization_id', $user->organization_id)->get() as $clinic){
+                SpecialistClinicRelation::create([ 
+                    'specialist_id' => $user->id,
+                    'clinic_id' => $clinic->id, 
+                    'provider_number' => strtoupper($this->faker->bothify('??????#')),
+                ]);
+            }
+        }
+
     }
 }
