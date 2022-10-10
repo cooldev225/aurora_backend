@@ -154,30 +154,30 @@ class AppointmentController extends Controller
                 'health_fund_expiry_date'        => Carbon::create($request->health_fund_expiry_date)->toDateString(),
             ]);
 
-          
+
 
             $patient->organizations()->attach(Organization::find(auth()->user()->organization_id));
         }
 
-        $start_time = Carbon::create($request->time_slot[0]);
+        $startTime = Carbon::create($request->start_time);
 
         $appointment = Appointment::create([
             'date'                          => Carbon::create($request->date)->toDateString(),
             'arrival_time'                  => $request->arrival_time,
-            'start_time'                    => $start_time->toTimeString(),
+            'start_time'                    =>  $request->start_time,
             'end_time'                      => $this->aptEndTime($request)->toTimeString(),
             'patient_id'                    => $patient->id,
             'organization_id'               => auth()->user()->organization_id,
             'appointment_type_id'           => $request->appointment_type_id,
             'clinic_id'                     => $request->clinic_id,
             'specialist_id'                 => $request->specialist_id,
-            'anesthetist_id'                => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($start_time->timestamp,strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
+            'anesthetist_id'                => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($startTime->timestamp,strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
             'note'                          => $request->note,
             'charge_type'                   => $request->charge_type,
             'room_id'                       => $request->room_id,
         ]);
 
-        AppointmentCodes::create([ 
+        AppointmentCodes::create([
             'appointment_id'                => $appointment->id
         ]);
 
@@ -333,9 +333,9 @@ class AppointmentController extends Controller
     }
 
     public function aptEndTime (Request $request) {
-        $start_time = Carbon::create($request->time_slot[0]);
+        $startTime = Carbon::create($request->start_time);
         $organization = User::find($request->specialist_id)->organization()->first();
         $appointmentType = AppointmentType::find($request->appointment_type_id)->first();
-        return Carbon::create($start_time)->addMinutes($organization->appointment_length * $appointmentType->AppointmentLengthAsNumber);
+        return Carbon::create($startTime)->addMinutes($organization->appointment_length * $appointmentType->AppointmentLengthAsNumber);
     }
 }
