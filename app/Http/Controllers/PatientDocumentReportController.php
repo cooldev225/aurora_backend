@@ -58,12 +58,6 @@ class PatientDocumentReportController extends Controller
         ];
 
         $pdf = PDF::loadView('pdfs/patientDocumentReport', $pdfData);
-        $file_name = 'patient_report_' . $patient->id . '_' . time() . '.pdf';
-        $file_path = '/files/patient_documents/' . $file_name;
-
-
-        
- 
 
         $patient_document = PatientDocument::create([
             'patient_id'        => $patient->id,
@@ -78,10 +72,10 @@ class PatientDocumentReportController extends Controller
             'organization_id'   => auth()->user()->organization_id,
         ]);
 
-              
+
         $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, 'pdf');
         $file_path = getUserOrganizationFilePath();
-       
+
         Storage::put($file_path . '/' . $file_name, $pdf->output());
         $patient_document->file_path = $file_name;
         $patient_document->save();
@@ -91,6 +85,7 @@ class PatientDocumentReportController extends Controller
         return response()->json(
             [
                 'message' => 'New Patient Report Created',
+                'data'    => $patient_document->id,
             ],
             Response::HTTP_CREATED
         );
