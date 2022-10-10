@@ -18,6 +18,8 @@ return new class extends Migration {
             $table->string('medicare_number')->nullable();
             $table->string('medicare_reference_number')->nullable();
             $table->date('medicare_expiry_date')->nullable();
+            $table->string('concession_number')->nullable();
+            $table->date('concession_expiry_date')->nullable();
             $table->string('pension_number')->nullable();
             $table->date('pension_expiry_date')->nullable();
             $table->string('healthcare_card_number')->nullable();
@@ -29,7 +31,6 @@ return new class extends Migration {
             $table
                 ->enum('account_holder_type', ['Self', 'Other'])
                 ->default('Self');
-
             $table->foreignId('account_holder_id')->nullable();
             $table->float('fund_excess')->nullable();
             $table->timestamps();
