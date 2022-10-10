@@ -28,7 +28,7 @@ class DocumentController extends Controller
 
             if ($column == 'is_missing_information' && $param == 1) {
                 Log::info('is_missing_patient' . $param);
-                $documents = $documents->whereNull('patient_id')->orWhereNull('specialist_id');
+                $documents = $documents->whereNull('patient_id')->orWhereNull('specialist_id')->orWhereNull('appointment_id');
             } else if (!empty($param)) {
                 if ($param == 'before_date') {
                     $documents = $documents->where('created_at', '<=', $param);
