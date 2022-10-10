@@ -2,13 +2,35 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Patient;
 use Illuminate\Http\Response;
 use App\Models\PatientBilling;
-use App\Http\Requests\PatientBillingRequest;
-use App\Models\Patient;
+use App\Http\Requests\PatientBillingStoreRequest;
+use App\Http\Requests\PatientBillingUpdateRequest;
 
 class PatientBillingController extends Controller
 {
+    /**
+     * [Patient Billing] - Store
+     *
+     * @param  \App\Http\Requests\PatientBillingStoreRequest  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(PatientBillingStoreRequest $request) {
+        // Verify the user can access this function via policy
+        $this->authorize('create', PatientBilling::class);
+
+        $patient_billing = PatientBilling::create($request->validated());
+
+        return response()->json(
+            [
+                'message' => 'Patient Billing created',
+                'data' => $patient_billing,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
     /**
      * [Patient Billing] - Update
      *
@@ -16,21 +38,39 @@ class PatientBillingController extends Controller
      * @param  \App\Models\PatientBilling  $patientBilling
      * @return \Illuminate\Http\Response
      */
-    public function update(
-        PatientBillingRequest $request,
-        Patient $patient
-    ) {
+    public function update(PatientBillingUpdateRequest $request, PatientBilling $patientBilling) {
         // Verify the user can access this function via policy
-        $this->authorize('update', $patient);
+        $this->authorize('update', $patientBilling);
 
-        $patient->patientBilling->update([
+        $patientBilling->update([
             ...$request->validated(),
         ]);
 
         return response()->json(
             [
                 'message' => 'Patient Billing updated',
-                'data' => $patient,
+                'data' => $patientBilling,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    /**
+     * [Patient Billing] - Delete
+     *
+     * @param  \App\Models\PatientBilling  $patientBilling
+     * @return \Illuminate\Http\Response
+     */
+    public function delete(PatientBilling $patientBilling) {
+        // Verify the user can access this function via policy
+        $this->authorize('delete', $patientBilling);
+
+        $patientBilling->delete();
+
+        return response()->json(
+            [
+                'message' => 'Patient Billing delete',
+                'data' => $patientBilling,
             ],
             Response::HTTP_OK
         );
