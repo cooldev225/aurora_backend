@@ -88,7 +88,7 @@ class AppointmentCreateRequest extends FormRequest
             'specialist_id'        => 'required|numeric|exists:users,id',
             'date'                 => 'required|date',
             'arrival_time'         => 'required|string',
-            'time_slot'            => 'required|array',
+            'start_time'           => 'required|string',
             'note'                 => 'nullable|string',
             'charge_type'          => [new Enum(ChargeType::class)],
             'anesthetic_answers'   => 'required_if:anesthetic_questions,true|array',
