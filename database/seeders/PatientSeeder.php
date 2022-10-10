@@ -23,11 +23,6 @@ class PatientSeeder extends Seeder
         $arrPatients = Patient::all();
 
         foreach ($arrPatients as $patient) {
-            
-            PatientBilling::create([
-                'patient_id'    =>  $patient->id
-            ]);
-            
             $patient->organizations()->attach(1);
         }
     }
