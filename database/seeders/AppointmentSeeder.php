@@ -2,6 +2,11 @@
 
 namespace Database\Seeders;
 
+use App\Enum\UserRole;
+use App\Models\Clinic;
+use App\Models\HrmScheduleTimeslot;
+use Carbon\Carbon;
+use Faker\Factory as Faker;
 use Illuminate\Database\Seeder;
 use App\Models\Patient;
 use App\Models\Appointment;
@@ -16,6 +21,8 @@ use Faker\Factory;
 
 class AppointmentSeeder extends Seeder
 {
+    private \Faker\Generator $faker;
+
     /**
      * Run the database seeds.
      *
@@ -47,32 +54,32 @@ class AppointmentSeeder extends Seeder
                 );
 
                 AppointmentPreAdmission::create([
-                    'appointment_id'        =>  $appointment->id,
-                    'token'                 =>  md5($appointment->id),
+                    'appointment_id' => $appointment->id,
+                    'token' => md5($appointment->id),
                 ]);
                 if (rand(0, 3) == 1) {
                     $recall = PatientRecall::factory()->create([
-                        'user_id'            =>  $appointment->specialist_id,
-                        'appointment_id'     =>  $appointment->id,
-                        'organization_id'    =>  $appointment->organization_id,
-                        'patient_id'         =>  $appointment->patient_id,
+                        'user_id' => $appointment->specialist_id,
+                        'appointment_id' => $appointment->id,
+                        'organization_id' => $appointment->organization_id,
+                        'patient_id' => $appointment->patient_id,
                     ]);
                     if (rand(0, 3) == 1) {
                         $recallLog = PatientRecallSentLog::create([
                             'patient_recall_id' => $recall->id,
-                            'recall_sent_at'   => $faker->dateTimeThisYear('+1 month')->format('Y-m-d H:i:s'),
-                            'sent_by'     => $faker->randomElement(['MAIL', 'EMAIL', 'SMS']),
+                            'recall_sent_at' => $faker->dateTimeThisYear('+1 month')->format('Y-m-d H:i:s'),
+                            'sent_by' => $faker->randomElement(['MAIL', 'EMAIL', 'SMS']),
                         ]);
 
                         if ($recallLog->sent_by == 'MAIL') {
-                            $recallLog->user_id =  User::where('role_id', '4')->inRandomOrder()->first()->id;
+                            $recallLog->user_id = User::where('role_id', '4')->inRandomOrder()->first()->id;
                             $recallLog->save();
                             if (rand(0, 1) == 1) {
                                 PatientRecallSentLog::create([
                                     'patient_recall_id' => $recall->id,
-                                    'recall_sent_at'   => $faker->dateTimeThisYear('+1 month')->format('Y-m-d H:i:s'),
-                                    'sent_by'     => 'MAIL',
-                                    'user_id' =>  User::where('role_id', '4')->inRandomOrder()->first()->id
+                                    'recall_sent_at' => $faker->dateTimeThisYear('+1 month')->format('Y-m-d H:i:s'),
+                                    'sent_by' => 'MAIL',
+                                    'user_id' => User::where('role_id', '4')->inRandomOrder()->first()->id
                                 ]);
                             } else {
                                 $recall->confirmed = 1;
@@ -84,32 +91,31 @@ class AppointmentSeeder extends Seeder
                         }
                     }
                 }
-
-
                 $appointment->patient_id = $patient->id;
 
                 $appointment->save();
-            
+
         }
     }
 
     /**
-     * Create Appointment With out conflict
+     * Create Appointment With-out conflict
      *
      * @return Appointment
      */
-    public function createAppointment($date,  $patient)
+    public function createAppointment($date, $patient)
     {
+        $hrmData = $this->getSpecialist($date);
         $appointment = Appointment::factory()->create([
             'date' => $date,
-            'patient_id' =>  $patient->id
+            'patient_id' => $patient->id,
+            'specialist_id' => $hrmData['specialist']->id,
+            'clinic_id' => $hrmData['hrmTimeSchedule']->clinic_id,
         ]);
 
         $appointment_time = Organization::find($appointment->organization_id)->appointment_length;
-
-        $allAppointments = Appointment::all();
+        $allAppointments = Appointment::where('date', $date)->get();
         $conflict = 1;
-
         while ($conflict > 0) {
             $conflict = 0;
 
@@ -123,9 +129,7 @@ class AppointmentSeeder extends Seeder
             );
 
             foreach ($allAppointments as $apt) {
-                if (
-                    $apt->date == $appointment->date &&
-                    $apt->specialist_id == $appointment->specialist_id &&
+                if ($apt->specialist_id == $appointment->specialist_id &&
                     $apt->checkConflict(
                         $appointment->start_time,
                         $appointment->end_time
@@ -136,9 +140,52 @@ class AppointmentSeeder extends Seeder
                 }
             }
         }
-
-        $appointment->save();
-
+        //            Test this -> make sure there is no appointments outside HRM time schedule
+        if ($hrmData['hrmTimeSchedule']->end_time <= $appointment->end_time) {
+            $appointment->delete();
+//            dd($appointment->id, $appointment->end_time, $hrmData['hrmTimeSchedule']->end_time);
+        } else {
+            $appointment->save();
+        }
         return $appointment;
+    }
+
+    public function getSpecialist(string $date)
+    {
+        $organization = Organization::where('id', 1)->first();
+        $specialists = $organization->users->where('role_id', UserRole::SPECIALIST)->shuffle();
+        $filteredSpecialist = null;
+        foreach ($specialists as $specialist) {
+            $formattedDate = strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek);
+            $hrmTimeSchedule = HrmScheduleTimeslot::where([
+                ['user_id', '=', $specialist->id],
+                ['organization_id', '=', 1],
+                ['week_day', '=', $formattedDate]
+            ])->first();
+
+            if ($hrmTimeSchedule !== null) {
+                return [
+                    'specialist' => $specialist,
+                    'hrmTimeSchedule' => $hrmTimeSchedule
+                ];
+            }else {
+                $filteredSpecialist = $specialist;
+            }
+        }
+        $this->faker = Faker::create();
+        $hrmTimeSchedule = HrmScheduleTimeslot::create([
+            'organization_id' => 1,
+            'clinic_id' =>1,
+            'week_day' => strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek),
+            'category' => 'WORKING',
+            'user_id' => $filteredSpecialist->id,
+            'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
+            'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
+            'is_template' => true,
+        ]);
+        return [
+            'specialist' => $specialist,
+            'hrmTimeSchedule' => $hrmTimeSchedule
+        ];
     }
 }

@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Enum\UserRole;
+use App\Models\HrmScheduleTimeslot;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use App\Models\Clinic;
 use App\Models\Patient;
@@ -26,9 +27,9 @@ class AppointmentFactory extends Factory
     {
         $organization = Organization::first();
         $organization_id = 1;
-        $specialist = $organization->users->where('role_id', UserRole::SPECIALIST)->random(1)->first();
         $appointment_type = $organization->appointment_types->random(1)->first();
-
+        $date = $this->faker->date();
+        $specialist = $this->getSpecialist($organization, $date);
         $appointment_time = $organization->appointment_length;
 
         if ($appointment_type->appointment_time == 'DOUBLE') {
@@ -44,6 +45,7 @@ class AppointmentFactory extends Factory
         $unixTime =
             round($unixTime / ($appointment_time * 60)) *
             ($appointment_time * 60);
+
         $start_time = date('H:i:s', $unixTime);
         $end_time = date('H:i:s', $unixTime + $appointment_time * 60);
 
@@ -80,25 +82,39 @@ class AppointmentFactory extends Factory
             'MISSED',
         ]);
 
-        $date = $this->faker->date();
 
         return [
-            'organization_id'           => $organization_id,
-            'clinic_id'                 => $clinic_id,
-            'specialist_id'             => $specialist->id,
-            'room_id'                   => $room_id,
-            'anesthetist_id'            => $specialist->hrmUserBaseSchedulesTimeDay(strtotime($start_time),strtoupper(Carbon::parse($date)->format('D')))?->anesthetist_id,
-            'appointment_type_id'       => $appointment_type->id,
-            'date'                      => $date,
-            'arrival_time'              => $arrival_time,
-            'start_time'                => $start_time,
-            'end_time'                  => $end_time,
+            'organization_id' => $organization_id,
+            'room_id' => $room_id,
+            'anesthetist_id' => $specialist->hrmUserBaseSchedulesTimeDay(strtotime($start_time), strtoupper(Carbon::parse($date)->format('D')))?->anesthetist_id,
+            'appointment_type_id' => $appointment_type->id,
+            'arrival_time' => $arrival_time,
+            'start_time' => $start_time,
+            'end_time' => $end_time,
             'procedure_approval_status' => $procedure_approval_status,
-            'confirmation_status'       => $confirmation_status,
-            'note'                      => $this->faker->paragraph(),
-            'collecting_person_name'    => $this->faker->name(),
-            'collecting_person_phone'   => $this->faker->numerify('0#-####-####'),
+            'confirmation_status' => $confirmation_status,
+            'note' => $this->faker->paragraph(),
+            'collecting_person_name' => $this->faker->name(),
+            'collecting_person_phone' => $this->faker->numerify('0#-####-####'),
             'collecting_person_alternate_contact' => $this->faker->catchPhrase(),
         ];
+    }
+
+    public function getSpecialist(Organization $organization, string $date)
+    {
+        $formatedDate = strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek);
+        $result = true;
+
+        while ($result) {
+            $specialist = $organization->users->where('role_id', UserRole::SPECIALIST)->random(1)->first();
+            if (HrmScheduleTimeslot::where([
+                ['user_id', '=', $specialist->id],
+                ['organization_id', '=', 1],
+                ['week_day', '=', $formatedDate]
+            ])->exists()) {
+                $result = false;
+                return $specialist;
+            }
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Enum\UserRole;
+use FontLib\TrueType\Collection;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
@@ -12,7 +13,6 @@ use App\Models\AppointmentTimeRequirement;
 use App\Models\Clinic;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class AppointmentSearchAvailableController extends Controller
 {
@@ -21,8 +21,8 @@ class AppointmentSearchAvailableController extends Controller
      * [Appointment] - Search Available
      *
      * @group Appointments
-     * @param  \App\Http\Requests\Request  $request
-     * @param  \App\Models\Appointment  $appointment
+     * @param \App\Http\Requests\Request $request
+     * @param \App\Models\Appointment $appointment
      * @urlParam clinic_id           A Clinic id.                                Example: 1
      * @urlParam date                Number of weeks on the future to search.    Example: 2015-07-02
      * @urlParam specialist_id       A Specialist user Id.                            Example: 16
@@ -34,70 +34,56 @@ class AppointmentSearchAvailableController extends Controller
     {
 
         // Appointment Type
-        $appointmentType = AppointmentType::find($request->appointment_type_id)->first();
-
+        $appointmentType = AppointmentType::where('id', $request->appointment_type_id)->first();
         //Clinic Id
         $clinicId = $request->clinic_id;
-        Log::info($clinicId );
 
         // Search date date
-        Log::info($request->date);
         $searchDate = Carbon::createFromFormat('d/m/Y', $request->date)->startOfWeek();
 
-        // Time Frame To Search
+        // Time Frame To Search and get org start time and end time
         $timeframeParameters = $this->getTimeFrameParameter($request->time_requirement);
         $timeslotLength = $timeframeParameters['timeslotLength'];
         $startTime = $timeframeParameters['startTime'];
-        $endTime = $timeframeParameters['endTime'];
-       
-
+        $endTime = $timeframeParameters['endTime'];;
 
         // Return a week long list of available appointment slots within the given parameters
         $days = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN'];
         $availableStartTimes = [];
+
         foreach ($days as $day) {
             $availableTimeslots = [];
-
-            // Get All specialist working on given day
-            $specialists = User::where('organization_id', auth()->user()->organization_id)
-                ->where('role_id', UserRole::SPECIALIST)
-                ->whereHas('scheduleTimeslots', function ($query) use ($day, $clinicId ) {
-                    $query->where('week_day', $day);
-                    if($clinicId != ""){
-                        $query->where('clinic_id', $clinicId );
-                    }
-                })->get();
-
-
-            $timeslotFilled = false;
-            for ($time = $startTime; $time < $endTime; $time += $timeslotLength * 60) {
-                foreach ($specialists as $specialist) {
-
-                    // Check each specialist available in timeslot and that that they can undergo that appointment type
-                    if ($specialist->canWorkAt($time, $day) && $specialist->canAppointmentTypeAt($time, $day, $appointmentType)) {
-                        // Check if specialist already has an appointment in timeslot
-                        if(!$specialist->hasAppointmentAtTime($time, $searchDate->timestamp)){
-                            $hrmUserBaseSchedule = $specialist->hrmUserBaseScheduleAtTimeDay($time, $day);
-                            array_push($availableTimeslots, [
-                              'time' =>  date('H:i', $time),
-                              'specialist_name' => $specialist->full_name,
-                              'specialist_id' => $specialist->id,
-                              'clinic_id' => $hrmUserBaseSchedule->clinic_id,
-                              'clinic_name' => Clinic::find($hrmUserBaseSchedule->clinic_id)->name,
-                            ]);
-                            $timeslotFilled = true;
+            $specialists = collect([]);
+            if ($request->specialist_id) {
+                // Get selected User
+                $selectedSpecialist = user::where('id', $request->specialist_id)
+                    ->where('organization_id', auth()->user()->organization_id)
+                    ->first();
+                $specialists->add($selectedSpecialist);
+            } else {
+                // Get All specialist working on given day
+                $specialists = User::where('organization_id', auth()->user()->organization_id)
+                    ->where('role_id', UserRole::SPECIALIST)
+                    ->whereHas('scheduleTimeslots', function ($query) use ($day, $clinicId) {
+                        $query->where('week_day', $day);
+                        if ($clinicId != "") {
+                            $query->where('clinic_id', $clinicId);
                         }
-                        if($timeslotFilled){
-                            $timeslotFilled = false;
-                            break;
-                        }
-
-                    }
-
-                }
-
+                    })->get();
             }
 
+            for ($time = $startTime; $time < $endTime; $time += $timeslotLength * 60) {
+                foreach ($specialists as $specialist) {
+                    // check specialist available for selected time slot
+                    $filteredSpecialist = $this->getSpecialistforSlot($specialist, $time, $day, $searchDate, $appointmentType);
+                    if (!$filteredSpecialist) {
+                        continue;
+                    } else {
+                        array_push($availableTimeslots, $filteredSpecialist);
+                        break;
+                    }
+                }
+            }
             array_push($availableStartTimes, [
                 'day' => $day,
                 'date' => $searchDate->format('Y-m-d'),
@@ -106,18 +92,34 @@ class AppointmentSearchAvailableController extends Controller
 
             $searchDate = $searchDate->addDay();
         }
-
-
         return response()->json(
-            [
-                'message' => 'METHOD NOT IMPLEMENTED',
-                'data' => $availableStartTimes
-            ],
+            ['message' => 'METHOD NOT IMPLEMENTED',
+                'data' => $availableStartTimes],
             Response::HTTP_OK
         );
     }
 
-    private function getTimeFrameParameter($time_requirement)
+    private
+    function getSpecialistforSlot($specialist, $time, $day, $searchDate, $aptType)
+    {
+        if ($specialist->canWorkAt($time, $day) && $specialist->canAppointmentTypeAt($time, $day, $aptType)) {
+            // Check if specialist already has an appointment in timeslot
+            if (!$specialist->hasAppointmentAtTime($time, $searchDate->timestamp)) {
+                $hrmUserBaseSchedule = $specialist->hrmUserBaseScheduleAtTimeDay($time, $day);
+                return [
+                    'time' => date('H:i', $time),
+                    'specialist_name' => $specialist->full_name,
+                    'specialist_id' => $specialist->id,
+                    'clinic_id' => $hrmUserBaseSchedule->clinic_id,
+                    'clinic_name' => Clinic::find($hrmUserBaseSchedule->clinic_id)->name,
+                ];
+            }
+        }
+        return false;
+    }
+
+    private
+    function getTimeFrameParameter($time_requirement)
     {
 
         $organization = auth()->user()->organization;
@@ -139,8 +141,8 @@ class AppointmentSearchAvailableController extends Controller
         }
         return [
             'timeslotLength' => $timeslotLength,
-            'startTime'      => $startTime,
-            'endTime'        => $endTime
+            'startTime' => $startTime,
+            'endTime' => $endTime
         ];
     }
 }
