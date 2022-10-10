@@ -20,7 +20,7 @@ return new class extends Migration {
      *
      * @return void
      */
-    public function down(Blueprint $table)
+    public function down()
     {
         Schema::create('h_r_m_user_base_schedules', function (Blueprint $table) {
             $table->id();
