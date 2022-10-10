@@ -54,7 +54,7 @@ class Patient extends Model
      */
     public function billing()
     {
-        return $this->hasOne(PatientBilling::class, 'patient_id');
+        return $this->hasMany(PatientBilling::class, 'patient_id');
     }
 
     /**

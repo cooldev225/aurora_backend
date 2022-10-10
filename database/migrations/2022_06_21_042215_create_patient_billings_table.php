@@ -15,23 +15,12 @@ return new class extends Migration {
         Schema::create('patient_billings', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id');
-            $table->string('medicare_number')->nullable();
-            $table->string('medicare_reference_number')->nullable();
-            $table->date('medicare_expiry_date')->nullable();
-            $table->string('pension_number')->nullable();
-            $table->date('pension_expiry_date')->nullable();
-            $table->string('healthcare_card_number')->nullable();
-            $table->date('healthcare_card_expiry_date')->nullable();
+            $table->string('member_number');
+            $table->string('member_reference_number')->nullable();
             $table->foreignId('health_fund_id')->nullable();
-            $table->string('health_fund_membership_number')->nullable();
-            $table->string('health_fund_reference_number')->nullable();
-            $table->date('health_fund_expiry_date')->nullable();
-            $table
-                ->enum('account_holder_type', ['Self', 'Other'])
-                ->default('Self');
-
-            $table->foreignId('account_holder_id')->nullable();
-            $table->float('fund_excess')->nullable();
+            $table->boolean('has_medicare_concession')->default(false);
+            $table->tinyInteger('billing_type');
+            $table->timestamp('verified_at')->nullable();
             $table->timestamps();
         });
     }
