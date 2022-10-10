@@ -144,6 +144,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::post('/alerts', [PatientAlertController::class, 'store']);
+        Route::put('/alerts/{patient_alert}', [PatientAlertController::class, 'update']);
     });
 
     Route::prefix('hrm')->group(function () {

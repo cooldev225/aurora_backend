@@ -22,34 +22,19 @@ class PatientAllergySeeder extends Seeder
 
         foreach ($patients as $patient) {
        
-            if(rand(1, 4) === 1){
-
-                PatientAllergy::create([
-                    'patient_id'    => $patient->id,
-                    'name'          =>  $faker->sentence(1),
-                    'severity'      => $faker->randomElement(['MILD','MODERATE','SEVERE']),
-                    'symptoms'      =>  $faker->sentence(3),
-                ]);
-            }
-            if(rand(1, 3) === 1){
-
-                PatientAllergy::create([
-                    'patient_id'    => $patient->id,
-                    'name'          =>  $faker->sentence(1),
-                    'severity'      => $faker->randomElement(['MILD','MODERATE','SEVERE']),
-                    'symptoms'      =>  $faker->sentence(3),
-                ]);
-            }
-
+        for ($i=0; $i < 6; $i++) { 
             if(rand(1, 2) === 1){
+
                 PatientAllergy::create([
                     'patient_id'    => $patient->id,
                     'name'          =>  $faker->sentence(1),
                     'severity'      => $faker->randomElement(['MILD','MODERATE','SEVERE']),
                     'symptoms'      =>  $faker->sentence(3),
                 ]);
-                
             }
+        }
+         
+           
         }
     }
 }

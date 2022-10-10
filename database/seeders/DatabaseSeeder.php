@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\HrmScheduleTimeslot;
+use App\Models\PatientAlert;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -35,6 +36,7 @@ class DatabaseSeeder extends Seeder
             BulletinSeeder::class,
             HrmScheduleTimeslotSeeder::class,
             PatientAllergySeeder::class,
+            PatientAlertSeeder::class,
         ]);
     }
 }
