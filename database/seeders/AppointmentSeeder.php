@@ -94,7 +94,7 @@ class AppointmentSeeder extends Seeder
                 $appointment->patient_id = $patient->id;
 
                 $appointment->save();
-            
+
         }
     }
 
@@ -188,41 +188,4 @@ class AppointmentSeeder extends Seeder
             'hrmTimeSchedule' => $hrmTimeSchedule
         ];
     }
-
-    public function getHrmTimeSchedule(int $userId, string $date, int $clinicId)
-    {
-        $formattedDate = strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek);
-        $hrmScheduleTime = HrmScheduleTimeslot::where([
-            ['user_id', '=', $userId],
-            ['organization_id', '=', 1],
-            ['clinic_id', '=', $clinicId],
-            ['week_day', '=', $formattedDate]
-        ])->first();
-
-            if ($hrmTimeSchedule !== null) {
-                return [
-                    'specialist' => $specialist,
-                    'hrmTimeSchedule' => $hrmTimeSchedule
-                ];
-            }else {
-                $filteredSpecialist = $specialist;
-            }
-        }
-        $this->faker = Faker::create();
-        $hrmTimeSchedule = HrmScheduleTimeslot::create([
-            'organization_id' => 1,
-            'clinic_id' =>1,
-            'week_day' => strtoupper(Carbon::parse($date)->shortEnglishDayOfWeek),
-            'category' => 'WORKING',
-            'user_id' => $filteredSpecialist->id,
-            'start_time' => $this->faker->randomElement(['07:00:00', '08:30:00', '06:30:00']),
-            'end_time' => $this->faker->randomElement(['16:00:00', '14:30:00', '12:30:00']),
-            'is_template' => true,
-        ]);
-        return [
-            'specialist' => $specialist,
-            'hrmTimeSchedule' => $hrmTimeSchedule
-        ];
-    }
-
 }

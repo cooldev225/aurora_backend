@@ -34,13 +34,11 @@ class AppointmentSearchAvailableController extends Controller
     {
 
         // Appointment Type
-        $appointmentType = AppointmentType::find($request->appointment_type_id)->first();
-
+        $appointmentType = AppointmentType::where('id', $request->appointment_type_id)->first();
         //Clinic Id
         $clinicId = $request->clinic_id;
 
         // Search date date
-
         $searchDate = Carbon::createFromFormat('d/m/Y', $request->date)->startOfWeek();
 
         // Time Frame To Search and get org start time and end time
