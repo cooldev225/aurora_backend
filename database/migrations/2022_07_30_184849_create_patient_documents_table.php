@@ -46,9 +46,10 @@ return new class extends Migration
 
             $table->foreignId('created_by');
             $table->string('file_path')->nullable();
-            $table->boolean('is_updatable')->default(true);
-            $table->boolean('is_seen')->default(true);
-
+            $table->boolean('is_updatable')->default(false);
+            $table->boolean('is_read')->default(false);
+            $table->boolean('is_urgent')->default(true);
+            $table->boolean('is_incorrectly_assigned')->default(false);
             $table->timestamps();
         });
     }

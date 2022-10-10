@@ -12,7 +12,7 @@ class PatientDocument extends Model
     protected $fillable = [
         'patient_id', 'document_name', 'appointment_id', 'specialist_id', 'file_type',
         'document_type','document_body', 'created_by', 'file_path', 'is_updatable',
-        'origin', 'organization_id'
+        'origin', 'organization_id', 'is_read','is_urgent', 'is_incorrectly_assigned'
     ];
 
     protected $appends = [
