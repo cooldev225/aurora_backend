@@ -57,20 +57,14 @@ class PatientController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('view', $patient);
-
-        $organization_id = auth()->user()->organization_id;
-
-        $patientInfo = $patient;
-        $patientInfo['appointments'] = $patient->appointments()
-            ->where('organization_id', $organization_id)
-            ->orderBy('date', 'DESC')
-            ->orderBy('start_time', 'DESC')
-            ->get();
-
+         
+      
         return response()->json(
             [
                 'message' => 'Patient Detail Info',
-                'data' => $patientInfo,
+                'data' =>  $patient
+                            ->load('allergies')
+                            ->load('appointments'),
             ],
             Response::HTTP_OK
         );      

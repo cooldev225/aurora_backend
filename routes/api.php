@@ -45,8 +45,12 @@ use App\Http\Controllers\PatientDocumentController;
 use App\Http\Controllers\UserAuthenticationController;
 use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
+
+use App\Http\Controllers\DocumentHeaderFooterTemplateController;
+
 use App\Http\Controllers\UserProfileSignatureController;
 use App\Models\AppointmentCodes;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -144,6 +148,7 @@ Route::middleware(['auth'])->group(function () {
         });
 
         Route::post('/alerts', [PatientAlertController::class, 'store']);
+        Route::put('/alerts/{patient_alert}', [PatientAlertController::class, 'update']);
     });
 
     Route::prefix('hrm')->group(function () {
@@ -186,6 +191,9 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
     Route::apiResource('/bulletins',                     BulletinController::class);
+
+    Route::apiResource('/document-header-footer-templates',DocumentHeaderFooterTemplateController::class,['except' => ['show']]);
+    
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes

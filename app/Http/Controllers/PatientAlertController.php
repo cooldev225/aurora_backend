@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PatientAlert;
 use App\Http\Requests\PatientAlertRequest;
+use App\Http\Requests\PatientAlertUpdateRequest;
 use App\Models\Patient;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
@@ -42,7 +43,7 @@ class PatientAlertController extends Controller
                 'data' => $patient,
             ],
             Response::HTTP_OK
-        );
+    );
     }
 
     /**
@@ -52,19 +53,16 @@ class PatientAlertController extends Controller
      * @param  \App\Models\PatientAlert  $patientAlert
      * @return \Illuminate\Http\Response
      */
-    public function update(PatientAlertRequest $request, PatientAlert $patientAlert)
+    public function update(PatientAlertUpdateRequest $request, PatientAlert $patientAlert)
     {
-        //
-    }
+        $patientAlert->update($request->validated());
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\PatientAlert  $patientAlert
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(PatientAlert $patientAlert)
-    {
-        //
+        return response()->json(
+            [
+                'message' => 'Patient alert updated',
+                'data' => $patientAlert,
+            ],
+            Response::HTTP_OK
+        );
     }
 }

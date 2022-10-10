@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PatientAlert extends Model
 {
     protected $fillable = [
-    'patient_id','created_by', 'alert_level','explanation', 'title'
+    'patient_id','created_by', 'alert_level','explanation', 'title','is_dismissed'
     ];
 
     protected $appends = [
