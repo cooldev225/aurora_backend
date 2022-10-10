@@ -10,6 +10,7 @@ use Illuminate\Validation\Rules\Enum;
 * @bodyParam member_number               required         string           The member number of the billing record
 * @bodyParam member_reference_number                      string           The reference number of the billing record
 * @bodyParam health_fund_id                               number           The ID of the patients health fund
+* @bodyParam has_medicare_concession                      boolean          Whether or not the patient has a medicare concession
 */
 class PatientBillingUpdateRequest extends FormRequest
 {
@@ -34,6 +35,7 @@ class PatientBillingUpdateRequest extends FormRequest
             'member_number'           => 'required|alphanum|min:1|max:19',
             'member_reference_number' => 'nullable|string',
             'health_fund_id'          => 'nullable|numeric|exists:health_funds,id',
+            'has_medicare_concession' => 'nullable|boolean',
         ];
     }
 }

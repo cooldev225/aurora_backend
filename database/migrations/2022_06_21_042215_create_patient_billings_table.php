@@ -18,6 +18,7 @@ return new class extends Migration {
             $table->string('member_number');
             $table->string('member_reference_number')->nullable();
             $table->foreignId('health_fund_id')->nullable();
+            $table->boolean('has_medicare_concession')->default(false);
             $table->tinyInteger('billing_type');
             $table->timestamp('verified_at')->nullable();
             $table->timestamps();

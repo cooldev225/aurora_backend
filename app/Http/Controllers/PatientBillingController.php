@@ -20,7 +20,10 @@ class PatientBillingController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('create', PatientBilling::class);
 
-        $patient_billing = PatientBilling::create($request->validated());
+        $patient_billing = PatientBilling::create([
+            'verified_at' => now(),
+            ...$request->validated(),
+        ]);
 
         return response()->json(
             [
@@ -43,6 +46,7 @@ class PatientBillingController extends Controller
         $this->authorize('update', $patientBilling);
 
         $patientBilling->update([
+            'verified_at' => now(),
             ...$request->validated(),
         ]);
 
