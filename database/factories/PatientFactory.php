@@ -27,7 +27,6 @@ class PatientFactory extends Factory
             'birth_place_code' => $this->faker->cityPrefix(),
             'country_of_birth' => $this->faker->country(),
             'birth_state' => $this->faker->state(),
-            'allergies' => $this->faker->sentence(),
             'aborginality' => mt_rand(1, 2) == 1 ? true : false,
             'occupation' => $this->faker->word(),
             'height' => mt_rand(170, 200),

@@ -21,18 +21,17 @@ class Patient extends Model
         'kin_phone_number', 'clinical_alert',
     ];
 
-    protected $appends = array(
+    protected $appends = [
         'full_name',
         'billing',
         'int_contact_number',
         'active_alerts',
-    );
+    ];
 
     public function getActiveAlertsAttribute()
     {
         return $this->alerts->where('is_dismissed', 0);
     }
-
 
     public function getIntContactNumberAttribute()
     {
@@ -63,7 +62,20 @@ class Patient extends Model
      */
     public function appointments()
     {
-        return $this->hasMany(Appointment::class, 'patient_id')->with('appointment_type')->with('referral');
+        return $this->hasMany(Appointment::class, 'patient_id')
+        ->with('appointment_type')
+        ->with('referral')
+        ->where('organization_id', auth()->user()->organization_id)
+        ->orderBy('date', 'DESC')
+        ->orderBy('start_time', 'DESC');;
+    }
+
+    /**
+     * Return Patient Appointment
+     */
+    public function allergies()
+    {
+        return $this->hasMany(PatientAllergy::class);
     }
 
     /**
