@@ -20,8 +20,8 @@ return new class extends Migration {
             $table->string('email')->nullable();
             $table->string('contact_number')->nullable();
             $table
-                ->enum('gender', ['Male', 'Female', 'Other', 'Undisclosed'])
-                ->default('Undisclosed');
+                ->enum('gender', [1, 2, 3, 9])
+                ->default(9);
             $table->date('date_of_birth');
             $table->string('address')->nullable();
             $table

@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Enum\NotificationMethod;
+use App\Enum\PatientGender;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -12,7 +13,7 @@ use Illuminate\Validation\Rules\Enum;
 * @bodyParam last_name                    string   required   The patients last name                                                 Example: Smith
 * @bodyParam date_of_birth                date     required   The patients date of birth                                             Example: 1993-10-09
 * @bodyParam contact_number               string   required   The patients contact number                                            Example: 04-8234-2342
-* @bodyParam gender                       string   required   The patients gender                                                    Example: Undisclosed
+* @bodyParam gender                       enum                The patients gender (1: Male, 2: Female, 3: Other, 9: Undisclosed)     Example: 9
 * @bodyParam address                      string   required   The patients address                                                   Example: 14 Panorama Dr, Mildura
 * @bodyParam marital_status               string   required   The patients martial status                                            Example: SINGLE
 * @bodyParam birth_place_code             string   required   The patients birth place code                                          Example: AU242
@@ -55,7 +56,7 @@ class PatientRequest extends FormRequest
             'last_name'                  => 'required|string',
             'date_of_birth'              => 'required',
             'contact_number'             => 'nullable|string',
-            'gender'                     => 'nullable|string',
+            'gender'                     => ['nullable', new Enum(PatientGender::class)],
             'address'                    => 'nullable|string',
             'marital_status'             => 'nullable|string',
             'birth_place_code'           => 'nullable|string',
