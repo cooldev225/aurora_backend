@@ -27,7 +27,10 @@ class UserIndexRequest extends FormRequest
     public function rules()
     {
         return [
-            'role_id'    => 'nullable|int',
+            'role_id'       => 'nullable|int',
+            'first_name'    => 'nullable|string',
+            'last_name'     => 'nullable|string',
+            'date_of_birth' => 'nullable|date',
         ];
     }
 }

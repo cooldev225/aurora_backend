@@ -49,6 +49,8 @@ use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
 
 use App\Http\Controllers\UserProfileSignatureController;
+use App\Http\Controllers\SpecialistController;
+
 use App\Models\AppointmentCodes;
 
 
@@ -193,7 +195,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/bulletins',                     BulletinController::class);
 
     Route::apiResource('/document-header-footer-templates',DocumentHeaderFooterTemplateController::class,['except' => ['show']]);
-    
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
