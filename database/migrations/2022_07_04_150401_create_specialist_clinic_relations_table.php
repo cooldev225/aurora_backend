@@ -19,6 +19,7 @@ return new class extends Migration {
             $table->foreignId('specialist_id');
             $table->foreignId('clinic_id');
             $table->string('provider_number')->nullable();
+            $table->string('healthlink_edi')->nullable();
             $table->timestamps();
         });
     }

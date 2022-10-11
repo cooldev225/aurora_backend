@@ -31,6 +31,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('practice_name');
             $table->string('upload_file_name')->nullable();
+            $table->string('healthlink_edi')->nullable();
 
             $table->timestamps();
         });
