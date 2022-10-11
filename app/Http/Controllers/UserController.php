@@ -20,6 +20,7 @@ class UserController extends Controller
      */
     public function index(UserIndexRequest $request)
     {
+        $params = $request->validated();
         // Verify the user can access this function via policy
         $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
 
@@ -31,9 +32,10 @@ class UserController extends Controller
         ->with('scheduleTimeslots')
         ->with('specialistClinicRelations');
 
-
-        if($request->role_id){
-            $users->where('role_id', $request->role_id);
+        foreach ($params as $column => $param) {
+            if (!empty($param)) {
+                $users = $users->where($column, '=', $param);
+            }
         }
 
         return response()->json(

@@ -194,7 +194,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/bulletins',                     BulletinController::class);
 
     Route::apiResource('/document-header-footer-templates',DocumentHeaderFooterTemplateController::class,['except' => ['show']]);
-    
+
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Other Routes
@@ -217,11 +217,5 @@ Route::middleware(['auth'])->group(function () {
     // User Routes
     Route::prefix('users')->group(function () {
         Route::post('/change-password',             [UserPasswordController::class, 'update']);
-    });
-
-    ////////////////////////////////////////////////////////////////////////////////////
-    // Patient Routes
-    Route::prefix('specialists')->group(function () {
-        Route::get('/', [SpecialistController::class, 'index']);
     });
 });
