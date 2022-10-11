@@ -26,6 +26,7 @@ class Patient extends Model
         'billing',
         'int_contact_number',
         'active_alerts',
+        'gender_name',
     ];
 
     public function getActiveAlertsAttribute()
@@ -46,6 +47,20 @@ class Patient extends Model
     public function getBillingAttribute()
     {
         return $this->billing()->get(); 
+    }
+
+    public function getGenderNameAttribute()
+    {
+        switch ($this->gender) {
+            case 1:
+                return 'Male';
+            case 2:
+                return 'Female';
+            case 3:
+                return 'Other';
+            default:
+                return 'Undisclosed';
+        }
     }
 
 
