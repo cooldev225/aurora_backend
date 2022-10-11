@@ -26,7 +26,7 @@ return new class extends Migration {
             $table->integer('lspn_id')->nullable();
             $table->string('document_letter_header')->nullable();
             $table->string('document_letter_footer')->nullable();
-
+            $table->string('healthlink_edi')->nullable();
             $table->timestamps();
         });
     }
