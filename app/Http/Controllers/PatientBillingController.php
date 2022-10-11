@@ -21,6 +21,7 @@ class PatientBillingController extends Controller
         $this->authorize('create', PatientBilling::class);
 
         $patient_billing = PatientBilling::create([
+            'is_valid'    => true,
             'verified_at' => now(),
             ...$request->validated(),
         ]);
@@ -45,10 +46,12 @@ class PatientBillingController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $patientBilling);
 
-        $patientBilling->update([
-            'verified_at' => now(),
-            ...$request->validated(),
-        ]);
+        $data = $request->validated();
+        if ($data['is_valid']) {
+            $data['verified_at'] = now();
+        }
+
+        $patientBilling->update($data);
 
         return response()->json(
             [
