@@ -136,19 +136,20 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Patient Routes
     Route::prefix('patients')->group(function () {
-        Route::get('/appointments/{patient}', [PatientController::class, 'appointments']);
-        Route::put('/billing/{patient}',      [PatientBillingController::class, 'update']);
+        Route::get('/appointments/{patient}',       [PatientController::class, 'appointments']);
+        Route::put('/billing/{patientBilling}',     [PatientBillingController::class, 'update']);
+        Route::delete('/billing/{patientBilling}',  [PatientBillingController::class, 'delete']);
 
-        Route::apiResource('/recalls',        PatientRecallController::class, ['except' => ['show', 'index']]);
-        Route::get('/recalls/{patient}',      [PatientRecallController::class, 'index']);
+        Route::apiResource('/recalls',              PatientRecallController::class, ['except' => ['show', 'index']]);
+        Route::get('/recalls/{patient}',            [PatientRecallController::class, 'index']);
 
         Route::prefix('documents')->group(function () {
-            Route::post('/{patient}',         [PatientDocumentController::class, 'store']);
-            Route::post('report/{patient}',   [PatientDocumentReportController::class, 'store']);
+            Route::post('/{patient}',               [PatientDocumentController::class, 'store']);
+            Route::post('report/{patient}',         [PatientDocumentReportController::class, 'store']);
         });
 
         Route::post('/alerts', [PatientAlertController::class, 'store']);
-        Route::put('/alerts/{patient_alert}', [PatientAlertController::class, 'update']);
+        Route::put('/alerts/{patient_alert}',       [PatientAlertController::class, 'update']);
     });
 
     Route::prefix('hrm')->group(function () {

@@ -17,6 +17,7 @@ class PatientBilling extends Model
         'has_medicare_concession',
         'billing_type',
         'verified_at',
+        'is_valid',
     ];
 
     /**

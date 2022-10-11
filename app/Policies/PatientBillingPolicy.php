@@ -78,7 +78,7 @@ class PatientBillingPolicy
      */
     public function delete(User $user, PatientBilling $patientBilling)
     {
-        return false;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']) && $patientBilling->patient->isPartOfOrganization($user->organization->id);
     }
 
     /**
