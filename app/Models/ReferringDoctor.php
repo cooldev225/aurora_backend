@@ -12,7 +12,7 @@ class ReferringDoctor extends Model
     protected $fillable = [
         'provider_no', 'title', 'first_name', 'last_name',
         'address', 'street', 'city', 'state', 'country', 'postcode',
-        'phone', 'fax', 'mobile', 'email', 'practice_name'
+        'phone', 'fax', 'mobile', 'email', 'practice_name', 'healthlink_edi'
     ];
 
     protected $appends = [
