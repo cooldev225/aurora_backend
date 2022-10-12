@@ -31,6 +31,10 @@ class PatientFactory extends Factory
             'occupation' => $this->faker->word(),
             'height' => mt_rand(170, 200),
             'weight' => mt_rand(50, 120),
+            'kin_name' => $this->faker->firstName(),
+            'kin_relationship' => $this->faker->word(),
+            'kin_phone_number' => $this->faker->unique()->numerify('0#-####-####'),
+            'kin_email' => $this->faker->unique()->safeEmail(),
         ];
     }
 }
