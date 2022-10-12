@@ -14,6 +14,7 @@ use App\Models\PatientDocument;
 use App\Models\PatientReport;
 use App\Models\ReportSection;
 use App\Models\ReportAutoText;
+use App\Models\DocumentHeaderFooterTemplate;
 
 use PDF;
 use Illuminate\Http\Response;
@@ -47,14 +48,22 @@ class PatientDocumentReportController extends Controller
             array_push($reportData, $value);
         }
 
+        $headerFooterData = DocumentHeaderFooterTemplate::find($request->header_footer_id);
+        if(!$headerFooterData) {
+            $headerFooterData = DocumentHeaderFooterTemplate::where('is_organization_default', '=', 1)->first();
+        }
+
+        $header_image = $headerFooterData->header_file;
+        $footer_image = $headerFooterData->footer_file;
+
         $pdfData = [
             'title'           => 'Patient Document Report',
             'patientName'     => $request->patientName,
             'referringDoctor' => $request->referringDoctor,
             'date'            => date('d/m/Y'),
             'reportData'      => $reportData,
-            'header_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_header,
-            'footer_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_footer,
+            'header_image'    => 'images/'.auth()->user()->organization_id.'/'. $header_image, //auth()->user()->organization->document_letter_header,
+            'footer_image'    => 'images/'.auth()->user()->organization_id.'/'. $footer_image, //auth()->user()->organization->document_letter_footer,
         ];
 
         $pdf = PDF::loadView('pdfs/patientDocumentReport', $pdfData);

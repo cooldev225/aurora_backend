@@ -27,6 +27,7 @@ class PatientDocumentReportStoreRequest extends FormRequest
             'patient_id'      => 'integer|required',
             'patientName'     => 'string|required',
             'referringDoctor' => 'string|required',
+            'header_footer_id' => 'nullable|required',
         ];
     }
 
