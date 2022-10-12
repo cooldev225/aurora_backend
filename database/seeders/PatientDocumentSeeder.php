@@ -26,7 +26,9 @@ class PatientDocumentSeeder extends Seeder
                 'organization_id'   =>  $appointment->organization_id,
                 'appointment_id'    =>   $appointment->id,
                 'specialist_id'     =>  $appointment->specialist_id,
-                'origin'            => $received  == 1 ? 'RECEIVED' : 'UPLOADED' 
+                'origin'            => $received  == 1 ? 'RECEIVED' : 'UPLOADED',
+                'is_read'           => rand(0,1),
+                'is_urgent'         => rand(0,1),
             ]);
         }
     }
