@@ -84,11 +84,12 @@ class AppointmentTypeController extends Controller
     ) {
         // Verify the user can access this function via policy
         $this->authorize('update', $appointmentType);
-
+        $a=$appointmentType;
         $organization_id = auth()->user()->organization_id;
 
         $appointmentType->update([
             'organization_id' => $organization_id,
+            'report_template' => $request->report_template,
             ...$request->validated(),
         ]);
 
@@ -96,6 +97,9 @@ class AppointmentTypeController extends Controller
             [
                 'message' => 'Appointment Type updated',
                 'data' => $appointmentType,
+                'request'=>$request,
+                'request_validate'=>$request->validated(),
+                'appointmentType'=>$a,
             ],
             Response::HTTP_OK
         );
