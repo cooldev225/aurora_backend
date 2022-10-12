@@ -20,6 +20,7 @@ use Illuminate\Foundation\Http\FormRequest;
 * @bodyParam mobile          string   required  The referring doctors mobile number                          Example: 04-5678-4321
 * @bodyParam email           string   required  The referring doctors email address                          Example: sam.citizen@referring.com
 * @bodyParam practice_name   string   required  The name of the referring doctors practice                   Example: Sam Citizen's Practice
+* @bodyParam healthlink_edi  string                      
 */
 class ReferringDoctorRequest extends FormRequest
 {
@@ -56,6 +57,7 @@ class ReferringDoctorRequest extends FormRequest
             'mobile'        => 'required|string',
             'email'         => 'required|string',
             'practice_name' => 'required|string',
+            'healthlink_edi' => 'string',
         ];
     }
 }

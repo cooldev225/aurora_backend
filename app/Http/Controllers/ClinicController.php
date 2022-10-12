@@ -50,23 +50,8 @@ class ClinicController extends Controller
 
         $clinic = Clinic::create([
             'organization_id' => auth()->user()->organization_id,
-            ...$request->safe()->except(['document_letter_header', 'document_letter_footer']),
+            ...$request->validated()
         ]);
-
-
-        if ($file = $request->file('document_letter_header')) {
-            $file_name = generateFileName(FileType::CLINIC_HEADER, $clinic->id, $file->extension());
-            $header_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $clinic->document_letter_header = $header_path;
-        }
-
-        if ($file = $request->file('document_letter_footer')) {
-            $file_name = generateFileName(FileType::CLINIC_FOOTER, $clinic->id, $file->extension());
-            $footer_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $clinic->document_letter_footer = $footer_path;
-        }
-
-        $clinic->save();
 
         return response()->json(
             [
@@ -90,21 +75,10 @@ class ClinicController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $clinic);
   
-        $clinic->update($request->safe()->except(['document_letter_header', 'document_letter_footer']));
-
-        if ($file = $request->file('document_letter_header')) {
-            $file_name = generateFileName(FileType::CLINIC_HEADER, $clinic->id, $file->extension());
-            $header_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $clinic->document_header = $header_path;
-        }
-
-        if ($file = $request->file('document_letter_footer')) {
-            $file_name = generateFileName(FileType::CLINIC_FOOTER, $clinic->id, $file->extension());
-            $footer_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $clinic->document_footer = $footer_path;
-        }
-
-        $clinic->save();
+        $clinic->update([
+            'organization_id' => auth()->user()->organization_id,
+            ...$request->validated()
+        ]);
 
         return response()->json(
             [

@@ -29,8 +29,6 @@ class ClinicFactory extends Factory
             'address'                   => $this->faker->streetAddress(),
             'specimen_collection_point_number' => $this->faker->numerify('###'),
             'lspn_id' => $this->faker->numerify('###'),
-            'document_letter_header'        => $this->faker->imageUrl(),
-            'document_letter_footer'        => $this->faker->imageUrl(),
         ];
     }
 }
