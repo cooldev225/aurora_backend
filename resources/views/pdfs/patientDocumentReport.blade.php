@@ -49,6 +49,17 @@
             <p>Report created by name at  {{ $date }}</p>
         </div>
     </section>
+    <section>
+        <div>
+            <p>{{ $sign_off }}</p>
+        </div>
+        <img src="{{ storage_path('app/' . $signature_image) }}" style="width: 100%;">
+        <div>
+            <p>{{ $full_name }}</p>
+            <p>{{ $education_code }}</p>
+            <p>{{ $provider_number }}</p>
+        </div>
+    </section>
     <footer>
         <img src="{{ storage_path('app/' . $footer_image) }}" style="width: 100%;">
     </footer>
