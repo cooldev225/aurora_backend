@@ -48,6 +48,7 @@ return new class extends Migration {
             $table->string('kin_phone_number')->nullable();
             $table->string('kin_email')->nullable();
             $table->text('clinical_alerts')->nullable();
+            $table->boolean('kin_receive_correspondence')->default(false);
             $table->timestamps();
         });
     }

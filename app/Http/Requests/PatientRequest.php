@@ -62,7 +62,6 @@ class PatientRequest extends FormRequest
             'birth_place_code'           => 'nullable|string',
             'country_of_birth'           => 'nullable|string',
             'birth_state'                => 'nullable|string',
-            //'allergies'                  => 'nullable|string',
             'aborginality'               => 'nullable|boolean',
             'occupation'                 => 'nullable|string',
             'height'                     => 'nullable|numeric',
@@ -74,6 +73,7 @@ class PatientRequest extends FormRequest
             'kin_phone_number'           => 'nullable|string',
             'kin_email'                  => 'nullable|string',
             'clinical_alerts'            => 'nullable|string',
+            'kin_receive_correspondence' => 'nullable|boolean',
         ];
     }
 }
