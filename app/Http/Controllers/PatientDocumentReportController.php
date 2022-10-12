@@ -62,8 +62,8 @@ class PatientDocumentReportController extends Controller
             'referringDoctor' => $request->referringDoctor,
             'date'            => date('d/m/Y'),
             'reportData'      => $reportData,
-            'header_image'    => 'images/'.auth()->user()->organization_id.'/'. $header_image, //auth()->user()->organization->document_letter_header,
-            'footer_image'    => 'images/'.auth()->user()->organization_id.'/'. $footer_image, //auth()->user()->organization->document_letter_footer,
+            'header_image'    => 'files/'.auth()->user()->organization_id.'/'. $header_image, //auth()->user()->organization->document_letter_header,
+            'footer_image'    => 'files/'.auth()->user()->organization_id.'/'. $footer_image, //auth()->user()->organization->document_letter_footer,
         ];
 
         $pdf = PDF::loadView('pdfs/patientDocumentReport', $pdfData);
