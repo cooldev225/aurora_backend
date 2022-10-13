@@ -49,7 +49,8 @@ class PatientDocumentReportController extends Controller
         }
 
         $clinic_id = Appointment::find($request->appointmentId)->clinic_id;
-        $provider_number = SpecialistClinicRelation::where('specialist_id', '=', $request->specialistId)->where('clinic_id', '=', $clinic_id)->first()->provider_number;
+        // $provider_number = SpecialistClinicRelation::where('specialist_id', '=', $request->specialistId)->where('clinic_id', '=', $clinic_id)->first()->provider_number;
+        $provider_number = SpecialistClinicRelation::where('specialist_id', '=', auth()->user()->id)->where('clinic_id', '=', $clinic_id)->first()->provider_number;
 
         $pdfData = [
             'title'           => 'Patient Document Report',
