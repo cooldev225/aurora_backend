@@ -24,8 +24,6 @@ return new class extends Migration {
             $table->string('address')->nullable();
             $table->string('specimen_collection_point_number')->nullable();
             $table->integer('lspn_id')->nullable();
-            $table->string('document_letter_header')->nullable();
-            $table->string('document_letter_footer')->nullable();
             $table->string('healthlink_edi')->nullable();
             $table->timestamps();
         });

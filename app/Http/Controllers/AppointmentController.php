@@ -34,6 +34,7 @@ class AppointmentController extends Controller
 
         $appointments = Appointment::
                             where('organization_id', auth()->user()->organization_id)
+                            ->with('referral')
                             ->orderBy('date')
                             ->orderBy('start_time');
         $params = $request->validated();

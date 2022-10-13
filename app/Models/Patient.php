@@ -17,7 +17,7 @@ class Patient extends Model
         'birth_place_code', 'country_of_birth', 'birth_state',
         'allergies', 'aborginality', 'occupation', 'height', 'weight',
         'bmi', 'preferred_contact_method', 'appointment_confirm_method',
-        'send_recall_method', 'kin_name', 'kin_relationship',
+        'send_recall_method', 'kin_name', 'kin_relationship', 'kin_email',
         'kin_phone_number', 'clinical_alert',
     ];
 

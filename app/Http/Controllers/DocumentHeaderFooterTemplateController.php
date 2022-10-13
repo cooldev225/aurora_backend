@@ -18,7 +18,7 @@ class DocumentHeaderFooterTemplateController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAny', DocumentHeaderFooterTemplate::class);
+        // $this->authorize('viewAny', DocumentHeaderFooterTemplate::class);
 
         $organization_id = auth()->user()->organization_id;
 
@@ -77,8 +77,8 @@ class DocumentHeaderFooterTemplateController extends Controller
         $header = "";
         if ($file = $request->file('header_file')) {
             $file_name = generateFileName(
-                FileType::DOCUMENT_HEADER, 
-                $organization_id . "_" . $documentHeaderFooterTemplate->id, 
+                FileType::DOCUMENT_HEADER,
+                $organization_id . "_" . $documentHeaderFooterTemplate->id,
                 $file->extension()
             );
             $filepath = getUserOrganizationFilePath();
@@ -92,8 +92,8 @@ class DocumentHeaderFooterTemplateController extends Controller
         $footer = "";
         if ($file = $request->file('footer_file')) {
             $file_name = generateFileName(
-                FileType::DOCUMENT_FOOTER, 
-                $organization_id . "_" . $documentHeaderFooterTemplate->id, 
+                FileType::DOCUMENT_FOOTER,
+                $organization_id . "_" . $documentHeaderFooterTemplate->id,
                 $file->extension()
             );
             $filepath = getUserOrganizationFilePath();
@@ -103,7 +103,7 @@ class DocumentHeaderFooterTemplateController extends Controller
             $documentHeaderFooterTemplate->footer_file = $footer;
             $documentHeaderFooterTemplate->save();
         }
-        
+
         return response()->json(
             [
                 'message' => 'New Document Header/Footer Template created',
@@ -112,7 +112,7 @@ class DocumentHeaderFooterTemplateController extends Controller
             Response::HTTP_CREATED
         );
     }
-    
+
 
     /**
      * Display the specified resource.
