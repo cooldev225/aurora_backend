@@ -9,7 +9,7 @@ class HrmScheduleTimeslot extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['clinic_id','week_day','category','restriction','user_id','start_time','end_time','is_template'];
+    protected $fillable = ['clinic_id','week_day','category','restriction','user_id','start_time','end_time','is_template', 'organization_id'];
     protected $appends = ['clinic_name'];
 
     /**

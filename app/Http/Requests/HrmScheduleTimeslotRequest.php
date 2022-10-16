@@ -24,13 +24,16 @@ class HrmScheduleTimeslotRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_id'                       => 'required|numeric',
-            'week_day'                      => 'required|in:MON,TUE,WED,THU,FRI,SAT,SUN',
-            'category'                      => 'nullable|in:WORKING,BREAK,LEAVE',
-            'start_time'                    => 'required',
-            'end_time'                      => 'required',
-            'restriction'                   => 'nullable|in:CONSULTATION,PROCEDURES,NONE',
-            'is_template'                   => 'required|boolean',
+            'id' => 'required|numeric',
+            'timeslots' => 'nullable|array',
+            'deleteTimeslots' => 'nullable|array',
+            'deleteTimeslots.*' => 'nullable|integer',
+            'timeslots.*.week_day' => 'required|in:MON,TUE,WED,THU,FRI,SAT,SUN',
+            'timeslots.*.category' => 'nullable|in:WORKING,BREAK,LEAVE',
+            'timeslots.*.start_time' => 'required',
+            'timeslots.*.end_time' => 'required',
+            'timeslots.*.restriction' => 'nullable|in:CONSULTATION,PROCEDURE,NONE',
+            'timeslots.*.is_template' => 'required|boolean',
         ];
     }
 }
