@@ -8,6 +8,7 @@
         body {
             margin: 0px;
             height: 100%;
+            font-family: "Times New Roman", Times, serif;
         }
 
         footer {
@@ -42,18 +43,14 @@
                     {{ $answer }}
                 </p>
             @endforeach
-            <h3>{{ $report[1] }}</h3>
+            <p>{{ $report[1] }}</p>
         @endforeach
-        <div>
-
-            <p>Report created by name at  {{ $date }}</p>
-        </div>
     </section>
     <section>
         <div>
             <p>{{ $sign_off }}</p>
         </div>
-        <img src="{{ storage_path('app/' . $signature_image) }}" style="width: 100%;">
+        <img src="{{ storage_path('app/' . $signature_image) }}" style="width: 200px">
         <div>
             <p>{{ $full_name }}</p>
             <p>{{ $education_code }}</p>
