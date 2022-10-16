@@ -14,6 +14,7 @@ use App\Models\PatientDocument;
 use App\Models\PatientReport;
 use App\Models\ReportSection;
 use App\Models\ReportAutoText;
+use App\Models\SpecialistClinicRelation;
 use App\Models\DocumentHeaderFooterTemplate;
 
 use PDF;
@@ -48,6 +49,9 @@ class PatientDocumentReportController extends Controller
             array_push($reportData, $value);
         }
 
+        $clinic_id = Appointment::find($request->appointmentId)->clinic_id;
+        // $provider_number = SpecialistClinicRelation::where('specialist_id', '=', $request->specialistId)->where('clinic_id', '=', $clinic_id)->first()->provider_number;
+        $provider_number = SpecialistClinicRelation::where('specialist_id', '=', auth()->user()->id)->where('clinic_id', '=', $clinic_id)->first()->provider_number;
         $headerFooterData = DocumentHeaderFooterTemplate::find($request->header_footer_id);
         if(!$headerFooterData) {
             $headerFooterData = DocumentHeaderFooterTemplate::where('is_organization_default', '=', 1)->first();
@@ -62,6 +66,13 @@ class PatientDocumentReportController extends Controller
             'referringDoctor' => $request->referringDoctor,
             'date'            => date('d/m/Y'),
             'reportData'      => $reportData,
+            'header_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_header,
+            'footer_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_footer,
+            'signature_image' => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->signature,
+            'full_name'         => auth()->user()->first_name . ' ' . auth()->user()->last_name,
+            'sign_off'          => auth()->user()->sign_off,
+            'education_code'    => auth()->user()->education_code,
+            'provider_number'   => $provider_number,
             'header_image'    => 'files/'.auth()->user()->organization_id.'/'. $header_image, //auth()->user()->organization->document_letter_header,
             'footer_image'    => 'files/'.auth()->user()->organization_id.'/'. $footer_image, //auth()->user()->organization->document_letter_footer,
         ];
