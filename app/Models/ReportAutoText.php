@@ -9,7 +9,7 @@ class ReportAutoText extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['section_id', 'text'];
+    protected $fillable = ['section_id', 'text','icd_10_code'];
 
     /**
      * Return Report Section
