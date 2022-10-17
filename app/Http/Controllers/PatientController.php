@@ -25,9 +25,9 @@ class PatientController extends Controller
         $this->authorize('viewAny', Patient::class);
 
         $params = $request->validated();
-        
+
         $patients = Organization::find(auth()->user()->organization_id)
-                                ->patients();
+            ->patients();
 
         foreach ($params as $column => $param) {
             if (!empty($param)) {
@@ -57,17 +57,17 @@ class PatientController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('view', $patient);
-         
-      
+
+
         return response()->json(
             [
                 'message' => 'Patient Detail Info',
                 'data' =>  $patient
-                            ->load('allergies')
-                            ->load('appointments'),
+                    ->load('allergies')
+                    ->load('appointments'),
             ],
             Response::HTTP_OK
-        );      
+        );
     }
 
     /**
@@ -101,7 +101,8 @@ class PatientController extends Controller
      * @param  \App\Models\Patient  $patient
      * @responseFile storage/responses/patients.appointments.json
      */
-    public function appointments(Patient $patient) {
+    public function appointments(Patient $patient)
+    {
         // Verify the user can access this function via policy
         $this->authorize('view', $patient);
         $this->authorize('viewAny', Appointment::class);
@@ -111,17 +112,16 @@ class PatientController extends Controller
         $appointments = [
             'patientId' => $patient->id,
             'pastAppointments' => $patient->appointments()
-            ->where('organization_id', $organization_id)
-            ->where('date', '<', date('Y-m-d'))
-            ->take(5)
-            ->get(),
+                ->where('organization_id', $organization_id)
+                ->where('date', '<', date('Y-m-d'))
+                ->take(5)
+                ->get(),
             'futureAppointments' => $patient->all_upcoming_appointments,
-            'previousAppointmentCount' => $patient->appointments()
-            ->where('organization_id', $organization_id)
-            ->where('date','<', date('Y-m-d'))
-            ->count()
+            'appointment_count' => $patient->appointments->count(),
+            'cancelled_appointment_count' => $patient->appointments->where('confirmation_status', 'CANCELED')->count(),
+            'missed_appointment_count' => $patient->appointments->where('confirmation_status', 'MISSED')->count(),
         ];
-        
+
         return response()->json(
             [
                 'message' => 'Appointment List',
