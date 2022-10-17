@@ -97,7 +97,7 @@ class AppointmentCreateRequest extends FormRequest
             'referral_date'        => 'nullable|date',
             'referral_duration'    => 'nullable|integer',
 
-            ...$patient_billing_request->rules(),
+            // ...$patient_billing_request->rules(),
             ...$patient_request->rules(),
         ];
     }
