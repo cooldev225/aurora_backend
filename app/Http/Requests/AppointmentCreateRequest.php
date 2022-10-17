@@ -79,7 +79,7 @@ class AppointmentCreateRequest extends FormRequest
      */
     public function rules()
     {
-        $patient_billing_request = new PatientBillingRequest();
+        $patient_billing_request = new PatientBillingStoreRequest();
         $patient_request = new PatientRequest();
 
         return [
@@ -97,7 +97,7 @@ class AppointmentCreateRequest extends FormRequest
             'referral_date'        => 'nullable|date',
             'referral_duration'    => 'nullable|integer',
 
-            ...$patient_billing_request->rules(),
+            // ...$patient_billing_request->rules(),
             ...$patient_request->rules(),
         ];
     }
