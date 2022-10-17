@@ -100,7 +100,7 @@ class Patient extends Model
         return $this->hasMany(Appointment::class, 'patient_id')
         ->with('appointment_type')
         ->with('referral')
-      //  ->where('organization_id', auth()->user()->organization_id)
+        ->where('organization_id', auth()->user()->organization_id)
         ->orderBy('date', 'DESC')
         ->orderBy('start_time', 'DESC');
     }
