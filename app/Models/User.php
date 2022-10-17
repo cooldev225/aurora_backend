@@ -98,6 +98,12 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(HrmScheduleTimeslot::class);
     }
 
+    public function AnethetistScheduleTimeslots()
+    {
+        $field_key = 'anesthetist_id';
+        return $this->hasMany(HrmScheduleTimeslot::class, $field_key, 'id' );
+    }
+
     /*
     * Get HRMUserBaseSChedule at time
     *

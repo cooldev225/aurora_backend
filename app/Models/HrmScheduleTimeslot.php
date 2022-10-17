@@ -9,7 +9,7 @@ class HrmScheduleTimeslot extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['clinic_id','week_day','category','restriction','user_id','start_time','end_time','is_template', 'organization_id'];
+    protected $fillable = ['clinic_id','week_day','category','restriction','user_id','start_time','end_time','is_template', 'organization_id', 'anesthetist_id'];
     protected $appends = ['clinic_name'];
 
     /**
@@ -26,6 +26,11 @@ class HrmScheduleTimeslot extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function anesthetist()
+    {
+        return $this->belongsTo(User::class, 'anesthetist_id');
     }
 
     /**

@@ -34,6 +34,8 @@ class HrmScheduleTimeslotRequest extends FormRequest
             'timeslots.*.end_time' => 'required',
             'timeslots.*.restriction' => 'nullable|in:CONSULTATION,PROCEDURE,NONE',
             'timeslots.*.is_template' => 'required|boolean',
+            'timeslots.*.anesthetist_id' => 'nullable|integer',
+            'timeslots.*.user_id' => 'nullable|integer',
         ];
     }
 }
