@@ -24,6 +24,7 @@ class PatientSeeder extends Seeder
 
         foreach ($arrPatients as $patient) {
             $patient->organizations()->attach(1);
+
         }
     }
 }

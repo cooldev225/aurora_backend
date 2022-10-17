@@ -24,15 +24,11 @@ return new class extends Migration {
                 ->default(9);
             $table->date('date_of_birth');
             $table->string('address')->nullable();
+            $table->string('postcode')->nullable();
+            $table->string('suburb')->nullable();
             $table
-                ->enum('marital_status', [
-                    'Single',
-                    'Divorced',
-                    'Married',
-                    'Widowed',
-                    'Undisclosed',
-                ])
-                ->default('Undisclosed');
+                ->enum('marital_status', [1, 2, 3, 4, 5, 6, 9])
+                ->default(9);
             $table->string('birth_place_code')->nullable();
             $table->string('country_of_birth')->nullable();
             $table->string('birth_state')->nullable();

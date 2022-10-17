@@ -24,6 +24,8 @@ class PatientFactory extends Factory
             'contact_number' => $this->faker->unique()->numerify('0#-####-####'),
             'date_of_birth' => $this->faker->date(),
             'address' => $this->faker->streetAddress(),
+            'suburb' =>  $this->faker->word(),
+            'postcode' => $this->faker->numerify('####'),
             'birth_place_code' => $this->faker->cityPrefix(),
             'country_of_birth' => $this->faker->country(),
             'birth_state' => $this->faker->state(),

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\HL7TestController;
+use App\Http\Controllers\ReportVAEDController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -29,3 +30,5 @@ Route::get('/test', function() {
 Route::get('/test-pdf', [AppointmentPreAdmissionController::class, 'testPDF']);
 Route::get('/test-hl7parse', [HL7TestController::class, 'testHL7Parse']);
 Route::get('/test-hl7create', [HL7TestController::class, 'testHL7create']);
+
+Route::get('/VAED-report-test', [ReportVAEDController::class, 'generateVAEDforEpisode']);
