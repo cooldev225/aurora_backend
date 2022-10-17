@@ -33,6 +33,10 @@ class AppointmentSeeder extends Seeder
         $faker = Factory::create();
 
         foreach ($patients as $patient) {
+
+            for ($i=0; $i < 3; $i++) { 
+               
+           
              $date = $dates[rand(0, count($dates)-1)];
 
                 $appointment = $this->createAppointment($date, $patient);
@@ -89,7 +93,7 @@ class AppointmentSeeder extends Seeder
                 $appointment->patient_id = $patient->id;
 
                 $appointment->save();
-            
+            }
         }
     }
 

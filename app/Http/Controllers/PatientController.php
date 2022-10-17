@@ -112,11 +112,12 @@ class PatientController extends Controller
         $appointments = [
             'patientId' => $patient->id,
             'pastAppointments' => $patient->appointments()
-                ->where('organization_id', $organization_id)
                 ->where('date', '<', date('Y-m-d'))
                 ->take(5)
                 ->get(),
-            'futureAppointments' => $patient->all_upcoming_appointments,
+            'futureAppointments' => $patient->appointments()
+            ->where('date', '>=', date('Y-m-d'))
+            ->get(),
             'appointment_count' => $patient->appointments->count(),
             'cancelled_appointment_count' => $patient->appointments->where('confirmation_status', 'CANCELED')->count(),
             'missed_appointment_count' => $patient->appointments->where('confirmation_status', 'MISSED')->count(),
