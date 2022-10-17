@@ -76,6 +76,7 @@ class HrmScheduleTimeslotController extends Controller
                     'restriction' => $slot['restriction'],
                     'user_id' => $slot['user_id'],
                     'is_template' => $slot['is_template'],
+                    'anesthetist_id'  => $slot['anesthetist_id'],
                 ]);
             }
         }
