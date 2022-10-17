@@ -27,28 +27,8 @@ class Patient extends Model
         'int_contact_number',
         'active_alerts',
         'gender_name',
-        'appointment_count ',
-        'cancelled_appointment_count',
-        'missed_appointment_count',
-    ];
+    ];     
 
-    public function getAppointmentCountAttribute()
-    {
-        return $this->appointments()->count();
-        //return $this->hasMany(Appointment::class, 'patient_id')->count();
-    }
-
-    public function getCancelledAppointmentCountAttribute()
-    {
-        return $this->appointments()->where('confirmation_status','CANCELED')->count();
-        //return $this->hasMany(Appointment::class, 'patient_id')->where('confirmation_status','CANCELED')->count();
-    }
-
-    public function getMissedAppointmentCountAttribute()
-    {
-        return $this->appointments()->where('confirmation_status','MISSED')->count();
-        //return $this->hasMany(Appointment::class, 'patient_id')->where('confirmation_status','MISSED')->count();
-    }
 
     public function getActiveAlertsAttribute()
     {
@@ -101,7 +81,7 @@ class Patient extends Model
         return $this->hasMany(Appointment::class, 'patient_id')
         ->with('appointment_type')
         ->with('referral')
-        //->where('organization_id', auth()->user()->organization_id)
+        ->where('organization_id', auth()->user()->organization_id)
         ->orderBy('date', 'DESC')
         ->orderBy('start_time', 'DESC');
     }
