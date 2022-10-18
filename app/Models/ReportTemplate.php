@@ -112,6 +112,7 @@ class ReportTemplate extends Model
                     }
 
                     $autoTextObj->text = $autoText->text;
+                    $autoTextObj->icd_10_code = $autoText->icd_10_code;
                     $autoTextObj->save();
                     $arrAutoTextId[] = $autoTextObj->id;
                 }
