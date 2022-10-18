@@ -21,13 +21,31 @@ class HL7TestController extends Controller
     {
 
         $testHL7Content = '';
-        $fileNo = $request->file_num ? $request->file_num : rand(1, 33);
+        $fileNo = $request->file_num ? $request->file_num : rand(1, 22);
         $filename = "storage/testHL7/1 (" . $fileNo . ").hl7";
         $file = file($filename);
         foreach ($file as $line) {
             $testHL7Content .= $line;
         }
 
+        $msg = new Message($testHL7Content);
+
+        $msh = $msg->getSegmentsByName("MSH")[0];
+        $rf1 = $msg->getSegmentsByName("RF1")[0];
+        $pid = $msg->getSegmentsByName("PID")[0];
+        $prds = [];
+        
+        foreach ($msg->getSegmentsByName("PRD") as $prd) {
+            $prdArr = [
+                'provider_role'    => is_array($prd->getField(1)) ? $prd->getField(1)[0] :  $prd->getField(1),
+                'provider_number'  => is_array($prd->getField(7)) ? $prd->getField(7)[0] :  $prd->getField(7),
+            ];
+            array_push($prds, $prdArr);
+        }
+
+
+
+        /*
         $HL7data = getDataFromHL7($testHL7Content);
         $htmlData = formatHL7BodyToHTML($HL7data['data_content']);
 
@@ -45,8 +63,32 @@ class HL7TestController extends Controller
             'receiving_doctor_provider' => $HL7data['receiving_doctor_provider'],
             'data_content' => $htmlData,
             'file_name' => $filename,
-        ];
-        return view('hl7Parsing', $data);
+        ];*/
+        return view('hl7ParsingV2', [
+            'file_name' => $filename,
+            'msh' => [
+                'sending_application'   => $msh->getField(3),
+                'sending_facility'      => $msh->getField(4),
+                'receiving_application' => $msh->getField(5),
+                'receiving_facility'    => $msh->getField(6),
+                'message_time'          => $msh->getField(7),
+                'message_type'          => $msh->getField(9)[0],
+            ],
+            'rf1'=> [
+                'referral_status'       => is_array($rf1->getField(1)) ? $rf1->getField(1)[0] :  $rf1->getField(1), //P^Pending^HL70283
+                'referral_priority'     => is_array($rf1->getField(2)) ? $rf1->getField(2)[0] :  $rf1->getField(2), //R^Routine^HL70280
+                'referral_type'         =>  is_array($rf1->getField(3)) ? $rf1->getField(3)[0] :  $rf1->getField(3), //MED^Medical^HL70281
+                'referral_disposition'  => $rf1->getField(4) ? $rf1->getField(4)[1] : "", //DS^Discharge Summary^HL70282
+                'referral_reason'       => $rf1->getField(10) ? $rf1->getField(10)[1]  : "", //E^Event Summary^HL70336
+            ],
+            'prds' => $prds,
+            'pid'=> [
+                'patient_first_name' => $pid->getField(5)[1],
+                'patient_last_name'  => $pid->getField(5)[0],
+                'patient_dob'       => $pid->getField(7),
+            
+            ],
+        ]);
     }
 
     public function testHL7Create(Request $request){
