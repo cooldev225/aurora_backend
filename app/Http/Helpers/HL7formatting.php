@@ -30,53 +30,16 @@ if (!function_exists('getDataFromHL7')) {
 
         $msg = new Message($hl7);
 
-        $msh = $msg->getSegmentsByName("MSH")[0];
-
-        //Application Info
-        $message_sending_application = $msh->getSendingApplication();
-        $message_receiving_application = $msh->getReceivingApplication();
-
-        // Sending Facility
-        $send_fal_frame = $msh->getSendingFacility();
-        $message_sending_facility_edi = is_array($send_fal_frame) ? $send_fal_frame[0] : $send_fal_frame;
-        $message_sending_facility_name = is_array($send_fal_frame) ? $send_fal_frame[1] : "";
-
-
-        // Receiving Facility
-        $rec_fal_frame = $msh->getReceivingFacility();
-        $message_receiving_facility_edi = is_array($rec_fal_frame) ? $rec_fal_frame[0] : $rec_fal_frame;
-        $message_receiving_facility_name = is_array($rec_fal_frame) ? $rec_fal_frame[1] : "";
-
-        // PATIENT DETAILS
-        $pid = $msg->getSegmentsByName("PID")[0];
-        $patient_first_name = $pid->getPatientName()[1];
-        $patient_last_name = $pid->getPatientName()[0];
-        $dob_str = $pid->getDateTimeOfBirth();
-        $dob_carbon = Carbon::create(substr($dob_str, 0, 4), substr($dob_str, 4, 2), substr($dob_str, 6, 2));
-        $patient_date_of_birth = $dob_carbon->toDateString();
-
-        //REFERRING DOCTOR
-        $pv1 = $msg->getSegmentsByName("PV1");
-        $referring_doctor_provider = "";
-        $receiving_doctor_provider = "";
-        if ($pv1) {
-            $pv1 = $pv1[0];
-
-            $ref_doc_frame = $pv1->getReferringDoctor();
-            $referring_doctor_provider = is_array($ref_doc_frame) ? $ref_doc_frame[0] : $ref_doc_frame;
-            //RECEIVING DOCTOR
-            $rec_doc_frame = $pv1->getConsultingDoctor();
-            $receiving_doctor_provider = is_array($rec_doc_frame) ? $rec_doc_frame[0] : $rec_doc_frame;
-        }
-
-
         $data_content = [];
 
         foreach ($msg->getSegments() as $segment) {
+            dd($msg);
             if ($segment->getName() == 'OBR') {
                 $serviceId = $segment->getUniversalServiceID();
-                $data_title = $serviceId ? '<strong>' . formatHL7Text($serviceId[1]) . '</strong>' : ''; //[4]
-                array_push($data_content, array('type' => 'TITLE', 'content' => $data_title));
+                $title = getArrayKeyOrString($serviceId , 2);
+                $title_heading = '<h1>' . formatHL7Text($title) . '</h1>'; 
+                dd($title);
+                array_push($data_content, array('type' => 'TITLE', 'content' => $title_heading));
             } elseif ($segment->getName() == 'OBX') {
                 $type = $segment->getValueType(); // [2]
                 $observationValue = $segment->getObservationValue(); // [5]
@@ -106,20 +69,15 @@ if (!function_exists('getDataFromHL7')) {
             }
         }
 
-        return $data = [
-            'patient_first_name'    => $patient_first_name,
-            'patient_last_name'     => $patient_last_name,
-            'patient_date_of_birth' => $patient_date_of_birth,
-            'message_sending_application' => $message_sending_application,
-            'message_sending_facility_edi' => $message_sending_facility_edi,
-            'message_sending_facility_name' => $message_sending_facility_name,
-            'message_receiving_application' => $message_receiving_application,
-            'message_receiving_facility_edi' => $message_receiving_facility_edi,
-            'message_receiving_facility_name' => $message_receiving_facility_name,
-            'referring_doctor_provider' => $referring_doctor_provider,
-            'receiving_doctor_provider' => $receiving_doctor_provider,
-            'data_content' => $data_content,
-        ];
+        return $data_content;
+    }
+}
+
+
+if (!function_exists('getArrayKeyOrString')) {
+    function getArrayKeyOrString($data, $key)
+    {
+        return is_array($data) ? $data[$key] :  $data;
     }
 }
 

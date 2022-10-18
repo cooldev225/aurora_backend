@@ -60,6 +60,9 @@
         <li><strong> Last Name:</strong> {{ $pid['patient_last_name'] }}</li>
         <li><strong>  DOB: </strong>{{ $pid['patient_dob'] }}</li>
 </ul>
+<hr />
+<h3>Patient</h3>
+{!! $document_contents !!} <br />
 </body>
 
 </html>
