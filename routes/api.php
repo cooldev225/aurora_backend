@@ -1,6 +1,7 @@
 <?php
 
 
+use App\Http\Controllers\AnesthetistController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
@@ -156,6 +157,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('hrm')->group(function () {
         Route::apiResource('/hrm-schedule-timeslot', HrmScheduleTimeslotController::class);
+        Route::get('/anesthetists', [AnesthetistController::class, 'index']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
