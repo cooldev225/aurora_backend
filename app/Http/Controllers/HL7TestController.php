@@ -28,58 +28,19 @@ class HL7TestController extends Controller
             $testHL7Content .= $line;
         }
 
-     
-        return view('hl7ParsingV2', $this->parseHeathLinkHL7message($testHL7Content, $filename));
-    }
-
-
-    public function parseHeathLinkHL7message($message, $filename = ""){
-
-
-        $msg = new Message($message);
-
+        $msg = new Message($testHL7Content);
         $msh = $msg->getSegmentsByName("MSH")[0];
-        $rf1 = $msg->getSegmentsByName("RF1")[0];
-        $pid = $msg->getSegmentsByName("PID")[0];
-        $prds = [];
-        
-        foreach ($msg->getSegmentsByName("PRD") as $prd) {
-            $prdArr = [
-                'provider_role'    => getArrayKeyOrString($prd->getField(1),0),
-                'provider_number'  => getArrayKeyOrString($prd->getField(7),0),
-            ];
-            array_push($prds, $prdArr);
-        }
-        
-        $data_content = getDataFromHL7($message);
-        
-        return  [
-            'file_name' => $filename, // For testing purposes only
-            'msh' => [
-                'sending_application'   => $msh->getField(3),
-                'sending_facility'      => getArrayKeyOrString($msh->getField(4), 0),
-                'receiving_application' => $msh->getField(5),
-                'receiving_facility'    => $msh->getField(6),
-                'message_time'          => $msh->getField(7),
-                'message_type'          => $msh->getField(9)[0],
-            ],
-            'rf1'=> [
-                'referral_status'       => getArrayKeyOrString($rf1->getField(1),0), //P^Pending^HL70283
-                'referral_priority'     => getArrayKeyOrString($rf1->getField(2),0), //R^Routine^HL70280
-                'referral_type'         =>  getArrayKeyOrString($rf1->getField(3),0), //MED^Medical^HL70281
-                'referral_disposition'  => $rf1->getField(4) ? $rf1->getField(4)[1] : "", //DS^Discharge Summary^HL70282
-                'referral_reason'       => $rf1->getField(10) ? $rf1->getField(10)[1]  : "", //E^Event Summary^HL70336
-            ],
-            'prds' => $prds,
-            'pid'=> [
-                'patient_first_name' => $pid->getField(5)[1],
-                'patient_last_name'  => $pid->getField(5)[0],
-                'patient_dob'       => $pid->getField(7),
-            
-            ],
-            'document_contents' => $data_content,
-        ];
+        $messageType = $msh->getField(9)[0];
+        if($messageType =="REF"){
+            return view('hl7ParsingREF', parseHeathLinkHL7RefMessage($msg, $filename));
+        }else{
+            return view('hl7ParsingORU', parseHeathLinkHL7OruMessage($msg, $filename));
+        } 
+
     }
+
+
+   
     public function testHL7Create(Request $request){
         $msg = new Message();
 

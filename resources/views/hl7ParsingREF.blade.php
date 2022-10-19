@@ -20,7 +20,8 @@
 
 <body style="font-size: 1.5rem">
     <h2>Healthlink HL7 Parsing test</h2>
-    Filename : {{$file_name}}
+    <p>Filename : {{$file_name}}</p>
+    <p>REF</p>
     <h3>MAH</h3>
     <ul>
         <li><strong> Seedning Application:</strong> {{ $msh['sending_application'] }}</li>
