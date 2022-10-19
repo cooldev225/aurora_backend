@@ -35,7 +35,6 @@ class DatabaseSeeder extends Seeder
             PreAdmissionSeeder::class,
             ScheduleFeeSeeder::class,
             BulletinSeeder::class,
-            HrmScheduleTimeslotSeeder::class,
             PatientAllergySeeder::class,
             PatientAlertSeeder::class,
 
