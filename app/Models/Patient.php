@@ -15,7 +15,7 @@ class Patient extends Model
         'gender', 'date_of_birth', 'address', 'street', 'suburb',
         'city', 'state', 'postcode', 'country', 'marital_status',
         'birth_place_code', 'country_of_birth', 'birth_state',
-        'allergies', 'aborginality', 'occupation', 'height', 'weight',
+        'aborginality', 'occupation', 'height', 'weight',
         'bmi', 'preferred_contact_method', 'appointment_confirm_method',
         'send_recall_method', 'kin_name', 'kin_relationship', 'kin_email',
         'kin_phone_number', 'clinical_alert',
@@ -27,7 +27,8 @@ class Patient extends Model
         'int_contact_number',
         'active_alerts',
         'gender_name',
-    ];     
+        'allergies',
+    ];
 
 
     public function getActiveAlertsAttribute()
@@ -37,17 +38,17 @@ class Patient extends Model
 
     public function getIntContactNumberAttribute()
     {
-        return '+61' . substr($this->contact_number, 1);  
+        return '+61' . substr($this->contact_number, 1);
     }
 
     public function getFullNameAttribute()
     {
-        return $this->first_name . ' ' . $this->last_name;  
+        return $this->first_name . ' ' . $this->last_name;
     }
 
     public function getBillingAttribute()
     {
-        return $this->billing()->get(); 
+        return $this->billing()->get();
     }
 
     public function getGenderNameAttribute()
@@ -62,6 +63,10 @@ class Patient extends Model
             default:
                 return 'Undisclosed';
         }
+    }
+
+    public function getAllergiesAttribute() {
+        return $this->allergies()->get();
     }
 
 
