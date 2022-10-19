@@ -15,12 +15,22 @@ class BulletinController extends Controller
      */
     public function index()
     {
+        $this->authorize('viewAny', Bulletin::class);
+
+        $organization_id = auth()->user()->organization_id;
+
+        $templates = Bulletin::where(
+            'organization_id',
+            $organization_id
+        )
+        ->get();
+
         return response()->json(
             [
-                'message' => 'New Patient Recall created',
-                'data' => auth()->user()->organization->bulletin,
+                'message' => 'Bulletin List',
+                'data' => $templates,
             ],
-            Response::HTTP_CREATED
+            Response::HTTP_OK
         );
     }
 
