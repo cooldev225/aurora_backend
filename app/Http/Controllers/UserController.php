@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRole;
 use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserRequest;
 use App\Mail\NewEmployee;
@@ -28,7 +29,8 @@ class UserController extends Controller
         $users = User::where(
             'organization_id',
             $organization->id
-        )
+        )->wherenot('role_id', UserRole::ADMIN)
+        ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
         ->with('scheduleTimeslots')
         ->with('specialistClinicRelations');
 

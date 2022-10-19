@@ -46,7 +46,8 @@ class AppointmentSpecialistController extends Controller
         ])
         ->with([
             'scheduleTimeslots' => function ($query) use ($day) {
-                $query->where('week_day', $day);
+                $query->where('week_day', $day)
+                ->with('anesthetist');
             }
         ])
         ->get();
