@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('section_id');
             $table->text('text');
-            $table->text('icd_10_code');
+            $table->text('icd_10_code')->nullable();
             $table->timestamps();
         });
     }

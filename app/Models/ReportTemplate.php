@@ -52,6 +52,7 @@ class ReportTemplate extends Model
                     $autoTextObj = new ReportAutoText();
                     $autoTextObj->section_id = $sectionObj->id;
                     $autoTextObj->text = $autoText->text;
+                    $autoTextObj->icd_10_code = $autoText->icd_10_code;
                     $autoTextObj->save();
                 }
             }
@@ -112,6 +113,7 @@ class ReportTemplate extends Model
                     }
 
                     $autoTextObj->text = $autoText->text;
+                    $autoTextObj->icd_10_code = $autoText->icd_10_code;
                     $autoTextObj->save();
                     $arrAutoTextId[] = $autoTextObj->id;
                 }
