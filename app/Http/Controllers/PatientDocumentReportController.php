@@ -9,6 +9,7 @@ use App\Http\Requests\PatientDocumentReportStoreRequest;
 use App\Http\Requests\PatientDocumentReportUpdateRequest;
 use App\Http\Requests\PatientDocumentReportUploadRequest;
 use App\Models\Appointment;
+use App\Models\AppointmentCodes;
 use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientReport;
@@ -50,7 +51,6 @@ class PatientDocumentReportController extends Controller
         }
 
         $clinic_id = Appointment::find($request->appointmentId)->clinic_id;
-        // $provider_number = SpecialistClinicRelation::where('specialist_id', '=', $request->specialistId)->where('clinic_id', '=', $clinic_id)->first()->provider_number;
         $provider_number = SpecialistClinicRelation::where('specialist_id', '=', auth()->user()->id)->where('clinic_id', '=', $clinic_id)->first()->provider_number;
         $headerFooterData = DocumentHeaderFooterTemplate::find($request->header_footer_id);
         if(!$headerFooterData) {
@@ -66,8 +66,6 @@ class PatientDocumentReportController extends Controller
             'referringDoctor' => $request->referringDoctor,
             'date'            => date('d/m/Y'),
             'reportData'      => $reportData,
-            // 'header_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_header,
-            // 'footer_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_footer,
             'signature_image' => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->signature,
             'full_name'         => auth()->user()->first_name . ' ' . auth()->user()->last_name,
             'sign_off'          => auth()->user()->sign_off,
@@ -92,6 +90,11 @@ class PatientDocumentReportController extends Controller
             'organization_id'   => auth()->user()->organization_id,
         ]);
 
+        $appointment_code = Appointment::find($request->appointmentId)->codes;
+        //$appointment_code = AppointmentCodes::find($appointment_code_id);
+        $appointment_code->procedures_undertaken = $request->procedures_undertaken;
+        $appointment_code->extra_items_used = $request->extra_items_used;
+        $appointment_code->save();
 
         $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, 'pdf');
         $file_path = getUserOrganizationFilePath();
@@ -101,7 +104,6 @@ class PatientDocumentReportController extends Controller
         $patient_document->save();
 
         // Create PAtient Report Model for future editing
-
         return response()->json(
             [
                 'message' => 'New Patient Report Created',
