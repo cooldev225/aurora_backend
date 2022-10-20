@@ -94,6 +94,7 @@ class PatientDocumentReportController extends Controller
         //$appointment_code = AppointmentCodes::find($appointment_code_id);
         $appointment_code->procedures_undertaken = $request->procedures_undertaken;
         $appointment_code->extra_items_used = $request->extra_items_used;
+        $appointment_code->diagnosis_codes = $request->icd_10_code;
         $appointment_code->save();
 
         $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, 'pdf');
