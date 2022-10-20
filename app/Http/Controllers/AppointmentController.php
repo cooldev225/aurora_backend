@@ -106,24 +106,6 @@ class AppointmentController extends Controller
                 'allergies'                     => $request->allergies,
                 'clinical_alerts'               => $request->clinical_alerts,
             ]);
-
-            // TODO: Replace this code with the new format for patient billing
-
-            // $patient->billing()->update([
-            //     'medicare_number'                => $request->medicare_number,
-            //     'medicare_reference_number'      => $request->medicare_reference_number,
-            //     'medicare_expiry_date'           => Carbon::create($request->medicare_expiry_date)->toDateString(),
-            //     'concession_number'              => $request->concession_number,
-            //     'concession_expiry_date'         => Carbon::create($request->concession_expiry_date)->toDateString(),
-            //     'pension_number'                 => $request->pension_number,
-            //     'pension_expiry_date'            =>  Carbon::create($request->pension_expiry_date)->toDateString(),
-            //     'healthcare_card_number'         => $request->healthcare_card_number,
-            //     'healthcare_card_expiry_date'    =>  Carbon::create($request->healthcare_card_expiry_date)->toDateString(),
-            //     'health_fund_id'                 => $request->health_fund_id,
-            //     'health_fund_membership_number'  => $request->health_fund_membership_number,
-            //     'health_fund_reference_number'   => $request->health_fund_reference_number,
-            //     'health_fund_expiry_date'        =>  Carbon::create($request->health_fund_expiry_date)->toDateString(),
-            //  ]);
         } else {
             // Verify the user can access this function via policy
             $this->authorize('create', Patient::class);
@@ -141,28 +123,16 @@ class AppointmentController extends Controller
                 'clinical_alerts'               => $request->clinical_alerts,
             ]);
 
-            // TODO: Replace this code with the new format for patient billing
-
-            // PatientBilling::create([
-            //     'patient_id'                     => $patient->id,
-            //     'medicare_number'                => $request->medicare_number,
-            //     'medicare_reference_number'      => $request->medicare_reference_number,
-            //     'medicare_expiry_date'           => Carbon::create($request->medicare_expiry_date)->toDateString(),
-            //     'concession_number'              => $request->concession_number,
-            //     'concession_expiry_date'         => Carbon::create($request->concession_expiry_date)->toDateString(),
-            //     'pension_number'                 => $request->pension_number,
-            //     'pension_expiry_date'            => Carbon::create($request->pension_expiry_date)->toDateString(),
-            //     'healthcare_card_number'         => $request->healthcare_card_number,
-            //     'healthcare_card_expiry_date'    => Carbon::create($request->healthcare_card_expiry_date)->toDateString(),
-            //     'health_fund_id'                 => $request->health_fund_id,
-            //     'health_fund_membership_number'  => $request->health_fund_membership_number,
-            //     'health_fund_reference_number'   => $request->health_fund_reference_number,
-            //     'health_fund_expiry_date'        => Carbon::create($request->health_fund_expiry_date)->toDateString(),
-            // ]);
-
-
-
             $patient->organizations()->attach(Organization::find(auth()->user()->organization_id));
+        }
+
+        foreach ($request->claim_sources as $claim_source) {
+            PatientBilling::create([
+                'is_valid'    => true,
+                'verified_at' => now(),
+                'patient_id'  => $patient->id,
+                ...$claim_source,
+            ]);
         }
 
         $startTime = Carbon::create($request->start_time);
@@ -248,23 +218,6 @@ class AppointmentController extends Controller
 
         //return ($appointment);
         $patient = Patient::find($request->patient_id);
-
-        // TODO: Replace this code with the new format for patient billing
-
-        // $patient->billing()->update([
-        //    'medicare_number'                => $request->medicare_number,
-        //    'medicare_reference_number'      => $request->medicare_reference_number,
-        //    'medicare_expiry_date'           => Carbon::create($request->medicare_expiry_date)->toDateString(),
-        //    'concession_number'              => $request->concession_number,
-        //    'concession_expiry_date'         => Carbon::create($request->concession_expiry_date)->toDateString(),
-        //    'pension_expiry_date'            => Carbon::create($request->pension_expiry_date)->toDateString(),
-        //    'healthcare_card_number'         => $request->healthcare_card_number,
-        //    'healthcare_card_expiry_date'    => Carbon::create($request->healthcare_card_expiry_date)->toDateString(),
-        //    'health_fund_id'                 => $request->health_fund_id,
-        //    'health_fund_membership_number'  => $request->health_fund_membership_number,
-        //    'health_fund_reference_number'   => $request->health_fund_reference_number,
-        //    'health_fund_expiry_date'        => Carbon::create($request->health_fund_expiry_date)->toDateString(),
-        // ]);
 
         $appointment->referral->update([
             'referring_doctor_id'           => $request->referring_doctor_id,

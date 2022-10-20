@@ -75,7 +75,6 @@ class AppointmentUpdateRequest extends FormRequest
     public function rules()
     {
         $patient_request = new PatientRequest();
-        $patient_billing_request = new PatientBillingRequest();
         $appointment_referral_request = new AppointmentReferralRequest();
 
         return [
@@ -86,7 +85,6 @@ class AppointmentUpdateRequest extends FormRequest
             'charge_type'               => [new Enum(ChargeType::class)],
 
             ...$patient_request->rules(),
-            ...$patient_billing_request->rules(),
             ...$appointment_referral_request->rules(),
         ];
     }
