@@ -61,13 +61,13 @@ class PatientDocumentReportController extends Controller
         $footer_image = $headerFooterData->footer_file;
 
         $pdfData = [
-            'title'           => 'Patient Document Report',
+            'title'           => $request->title,
             'patientName'     => $request->patientName,
             'referringDoctor' => $request->referringDoctor,
             'date'            => date('d/m/Y'),
             'reportData'      => $reportData,
-            'header_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_header,
-            'footer_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_footer,
+            // 'header_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_header,
+            // 'footer_image'    => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->organization->document_letter_footer,
             'signature_image' => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->signature,
             'full_name'         => auth()->user()->first_name . ' ' . auth()->user()->last_name,
             'sign_off'          => auth()->user()->sign_off,
