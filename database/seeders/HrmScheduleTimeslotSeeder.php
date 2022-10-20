@@ -23,7 +23,7 @@ class HrmScheduleTimeslotSeeder extends Seeder
         foreach ($users as $user) {
             foreach ($days as $day) {
                 $clinic_id = Clinic::where('organization_id', 1)->inRandomOrder()->first()->id;
-               if (rand(0, 1)) {
+                if (rand(0, 1)) {
                     HrmScheduleTimeslot::create([
                         'organization_id'   => 1,
                         'clinic_id'         => $clinic_id,
@@ -36,7 +36,6 @@ class HrmScheduleTimeslotSeeder extends Seeder
                         'is_template'       => true,
 
                     ]);
-        
                     HrmScheduleTimeslot::create([
                         'organization_id'   => 1,
                         'clinic_id'         => $clinic_id,
@@ -50,7 +49,6 @@ class HrmScheduleTimeslotSeeder extends Seeder
 
                     ]);
                 }
- 
             }
         }
     }
