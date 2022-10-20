@@ -24,6 +24,7 @@ return new class extends Migration
             $table->time('start_time');
             $table->time('end_time');
             $table->boolean('is_template');
+            $table->foreignId('anesthetist_id')->nullable();
             $table->timestamps();
         });
     }
