@@ -2,6 +2,8 @@
 
 
 use App\Http\Controllers\AnesthetistController;
+use App\Http\Controllers\HrmWeeklyScheduleController;
+use App\Models\HrmWeeklySchedule;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
