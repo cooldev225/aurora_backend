@@ -2,6 +2,8 @@
 
 
 use App\Http\Controllers\AnesthetistController;
+use App\Http\Controllers\HrmWeeklyScheduleController;
+use App\Models\HrmWeeklySchedule;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AnestheticQuestionController;
@@ -155,9 +157,14 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/alerts/{patient_alert}',       [PatientAlertController::class, 'update']);
     });
 
-    Route::prefix('hrm')->group(function () {
-        Route::apiResource('/hrm-schedule-timeslot', HrmScheduleTimeslotController::class);
+    Route::prefix('hrm-template')->group(function () {
+        Route::apiResource('/schedule-timeslot', HrmScheduleTimeslotController::class);
         Route::get('/anesthetists', [AnesthetistController::class, 'index']);
+    });
+
+    Route::prefix('hrm')->group(function () {
+        Route::apiResource('/weekly-timeslot', HrmWeeklyScheduleController::class);
+//        Route::get('/anesthetists', [AnesthetistController::class, 'index']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

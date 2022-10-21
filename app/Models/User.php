@@ -128,7 +128,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Appointment::class,  $field_key, 'id');
     }
 
+    public function hrmWeeklySchedule() {
+        return $this->hasMany(HrmWeeklySchedule::class);
+    }
 
+    public function AnethetistHrmWeeklySchedule()
+    {
+        $field_key = 'anesthetist_id';
+        return $this->hasMany(HrmWeeklySchedule::class, $field_key, 'id' );
+    }
     /**
      * Return Organization
      */
