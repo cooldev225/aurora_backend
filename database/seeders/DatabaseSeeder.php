@@ -37,7 +37,7 @@ class DatabaseSeeder extends Seeder
             BulletinSeeder::class,
             PatientAllergySeeder::class,
             PatientAlertSeeder::class,
-
+            HrmWeeklyScheduleSeeder::class,
         ]);
     }
 }

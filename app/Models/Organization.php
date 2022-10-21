@@ -10,7 +10,7 @@ class Organization extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name', 'logo', 'max_clinics', 'max_employees', 
+        'name', 'logo', 'max_clinics', 'max_employees',
         'owner_id', 'is_hospital', 'appointment_length', 'start_time', 'end_time','status',
         'document_letter_header', 'document_letter_footer', 'code'
     ];
@@ -22,7 +22,7 @@ class Organization extends Model
      */
     public function getUserCountAttribute()
     {
-        return $this->users()->count(); 
+        return $this->users()->count();
     }
 
     /**
@@ -30,7 +30,7 @@ class Organization extends Model
      */
     public function getClinicCountAttribute()
     {
-        return $this->clinics()->count();  
+        return $this->clinics()->count();
     }
 
     /**
@@ -41,7 +41,7 @@ class Organization extends Model
         if($this->user_count >= $this->max_employees){
             return true;
         }
-        return false;  
+        return false;
     }
 
     /**
@@ -52,7 +52,7 @@ class Organization extends Model
         if($this->clinic_count >= $this->max_clinics){
             return true;
         }
-        return false;  
+        return false;
     }
 
     /**
@@ -71,7 +71,7 @@ class Organization extends Model
         return $this->hasMany(Bulletin::class);
     }
 
-    
+
     /**
      * Get the appointment types for organization.
      */
@@ -122,6 +122,11 @@ class Organization extends Model
     public function scheduleTimeslots()
     {
         return $this->hasMany(HrmScheduleTimeslot::class);
+    }
+
+    public function hrmWeeklySchedule()
+    {
+        return $this->hasMany(HrmWeeklySchedule::class);
     }
 
 }

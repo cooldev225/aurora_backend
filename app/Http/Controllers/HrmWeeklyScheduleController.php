@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\HrmScheduleTimeslot;
 use App\Http\Requests\HrmScheduleTimeslotRequest;
+use App\Http\Requests\HrmWeeklyScheduleRequest;
+use App\Models\HrmWeeklySchedule;
+use Illuminate\Http\Request;
 
-
-class HrmScheduleTimeslotController extends Controller
+class HrmWeeklyScheduleController extends Controller
 {
-
     public function index()
     {
 
@@ -33,7 +33,7 @@ class HrmScheduleTimeslotController extends Controller
      */
     public function store(HrmScheduleTimeslotRequest $request)
     {
-        $hrmScheduleTimeslot = HrmScheduleTimeslot::create($request->validated());
+        $hrmScheduleTimeslot = HrmWeeklySchedule::create($request->validated());
         return response()->json(
             [
                 'message' => 'Schedule templated created',
@@ -49,23 +49,23 @@ class HrmScheduleTimeslotController extends Controller
      * @param \App\Http\Requests\HrmScheduleTimeslotRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function update(HrmScheduleTimeslotRequest $request)
+    public function update(HrmWeeklyScheduleRequest $request)
     {
         $timeslots = $request->timeslots;
         $deleteTimeslots = $request->deleteTimeslots;
 
         if (count($deleteTimeslots) > 0) {
             foreach ($deleteTimeslots as $id) {
-                $hrmScheduleTimeslot = HrmScheduleTimeslot::where('id', $id)->delete();
+                $hrmScheduleTimeslot =HrmWeeklySchedule::where('id', $id)->delete();
             }
         }
 
         foreach ($timeslots as $slot) {
             if (array_key_exists('id', $slot)) {
-                $hrmScheduleTimeslot = HrmScheduleTimeslot::where('id', $slot['id'])->first();
+                $hrmScheduleTimeslot =HrmWeeklySchedule::where('id', $slot['id'])->first();
                 $hrmScheduleTimeslot->update($slot);
             } else {
-                $hrmScheduleTimeslot = HrmScheduleTimeslot::create([
+                $hrmScheduleTimeslot = HrmWeeklySchedule::create([
                     'organization_id' => auth()->user()->organization_id,
                     'start_time' => $slot['start_time'],
                     'end_time' => $slot['end_time'],
@@ -86,23 +86,6 @@ class HrmScheduleTimeslotController extends Controller
                 'data' => $hrmScheduleTimeslot,
             ],
             200
-        );
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param \App\Models\HrmScheduleTimeslot $hrmScheduleTimeslot
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(HrmScheduleTimeslot $hrmScheduleTimeslot)
-    {
-        $hrmScheduleTimeslot->delete();
-        return response()->json(
-            [
-                'message' => 'Schedule timeslot deleted',
-            ],
-            204
         );
     }
 }

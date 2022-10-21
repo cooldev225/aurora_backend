@@ -36,4 +36,9 @@ class Clinic extends Model
     {
         return $this->hasMany(HrmScheduleTimeslot::class);
     }
+
+    public function hrmWeeklySchedule()
+    {
+        return $this->hasMany(HrmWeeklySchedule::class);
+    }
 }
