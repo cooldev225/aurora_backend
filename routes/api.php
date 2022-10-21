@@ -177,6 +177,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/send-via-healthlink', [HealthLinkController::class, 'store']);
     });
 
+    Route::prefix('hrm')->group(function () {
+        Route::apiResource('/weekly-timeslot', HrmWeeklyScheduleController::class);
+//        Route::get('/anesthetists', [AnesthetistController::class, 'index']);
+    });
+
     ////////////////////////////////////////////////////////////////////////////////////
     // Payment Routes
     Route::prefix('payments')->group(function () {
