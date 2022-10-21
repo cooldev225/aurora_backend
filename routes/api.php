@@ -183,6 +183,11 @@ Route::middleware(['auth'])->group(function () {
 //        Route::get('/anesthetists', [AnesthetistController::class, 'index']);
     });
 
+    Route::prefix('hrm')->group(function () {
+        Route::apiResource('/weekly-timeslot', HrmWeeklyScheduleController::class);
+//        Route::get('/anesthetists', [AnesthetistController::class, 'index']);
+    });
+
     ////////////////////////////////////////////////////////////////////////////////////
     // Payment Routes
     Route::prefix('payments')->group(function () {
