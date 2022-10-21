@@ -42,7 +42,6 @@ class AnesthetistController extends Controller
                 }
             ])
             ->get();
-            Log::info($specialists);
 
         return response()->json(
             [
