@@ -5,11 +5,24 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class HrmScheduleTimeslot extends Model
+class HrmWeeklySchedule extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['clinic_id','week_day','category','restriction','user_id','start_time','end_time','is_template', 'organization_id', 'anesthetist_id'];
+    protected $fillable = [
+        'clinic_id',
+        'week_day',
+        'category',
+        'restriction',
+        'user_id',
+        'start_time',
+        'end_time',
+        'is_template',
+        'organization_id',
+        'anesthetist_id',
+        'date',
+        'status'
+    ];
     protected $appends = ['clinic_name'];
 
     /**
@@ -47,10 +60,6 @@ class HrmScheduleTimeslot extends Model
     public function organization()
     {
         return $this->belongsTo(Organization::class);
-    }
-
-    public function hrmWeeklySchedule() {
-        return $this->hasMany(HrmWeeklySchedule::class);
     }
 
 }
