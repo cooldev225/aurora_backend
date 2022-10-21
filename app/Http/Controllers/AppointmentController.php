@@ -31,24 +31,24 @@ class AppointmentController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', Appointment::class);
-
+    
         $appointments = Appointment::
                             where('organization_id', auth()->user()->organization_id)
+                            ->with('appointment_type')
                             ->with('referral')
+                            
                             ->orderBy('date')
                             ->orderBy('start_time');
+
         $params = $request->validated();
         foreach ($params as $column => $param) {
-            if (!empty($param)) {
-                if($param == 'after_date'){
-                    $appointments = $appointments->where('date', '=>', $param);
-                }else if($param == 'before_date'){
-                    $appointments = $appointments->where('date', '<=', $param);
-                }else{
-                    $appointments = $appointments->where($column, '=', $param);
-                }
-
+        
+            if($column == 'date'){
+                $param = Carbon::parse($param)->format('Y-m-d');
             }
+            Log::info('inside date param'. $request->date);
+            $appointments = $appointments->where($column, '=', $param);
+            
         }
 
 

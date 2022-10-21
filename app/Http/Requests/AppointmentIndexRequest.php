@@ -39,6 +39,7 @@ class AppointmentIndexRequest extends FormRequest
             'is_wait_listed'            => 'nullable|boolean',
             'after_date'                => 'nullable|date',
             'before_date'               => 'nullable|date',
+            'date'                      => 'nullable|date',
             'patient_id'                => 'nullable|numeric',
             'anesthetist_id'            => 'nullable|numeric',
             'specialist_id'             => 'nullable|numeric',
