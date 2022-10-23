@@ -15,6 +15,7 @@ return new class extends Migration {
         Schema::create('clinics', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id');
+            $table->string('nickname_code');
             $table->string('name');
             $table->string('email');
             $table->string('phone_number');

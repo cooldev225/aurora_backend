@@ -21,6 +21,7 @@ class ClinicFactory extends Factory
         return [
             'organization_id'           => 2,
             'name'                      => $this->faker->catchPhrase(),
+            'nickname_code'             => $this->faker->word(),
             'email'                     => $this->faker->unique()->safeEmail(),
             'phone_number'              => $this->faker->numerify('0#-####-####'),
             'fax_number'                => $this->faker->numerify('0#-####-####'),
@@ -28,7 +29,7 @@ class ClinicFactory extends Factory
             'VAED_number'               => Str::random(5),
             'address'                   => $this->faker->streetAddress(),
             'specimen_collection_point_number' => $this->faker->numerify('###'),
-            'lspn_id' => $this->faker->numerify('###'),
+            'lspn_id'                   => $this->faker->numerify('###'),
         ];
     }
 }
