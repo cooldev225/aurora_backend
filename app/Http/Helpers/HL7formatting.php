@@ -116,11 +116,11 @@ if (!function_exists('parseHeathLinkHL7RefMessage')) {
                 'message_type'          => $msh->getField(9)[0],
             ],
             'rf1' => [
-                'referral_status'       => getArrayKeyOrString($rf1->getField(1), 0), //P^Pending^HL70283
-                'referral_priority'     => getArrayKeyOrString($rf1->getField(2), 0), //R^Routine^HL70280
+                'referral_status'       =>  getArrayKeyOrString($rf1->getField(1), 0), //P^Pending^HL70283
+                'referral_priority'     =>  getArrayKeyOrString($rf1->getField(2), 0), //R^Routine^HL70280
                 'referral_type'         =>  getArrayKeyOrString($rf1->getField(3), 0), //MED^Medical^HL70281
                 'referral_disposition'  => $rf1->getField(4) ? $rf1->getField(4)[1] : "", //DS^Discharge Summary^HL70282
-                'referral_reason'       => $rf1->getField(10) ? $rf1->getField(10)[1]  : "", //E^Event Summary^HL70336
+                'referral_reason'       => $rf1->getField(10) ? getArrayKeyOrString($rf1->getField(10), 0)  : "", //E^Event Summary^HL70336
             ],
             'prds' => $prds,
             'pid' => [
@@ -193,8 +193,6 @@ if (!function_exists('getOBXdataAsHTML')) {
             case 'MED':
             case 'DS': //DISCHARGE SUMMERY
                 return cleanHL7Text($data);
-
-                return $data;
                 break;
             case 'RTF':
                 return $data;
@@ -210,29 +208,5 @@ if (!function_exists('getArrayKeyOrString')) {
     function getArrayKeyOrString($data, $key)
     {
         return is_array($data) ? $data[$key] :  $data;
-    }
-}
-
-if (!function_exists('formatHL7BodyToHTML')) {
-    function formatHL7BodyToHTML($datContentArray)
-    {
-        $contentHTML = "";
-        foreach ($datContentArray as  $data) {
-            if ($data['type'] == 'PDF') {
-
-                $contentHTML .=  "<iframe class='pdf-iframe' src='data:application/pdf;base64," . $data['content'] . "'>";
-            } else {
-                if (is_array($data['content'])) {
-                    foreach ($data['content'] as $data) {
-                        $contentHTML .= $data;
-                    }
-                } else {
-                    $contentHTML .= $data['content'];
-                }
-            }
-            $contentHTML .= '<br/>';
-        }
-
-        return $contentHTML;
     }
 }

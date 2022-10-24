@@ -32,7 +32,8 @@ return new class extends Migration {
             $table->string('birth_place_code')->nullable();
             $table->string('country_of_birth')->nullable();
             $table->string('birth_state')->nullable();
-            $table->boolean('aborginality')->default(false);
+            $table->enum('race', [1, 2, 3, 4, 9])
+            ->default(9);
             $table->string('occupation')->nullable();
             $table->integer('height')->nullable();
             $table->integer('weight')->nullable();
