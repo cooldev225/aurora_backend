@@ -28,6 +28,7 @@ class Patient extends Model
         'active_alerts',
         'gender_name',
         'allergies',
+        'sex_format_hl7'
     ];
 
 
@@ -35,6 +36,24 @@ class Patient extends Model
     {
         return $this->alerts->where('is_dismissed', 0);
     }
+
+    public function getSexFormatHl7Attribute()
+    {
+        switch ($this->gender) {
+            case 1:
+                return 'M';
+            case 2:
+
+                return 'F';
+            case 3:
+
+                return 'U';
+            case 9:
+
+                return 'O';
+        }
+    }
+
 
     public function getIntContactNumberAttribute()
     {
@@ -65,7 +84,8 @@ class Patient extends Model
         }
     }
 
-    public function getAllergiesAttribute() {
+    public function getAllergiesAttribute()
+    {
         return $this->allergies()->get();
     }
 
@@ -84,11 +104,11 @@ class Patient extends Model
     public function appointments()
     {
         return $this->hasMany(Appointment::class, 'patient_id')
-        ->with('appointment_type')
-        ->with('referral')
-        ->where('organization_id', auth()->user()->organization_id)
-        ->orderBy('date', 'DESC')
-        ->orderBy('start_time', 'DESC');
+            ->with('appointment_type')
+            ->with('referral')
+            ->where('organization_id', auth()->user()->organization_id)
+            ->orderBy('date', 'DESC')
+            ->orderBy('start_time', 'DESC');
     }
 
     /**
@@ -114,8 +134,8 @@ class Patient extends Model
     public function upcoming_appointments()
     {
         return $this->hasMany(Appointment::class, 'patient_id')
-        ->where('date', '>=', date('Y-m-d'))
-        ->with('appointment_type');
+            ->where('date', '>=', date('Y-m-d'))
+            ->with('appointment_type');
     }
 
     /**
@@ -142,7 +162,8 @@ class Patient extends Model
         return $this->belongsToMany(Organization::class);
     }
 
-    public function isPartOfOrganization($organization_id){
+    public function isPartOfOrganization($organization_id)
+    {
         return $this->organizations()->where('organization_id', $organization_id)->exists();
     }
 }

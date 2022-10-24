@@ -2,14 +2,15 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Appointment;
+
 use App\Models\Patient;
 use App\Models\PatientDocument;
-use App\Notifications\AppointmentNotification;
+use App\Models\SpecialistClinicRelation;
+use App\Models\User;
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-use Aranyasen\HL7\Message; 
+use Aranyasen\HL7\Message;
+use Carbon\Carbon;
 
 class HealthlinkCheck extends Command
 {
@@ -34,57 +35,75 @@ class HealthlinkCheck extends Command
      */
     public function handle()
     {
-        $this->info("Checking HealthLink Server");
-    
-      
         $newMessages =  Storage::disk('healthlink')->files('HL7_in');
-        //Turn into a queue
+
         foreach ($newMessages as $message) {
-            $HL7messageRaw = Storage::disk('healthlink')->get($message);        
-            //$HL7data = getDataFromHL7($HL7messageRaw);
-           // echo $HL7messageRaw;
-            echo $HL7messageRaw;
-  /*
-            // Match the location up with their EDI to ensure correct patient and specialsit are.
+            $HL7messageRaw = Storage::disk('healthlink')->get($message);
 
-            //Set org using the above
-            $organization_id = 1;
+            $msg = new Message($HL7messageRaw);
+            $msh = $msg->getSegmentsByName("MSH")[0];
+            $messageType = $msh->getField(9)[0];
+            if ($messageType == "REF") {
+                $data = parseHeathLinkHL7RefMessage($msg);
+            } else {
+                $data =  parseHeathLinkHL7OruMessage($msg);
+            }
 
-            //Set the patient for the document
-            $patient = Patient::
-            where('first_name',$HL7data['patient_first_name'])
-            ->where('last_name',$HL7data['patient_last_name'])
-            ->where('date_of_birth', $HL7data['patient_date_of_birth'])
-            ->first();
-            $patient_id = $patient ? $patient->id : null;
+            $specialist = null; //Receiving Specialist
+            
+            foreach ($data['prds'] as $key => $value) {
+                if($value['provider_role'] == 'RT'){
+                    $providerNum = SpecialistClinicRelation::where('provider_number',$value['provider_number'])->first();
+                    $specialist = $providerNum ? User::where('id', $providerNum->specialist_id)->first() : null; 
+                    echo $specialist->full_name;
+                }else if ($value['provider_role'] == 'RP'){
+                    //echo 'Sending Provider Number: '. $value['provider_number'];
+                }
+            }
+            die();
+
+            // ATTEMPT ASSIGN SPECIALIST
+            $specialist = User::where('username', 'specialist')->first();
+            $organization_id = $specialist->organization_id;
+
+            if ($specialist) {
+
+                // ATTEMPT ASSIGN PATIENT
+                $patient = Patient::where('first_name',  $data['pid']['patient_first_name'])
+                    ->where('last_name',  $data['pid']['patient_last_name'])
+                    ->where('date_of_birth',  Carbon::parse($data['pid']['patient_dob'])->format('Y-m-d'));
+
+                $patient_id =   $patient->count() == 1 ?  $patient->first()->id : null;
+
+                PatientDocument::create([
+                    'organization_id'   => $organization_id,
+                    'patient_id'        => $patient_id,
+                    'specialist_id'     =>  $specialist->id,
+                    'document_name'     => 'TBD',
+                    'document_type'     => 'OTHER',
+                    'file_type'         => 'HTML',
+                    'document_body'     => $data['document_contents'],
+                    'origin'            => 'RECEIVED',
+                    'is_seen'           => 0,
+                    'created_by'        => 0,
+
+                ]);
+
+                // SEND ACK
+                $HL7messageRaw = Storage::disk('healthlink')->delete($message);
+            } else {
+
+                echo 'NO SPECIALIST FOUND';
+
+            }
+
+
+
+
 
         
-            //Set the Specialist for the document
-           $specialist_id = null;
-           
-            $documentBody = formatHL7BodyToHTML($HL7data['data_content']);
-
-            $this->info($documentBody );
-           PatientDocument::create([
-            'organization_id'   => $organization_id,
-            'patient_id'        => $patient_id,
-            'specialist_id'     => $specialist_id,
-            'document_name'     => 'TBD',
-            'document_type'     => 'OTHER',
-            'file_type'         => 'HTML',
-            'document_body'     => $documentBody,
-            'origin'            => 'RECEIVED',
-            'is_seen'           => 0,
-            'created_by'        => 0,
-
-           ]);
+          
             //Send ACK
-            //Parse from HL7 to PAtientDocument
-            //Remove from health server if required
-            //store file in db incase issue
-            */
         }
-
-        
     }
 }
