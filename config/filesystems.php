@@ -66,8 +66,8 @@ return [
             'password' => env('HEALTHLINK_SFTP_PASSWORD'),
          
             // Settings for SSH key based authentication with encryption password...
-            'privateKey' => env('HEALTHLINK_SFTP_PRIVATE_KEY'),
-            'passphrase' => env('HEALTHLINK_SFTP_PASSPHRASE'),
+            //'privateKey' => env('HEALTHLINK_SFTP_PRIVATE_KEY'),
+            //'passphrase' => env('HEALTHLINK_SFTP_PASSPHRASE'),
          
         ],
     ],

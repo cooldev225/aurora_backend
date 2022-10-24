@@ -36,14 +36,15 @@ class HealthlinkCheck extends Command
     {
         $this->info("Checking HealthLink Server");
     
-        /*
-        $newMessages =  Storage::disk('public')->files('HealthLinkIn');
-       
+      
+        $newMessages =  Storage::disk('healthlink')->files('HL7_in');
         //Turn into a queue
         foreach ($newMessages as $message) {
-            $HL7messageRaw = Storage::disk('public')->get($message);        
-            $HL7data = getDataFromHL7($HL7messageRaw);
-
+            $HL7messageRaw = Storage::disk('healthlink')->get($message);        
+            //$HL7data = getDataFromHL7($HL7messageRaw);
+           // echo $HL7messageRaw;
+            echo $HL7messageRaw;
+  /*
             // Match the location up with their EDI to ensure correct patient and specialsit are.
 
             //Set org using the above
@@ -81,7 +82,8 @@ class HealthlinkCheck extends Command
             //Parse from HL7 to PAtientDocument
             //Remove from health server if required
             //store file in db incase issue
-        }*/
+            */
+        }
 
         
     }
