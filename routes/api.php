@@ -53,7 +53,7 @@ use App\Http\Controllers\UserProfileSignatureController;
 use App\Http\Controllers\SpecialistController;
 
 use App\Models\AppointmentCodes;
-
+use App\Models\OutgoingMessageLog;
 
 /*
 |--------------------------------------------------------------------------
@@ -158,6 +158,11 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('hrm')->group(function () {
         Route::apiResource('/hrm-schedule-timeslot', HrmScheduleTimeslotController::class);
         Route::get('/anesthetists', [AnesthetistController::class, 'index']);
+    });
+
+    Route::prefix('communication')->group(function () {
+        Route::get('/outgoing-log',    [OutgoingMessageLog::class, 'index']);
+      
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

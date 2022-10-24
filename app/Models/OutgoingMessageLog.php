@@ -9,6 +9,18 @@ class OutgoingMessageLog extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['send_method','sending_doctor_name','sending_doctor_provider','receiving_doctor_name','receiving_doctor_provider'];
+    protected $fillable = [
+        'organization_id', 
+        'patient_id',
+        'message_contents',
+        'sending_user',
+        'sending_doctor_user',
+        'send_method', 
+        'send_status',
+        'sending_doctor_name',
+        'sending_doctor_provider',
+        'receiving_doctor_name',
+        'receiving_doctor_provider'
+    ];
 
 }
