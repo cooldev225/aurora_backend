@@ -3,8 +3,8 @@
 use Aranyasen\HL7\Message;
 use Carbon\Carbon;
 
-if (!function_exists('formatHL7Text')) {
-    function formatHL7Text($unformattedText)
+if (!function_exists('cleanHL7Text')) {
+    function cleanHL7Text($unformattedText)
     {
         if (is_array($unformattedText)) {
             implode("\.br\\", $unformattedText);
@@ -15,11 +15,12 @@ if (!function_exists('formatHL7Text')) {
         $formatted = str_replace("\E\\", "\\", $formatted);
         $formatted = str_replace("\T\\", "&", $formatted);
         $formatted = str_replace("\F\\", "|", $formatted);
-
+        $formatted = str_replace("\.ti\\", '&nbsp;&nbsp;&nbsp;&nbsp;', $formatted);
         $formatted = str_replace("\.nf\\", "", $formatted);
-        $formatted = str_replace("\H\\", "<span style='background: yellow'>",     $formatted);
-        $formatted = str_replace("\N\\", "</span>",     $formatted);
+        $formatted = str_replace("\H\\", "<strong>",     $formatted);
+        $formatted = str_replace("\N\\", "</strong>",     $formatted);
         $formatted = str_replace("\.br\\", "<br>",     $formatted);
+        $formatted = str_replace("quot;", "\"",     $formatted);
         return $formatted;
     }
 }
@@ -27,99 +28,188 @@ if (!function_exists('formatHL7Text')) {
 if (!function_exists('getDataFromHL7')) {
     function getDataFromHL7($hl7)
     {
-
-        $msg = new Message($hl7);
-
-        $msh = $msg->getSegmentsByName("MSH")[0];
-
-        //Application Info
-        $message_sending_application = $msh->getSendingApplication();
-        $message_receiving_application = $msh->getReceivingApplication();
-
-        // Sending Facility
-        $send_fal_frame = $msh->getSendingFacility();
-        $message_sending_facility_edi = is_array($send_fal_frame) ? $send_fal_frame[0] : $send_fal_frame;
-        $message_sending_facility_name = is_array($send_fal_frame) ? $send_fal_frame[1] : "";
-
-
-        // Receiving Facility
-        $rec_fal_frame = $msh->getReceivingFacility();
-        $message_receiving_facility_edi = is_array($rec_fal_frame) ? $rec_fal_frame[0] : $rec_fal_frame;
-        $message_receiving_facility_name = is_array($rec_fal_frame) ? $rec_fal_frame[1] : "";
-
-        // PATIENT DETAILS
-        $pid = $msg->getSegmentsByName("PID")[0];
-        $patient_first_name = $pid->getPatientName()[1];
-        $patient_last_name = $pid->getPatientName()[0];
-        $dob_str = $pid->getDateTimeOfBirth();
-        $dob_carbon = Carbon::create(substr($dob_str, 0, 4), substr($dob_str, 4, 2), substr($dob_str, 6, 2));
-        $patient_date_of_birth = $dob_carbon->toDateString();
-
-        //REFERRING DOCTOR
-        $pv1 = $msg->getSegmentsByName("PV1");
-        $referring_doctor_provider = "";
-        $receiving_doctor_provider = "";
-        if ($pv1) {
-            $pv1 = $pv1[0];
-
-            $ref_doc_frame = $pv1->getReferringDoctor();
-            $referring_doctor_provider = is_array($ref_doc_frame) ? $ref_doc_frame[0] : $ref_doc_frame;
-            //RECEIVING DOCTOR
-            $rec_doc_frame = $pv1->getConsultingDoctor();
-            $receiving_doctor_provider = is_array($rec_doc_frame) ? $rec_doc_frame[0] : $rec_doc_frame;
-        }
-
-
-        $data_content = [];
+        $msg = $hl7;
+        $data_content = '';
 
         foreach ($msg->getSegments() as $segment) {
             if ($segment->getName() == 'OBR') {
                 $serviceId = $segment->getUniversalServiceID();
-                $data_title = $serviceId ? '<strong>' . formatHL7Text($serviceId[1]) . '</strong>' : ''; //[4]
-                array_push($data_content, array('type' => 'TITLE', 'content' => $data_title));
+
+                if($msg->getSegmentsByName("MSH")[0]->getField(4) === "AUSTRALIAN CLINICAL LABS"){
+                    $title = $serviceId[1];
+                }
+                else if (!is_array($serviceId)) {
+                    $title = $serviceId;
+                } else if ($msg->getSegmentsByName("MSH")[0]->getField(9)[0] === "REF") {
+                    $title = getArrayKeyOrString($serviceId, 1);
+                } else {
+                    $title = getArrayKeyOrString($serviceId, 0);
+                }
+
+                $title_heading = '<h1>' . cleanHL7Text(ucwords(strtolower($title))) . '</h1>';
+                $data_content .= $title_heading  . '<br/>';
             } elseif ($segment->getName() == 'OBX') {
                 $type = $segment->getValueType(); // [2]
+
+
+
                 $observationValue = $segment->getObservationValue(); // [5]
                 $observationIdentifier = $segment->getObservationIdentifier(); // [3]
                 $observationUnit = $segment->getUnits(); // [6]
                 $observationReferenceRange = $segment->getReferenceRange(); //[7]
+                $displayType =  getArrayKeyOrString($observationIdentifier, 0);
+
+
+
                 switch ($type) {
-                    case 'NM':
-                        $formatted = $observationIdentifier[1] . ' : ' . $observationValue . ' ' . $observationUnit . ' (' . $observationReferenceRange . ')';
-                        array_push($data_content, array('type' => 'NUMERIC', 'content' => $formatted));
+                    case 'FT': //FORMATTED TEXT
+                    case 'ED': //ENCAPSULATED DATA
+                        $data = getOBXdataAsHTML($observationValue, $displayType);
                         break;
-                    case 'ED':
-                        if ($observationValue && $observationValue[1] == 'PDF') {
-                            array_push($data_content, array('type' => 'PDF', 'content' => $observationValue[3]));
-                        }
-                        break;
-                    case 'TX':
-                        $formatted = $observationIdentifier[1] . ' : ' . $observationValue . ' ' . $observationUnit;
-                        array_push($data_content, array('type' => 'TEXT', 'content' => $formatted));
-                        break;
-                    case 'FT':
-                        array_push($data_content, array('type' => 'FORMATTED_TEXT', 'content' =>  formatHL7Text($observationValue)));
+                    case 'NM': //NUMERIC
+                    case 'SN': //STRUCTURE NUMERIC
+                        $observationValue = is_array($observationValue) ? implode($observationValue) : $observationValue;
+                        $data = '&nbsp;&nbsp;&nbsp;&nbsp;' . $observationIdentifier[1] . ' : ' . $observationValue . ' ' . $observationUnit . ' (' . $observationReferenceRange . ')';
                         break;
                     default:
-                        array_push($data_content, array('type' => 'UNKNOWN', 'content' =>  $type));
+                        dd($observationValue);
+                        dd('DATA TYPE UNACCOUNTED FOR:' . $type);
+                        break;
                 }
+
+                $data_content .=  $data . '<br/>';
             }
         }
 
-        return $data = [
-            'patient_first_name'    => $patient_first_name,
-            'patient_last_name'     => $patient_last_name,
-            'patient_date_of_birth' => $patient_date_of_birth,
-            'message_sending_application' => $message_sending_application,
-            'message_sending_facility_edi' => $message_sending_facility_edi,
-            'message_sending_facility_name' => $message_sending_facility_name,
-            'message_receiving_application' => $message_receiving_application,
-            'message_receiving_facility_edi' => $message_receiving_facility_edi,
-            'message_receiving_facility_name' => $message_receiving_facility_name,
-            'referring_doctor_provider' => $referring_doctor_provider,
-            'receiving_doctor_provider' => $receiving_doctor_provider,
-            'data_content' => $data_content,
+
+        return $data_content;
+    }
+}
+
+if (!function_exists('parseHeathLinkHL7RefMessage')) {
+    function parseHeathLinkHL7RefMessage($msg, $filename = "")
+    {
+
+        $msh = $msg->getSegmentsByName("MSH")[0];
+        $rf1 = $msg->getSegmentsByName("RF1")[0];
+        $pid = $msg->getSegmentsByName("PID")[0];
+        $prds = [];
+
+        foreach ($msg->getSegmentsByName("PRD") as $prd) {
+            $prdArr = [
+                'provider_role'    => getArrayKeyOrString($prd->getField(1), 0),
+                'provider_number'  => getArrayKeyOrString($prd->getField(7), 0),
+            ];
+            array_push($prds, $prdArr);
+        }
+
+        $data_content = getDataFromHL7($msg);
+
+        return  [
+            'file_name' => $filename, // For testing purposes only
+            'msh' => [
+                'sending_application'   => $msh->getField(3),
+                'sending_facility'      => getArrayKeyOrString($msh->getField(4), 0),
+                'receiving_application' => $msh->getField(5),
+                'receiving_facility'    => $msh->getField(6),
+                'message_time'          => $msh->getField(7),
+                'message_type'          => $msh->getField(9)[0],
+            ],
+            'rf1' => [
+                'referral_status'       => getArrayKeyOrString($rf1->getField(1), 0), //P^Pending^HL70283
+                'referral_priority'     => getArrayKeyOrString($rf1->getField(2), 0), //R^Routine^HL70280
+                'referral_type'         =>  getArrayKeyOrString($rf1->getField(3), 0), //MED^Medical^HL70281
+                'referral_disposition'  => $rf1->getField(4) ? $rf1->getField(4)[1] : "", //DS^Discharge Summary^HL70282
+                'referral_reason'       => $rf1->getField(10) ? $rf1->getField(10)[1]  : "", //E^Event Summary^HL70336
+            ],
+            'prds' => $prds,
+            'pid' => [
+                'patient_first_name' => $pid->getField(5)[1],
+                'patient_last_name'  => $pid->getField(5)[0],
+                'patient_dob'       => $pid->getField(7),
+
+            ],
+            'document_contents' => $data_content,
         ];
+    }
+}
+
+if (!function_exists('parseHeathLinkHL7OruMessage')) {
+    function parseHeathLinkHL7OruMessage($msg, $filename = "")
+    {
+
+        $msh = $msg->getSegmentsByName("MSH")[0];
+        $pid = $msg->getSegmentsByName("PID")[0];
+        $pv1 = $msg->getSegmentsByName("PV1")[0];
+        $data_content = getDataFromHL7($msg);
+
+        return  [
+            'file_name' => $filename, // For testing purposes only
+            'file_number' => $filename, // For testing purposes only
+            'msh' => [
+                'sending_application'   => $msh->getField(3),
+                'sending_facility'      => getArrayKeyOrString($msh->getField(4), 0),
+                'receiving_application' => $msh->getField(5),
+                'receiving_facility'    => $msh->getField(6),
+                'message_time'          => $msh->getField(7),
+                'message_type'          => $msh->getField(9)[0],
+            ],
+            'pid' => [
+                'patient_first_name' => $pid->getField(5)[1],
+                'patient_last_name'  => $pid->getField(5)[0],
+                'patient_dob'       => $pid->getField(7),
+
+            ],
+            'pv1' => [
+                'attending_doctor' => $pv1->GetField(7)[0],
+                'referring_doctor' => $pv1->GetField(8)[0],
+                'consulting_doctor'=> $pv1->GetField(9)[0],
+            ],
+            'document_contents' => $data_content,
+        ];
+    }
+}
+
+if (!function_exists('getOBXdataAsHTML')) {
+    function getOBXdataAsHTML($data, $type)
+    {
+        // TYPES: PDF -- HTML -- LETTER -- TXT -- FT -- DS
+
+        if (is_array($data) && $type != 'PDF') {
+            $data = implode($data); // This is because in some case incoming messages add '&' unescaped and HL7 parser splits that string to an array
+        }
+
+        switch ($type) {
+            case 'PDF':
+                if (count($data) == 5) {
+                    return "<iframe class='pdf-iframe' src='data:application/pdf;base64," . $data[4] . "'>";
+                }
+                return "<iframe class='pdf-iframe' src='data:application/pdf;base64," . $data[3] . "'>";
+            case 'HTML':
+            case 'LETTER': // 
+            case 'TXT':
+            case 'FT': // Formatted Text
+            case 'REF':
+            case 'MED':
+            case 'DS': //DISCHARGE SUMMERY
+                return cleanHL7Text($data);
+
+                return $data;
+                break;
+            case 'RTF':
+                return $data;
+                break;
+            default:
+                return cleanHL7Text($data);
+                break;
+        }
+    }
+}
+
+if (!function_exists('getArrayKeyOrString')) {
+    function getArrayKeyOrString($data, $key)
+    {
+        return is_array($data) ? $data[$key] :  $data;
     }
 }
 
@@ -129,9 +219,16 @@ if (!function_exists('formatHL7BodyToHTML')) {
         $contentHTML = "";
         foreach ($datContentArray as  $data) {
             if ($data['type'] == 'PDF') {
+
                 $contentHTML .=  "<iframe class='pdf-iframe' src='data:application/pdf;base64," . $data['content'] . "'>";
             } else {
-                $contentHTML .= $data['content'];
+                if (is_array($data['content'])) {
+                    foreach ($data['content'] as $data) {
+                        $contentHTML .= $data;
+                    }
+                } else {
+                    $contentHTML .= $data['content'];
+                }
             }
             $contentHTML .= '<br/>';
         }

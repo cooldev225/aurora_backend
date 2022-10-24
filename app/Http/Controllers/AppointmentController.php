@@ -18,7 +18,6 @@ use App\Models\Organization;
 use App\Models\User;
 use App\Notifications\AppointmentNotification;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 
 class AppointmentController extends Controller
 {

@@ -21,34 +21,26 @@ class HL7TestController extends Controller
     {
 
         $testHL7Content = '';
-        $fileNo = $request->file_num ? $request->file_num : rand(1, 33);
+        $fileNo = $request->file_num ? $request->file_num : rand(1, 21);
         $filename = "storage/testHL7/1 (" . $fileNo . ").hl7";
         $file = file($filename);
         foreach ($file as $line) {
             $testHL7Content .= $line;
         }
 
-        $HL7data = getDataFromHL7($testHL7Content);
-        $htmlData = formatHL7BodyToHTML($HL7data['data_content']);
+        $msg = new Message($testHL7Content);
+        $msh = $msg->getSegmentsByName("MSH")[0];
+        $messageType = $msh->getField(9)[0];
+        if($messageType =="REF"){
+            return view('hl7ParsingREF', parseHeathLinkHL7RefMessage($msg, $filename));
+        }else{
+            return view('hl7ParsingORU', parseHeathLinkHL7OruMessage($msg, $filename));
+        } 
 
-        $data = [
-            'patient_first_name'    =>  $HL7data['patient_first_name'],
-            'patient_last_name'     => $HL7data['patient_last_name'],
-            'patient_date_of_birth' => $HL7data['patient_date_of_birth'],
-            'message_sending_application' => $HL7data['message_sending_application'],
-            'message_sending_facility_edi' => $HL7data['message_sending_facility_edi'],
-            'message_sending_facility_name' => $HL7data['message_sending_facility_name'],
-            'message_receiving_application' => $HL7data['message_receiving_application'],
-            'message_receiving_facility_edi' => $HL7data['message_receiving_facility_edi'],
-            'message_receiving_facility_name' => $HL7data['message_receiving_facility_name'],
-            'referring_doctor_provider' => $HL7data['referring_doctor_provider'],
-            'receiving_doctor_provider' => $HL7data['receiving_doctor_provider'],
-            'data_content' => $htmlData,
-            'file_name' => $filename,
-        ];
-        return view('hl7Parsing', $data);
     }
 
+
+   
     public function testHL7Create(Request $request){
         $msg = new Message();
 
