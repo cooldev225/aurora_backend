@@ -56,6 +56,20 @@ return [
             ),
             'throw' => false,
         ],
+
+        'healthlink' => [
+            'driver' => 'sftp',
+            'host' => env('HEALTHLINK_SFTP_HOST'),
+
+            // Settings for basic authentication...
+            'username' => env('HEALTHLINK_SFTP_USERNAME'),
+            'password' => env('HEALTHLINK_SFTP_PASSWORD'),
+         
+            // Settings for SSH key based authentication with encryption password...
+            'privateKey' => env('HEALTHLINK_SFTP_PRIVATE_KEY'),
+            'passphrase' => env('HEALTHLINK_SFTP_PASSPHRASE'),
+         
+        ],
     ],
 
     /*

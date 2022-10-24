@@ -17,6 +17,7 @@
         "laravel/framework": "^9.11",
         "laravel/sanctum": "^2.14.1",
         "laravel/tinker": "^2.7",
+        "league/flysystem-sftp-v3": "^3.0",
         "twilio/sdk": "^6.38",
         "tymon/jwt-auth": "*"
     },

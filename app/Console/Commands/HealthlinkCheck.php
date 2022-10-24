@@ -34,6 +34,9 @@ class HealthlinkCheck extends Command
      */
     public function handle()
     {
+        $this->info("Checking HealthLink Server");
+    
+        /*
         $newMessages =  Storage::disk('public')->files('HealthLinkIn');
        
         //Turn into a queue
@@ -78,7 +81,7 @@ class HealthlinkCheck extends Command
             //Parse from HL7 to PAtientDocument
             //Remove from health server if required
             //store file in db incase issue
-        }
+        }*/
 
         
     }
