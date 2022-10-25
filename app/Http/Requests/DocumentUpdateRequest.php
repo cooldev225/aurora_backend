@@ -24,11 +24,15 @@ class DocumentUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_id'    => 'nullable|integer',
-            'appointment_id'=> 'nullable|integer',
-            'specialist_id' => 'nullable|integer',
-            'document_name' =>  'required|string',
-            'document_type' => 'required|in:LETTER,REPORT,CLINICAL_NOTE,PATHOLOGY_REPORT,AUDIO,USB_CAPTURE,OTHER',
+            'patient_id'                    => 'nullable|integer',
+            'document_id'                   => 'nullable|integer',
+            'is_read'                       => 'nullable|integer',
+            'is_urgent'                     => 'nullable|integer',
+            'is_incorrectly_assigned'       => 'nullable|integer',
+            'appointment_id'                => 'nullable|integer',
+            'specialist_id'                 => 'nullable|integer',
+            'document_name'                 =>  'required|string',
+            'document_type'                 => 'required|in:LETTER,REPORT,CLINICAL_NOTE,PATHOLOGY_REPORT,AUDIO,USB_CAPTURE,OTHER',
         ];
     }
 }
