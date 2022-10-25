@@ -31,7 +31,7 @@ class UserController extends Controller
             $organization->id
         )->wherenot('role_id', UserRole::ADMIN)
         ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
-        ->with('scheduleTimeslots')
+        ->with('scheduleTimeslots','scheduleTimeslots.anesthetist')
         ->with('specialistClinicRelations');
 
         foreach ($params as $column => $param) {

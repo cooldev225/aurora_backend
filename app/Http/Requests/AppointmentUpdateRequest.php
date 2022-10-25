@@ -41,7 +41,7 @@ use Illuminate\Validation\Rules\Enum;
 * @bodyParam health_care_card_date           date                  The patients health care card expiry date
 * @bodyParam health_fund_id                  number                The patients health fund id
 * @bodyParam health_fund_membership_number   number                The patients health fund membership number
-* @bodyParam health_fund_reference_number    number                The patients health fund reference number   
+* @bodyParam health_fund_reference_number    number                The patients health fund reference number
 * @bodyParam health_fund_expiry_date         date                  The patients health fund expiry date
 *
 * @bodyParam referring_doctor_id             int        required   The id of the referring doctor                                         Example: 2
