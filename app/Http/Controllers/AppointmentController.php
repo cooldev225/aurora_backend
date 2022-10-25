@@ -30,7 +30,7 @@ class AppointmentController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', Appointment::class);
-    
+        
         $appointments = Appointment::
                             where('organization_id', auth()->user()->organization_id)
                             ->with('appointment_type')
@@ -45,7 +45,6 @@ class AppointmentController extends Controller
             if($column == 'date'){
                 $param = Carbon::parse($param)->format('Y-m-d');
             }
-            Log::info('inside date param'. $request->date);
             $appointments = $appointments->where($column, '=', $param);
             
         }
