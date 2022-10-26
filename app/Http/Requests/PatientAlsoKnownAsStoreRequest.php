@@ -26,7 +26,7 @@ class PatientAlsoKnownAsStoreRequest extends FormRequest
         return [
             'first_name' => 'required|string',
             'last_name'  => 'required|string',
-            'patient_id' => 'required|exists:patients',
+            'patient_id' => 'required|exists:patients,id',
         ];
     }
 }

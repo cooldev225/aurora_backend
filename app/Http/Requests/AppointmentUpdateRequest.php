@@ -83,6 +83,8 @@ class AppointmentUpdateRequest extends FormRequest
             'time_slot'                 => 'required|array',
             'note'                      => 'nullable|string',
             'charge_type'               => [new Enum(ChargeType::class)],
+            'claim_sources'             => 'nullable|array',
+            'also_known_as'             => 'nullable|array',
 
             ...$patient_request->rules(),
             ...$appointment_referral_request->rules(),
