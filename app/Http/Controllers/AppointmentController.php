@@ -39,6 +39,7 @@ class AppointmentController extends Controller
             ->with('appointment_type')
             ->with('referral')
             ->with('anesthetist')
+            ->with('specialist.scheduleTimeslots.anesthetist')
             ->orderBy('date')
             ->orderBy('start_time');
 
@@ -47,8 +48,14 @@ class AppointmentController extends Controller
 
             if ($column == 'date') {
                 $param = Carbon::parse($param)->format('Y-m-d');
+                $day = strtoupper(Carbon::parse($param)->format('D'));
+                $appointments = $appointments->with(['specialist.scheduleTimeslots' => function ($query) use ($day) {
+                    $query->where('week_day', $day);
+                }
+                ]);
+            } else {
+                $appointments = $appointments->where($column, '=', $param);
             }
-            $appointments = $appointments->where($column, '=', $param);
         }
         if ($request->has('date')) {
             $date = Carbon::create($request->date)->toDateString();
