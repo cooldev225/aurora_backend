@@ -33,7 +33,7 @@ class UserController extends Controller
         )
         ->wherenot('role_id', UserRole::ADMIN)
         ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
-        ->with('scheduleTimeslots','scheduleTimeslots.anesthetist')
+        ->with('scheduleTimeslots', 'scheduleTimeslots.anesthetist')
         ->with('specialistClinicRelations');
 
         foreach ($params as $column => $param) {
@@ -45,7 +45,12 @@ class UserController extends Controller
                     $users ->whereHas('scheduleTimeslots', function($query) use ($day)
                     {
                         $query->where('week_day', $day);
-                    });
+                    })->with([
+                        'scheduleTimeslots' => function ($query) use ($day) {
+                            $query->where('week_day', $day)
+                                ->with('anesthetist');
+                        }
+                    ]);
                 }
             }
         }
