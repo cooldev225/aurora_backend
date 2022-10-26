@@ -19,6 +19,21 @@ class PatientAlsoKnownAsController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('create', PatientBilling::class);
+
+        $existingAka = PatientAlsoKnownAs::wherePatientId($request->patient_id)
+                                         ->whereFirstName($request->first_name)
+                                         ->whereLastName($request->last_name)
+                                         ->first();
+        
+        if ($existingAka) {
+            return response()->json(
+                [
+                    'message' => 'Patient Also Known As already exists',
+                    'data' => $existingAka,
+                ],
+                Response::HTTP_OK
+            );
+        }
         
         $patientAlsoKnownAs = PatientAlsoKnownAs::create($request->validated());
 
