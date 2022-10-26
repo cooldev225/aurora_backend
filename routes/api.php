@@ -48,7 +48,7 @@ use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
 
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
-
+use App\Http\Controllers\PatientAlsoKnownAsController;
 use App\Http\Controllers\UserProfileSignatureController;
 use App\Http\Controllers\SpecialistController;
 
@@ -139,30 +139,35 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Patient Routes
     Route::prefix('patients')->group(function () {
-        Route::get('/appointments/{patient}',       [PatientController::class, 'appointments']);
-        Route::put('/billing',                      [PatientBillingController::class, 'store']);
-        Route::put('/billing/{patientBilling}',     [PatientBillingController::class, 'update']);
-        Route::delete('/billing/{patientBilling}',  [PatientBillingController::class, 'delete']);
+        Route::get('/appointments/{patient}',                 [PatientController::class, 'appointments']);
 
-        Route::apiResource('/recalls',              PatientRecallController::class, ['except' => ['show', 'index']]);
-        Route::get('/recalls/{patient}',            [PatientRecallController::class, 'index']);
+        Route::put('/billing',                                [PatientBillingController::class, 'store']);
+        Route::put('/billing/{patientBilling}',               [PatientBillingController::class, 'update']);
+        Route::delete('/billing/{patientBilling}',            [PatientBillingController::class, 'delete']);
+        
+        Route::put('/also-known-as',                          [PatientAlsoKnownAsController::class, 'store']);
+        Route::put('/also-known-as/{patientAlsoKnownAs}',     [PatientAlsoKnownAsController::class, 'update']);
+        Route::delete('/also-known-as/{patientAlsoKnownAs}',  [PatientAlsoKnownAsController::class, 'delete']);
+
+        Route::apiResource('/recalls',                        PatientRecallController::class, ['except' => ['show', 'index']]);
+        Route::get('/recalls/{patient}',                      [PatientRecallController::class, 'index']);
 
         Route::prefix('documents')->group(function () {
-            Route::post('/{patient}',               [PatientDocumentController::class, 'store']);
-            Route::post('report/{patient}',         [PatientDocumentReportController::class, 'store']);
+            Route::post('/{patient}',                         [PatientDocumentController::class, 'store']);
+            Route::post('report/{patient}',                   [PatientDocumentReportController::class, 'store']);
         });
 
-        Route::post('/alerts', [PatientAlertController::class, 'store']);
-        Route::put('/alerts/{patient_alert}',       [PatientAlertController::class, 'update']);
+        Route::post('/alerts',                                [PatientAlertController::class, 'store']);
+        Route::put('/alerts/{patient_alert}',                 [PatientAlertController::class, 'update']);
     });
 
     Route::prefix('hrm')->group(function () {
         Route::apiResource('/hrm-schedule-timeslot', HrmScheduleTimeslotController::class);
-        Route::get('/anesthetists', [AnesthetistController::class, 'index']);
+        Route::get('/anesthetists',                  [AnesthetistController::class, 'index']);
     });
 
     Route::prefix('communication')->group(function () {
-        Route::get('/outgoing-log',    [OutgoingMessageLog::class, 'index']);
+        Route::get('/outgoing-log', [OutgoingMessageLog::class, 'index']);
       
     });
 
