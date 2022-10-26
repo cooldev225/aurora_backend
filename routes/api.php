@@ -64,7 +64,6 @@ use App\Models\OutgoingMessageLog;
 | routes are loaded by the RouteServiceProvider within a group which
 | is assigned the "api" middleware group. Enjoy building your API!
 |
-|DEPLOY TEST COMMENT
 */
 
 Route::post('/login', [UserAuthenticationController::class, 'login']);
