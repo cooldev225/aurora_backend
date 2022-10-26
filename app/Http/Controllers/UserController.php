@@ -6,6 +6,7 @@ use App\Enum\UserRole;
 use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserRequest;
 use App\Mail\NewEmployee;
+use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
@@ -29,14 +30,28 @@ class UserController extends Controller
         $users = User::where(
             'organization_id',
             $organization->id
-        )->wherenot('role_id', UserRole::ADMIN)
+        )
+        ->wherenot('role_id', UserRole::ADMIN)
         ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
-        ->with('scheduleTimeslots','scheduleTimeslots.anesthetist')
+        ->with('scheduleTimeslots', 'scheduleTimeslots.anesthetist')
         ->with('specialistClinicRelations');
 
         foreach ($params as $column => $param) {
             if (!empty($param)) {
-                $users = $users->where($column, '=', $param);
+                if ($column !== "date") {
+                    $users = $users->where($column, '=', $param);
+                } else {
+                    $day = strtoupper(Carbon::parse($params["date"])->format('D'));
+                    $users ->whereHas('scheduleTimeslots', function($query) use ($day)
+                    {
+                        $query->where('week_day', $day);
+                    })->with([
+                        'scheduleTimeslots' => function ($query) use ($day) {
+                            $query->where('week_day', $day)
+                                ->with('anesthetist');
+                        }
+                    ]);
+                }
             }
         }
 
