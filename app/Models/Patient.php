@@ -24,11 +24,12 @@ class Patient extends Model
     protected $appends = [
         'full_name',
         'billing',
+        'also_known_as',
         'int_contact_number',
         'active_alerts',
         'gender_name',
         'allergies',
-        'sex_format_hl7'
+        'sex_format_hl7',
     ];
 
 
@@ -97,6 +98,16 @@ class Patient extends Model
     {
         return $this->hasMany(PatientBilling::class, 'patient_id');
     }
+
+
+    /**
+     * Return Patient Also Known As
+     */
+    public function also_known_as()
+    {
+        return $this->hasMany(PatientAlsoKnownAs::class);
+    }
+
 
     /**
      * Return Patient Appointment
