@@ -199,7 +199,8 @@ class AppointmentController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $appointment);
         $this->authorize('update', $appointment->patient);
-        $this->authorize('update', $appointment->patient->billing->first());
+        if($appointment->patient->billing->first())
+            $this->authorize('update', $appointment->patient->billing->first());
         $this->authorize('update', $appointment->referral->first());
 
         $appointment->update([
@@ -218,9 +219,9 @@ class AppointmentController extends Controller
             'address'                       => $request->address,
             'email'                         => $request->email,
             'appointment_confirm_method'     => $request->appointment_confirm_method,
-            'allergies'                     => $request->allergies,
+            //'allergies'                     => $request->allergies,
             'clinical_alerts'               => $request->clinical_alerts,
-        ]);
+        ]);      
 
         //return ($appointment);
         $patient = Patient::find($request->patient_id);
