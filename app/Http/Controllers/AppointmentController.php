@@ -40,6 +40,7 @@ class AppointmentController extends Controller
             ->with('appointment_type')
             ->with('referral')
             ->with('anesthetist')
+            ->with('specialist.scheduleTimeslots.anesthetist')
             ->orderBy('date')
             ->orderBy('start_time');
 
