@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\ReferringDoctor;
+use App\Models\DoctorAddressBook;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -38,10 +38,10 @@ class ReferringDoctorPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ReferringDoctor  $referringDoctor
+     * @param  \App\Models\DoctorAddressBook  $referringDoctor
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, ReferringDoctor $referringDoctor)
+    public function view(User $user, DoctorAddressBook $referringDoctor)
     {
         return false;
     }
@@ -61,10 +61,10 @@ class ReferringDoctorPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ReferringDoctor  $referringDoctor
+     * @param  \App\Models\DoctorAddressBook  $referringDoctor
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, ReferringDoctor $referringDoctor)
+    public function update(User $user, DoctorAddressBook $referringDoctor)
     {
         return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']);
     }
@@ -73,10 +73,10 @@ class ReferringDoctorPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ReferringDoctor  $referringDoctor
+     * @param  \App\Models\DoctorAddressBook  $referringDoctor
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, ReferringDoctor $referringDoctor)
+    public function delete(User $user, DoctorAddressBook $referringDoctor)
     {
         return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'receptionist', 'anesthetist', 'specialist']);
     }
@@ -85,10 +85,10 @@ class ReferringDoctorPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ReferringDoctor  $referringDoctor
+     * @param  \App\Models\DoctorAddressBook  $referringDoctor
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, ReferringDoctor $referringDoctor)
+    public function restore(User $user, DoctorAddressBook $referringDoctor)
     {
         return false;
     }
@@ -97,10 +97,10 @@ class ReferringDoctorPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\ReferringDoctor  $referringDoctor
+     * @param  \App\Models\DoctorAddressBook  $referringDoctor
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, ReferringDoctor $referringDoctor)
+    public function forceDelete(User $user, DoctorAddressBook $referringDoctor)
     {
         return false;
     }

@@ -5,7 +5,7 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ReferringDoctor>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DoctorAddressBook>
  */
 class ReferringDoctorFactory extends Factory
 {

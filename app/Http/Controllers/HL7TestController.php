@@ -6,7 +6,7 @@ use App\Models\Appointment;
 use App\Models\OutgoingMessageLog;
 use App\Models\Patient;
 use App\Models\PatientDocument;
-use App\Models\ReferringDoctor;
+use App\Models\DoctorAddressBook;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,7 +49,7 @@ class HL7TestController extends Controller
     public function createHealthLinkMessage(
           //  User $specialist, 
           ////  Appointment $appointment, //Sender
-            ReferringDoctor $referringDoctor // Receiver
+          DoctorAddressBook $doctorAddressBook // Receiver
         ){
         $appointment = Appointment::first();
         $patient = Patient::where('id', $appointment->patient_id); /// FOR TESTING

@@ -27,7 +27,7 @@ use App\Models\ReportTemplate;
 use App\Policies\ClinicPolicy;
 use App\Models\AppointmentType;
 use App\Models\PatientDocument;
-use App\Models\ReferringDoctor;
+use App\Models\DoctorAddressBook;
 use App\Policies\PatientPolicy;
 use App\Policies\BirthCodePolicy;
 use App\Models\AnestheticQuestion;
@@ -118,7 +118,7 @@ class AuthServiceProvider extends ServiceProvider
         PreAdmissionConsent::class        => PreAdmissionConsentPolicy::class,
         PreAdmissionQuestion::class       => PreAdmissionQuestionPolicy::class,
         PreAdmissionSection::class        => PreAdmissionSectionPolicy::class,
-        ReferringDoctor::class            => ReferringDoctorPolicy::class,
+        DoctorAddressBook::class          => ReferringDoctorPolicy::class,
         ReportAutoText::class             => ReportAutoTextPolicy::class,
         ReportSection::class              => ReportSectionPolicy::class,
         ReportTemplate::class             => ReportTemplatePolicy::class,

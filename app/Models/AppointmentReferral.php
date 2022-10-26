@@ -37,7 +37,7 @@ class AppointmentReferral extends Model
      */
     public function referring_doctor()
     {
-        return $this->belongsTo(ReferringDoctor::class);
+        return $this->belongsTo(DoctorAddressBook::class);
     }
 
     public function getReferringDoctorNameAttribute()

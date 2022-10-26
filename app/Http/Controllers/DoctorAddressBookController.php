@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Models\ReferringDoctor;
+use App\Models\DoctorAddressBook;
 use App\Http\Requests\ReferringDoctorRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -18,9 +18,9 @@ class DoctorAddressBookController extends Controller
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAny', ReferringDoctor::class);
+        $this->authorize('viewAny', DoctorAddressBook::class);
 
-        $referringDoctors = ReferringDoctor::all();
+        $referringDoctors = DoctorAddressBook::all();
 
         return response()->json(
             [
@@ -39,9 +39,9 @@ class DoctorAddressBookController extends Controller
     public function list()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAny', ReferringDoctor::class);
+        $this->authorize('viewAny', DoctorAddressBook::class);
 
-        $referringDoctors = ReferringDoctor::select(
+        $referringDoctors = DoctorAddressBook::select(
             'id',
             DB::raw('CONCAT(title, " ", first_name, " ", last_name) AS full_name'),
             'title',
@@ -122,9 +122,9 @@ class DoctorAddressBookController extends Controller
     public function store(ReferringDoctorRequest $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('create', ReferringDoctor::class);
+        $this->authorize('create', DoctorAddressBook::class);
 
-        $referringDoctor = ReferringDoctor::create([
+        $referringDoctor = DoctorAddressBook::create([
             ...$request->validated()
         ]);
 
@@ -146,7 +146,7 @@ class DoctorAddressBookController extends Controller
      */
     public function update(
         ReferringDoctorRequest $request,
-        ReferringDoctor $referringDoctor
+        DoctorAddressBook $referringDoctor
     ) {
         // Verify the user can access this function via policy
         $this->authorize('update', $referringDoctor);
@@ -170,7 +170,7 @@ class DoctorAddressBookController extends Controller
      * @param  \App\Models\ReferringDoctor  $referringDoctor
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ReferringDoctor $referringDoctor)
+    public function destroy(DoctorAddressBook $referringDoctor)
     {
         // Verify the user can access this function via policy
         $this->authorize('delete', $referringDoctor);
