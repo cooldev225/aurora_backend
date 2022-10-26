@@ -71,6 +71,11 @@ class Patient extends Model
         return $this->billing()->get();
     }
 
+    public function getAlsoKnownAsAttribute()
+    {
+        return $this->also_known_as()->get();
+    }
+
     public function getGenderNameAttribute()
     {
         switch ($this->gender) {

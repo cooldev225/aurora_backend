@@ -15,6 +15,7 @@ use App\Models\PatientBilling;
 use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
+use App\Models\PatientAlsoKnownAs;
 use App\Models\User;
 use App\Notifications\AppointmentNotification;
 use Carbon\Carbon;
@@ -133,6 +134,13 @@ class AppointmentController extends Controller
             ]);
         }
 
+        foreach ($request->also_known_as as $known_as) {
+            PatientAlsoKnownAs::create([
+                'patient_id'  => $patient->id,
+                ...$known_as,
+            ]);
+        }
+
         $startTime = Carbon::create($request->start_time);
 
         $appointment = Appointment::create([
@@ -216,6 +224,22 @@ class AppointmentController extends Controller
 
         //return ($appointment);
         $patient = Patient::find($request->patient_id);
+
+        foreach ($request->claim_sources as $claim_source) {
+            PatientBilling::create([
+                'is_valid'    => true,
+                'verified_at' => now(),
+                'patient_id'  => $patient->id,
+                ...$claim_source,
+            ]);
+        }
+
+        foreach ($request->also_known_as as $known_as) {
+            PatientAlsoKnownAs::create([
+                'patient_id'  => $patient->id,
+                ...$known_as,
+            ]);
+        }
 
         $appointment->referral->update([
             'referring_doctor_id'           => $request->referring_doctor_id,
