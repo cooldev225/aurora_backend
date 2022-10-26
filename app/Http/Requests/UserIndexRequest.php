@@ -31,6 +31,7 @@ class UserIndexRequest extends FormRequest
             'first_name'    => 'nullable|string',
             'last_name'     => 'nullable|string',
             'date_of_birth' => 'nullable|date',
+            'date' => 'nullable|date',
         ];
     }
 }
