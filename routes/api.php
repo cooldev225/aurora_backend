@@ -140,6 +140,7 @@ Route::middleware(['auth'])->group(function () {
     // Patient Routes
     Route::prefix('patients')->group(function () {
         Route::get('/appointments/{patient}',       [PatientController::class, 'appointments']);
+        Route::put('/billing',                      [PatientBillingController::class, 'store']);
         Route::put('/billing/{patientBilling}',     [PatientBillingController::class, 'update']);
         Route::delete('/billing/{patientBilling}',  [PatientBillingController::class, 'delete']);
 

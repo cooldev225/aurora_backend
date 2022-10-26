@@ -19,11 +19,14 @@ class PatientBillingController extends Controller
     public function store(PatientBillingStoreRequest $request) {
         // Verify the user can access this function via policy
         $this->authorize('create', PatientBilling::class);
+        
+        $concession = $request->safe()->only(['has_medicare_concession']);
 
         $patient_billing = PatientBilling::create([
             'is_valid'    => true,
             'verified_at' => now(),
-            ...$request->validated(),
+            'has_medicare_concession' => $concession['has_medicare_concession'] ?? false,
+            ...$request->safe()->except(['has_medicare_concession']),
         ]);
 
         return response()->json(
