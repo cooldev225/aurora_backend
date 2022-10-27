@@ -25,7 +25,7 @@ class AppointmentReferralFactory extends Factory
         );
 
         return [
-            'referring_doctor_id'   => DoctorAddressBook::inRandomOrder()->first()->id,
+            'doctor_address_book_id'=> DoctorAddressBook::inRandomOrder()->first()->id,
             'is_no_referral'        => $this->faker->boolean(),
             'no_referral_reason'    => $this->faker->randomElement([
                 'EMERGENCY',

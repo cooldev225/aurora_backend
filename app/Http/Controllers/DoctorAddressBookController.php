@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 class DoctorAddressBookController extends Controller
 {
     /**
-     * [Referring Doctor] - All
+     * [Doctor Address Book] - All
      *
      * @return \Illuminate\Http\Response
      */
@@ -24,7 +24,7 @@ class DoctorAddressBookController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Referring Doctor List',
+                'message'   => 'Doctor Address Book List',
                 'data'      => $doctorAddressBooks,
             ],
             Response::HTTP_OK
@@ -32,7 +32,7 @@ class DoctorAddressBookController extends Controller
     }
 
     /**
-     * [Referring Doctor] - List
+     * [Doctor Address Book] - List
      *
      * @return \Illuminate\Http\Response
      */
@@ -53,7 +53,7 @@ class DoctorAddressBookController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Referring Doctor List',
+                'message'   => 'Doctor Address Book List',
                 'data'      => $doctorAddressBooks,
             ],
             Response::HTTP_OK
@@ -61,7 +61,7 @@ class DoctorAddressBookController extends Controller
     }
 
     /**
-     * [Referring Doctor] - Search
+     * [Doctor Address Book] - Search
      *
      * @return \Illuminate\Http\Response
      */
@@ -114,7 +114,7 @@ class DoctorAddressBookController extends Controller
     }
 
     /**
-     * [Referring Doctor] - Store
+     * [Doctor Address Book] - Store
      *
      * @param  \App\Http\Requests\DoctorAddressBookRequest  $request
      * @return \Illuminate\Http\Response
@@ -130,7 +130,7 @@ class DoctorAddressBookController extends Controller
 
         return response()->json(
             [
-                'message' => 'New Referring Doctor created',
+                'message' => 'New Doctor Address Book created',
                 'data' => $doctorAddressBook,
             ],
             Response::HTTP_CREATED
@@ -138,7 +138,7 @@ class DoctorAddressBookController extends Controller
     }
 
     /**
-     * [Referring Doctor] - Update
+     * [Doctor Address Book] - Update
      *
      * @param  \App\Http\Requests\DoctorAddressBookRequest  $request
      * @param  \App\Models\DoctorAddressBook  $doctorAddressBook
@@ -157,7 +157,7 @@ class DoctorAddressBookController extends Controller
 
         return response()->json(
             [
-                'message' => 'Referring Doctor updated',
+                'message' => 'Doctor Address Book updated',
                 'data' => $doctorAddressBook,
             ],
             Response::HTTP_OK
@@ -165,7 +165,7 @@ class DoctorAddressBookController extends Controller
     }
 
     /**
-     * [Referring Doctor] - Destroy
+     * [Doctor Address Book] - Destroy
      *
      * @param  \App\Models\DoctorAddressBook  $doctorAddressBook
      * @return \Illuminate\Http\Response
@@ -179,7 +179,7 @@ class DoctorAddressBookController extends Controller
 
         return response()->json(
             [
-                'message' => 'Referring Doctor Removed',
+                'message' => 'Doctor Address Book Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

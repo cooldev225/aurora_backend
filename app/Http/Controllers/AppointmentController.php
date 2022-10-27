@@ -157,7 +157,7 @@ class AppointmentController extends Controller
 
         AppointmentReferral::create([
             'appointment_id'                => $appointment->id,
-            'referring_doctor_id'           => $request->referring_doctor_id,
+            'doctor_address_book_id'           => $request->doctor_address_book_id,
             'referral_date'                 =>  Carbon::create($request->referral_date)->toDateString(),
             'referral_duration'             => $request->referral_duration,
             'is_no_referral'                => false,
@@ -218,7 +218,7 @@ class AppointmentController extends Controller
         $patient = Patient::find($request->patient_id);
 
         $appointment->referral->update([
-            'referring_doctor_id'           => $request->referring_doctor_id,
+            'doctor_address_book_id'           => $request->doctor_address_book_id,
             'referral_date'                 =>  Carbon::create($request->referral_date)->toDateString(),
             'referral_duration'             => $request->referral_duration,
             'is_no_referral'                => false,
