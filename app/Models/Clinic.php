@@ -17,7 +17,7 @@ class Clinic extends Model
         'default_start_time', 'default_end_time', 'default_meal_time',
         'latest_invoice_no', 'latest_invoice_pathology_no',
         'centre_serial_no', 'centre_last_invoice_serial_no', 'lspn_id',
-        'healthlink_edi'
+        'healthlink_edi', 'minor_id'
 
     ];
 
