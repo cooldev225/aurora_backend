@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\DoctorAddressBook>
  */
-class ReferringDoctorFactory extends Factory
+class DoctorAddressBookFactory extends Factory
 {
     /**
      * Define the model's default state.

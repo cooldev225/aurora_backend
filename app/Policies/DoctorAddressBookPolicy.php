@@ -6,7 +6,7 @@ use App\Models\DoctorAddressBook;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class ReferringDoctorPolicy
+class DoctorAddressBookPolicy
 {
     use HandlesAuthorization;
 

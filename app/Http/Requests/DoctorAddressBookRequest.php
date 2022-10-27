@@ -22,7 +22,7 @@ use Illuminate\Foundation\Http\FormRequest;
 * @bodyParam practice_name   string   required  The name of the referring doctors practice                   Example: Sam Citizen's Practice
 * @bodyParam healthlink_edi  string                      
 */
-class ReferringDoctorRequest extends FormRequest
+class DoctorAddressBookRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

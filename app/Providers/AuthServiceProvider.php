@@ -57,7 +57,7 @@ use App\Policies\ReportTemplatePolicy;
 use App\Models\AppointmentPreAdmission;
 use App\Policies\AppointmentTypePolicy;
 use App\Policies\PatientDocumentPolicy;
-use App\Policies\ReferringDoctorPolicy;
+use App\Policies\DoctorAddressBookPolicy;
 use App\Models\PatientDocumentsActionLog;
 use App\Models\AppointmentTimeRequirement;
 use App\Models\PatientAlert;
@@ -118,7 +118,7 @@ class AuthServiceProvider extends ServiceProvider
         PreAdmissionConsent::class        => PreAdmissionConsentPolicy::class,
         PreAdmissionQuestion::class       => PreAdmissionQuestionPolicy::class,
         PreAdmissionSection::class        => PreAdmissionSectionPolicy::class,
-        DoctorAddressBook::class          => ReferringDoctorPolicy::class,
+        DoctorAddressBook::class          => DoctorAddressBookPolicy::class,
         ReportAutoText::class             => ReportAutoTextPolicy::class,
         ReportSection::class              => ReportSectionPolicy::class,
         ReportTemplate::class             => ReportTemplatePolicy::class,

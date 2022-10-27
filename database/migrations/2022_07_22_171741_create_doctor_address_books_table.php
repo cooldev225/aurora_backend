@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('referring_doctors', function (Blueprint $table) {
+        Schema::create('doctor_address_books', function (Blueprint $table) {
             $table->id();
             $table->string('provider_no');
             $table->string('title');
@@ -44,6 +44,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('referring_doctors');
+        Schema::dropIfExists('doctor_address_books');
     }
 };

@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use App\Models\DoctorAddressBook;
 use Illuminate\Database\Seeder;
 
-class ReferringDoctorSeeder extends Seeder
+class DoctorAddressBookSeeder extends Seeder
 {
     /**
      * Run the database seeds.
