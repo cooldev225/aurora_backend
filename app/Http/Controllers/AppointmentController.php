@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\ConfirmationStatus;
+use App\Enum\UserRole;
 use App\Http\Requests\AppointmentCreateRequest;
 use App\Http\Requests\AppointmentIndexRequest;
 use App\Http\Requests\AppointmentUpdateRequest;
@@ -19,7 +21,7 @@ use App\Models\PatientAlsoKnownAs;
 use App\Models\User;
 use App\Notifications\AppointmentNotification;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Log;
 class AppointmentController extends Controller
 {
     /**
@@ -31,30 +33,40 @@ class AppointmentController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', Appointment::class);
-        
+    
         $appointments = Appointment::
-                            where('organization_id', auth()->user()->organization_id)
-                            ->with('appointment_type')
-                            ->with('referral')
-                            
-                            ->orderBy('date')
-                            ->orderBy('start_time');
+        where('organization_id', auth()->user()->organization_id)
+            ->wherenot('confirmation_status', ConfirmationStatus::CANCELED)
+            ->with('appointment_type')
+            ->with('referral')
+            ->with('anesthetist')
+            ->with('specialist.scheduleTimeslots.anesthetist')
+            ->orderBy('date')
+            ->orderBy('start_time');
 
         $params = $request->validated();
         foreach ($params as $column => $param) {
-        
-            if($column == 'date'){
-                $param = Carbon::parse($param)->format('Y-m-d');
-            }
-            $appointments = $appointments->where($column, '=', $param);
-            
-        }
 
+            if ($column == 'date') {
+                $param = Carbon::parse($param)->format('Y-m-d');
+                $day = strtoupper(Carbon::parse($param)->format('D'));
+                $appointments = $appointments->with(['specialist.scheduleTimeslots' => function ($query) use ($day) {
+                    $query->where('week_day', $day);
+                }
+                ]);
+            } else {
+                $appointments = $appointments->where($column, '=', $param);
+            }
+        }
+        if ($request->has('date')) {
+            $date = Carbon::create($request->date)->toDateString();
+            $day = Carbon::create($request->date)->dayOfWeek;
+        }
 
         return response()->json(
             [
                 'message' => 'Appointments',
-                'data'    =>  $appointments->get(),
+                'data' => $appointments->get(),
             ],
             Response::HTTP_OK
         );
@@ -78,7 +90,7 @@ class AppointmentController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\AppointmentRequest  $request
+     * @param \App\Http\Requests\AppointmentRequest $request
      * @return \Illuminate\Http\Response
      */
     public function store(AppointmentCreateRequest $request)
@@ -95,15 +107,15 @@ class AppointmentController extends Controller
             $this->authorize('update', $patient->billing->first());
 
             $patient->update([
-                'first_name'                    => $request->first_name,
-                'last_name'                     => $request->last_name,
-                'date_of_birth'                 => Carbon::create($request->date_of_birth)->toDateString(),
-                'contact_number'                => $request->contact_number,
-                'address'                       => $request->address,
-                'email'                         => $request->email,
-                'appointment_confirm_method'    => $request->appointment_confirm_method,
-                'allergies'                     => $request->allergies,
-                'clinical_alerts'               => $request->clinical_alerts,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'date_of_birth' => Carbon::create($request->date_of_birth)->toDateString(),
+                'contact_number' => $request->contact_number,
+                'address' => $request->address,
+                'email' => $request->email,
+                'appointment_confirm_method' => $request->appointment_confirm_method,
+                'allergies' => $request->allergies,
+                'clinical_alerts' => $request->clinical_alerts,
             ]);
         } else {
             // Verify the user can access this function via policy
@@ -111,15 +123,15 @@ class AppointmentController extends Controller
             $this->authorize('create', PatientBilling::class);
 
             $patient = Patient::create([
-                'first_name'                    => $request->first_name,
-                'last_name'                     => $request->last_name,
-                'date_of_birth'                 => Carbon::create($request->date_of_birth)->toDateString(),
-                'contact_number'                => $request->contact_number,
-                'address'                       => $request->address,
-                'email'                         => $request->email,
-                'appointment_confirm_method'    => $request->appointment_confirm_method,
-                'allergies'                     => $request->allergies,
-                'clinical_alerts'               => $request->clinical_alerts,
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'date_of_birth' => Carbon::create($request->date_of_birth)->toDateString(),
+                'contact_number' => $request->contact_number,
+                'address' => $request->address,
+                'email' => $request->email,
+                'appointment_confirm_method' => $request->appointment_confirm_method,
+                'allergies' => $request->allergies,
+                'clinical_alerts' => $request->clinical_alerts,
             ]);
 
             $patient->organizations()->attach(Organization::find(auth()->user()->organization_id));
@@ -127,9 +139,9 @@ class AppointmentController extends Controller
 
         foreach ($request->claim_sources as $claim_source) {
             PatientBilling::create([
-                'is_valid'    => true,
+                'is_valid' => true,
                 'verified_at' => now(),
-                'patient_id'  => $patient->id,
+                'patient_id' => $patient->id,
                 ...$claim_source,
             ]);
         }
@@ -144,36 +156,36 @@ class AppointmentController extends Controller
         $startTime = Carbon::create($request->start_time);
 
         $appointment = Appointment::create([
-            'date'                          => Carbon::create($request->date)->toDateString(),
-            'arrival_time'                  => $request->arrival_time,
-            'start_time'                    =>  $request->start_time,
-            'end_time'                      => $this->aptEndTime($request)->toTimeString(),
-            'patient_id'                    => $patient->id,
-            'organization_id'               => auth()->user()->organization_id,
-            'appointment_type_id'           => $request->appointment_type_id,
-            'clinic_id'                     => $request->clinic_id,
-            'specialist_id'                 => $request->specialist_id,
-            'anesthetist_id'                => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($startTime->timestamp,strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
-            'note'                          => $request->note,
-            'charge_type'                   => $request->charge_type,
-            'room_id'                       => $request->room_id,
+            'date' => Carbon::create($request->date)->toDateString(),
+            'arrival_time' => $request->arrival_time,
+            'start_time' => $request->start_time,
+            'end_time' => $this->aptEndTime($request)->toTimeString(),
+            'patient_id' => $patient->id,
+            'organization_id' => auth()->user()->organization_id,
+            'appointment_type_id' => $request->appointment_type_id,
+            'clinic_id' => $request->clinic_id,
+            'specialist_id' => $request->specialist_id,
+            'anesthetist_id' => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($startTime->timestamp, strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
+            'note' => $request->note,
+            'charge_type' => $request->charge_type,
+            'room_id' => $request->room_id,
         ]);
 
         AppointmentCodes::create([
-            'appointment_id'                => $appointment->id
+            'appointment_id' => $appointment->id
         ]);
 
         AppointmentReferral::create([
-            'appointment_id'                => $appointment->id,
-            'referring_doctor_id'           => $request->referring_doctor_id,
-            'referral_date'                 =>  Carbon::create($request->referral_date)->toDateString(),
-            'referral_duration'             => $request->referral_duration,
-            'is_no_referral'                => false,
+            'appointment_id' => $appointment->id,
+            'referring_doctor_id' => $request->referring_doctor_id,
+            'referral_date' => Carbon::create($request->referral_date)->toDateString(),
+            'referral_duration' => $request->referral_duration,
+            'is_no_referral' => false,
         ]);
 
         AppointmentPreAdmission::create([
-            'appointment_id'                => $appointment->id,
-            'token'                         => md5($appointment->id)
+            'appointment_id' => $appointment->id,
+            'token' => md5($appointment->id)
         ]);
 
         AppointmentNotification::send($appointment, 'appointment_booked');
@@ -190,8 +202,8 @@ class AppointmentController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\AppointmentRequest  $request
-     * @param  \App\Models\Appointment  $appointment
+     * @param \App\Http\Requests\AppointmentRequest $request
+     * @param \App\Models\Appointment $appointment
      * @return \Illuminate\Http\Response
      */
     public function update(AppointmentUpdateRequest $request, Appointment $appointment)
@@ -199,29 +211,27 @@ class AppointmentController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('update', $appointment);
         $this->authorize('update', $appointment->patient);
-        if($appointment->patient->billing->first())
-            $this->authorize('update', $appointment->patient->billing->first());
+//        $this->authorize('update', $appointment->patient->billing->first());
         $this->authorize('update', $appointment->referral->first());
 
         $appointment->update([
-            'appointment_type_id'           => $request->appointment_type_id,
-            'room_id'                       => $request->room_id,
-            'note'                          => $request->note,
-            'charge_type'                   => $request->charge_type,
-            'end_time'                      => $this->aptEndTime($request)->toTimeString(),
+            'appointment_type_id' => $request->appointment_type_id,
+            'room_id' => $request->room_id,
+            'note' => $request->note,
+            'charge_type' => $request->charge_type,
+            'end_time' => $this->aptEndTime($request)->toTimeString(),
         ]);
 
         $appointment->patient()->update([
-            'first_name'                     => $request->first_name,
-            'last_name'                     => $request->last_name,
-            'date_of_birth'                 => Carbon::create($request->date_of_birth)->toDateString(),
-            'contact_number'                => $request->contact_number,
-            'address'                       => $request->address,
-            'email'                         => $request->email,
-            'appointment_confirm_method'     => $request->appointment_confirm_method,
-            //'allergies'                     => $request->allergies,
-            'clinical_alerts'               => $request->clinical_alerts,
-        ]);      
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'date_of_birth' => Carbon::create($request->date_of_birth)->toDateString(),
+            'contact_number' => $request->contact_number,
+            'address' => $request->address,
+            'email' => $request->email,
+            'appointment_confirm_method' => $request->appointment_confirm_method,
+            'clinical_alerts' => $request->clinical_alerts,
+        ]);
 
         //return ($appointment);
         $patient = Patient::find($request->patient_id);
@@ -243,10 +253,10 @@ class AppointmentController extends Controller
         }
 
         $appointment->referral->update([
-            'referring_doctor_id'           => $request->referring_doctor_id,
-            'referral_date'                 =>  Carbon::create($request->referral_date)->toDateString(),
-            'referral_duration'             => $request->referral_duration,
-            'is_no_referral'                => false,
+            'referring_doctor_id' => $request->referring_doctor_id,
+            'referral_date' => Carbon::create($request->referral_date)->toDateString(),
+            'referral_duration' => $request->referral_duration,
+            'is_no_referral' => false,
         ]);
 
         return response()->json(
@@ -261,7 +271,7 @@ class AppointmentController extends Controller
     /**
      * Confirm
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function confirm(Request $request)
@@ -287,7 +297,7 @@ class AppointmentController extends Controller
     /**
      * Appointment wait listed
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function waitListed(Request $request)
@@ -297,7 +307,7 @@ class AppointmentController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('waitListed', $appointment);
 
-        $appointment->is_wait_listed = (bool) $request->is_wait_listed;
+        $appointment->is_wait_listed = (bool)$request->is_wait_listed;
 
         $appointment->save();
 
@@ -316,7 +326,8 @@ class AppointmentController extends Controller
         );
     }
 
-    public function aptEndTime (Request $request) {
+    public function aptEndTime(Request $request)
+    {
         $startTime = Carbon::create($request->start_time);
         $organization = User::find($request->specialist_id)->organization()->first();
         $appointmentType = AppointmentType::find($request->appointment_type_id)->first();
