@@ -15,7 +15,7 @@ class Patient extends Model
         'gender', 'date_of_birth', 'address', 'street', 'suburb',
         'city', 'state', 'postcode', 'country', 'marital_status',
         'birth_place_code', 'country_of_birth', 'birth_state',
-        'aborginality', 'occupation', 'height', 'weight',
+        'aborginality', 'occupation', 'height', 'weight', 'race',
         'bmi', 'preferred_contact_method', 'appointment_confirm_method',
         'send_recall_method', 'kin_name', 'kin_relationship', 'kin_email',
         'kin_phone_number', 'clinical_alert',

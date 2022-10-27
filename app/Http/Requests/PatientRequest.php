@@ -4,6 +4,8 @@ namespace App\Http\Requests;
 
 use App\Enum\NotificationMethod;
 use App\Enum\PatientGender;
+use App\Enum\PatientMaritalStatus;
+use App\Enum\PatientRace;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Enum;
 
@@ -58,7 +60,8 @@ class PatientRequest extends FormRequest
             'contact_number'             => 'nullable|string',
             'gender'                     => ['nullable', new Enum(PatientGender::class)],
             'address'                    => 'nullable|string',
-            'marital_status'             => 'nullable|string',
+            'marital_status'             => ['nullable', new Enum(PatientMaritalStatus::class)],
+            'race'                       => ['nullable', new Enum(PatientRace::class)],
             'birth_place_code'           => 'nullable|string',
             'country_of_birth'           => 'nullable|string',
             'birth_state'                => 'nullable|string',

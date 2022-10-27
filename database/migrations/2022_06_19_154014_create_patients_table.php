@@ -27,7 +27,7 @@ return new class extends Migration {
             $table->string('postcode')->nullable();
             $table->string('suburb')->nullable();
             $table
-                ->enum('marital_status', [1, 2, 3, 4, 5, 6, 9])
+                ->enum('marital_status', [1, 2, 3, 4, 5, 6, 7, 9])
                 ->default(9);
             $table->string('birth_place_code')->nullable();
             $table->string('country_of_birth')->nullable();
