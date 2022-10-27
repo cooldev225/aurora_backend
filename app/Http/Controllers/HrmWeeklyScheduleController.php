@@ -2,19 +2,38 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRole;
 use App\Http\Requests\HrmScheduleTimeslotRequest;
+use App\Http\Requests\HrmWeeklyscheduleIndexRequest;
 use App\Http\Requests\HrmWeeklyScheduleRequest;
 use App\Models\HrmWeeklySchedule;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class HrmWeeklyScheduleController extends Controller
 {
-    public function index()
+    public function index(HrmWeeklyscheduleIndexRequest $request)
     {
+        $params = $request->validated();
+        // Verify the user can access this function via policy
+        $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
+        $organization = auth()->user()->organization;
+        $startDate = "sdfsdf";
+        $endDate = "d";
+        $users = User::where(
+            'organization_id',
+            $organization->id
+        )->wherenot('role_id', UserRole::ADMIN)
+            ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
+            ->with(['hrmWeeklySchedule', function ($query) use ($startDate, $endDate) {
+                $query->whereBetween('date', [$startDate, $endDate]);
+            }
+            ])->groupBy('user_id');
 
         return response()->json(
             [
-                'message' => 'Schedule templated updated',
+                'message' => 'Schedule template',
                 'data' => auth()->user()->organization
                     ->scheduleTimeslots
                     ->where('is_template', 1)
@@ -56,13 +75,13 @@ class HrmWeeklyScheduleController extends Controller
 
         if (count($deleteTimeslots) > 0) {
             foreach ($deleteTimeslots as $id) {
-                $hrmScheduleTimeslot =HrmWeeklySchedule::where('id', $id)->delete();
+                $hrmScheduleTimeslot = HrmWeeklySchedule::where('id', $id)->delete();
             }
         }
 
         foreach ($timeslots as $slot) {
             if (array_key_exists('id', $slot)) {
-                $hrmScheduleTimeslot =HrmWeeklySchedule::where('id', $slot['id'])->first();
+                $hrmScheduleTimeslot = HrmWeeklySchedule::where('id', $slot['id'])->first();
                 $hrmScheduleTimeslot->update($slot);
             } else {
                 $hrmScheduleTimeslot = HrmWeeklySchedule::create([
@@ -75,7 +94,7 @@ class HrmWeeklyScheduleController extends Controller
                     'restriction' => $slot['restriction'],
                     'user_id' => $slot['user_id'],
                     'is_template' => $slot['is_template'],
-                    'anesthetist_id'  => $slot['anesthetist_id'],
+                    'anesthetist_id' => $slot['anesthetist_id'],
                 ]);
             }
         }

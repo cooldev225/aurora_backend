@@ -146,7 +146,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/billing',                                [PatientBillingController::class, 'store']);
         Route::put('/billing/{patientBilling}',               [PatientBillingController::class, 'update']);
         Route::delete('/billing/{patientBilling}',            [PatientBillingController::class, 'delete']);
-        
+
         Route::put('/also-known-as',                          [PatientAlsoKnownAsController::class, 'store']);
         Route::put('/also-known-as/{patientAlsoKnownAs}',     [PatientAlsoKnownAsController::class, 'update']);
         Route::delete('/also-known-as/{patientAlsoKnownAs}',  [PatientAlsoKnownAsController::class, 'delete']);
@@ -164,18 +164,14 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('hrm')->group(function () {
-        Route::apiResource('/hrm-schedule-timeslot', HrmScheduleTimeslotController::class);
-        Route::get('/anesthetists',                  [AnesthetistController::class, 'index']);
+        Route::apiResource('/schedule-template', HrmScheduleTimeslotController::class);
+        Route::apiResource('/weekly-schedule', HrmWeeklyScheduleController::class);
+        Route::get('/anesthetists',[AnesthetistController::class, 'index']);
     });
 
     Route::prefix('communication')->group(function () {
         Route::get('/outgoing-log', [OutgoingMessageLog::class, 'index']);
-      
-    });
 
-    Route::prefix('hrm')->group(function () {
-        Route::apiResource('/weekly-timeslot', HrmWeeklyScheduleController::class);
-//        Route::get('/anesthetists', [AnesthetistController::class, 'index']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
