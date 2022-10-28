@@ -63,7 +63,7 @@ class PatientDocumentReportController extends Controller
         $pdfData = [
             'title'           => $request->title,
             'patientName'     => $request->patientName,
-            'referringDoctor' => $request->referringDoctor,
+            'doctorAddressBook' => $request->doctorAddressBook,
             'date'            => date('d/m/Y'),
             'reportData'      => $reportData,
             'signature_image' => 'images/'.auth()->user()->organization_id.'/'. auth()->user()->signature,

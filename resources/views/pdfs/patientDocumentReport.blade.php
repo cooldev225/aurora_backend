@@ -34,7 +34,7 @@
     <section>
         <h1>{{ $title }}</h1>
         <div>
-            <p>Dear {{ $referringDoctor }}, Thank you for referring {{ $patientName }}</p>
+            <p>Dear {{ $doctorAddressBook }}, Thank you for referring {{ $patientName }}</p>
         </div>
         @foreach ($reportData as $report)
             <h2>{{ $report[0] }}</h2>
