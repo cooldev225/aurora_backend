@@ -162,7 +162,7 @@ if (!function_exists('parseHeathLinkHL7OruMessage')) {
             ],
             'pv1' => [
                 'attending_doctor' => $pv1->GetField(7)[0],
-                'referring_doctor' => $pv1->GetField(8)[0],
+                'doctor_address_book' => $pv1->GetField(8)[0],
                 'consulting_doctor'=> $pv1->GetField(9)[0],
             ],
             'document_contents' => $data_content,

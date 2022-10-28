@@ -21,7 +21,7 @@ class AppointmentReferral extends Model
     ];
 
     protected $appends = [
-        'referring_doctor_name'
+        'doctor_address_book_name'
     ];
 
     /**
@@ -40,7 +40,7 @@ class AppointmentReferral extends Model
         return $this->belongsTo(DoctorAddressBook::class);
     }
 
-    public function getReferringDoctorNameAttribute()
+    public function getDoctorAddressBookNameAttribute()
     {
         $doctor_address_book = $this->doctor_address_book;
         return $doctor_address_book ? $doctor_address_book->full_name : null;

@@ -32,7 +32,7 @@
                 Sending Application: {{ $message_sending_application }} <br />
                 Sending Facility EDI: {{ $message_sending_facility_edi }} <br />
                 Sending Facility Name: {{ $message_sending_facility_name }} <br />
-                Reffering Doctor: {{ $referring_doctor_provider }}
+                Reffering Doctor: {{ $doctor_address_book_provider }}
             </td>
             <td>
                 <h3>Receiver Information</h3>

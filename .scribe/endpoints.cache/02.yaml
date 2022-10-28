@@ -2626,9 +2626,9 @@ endpoints:
   -
     httpMethods:
       - GET
-    uri: referring-doctors
+    uri: doctor-address-books
     metadata:
-      title: '[Referring Doctor] - All'
+      title: '[Doctor Address Book] - All'
       description: ''
       authenticated: true
       custom: []
@@ -2652,9 +2652,9 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: referring-doctors
+    uri: doctor-address-books
     metadata:
-      title: '[Referring Doctor] - Store'
+      title: '[Doctor Address Book] - Store'
       description: ''
       authenticated: true
       custom: []
@@ -2776,9 +2776,9 @@ endpoints:
     httpMethods:
       - PUT
       - PATCH
-    uri: 'referring-doctors/{id}'
+    uri: 'doctor-address-books/{id}'
     metadata:
-      title: '[Referring Doctor] - Update'
+      title: '[Doctor Address Book] - Update'
       description: ''
       authenticated: true
       custom: []
@@ -2789,7 +2789,7 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'The ID of the referring doctor.'
+        description: 'The ID of the Doctor Address Book.'
         required: true
         example: 1
         type: integer
@@ -2906,9 +2906,9 @@ endpoints:
   -
     httpMethods:
       - DELETE
-    uri: 'referring-doctors/{id}'
+    uri: 'doctor-address-books/{id}'
     metadata:
-      title: '[Referring Doctor] - Destroy'
+      title: '[Doctor Address Book] - Destroy'
       description: ''
       authenticated: true
       custom: []
@@ -2919,7 +2919,7 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'The ID of the referring doctor.'
+        description: 'The ID of the Doctor Address Book.'
         required: true
         example: 1
         type: integer

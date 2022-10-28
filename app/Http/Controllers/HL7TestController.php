@@ -87,7 +87,7 @@ class HL7TestController extends Controller
         $rf1->setField(11, '000');// Referrer ID
         $msg->addSegment($rf1);
 
-        //PRD 1 Referring Provider
+        //PRD 1 Doctor Address Book Provider
         $prd1 = new Segment('PRD');
         $prd1->setField(1,'RP'); // PROVIDER ROLE RP - Referring prov, PT - refereed to
         $prd1->setField(2,'sendLastname^Firstname^^^DR'); // XPN NAME: FAMILY^GIVEN^SECOND AND OTET^SUFFIX^PREFIX^DEGREE ....
