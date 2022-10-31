@@ -10,7 +10,6 @@ class OutgoingMessageLogController extends Controller
 {
     public function index(OutgoingMessageLogIndexRequest $request){
         $params = $request->validated();
-
         $users = OutgoingMessageLog::where('organization_id', auth()->user()->organization_id);
 
         foreach ($params as $column => $param) {
@@ -25,6 +24,7 @@ class OutgoingMessageLogController extends Controller
             [
                 'message' => 'Outgoing message log',
                 'data' => $users->get(),
+                'param' => $params,
             ],
             Response::HTTP_OK
         );
