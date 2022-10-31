@@ -23,4 +23,11 @@ class OutgoingMessageLog extends Model
         'receiving_doctor_provider'
     ];
 
+    /**
+     * Return Patient that the outgoing belongs to
+     */
+    public function patient()
+    {
+        return $this->belongsTo(Patient::class);
+    }
 }

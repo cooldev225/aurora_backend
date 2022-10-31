@@ -51,9 +51,9 @@ use App\Http\Controllers\DocumentHeaderFooterTemplateController;
 use App\Http\Controllers\PatientAlsoKnownAsController;
 use App\Http\Controllers\UserProfileSignatureController;
 use App\Http\Controllers\SpecialistController;
+use App\Http\Controllers\OutgoingMessageLogController;
 
 use App\Models\AppointmentCodes;
-use App\Models\OutgoingMessageLog;
 
 /*
 |--------------------------------------------------------------------------
@@ -167,7 +167,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('communication')->group(function () {
-        Route::get('/outgoing-log', [OutgoingMessageLog::class, 'index']);
+        Route::get('/outgoing-log', [OutgoingMessageLogController::class, 'index']);
       
     });
 
