@@ -60,6 +60,7 @@ class PatientRequest extends FormRequest
             'contact_number'             => 'nullable|string',
             'gender'                     => ['nullable', new Enum(PatientGender::class)],
             'address'                    => 'nullable|string',
+            'postcode'                   => 'nullable|string',
             'marital_status'             => ['nullable', new Enum(PatientMaritalStatus::class)],
             'race'                       => ['nullable', new Enum(PatientRace::class)],
             'birth_place_code'           => 'nullable|string',
