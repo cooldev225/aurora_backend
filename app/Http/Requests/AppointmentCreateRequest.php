@@ -82,20 +82,22 @@ class AppointmentCreateRequest extends FormRequest
         $patient_request = new PatientRequest();
 
         return [
-            'clinic_id'             => 'numeric|exists:clinics,id',
-            'appointment_type_id'   => 'required|numeric|exists:appointment_types,id',
-            'specialist_id'         => 'required|numeric|exists:users,id',
-            'date'                  => 'required|date',
-            'arrival_time'          => 'required|string',
-            'start_time'            => 'required|string',
-            'note'                  => 'nullable|string',
-            'charge_type'           => [new Enum(ChargeType::class)],
-            'anesthetic_answers'    => 'required_if:anesthetic_questions,true|array',
-            'anesthetic_questions'  => 'required|boolean',
-            'doctor_address_book_id'=> 'nullable|integer|exists:doctor_address_books,id',
-            'referral_date'         => 'nullable|date',
-            'referral_duration'     => 'nullable|integer',
-            'claim_sources'         => 'nullable|array',
+
+            'clinic_id'            => 'numeric|exists:clinics,id',
+            'appointment_type_id'  => 'required|numeric|exists:appointment_types,id',
+            'specialist_id'        => 'required|numeric|exists:users,id',
+            'date'                 => 'required|date',
+            'arrival_time'         => 'required|string',
+            'start_time'           => 'required|string',
+            'note'                 => 'nullable|string',
+            'charge_type'          => [new Enum(ChargeType::class)],
+            'anesthetic_answers'   => 'required_if:anesthetic_questions,true|array',
+            'anesthetic_questions' => 'required|boolean',
+           'doctor_address_book_id'=> 'nullable|integer|exists:doctor_address_books,id',
+            'referral_date'        => 'nullable|date',
+            'referral_duration'    => 'nullable|integer',
+            'claim_sources'        => 'nullable|array',
+            'also_known_as'        => 'nullable|array',
 
             ...$patient_request->rules(),
         ];

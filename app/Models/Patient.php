@@ -15,7 +15,7 @@ class Patient extends Model
         'gender', 'date_of_birth', 'address', 'street', 'suburb',
         'city', 'state', 'postcode', 'country', 'marital_status',
         'birth_place_code', 'country_of_birth', 'birth_state',
-        'aborginality', 'occupation', 'height', 'weight',
+        'aborginality', 'occupation', 'height', 'weight', 'race',
         'bmi', 'preferred_contact_method', 'appointment_confirm_method',
         'send_recall_method', 'kin_name', 'kin_relationship', 'kin_email',
         'kin_phone_number', 'clinical_alert',
@@ -24,11 +24,12 @@ class Patient extends Model
     protected $appends = [
         'full_name',
         'billing',
+        'also_known_as',
         'int_contact_number',
         'active_alerts',
         'gender_name',
         'allergies',
-        'sex_format_hl7'
+        'sex_format_hl7',
     ];
 
 
@@ -70,6 +71,11 @@ class Patient extends Model
         return $this->billing()->get();
     }
 
+    public function getAlsoKnownAsAttribute()
+    {
+        return $this->also_known_as()->get();
+    }
+
     public function getGenderNameAttribute()
     {
         switch ($this->gender) {
@@ -97,6 +103,16 @@ class Patient extends Model
     {
         return $this->hasMany(PatientBilling::class, 'patient_id');
     }
+
+
+    /**
+     * Return Patient Also Known As
+     */
+    public function also_known_as()
+    {
+        return $this->hasMany(PatientAlsoKnownAs::class);
+    }
+
 
     /**
      * Return Patient Appointment

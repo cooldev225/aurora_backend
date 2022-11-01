@@ -41,7 +41,7 @@ use Illuminate\Validation\Rules\Enum;
 * @bodyParam health_care_card_date           date                  The patients health care card expiry date
 * @bodyParam health_fund_id                  number                The patients health fund id
 * @bodyParam health_fund_membership_number   number                The patients health fund membership number
-* @bodyParam health_fund_reference_number    number                The patients health fund reference number   
+* @bodyParam health_fund_reference_number    number                The patients health fund reference number
 * @bodyParam health_fund_expiry_date         date                  The patients health fund expiry date
 *
 * @bodyParam doctor_address_book_id          int        required   The id of the doctor address boook                                     Example: 2
@@ -83,6 +83,8 @@ class AppointmentUpdateRequest extends FormRequest
             'time_slot'                 => 'required|array',
             'note'                      => 'nullable|string',
             'charge_type'               => [new Enum(ChargeType::class)],
+            'claim_sources'             => 'nullable|array',
+            'also_known_as'             => 'nullable|array',
 
             ...$patient_request->rules(),
             ...$appointment_referral_request->rules(),

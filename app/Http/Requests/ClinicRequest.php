@@ -46,6 +46,7 @@ class ClinicRequest extends FormRequest
             'specimen_collection_point_number' => 'required|string',
             'lspn_id'                          => 'required|numeric',
             'healthlink_edi'                   => 'string',
+            'minor_id'                         => 'string',
         ];
     }
 }
