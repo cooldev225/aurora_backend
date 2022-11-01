@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\ReferringDoctor;
+use App\Models\DoctorAddressBook;
 use Illuminate\Database\Seeder;
 
-class ReferringDoctorSeeder extends Seeder
+class DoctorAddressBookSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -14,6 +14,6 @@ class ReferringDoctorSeeder extends Seeder
      */
     public function run()
     {
-        ReferringDoctor::factory(30)->create();
+        DoctorAddressBook::factory(30)->create();
     }
 }

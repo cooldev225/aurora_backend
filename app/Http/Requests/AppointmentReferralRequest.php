@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
-* @bodyParam referring_doctor_id   int   required  The id of the referring doctor       Example: 2
+* @bodyParam doctor_address_book_id   int   required  The id of the doctor address book       Example: 2
 * @bodyParam referral_date         date  required  The date the referral was issued     Example: 1993-23-03
 * @bodyParam referral_duration     int   required  The duration the referral is valid   Example: 3
 * @bodyParam file                  file            The referral file                    Example:
@@ -30,7 +30,7 @@ class AppointmentReferralRequest extends FormRequest
     public function rules()
     {
         return [
-            'referring_doctor_id'   => 'nullable|integer|exists:referring_doctors,id',
+            'doctor_address_book_id'=> 'nullable|integer|exists:doctor_address_books,id',
             'referral_date'         => 'nullable|date',
             'referral_duration'     => 'nullable|integer',
             'file'                  => 'nullable|mimes:pdf',

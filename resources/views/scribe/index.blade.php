@@ -358,17 +358,17 @@
                                     <li class="tocify-item level-2" data-unique="endpoints-POSTappointments">
                         <a href="#endpoints-POSTappointments">Store a newly created resource in storage.</a>
                     </li>
-                                    <li class="tocify-item level-2" data-unique="endpoints-GETreferring-doctors">
-                        <a href="#endpoints-GETreferring-doctors">[Referring Doctor] - All</a>
+                                    <li class="tocify-item level-2" data-unique="endpoints-GETdoctor-address-books">
+                        <a href="#endpoints-GETdoctor-address-books">[Doctor Address Book] - All</a>
                     </li>
-                                    <li class="tocify-item level-2" data-unique="endpoints-POSTreferring-doctors">
-                        <a href="#endpoints-POSTreferring-doctors">[Referring Doctor] - Store</a>
+                                    <li class="tocify-item level-2" data-unique="endpoints-POSTdoctor-address-books">
+                        <a href="#endpoints-POSTdoctor-address-books">[Doctor Address Book] - Store</a>
                     </li>
-                                    <li class="tocify-item level-2" data-unique="endpoints-PUTreferring-doctors--id-">
-                        <a href="#endpoints-PUTreferring-doctors--id-">[Referring Doctor] - Update</a>
+                                    <li class="tocify-item level-2" data-unique="endpoints-PUTdoctor-address-books--id-">
+                        <a href="#endpoints-PUTdoctor-address-books--id-">[Doctor Address Book] - Update</a>
                     </li>
-                                    <li class="tocify-item level-2" data-unique="endpoints-DELETEreferring-doctors--id-">
-                        <a href="#endpoints-DELETEreferring-doctors--id-">[Referring Doctor] - Destroy</a>
+                                    <li class="tocify-item level-2" data-unique="endpoints-DELETEdoctor-address-books--id-">
+                        <a href="#endpoints-DELETEdoctor-address-books--id-">[Doctor Address Book] - Destroy</a>
                     </li>
                                     <li class="tocify-item level-2" data-unique="endpoints-GETuser-appointments">
                         <a href="#endpoints-GETuser-appointments">[User Appointment] - List</a>
@@ -626,7 +626,7 @@ You can switch the language used with the tabs at the top right (or from the nav
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: multipart/form-data" \
     --header "Accept: application/json" \
-    --form "referring_doctor_id=2" \
+    --form "doctor_address_books_id=2" \
     --form "referral_date=1993-23-03" \
     --form "referral_duration=3" \
     --form "file=@C:\Users\user\AppData\Local\Temp\php3078.tmp" </code></pre></div>
@@ -644,7 +644,7 @@ const headers = {
 };
 
 const body = new FormData();
-body.append('referring_doctor_id', '2');
+body.append('doctor_address_book_id', '2');
 body.append('referral_date', '1993-23-03');
 body.append('referral_duration', '3');
 body.append('file', document.querySelector('input[name="file"]').files[0]);
@@ -719,14 +719,14 @@ fetch(url, {
             </p>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <p>
-            <b><code>referring_doctor_id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
+            <b><code>doctor_address_book_id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
                 <input type="number"
-               name="referring_doctor_id"
+               name="doctor_address_book_id"
                data-endpoint="PUTappointments-referral--appointment_id-"
                value="2"
                data-component="body" hidden>
     <br>
-<p>The id of the referring doctor</p>
+<p>The id of the doctor address book</p>
         </p>
                 <p>
             <b><code>referral_date</code></b>&nbsp;&nbsp;<small>date</small>  &nbsp;
@@ -11364,7 +11364,7 @@ fetch(url, {
         </p>
         </form>
 
-            <h2 id="endpoints-GETreferring-doctors">[Referring Doctor] - All</h2>
+            <h2 id="endpoints-GETdoctor-address-books">[Doctor Address Book] - All</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
@@ -11372,13 +11372,13 @@ fetch(url, {
 
 
 
-<span id="example-requests-GETreferring-doctors">
+<span id="example-requests-GETdoctor-address-books">
 <blockquote>Example request:</blockquote>
 
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost/referring-doctors" \
+    --get "http://localhost/doctor-address-books" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -11386,7 +11386,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/referring-doctors"
+    "http://localhost/doctor-address-books"
 );
 
 const headers = {
@@ -11402,7 +11402,7 @@ fetch(url, {
 
 </span>
 
-<span id="example-responses-GETreferring-doctors">
+<span id="example-responses-GETdoctor-address-books">
             <blockquote>
             <p>Example response (401):</p>
         </blockquote>
@@ -11421,56 +11421,56 @@ access-control-allow-origin: *
 }</code>
  </pre>
     </span>
-<span id="execution-results-GETreferring-doctors" hidden>
+<span id="execution-results-GETdoctor-address-books" hidden>
     <blockquote>Received response<span
-                id="execution-response-status-GETreferring-doctors"></span>:
+                id="execution-response-status-GETdoctor-address-books"></span>:
     </blockquote>
-    <pre class="json"><code id="execution-response-content-GETreferring-doctors"></code></pre>
+    <pre class="json"><code id="execution-response-content-GETdoctor-address-books"></code></pre>
 </span>
-<span id="execution-error-GETreferring-doctors" hidden>
+<span id="execution-error-GETdoctor-address-books" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETreferring-doctors"></code></pre>
+    <pre><code id="execution-error-message-GETdoctor-address-books"></code></pre>
 </span>
-<form id="form-GETreferring-doctors" data-method="GET"
-      data-path="referring-doctors"
+<form id="form-GETdoctor-address-books" data-method="GET"
+      data-path="doctor-address-books"
       data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
       autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETreferring-doctors', this);">
+      onsubmit="event.preventDefault(); executeTryOut('GETdoctor-address-books', this);">
     <h3>
         Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
                     style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETreferring-doctors"
-                    onclick="tryItOut('GETreferring-doctors');">Try it out ⚡
+                    id="btn-tryout-GETdoctor-address-books"
+                    onclick="tryItOut('GETdoctor-address-books');">Try it out ⚡
             </button>
             <button type="button"
                     style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETreferring-doctors"
-                    onclick="cancelTryOut('GETreferring-doctors');" hidden>Cancel 🛑
+                    id="btn-canceltryout-GETdoctor-address-books"
+                    onclick="cancelTryOut('GETdoctor-address-books');" hidden>Cancel 🛑
             </button>&nbsp;&nbsp;
             <button type="submit"
                     style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETreferring-doctors" hidden>Send Request 💥
+                    id="btn-executetryout-GETdoctor-address-books" hidden>Send Request 💥
             </button>
             </h3>
             <p>
             <small class="badge badge-green">GET</small>
-            <b><code>referring-doctors</code></b>
+            <b><code>doctor-address-books</code></b>
         </p>
                 <p>
-            <label id="auth-GETreferring-doctors" hidden>Authorization header:
+            <label id="auth-GETdoctor-address-books" hidden>Authorization header:
                 <b><code>Bearer </code></b><input type="text"
                                                                 name="Authorization"
                                                                 data-prefix="Bearer "
-                                                                data-endpoint="GETreferring-doctors"
+                                                                data-endpoint="GETdoctor-address-books"
                                                                 data-component="header"></label>
         </p>
                 </form>
 
-            <h2 id="endpoints-POSTreferring-doctors">[Referring Doctor] - Store</h2>
+            <h2 id="endpoints-POSTdoctor-address-books">[Doctor Address Book] - Store</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
@@ -11478,13 +11478,13 @@ access-control-allow-origin: *
 
 
 
-<span id="example-requests-POSTreferring-doctors">
+<span id="example-requests-POSTdoctor-address-books">
 <blockquote>Example request:</blockquote>
 
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost/referring-doctors" \
+    "http://localhost/doctor-address-books" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -11510,7 +11510,7 @@ access-control-allow-origin: *
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/referring-doctors"
+    "http://localhost/doctor-address-books"
 );
 
 const headers = {
@@ -11545,53 +11545,53 @@ fetch(url, {
 
 </span>
 
-<span id="example-responses-POSTreferring-doctors">
+<span id="example-responses-POSTdoctor-address-books">
 </span>
-<span id="execution-results-POSTreferring-doctors" hidden>
+<span id="execution-results-POSTdoctor-address-books" hidden>
     <blockquote>Received response<span
-                id="execution-response-status-POSTreferring-doctors"></span>:
+                id="execution-response-status-POSTdoctor-address-books"></span>:
     </blockquote>
-    <pre class="json"><code id="execution-response-content-POSTreferring-doctors"></code></pre>
+    <pre class="json"><code id="execution-response-content-POSTdoctor-address-books"></code></pre>
 </span>
-<span id="execution-error-POSTreferring-doctors" hidden>
+<span id="execution-error-POSTdoctor-address-books" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-POSTreferring-doctors"></code></pre>
+    <pre><code id="execution-error-message-POSTdoctor-address-books"></code></pre>
 </span>
-<form id="form-POSTreferring-doctors" data-method="POST"
-      data-path="referring-doctors"
+<form id="form-POSTdoctor-address-books" data-method="POST"
+      data-path="doctor-address-books"
       data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
       autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('POSTreferring-doctors', this);">
+      onsubmit="event.preventDefault(); executeTryOut('POSTdoctor-address-books', this);">
     <h3>
         Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
                     style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-POSTreferring-doctors"
-                    onclick="tryItOut('POSTreferring-doctors');">Try it out ⚡
+                    id="btn-tryout-POSTdoctor-address-books"
+                    onclick="tryItOut('POSTdoctor-address-books');">Try it out ⚡
             </button>
             <button type="button"
                     style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-POSTreferring-doctors"
-                    onclick="cancelTryOut('POSTreferring-doctors');" hidden>Cancel 🛑
+                    id="btn-canceltryout-POSTdoctor-address-books"
+                    onclick="cancelTryOut('POSTdoctor-address-books');" hidden>Cancel 🛑
             </button>&nbsp;&nbsp;
             <button type="submit"
                     style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-POSTreferring-doctors" hidden>Send Request 💥
+                    id="btn-executetryout-POSTdoctor-address-books" hidden>Send Request 💥
             </button>
             </h3>
             <p>
             <small class="badge badge-black">POST</small>
-            <b><code>referring-doctors</code></b>
+            <b><code>doctor-address-books</code></b>
         </p>
                 <p>
-            <label id="auth-POSTreferring-doctors" hidden>Authorization header:
+            <label id="auth-POSTdoctor-address-books" hidden>Authorization header:
                 <b><code>Bearer </code></b><input type="text"
                                                                 name="Authorization"
                                                                 data-prefix="Bearer "
-                                                                data-endpoint="POSTreferring-doctors"
+                                                                data-endpoint="POSTdoctor-address-books"
                                                                 data-component="header"></label>
         </p>
                         <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
@@ -11599,7 +11599,7 @@ fetch(url, {
             <b><code>provider_no</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="provider_no"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11609,7 +11609,7 @@ fetch(url, {
             <b><code>title</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="title"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11619,7 +11619,7 @@ fetch(url, {
             <b><code>first_name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="first_name"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11629,7 +11629,7 @@ fetch(url, {
             <b><code>last_name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="last_name"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11639,7 +11639,7 @@ fetch(url, {
             <b><code>address</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="address"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11649,7 +11649,7 @@ fetch(url, {
             <b><code>street</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="street"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11659,7 +11659,7 @@ fetch(url, {
             <b><code>city</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="city"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11669,7 +11669,7 @@ fetch(url, {
             <b><code>state</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="state"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11679,7 +11679,7 @@ fetch(url, {
             <b><code>country</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="country"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11689,7 +11689,7 @@ fetch(url, {
             <b><code>postcode</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="postcode"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11699,7 +11699,7 @@ fetch(url, {
             <b><code>phone</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="phone"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11709,7 +11709,7 @@ fetch(url, {
             <b><code>fax</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="fax"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11719,7 +11719,7 @@ fetch(url, {
             <b><code>mobile</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="mobile"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11729,7 +11729,7 @@ fetch(url, {
             <b><code>email</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="email"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11739,7 +11739,7 @@ fetch(url, {
             <b><code>practice_name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="practice_name"
-               data-endpoint="POSTreferring-doctors"
+               data-endpoint="POSTdoctor-address-books"
                value=""
                data-component="body" hidden>
     <br>
@@ -11747,7 +11747,7 @@ fetch(url, {
         </p>
         </form>
 
-            <h2 id="endpoints-PUTreferring-doctors--id-">[Referring Doctor] - Update</h2>
+            <h2 id="endpoints-PUTdoctor-address-books--id-">[doctor-address-book] - Update</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
@@ -11755,13 +11755,13 @@ fetch(url, {
 
 
 
-<span id="example-requests-PUTreferring-doctors--id-">
+<span id="example-requests-PUTdoctor-address-books--id-">
 <blockquote>Example request:</blockquote>
 
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request PUT \
-    "http://localhost/referring-doctors/1" \
+    "http://localhost/doctor-address-books/1" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
@@ -11787,7 +11787,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/referring-doctors/1"
+    "http://localhost/doctor-address-books/1"
 );
 
 const headers = {
@@ -11822,57 +11822,57 @@ fetch(url, {
 
 </span>
 
-<span id="example-responses-PUTreferring-doctors--id-">
+<span id="example-responses-PUTdoctor-address-books--id-">
 </span>
-<span id="execution-results-PUTreferring-doctors--id-" hidden>
+<span id="execution-results-PUTdoctor-address-books--id-" hidden>
     <blockquote>Received response<span
-                id="execution-response-status-PUTreferring-doctors--id-"></span>:
+                id="execution-response-status-PUTdoctor-address-books--id-"></span>:
     </blockquote>
-    <pre class="json"><code id="execution-response-content-PUTreferring-doctors--id-"></code></pre>
+    <pre class="json"><code id="execution-response-content-PUTdoctor-address-books--id-"></code></pre>
 </span>
-<span id="execution-error-PUTreferring-doctors--id-" hidden>
+<span id="execution-error-PUTdoctor-address-books--id-" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-PUTreferring-doctors--id-"></code></pre>
+    <pre><code id="execution-error-message-PUTdoctor-address-books--id-"></code></pre>
 </span>
-<form id="form-PUTreferring-doctors--id-" data-method="PUT"
-      data-path="referring-doctors/{id}"
+<form id="form-PUTdoctor-address-books--id-" data-method="PUT"
+      data-path="doctor-address-books/{id}"
       data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
       autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('PUTreferring-doctors--id-', this);">
+      onsubmit="event.preventDefault(); executeTryOut('PUTdoctor-address-books--id-', this);">
     <h3>
         Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
                     style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-PUTreferring-doctors--id-"
-                    onclick="tryItOut('PUTreferring-doctors--id-');">Try it out ⚡
+                    id="btn-tryout-PUTdoctor-address-books--id-"
+                    onclick="tryItOut('PUTdoctor-address-books--id-');">Try it out ⚡
             </button>
             <button type="button"
                     style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-PUTreferring-doctors--id-"
-                    onclick="cancelTryOut('PUTreferring-doctors--id-');" hidden>Cancel 🛑
+                    id="btn-canceltryout-PUTdoctor-address-books--id-"
+                    onclick="cancelTryOut('PUTdoctor-address-books--id-');" hidden>Cancel 🛑
             </button>&nbsp;&nbsp;
             <button type="submit"
                     style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-PUTreferring-doctors--id-" hidden>Send Request 💥
+                    id="btn-executetryout-PUTdoctor-address-books--id-" hidden>Send Request 💥
             </button>
             </h3>
             <p>
             <small class="badge badge-darkblue">PUT</small>
-            <b><code>referring-doctors/{id}</code></b>
+            <b><code>doctor-address-books/{id}</code></b>
         </p>
             <p>
             <small class="badge badge-purple">PATCH</small>
-            <b><code>referring-doctors/{id}</code></b>
+            <b><code>doctor-address-books/{id}</code></b>
         </p>
                 <p>
-            <label id="auth-PUTreferring-doctors--id-" hidden>Authorization header:
+            <label id="auth-PUTdoctor-address-books--id-" hidden>Authorization header:
                 <b><code>Bearer </code></b><input type="text"
                                                                 name="Authorization"
                                                                 data-prefix="Bearer "
-                                                                data-endpoint="PUTreferring-doctors--id-"
+                                                                data-endpoint="PUTdoctor-address-books--id-"
                                                                 data-component="header"></label>
         </p>
                 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
@@ -11880,18 +11880,18 @@ fetch(url, {
                 <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
                 <input type="number"
                name="id"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value="1"
                data-component="url" hidden>
     <br>
-<p>The ID of the referring doctor.</p>
+<p>The ID of the doctor address book.</p>
             </p>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <p>
             <b><code>provider_no</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="provider_no"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11901,7 +11901,7 @@ fetch(url, {
             <b><code>title</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="title"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11911,7 +11911,7 @@ fetch(url, {
             <b><code>first_name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="first_name"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11921,7 +11921,7 @@ fetch(url, {
             <b><code>last_name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="last_name"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11931,7 +11931,7 @@ fetch(url, {
             <b><code>address</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="address"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11941,7 +11941,7 @@ fetch(url, {
             <b><code>street</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="street"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11951,7 +11951,7 @@ fetch(url, {
             <b><code>city</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="city"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11961,7 +11961,7 @@ fetch(url, {
             <b><code>state</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="state"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11971,7 +11971,7 @@ fetch(url, {
             <b><code>country</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="country"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11981,7 +11981,7 @@ fetch(url, {
             <b><code>postcode</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="postcode"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -11991,7 +11991,7 @@ fetch(url, {
             <b><code>phone</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="phone"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -12001,7 +12001,7 @@ fetch(url, {
             <b><code>fax</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="fax"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -12011,7 +12011,7 @@ fetch(url, {
             <b><code>mobile</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="mobile"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -12021,7 +12021,7 @@ fetch(url, {
             <b><code>email</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="email"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -12031,7 +12031,7 @@ fetch(url, {
             <b><code>practice_name</code></b>&nbsp;&nbsp;<small>string</small>  &nbsp;
                 <input type="text"
                name="practice_name"
-               data-endpoint="PUTreferring-doctors--id-"
+               data-endpoint="PUTdoctor-address-books--id-"
                value=""
                data-component="body" hidden>
     <br>
@@ -12039,7 +12039,7 @@ fetch(url, {
         </p>
         </form>
 
-            <h2 id="endpoints-DELETEreferring-doctors--id-">[Referring Doctor] - Destroy</h2>
+            <h2 id="endpoints-DELETEdoctor-address-books--id-">[Doctor Address Book] - Destroy</h2>
 
 <p>
 <small class="badge badge-darkred">requires authentication</small>
@@ -12047,13 +12047,13 @@ fetch(url, {
 
 
 
-<span id="example-requests-DELETEreferring-doctors--id-">
+<span id="example-requests-DELETEdoctor-address-books--id-">
 <blockquote>Example request:</blockquote>
 
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost/referring-doctors/1" \
+    "http://localhost/doctor-address-books/1" \
     --header "Authorization: Bearer {YOUR_AUTH_KEY}" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
@@ -12061,7 +12061,7 @@ fetch(url, {
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost/referring-doctors/1"
+    "http://localhost/doctor-address-books/1"
 );
 
 const headers = {
@@ -12077,53 +12077,53 @@ fetch(url, {
 
 </span>
 
-<span id="example-responses-DELETEreferring-doctors--id-">
+<span id="example-responses-DELETEdoctor-address-books--id-">
 </span>
-<span id="execution-results-DELETEreferring-doctors--id-" hidden>
+<span id="execution-results-DELETEdoctor-address-books--id-" hidden>
     <blockquote>Received response<span
-                id="execution-response-status-DELETEreferring-doctors--id-"></span>:
+                id="execution-response-status-DELETEdoctor-address-books--id-"></span>:
     </blockquote>
-    <pre class="json"><code id="execution-response-content-DELETEreferring-doctors--id-"></code></pre>
+    <pre class="json"><code id="execution-response-content-DELETEdoctor-address-books--id-"></code></pre>
 </span>
-<span id="execution-error-DELETEreferring-doctors--id-" hidden>
+<span id="execution-error-DELETEdoctor-address-books--id-" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-DELETEreferring-doctors--id-"></code></pre>
+    <pre><code id="execution-error-message-DELETEdoctor-address-books--id-"></code></pre>
 </span>
-<form id="form-DELETEreferring-doctors--id-" data-method="DELETE"
-      data-path="referring-doctors/{id}"
+<form id="form-DELETEdoctor-address-books--id-" data-method="DELETE"
+      data-path="doctor-address-books/{id}"
       data-authed="1"
       data-hasfiles="0"
       data-isarraybody="0"
       data-headers='{"Authorization":"Bearer {YOUR_AUTH_KEY}","Content-Type":"application\/json","Accept":"application\/json"}'
       autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('DELETEreferring-doctors--id-', this);">
+      onsubmit="event.preventDefault(); executeTryOut('DELETEdoctor-address-books--id-', this);">
     <h3>
         Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
                     style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-DELETEreferring-doctors--id-"
-                    onclick="tryItOut('DELETEreferring-doctors--id-');">Try it out ⚡
+                    id="btn-tryout-DELETEdoctor-address-books--id-"
+                    onclick="tryItOut('DELETEdoctor-address-books--id-');">Try it out ⚡
             </button>
             <button type="button"
                     style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-DELETEreferring-doctors--id-"
-                    onclick="cancelTryOut('DELETEreferring-doctors--id-');" hidden>Cancel 🛑
+                    id="btn-canceltryout-DELETEdoctor-address-books--id-"
+                    onclick="cancelTryOut('DELETEdoctor-address-books--id-');" hidden>Cancel 🛑
             </button>&nbsp;&nbsp;
             <button type="submit"
                     style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-DELETEreferring-doctors--id-" hidden>Send Request 💥
+                    id="btn-executetryout-DELETEdoctor-address-books--id-" hidden>Send Request 💥
             </button>
             </h3>
             <p>
             <small class="badge badge-red">DELETE</small>
-            <b><code>referring-doctors/{id}</code></b>
+            <b><code>doctor-address-books/{id}</code></b>
         </p>
                 <p>
-            <label id="auth-DELETEreferring-doctors--id-" hidden>Authorization header:
+            <label id="auth-DELETEdoctor-address-books--id-" hidden>Authorization header:
                 <b><code>Bearer </code></b><input type="text"
                                                                 name="Authorization"
                                                                 data-prefix="Bearer "
-                                                                data-endpoint="DELETEreferring-doctors--id-"
+                                                                data-endpoint="DELETEdoctor-address-books--id-"
                                                                 data-component="header"></label>
         </p>
                 <h4 class="fancy-heading-panel"><b>URL Parameters</b></h4>
@@ -12131,11 +12131,11 @@ fetch(url, {
                 <b><code>id</code></b>&nbsp;&nbsp;<small>integer</small>  &nbsp;
                 <input type="number"
                name="id"
-               data-endpoint="DELETEreferring-doctors--id-"
+               data-endpoint="DELETEdoctor-address-books--id-"
                value="1"
                data-component="url" hidden>
     <br>
-<p>The ID of the referring doctor.</p>
+<p>The ID of the doctor address book.</p>
             </p>
                     </form>
 

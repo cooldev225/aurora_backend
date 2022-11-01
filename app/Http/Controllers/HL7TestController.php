@@ -6,7 +6,7 @@ use App\Models\Appointment;
 use App\Models\OutgoingMessageLog;
 use App\Models\Patient;
 use App\Models\PatientDocument;
-use App\Models\ReferringDoctor;
+use App\Models\DoctorAddressBook;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -49,7 +49,7 @@ class HL7TestController extends Controller
     public function createHealthLinkMessage(
           //  User $specialist, 
           ////  Appointment $appointment, //Sender
-            ReferringDoctor $referringDoctor // Receiver
+          DoctorAddressBook $doctorAddressBook // Receiver
         ){
         $appointment = Appointment::first();
         $patient = Patient::where('id', $appointment->patient_id); /// FOR TESTING
@@ -87,7 +87,7 @@ class HL7TestController extends Controller
         $rf1->setField(11, '000');// Referrer ID
         $msg->addSegment($rf1);
 
-        //PRD 1 Referring Provider
+        //PRD 1 Doctor Address Book Provider
         $prd1 = new Segment('PRD');
         $prd1->setField(1,'RP'); // PROVIDER ROLE RP - Referring prov, PT - refereed to
         $prd1->setField(2,'sendLastname^Firstname^^^DR'); // XPN NAME: FAMILY^GIVEN^SECOND AND OTET^SUFFIX^PREFIX^DEGREE ....

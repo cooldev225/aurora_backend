@@ -36,7 +36,7 @@ use App\Http\Controllers\LetterTemplateController;
 use App\Http\Controllers\NotificationTestController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\PreAdmissionController;
-use App\Http\Controllers\ReferringDoctorController;
+use App\Http\Controllers\DoctorAddressBookController;
 use App\Http\Controllers\ReportTemplateController;
 use App\Http\Controllers\MailController;
 use App\Http\Controllers\OrganizationSettingsController;
@@ -203,7 +203,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/organization-admins',           OrganizationAdminController::class,['except' => ['show']])->parameters(['organization_admin' => 'user']);
     Route::apiResource('/patients',                      PatientController::class, ['except' => ['create']]);
     Route::apiResource('/pre-admission-sections',        PreAdmissionController::class,['except' => ['show']]);
-    Route::apiResource('/referring-doctors',             ReferringDoctorController::class,['except' => ['show']]);
+    Route::apiResource('/doctor-address-book',           DoctorAddressBookController::class,['except' => ['show']]);
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
     Route::apiResource('/bulletins',                     BulletinController::class);

@@ -11,7 +11,7 @@ class AppointmentReferral extends Model
 
     protected $fillable = [
         'appointment_id',
-        'referring_doctor_id',
+        'doctor_address_book_id',
         'is_no_referral',
         'no_referral_reason',
         'referral_date',
@@ -21,7 +21,7 @@ class AppointmentReferral extends Model
     ];
 
     protected $appends = [
-        'referring_doctor_name'
+        'doctor_address_book_name'
     ];
 
     /**
@@ -33,16 +33,16 @@ class AppointmentReferral extends Model
     }
 
     /**
-     * Return Referring Doctor
+     * Return Doctor Address Book
      */
-    public function referring_doctor()
+    public function doctor_address_book()
     {
-        return $this->belongsTo(ReferringDoctor::class);
+        return $this->belongsTo(DoctorAddressBook::class);
     }
 
-    public function getReferringDoctorNameAttribute()
+    public function getDoctorAddressBookNameAttribute()
     {
-        $referring_doctor = $this->referring_doctor;
-        return $referring_doctor ? $referring_doctor->full_name : null;
+        $doctor_address_book = $this->doctor_address_book;
+        return $doctor_address_book ? $doctor_address_book->full_name : null;
     }
 }

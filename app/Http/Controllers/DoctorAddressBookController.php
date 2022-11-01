@@ -3,45 +3,45 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
-use App\Models\ReferringDoctor;
-use App\Http\Requests\ReferringDoctorRequest;
+use App\Models\DoctorAddressBook;
+use App\Http\Requests\DoctorAddressBookRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ReferringDoctorController extends Controller
+class DoctorAddressBookController extends Controller
 {
     /**
-     * [Referring Doctor] - All
+     * [Doctor Address Book] - All
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAny', ReferringDoctor::class);
+        $this->authorize('viewAny', DoctorAddressBook::class);
 
-        $referringDoctors = ReferringDoctor::all();
+        $doctorAddressBooks = DoctorAddressBook::all();
 
         return response()->json(
             [
-                'message'   => 'Referring Doctor List',
-                'data'      => $referringDoctors,
+                'message'   => 'Doctor Address Book List',
+                'data'      => $doctorAddressBooks,
             ],
             Response::HTTP_OK
         );
     }
 
     /**
-     * [Referring Doctor] - List
+     * [Doctor Address Book] - List
      *
      * @return \Illuminate\Http\Response
      */
     public function list()
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAny', ReferringDoctor::class);
+        $this->authorize('viewAny', DoctorAddressBook::class);
 
-        $referringDoctors = ReferringDoctor::select(
+        $doctorAddressBooks = DoctorAddressBook::select(
             'id',
             DB::raw('CONCAT(title, " ", first_name, " ", last_name) AS full_name'),
             'title',
@@ -53,22 +53,22 @@ class ReferringDoctorController extends Controller
 
         return response()->json(
             [
-                'message'   => 'Referring Doctor List',
-                'data'      => $referringDoctors,
+                'message'   => 'Doctor Address Book List',
+                'data'      => $doctorAddressBooks,
             ],
             Response::HTTP_OK
         );
     }
 
     /**
-     * [Referring Doctor] - Search
+     * [Doctor Address Book] - Search
      *
      * @return \Illuminate\Http\Response
      */
     public function search(Request $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('viewAny', ReferringDoctor::class);
+        $this->authorize('viewAny', DoctorAddressBook::class);
 
         $term = $request->term;
 
@@ -83,7 +83,7 @@ class ReferringDoctorController extends Controller
 
         $keyword = '%' . $term . '%';
 
-        $arrReferringDoctors = ReferringDoctor::whereRaw(
+        $arrDoctorAddressBooks = DoctorAddressBook::whereRaw(
                 'CONCAT(`first_name`, \' \', `last_name`) LIKE "' . $keyword . '"')
             ->orWhere('address', 'LIKE', $keyword)
             ->orWhere('provider_no', 'LIKE', $keyword)
@@ -91,7 +91,7 @@ class ReferringDoctorController extends Controller
             ->get();
 
         $result = [];
-        foreach ($arrReferringDoctors as $doctor) {
+        foreach ($arrDoctorAddressBooks as $doctor) {
             $info = '<i class="fa  fa-user-md"></i> ' . $doctor->title . ' '
                 . $doctor->first_name . ' ' . $doctor->last_name
                 . '<br /><i class="fa fa-map-marker"></i> ' . $doctor->address
@@ -114,72 +114,72 @@ class ReferringDoctorController extends Controller
     }
 
     /**
-     * [Referring Doctor] - Store
+     * [Doctor Address Book] - Store
      *
-     * @param  \App\Http\Requests\ReferringDoctorRequest  $request
+     * @param  \App\Http\Requests\DoctorAddressBookRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(ReferringDoctorRequest $request)
+    public function store(DoctorAddressBookRequest $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('create', ReferringDoctor::class);
+        $this->authorize('create', DoctorAddressBook::class);
 
-        $referringDoctor = ReferringDoctor::create([
+        $doctorAddressBook = DoctorAddressBook::create([
             ...$request->validated()
         ]);
 
         return response()->json(
             [
-                'message' => 'New Referring Doctor created',
-                'data' => $referringDoctor,
+                'message' => 'New Doctor Address Book created',
+                'data' => $doctorAddressBook,
             ],
             Response::HTTP_CREATED
         );
     }
 
     /**
-     * [Referring Doctor] - Update
+     * [Doctor Address Book] - Update
      *
-     * @param  \App\Http\Requests\ReferringDoctorRequest  $request
-     * @param  \App\Models\ReferringDoctor  $referringDoctor
+     * @param  \App\Http\Requests\DoctorAddressBookRequest  $request
+     * @param  \App\Models\DoctorAddressBook  $doctorAddressBook
      * @return \Illuminate\Http\Response
      */
     public function update(
-        ReferringDoctorRequest $request,
-        ReferringDoctor $referringDoctor
+        DoctorAddressBookRequest $request,
+        DoctorAddressBook $doctorAddressBook
     ) {
         // Verify the user can access this function via policy
-        $this->authorize('update', $referringDoctor);
+        $this->authorize('update', $doctorAddressBook);
 
-        $referringDoctor->update([
+        $doctorAddressBook->update([
             ...$request->validated()
         ]);
 
         return response()->json(
             [
-                'message' => 'Referring Doctor updated',
-                'data' => $referringDoctor,
+                'message' => 'Doctor Address Book updated',
+                'data' => $doctorAddressBook,
             ],
             Response::HTTP_OK
         );
     }
 
     /**
-     * [Referring Doctor] - Destroy
+     * [Doctor Address Book] - Destroy
      *
-     * @param  \App\Models\ReferringDoctor  $referringDoctor
+     * @param  \App\Models\DoctorAddressBook  $doctorAddressBook
      * @return \Illuminate\Http\Response
      */
-    public function destroy(ReferringDoctor $referringDoctor)
+    public function destroy(DoctorAddressBook $doctorAddressBook)
     {
         // Verify the user can access this function via policy
-        $this->authorize('delete', $referringDoctor);
+        $this->authorize('delete', $doctorAddressBook);
 
-        $referringDoctor->delete();
+        $doctorAddressBook->delete();
 
         return response()->json(
             [
-                'message' => 'Referring Doctor Removed',
+                'message' => 'Doctor Address Book Removed',
             ],
             Response::HTTP_NO_CONTENT
         );

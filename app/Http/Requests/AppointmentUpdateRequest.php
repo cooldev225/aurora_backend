@@ -44,7 +44,7 @@ use Illuminate\Validation\Rules\Enum;
 * @bodyParam health_fund_reference_number    number                The patients health fund reference number
 * @bodyParam health_fund_expiry_date         date                  The patients health fund expiry date
 *
-* @bodyParam referring_doctor_id             int        required   The id of the referring doctor                                         Example: 2
+* @bodyParam doctor_address_book_id          int        required   The id of the doctor address boook                                     Example: 2
 * @bodyParam referral_date                   date       required   The date the referral was issued                                       Example: 1993-23-03
 * @bodyParam referral_duration               int        required   The duration the referral is valid                                     Example: 3
 * @bodyParam file                            file                  The referral file

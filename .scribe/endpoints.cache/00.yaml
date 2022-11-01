@@ -26,9 +26,9 @@ endpoints:
         custom: []
     queryParameters: []
     bodyParameters:
-      referring_doctor_id:
-        name: referring_doctor_id
-        description: 'The id of the referring doctor'
+      doctor_address_book_id:
+        name: doctor_address_book_id
+        description: 'The id of the Doctor Address Book'
         required: true
         example: 2
         type: integer

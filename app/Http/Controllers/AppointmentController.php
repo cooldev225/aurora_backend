@@ -176,11 +176,11 @@ class AppointmentController extends Controller
         ]);
 
         AppointmentReferral::create([
-            'appointment_id' => $appointment->id,
-            'referring_doctor_id' => $request->referring_doctor_id,
-            'referral_date' => Carbon::create($request->referral_date)->toDateString(),
-            'referral_duration' => $request->referral_duration,
-            'is_no_referral' => false,
+            'appointment_id'                => $appointment->id,
+            'doctor_address_book_id'           => $request->doctor_address_book_id,
+            'referral_date'                 =>  Carbon::create($request->referral_date)->toDateString(),
+            'referral_duration'             => $request->referral_duration,
+            'is_no_referral'                => false,
         ]);
 
         AppointmentPreAdmission::create([
@@ -253,10 +253,11 @@ class AppointmentController extends Controller
         }
 
         $appointment->referral->update([
-            'referring_doctor_id' => $request->referring_doctor_id,
-            'referral_date' => Carbon::create($request->referral_date)->toDateString(),
-            'referral_duration' => $request->referral_duration,
-            'is_no_referral' => false,
+            'doctor_address_book_id'           => $request->doctor_address_book_id,
+            'referral_date'                 =>  Carbon::create($request->referral_date)->toDateString(),
+            'referral_duration'             => $request->referral_duration,
+            'is_no_referral'                => false,
+
         ]);
 
         return response()->json(

@@ -38,7 +38,7 @@
     <h3>Patient Visit</h3>
     <ul>
         <li><strong> Attending Doctor:</strong> {{ $pv1['attending_doctor'] }}</li>
-        <li><strong> Referring Doctor:</strong> {{ $pv1['referring_doctor'] }}</li>
+        <li><strong> Doctor Address Book:</strong> {{ $pv1['doctor_address_book'] }}</li>
         <li><strong> Consulting Doctor: </strong>{{ $pv1['consulting_doctor'] }}</li>
 
     </ul>

@@ -44,7 +44,7 @@ use Illuminate\Validation\Rules\Enum;
 * @bodyParam health_fund_reference_number    number                The patients health fund reference number
 * @bodyParam health_fund_expiry_date         date                  The patients health fund expiry date
 *
-* @bodyParam referring_doctor_id             int        required   The id of the referring doctor                                         Example: 2
+* @bodyParam doctor_address_book_id          int        required   The id of the doctor address book                                         Example: 2
 * @bodyParam referral_date                   date       required   The date the referral was issued                                       Example: 1993-23-03
 * @bodyParam referral_duration               int        required   The duration the referral is valid                                     Example: 3
 * @bodyParam file                            file                  The referral file
@@ -82,6 +82,7 @@ class AppointmentCreateRequest extends FormRequest
         $patient_request = new PatientRequest();
 
         return [
+
             'clinic_id'            => 'numeric|exists:clinics,id',
             'appointment_type_id'  => 'required|numeric|exists:appointment_types,id',
             'specialist_id'        => 'required|numeric|exists:users,id',
@@ -92,7 +93,7 @@ class AppointmentCreateRequest extends FormRequest
             'charge_type'          => [new Enum(ChargeType::class)],
             'anesthetic_answers'   => 'required_if:anesthetic_questions,true|array',
             'anesthetic_questions' => 'required|boolean',
-            'referring_doctor_id'  => 'nullable|integer|exists:referring_doctors,id',
+           'doctor_address_book_id'=> 'nullable|integer|exists:doctor_address_books,id',
             'referral_date'        => 'nullable|date',
             'referral_duration'    => 'nullable|integer',
             'claim_sources'        => 'nullable|array',
