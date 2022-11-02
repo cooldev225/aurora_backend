@@ -22,17 +22,6 @@ return new class extends Migration {
             $table->enum('invoice_by', ['CLINIC', 'SPECIALIST'])->default('CLINIC');
             $table->integer('arrival_time');
             $table->enum('appointment_time', ['SINGLE', 'DOUBLE', 'TRIPLE'])->default('SINGLE');
-            $table->integer('payment_tier_1')->default(0);
-            $table->integer('payment_tier_2')->default(0);
-            $table->integer('payment_tier_3')->default(0);
-            $table->integer('payment_tier_4')->default(0);
-            $table->integer('payment_tier_5')->default(0);
-            $table->integer('payment_tier_6')->default(0);
-            $table->integer('payment_tier_7')->default(0);
-            $table->integer('payment_tier_8')->default(0);
-            $table->integer('payment_tier_9')->default(0);
-            $table->integer('payment_tier_10')->default(0);
-            $table->integer('payment_tier_11')->default(0);
             $table->foreignId('report_template')->nullable();
             $table->timestamps();
         });

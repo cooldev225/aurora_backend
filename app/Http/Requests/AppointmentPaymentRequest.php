@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Enum\NotificationMethod;
+use App\Enum\PaymentType;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rules\Enum;
 
 /**
 * @bodyParam appointment_id    string  required  The ID of the associated appointment                                     Example: 1
@@ -32,12 +35,13 @@ class AppointmentPaymentRequest extends FormRequest
     public function rules()
     {
         return [
-            'appointment_id'    => 'required|integer|exists:appointments,id',
-            'amount'            => 'required|numeric',
-            'payment_type'      => 'required|string',
-            'is_deposit'        => 'required|boolean',
-            'is_send_receipt'   => 'required|boolean',
-            'email'             => 'required_if:is_send_receipt,true|email',
+            'appointment_id'      => 'required|integer|exists:appointments,id',
+            'amount'              => 'required|numeric',
+            'payment_type'        => ['required', new Enum(PaymentType::class)],
+            'is_deposit'          => 'required|boolean',
+            'is_send_receipt'     => 'required|boolean',
+            'notification_method' => ['required_id:is_send_receipt,true', new Enum(NotificationMethod::class)],
+            'sent_to'             => 'required_if:is_send_receipt,true',
         ];
     }
 }

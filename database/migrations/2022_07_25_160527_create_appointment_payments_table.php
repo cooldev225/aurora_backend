@@ -17,14 +17,13 @@ return new class extends Migration
             $table->id();
             $table->foreignId('appointment_id');
             $table->foreignId('confirmed_by');
-            $table->float('amount');
+            $table->integer('amount');
             $table->enum('payment_type', ['CASH', 'EFTPOS'])->default('CASH');
             $table->boolean('is_deposit')->default(false);
             $table->boolean('is_send_receipt')->default(false);
-            $table->text('email')->nullable();
+            $table->enum('notification_method', ['email', 'sms'])->nullable();
+            $table->text('sent_to')->nullable();
             $table->timestamps();
-
-            
         });
     }
 
