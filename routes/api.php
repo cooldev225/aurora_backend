@@ -17,7 +17,6 @@ use App\Http\Controllers\AppointmentSpecialistController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
-use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PatientController;
@@ -200,7 +199,6 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/birth-codes',                   BirthCodeController::class,['except' => ['show']]);
     Route::apiResource('/clinics',                       ClinicController::class,['except' => ['show']]);
     Route::apiResource('/clinics/{clinic}/rooms',        RoomController::class,['except' => ['show']]);
-    Route::apiResource('/health-funds',                  HealthFundController::class,['except' => ['show']]);
     Route::apiResource('/letter-templates',              LetterTemplateController::class, ['except' => ['show']]);
     Route::apiResource('/notification-templates',        NotificationTemplateController::class, ['except' => ['show']]);
     Route::apiResource('/organizations',                 OrganizationController::class);

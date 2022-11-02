@@ -17,7 +17,7 @@ return new class extends Migration {
             $table->foreignId('patient_id');
             $table->string('member_number');
             $table->string('member_reference_number')->nullable();
-            $table->foreignId('health_fund_id')->nullable();
+            $table->string('health_fund_id', 3)->nullable();
             $table->tinyInteger('billing_type');
             $table->boolean('has_medicare_concession')->default(false);
             $table->boolean('is_valid')->default(false);
