@@ -53,6 +53,7 @@ use App\Http\Controllers\ScheduleFeeController;
 use App\Http\Controllers\UserProfileSignatureController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\OutgoingMessageLogController;
+use App\Http\Controllers\PatientAllergyController;
 
 use App\Models\AppointmentCodes;
 
@@ -160,6 +161,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/alerts',                                [PatientAlertController::class, 'store']);
         Route::put('/alerts/{patient_alert}',                 [PatientAlertController::class, 'update']);
+
+        Route::get('/allergies',                              [PatientAllergyController::class, 'allergies']);
     });
 
     Route::prefix('hrm')->group(function () {
