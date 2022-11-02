@@ -27,6 +27,7 @@ class PaymentController extends Controller
                                   ->where('date', '>=', date('Y-m-d'))
                                   ->orderBy('date')
                                   ->orderBy('start_time')
+                                  ->with('payments')
                                   ->get()
                                   ->toArray();
 
