@@ -18,7 +18,7 @@ class PatientAllergyController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('viewAny', PatientAllergy::class);
 
-        $result = PatientAllergy::selectAll()->get();
+        $result = PatientAllergy::all();
 
         return response()->json(
             [

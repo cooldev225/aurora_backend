@@ -162,7 +162,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/alerts',                                [PatientAlertController::class, 'store']);
         Route::put('/alerts/{patient_alert}',                 [PatientAlertController::class, 'update']);
 
-        Route::get('/allergies',                              [PatientAllergyController::class, 'allergies']);
+        Route::get('/allergies',                              [PatientAllergyController::class, 'index']);
     });
 
     Route::prefix('hrm')->group(function () {
