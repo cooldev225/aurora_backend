@@ -6,6 +6,7 @@ use App\Http\Requests\PatientRecallIndexRequest;
 use App\Http\Requests\PatientRecallRequest;
 use Illuminate\Http\Response;
 use App\Models\PatientRecall;
+use App\Models\Patient;
 
 class PatientRecallController extends Controller
 {
@@ -13,24 +14,19 @@ class PatientRecallController extends Controller
      * [Recall - List]
      *
      * Returns a list of all the recalls set for the patient
-     * 
+     *
      * @group Patients
      * @return \Illuminate\Http\Response
      * @responseFile storage/responses/patients.recall.list.json
      */
-    public function index(PatientRecallIndexRequest $request)
+    public function index(Patient $patient)
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', PatientRecall::class);
 
         $recalls = PatientRecall::where('organization_id', auth()->user()->organization_id);
 
-        $params = $request->validated();
-        foreach ($params as $column => $param) {
-            if (!empty($param)) {
-                    $recalls = $recalls->where($column, '=', $param);                
-            }
-        }
+        $recalls = $recalls->where('patient_id', '=', $patient->id);
 
         $recalls->with('sentLogs');
 
@@ -42,7 +38,7 @@ class PatientRecallController extends Controller
             200
         );
     }
-    
+
     /**
      * [Recall] - Store
      *
@@ -115,7 +111,7 @@ class PatientRecallController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('delete', $patientRecall);
-    
+
         $patientRecall->delete();
 
         return response()->json(
