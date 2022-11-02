@@ -11,7 +11,7 @@ use App\Models\NotificationTemplate;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\OrganizationCreateRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
-
+use Illuminate\Http\Request;
 class OrganizationController extends Controller
 {
     /**
@@ -119,19 +119,14 @@ class OrganizationController extends Controller
     ) {
         // Verify the user can access this function via policy
         $this->authorize('update', $organization);
-
         $organization->update(
             $request->safe()->only([
-                'name',
                 'max_clinics',
                 'max_employees',
-                'appointment_length',
-                'start_time',
-                'end_time',
                 'has_billing',
                 'has_coding',
-            ]
-        ));
+            ])
+        );
 
         if ($file = $request->file('logo')) {
             $file_name = generateFileName(FileType::ORGANIZATION_LOGO, $organization->id, $file->extension());
