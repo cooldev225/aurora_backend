@@ -15,18 +15,13 @@ return new class extends Migration
     {
         Schema::create('schedule_fees', function (Blueprint $table) {
             $table->id();
+            $table->integer('amount');
+            $table->string('health_fund_code', 3);
+            $table->string('mbs_item_code');
             $table->foreignId('organization_id');
-            $table->boolean('allow_zero');
-            $table->integer('item_number');
-            $table->float('medicare_fee');
-            $table->float('medicare_fee_75');
-            $table->float('medicare_fee_85');
-            $table->string('procedure_or_consultation');
-            $table->float('dva_in');
-            $table->float('dva_out');
-            $table->float('tac');
-            $table->float('work_cover');
             $table->timestamps();
+
+            $table->unique(['health_fund_code', 'mbs_item_code']);
         });
     }
 
