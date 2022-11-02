@@ -4,18 +4,18 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 /**
-* @bodyParam name               string   required 
-* @bodyParam max_clinics        number   required 
-* @bodyParam max_employees      number   required 
-* @bodyParam appointment_length number   required 
-* @bodyParam start_time         number   required 
-* @bodyParam end_time           number   required 
-* @bodyParam has_billing        bool      
-* @bodyParam has_coding         bool      
-* @bodyParam email              string   required 
-* @bodyParam first_name         string   required 
-* @bodyParam last_name          string   required 
-* @bodyParam mobile_number      string   required 
+* @bodyParam name               string   required
+* @bodyParam max_clinics        number   required
+* @bodyParam max_employees      number   required
+* @bodyParam appointment_length number   required
+* @bodyParam start_time         number   required
+* @bodyParam end_time           number   required
+* @bodyParam has_billing        bool
+* @bodyParam has_coding         bool
+* @bodyParam email              string   required
+* @bodyParam first_name         string   required
+* @bodyParam last_name          string   required
+* @bodyParam mobile_number      string   required
 */
 class OrganizationCreateRequest extends FormRequest
 {
