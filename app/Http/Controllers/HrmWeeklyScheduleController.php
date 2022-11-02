@@ -6,9 +6,11 @@ use App\Enum\UserRole;
 use App\Http\Requests\HrmScheduleTimeslotRequest;
 use App\Http\Requests\HrmWeeklyscheduleIndexRequest;
 use App\Http\Requests\HrmWeeklyScheduleRequest;
+use App\Http\Requests\HrmWeeklyScheduleStoreRequest;
 use App\Models\HrmWeeklySchedule;
 use App\Models\User;
 use Carbon\Carbon;
+use Carbon\CarbonPeriod;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -51,13 +53,70 @@ class HrmWeeklyScheduleController extends Controller
      * @param \App\Http\Requests\HrmScheduleTimeslotRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(HrmScheduleTimeslotRequest $request)
+    public function store(HrmWeeklyScheduleStoreRequest $request)
     {
-        $hrmScheduleTimeslot = HrmWeeklySchedule::create($request->validated());
+        $weekDays = [];
+        $clinicIds = [];
+        $employeeIds = [];
+        $startDate = Carbon::parse($request->date)->startOfWeek()->format('Y-m-d');
+        $endDate = Carbon::parse($request->date)->endOfWeek()->format('Y-m-d');
+        $period = CarbonPeriod::create(Carbon::parse($request->date)->startOfWeek(),
+            Carbon::parse($request->date)->endOfWeek());
+        $organization = auth()->user()->organization;
+
+
+        foreach ($period as $day) {
+            $weekDays[strtoupper($day->format('D'))] = $day->toDateString();
+        }
+
+        foreach ($request->clinics as $clinic) {
+            array_push($clinicIds, $clinic['id']);
+        }
+        foreach ($request->employees as $employee) {
+            array_push($employeeIds, $employee['id']);
+        }
+
+        // Delete existing weekly schedules
+        $weeklySlots = HrmWeeklySchedule::whereBetween('date', [$startDate, $endDate])
+            ->whereIn('user_id', $employeeIds)
+            ->whereIn('clinic_id', $clinicIds)->delete();
+
+        //Fill hrm weekly schedule from user template
+        foreach ($request->employees as $employee) {
+            foreach ($employee['schedule_timeslots'] as $slot) {
+                HrmWeeklySchedule::create([
+                    'organization_id' => $slot['organization_id'],
+                    'date' => $weekDays[$slot['week_day']],
+                    'clinic_id' => $slot['clinic_id'],
+                    'week_day' => $slot['week_day'],
+                    'category' => $slot['category'],
+                    'user_id' => $slot['user_id'],
+                    'anesthetist_id' => $slot['anesthetist_id'],
+                    'hrm_schedule_timeslot_id' => $slot['id'],
+                    'start_time' => $slot['start_time'],
+                    'end_time' => $slot['end_time'],
+                    'status' => 'UNPUBLISHED',
+                    'is_template' => true,
+                ]);
+            }
+
+        }
+
+        $users = User::where(
+            'organization_id',
+            $organization->id
+        )->wherenot('role_id', UserRole::ADMIN)
+            ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
+            ->with(
+                ['hrmWeeklySchedule' => function ($query) use ($startDate, $endDate) {
+                    $query->whereBetween('date', [$startDate, $endDate]);
+                }
+                ])->get();
+
         return response()->json(
             [
                 'message' => 'Schedule templated created',
-                'data' => $hrmScheduleTimeslot,
+                'data' => $users,
             ],
             200
         );
