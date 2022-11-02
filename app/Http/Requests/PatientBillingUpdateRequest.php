@@ -35,7 +35,7 @@ class PatientBillingUpdateRequest extends FormRequest
         return [
             'member_number'           => 'required|alphanum|min:1|max:19',
             'member_reference_number' => 'nullable|string',
-            'health_fund_id'          => 'nullable|numeric|exists:health_funds,id',
+            'health_fund_id'          => 'nullable|string|max:3',
             'has_medicare_concession' => 'nullable|boolean',
             'is_valid'                => 'required|boolean',
         ];
