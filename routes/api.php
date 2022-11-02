@@ -49,6 +49,7 @@ use App\Http\Controllers\UserProfileController;
 
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
 use App\Http\Controllers\PatientAlsoKnownAsController;
+use App\Http\Controllers\ScheduleFeeController;
 use App\Http\Controllers\UserProfileSignatureController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\OutgoingMessageLogController;
@@ -205,6 +206,7 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/pre-admission-sections',        PreAdmissionController::class,['except' => ['show']]);
     Route::apiResource('/doctor-address-book',           DoctorAddressBookController::class,['except' => ['show']]);
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
+    Route::apiResource('/schedule-fees',                 ScheduleFeeController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
     Route::apiResource('/bulletins',                     BulletinController::class);
 

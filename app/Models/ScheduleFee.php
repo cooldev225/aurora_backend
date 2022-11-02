@@ -10,9 +10,10 @@ class ScheduleFee extends Model
     use HasFactory;
 
     protected $fillable = [
-        'organization_id', 'allow_zero', 'item_number', 'medicare_fee',
-        'medicare_fee_75', 'medicare_fee_85', 'procedure_or_consultation',
-        'dva_in', 'dva_out', 'tac', 'work_cover', 'status'
+        'amount',
+        'health_fund_code',
+        'mbs_item_code',
+        'organization_id',
     ];
 
     /**

@@ -66,7 +66,7 @@ class AppointmentPaymentPolicy
      */
     public function update(User $user, AppointmentPayment $appointmentPayment)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $appointmentPayment->appointment->organization_id == $user->organization->id;
+        return false;
     }
 
     /**
@@ -78,7 +78,7 @@ class AppointmentPaymentPolicy
      */
     public function delete(User $user, AppointmentPayment $appointmentPayment)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $appointmentPayment->appointment->organization_id == $user->organization->id;
+        return false;
     }
 
     /**
