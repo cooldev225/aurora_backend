@@ -55,7 +55,8 @@ class PaymentController extends Controller
             [
                 'message' => 'Payment Detail Info',
                 'data' =>  [
-                    'appointment'   => $appointment->toArray(),
+                    'appointment'   => $appointment,
+                    'codes'         => $appointment->codes,
                     'payment_list'  => $appointment->payments,
                     'paid_amount'   => $appointment->payments()->sum('amount'),
                 ]
