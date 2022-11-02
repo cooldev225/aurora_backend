@@ -101,22 +101,9 @@ class HrmWeeklyScheduleController extends Controller
             }
 
         }
-
-        $users = User::where(
-            'organization_id',
-            $organization->id
-        )->wherenot('role_id', UserRole::ADMIN)
-            ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
-            ->with(
-                ['hrmWeeklySchedule' => function ($query) use ($startDate, $endDate) {
-                    $query->whereBetween('date', [$startDate, $endDate]);
-                }
-                ])->get();
-
         return response()->json(
             [
-                'message' => 'Schedule templated created',
-                'data' => $users,
+                'message' => 'Schedule templated created'
             ],
             200
         );
