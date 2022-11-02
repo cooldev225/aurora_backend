@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('schedule_fees', function (Blueprint $table) {
             $table->id();
             $table->integer('amount');
-            $table->string('health_fund_code', 3);
             $table->string('mbs_item_code');
+            $table->string('health_fund_code', 3);
+            $table->boolean('is_base_amount')->default(false);
             $table->foreignId('organization_id');
             $table->timestamps();
 
