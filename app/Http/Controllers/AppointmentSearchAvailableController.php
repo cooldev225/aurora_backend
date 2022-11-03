@@ -30,6 +30,7 @@ class AppointmentSearchAvailableController extends Controller
      * @urlParam time_requirement    A Time Requirement Id.                      Example: 4
      * @return \Illuminate\Http\Response
      */
+    
     public function index(Request $request)
     {
 
@@ -95,6 +96,31 @@ class AppointmentSearchAvailableController extends Controller
         return response()->json(
             ['message' => 'METHOD NOT IMPLEMENTED',
                 'data' => $availableStartTimes],
+            Response::HTTP_OK
+        );
+    }
+
+    public function testAppointmentCount($monthString = 'November', $yearString = '2022'){
+        
+        $appointmentAvailabilities = [];
+       // date : 3 appointments_availability : NONE (FULLY_BOOKED, ALMOST_FULLY_BOOKED,  AVAILABLE_APPOINTMENTS, )
+        $month = Carbon::parse($monthString)->month;
+        $daysInMonth = Carbon::parse($monthString)->daysInMonth;
+
+        foreach ($daysInMonth as $day ) {
+            // If no specialist working on day return NONE
+           
+            // Else return max number possible appointment for day
+        }
+
+        $request = new Request(['date' => '2022-11-03']);
+        $appointmentsCount = Appointment::whereYear('created_at', '=', $yearString)
+        ->whereMonth('created_at', '=', $month)->count();
+
+
+        return response()->json(
+            ['message' => 'METHOD NOT IMPLEMENTED',
+                'data' => $appointmentsCount],
             Response::HTTP_OK
         );
     }
