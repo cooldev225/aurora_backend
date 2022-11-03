@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AppointmentCodesRequest extends FormRequest
+class HealthLinkStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +24,9 @@ class AppointmentCodesRequest extends FormRequest
     public function rules()
     {
         return [
-            'is_complete'              => 'bool|required',
-            'procedures_undertaken'    => 'string|sometimes',
-            'extra_items_used'         => 'string|sometimes',
-            'indication_codes'         => 'string|sometimes',
-            'diagnosis_codes'          => 'string|sometimes',
+            'receiving_doctor_id'              => 'int|required',
+            'patient_document_id'              => 'int|required',
+
         ];
     }
 }
