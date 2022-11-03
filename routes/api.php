@@ -47,6 +47,7 @@ use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
 
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
+use App\Http\Controllers\HealthLinkController;
 use App\Http\Controllers\PatientAlsoKnownAsController;
 use App\Http\Controllers\ScheduleFeeController;
 use App\Http\Controllers\UserProfileSignatureController;
@@ -171,7 +172,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('communication')->group(function () {
         Route::get('/outgoing-log', [OutgoingMessageLogController::class, 'index']);
-      
+        Route::post('/send-via-healthlink', [HealthLinkController::class, 'store']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
