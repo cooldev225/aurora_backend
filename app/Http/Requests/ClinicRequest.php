@@ -37,16 +37,17 @@ class ClinicRequest extends FormRequest
     {
         return [
             'name'                             => 'required|string',
+            'nickname_code'                    => 'required|string',
             'email'                            => 'required|email',
             'phone_number'                     => 'required|string',
             'address'                          => 'required|string',
-            'fax_number'                       => 'required|string',
-            'hospital_provider_number'         => 'required|string',
-            'VAED_number'                      => 'required|string',
-            'specimen_collection_point_number' => 'required|string',
-            'lspn_id'                          => 'required|numeric',
-            'healthlink_edi'                   => 'string',
-            'minor_id'                         => 'string',
+            'fax_number'                       => 'nullable|string',
+            'hospital_provider_number'         => 'nullable|string',
+            'VAED_number'                      => 'nullable|string',
+            'specimen_collection_point_number' => 'nullable|string',
+            'lspn_id'                          => 'nullable|numeric',
+            'healthlink_edi'                   => 'nullable|string',
+            'minor_id'                         => 'nullable|string',
         ];
     }
 }
