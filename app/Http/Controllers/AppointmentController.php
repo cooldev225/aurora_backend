@@ -331,7 +331,7 @@ class AppointmentController extends Controller
     {
         $startTime = Carbon::create($request->start_time);
         $organization = User::find($request->specialist_id)->organization()->first();
-        $appointmentType = AppointmentType::find($request->appointment_type_id)->first();
+        $appointmentType = AppointmentType::where("id", $request->appointment_type_id)->first();
         return Carbon::create($startTime)->addMinutes($organization->appointment_length * $appointmentType->AppointmentLengthAsNumber);
     }
 }
