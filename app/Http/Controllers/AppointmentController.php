@@ -104,7 +104,7 @@ class AppointmentController extends Controller
         if ($patient) {
             // Verify the user can access this function via policy
             $this->authorize('update', $patient);
-            $this->authorize('update', $patient->billing->first());
+           
 
             $patient->update([
                 'first_name' => $request->first_name,
@@ -119,8 +119,8 @@ class AppointmentController extends Controller
             ]);
         } else {
             // Verify the user can access this function via policy
-            $this->authorize('create', Patient::class);
-            $this->authorize('create', PatientBilling::class);
+           $this->authorize('create', Patient::class);
+      
 
             $patient = Patient::create([
                 'first_name' => $request->first_name,
