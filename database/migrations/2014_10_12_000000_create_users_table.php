@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Carbon\Carbon;
 
 return new class extends Migration {
     /**
@@ -33,11 +34,12 @@ return new class extends Migration {
             $table
             ->enum('type', ['full-time', 'part-time', 'contract', 'casual'])
             ->default('full-time');
-        $table->string('document_letter_header')->nullable();
-        $table->string('document_letter_footer')->nullable();
-        $table->string('sign_off')->nullable();
-        $table->string('education_code')->nullable();
-        $table->string('signature')->nullable();
+            $table->string('document_letter_header')->nullable();
+            $table->string('document_letter_footer')->nullable();
+            $table->string('sign_off')->nullable();
+            $table->string('education_code')->nullable();
+            $table->string('signature')->nullable();
+            $table->timestamp('password_changed_date')->default(Carbon::now());
             $table->rememberToken();
             $table->timestamps();
         });
