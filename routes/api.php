@@ -218,6 +218,7 @@ Route::middleware(['auth'])->group(function () {
     // Other Routes
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
     Route::get('/available-timeslots',             [AppointmentSearchAvailableController::class, 'index']);
+    Route::get('/appointment-month-availabilities',        [AppointmentSearchAvailableController::class, 'appointmentCount']);
     Route::post('/file',                           [FileController::class,'show']);
 
     // Patient Document Routes

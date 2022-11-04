@@ -30,7 +30,7 @@ class AppointmentSearchAvailableController extends Controller
      * @urlParam time_requirement    A Time Requirement Id.                      Example: 4
      * @return \Illuminate\Http\Response
      */
-    
+
     public function index(Request $request)
     {
 
@@ -94,39 +94,69 @@ class AppointmentSearchAvailableController extends Controller
             $searchDate = $searchDate->addDay();
         }
         return response()->json(
-            ['message' => 'METHOD NOT IMPLEMENTED',
-                'data' => $availableStartTimes],
+            [
+                'message' => 'Available Start times',
+                'data' => $availableStartTimes
+            ],
             Response::HTTP_OK
         );
     }
 
-    public function testAppointmentCount($monthString = 'November', $yearString = '2022'){
-        
+    public function appointmentCount(Request $request)
+    {
+
+        $monthString = 'November';
+        $yearString = '2022';
+
         $appointmentAvailabilities = [];
-       // date : 3 appointments_availability : NONE (FULLY_BOOKED, ALMOST_FULLY_BOOKED,  AVAILABLE_APPOINTMENTS, )
+        // date : 3 appointments_availability : NONE (FULLY_BOOKED, ALMOST_FULLY_BOOKED,  AVAILABLE_APPOINTMENTS, )
         $month = Carbon::parse($monthString)->month;
         $daysInMonth = Carbon::parse($monthString)->daysInMonth;
 
-        foreach ($daysInMonth as $day ) {
+        for ($i = 4; $i <= $daysInMonth; $i++) {
+            $date =  Carbon::parse("{$yearString}-{$month}-{$i}")->format('y-m-d');
+            $day = strtoupper(Carbon::parse($date)->format('D'));
             // If no specialist working on day return NONE
-           
+            $specialistsWorking = User::where('organization_id', 1)//auth()->user()->organization_id)
+            ->where('role_id', UserRole::SPECIALIST)
+            ->whereHas('scheduleTimeslots', function ($query) use ($day) {
+                $query->where('week_day', $day);
+            })->get();
             // Else return max number possible appointment for day
-        }
+          
+      
 
-        $request = new Request(['date' => '2022-11-03']);
-        $appointmentsCount = Appointment::whereYear('created_at', '=', $yearString)
-        ->whereMonth('created_at', '=', $month)->count();
+
+            if($specialistsWorking->count() > 0){
+
+                 array_push($appointmentAvailabilities, [
+                    'date' => $i,
+                    'appointments_availability' => 'AVAILABLE_APPOINTMENTS'
+                ]);
+            }else{
+                array_push($appointmentAvailabilities, [
+                    'date' => $i,
+                    'appointments_availability' => 'NONE'
+                ]);
+            }
+
+           
+        }
+     
+       
+
 
 
         return response()->json(
-            ['message' => 'METHOD NOT IMPLEMENTED',
-                'data' => $appointmentsCount],
+            [
+                'message' => 'Appointment count',
+                'data' => $appointmentAvailabilities
+            ],
             Response::HTTP_OK
         );
     }
 
-    private
-    function getSpecialistforSlot($specialist, $time, $day, $searchDate, $aptType)
+    private function getSpecialistforSlot($specialist, $time, $day, $searchDate, $aptType)
     {
         if ($specialist->canWorkAt($time, $day) && $specialist->canAppointmentTypeAt($time, $day, $aptType)) {
             // Check if specialist already has an appointment in timeslot
@@ -144,8 +174,7 @@ class AppointmentSearchAvailableController extends Controller
         return false;
     }
 
-    private
-    function getTimeFrameParameter($time_requirement)
+    private function getTimeFrameParameter($time_requirement)
     {
 
         $organization = auth()->user()->organization;

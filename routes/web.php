@@ -31,5 +31,5 @@ Route::get('/test', function() {
 Route::get('/test-pdf', [AppointmentPreAdmissionController::class, 'testPDF']);
 Route::get('/test-hl7parse', [HL7TestController::class, 'testHL7Parse']);
 Route::get('/test-hl7create', [HL7TestController::class, 'createHealthLinkMessage']);
-Route::get('/test-apt-count', [AppointmentSearchAvailableController::class, 'testAppointmentCount']);
+Route::get('/test-apt-count', [AppointmentSearchAvailableController::class, 'appointmentCount']);
 Route::get('/VAED-report-test', [ReportVAEDController::class, 'generateVAEDforEpisode']);
