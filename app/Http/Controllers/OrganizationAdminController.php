@@ -53,6 +53,7 @@ class OrganizationAdminController extends Controller
             'role_id' => UserRole::ORGANIZATION_ADMIN,
             'organization_id' => $organization_id,
             'password' => Hash::make($request->password),
+            'password_changed_date' => date('Y-m-d H:i:s'),
             'raw_password' => $request->password,
         ]);
 

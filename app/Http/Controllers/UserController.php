@@ -132,6 +132,7 @@ class UserController extends Controller
             'organization_id' => auth()->user()->organization_id,
             'username' => $username,
             'password' => Hash::make($raw_password),
+            'password_changed_date' => date('Y-m-d H:i:s'),
             ...$request->validated()
         ]);
 
