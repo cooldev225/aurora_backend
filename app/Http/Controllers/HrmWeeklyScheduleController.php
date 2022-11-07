@@ -3,16 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Enum\UserRole;
-use App\Http\Requests\HrmScheduleTimeslotRequest;
 use App\Http\Requests\HrmWeeklyscheduleIndexRequest;
 use App\Http\Requests\HrmWeeklyScheduleRequest;
 use App\Http\Requests\HrmWeeklyScheduleStoreRequest;
+use App\Models\HrmDeletedSchedule;
 use App\Models\HrmWeeklySchedule;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
+
 
 class HrmWeeklyScheduleController extends Controller
 {
@@ -121,8 +120,26 @@ class HrmWeeklyScheduleController extends Controller
         $deleteTimeslots = $request->deleteTimeslots;
 
         if (count($deleteTimeslots) > 0) {
-            foreach ($deleteTimeslots as $id) {
-                $hrmScheduleTimeslot = HrmWeeklySchedule::where('id', $id)->delete();
+            foreach ($deleteTimeslots as $slot) {
+                $hrmScheduleTimeslot = HrmWeeklySchedule::where('id', $slot["hrm_weekly_schedule_id"])->first();
+
+                // Create delete record on Hrm deleted schedules table
+                HrmDeletedSchedule::create([
+                    'start_time' => $hrmScheduleTimeslot-> start_time,
+                    'end_time' => $hrmScheduleTimeslot-> end_time,
+                    'date' => $hrmScheduleTimeslot-> date,
+                    'organization_id' => $hrmScheduleTimeslot-> organization_id,
+                    'clinic_id' => $hrmScheduleTimeslot-> clinic_id,
+                    'user_id' => $hrmScheduleTimeslot-> user_id,
+                    'reason' =>  $slot["reason"],
+                    'week_day' => $hrmScheduleTimeslot-> week_day,
+                    'category' => $hrmScheduleTimeslot-> category,
+                    'restriction' => $hrmScheduleTimeslot-> restriction,
+                    'status' =>  $hrmScheduleTimeslot-> status,
+                ]);
+
+                $hrmScheduleTimeslot->delete();
+
             }
         }
 
