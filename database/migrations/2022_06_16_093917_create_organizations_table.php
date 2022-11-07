@@ -34,6 +34,7 @@ return new class extends Migration {
             $table->boolean('has_billing')->default(true);
             $table->boolean('has_coding')->default(true);
 
+            $table->integer('password_expiration_timeframe')->default(6);
             $table->timestamps();
         });
     }
