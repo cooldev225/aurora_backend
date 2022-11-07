@@ -2,8 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\HealthFund;
-use App\Models\HealthFundFee;
 use App\Models\ScheduleFee;
 use Faker\Factory;
 use Illuminate\Database\Seeder;

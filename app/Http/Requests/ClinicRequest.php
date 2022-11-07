@@ -37,6 +37,7 @@ class ClinicRequest extends FormRequest
     {
         return [
             'name'                             => 'required|string',
+            'nickname_code'                    => 'required|string',
             'email'                            => 'required|email',
             'phone_number'                     => 'required|string',
             'address'                          => 'required|string',
@@ -48,6 +49,7 @@ class ClinicRequest extends FormRequest
             'healthlink_edi'                   => 'string',
             'minor_id'                         => 'string',
             'nickname_code'                         => 'string',
+
         ];
     }
 }

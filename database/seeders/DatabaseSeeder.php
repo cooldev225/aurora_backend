@@ -23,7 +23,6 @@ class DatabaseSeeder extends Seeder
             RoomSeeder::class,
             UserSeeder::class,
             PatientSeeder::class,
-            HealthFundSeeder::class,
             AnestheticQuestionSeeder::class,
             DoctorAddressBookSeeder::class,
             HrmScheduleTimeslotSeeder::class,

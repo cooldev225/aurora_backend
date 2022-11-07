@@ -31,7 +31,7 @@ class NotificationTemplatePolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasRole(['organizationAdmin']);
+        return $user->hasRole('organizationAdmin');
     }
 
     /**
