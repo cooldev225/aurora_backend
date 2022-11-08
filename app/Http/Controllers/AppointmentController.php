@@ -41,8 +41,9 @@ class AppointmentController extends Controller
             ->with('referral')
             ->with('anesthetist')
             ->with(['specialist.hrmWeeklySchedule' => function ($query) {
-                $query->where('status', 'PUBLISHED')->with('anesthetist');
+                $query->where('status', 'PUBLISHED');
             }])
+            ->with('specialist.hrmWeeklySchedule.anesthetist')
             ->orderBy('date')
             ->orderBy('start_time');
 
