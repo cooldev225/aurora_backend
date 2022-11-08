@@ -62,12 +62,14 @@ class PaymentController extends Controller
             foreach ($appointment->codes->procedures_undertaken as $procedure) {
                 $schedule_item = ScheduleItem::whereId($procedure)
                                              ->whereOrganizationId($organization_id)
-                                             ->first();
+                                             ->with('schedule_fees')
+                                             ->first()
+                                             ->toArray();
                 
                 $charges['procedures'][] = [
                     ...$schedule_item,
-                    'schedule_fees' => $schedule_item->schedule_fees,
-                    'price'         => $schedule_item->amount,
+                    'schedule_fees' => $schedule_item['schedule_fees'],
+                    'price'         => $schedule_item['amount'] / 100,
                 ];
             }
         }
@@ -76,12 +78,14 @@ class PaymentController extends Controller
             foreach ($appointment->codes->extra_items as $extra_item) {
                 $schedule_item = ScheduleItem::whereId($extra_item)
                                              ->whereOrganizationId($organization_id)
-                                             ->first();
+                                             ->with('schedule_fees')
+                                             ->first()
+                                             ->toArray();
                 
-                $charges['extra_items'][] = [
+                $charges['procedures'][] = [
                     ...$schedule_item,
-                    'schedule_fees' => $schedule_item->schedule_fees,
-                    'price'         => $schedule_item->amount,
+                    'schedule_fees' => $schedule_item['schedule_fees'],
+                    'price'         => $schedule_item['amount'] / 100,
                 ];
             }
         }
