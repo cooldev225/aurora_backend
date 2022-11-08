@@ -13,11 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('schedule_fees', function (Blueprint $table) {
+        Schema::create('schedule_items', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('schedule_item_id');
-            $table->string('health_fund_code', 3);
+            $table->string('name');
+            $table->string('description')->nullable();
             $table->integer('amount');
+            $table->string('mbs_item_code')->nullable();
+            $table->string('icd_code')->nullable();
+            $table->foreignId('organization_id');
             $table->timestamps();
         });
     }
@@ -29,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('schedule_fees');
+        Schema::dropIfExists('schedule_items');
     }
 };

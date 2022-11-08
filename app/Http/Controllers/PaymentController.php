@@ -6,7 +6,7 @@ use App\Http\Requests\AppointmentPaymentRequest;
 use App\Models\Appointment;
 use App\Models\AppointmentPayment;
 use Illuminate\Http\Response;
-use App\Models\ScheduleFee;
+use App\Models\ScheduleItem;
 use App\Notifications\PaymentConfirmationNotification;
 
 class PaymentController extends Controller
@@ -60,36 +60,28 @@ class PaymentController extends Controller
 
         if ($appointment->codes->procedures_undertaken) {
             foreach ($appointment->codes->procedures_undertaken as $procedure) {
-                $schedule_fees = ScheduleFee::whereOrganizationId($organization_id)
-                                            ->whereMbsItemCode($procedure['mbs_code'])
-                                            ->get()
-                                            ->toArray();
-                
-                $out_of_pocket_key = array_search(1, array_column($schedule_fees, 'is_base_amount'));
-                $out_of_pocket = $schedule_fees[$out_of_pocket_key];
+                $schedule_item = ScheduleItem::whereId($procedure)
+                                             ->whereOrganizationId($organization_id)
+                                             ->first();
                 
                 $charges['procedures'][] = [
-                    ...$procedure,
-                    'schedule_fees' => $schedule_fees,
-                    'price'         => $out_of_pocket['amount'] ? $out_of_pocket['amount'] / 100 : 0,
+                    ...$schedule_item,
+                    'schedule_fees' => $schedule_item->schedule_fees,
+                    'price'         => $schedule_item->amount,
                 ];
             }
         }
 
         if ($appointment->codes->extra_items) {
             foreach ($appointment->codes->extra_items as $extra_item) {
-                $schedule_fees = ScheduleFee::whereOrganizationId($organization_id)
-                                            ->whereMbsItemCode($extra_item['mbs_code'])
-                                            ->get()
-                                            ->toArray();
-                
-                $out_of_pocket_key = array_search(1, array_column($schedule_fees, 'is_base_amount'));
-                $out_of_pocket = $schedule_fees[$out_of_pocket_key];
+                $schedule_item = ScheduleItem::whereId($extra_item)
+                                             ->whereOrganizationId($organization_id)
+                                             ->first();
                 
                 $charges['extra_items'][] = [
-                    ...$extra_item,
-                    'schedule_fees' => $schedule_fees,
-                    'price'         => $out_of_pocket['amount'] ? $out_of_pocket['amount'] / 100 : 0,
+                    ...$schedule_item,
+                    'schedule_fees' => $schedule_item->schedule_fees,
+                    'price'         => $schedule_item->amount,
                 ];
             }
         }

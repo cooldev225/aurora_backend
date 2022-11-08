@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ScheduleFeeStoreRequest extends FormRequest
+class ScheduleItemStoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,11 @@ class ScheduleFeeStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'amount'           => 'required|numeric|min:0',
-            'health_fund_code' => 'required|min:2|max:3',
-            'schedule_item_id' => 'required|exists:schedule_items,id',
+            'name'            => 'required|string',
+            'description'     => 'string',
+            'amount'          => 'required|numeric',
+            'mbs_item_code'   => 'string|max:5',
+            'icd_code'        => 'string|max:10',
         ];
     }
 }

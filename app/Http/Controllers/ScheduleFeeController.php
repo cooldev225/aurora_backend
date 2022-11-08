@@ -10,29 +10,6 @@ use App\Http\Requests\ScheduleFeeUpdateRequest;
 class ScheduleFeeController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        // Verify the user can access this function via policy
-        $this->authorize('viewAny', ScheduleFee::class);
-
-        $organization_id = auth()->user()->organization_id;
-
-        $schedule_fees = ScheduleFee::where('organization_id', $organization_id)->get();
-
-        return response()->json(
-            [
-                'message' => 'Schedule Fee List',
-                'data' => $schedule_fees,
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -43,10 +20,7 @@ class ScheduleFeeController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('create', ScheduleFee::class);
 
-        $scheduleFee = ScheduleFee::create([
-            ...$request->validated(),
-            'organization_id' => auth()->user()->organization_id,
-        ]);
+        $scheduleFee = ScheduleFee::create($request->validated());
 
         return response()->json(
             [
