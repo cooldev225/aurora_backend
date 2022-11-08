@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Enum\UserRole;
 use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserRequest;
-use App\Mail\NewEmployee;
+use App\Mail\NewEmployeeEmail;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -139,8 +139,8 @@ class UserController extends Controller
         $this->update($request, $user);
 
         //Send An email to the user with their credentials and al link
-        Mail::to($user->email)->send(new NewEmployee($user, $raw_password));
-
+        Mail::to($user->email)->send(new NewEmployeeEmail($user, $raw_password));
+        
         return response()->json(
             [
                 'message' => 'User Created',

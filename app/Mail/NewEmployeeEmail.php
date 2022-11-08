@@ -6,8 +6,9 @@ use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Log;
 
-class NewEmployee extends Mailable
+class NewEmployeeEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
