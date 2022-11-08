@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use DB;
+use Illuminate\Support\Facades\Log;
 use Twilio\Rest\Client;
 
 class Patient extends Model
@@ -190,11 +191,13 @@ class Patient extends Model
 
     public function sendSMS($message){
 
+        Log::info('PATIENT SEND');
+
         $sid = env('TWILIO_SID');
         $token = env('TWILIO_AUTH_TOKEN');
         $client = new Client($sid, $token);
         $client->messages->create(
-            $this->contact_number,
+            $this->int_contact_number,
             [
                 'from' => env('TWILIO_PHONE_NUMBER'),
                 'body' => $message,
