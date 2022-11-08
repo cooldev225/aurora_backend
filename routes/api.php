@@ -17,7 +17,6 @@ use App\Http\Controllers\AppointmentSpecialistController;
 use App\Http\Controllers\AppointmentTypeController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\ClinicController;
-use App\Http\Controllers\HealthFundController;
 use App\Http\Controllers\OrganizationAdminController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\PatientController;
@@ -48,11 +47,13 @@ use App\Http\Controllers\UserPasswordController;
 use App\Http\Controllers\UserProfileController;
 
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
+use App\Http\Controllers\HealthLinkController;
 use App\Http\Controllers\PatientAlsoKnownAsController;
 use App\Http\Controllers\ScheduleFeeController;
 use App\Http\Controllers\UserProfileSignatureController;
 use App\Http\Controllers\SpecialistController;
 use App\Http\Controllers\OutgoingMessageLogController;
+use App\Http\Controllers\PatientAllergyController;
 
 use App\Models\AppointmentCodes;
 
@@ -160,6 +161,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/alerts',                                [PatientAlertController::class, 'store']);
         Route::put('/alerts/{patient_alert}',                 [PatientAlertController::class, 'update']);
+
+        Route::get('/allergies',                              [PatientAllergyController::class, 'index']);
     });
 
     Route::prefix('hrm')->group(function () {
@@ -169,7 +172,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('communication')->group(function () {
         Route::get('/outgoing-log', [OutgoingMessageLogController::class, 'index']);
-      
+        Route::post('/send-via-healthlink', [HealthLinkController::class, 'store']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -197,7 +200,6 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/birth-codes',                   BirthCodeController::class,['except' => ['show']]);
     Route::apiResource('/clinics',                       ClinicController::class,['except' => ['show']]);
     Route::apiResource('/clinics/{clinic}/rooms',        RoomController::class,['except' => ['show']]);
-    Route::apiResource('/health-funds',                  HealthFundController::class,['except' => ['show']]);
     Route::apiResource('/letter-templates',              LetterTemplateController::class, ['except' => ['show']]);
     Route::apiResource('/notification-templates',        NotificationTemplateController::class, ['except' => ['show']]);
     Route::apiResource('/organizations',                 OrganizationController::class);
@@ -217,6 +219,7 @@ Route::middleware(['auth'])->group(function () {
     // Other Routes
     Route::post('/organizations/settings',         [OrganizationSettingsController::class,'update']);
     Route::get('/available-timeslots',             [AppointmentSearchAvailableController::class, 'index']);
+    Route::get('/appointment-month-availabilities',        [AppointmentSearchAvailableController::class, 'appointmentCount']);
     Route::post('/file',                           [FileController::class,'show']);
 
     // Patient Document Routes

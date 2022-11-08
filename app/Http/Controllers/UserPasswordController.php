@@ -45,6 +45,7 @@ class UserPasswordController extends Controller
 
         $user->update([
             'password' => Hash::make($request->new_password),
+            'password_changed_date' => date('Y-m-d H:i:s'),
         ]);
 
         return response()->json(

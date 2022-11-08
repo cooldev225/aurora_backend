@@ -46,6 +46,7 @@ class AdminController extends Controller
         $user = User::create([
             ...$request->safe()->except(['password']),
             'password' => Hash::make($request->password),
+            'password_changed_date' => date('Y-m-d H:i:s'),
             'raw_password' => $request->password,
             'role_id' => UserRole::ADMIN,
         ]);

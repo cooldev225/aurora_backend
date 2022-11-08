@@ -8,14 +8,12 @@ use App\Models\User;
 use App\Models\Clinic;
 use App\Models\Patient;
 use App\Models\BirthCode;
-use App\Models\HealthFund;
 use App\Models\Appointment;
 use App\Models\ScheduleFee;
 use App\Models\Organization;
 use App\Policies\MailPolicy;
 use App\Policies\RoomPolicy;
 use App\Policies\UserPolicy;
-use App\Models\HealthFundFee;
 use App\Models\PatientLetter;
 use App\Models\PatientRecall;
 use App\Models\PatientReport;
@@ -32,7 +30,6 @@ use App\Policies\PatientPolicy;
 use App\Policies\BirthCodePolicy;
 use App\Models\AnestheticQuestion;
 use App\Models\AppointmentPayment;
-use App\Policies\HealthFundPolicy;
 use App\Models\AppointmentReferral;
 use App\Models\HrmScheduleTimeslot;
 use App\Models\PatientClinicalNote;
@@ -44,7 +41,6 @@ use App\Models\NotificationTemplate;
 use App\Models\PatientRecallSentLog;
 use App\Models\PreAdmissionQuestion;
 use App\Policies\OrganizationPolicy;
-use App\Policies\HealthFundFeePolicy;
 use App\Policies\PatientLetterPolicy;
 use App\Policies\PatientRecallPolicy;
 use App\Policies\PatientReportPolicy;
@@ -98,8 +94,6 @@ class AuthServiceProvider extends ServiceProvider
         Clinic::class                     => ClinicPolicy::class,
         DocumentHeaderFooterTemplate::class=> DocumentHeaderFooterTemplatePolicy::class,
         HRMUserBaseSchedule::class        => HRMUserBaseSchedulePolicy::class,
-        HealthFund::class                 => HealthFundPolicy::class,
-        HealthFundFee::class              => HealthFundFeePolicy::class,
         LetterTemplate::class             => LetterTemplatePolicy::class,
         Mail::class                       => MailPolicy::class,
         NotificationTemplate::class       => NotificationTemplatePolicy::class,
