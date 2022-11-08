@@ -37,7 +37,7 @@ class AppointmentReminder extends Command
     private function sendAppointmentReminderNotifications(){
         $organizations = Organization::get();
         foreach ($organizations as $organization) {
-            $template = $organization->notificationTemplates::where('type', 'appointment_reminder')->first();
+            $template = $organization->notificationTemplates->where('type', 'appointment_reminder')->first();
             $days_before = $template->days_before;
             $appointment_date = now()->addDays($days_before)->toDateString();
 

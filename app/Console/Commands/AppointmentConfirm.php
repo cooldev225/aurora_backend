@@ -36,7 +36,7 @@ class AppointmentConfirm extends Command
     private function sendAppointmentConfirmNotifications() {
         $organizations = Organization::get();
         foreach ($organizations as $organization) {
-            $template = $organization->notificationTemplates::where('type', 'appointment_confirmation')->first();
+            $template = $organization->notificationTemplates->where('type', 'appointment_confirmation')->first();
             $days_before = $template->days_before;
             $appointment_date = now()->addDays($days_before)->toDateString();
 

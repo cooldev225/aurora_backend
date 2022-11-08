@@ -45,7 +45,7 @@ class PatientRecallScheduler extends Command
     {
         $organizations = Organization::get();
         foreach ($organizations as $organization) {
-            $template = $organization->notificationTemplates::where('type', 'recall')->first();
+            $template = $organization->notificationTemplates->where('type', 'recall')->first();
             
             $days_before = $template->days_before;
             $date = now()->addDays($days_before)->toDateString();
