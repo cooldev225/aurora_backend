@@ -138,9 +138,8 @@ class UserController extends Controller
 
         $this->update($request, $user);
 
-        //Send An email to the user with their credentials and al link
-        Mail::to($user->email)->send(new NewEmployeeEmail($user, $raw_password));
-        
+        $user->sendEmail(new NewEmployeeEmail($user, $raw_password));
+
         return response()->json(
             [
                 'message' => 'User Created',

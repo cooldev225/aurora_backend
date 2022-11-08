@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Mail\GenericNotificationEmail;
 use App\Mail\Notification;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -188,6 +189,65 @@ class Appointment extends Model
 
         return true;
     }
+    /**
+     * translates and appointment into the given template
+     */
+    public function translate( $template){
 
+        $preadmission_url = 'https://dev.aurorasw.com.au/#/appointment_pre_admissions/show/'
+            . md5($this->id) . '/form_1';
+
+        $confirm_url = 'https://dev.aurorasw.com.au/#/appointment/'
+            . md5($this->id) . '/confirm';
+
+        $words = [
+            '[PatientFirstName]' => $this->patient->first_name,
+            '[PatientLastName]'  => $this->patient->last_name,
+
+            '[AppointmentTime]'     => $this->start_time,
+            '[AppointmentFullDate]' => Carbon::create($this->date)->format('d/m/Y'),
+            '[AppointmentDate]'     => Carbon::create($this->date)->format('jS, F'),
+            '[AppointmentDay]'      => Carbon::create($this->date)->format('l'),
+
+            '[AppointmentType]'     => $this->appointment_type->name,
+            '[Specialist]'          => $this->specialist->full_name,
+
+            '[ClinicName]'          => $this->clinic->name,
+            '[ClinicPhone]'         => $this->clinic->phone_number,
+
+            '[ClinicAddress]'       => $this->clinic->address,
+            '[ClinicEmail]'         => $this->clinic->email,
+
+            '[PreAdmissionURL]'     => $preadmission_url,
+            '[ConfirmURL]'          => $confirm_url,
+        ];
+
+        $translated = $template;
+
+        foreach ($words as $key => $word) {
+            $translated = str_replace($key, $word, $translated);
+        }
+
+        return $translated;
+    }
+
+    public function sendNotification($type){
+
+        $notificationTemplate =   $this->organization->notificationTemplates->where('type', $type)->first();
+        $channel = $this->patient->appointment_confirm_method;
+        $patient = $this->patient;
+        $template = $channel == 'SMS' ? $notificationTemplate->sms_template : $notificationTemplate->email_print_template;
+
+        $data = [
+            'subject' => $notificationTemplate->subject,
+            'message' => $this->translate($template),
+        ];
+
+        if ($channel == 'SMS') {
+            $patient->sendSms($data['message']);
+        } elseif ($channel == 'EMAIL') {
+            $patient->sendEmail(new GenericNotificationEmail($data['subject'], $data['message']));
+        }
+    }
   
 }
