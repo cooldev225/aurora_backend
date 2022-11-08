@@ -33,9 +33,9 @@ class AppointmentProcedureApprovalController extends Controller
         $preadmission->save();
 
         if ($appointment->procedure_approval_status == ProcedureApprovalStatus::APPROVED) {
-            Notification::sendAppointmentNotification($appointment, 'procedure_approved');
+            $appointment->sendNotification('procedure_approved');
         } else {
-            Notification::sendAppointmentNotification($appointment, 'procedure_denied'); 
+            $appointment->sendNotification('procedure_denied'); 
         }
 
         return response()->json(

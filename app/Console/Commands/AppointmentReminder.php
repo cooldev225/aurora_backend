@@ -4,7 +4,6 @@ namespace App\Console\Commands;
 
 use App\Models\Appointment;
 use App\Models\Organization;
-use App\Notifications\AppointmentNotification;
 use Illuminate\Console\Command;
 
 class AppointmentReminder extends Command
