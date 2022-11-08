@@ -48,7 +48,7 @@ class ClinicRequest extends FormRequest
             'lspn_id'                          => 'required|numeric',
             'healthlink_edi'                   => 'string',
             'minor_id'                         => 'string',
-            'nickname_code'                         => 'string',
+            'nickname_code'                    => 'string',
 
         ];
     }
