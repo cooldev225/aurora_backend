@@ -19,14 +19,19 @@ class PatientRecallController extends Controller
      * @return \Illuminate\Http\Response
      * @responseFile storage/responses/patients.recall.list.json
      */
-    public function index(Patient $patient)
+    public function index(PatientRecallIndexRequest $request)
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', PatientRecall::class);
 
         $recalls = PatientRecall::where('organization_id', auth()->user()->organization_id);
 
-        $recalls = $recalls->where('patient_id', '=', $patient->id);
+        $params = $request->validated();
+        foreach ($params as $column => $param) {
+            if (!empty($param)) {
+                    $recalls = $recalls->where($column, '=', $param);
+            }
+        }
 
         $recalls->with('sentLogs');
 
