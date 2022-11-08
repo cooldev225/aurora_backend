@@ -22,26 +22,36 @@ class AnesthetistController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
 
-//        $date = date('Y-m-d');
-//        if ($request->has('date')) {
-//            $date = Carbon::create($request->date)->toDateString();
-//        }
-
-        $day = ($request->day);
-
-        $specialists = User::
-        where('organization_id', auth()->user()->organization_id)
-            ->where('role_id', UserRole::ANESTHETIST)
-            ->whereHas('scheduleTimeslots', function($query) use ($day)
-            {
-                $query->where('week_day', $day);
-            })
-            ->with([
-                'scheduleTimeslots' => function ($query) use ($day) {
+        if ($request->day) {
+            $day = ($request->day);
+            $specialists = User::
+            where('organization_id', auth()->user()->organization_id)
+                ->where('role_id', UserRole::ANESTHETIST)
+                ->whereHas('scheduleTimeslots', function ($query) use ($day) {
                     $query->where('week_day', $day);
-                }
-            ])
-            ->get();
+                })
+                ->with([
+                    'scheduleTimeslots' => function ($query) use ($day) {
+                        $query->where('week_day', $day);
+                    }
+                ])
+                ->get();
+
+        } else if ($request->date) {
+            $date = Carbon::parse($request->date)->format('Y-m-d');
+            $specialists = User::
+            where('organization_id', auth()->user()->organization_id)
+                ->where('role_id', UserRole::ANESTHETIST)
+                ->whereHas('hrmWeeklySchedule', function ($query) use ($date) {
+                    $query->where('date', $date)->where('status', "PUBLISHED");
+                })
+                ->with([
+                    'hrmWeeklySchedule' => function ($query) use ($date) {
+                        $query->where('date', $date)->where('status', "PUBLISHED");
+                    }
+                ])
+                ->get();
+        }
 
         return response()->json(
             [
@@ -51,5 +61,4 @@ class AnesthetistController extends Controller
             Response::HTTP_OK
         );
     }
-
 }

@@ -225,10 +225,11 @@ class User extends Authenticatable implements JWTSubject
     * @param string $day
     * @return boolean
     */
-    public function hrmUserBaseSchedulesTimeDay($time, $day)
+    public function hrmUserBaseSchedulesTimeDay($time, $date)
     {
-        return $this->scheduleTimeslots
-            ->where('week_day', $day)
+        return $this->hrmWeeklySchedule()
+            ->where('date', $date)
+            ->where('status', "PUBLISHED")
             ->where('start_time', '<=', date('H:i:s', $time))
             ->where('end_time', '>', date('H:i:s', $time))->first();
     }

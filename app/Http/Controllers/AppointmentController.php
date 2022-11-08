@@ -33,14 +33,16 @@ class AppointmentController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('viewAny', Appointment::class);
-    
+
         $appointments = Appointment::
         where('organization_id', auth()->user()->organization_id)
             ->wherenot('confirmation_status', ConfirmationStatus::CANCELED)
             ->with('appointment_type')
             ->with('referral')
             ->with('anesthetist')
-            ->with('specialist.scheduleTimeslots.anesthetist')
+            ->with(['specialist.hrmWeeklySchedule' => function ($query) {
+                $query->where('status', 'PUBLISHED')->with('anesthetist');
+            }])
             ->orderBy('date')
             ->orderBy('start_time');
 
@@ -48,19 +50,14 @@ class AppointmentController extends Controller
         foreach ($params as $column => $param) {
 
             if ($column == 'date') {
-                $param = Carbon::parse($param)->format('Y-m-d');
-                $day = strtoupper(Carbon::parse($param)->format('D'));
-                $appointments = $appointments->with(['specialist.scheduleTimeslots' => function ($query) use ($day) {
-                    $query->where('week_day', $day);
+                $day = Carbon::parse($param)->format('Y-m-d');
+                $appointments = $appointments->with(['specialist.hrmWeeklySchedule' => function ($query) use ($day) {
+                    $query->where('date', $day)->where('status', 'PUBLISHED');
                 }
                 ]);
             } else {
                 $appointments = $appointments->where($column, '=', $param);
             }
-        }
-        if ($request->has('date')) {
-            $date = Carbon::create($request->date)->toDateString();
-            $day = Carbon::create($request->date)->dayOfWeek;
         }
 
         return response()->json(
@@ -104,7 +101,7 @@ class AppointmentController extends Controller
         if ($patient) {
             // Verify the user can access this function via policy
             $this->authorize('update', $patient);
-           
+
 
             $patient->update([
                 'first_name' => $request->first_name,
@@ -120,7 +117,7 @@ class AppointmentController extends Controller
         } else {
             // Verify the user can access this function via policy
            $this->authorize('create', Patient::class);
-      
+
 
             $patient = Patient::create([
                 'first_name' => $request->first_name,
@@ -165,7 +162,7 @@ class AppointmentController extends Controller
             'appointment_type_id' => $request->appointment_type_id,
             'clinic_id' => $request->clinic_id,
             'specialist_id' => $request->specialist_id,
-            'anesthetist_id' => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($startTime->timestamp, strtoupper(Carbon::parse($request->date)->format('D')))?->anesthetist_id,
+            'anesthetist_id' => User::find($request->specialist_id)->hrmUserBaseSchedulesTimeDay($startTime->timestamp, strtoupper(Carbon::parse($request->date)->format('Y-m-d')))?->anesthetist_id,
             'note' => $request->note,
             'charge_type' => $request->charge_type,
             'room_id' => $request->room_id,
