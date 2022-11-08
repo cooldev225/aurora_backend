@@ -36,7 +36,7 @@ class HrmWeeklyScheduleSeeder extends Seeder
                     'anesthetist_id' => $slot->anesthetist_id,
                     'start_time' => $slot->start_time,
                     'end_time' => $slot->end_time,
-                    'status' => $this->faker->randomElement(['PUBLISHED','UNPUBLISHED','CANCELED']),
+                    'status' => 'PUBLISHED',
                     'is_template' => true,
                 ]);
             }
