@@ -108,9 +108,9 @@ class PatientRecall extends Model
             'message' => $this->translate($template),
         ];
 
-        if ($channel == 'SMS') {
+        if ($channel == 'sms') {
             $this->patient->sendSms($data['message']);
-        } elseif ($channel == 'EMAIL') {
+        } elseif ($channel == 'email') {
             $this->patient->sendEmail(new GenericNotificationEmail($data['subject'], $data['message']));
         }
     }

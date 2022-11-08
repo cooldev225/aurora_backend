@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class Appointment extends Model
 {
@@ -243,9 +244,9 @@ class Appointment extends Model
             'message' => $this->translate($template),
         ];
 
-        if ($channel == 'SMS') {
+        if ($channel == 'sms') {
             $patient->sendSms($data['message']);
-        } elseif ($channel == 'EMAIL') {
+        } elseif ($channel == 'email') {
             $patient->sendEmail(new GenericNotificationEmail($data['subject'], $data['message']));
         }
     }
