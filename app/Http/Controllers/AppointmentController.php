@@ -19,7 +19,6 @@ use App\Models\AppointmentReferral;
 use App\Models\Organization;
 use App\Models\PatientAlsoKnownAs;
 use App\Models\User;
-use App\Notifications\AppointmentNotification;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 class AppointmentController extends Controller
@@ -188,7 +187,7 @@ class AppointmentController extends Controller
             'token' => md5($appointment->id)
         ]);
 
-        AppointmentNotification::send($appointment, 'appointment_booked');
+        $appointment->sendNotification('appointment_booked');
 
         return response()->json(
             [
@@ -244,6 +243,7 @@ class AppointmentController extends Controller
                 ...$claim_source,
             ]);
         }
+
 
         foreach ($request->also_known_as as $known_as) {
             PatientAlsoKnownAs::create([
