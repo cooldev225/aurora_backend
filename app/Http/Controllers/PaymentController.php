@@ -3,11 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AppointmentPaymentRequest;
+use App\Mail\PaymentConfirmationEmail;
 use App\Models\Appointment;
 use App\Models\AppointmentPayment;
 use Illuminate\Http\Response;
 use App\Models\ScheduleItem;
-use App\Notifications\PaymentConfirmationNotification;
 
 class PaymentController extends Controller
 {
@@ -121,8 +121,7 @@ class PaymentController extends Controller
         ]);
 
         if ($payment->is_send_receipt) {
-            PaymentConfirmationNotification::method($payment->notification_method)
-                                           ->send($payment->sent_to, $payment);
+            $payment->patient->sendEmail(new PaymentConfirmationEmail());
         }
 
         return response()->json(

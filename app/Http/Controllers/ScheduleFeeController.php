@@ -19,7 +19,7 @@ class ScheduleFeeController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('create', ScheduleFee::class);
-
+        
         $scheduleFee = ScheduleFee::create($request->validated());
 
         return response()->json(
@@ -62,11 +62,10 @@ class ScheduleFeeController extends Controller
      */
     public function destroy(ScheduleFee $scheduleFee)
     {
-        // Verify the user can access this function via policy
         $this->authorize('delete', $scheduleFee);
 
         $scheduleFee->delete();
-
+        
         return response()->json(
             [
                 'message' => 'Schedule Fee Removed',

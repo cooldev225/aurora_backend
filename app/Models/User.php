@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\SpecialistClinicRelation;
+use Illuminate\Mail\Mailable;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -321,5 +322,9 @@ class User extends Authenticatable implements JWTSubject
             ->with('scheduleTimeslots')
             ->with('specialistClinicRelations')
             ->first();
+    }
+
+    public function sendEmail(Mailable $mailable){
+        Mail::to($this->email)->send($mailable);
     }
 }
