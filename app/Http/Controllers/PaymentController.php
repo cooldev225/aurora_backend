@@ -58,8 +58,8 @@ class PaymentController extends Controller
             'extra_items' => [],
         ];
 
-        if ($appointment->codes->procedures_undertaken) {
-            foreach ($appointment->codes->procedures_undertaken as $procedure) {
+        if ($appointment->detail->procedures_undertaken) {
+            foreach ($appointment->detail->procedures_undertaken as $procedure) {
                 $schedule_item = ScheduleItem::whereId($procedure)
                                              ->whereOrganizationId($organization_id)
                                              ->with('schedule_fees')
@@ -74,8 +74,8 @@ class PaymentController extends Controller
             }
         }
 
-        if ($appointment->codes->extra_items) {
-            foreach ($appointment->codes->extra_items as $extra_item) {
+        if ($appointment->detail->extra_items) {
+            foreach ($appointment->detail->extra_items as $extra_item) {
                 $schedule_item = ScheduleItem::whereId($extra_item)
                                              ->whereOrganizationId($organization_id)
                                              ->with('schedule_fees')

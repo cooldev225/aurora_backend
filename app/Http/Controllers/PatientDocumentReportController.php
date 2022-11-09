@@ -9,7 +9,7 @@ use App\Http\Requests\PatientDocumentReportStoreRequest;
 use App\Http\Requests\PatientDocumentReportUpdateRequest;
 use App\Http\Requests\PatientDocumentReportUploadRequest;
 use App\Models\Appointment;
-use App\Models\AppointmentCodes;
+use App\Models\AppointmentDetails;
 use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientReport;
@@ -90,12 +90,11 @@ class PatientDocumentReportController extends Controller
             'organization_id'   => auth()->user()->organization_id,
         ]);
 
-        $appointment_code = Appointment::find($request->appointmentId)->codes;
-        //$appointment_code = AppointmentCodes::find($appointment_code_id);
-        $appointment_code->procedures_undertaken = $request->procedures_undertaken;
-        $appointment_code->extra_items_used = $request->extra_items_used;
-        $appointment_code->diagnosis_codes = $request->icd_10_code;
-        $appointment_code->save();
+        $appointment_detail = Appointment::find($request->appointmentId)->detail;
+        $appointment_detail->procedures_undertaken = $request->procedures_undertaken;
+        $appointment_detail->extra_items_used = $request->extra_items_used;
+        $appointment_detail->diagnosis_codes = $request->icd_10_code;
+        $appointment_detail->save();
 
         $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, 'pdf');
         $file_path = getUserOrganizationFilePath();

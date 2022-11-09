@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\Patient;
 use App\Models\Appointment;
-use App\Models\AppointmentCodes;
+use App\Models\AppointmentDetails;
 use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
@@ -41,7 +41,7 @@ class AppointmentSeeder extends Seeder
 
                 $appointment = $this->createAppointment($date, $patient);
 
-                AppointmentCodes::factory()->create(
+                AppointmentDetails::factory()->create(
                     ['appointment_id' => $appointment->id],
                 );
 

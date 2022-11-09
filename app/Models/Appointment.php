@@ -95,9 +95,9 @@ class Appointment extends Model
     /**
      * Return Organization
      */
-    public function codes()
+    public function detail()
     {
-        return $this->hasOne(AppointmentCodes::class);
+        return $this->hasOne(AppointmentDetails::class);
     }
 
     /**

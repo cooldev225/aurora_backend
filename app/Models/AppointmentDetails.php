@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class AppointmentCodes extends Model
+class AppointmentDetails extends Model
 {
     use HasFactory;
 
@@ -13,5 +13,6 @@ class AppointmentCodes extends Model
 
     protected $casts = [
         'procedures_undertaken' => 'json',
+        'extra_items_used'      => 'json',
     ];
 }
