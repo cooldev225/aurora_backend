@@ -10,4 +10,8 @@ class AppointmentCodes extends Model
     use HasFactory;
 
     protected $fillable = ['diagnosis_codes','indication_codes','extra_items_used','is_complete','appointment_id','procedures_undertaken'];
+
+    protected $casts = [
+        'procedures_undertaken' => 'json',
+    ];
 }

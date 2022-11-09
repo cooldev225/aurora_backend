@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Enum\UserRole;
 use App\Http\Requests\UserIndexRequest;
 use App\Http\Requests\UserRequest;
-use App\Mail\NewEmployee;
+use App\Mail\NewEmployeeEmail;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -131,13 +131,13 @@ class UserController extends Controller
             'organization_id' => auth()->user()->organization_id,
             'username' => $username,
             'password' => Hash::make($raw_password),
+            'password_changed_date' => date('Y-m-d H:i:s'),
             ...$request->validated()
         ]);
 
         $this->update($request, $user);
 
-        //Send An email to the user with their credentials and al link
-        Mail::to($user->email)->send(new NewEmployee($user, $raw_password));
+        $user->sendEmail(new NewEmployeeEmail($user, $raw_password));
 
         return response()->json(
             [

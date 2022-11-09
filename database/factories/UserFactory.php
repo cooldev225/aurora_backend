@@ -46,6 +46,7 @@ class UserFactory extends Factory
             'remember_token' => Str::random(10),
             'organization_id' => $organization_id,
             'address' => $this->faker->address(),
+            'password_changed_date'=>date('Y-m-d H:i:s'),
         ];
     }
 

@@ -12,8 +12,11 @@ class AppointmentPayment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'appointment_id', 'confirmed_by', 'amount', 'payment_type',
-        'is_deposit'
+        'appointment_id',
+        'confirmed_by',
+        'amount',
+        'payment_type',
+        'is_deposit',
     ];
 
     protected $appends = [

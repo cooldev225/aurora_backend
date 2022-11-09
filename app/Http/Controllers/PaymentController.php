@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\NotificationMethod;
 use App\Http\Requests\AppointmentPaymentRequest;
+use App\Mail\PaymentConfirmationEmail;
 use App\Models\Appointment;
 use App\Models\AppointmentPayment;
 use Illuminate\Http\Response;
-use App\Mail\Notification;
-use App\Notifications\PaymentConfirmationNotification;
+use App\Models\ScheduleFee;
 
 class PaymentController extends Controller
 {
@@ -51,12 +50,56 @@ class PaymentController extends Controller
         $this->authorize('view', [Appointment::class, $appointment]);
         $this->authorize('viewAny', AppointmentPayment::class);
 
+        $user = auth()->user();
+        $organization_id = $user->organization->id;
+
+        $charges = [
+            'procedures'  => [],
+            'extra_items' => [],
+        ];
+
+        if ($appointment->codes->procedures_undertaken) {
+            foreach ($appointment->codes->procedures_undertaken as $procedure) {
+                $schedule_fees = ScheduleFee::whereOrganizationId($organization_id)
+                                            ->whereMbsItemCode($procedure['mbs_code'])
+                                            ->get()
+                                            ->toArray();
+                
+                $out_of_pocket_key = array_search(1, array_column($schedule_fees, 'is_base_amount'));
+                $out_of_pocket = $schedule_fees[$out_of_pocket_key];
+                
+                $charges['procedures'][] = [
+                    ...$procedure,
+                    'schedule_fees' => $schedule_fees,
+                    'price'         => $out_of_pocket['amount'] ? $out_of_pocket['amount'] / 100 : 0,
+                ];
+            }
+        }
+
+        if ($appointment->codes->extra_items) {
+            foreach ($appointment->codes->extra_items as $extra_item) {
+                $schedule_fees = ScheduleFee::whereOrganizationId($organization_id)
+                                            ->whereMbsItemCode($extra_item['mbs_code'])
+                                            ->get()
+                                            ->toArray();
+                
+                $out_of_pocket_key = array_search(1, array_column($schedule_fees, 'is_base_amount'));
+                $out_of_pocket = $schedule_fees[$out_of_pocket_key];
+                
+                $charges['extra_items'][] = [
+                    ...$extra_item,
+                    'schedule_fees' => $schedule_fees,
+                    'price'         => $out_of_pocket['amount'] ? $out_of_pocket['amount'] / 100 : 0,
+                ];
+            }
+        }
+
         return response()->json(
             [
                 'message' => 'Payment Detail Info',
                 'data' =>  [
                     'appointment'   => $appointment,
-                    'codes'         => $appointment->codes,
+                    'charges'       => $charges,
                     'payment_list'  => $appointment->payments,
                     'paid_amount'   => $appointment->payments()->sum('amount'),
                 ]
@@ -77,13 +120,12 @@ class PaymentController extends Controller
         $this->authorize('create', AppointmentPayment::class);
 
         $payment = AppointmentPayment::create([
-            $request->validated(),
+            ...$request->validated(),
             'confirmed_by' => auth()->user()->id,
         ]);
 
         if ($payment->is_send_receipt) {
-            PaymentConfirmationNotification::method($payment->notification_method)
-                                           ->send($payment->sent_to, $payment);
+            $payment->patient->sendEmail(new PaymentConfirmationEmail());
         }
 
         return response()->json(

@@ -29,20 +29,8 @@
 				<img  style="width:300px" src="https://dev.aurorasw.com.au/aurora-logo.png"/>
 			</td>
 		</tr>
-		<tr class="user">
-			<td align="center" style="padding:20px;">
-				<h1>Hi, {{ $user->full_name}}</h1>
-				<h3>On behalf of organization_name, welcome to Aurora medical software.</h3>
-			</td>
-		</tr>
 		<tr>
-			<td align="center" style="padding:20px;">
-
-                To get started, please follow the the link below to sign in:<br/>
-                <a href="https://demo.aurorasw.com.au/">https://demo.aurorasw.com.au/</a><br/><br/>
-                <strong>Username:</strong> {{ $user->username}}<br/>
-                <strong>Password:</strong>   {{ $raw_password}}<br/>
-			</td>
+		EMPLOYEE SCHEDUAL
 		</tr>
 		<tr class="user">
 			<td align="center" style="padding:20px;">

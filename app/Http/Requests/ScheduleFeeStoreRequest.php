@@ -27,6 +27,7 @@ class ScheduleFeeStoreRequest extends FormRequest
             'amount'           => 'required|numeric|min:0',
             'health_fund_code' => 'required|min:2|max:3',
             'mbs_item_code'    => 'required|string|max:5',
+            'is_base_amount'   => 'numeric|min:0',
         ];
     }
 }

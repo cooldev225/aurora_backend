@@ -36,6 +36,8 @@ $name=  $this->faker->company();
 
             'has_billing'            => $this->faker->boolean(),
             'has_coding'             => $this->faker->boolean(),
+
+            'password_expiration_timeframe'=> 6,
         ];
     }
 }
