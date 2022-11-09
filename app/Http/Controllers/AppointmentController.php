@@ -11,7 +11,7 @@ use App\Models\AppointmentType;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
-use App\Models\AppointmentDetails;
+use App\Models\AppointmentDetail;
 use App\Models\Patient;
 use App\Models\PatientBilling;
 use App\Models\AppointmentPreAdmission;
@@ -170,7 +170,7 @@ class AppointmentController extends Controller
             'room_id' => $request->room_id,
         ]);
 
-        AppointmentDetails::create([
+        AppointmentDetail::create([
             'appointment_id' => $appointment->id
         ]);
 

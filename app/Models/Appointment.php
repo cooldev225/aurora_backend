@@ -97,7 +97,7 @@ class Appointment extends Model
      */
     public function detail()
     {
-        return $this->hasOne(AppointmentDetails::class);
+        return $this->hasOne(AppointmentDetail::class);
     }
 
     /**

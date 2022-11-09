@@ -2,22 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AppointmentDetailsRequest;
+use App\Http\Requests\AppointmentDetailRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-class AppointmentDetailsController extends Controller
+class AppointmentDetailController extends Controller
 {
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\AppointmentDetailsRequest  $request
-     * @param  \App\Models\AppointmentDetails  $AppointmentDetails
+     * @param  \App\Http\Requests\AppointmentDetailRequest  $request
+     * @param  \App\Models\AppointmentDetail  $AppointmentDetail
      * @return \Illuminate\Http\Response
      */
-    public function update(AppointmentDetailsRequest $request, Appointment $appointment)
+    public function update(AppointmentDetailRequest $request, Appointment $appointment)
     {
         Log::info($request->validated());
         $appointment->detail->update([...$request->validated()]);

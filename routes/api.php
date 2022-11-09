@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Models\AppointmentDetails;
+use App\Models\AppointmentDetail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\MailController;
@@ -52,7 +52,7 @@ use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentSearchAvailableController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
 use App\Http\Controllers\AppointmentAttendanceStatusController;
-use App\Http\Controllers\AppointmentDetailsController;
+use App\Http\Controllers\AppointmentDetailController;
 use App\Http\Controllers\AppointmentCollectingPersonController;
 use App\Http\Controllers\AppointmentProcedureApprovalController;
 
@@ -121,7 +121,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/specialists',                            [AppointmentSpecialistController::class, 'index']);
         Route::put('/collecting-person/{appointment}',        [AppointmentCollectingPersonController::class,'update']);
 
-        Route::post('/{appointment}/details',                 [AppointmentDetailsController::class, 'update']);
+        Route::post('/{appointment}/detail',                  [AppointmentDetailController::class, 'update']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -191,7 +191,7 @@ Route::middleware(['auth'])->group(function () {
     // Coding Routes
     Route::prefix('coding')->group(function () {
         Route::get('/',              [CodingController::class, 'index']);
-        Route::put('/{appointment}',              [AppointmentDetails::class, 'update']);
+        Route::put('/{appointment}',              [AppointmentDetail::class, 'update']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

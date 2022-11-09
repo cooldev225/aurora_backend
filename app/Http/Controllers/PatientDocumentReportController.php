@@ -9,7 +9,7 @@ use App\Http\Requests\PatientDocumentReportStoreRequest;
 use App\Http\Requests\PatientDocumentReportUpdateRequest;
 use App\Http\Requests\PatientDocumentReportUploadRequest;
 use App\Models\Appointment;
-use App\Models\AppointmentDetails;
+use App\Models\AppointmentDetail;
 use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\PatientReport;
