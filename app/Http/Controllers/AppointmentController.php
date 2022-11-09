@@ -218,6 +218,7 @@ class AppointmentController extends Controller
             'room_id' => $request->room_id,
             'note' => $request->note,
             'charge_type' => $request->charge_type,
+            'start_time' => $request->start_time,
             'end_time' => $this->aptEndTime($request)->toTimeString(),
         ]);
 
