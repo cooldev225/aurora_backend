@@ -22,7 +22,7 @@ class HrmWeeklyScheduleSeeder extends Seeder
     public function run()
     {
         $this->faker = Faker::create();
-        $period = CarbonPeriod::create(Carbon::now()->subMonth(), Carbon::now()->addMonth());
+        $period = CarbonPeriod::create(Carbon::now()->startOfWeek(), Carbon::now()->endOfWeek());
         foreach ($period as $day) {
             $timeSlots = HrmScheduleTimeslot::where('week_day', strtoupper($day->format('D')))->get();
             foreach ($timeSlots as $slot) {
@@ -36,7 +36,7 @@ class HrmWeeklyScheduleSeeder extends Seeder
                     'anesthetist_id' => $slot->anesthetist_id,
                     'start_time' => $slot->start_time,
                     'end_time' => $slot->end_time,
-                    'status' => 'PUBLISHED',
+                    'status' => 'UNPUBLISHED',
                     'is_template' => true,
                 ]);
             }

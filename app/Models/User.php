@@ -234,6 +234,14 @@ class User extends Authenticatable implements JWTSubject
             ->where('end_time', '>', date('H:i:s', $time))->first();
     }
 
+    public function hrmUserTemplateBaseSchedulesTimeDay($time, $day)
+    {
+        return $this->scheduleTimeslots()
+            ->where('week_day', $day)
+            ->where('start_time', '<=', date('H:i:s', $time))
+            ->where('end_time', '>', date('H:i:s', $time))->first();
+    }
+
     /*
     * Check if a specialist is has an appointment at a certain time on a certain day
     *
