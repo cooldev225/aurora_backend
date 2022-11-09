@@ -56,6 +56,7 @@ class PaymentController extends Controller
         $charges = [
             'procedures'  => [],
             'extra_items' => [],
+            'admin_items' => [],
         ];
 
         if ($appointment->detail->procedures_undertaken) {
@@ -74,15 +75,31 @@ class PaymentController extends Controller
             }
         }
 
-        if ($appointment->detail->extra_items) {
-            foreach ($appointment->detail->extra_items as $extra_item) {
+        if ($appointment->detail->extra_items_used) {
+            foreach ($appointment->detail->extra_items_used as $extra_item) {
                 $schedule_item = ScheduleItem::whereId($extra_item)
                                              ->whereOrganizationId($organization_id)
                                              ->with('schedule_fees')
                                              ->first()
                                              ->toArray();
                 
-                $charges['procedures'][] = [
+                $charges['extra_items'][] = [
+                    ...$schedule_item,
+                    'schedule_fees' => $schedule_item['schedule_fees'],
+                    'price'         => $schedule_item['amount'] / 100,
+                ];
+            }
+        }
+
+        if ($appointment->detail->admin_items) {
+            foreach ($appointment->detail->admin_items as $admin_item) {
+                $schedule_item = ScheduleItem::whereId($admin_item)
+                                             ->whereOrganizationId($organization_id)
+                                             ->with('schedule_fees')
+                                             ->first()
+                                             ->toArray();
+                
+                $charges['admin_items'][] = [
                     ...$schedule_item,
                     'schedule_fees' => $schedule_item['schedule_fees'],
                     'price'         => $schedule_item['amount'] / 100,
