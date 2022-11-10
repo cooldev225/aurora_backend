@@ -146,7 +146,7 @@ class OrganizationController extends Controller
             $file_path = "/{$org_path}/{$file_name}";
             $path = Storage::put($file_path, file_get_contents($file));
 
-            $organization->logo = Storage::url($path) . $file_name;
+            $organization->logo = Storage::url($path) . "/{$file_name}";
         }
 
         if ($file = $request->file('header')) {
@@ -165,7 +165,7 @@ class OrganizationController extends Controller
             $file_path = "/{$org_path}/{$file_name}";
             $path = Storage::put($file_path, file_get_contents($file));
 
-            $organization->document_letter_header = Storage::url($path) . $file_name;
+            $organization->document_letter_header = Storage::url($path) . "/{$file_name}";
         }
 
         if ($file = $request->file('footer')) {
@@ -184,7 +184,7 @@ class OrganizationController extends Controller
             $file_path = "/{$org_path}/{$file_name}";
             $path = Storage::put($file_path, file_get_contents($file));
 
-            $organization->document_letter_footer = Storage::url($path) . $file_name;
+            $organization->document_letter_footer = Storage::url($path) . "/{$file_name}";
         }
 
         $organization->save();

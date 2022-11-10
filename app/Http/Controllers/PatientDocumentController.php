@@ -40,7 +40,7 @@ class PatientDocumentController extends Controller
             $path = Storage::put($file_path, file_get_contents($file));
 
             $patient_document->file_type =  $file->extension();
-            $patient_document->file_path = Storage::url($path) . $file_name;
+            $patient_document->file_path = Storage::url($path) . "/{$file_name}";
             $patient_document->save();
         }
 

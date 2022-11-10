@@ -96,7 +96,7 @@ class DocumentHeaderFooterTemplateController extends Controller
             $file_path = "/{$org_path}/{$file_name}";
             $path = Storage::put($file_path, file_get_contents($file));
 
-            $documentHeaderFooterTemplate->header_file = Storage::url($path) . $file_name;
+            $documentHeaderFooterTemplate->header_file = Storage::url($path) . "/{$file_name}";
             $documentHeaderFooterTemplate->save();
         }
 
@@ -121,7 +121,7 @@ class DocumentHeaderFooterTemplateController extends Controller
             $file_path = "/{$org_path}/{$file_name}";
             $path = Storage::put($file_path, file_get_contents($file));
 
-            $documentHeaderFooterTemplate->footer_file = Storage::url($path) . $file_name;
+            $documentHeaderFooterTemplate->footer_file = Storage::url($path) . "/{$file_name}";
             $documentHeaderFooterTemplate->save();
         }
 
