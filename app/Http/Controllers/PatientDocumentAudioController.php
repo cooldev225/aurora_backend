@@ -7,6 +7,7 @@ use App\Models\Patient;
 use Illuminate\Http\Response;
 use App\Models\PatientDocument;
 use App\Models\PatientSpecialistAudio;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\PatientDocumentAudioStoreRequest;
 use App\Http\Requests\PatientDocumentAudioUpdateRequest;
 use App\Http\Requests\PatientDocumentAudioUploadRequest;
@@ -36,10 +37,23 @@ class PatientDocumentAudioController extends Controller
         $file_path = '';
         if ($file = $request->file('file')) {
             $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
-            $file_path = '/' . $file->storeAs(getUserOrganizationFilePath(), $file_name);
+            $org_path = getUserOrganizationFilePath();
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            $path = Storage::put($file_path, file_get_contents($file));
+
             $file_type = $patient_document->getFileType($file->extension());
 
-            $patient_document->file_path = url($file_path);
+            $patient_document->file_path = Storage::url($path) . $file_name;
             $patient_document->file_type = $file_type;
             $patient_document->save();
         }
@@ -76,10 +90,23 @@ class PatientDocumentAudioController extends Controller
         $data = $request->all();
         if ($file = $request->file('file')) {
             $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
-            $file_path = '/' . $file->storeAs(getUserOrganizationFilePath(), $file_name);
+            $org_path = getUserOrganizationFilePath();
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            $path = Storage::put($file_path, file_get_contents($file));
+
             $file_type = $patient_document->getFileType($file->extension());
 
-            $data['file_path'] = $file_path;
+            $data['file_path'] = Storage::url($path) . $file_name;;
             $data['file_type'] = $file_type;
         }
 
@@ -117,10 +144,23 @@ class PatientDocumentAudioController extends Controller
         $file_path = '';
         if ($file = $request->file('file')) {
             $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
-            $file_path = '/' . $file->storeAs(getUserOrganizationFilePath(), $file_name);
+            $org_path = getUserOrganizationFilePath();
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            $path = Storage::put($file_path, file_get_contents($file));
+
             $file_type = $patient_document->getFileType($file->extension());
 
-            $patient_document->file_path = url($file_path);
+            $patient_document->file_path = Storage::url($path) . $file_name;
             $patient_document->file_type = $file_type;
             $patient_document->save();
         }

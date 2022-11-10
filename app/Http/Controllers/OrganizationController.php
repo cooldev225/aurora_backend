@@ -6,12 +6,14 @@ use App\Models\User;
 use App\Enum\FileType;
 use App\Enum\UserRole;
 use App\Models\Organization;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\NotificationTemplate;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\OrganizationCreateRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
-use Illuminate\Http\Request;
+
 class OrganizationController extends Controller
 {
     /**
@@ -130,20 +132,59 @@ class OrganizationController extends Controller
 
         if ($file = $request->file('logo')) {
             $file_name = generateFileName(FileType::ORGANIZATION_LOGO, $organization->id, $file->extension());
-            $logo_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $organization->logo = $logo_path;
+            $org_path = getUserOrganizationFilePath('images');
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            $path = Storage::put($file_path, file_get_contents($file));
+
+            $organization->logo = Storage::url($path) . $file_name;
         }
 
         if ($file = $request->file('header')) {
             $file_name = generateFileName(FileType::ORGANIZATION_FOOTER, $organization->id, $file->extension());
-            $header_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $organization->document_letter_header = $header_path;
+            $org_path = getUserOrganizationFilePath('images');
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            $path = Storage::put($file_path, file_get_contents($file));
+
+            $organization->document_letter_header = Storage::url($path) . $file_name;
         }
 
         if ($file = $request->file('footer')) {
             $file_name = generateFileName(FileType::ORGANIZATION_FOOTER, $organization->id, $file->extension());
-            $footer_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $organization->document_letter_footer = $footer_path;
+            $org_path = getUserOrganizationFilePath('images');
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            $path = Storage::put($file_path, file_get_contents($file));
+
+            $organization->document_letter_footer = Storage::url($path) . $file_name;
         }
 
         $organization->save();

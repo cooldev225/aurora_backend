@@ -39,9 +39,9 @@ class AppointmentReferralController extends Controller
 
         if ($file = $request->file('file')) {
             $file_name = generateFileName(FileType::REFERRAL, $appointmentReferral->id, $file->extension());
-            $filepath = getUserOrganizationFilePath();
-
-            if (!$filepath) {
+            $org_path = getUserOrganizationFilePath();
+            
+            if (!$org_path) {
                 return response()->json(
                     [
                         'message'   => 'Could not find user organization',
@@ -50,9 +50,10 @@ class AppointmentReferralController extends Controller
                 );
             }
             
-            $file->storeAs($filepath, $file_name);
+            $file_path = "/{$org_path}/{$file_name}";
+            $path = Storage::put($file_path, file_get_contents($file));
 
-            $appointmentReferral->referral_file = $file_name;
+            $appointmentReferral->referral_file = Storage::url($path) . $file_name;
             $appointmentReferral->save();
         }
 

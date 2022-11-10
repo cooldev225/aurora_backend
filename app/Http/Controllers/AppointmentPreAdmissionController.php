@@ -217,9 +217,21 @@ class AppointmentPreAdmissionController extends Controller
 
         if ($file = $request->file('file')) {
             $file_name = generateFileName(FileType::PRE_ADMISSION, $pre_admission->id, $file->extension());
-            $filepath = getUserOrganizationFilePath();
-            $file->storeAs($filepath, $file_name);
-            $pre_admission->pre_admission_file = $file_name;
+            $org_path = getUserOrganizationFilePath();
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            $path = Storage::put($file_path, file_get_contents($file));
+
+            $pre_admission->pre_admission_file = Storage::url($path) . $file_name;
             $pre_admission->save();
         }
 
