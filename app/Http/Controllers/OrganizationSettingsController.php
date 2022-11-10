@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\FileType;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Storage;
+use App\Http\Requests\OrganizationSettingUpdateRequest;
 
 class OrganizationSettingsController extends Controller
 {
@@ -17,70 +16,20 @@ class OrganizationSettingsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(
-        Request $request,
+        OrganizationSettingUpdateRequest $request,
     ) {
         $organization = auth()->user()->organization;
         // Verify the user can access this function via policy
         $this->authorize('update', $organization);
 
-        if ($file = $request->file('logo')) {
-            $file_name = generateFileName(FileType::ORGANIZATION_LOGO, $organization->id, $file->extension());
-            $org_path = getUserOrganizationFilePath('images');
-            
-            if (!$org_path) {
-                return response()->json(
-                    [
-                        'message'   => 'Could not find user organization',
-                    ],
-                    Response::HTTP_UNPROCESSABLE_ENTITY
-                );
-            }
-            
-            $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
-
-            $organization->logo = $file_path;
-        }
-
-        if ($file = $request->file('header')) {
-            $file_name = generateFileName(FileType::ORGANIZATION_FOOTER, $organization->id, $file->extension());
-            $org_path = getUserOrganizationFilePath('images');
-            
-            if (!$org_path) {
-                return response()->json(
-                    [
-                        'message'   => 'Could not find user organization',
-                    ],
-                    Response::HTTP_UNPROCESSABLE_ENTITY
-                );
-            }
-            
-            $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
-
-            $organization->document_letter_header = $file_path;
-        }
-
-        if ($file = $request->file('footer')) {
-            $file_name = generateFileName(FileType::ORGANIZATION_FOOTER, $organization->id, $file->extension());
-            $org_path = getUserOrganizationFilePath('images');
-            
-            if (!$org_path) {
-                return response()->json(
-                    [
-                        'message'   => 'Could not find user organization',
-                    ],
-                    Response::HTTP_UNPROCESSABLE_ENTITY
-                );
-            }
-            
-            $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
-
-            $organization->document_letter_footer = $file_path;
-        }
-
-        $organization->save();
+        $organization->update(
+            $request->safe()->only([
+                'name',
+                'start_time',
+                'end_time',
+                'appointment_length',
+            ])
+        );
 
         return response()->json(
             [
