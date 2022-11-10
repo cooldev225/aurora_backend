@@ -6,11 +6,13 @@ use App\Enum\UserRole;
 use App\Http\Requests\HrmWeeklyscheduleIndexRequest;
 use App\Http\Requests\HrmWeeklyScheduleRequest;
 use App\Http\Requests\HrmWeeklyScheduleStoreRequest;
+use App\Mail\EmployeeScheduleEmail;
 use App\Models\HrmDeletedSchedule;
 use App\Models\HrmWeeklySchedule;
 use App\Models\User;
 use Carbon\Carbon;
 use Carbon\CarbonPeriod;
+use Illuminate\Support\Facades\Log;
 
 
 class HrmWeeklyScheduleController extends Controller
@@ -118,6 +120,7 @@ class HrmWeeklyScheduleController extends Controller
     {
         $timeslots = $request->timeslots;
         $deleteTimeslots = $request->deleteTimeslots;
+        $notifyUsers = $request->notifyUsers;
 
         if (count($deleteTimeslots) > 0) {
             foreach ($deleteTimeslots as $slot) {
@@ -125,21 +128,20 @@ class HrmWeeklyScheduleController extends Controller
 
                 // Create delete record on Hrm deleted schedules table
                 HrmDeletedSchedule::create([
-                    'start_time' => $hrmScheduleTimeslot-> start_time,
-                    'end_time' => $hrmScheduleTimeslot-> end_time,
-                    'date' => $hrmScheduleTimeslot-> date,
-                    'organization_id' => $hrmScheduleTimeslot-> organization_id,
-                    'clinic_id' => $hrmScheduleTimeslot-> clinic_id,
-                    'user_id' => $hrmScheduleTimeslot-> user_id,
-                    'reason' =>  $slot["reason"],
-                    'week_day' => $hrmScheduleTimeslot-> week_day,
-                    'category' => $hrmScheduleTimeslot-> category,
-                    'restriction' => $hrmScheduleTimeslot-> restriction,
-                    'status' =>  $hrmScheduleTimeslot-> status,
+                    'start_time' => $hrmScheduleTimeslot->start_time,
+                    'end_time' => $hrmScheduleTimeslot->end_time,
+                    'date' => $hrmScheduleTimeslot->date,
+                    'organization_id' => $hrmScheduleTimeslot->organization_id,
+                    'clinic_id' => $hrmScheduleTimeslot->clinic_id,
+                    'user_id' => $hrmScheduleTimeslot->user_id,
+                    'reason' => $slot["reason"],
+                    'week_day' => $hrmScheduleTimeslot->week_day,
+                    'category' => $hrmScheduleTimeslot->category,
+                    'restriction' => $hrmScheduleTimeslot->restriction,
+                    'status' => $hrmScheduleTimeslot->status,
                 ]);
 
                 $hrmScheduleTimeslot->delete();
-
             }
         }
 
@@ -163,6 +165,21 @@ class HrmWeeklyScheduleController extends Controller
                     'status' => $slot['status'],
                 ]);
             }
+        }
+
+        // Sending Email notifications
+        $notifyUsers = array_values(array_unique($notifyUsers, SORT_NUMERIC));
+        $startDate = Carbon::parse($request->date)->startOfWeek()->format('Y-m-d');
+        $endDate = Carbon::parse($request->date)->endOfWeek()->format('Y-m-d');
+
+        foreach ($notifyUsers as $user) {
+            $user = User::find($user)
+                ->with(
+                    ['hrmWeeklySchedule' => function ($query) use ($startDate, $endDate) {
+                        $query->whereBetween('date', [$startDate, $endDate]);
+                    }
+                    ])->first();
+            $user->sendEmail(new EmployeeScheduleEmail($user));
         }
 
         return response()->json(

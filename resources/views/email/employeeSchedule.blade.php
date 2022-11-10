@@ -17,7 +17,7 @@
 	<style>
 		table, td, div, h1, p {font-family: Arial, sans-serif;}
 		.user td {
-			background: #3E7BA0 !important; 
+			background: #3E7BA0 !important;
 			color: #ffffff;
 			}
 	</style>
@@ -32,6 +32,7 @@
 		<tr>
 		EMPLOYEE SCHEDUAL
 		</tr>
+
 		<tr class="user">
 			<td align="center" style="padding:20px;">
 				footer
