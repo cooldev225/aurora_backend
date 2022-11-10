@@ -218,8 +218,17 @@ class AppointmentController extends Controller
             'room_id' => $request->room_id,
             'note' => $request->note,
             'charge_type' => $request->charge_type,
+            'start_time' => $request->start_time,
             'end_time' => $this->aptEndTime($request)->toTimeString(),
         ]);
+
+        if($request->clinic_id){
+            $appointment->update(['clinic_id' => $request->clinic_id]);
+        }
+
+        if($request->specialist_id){
+            $appointment->update(['specialist_id' => $request->specialist_id]);
+        }
 
         $appointment->patient()->update([
             'first_name' => $request->first_name,
