@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AppointmentReferral extends Model
 {
@@ -21,7 +22,8 @@ class AppointmentReferral extends Model
     ];
 
     protected $appends = [
-        'doctor_address_book_name'
+        'doctor_address_book_name',
+        'document_url',
     ];
 
     /**
@@ -44,5 +46,11 @@ class AppointmentReferral extends Model
     {
         $doctor_address_book = $this->doctor_address_book;
         return $doctor_address_book ? $doctor_address_book->full_name : null;
+    }
+
+    public function getDocumentUrlAttribute()
+    {
+        $expiry = config('temporary_url_expiry');
+        return Storage::temporaryUrl($this->referral_file, now()->addMinutes($expiry));
     }
 }

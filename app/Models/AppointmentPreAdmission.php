@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class AppointmentPreAdmission extends Model
 {
@@ -12,6 +13,8 @@ class AppointmentPreAdmission extends Model
     protected $fillable = [
         'appointment_id', 'token', 'note', 'status'
     ];
+
+    protected $appends = ['document_url'];
 
     public function appointment() {
         return $this->belongsTo(Appointment::class);
@@ -53,5 +56,11 @@ class AppointmentPreAdmission extends Model
             ->first();
 
         return $data;
+    }
+
+    public function getDocumentUrlAttribute()
+    {
+        $expiry = config('temporary_url_expiry');
+        return Storage::temporaryUrl($this->pre_admission_file, now()->addMinutes($expiry));
     }
 }
