@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\FileType;
 use Illuminate\Http\Request;
+use App\Http\Requests\OrganizationSettingUpdateRequest;
 
 class OrganizationSettingsController extends Controller
 {
@@ -15,31 +16,20 @@ class OrganizationSettingsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(
-        Request $request,
+        OrganizationSettingUpdateRequest $request,
     ) {
         $organization = auth()->user()->organization;
         // Verify the user can access this function via policy
         $this->authorize('update', $organization);
 
-        if ($file = $request->file('logo')) {
-            $file_name = generateFileName(FileType::ORGANIZATION_LOGO, $organization->id, $file->extension());
-            $logo_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $organization->logo = $file_name;
-        }
-
-        if ($file = $request->file('header')) {
-            $file_name = generateFileName(FileType::ORGANIZATION_HEADER, $organization->id, $file->extension());
-            $header_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $organization->document_letter_header = $file_name;
-        }
-
-        if ($file = $request->file('footer')) {
-            $file_name = generateFileName(FileType::ORGANIZATION_FOOTER, $organization->id, $file->extension());
-            $footer_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $organization->document_letter_footer = $file_name;
-        }
-
-        $organization->save();
+        $organization->update(
+            $request->safe()->only([
+                'name',
+                'start_time',
+                'end_time',
+                'appointment_length',
+            ])
+        );
 
         return response()->json(
             [
