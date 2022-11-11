@@ -58,6 +58,7 @@ use App\Http\Controllers\AppointmentProcedureApprovalController;
 
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
 use App\Http\Controllers\AppointmentConfirmationStatusController;
+use App\Http\Controllers\OrganizationPinController;
 
 /*
 |--------------------------------------------------------------------------
@@ -192,6 +193,14 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('coding')->group(function () {
         Route::get('/',              [CodingController::class, 'index']);
         Route::put('/{appointment}',              [AppointmentDetail::class, 'update']);
+    });
+
+    ////////////////////////////////////////////////////////////////////////////////////
+    // Organization Pin Routes
+    Route::prefix('organizations/{organization}/pin')->group(function () {
+        Route::post('/verify',  [OrganizationPinController::class, 'verify']);
+        Route::put('/',         [OrganizationPinController::class, 'store']);
+        Route::patch('/',       [OrganizationPinController::class, 'update']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
