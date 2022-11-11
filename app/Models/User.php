@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use App\Enum\UserRole as UserRoleEnum;
+use Illuminate\Mail\Mailable;
 use App\Models\HrmScheduleTimeslot;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
+use App\Enum\UserRole as UserRoleEnum;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\SpecialistClinicRelation;
-use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -29,9 +30,14 @@ class User extends Authenticatable implements JWTSubject
         'address',
         'education_code',
         'sign_off',
+        'photo',
     ];
 
-    protected $appends = array('role_name', 'full_name');
+    protected $appends = [
+        'role_name',
+        'full_name',
+        'photo_url',
+    ];
 
     protected $casts = [
         'role_id' => UserRoleEnum::class,
@@ -46,6 +52,17 @@ class User extends Authenticatable implements JWTSubject
     public function getFullNameAttribute()
     {
         return $this->title . " " . $this->first_name . " " . $this->last_name;
+    }
+
+    /**
+     * Returns temporary URL for photo file
+     */
+    public function getPhotoUrlAttribute()
+    {
+        if ($this->photo) {
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($this->photo, now()->addMinutes($expiry));
+        }
     }
 
     /**

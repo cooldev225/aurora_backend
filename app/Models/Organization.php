@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
@@ -15,7 +16,15 @@ class Organization extends Model
         'document_letter_header', 'document_letter_footer', 'code', 'has_billing', 'has_coding',
     ];
 
-    protected $appends = array('user_count', 'clinic_count', 'is_max_users', 'is_max_clinics');
+    protected $appends = [
+        'user_count',
+        'clinic_count',
+        'is_max_users',
+        'is_max_clinics',
+        'logo_url',
+        'document_letter_header_url',
+        'document_letter_footer_url',
+    ];
 
    /**
      * Returns the total user count
@@ -53,6 +62,39 @@ class Organization extends Model
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns temporary URL for logo file
+     */
+    public function getLogoUrlAttribute()
+    {
+        if ($this->logo) {
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($this->logo, now()->addMinutes($expiry));
+        }
+    }
+
+    /**
+     * Returns temporary URL for header file
+     */
+    public function getDocumentLetterHeaderUrlAttribute()
+    {
+        if ($this->document_letter_header) {
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($this->document_letter_header, now()->addMinutes($expiry));
+        }
+    }
+
+    /**
+     * Returns temporary URL for footer file
+     */
+    public function getDocumentLetterFooterUrlAttribute()
+    {
+        if ($this->document_letter_footer) {
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($this->document_letter_footer, now()->addMinutes($expiry));
+        }
     }
 
     /**

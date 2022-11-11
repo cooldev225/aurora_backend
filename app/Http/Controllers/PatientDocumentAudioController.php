@@ -106,7 +106,7 @@ class PatientDocumentAudioController extends Controller
 
             $file_type = $patient_document->getFileType($file->extension());
 
-            $data['file_path'] = $file_path;;
+            $data['file_path'] = $file_path;
             $data['file_type'] = $file_type;
         }
 

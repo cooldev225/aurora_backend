@@ -50,7 +50,9 @@ class AppointmentReferral extends Model
 
     public function getDocumentUrlAttribute()
     {
-        $expiry = config('temporary_url_expiry');
-        return Storage::temporaryUrl($this->referral_file, now()->addMinutes($expiry));
+        if ($this->referral_file) {
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($this->referral_file, now()->addMinutes($expiry));
+        }
     }
 }

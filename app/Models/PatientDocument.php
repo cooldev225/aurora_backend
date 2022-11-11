@@ -63,7 +63,9 @@ class PatientDocument extends Model
 
     public function getDocumentUrlAttribute()
     {
-        $expiry = config('temporary_url_expiry');
-        return Storage::temporaryUrl($this->referral_file, now()->addMinutes($expiry));
+        if ($this->file_path) {
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($this->file_path, now()->addMinutes($expiry));
+        }
     }
 }

@@ -60,7 +60,9 @@ class AppointmentPreAdmission extends Model
 
     public function getDocumentUrlAttribute()
     {
-        $expiry = config('temporary_url_expiry');
-        return Storage::temporaryUrl($this->pre_admission_file, now()->addMinutes($expiry));
+        if ($this->pre_admission_file) {
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($this->pre_admission_file, now()->addMinutes($expiry));
+        }
     }
 }
