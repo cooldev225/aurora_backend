@@ -171,15 +171,16 @@ class HrmWeeklyScheduleController extends Controller
         $notifyUsers = array_values(array_unique($notifyUsers, SORT_NUMERIC));
         $startDate = Carbon::parse($request->date)->startOfWeek()->format('Y-m-d');
         $endDate = Carbon::parse($request->date)->endOfWeek()->format('Y-m-d');
+        $period = CarbonPeriod::create(Carbon::parse($request->date)->startOfWeek(), Carbon::parse($request->date)->endOfWeek());
 
         foreach ($notifyUsers as $user) {
-            $user = User::find($user)
+            $user = User::where('id', $user)
                 ->with(
                     ['hrmWeeklySchedule' => function ($query) use ($startDate, $endDate) {
                         $query->whereBetween('date', [$startDate, $endDate]);
                     }
                     ])->first();
-            $user->sendEmail(new EmployeeScheduleEmail($user));
+            $user->sendEmail(new EmployeeScheduleEmail($user, $period));
         }
 
         return response()->json(

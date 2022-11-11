@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\SpecialistClinicRelation;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable implements JWTSubject
 {

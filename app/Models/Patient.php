@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use DB;
 use Illuminate\Support\Facades\Log;
 use Twilio\Rest\Client;
+use Illuminate\Support\Facades\Mail;
 
 class Patient extends Model
 {
