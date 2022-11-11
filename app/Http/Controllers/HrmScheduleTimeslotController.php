@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\HrmScheduleTimeslot;
 use App\Http\Requests\HrmScheduleTimeslotRequest;
-use AWS\CRT\Log;
 
 
 class HrmScheduleTimeslotController extends Controller

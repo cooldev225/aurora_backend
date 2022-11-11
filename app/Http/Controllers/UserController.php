@@ -31,20 +31,23 @@ class UserController extends Controller
             'organization_id',
             $organization->id
         )
-        ->wherenot('role_id', UserRole::ADMIN)
-        ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
-        ->with('scheduleTimeslots.anesthetist')
-        ->with('specialistClinicRelations');
+            ->wherenot('role_id', UserRole::ADMIN)
+            ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
+            ->with(['hrmWeeklySchedule' => function ($query) {
+                $query->where('status', 'PUBLISHED');
+            }])
+            ->with('hrmWeeklySchedule.anesthetist')
+            ->with('scheduleTimeslots.anesthetist')
+            ->with('specialistClinicRelations');
 
         foreach ($params as $column => $param) {
             if (!empty($param)) {
                 if ($column !== "date") {
                     $users = $users->where($column, '=', $param);
                 } else {
-                    $day = strtoupper(Carbon::parse($params["date"])->format('D'));
-                    $users ->whereHas('scheduleTimeslots', function($query) use ($day)
-                    {
-                        $query->where('week_day', $day);
+                    $day = strtoupper(Carbon::parse($params["date"])->format('Y-m-d'));
+                    $users->whereHas('hrmWeeklySchedule', function ($query) use ($day) {
+                        $query->where('date', $day)->where('status', 'PUBLISHED');
                     });
                 }
             }
@@ -58,7 +61,6 @@ class UserController extends Controller
             Response::HTTP_OK
         );
     }
-
 
 
     /**
@@ -80,12 +82,10 @@ class UserController extends Controller
     }
 
 
-
-
     /**
      * [Employee] - Destroy
      *
-     * @param  \App\Models\User  $user
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function destroy(User $user)
@@ -106,8 +106,8 @@ class UserController extends Controller
     /**
      * [Employee] - Store
      *
-     * @param  \App\Http\Requests\UserRequest  $request
-     * @param  \App\Models\User  $user
+     * @param \App\Http\Requests\UserRequest $request
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function store(UserRequest $request)
@@ -119,11 +119,10 @@ class UserController extends Controller
         $last_name = $request->last_name;
         $username = auth()->user()->organization->code . $first_name[0] . $last_name;
         $i = 0;
-            while(User::whereUsername($username)->exists())
-            {
-                $i++;
-                $username = $first_name[0] . $last_name . $i;
-            }
+        while (User::whereUsername($username)->exists()) {
+            $i++;
+            $username = $first_name[0] . $last_name . $i;
+        }
 
         $raw_password = Str::random(14);
 
@@ -152,8 +151,8 @@ class UserController extends Controller
     /**
      * [Employee] - Update
      *
-     * @param  \App\Http\Requests\UserRequest  $request
-     * @param  \App\Models\User  $user
+     * @param \App\Http\Requests\UserRequest $request
+     * @param \App\Models\User $user
      * @return \Illuminate\Http\Response
      */
     public function update(UserRequest $request, User $user)

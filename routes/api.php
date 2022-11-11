@@ -1,6 +1,7 @@
 <?php
 
-
+use App\Http\Controllers\AnesthetistController;
+use App\Http\Controllers\HrmWeeklyScheduleController;
 use App\Models\AppointmentDetail;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FileController;
@@ -17,7 +18,6 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\HealthLinkController;
 use App\Http\Controllers\SpecialistController;
-use App\Http\Controllers\AnesthetistController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ScheduleFeeController;
 use App\Http\Controllers\UserProfileController;
@@ -169,13 +169,14 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('hrm')->group(function () {
-        Route::apiResource('/hrm-schedule-timeslot', HrmScheduleTimeslotController::class);
-        Route::get('/anesthetists',                  [AnesthetistController::class, 'index']);
+        Route::apiResource('/schedule-template', HrmScheduleTimeslotController::class);
+        Route::apiResource('/weekly-schedule', HrmWeeklyScheduleController::class);
+        Route::get('/anesthetists',[AnesthetistController::class, 'index']);
     });
 
     Route::prefix('communication')->group(function () {
-        Route::get('/outgoing-log', [OutgoingMessageLogController::class, 'index']);
-        Route::post('/send-via-healthlink', [HealthLinkController::class, 'store']);
+        Route::get('/outgoing-log', [OutgoingMessageLog::class, 'index']);
+
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

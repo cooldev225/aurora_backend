@@ -87,7 +87,7 @@ class AppointmentFactory extends Factory
             'clinic_id'                 => $clinic_id,
             'specialist_id'             => $specialist->id,
             'room_id'                   => $room_id,
-            'anesthetist_id'            => $specialist->hrmUserBaseSchedulesTimeDay(strtotime($start_time),strtoupper(Carbon::parse($date)->format('D')))?->anesthetist_id,
+            'anesthetist_id'            => $specialist->hrmUserTemplateBaseSchedulesTimeDay(strtotime($start_time),strtoupper(Carbon::parse($date)->format('D')))?->anesthetist_id,
             'appointment_type_id'       => $appointment_type->id,
             'date'                      => $date,
             'arrival_time'              => $arrival_time,

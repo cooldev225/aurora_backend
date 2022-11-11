@@ -28,14 +28,14 @@ class AppointmentSpecialistController extends Controller
             $date = Carbon::create($request->date)->toDateString();
         }
 
-        $day = Carbon::create($request->date)->dayOfWeek;
+        $day = Carbon::create($request->date)->format("Y-m-d");
 
         $specialists = User::
         where('organization_id', auth()->user()->organization_id)
         ->where('role_id', UserRole::SPECIALIST)
-        ->whereHas('scheduleTimeslots', function($query) use ($day)
+        ->whereHas('hrmWeeklySchedule', function($query) use ($day)
         {
-            $query->where('week_day', $day);
+            $query->where('date', $day)->where('status', 'PUBLISHED');
         })
         ->with([
             'appointments' => function ($query) use ($date) {
@@ -45,8 +45,8 @@ class AppointmentSpecialistController extends Controller
             }
         ])
         ->with([
-            'scheduleTimeslots' => function ($query) use ($day) {
-                $query->where('week_day', $day)
+            'hrmWeeklySchedule' => function ($query) use ($day) {
+                $query->where('date', $day)->where('status', 'PUBLISHED')
                 ->with('anesthetist');
             }
         ])
