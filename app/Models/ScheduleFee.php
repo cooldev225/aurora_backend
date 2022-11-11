@@ -12,15 +12,14 @@ class ScheduleFee extends Model
     protected $fillable = [
         'amount',
         'health_fund_code',
-        'mbs_item_code',
-        'organization_id',
+        'schedule_item_id',
     ];
 
     /**
-     * Return Organization
+     * Return Schedule Item
      */
-    public function organization()
+    public function schedule_item()
     {
-        return $this->belongsTo(Organization::class);
+        return $this->belongsTo(ScheduleItem::class);
     }
 }

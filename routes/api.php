@@ -1,61 +1,63 @@
 <?php
 
 
-use App\Http\Controllers\AnesthetistController;
+use App\Models\AppointmentDetail;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\AnestheticQuestionController;
-use App\Http\Controllers\AppointmentAttendanceStatusController;
-use App\Http\Controllers\AppointmentCollectingPersonController;
-use App\Http\Controllers\AppointmentConfirmationStatusController;
-use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\AppointmentPreAdmissionController;
-use App\Http\Controllers\AppointmentProcedureApprovalController;
-use App\Http\Controllers\AppointmentReferralController;
-use App\Http\Controllers\AppointmentSearchAvailableController;
-use App\Http\Controllers\AppointmentSpecialistController;
-use App\Http\Controllers\AppointmentTypeController;
-use App\Http\Controllers\BirthCodeController;
-use App\Http\Controllers\ClinicController;
-use App\Http\Controllers\OrganizationAdminController;
-use App\Http\Controllers\OrganizationController;
-use App\Http\Controllers\PatientController;
-use App\Http\Controllers\PatientDocumentReportController;
+use App\Http\Controllers\FileController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\NotificationTemplateController;
-use App\Http\Controllers\PatientRecallController;
-use App\Http\Controllers\AppointmentTimeRequirementController;
-use App\Http\Controllers\BulletinController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\ClinicController;
 use App\Http\Controllers\CodingController;
-use App\Http\Controllers\DocumentController;
-use App\Http\Controllers\FileController;
-use App\Http\Controllers\HrmScheduleTimeslotController;
-use App\Http\Controllers\LetterTemplateController;
-use App\Http\Controllers\NotificationTestController;
+use App\Http\Controllers\PatientController;
 use App\Http\Controllers\PaymentController;
-use App\Http\Controllers\PreAdmissionController;
-use App\Http\Controllers\DoctorAddressBookController;
-use App\Http\Controllers\ReportTemplateController;
-use App\Http\Controllers\MailController;
-use App\Http\Controllers\OrganizationSettingsController;
-use App\Http\Controllers\PatientAlertController;
-use App\Http\Controllers\PatientBillingController;
-use App\Http\Controllers\PatientDocumentController;
-use App\Http\Controllers\UserAuthenticationController;
-use App\Http\Controllers\UserPasswordController;
+use App\Http\Controllers\BulletinController;
+use App\Http\Controllers\DocumentController;
+use App\Http\Controllers\BirthCodeController;
+use App\Http\Controllers\HealthLinkController;
+use App\Http\Controllers\SpecialistController;
+use App\Http\Controllers\AnesthetistController;
+use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\ScheduleFeeController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\OrganizationController;
+use App\Http\Controllers\PatientAlertController;
+use App\Http\Controllers\PreAdmissionController;
+use App\Http\Controllers\ScheduleItemController;
+use App\Http\Controllers\UserPasswordController;
+use App\Http\Controllers\PatientRecallController;
+use App\Http\Controllers\LetterTemplateController;
+use App\Http\Controllers\PatientAllergyController;
+use App\Http\Controllers\PatientBillingController;
+use App\Http\Controllers\ReportTemplateController;
+use App\Http\Controllers\AppointmentTypeController;
+use App\Http\Controllers\PatientDocumentController;
+use App\Http\Controllers\NotificationTestController;
+use App\Http\Controllers\DoctorAddressBookController;
+use App\Http\Controllers\OrganizationAdminController;
+use App\Http\Controllers\AnestheticQuestionController;
+use App\Http\Controllers\OutgoingMessageLogController;
+use App\Http\Controllers\PatientAlsoKnownAsController;
+use App\Http\Controllers\UserAuthenticationController;
+use App\Http\Controllers\AppointmentReferralController;
+use App\Http\Controllers\HrmScheduleTimeslotController;
+use App\Http\Controllers\NotificationTemplateController;
+use App\Http\Controllers\OrganizationSettingsController;
+use App\Http\Controllers\UserProfileSignatureController;
+
+use App\Http\Controllers\AppointmentSpecialistController;
+use App\Http\Controllers\PatientDocumentReportController;
+use App\Http\Controllers\AppointmentPreAdmissionController;
+use App\Http\Controllers\AppointmentSearchAvailableController;
+use App\Http\Controllers\AppointmentTimeRequirementController;
+use App\Http\Controllers\AppointmentAttendanceStatusController;
+use App\Http\Controllers\AppointmentDetailController;
+use App\Http\Controllers\AppointmentCollectingPersonController;
+use App\Http\Controllers\AppointmentProcedureApprovalController;
 
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
-use App\Http\Controllers\HealthLinkController;
-use App\Http\Controllers\PatientAlsoKnownAsController;
-use App\Http\Controllers\ScheduleFeeController;
-use App\Http\Controllers\UserProfileSignatureController;
-use App\Http\Controllers\SpecialistController;
-use App\Http\Controllers\OutgoingMessageLogController;
-use App\Http\Controllers\PatientAllergyController;
-
-use App\Models\AppointmentCodes;
+use App\Http\Controllers\AppointmentConfirmationStatusController;
 
 /*
 |--------------------------------------------------------------------------
@@ -118,6 +120,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/referral/{appointment}',                [AppointmentReferralController::class,'update']);
         Route::get('/specialists',                            [AppointmentSpecialistController::class, 'index']);
         Route::put('/collecting-person/{appointment}',        [AppointmentCollectingPersonController::class,'update']);
+
+        Route::post('/{appointment}/detail',                  [AppointmentDetailController::class, 'update']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -186,7 +190,7 @@ Route::middleware(['auth'])->group(function () {
     // Coding Routes
     Route::prefix('coding')->group(function () {
         Route::get('/',              [CodingController::class, 'index']);
-        Route::put('/{appointment}',              [AppointmentCodes::class, 'update']);
+        Route::put('/{appointment}',              [AppointmentDetail::class, 'update']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
@@ -207,7 +211,8 @@ Route::middleware(['auth'])->group(function () {
     Route::apiResource('/pre-admission-sections',        PreAdmissionController::class,['except' => ['show']]);
     Route::apiResource('/doctor-address-book',           DoctorAddressBookController::class,['except' => ['show']]);
     Route::apiResource('/report-templates',              ReportTemplateController::class,['except' => ['show']]);
-    Route::apiResource('/schedule-fees',                 ScheduleFeeController::class,['except' => ['show']]);
+    Route::apiResource('/schedule-fees',                 ScheduleFeeController::class,['except' => ['index', 'show']]);
+    Route::apiResource('/schedule-items',                ScheduleItemController::class,['except' => ['show']]);
     Route::apiResource('/users',                         UserController::class);
     Route::apiResource('/bulletins',                     BulletinController::class);
 
