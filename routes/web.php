@@ -22,12 +22,10 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function() {
-    // $filename = str_replace('pre_admission', '', 'pre_admission_51_1663207992.pdf');
-    //     $file_parts = explode('_', $filename);
+    $filename = str_replace('pre_admission', '', 'pre_admission_51_1663207992.pdf');
+        $file_parts = explode('_', $filename);
 
-    //     dd($file_parts);
-
-    return Illuminate\Support\Facades\Storage::temporaryUrl('/files/1/patient_document_202_1668058691.pdf', now()->addMinutes(10));
+        dd($file_parts);
 });
 
 Route::get('/test-pdf', [AppointmentPreAdmissionController::class, 'testPDF']);
