@@ -18,7 +18,6 @@ use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\BirthCodeController;
 use App\Http\Controllers\HealthLinkController;
 use App\Http\Controllers\SpecialistController;
-use App\Http\Controllers\AnesthetistController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ScheduleFeeController;
 use App\Http\Controllers\UserProfileController;
