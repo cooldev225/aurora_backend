@@ -32,8 +32,8 @@ class ReportVAEDController extends Controller
         $locality = str_pad($patient->suburb, 22, ' '); //len 22. Alphanumeric, left justified
         $admission_date = substr($appointment->date, -2) . substr($appointment->date, 5, 2) . substr($appointment->date, 0, 4); // len 8, DDMMYYYY
         $admission_time = substr(str_replace(':', '', $appointment->start_time), 0, 4);   // len 4, HHMM
-        $admission_type = $appointment->codes->vaed_admission_type;  //len 1, A
-        $admission_source = $appointment->codes->vaed_admission_source;  //len 1, A
+        $admission_type = $appointment->detail->vaed_admission_type;  //len 1, A
+        $admission_source = $appointment->detail->vaed_admission_source;  //len 1, A
         $transfer_source = "    "; // leng 4, NNNN,
         $leave_with_permission_days_MTD = "00"; // leng 1, NN
         $leave_with_permission_days_YTD = "000"; // leng 3, NNN
@@ -44,8 +44,8 @@ class ReportVAEDController extends Controller
 
         // for now only making one but will need to change if we do more that day hospitals.
         $status_segment = "";
-        $status_segment .= $appointment->codes->vaed_account_class; // len 2, AA or AN
-        $status_segment .= $appointment->codes->vaed_accommodation_type; // len 1, A or N
+        $status_segment .= $appointment->detail->vaed_account_class; // len 2, AA or AN
+        $status_segment .= $appointment->detail->vaed_accommodation_type; // len 1, A or N
         $status_segment .= 'X'; // len 1, A, only relevant to pregnancy
         $status_segment .= '01'; // len 2, NN patients days MTD
         $status_segment .= '001'; // len 3, NN patients days finanial YTD
@@ -66,13 +66,13 @@ class ReportVAEDController extends Controller
 
         $separation_date = substr($appointment->date, -2) . substr($appointment->date, 5, 2) . substr($appointment->date, 0, 4); // len 8, DDMMYYYY
         $separation_time = substr(str_replace(':', '', $appointment->end_time), 0, 4);   // len 4, HHMM
-        $separation_mode = $appointment->codes->vaed_separation_mode;  // len 1, A
+        $separation_mode = $appointment->detail->vaed_separation_mode;  // len 1, A
         $transfer_destination = '    '; // len 4, NNNN
         $separation_referral = '    '; // len 4, AAAA
         $carer_availability = ' '; // len 1, A, NA to private hospitals 
-        $account_class_on_separation = $appointment->codes->vaed_account_class; //len 2, AA or NA or NN
-        $accommodation_type_on_separation = $appointment->codes->vaed_accommodation_type; // len 1, A or N
-        $care_type = str_pad($appointment->codes->vaed_care_type, 2, ' '); //len 2, AA or NA or NN
+        $account_class_on_separation = $appointment->detail->vaed_account_class; //len 2, AA or NA or NN
+        $accommodation_type_on_separation = $appointment->detail->vaed_accommodation_type; // len 1, A or N
+        $care_type = str_pad($appointment->detail->vaed_care_type, 2, ' '); //len 2, AA or NA or NN
 
         $country_of_birth  = "NNNN"; //len 4, NNNN
 

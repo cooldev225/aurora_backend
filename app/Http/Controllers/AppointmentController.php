@@ -11,7 +11,7 @@ use App\Models\AppointmentType;
 use Illuminate\Http\Response;
 use Illuminate\Http\Request;
 use App\Models\Appointment;
-use App\Models\AppointmentCodes;
+use App\Models\AppointmentDetail;
 use App\Models\Patient;
 use App\Models\PatientBilling;
 use App\Models\AppointmentPreAdmission;
@@ -168,7 +168,7 @@ class AppointmentController extends Controller
             'room_id' => $request->room_id,
         ]);
 
-        AppointmentCodes::create([
+        AppointmentDetail::create([
             'appointment_id' => $appointment->id
         ]);
 
@@ -216,8 +216,17 @@ class AppointmentController extends Controller
             'room_id' => $request->room_id,
             'note' => $request->note,
             'charge_type' => $request->charge_type,
+            'start_time' => $request->start_time,
             'end_time' => $this->aptEndTime($request)->toTimeString(),
         ]);
+
+        if($request->clinic_id){
+            $appointment->update(['clinic_id' => $request->clinic_id]);
+        }
+
+        if($request->specialist_id){
+            $appointment->update(['specialist_id' => $request->specialist_id]);
+        }
 
         $appointment->patient()->update([
             'first_name' => $request->first_name,
