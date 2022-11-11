@@ -13,11 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('appointment_codes', function (Blueprint $table) {
+        Schema::create('appointment_details', function (Blueprint $table) {
             $table->id();
             $table->foreignId('appointment_id');
-            $table->text('procedures_undertaken')->nullable();
-            $table->text('extra_items_used')->nullable(); 
+            $table->json('procedures_undertaken')->nullable();
+            $table->json('extra_items_used')->nullable();
+            $table->json('admin_items')->nullable();
             $table->text('indication_codes')->nullable();
             $table->text('diagnosis_codes')->nullable();
             $table->enum('vaed_admission_type', ['K','S','Y','M','C','O','P'])->default('P');  //Admission Type See in VAED manual sec 3
@@ -43,6 +44,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('appointment_codes');
+        Schema::dropIfExists('appointment_details');
     }
 };

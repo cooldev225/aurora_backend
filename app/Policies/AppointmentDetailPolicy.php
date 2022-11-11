@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\AppointmentCodes;
+use App\Models\AppointmentDetail;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class AppointmentCodesPolicy
+class AppointmentDetailPolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class AppointmentCodesPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\AppointmentCodes  $appointmentCodes
+     * @param  \App\Models\AppointmentDetail  $AppointmentDetail
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, AppointmentCodes $appointmentCodes)
+    public function view(User $user, AppointmentDetail $AppointmentDetail)
     {
         //
     }
@@ -48,10 +48,10 @@ class AppointmentCodesPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\AppointmentCodes  $appointmentCodes
+     * @param  \App\Models\AppointmentDetail  $AppointmentDetail
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, AppointmentCodes $appointmentCodes)
+    public function update(User $user, AppointmentDetail $AppointmentDetail)
     {
         //
     }
@@ -60,10 +60,10 @@ class AppointmentCodesPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\AppointmentCodes  $appointmentCodes
+     * @param  \App\Models\AppointmentDetail  $AppointmentDetail
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, AppointmentCodes $appointmentCodes)
+    public function delete(User $user, AppointmentDetail $AppointmentDetail)
     {
         //
     }
@@ -72,10 +72,10 @@ class AppointmentCodesPolicy
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\AppointmentCodes  $appointmentCodes
+     * @param  \App\Models\AppointmentDetail  $AppointmentDetail
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, AppointmentCodes $appointmentCodes)
+    public function restore(User $user, AppointmentDetail $AppointmentDetail)
     {
         //
     }
@@ -84,10 +84,10 @@ class AppointmentCodesPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\AppointmentCodes  $appointmentCodes
+     * @param  \App\Models\AppointmentDetail  $AppointmentDetail
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, AppointmentCodes $appointmentCodes)
+    public function forceDelete(User $user, AppointmentDetail $AppointmentDetail)
     {
         //
     }

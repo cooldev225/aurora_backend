@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\SpecialistClinicRelation;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -129,7 +130,15 @@ class User extends Authenticatable implements JWTSubject
         return $this->hasMany(Appointment::class,  $field_key, 'id');
     }
 
+    public function hrmWeeklySchedule() {
+        return $this->hasMany(HrmWeeklySchedule::class);
+    }
 
+    public function AnethetistHrmWeeklySchedule()
+    {
+        $field_key = 'anesthetist_id';
+        return $this->hasMany(HrmWeeklySchedule::class, $field_key, 'id' );
+    }
     /**
      * Return Organization
      */
@@ -218,9 +227,18 @@ class User extends Authenticatable implements JWTSubject
     * @param string $day
     * @return boolean
     */
-    public function hrmUserBaseSchedulesTimeDay($time, $day)
+    public function hrmUserBaseSchedulesTimeDay($time, $date)
     {
-        return $this->scheduleTimeslots
+        return $this->hrmWeeklySchedule()
+            ->where('date', $date)
+            ->where('status', "PUBLISHED")
+            ->where('start_time', '<=', date('H:i:s', $time))
+            ->where('end_time', '>', date('H:i:s', $time))->first();
+    }
+
+    public function hrmUserTemplateBaseSchedulesTimeDay($time, $day)
+    {
+        return $this->scheduleTimeslots()
             ->where('week_day', $day)
             ->where('start_time', '<=', date('H:i:s', $time))
             ->where('end_time', '>', date('H:i:s', $time))->first();

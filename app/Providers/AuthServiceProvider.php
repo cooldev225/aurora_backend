@@ -57,6 +57,7 @@ use App\Policies\DoctorAddressBookPolicy;
 use App\Models\PatientDocumentsActionLog;
 use App\Models\AppointmentTimeRequirement;
 use App\Models\PatientAlert;
+use App\Models\ScheduleItem;
 use App\Policies\AnestheticQuestionPolicy;
 use App\Policies\AppointmentPaymentPolicy;
 use App\Policies\AppointmentReferralPolicy;
@@ -73,6 +74,7 @@ use App\Policies\PatientDocumentsActionLogPolicy;
 use App\Policies\AppointmentTimeRequirementPolicy;
 use App\Policies\PatientAlertPolicy;
 use App\Policies\DocumentHeaderFooterTemplatePolicy;
+use App\Policies\ScheduleItemPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -118,6 +120,7 @@ class AuthServiceProvider extends ServiceProvider
         ReportTemplate::class             => ReportTemplatePolicy::class,
         Room::class                       => RoomPolicy::class,
         ScheduleFee::class                => ScheduleFeePolicy::class,
+        ScheduleItem::class               => ScheduleItemPolicy::class,
         User::class                       => UserPolicy::class,
     ];
 

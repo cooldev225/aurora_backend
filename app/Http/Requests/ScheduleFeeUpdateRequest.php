@@ -13,7 +13,7 @@ class ScheduleFeeUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -25,8 +25,6 @@ class ScheduleFeeUpdateRequest extends FormRequest
     {
         return [
             'amount'           => 'numeric|min:0',
-            'health_fund_code' => 'min:2|max:3',
-            'mbs_item_code'    => 'string|max:5',
         ];
     }
 }
