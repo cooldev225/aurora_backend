@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('amount');
             $table->string('mbs_item_code')->nullable();
             $table->string('icd_code')->nullable();
+            $table->string('internal_code')->nullable();
             $table->foreignId('organization_id');
             $table->timestamps();
         });
