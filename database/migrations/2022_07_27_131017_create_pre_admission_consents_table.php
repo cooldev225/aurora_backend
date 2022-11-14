@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('pre_admission_consents', function (Blueprint $table) {
             $table->id();
             $table->foreignId('organization_id');
-            $table->text('text');
+            $table->text('text')->nullable();
             $table->timestamps();
         });
     }
