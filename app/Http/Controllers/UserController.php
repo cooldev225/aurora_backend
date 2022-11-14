@@ -41,19 +41,19 @@ class UserController extends Controller
             ->with('scheduleTimeslots.anesthetist')
             ->with('specialistClinicRelations');
 
-        foreach ($params as $column => $param) {
+            foreach ($params as $column => $param) {
 
-            if (!empty($param)) {
-                if ($column !== "date") {
-                    $users = $users->where($column, '=', $param);
-                } else {
-                    $day = strtoupper(Carbon::parse($params["date"])->format('Y-m-d'));
-                    $users->whereHas('hrmWeeklySchedule', function ($query) use ($day) {
-                        $query->where('date', $day)->where('is_template', true);
-                    });
+                if (!empty($param)) {
+                    if ($column !== "date") {
+                        $users = $users->where($column, '=', $param);
+                    } else {
+                        $day = strtoupper(Carbon::parse($params["date"])->format('D'));
+                        $users->whereHas('hrmWeeklySchedule', function ($query) use ($day) {
+                            $query->where('week_day', $day)->where('is_template', true);
+                       });
+                    }
                 }
             }
-        }
 
         return response()->json(
             [
