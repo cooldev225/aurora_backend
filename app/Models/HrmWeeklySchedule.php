@@ -62,4 +62,9 @@ class HrmWeeklySchedule extends Model
         return $this->belongsTo(Organization::class);
     }
 
+    public function hrmFilledWeek()
+    {
+        return $this->belongsTo(HrmFilledWeek::class);
+    }
+
 }
