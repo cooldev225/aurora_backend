@@ -67,7 +67,7 @@ class OrganizationPolicy
      */
     public function update(User $user, Organization $organization)
     {
-        return  $user->hasAnyRole(['organizationAdmin']) && $organization->id === $user->organization_id;
+        return $user->hasAnyRole(['organizationAdmin']) && $organization->id === $user->organization_id;
     }
 
     /**
@@ -118,5 +118,40 @@ class OrganizationPolicy
         return $user->organization->id === $organization->id
                         ? Response::allow()
                         : Response::deny('Different Organization');
+    }
+
+    // Functions related to organization pins
+
+    /**
+     * Determine whether the user can set a new pin
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function showPin(User $user, Organization $organization)
+    {
+        return $user->hasAnyRole(['organizationAdmin']) && $organization->id === $user->organization_id;
+    }
+
+    /**
+     * Determine whether the user can set a new pin
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function setPin(User $user, Organization $organization)
+    {
+        return $user->hasAnyRole(['organizationAdmin']) && $organization->id === $user->organization_id;
+    }
+
+    /**
+     * Determine whether the user can verify a pin
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function verifyPin(User $user, Organization $organization)
+    {
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $organization->id === $user->organization_id;
     }
 }

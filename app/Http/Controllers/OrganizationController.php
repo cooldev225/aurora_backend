@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\OrganizationCreateRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
 use App\Mail\NewEmployeeEmail;
+use App\Models\PreAdmissionConsent;
+use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 
@@ -109,6 +111,9 @@ class OrganizationController extends Controller
 
         // Set up the default Notification Templates for this organizations
         NotificationTemplate::CreateOrganizationNotification($organization);
+
+        // Set up the Default pre addmision consent
+        PreAdmissionConsent::create(['organization_id' => $organization->id]);
 
         return response()->json(
             [

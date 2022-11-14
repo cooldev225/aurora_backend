@@ -43,7 +43,7 @@ class PatientPolicy
      */
     public function view(User $user, Patient $patient)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'specialist']) && $patient->isPartOfOrganization($user->organization->id);
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'specialist','anesthetist']) && $patient->isPartOfOrganization($user->organization->id);
     }
 
     /**
