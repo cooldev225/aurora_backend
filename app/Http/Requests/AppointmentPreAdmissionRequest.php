@@ -51,7 +51,7 @@ class AppointmentPreAdmissionRequest extends FormRequest
         $patient_request = new PatientRequest();
 
         return [
-            'pre_admission_answers' => 'required|array',
+            'pre_admission_answers' => 'required|string',
 
             ...$patient_request->rules(),
         ];
