@@ -31,21 +31,6 @@ class FileController extends Controller
      */
 
     public function show(FileRequest $request) {
-        $file_type = new \ReflectionEnum(FileType::class);
-
-        if (!$file_type->hasConstant($request->type)) {
-            //If the file type provided is not valid, return an error
-            return response()->json(
-                [
-                    'message'   => 'Please select a valid file type',
-                ],
-                Response::HTTP_UNPROCESSABLE_ENTITY
-            );
-        }
-
-        // Get enum associated with the submitted file type
-        $file_type = $file_type->getConstant($request->type);
-
         $file = Storage::get($request->path);
 
         if (!$file) {
