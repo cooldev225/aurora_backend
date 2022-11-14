@@ -5,7 +5,6 @@ use App\Http\Controllers\AppointmentSearchAvailableController;
 use App\Http\Controllers\HL7TestController;
 use App\Http\Controllers\ReportVAEDController;
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Storage;
 
 /*
 |--------------------------------------------------------------------------
