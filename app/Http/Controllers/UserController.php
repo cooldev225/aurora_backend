@@ -10,6 +10,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
@@ -41,13 +42,14 @@ class UserController extends Controller
             ->with('specialistClinicRelations');
 
         foreach ($params as $column => $param) {
+
             if (!empty($param)) {
                 if ($column !== "date") {
                     $users = $users->where($column, '=', $param);
                 } else {
                     $day = strtoupper(Carbon::parse($params["date"])->format('Y-m-d'));
                     $users->whereHas('hrmWeeklySchedule', function ($query) use ($day) {
-                        $query->where('date', $day)->where('status', 'PUBLISHED');
+                        $query->where('date', $day)->where('is_template', true);
                     });
                 }
             }
@@ -117,7 +119,7 @@ class UserController extends Controller
 
         $first_name = $request->first_name;
         $last_name = $request->last_name;
-        $username = auth()->user()->organization->code . $first_name[0] . $last_name;
+        $username = auth()->user()->organization->code . '_'. $first_name[0] .'_'. $last_name;
         $i = 0;
         while (User::whereUsername($username)->exists()) {
             $i++;

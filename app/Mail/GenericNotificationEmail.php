@@ -13,17 +13,18 @@ class GenericNotificationEmail extends Mailable
     use Queueable, SerializesModels;
 
     public $subject;
-    public $message;
+    public $content;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(String $subject, String $message)
+    public function __construct(string $subject, string $content)
     {
         $this->subject = $subject;
-        $this->message = $message;
+        $this->content = $content;
+   
     }
 
     /**
@@ -33,6 +34,7 @@ class GenericNotificationEmail extends Mailable
      */
     public function build()
     {
+
         return $this->view('email.genericNotification')
                     ->subject($this->subject);
     }

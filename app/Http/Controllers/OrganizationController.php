@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\OrganizationCreateRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
+use App\Mail\NewEmployeeEmail;
+use Illuminate\Support\Str;
+
 
 class OrganizationController extends Controller
 {
@@ -67,25 +70,28 @@ class OrganizationController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('create', Organization::class);
 
+        // Create a new user as the default admin for this org
         $i = 3;
         $code = substr($request->name, 0, $i);
         while(Organization::where('code', $code)->count() > 0){
             $code = substr($request->name, 0, ++$i);
         };
 
+        $raw_password = Str::random(14);
+
         $owner = User::create([
             ...$request->safe()->only([
                 'email',
                 'first_name',
                 'last_name',
+                'mobile_number',
             ]),
-            'username'      => $code.'admin',
-            'password'      => Hash::make('paxxw0rd'),
-            'raw_password'  => $request->password,
+            'username'      => $code.'-'.$request->first_name.'-admin',
+            'password'      => Hash::make($raw_password),
             'role_id'       => UserRole::ORGANIZATION_ADMIN,
-            'mobile_number' => $request->mobile_number,
         ]);
 
+        // Creates the new org
         $organization = Organization::create([
             'name'                      => $request->name,
             'code'                      => $code,
@@ -94,9 +100,14 @@ class OrganizationController extends Controller
 
         ]);
 
+        // Sets the owners org id to the new org
         $owner->organization_id = $organization->id;
         $owner->save();
 
+        // Sends the welcome email to the new user
+        $owner->sendEmail(new NewEmployeeEmail($owner, $raw_password));
+
+        // Set up the default Notification Templates for this organizations
         NotificationTemplate::CreateOrganizationNotification($organization);
 
         return response()->json(

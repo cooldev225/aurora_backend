@@ -26,7 +26,7 @@
     <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
 		<tr>
 			<td align="center" style="padding:20px;">
-				<img  style="width:300px" src="https://dev.aurorasw.com.au/aurora-logo.png"/>
+				<img  style="width:300px" src="https://aurorasw.com.au/aurora-logo.png"/>
 			</td>
 		</tr>
 		<tr class="user">
@@ -39,7 +39,7 @@
 			<td align="center" style="padding:20px;">
 
                 To get started, please follow the the link below to sign in:<br/>
-                <a href="https://demo.aurorasw.com.au/">https://demo.aurorasw.com.au/</a><br/><br/>
+                <a href="https://aurorasw.com.au/">https://aurorasw.com.au/</a><br/><br/>
                 <strong>Username:</strong> {{ $user->username}}<br/>
                 <strong>Password:</strong>   {{ $raw_password}}<br/>
 			</td>
