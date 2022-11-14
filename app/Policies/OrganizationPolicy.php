@@ -128,6 +128,17 @@ class OrganizationPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
+    public function showPin(User $user, Organization $organization)
+    {
+        return $user->hasAnyRole(['organizationAdmin']) && $organization->id === $user->organization_id;
+    }
+
+    /**
+     * Determine whether the user can set a new pin
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
     public function setPin(User $user, Organization $organization)
     {
         return $user->hasAnyRole(['organizationAdmin']) && $organization->id === $user->organization_id;

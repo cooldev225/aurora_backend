@@ -198,9 +198,9 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Organization Pin Routes
     Route::prefix('organizations/{organization}/pin')->group(function () {
+        Route::get('/show',     [OrganizationPinController::class, 'show']);
         Route::post('/verify',  [OrganizationPinController::class, 'verify']);
-        Route::put('/',         [OrganizationPinController::class, 'store']);
-        Route::patch('/',       [OrganizationPinController::class, 'update']);
+        Route::put('/set',      [OrganizationPinController::class, 'set']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

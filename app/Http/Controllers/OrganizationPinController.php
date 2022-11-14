@@ -5,9 +5,29 @@ namespace App\Http\Controllers;
 use App\Models\Organization;
 use Illuminate\Http\Response;
 use App\Http\Requests\OrganizationPinRequest;
+use Exception;
 
 class OrganizationPinController extends Controller
 {
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Organization $organization)
+    {
+        // Verify the user can access this function via policy
+        $this->authorize('showPin', $organization);
+
+        return response()->json(
+            [
+                'pin' => $organization->billing_pin,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
     /**
      * Store a newly created resource in storage.
      *

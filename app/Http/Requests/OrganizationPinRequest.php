@@ -24,7 +24,7 @@ class OrganizationPinRequest extends FormRequest
     public function rules()
     {
         return [
-            'pin' => 'required|numeric|size:4',
+            'pin' => 'required|numeric|digits:4',
         ];
     }
 }
