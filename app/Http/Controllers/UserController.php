@@ -119,7 +119,7 @@ class UserController extends Controller
 
         $first_name = $request->first_name;
         $last_name = $request->last_name;
-        $username = auth()->user()->organization->code . $first_name[0] . $last_name;
+        $username = auth()->user()->organization->code . '_'. $first_name[0] .'_'. $last_name;
         $i = 0;
         while (User::whereUsername($username)->exists()) {
             $i++;

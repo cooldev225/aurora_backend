@@ -28,6 +28,9 @@
             background: #3E7BA0 !important;
             color: #ffffff;
         }
+		img{
+			width:300px;
+		}
     </style>
 </head>
 
@@ -35,7 +38,7 @@
     <table role="presentation" style="width:100%;border-collapse:collapse;border:0;border-spacing:0;background:#ffffff;">
         <tr>
             <td align="center" style="padding:20px;">
-                <img style="width:300px" src="https://aurorasw.com.au/aurora-logo.png" />
+                <img src="https://aurorasw.com.au/aurora-logo.png" />
             </td>
         </tr>
         <tr>
