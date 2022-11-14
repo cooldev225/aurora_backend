@@ -29,7 +29,7 @@ Route::get('/test', function() {
         dd($file_parts);
 });
 
-Route::get('/test-email', function() {
+Route::get('/test-sms', function() {
     $patient = Patient::first();
     $patient->contact_number ="04-8118-3422";
     $patient->save();
@@ -38,13 +38,6 @@ Route::get('/test-email', function() {
     return 'Test SMS sent';
 });
 
-
-Route::get('/test-sms', function() {
-    $filename = str_replace('pre_admission', '', 'pre_admission_51_1663207992.pdf');
-    $file_parts = explode('_', $filename);
-
-        dd($file_parts);
-});
 
 Route::get('/test-hl7parse', [HL7TestController::class, 'testHL7Parse']);
 Route::get('/test-hl7create', [HL7TestController::class, 'createHealthLinkMessage']);
