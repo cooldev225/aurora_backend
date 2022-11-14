@@ -33,6 +33,10 @@ class DocumentHeaderFooterTemplate extends Model
     public function getHeaderFileUrlAttribute()
     {
         if ($this->header_file) {
+            if (config('filesystems.default') !== 's3') {
+                return url($this->header_file);
+            }
+
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($this->header_file, now()->addMinutes($expiry));
         }
@@ -44,6 +48,10 @@ class DocumentHeaderFooterTemplate extends Model
     public function getFooterFileUrlAttribute()
     {
         if ($this->footer_file) {
+            if (config('filesystems.default') !== 's3') {
+                return url($this->footer_file);
+            }
+
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($this->footer_file, now()->addMinutes($expiry));
         }

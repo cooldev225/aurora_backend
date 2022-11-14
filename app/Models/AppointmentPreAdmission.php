@@ -61,6 +61,10 @@ class AppointmentPreAdmission extends Model
     public function getDocumentUrlAttribute()
     {
         if ($this->pre_admission_file) {
+            if (config('filesystems.default') !== 's3') {
+                return url($this->pre_admission_file);
+            }
+
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($this->pre_admission_file, now()->addMinutes($expiry));
         }

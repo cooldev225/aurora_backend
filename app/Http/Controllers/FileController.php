@@ -46,11 +46,8 @@ class FileController extends Controller
         // Get enum associated with the submitted file type
         $file_type = $file_type->getConstant($request->type);
 
-        $folder = getUserOrganizationFilePath(in_array($file_type, $this->images) ? 'images' : 'files');
+        $file = Storage::get($request->path);
 
-        $path = "{$folder}/{$request->path}";
-        $file = Storage::disk('local')->get($path);
-        Log::info($path);
         if (!$file) {
             // If there's no file, return a 404.
             // Likely this is because the user doesn't have access

@@ -70,6 +70,10 @@ class Organization extends Model
     public function getLogoUrlAttribute()
     {
         if ($this->logo) {
+            if (config('filesystems.default') !== 's3') {
+                return url($this->logo);
+            }
+
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($this->logo, now()->addMinutes($expiry));
         }
@@ -81,6 +85,10 @@ class Organization extends Model
     public function getDocumentLetterHeaderUrlAttribute()
     {
         if ($this->document_letter_header) {
+            if (config('filesystems.default') !== 's3') {
+                return url($this->document_letter_header);
+            }
+
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($this->document_letter_header, now()->addMinutes($expiry));
         }
@@ -92,6 +100,10 @@ class Organization extends Model
     public function getDocumentLetterFooterUrlAttribute()
     {
         if ($this->document_letter_footer) {
+            if (config('filesystems.default') !== 's3') {
+                return url($this->document_letter_footer);
+            }
+
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($this->document_letter_footer, now()->addMinutes($expiry));
         }

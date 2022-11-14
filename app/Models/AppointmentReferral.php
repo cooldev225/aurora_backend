@@ -51,6 +51,10 @@ class AppointmentReferral extends Model
     public function getDocumentUrlAttribute()
     {
         if ($this->referral_file) {
+            if (config('filesystems.default') !== 's3') {
+                return url($this->referral_file);
+            }
+
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($this->referral_file, now()->addMinutes($expiry));
         }

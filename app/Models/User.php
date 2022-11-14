@@ -60,6 +60,10 @@ class User extends Authenticatable implements JWTSubject
     public function getPhotoUrlAttribute()
     {
         if ($this->photo) {
+            if (config('filesystems.default') !== 's3') {
+                return url($this->photo);
+            }
+
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($this->photo, now()->addMinutes($expiry));
         }
