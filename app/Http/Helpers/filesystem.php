@@ -1,6 +1,8 @@
 <?php
 
 use App\Enum\FileType;
+use App\Models\Organization;
+use Illuminate\Support\Facades\Log;
 
 if (!function_exists('generateFileName')) {
     function generateFileName(FileType $type, $model_id, $extension, $name = null)
@@ -35,5 +37,30 @@ if (!function_exists('getUserOrganizationFilePath')) {
         }
 
         return "{$prefix}/{$user->organization_id}";
+    }
+}
+
+if (!function_exists('canUserAccessFilePath')) {
+    function canUserAccessFilePath($path) {
+        $user = auth()->user();
+
+        $path_parts = explode('/', $path);
+        foreach ($path_parts as $part) {
+            $organization = Organization::find($part);
+
+            if ($organization) {
+                break;
+            }
+        }
+
+        if (!$organization) {
+            return false;
+        }
+
+        if ($user->organization_id != $organization->id) {
+            return false;
+        }
+
+        return true;
     }
 }

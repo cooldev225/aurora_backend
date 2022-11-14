@@ -31,9 +31,9 @@ class FileController extends Controller
      */
 
     public function show(FileRequest $request) {
-        $file = Storage::get($request->path);
+        $file = Storage::disk('local')->get($request->path);
 
-        if (!$file) {
+        if (!$file || !canUserAccessFilePath($request->path)) {
             // If there's no file, return a 404.
             // Likely this is because the user doesn't have access
             return response()->json(
