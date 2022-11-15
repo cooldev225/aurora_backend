@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreignId('clinic_id');
             $table->foreignId('user_id');
             $table->foreignId('anesthetist_id')->nullable();
+            $table->foreignId('hrm_filled_week_id')->nullable();
             $table->enum('week_day', ['MON','TUE','WED','THU','FRI','SAT','SUN']);
             $table->enum('category', ['WORKING','BREAK'])->default('WORKING');
             $table->enum('restriction', ['CONSULTATION','PROCEDURE','NONE'])->default('NONE');

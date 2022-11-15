@@ -8,6 +8,7 @@ use App\Http\Requests\HrmWeeklyScheduleRequest;
 use App\Http\Requests\HrmWeeklyScheduleStoreRequest;
 use App\Mail\EmployeeScheduleEmail;
 use App\Models\HrmDeletedSchedule;
+use App\Models\HrmFilledWeek;
 use App\Models\HrmWeeklySchedule;
 use App\Models\User;
 use Carbon\Carbon;
@@ -33,6 +34,7 @@ class HrmWeeklyScheduleController extends Controller
             $organization->id
         )->wherenot('role_id', UserRole::ADMIN)
             ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
+            ->with('scheduleTimeslots')
             ->with(
                 ['hrmWeeklySchedule' => function ($query) use ($startDate, $endDate) {
                     $query->whereBetween('date', [$startDate, $endDate]);
@@ -63,13 +65,10 @@ class HrmWeeklyScheduleController extends Controller
         $endDate = Carbon::parse($request->date)->endOfWeek()->format('Y-m-d');
         $period = CarbonPeriod::create(Carbon::parse($request->date)->startOfWeek(),
             Carbon::parse($request->date)->endOfWeek());
-        $organization = auth()->user()->organization;
-
 
         foreach ($period as $day) {
             $weekDays[strtoupper($day->format('D'))] = $day->toDateString();
         }
-
         foreach ($request->clinics as $clinic) {
             array_push($clinicIds, $clinic['id']);
         }
@@ -77,15 +76,31 @@ class HrmWeeklyScheduleController extends Controller
             array_push($employeeIds, $employee['id']);
         }
 
-        // Delete existing weekly schedules
-        $weeklySlots = HrmWeeklySchedule::whereBetween('date', [$startDate, $endDate])
+        // Find given time period already published or not
+        $hrmFilledWeek = HrmFilledWeek::where('start_date', $startDate)
+            ->where('end_date', $endDate)->exists();
+
+        if ($hrmFilledWeek) {
+            return response()->json([
+                'message' => 'Shifts are already Published on selected Time period'
+            ], 404);
+        }
+
+        $hrmFilledWeek = HrmFilledWeek::create([
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+        ]);
+
+        //Delete existing weekly schedules
+        $hrmFilledWeek->HrmWeeklySchedule()
+            ->whereBetween('date', [$startDate, $endDate])
             ->whereIn('user_id', $employeeIds)
             ->whereIn('clinic_id', $clinicIds)->delete();
 
         //Fill hrm weekly schedule from user template
         foreach ($request->employees as $employee) {
             foreach ($employee['schedule_timeslots'] as $slot) {
-                HrmWeeklySchedule::create([
+                $hrmFilledWeek->hrmWeeklySchedule()->create([
                     'organization_id' => $slot['organization_id'],
                     'date' => $weekDays[$slot['week_day']],
                     'clinic_id' => $slot['clinic_id'],
@@ -100,11 +115,10 @@ class HrmWeeklyScheduleController extends Controller
                     'is_template' => true,
                 ]);
             }
-
         }
         return response()->json(
             [
-                'message' => 'Schedule templated created'
+                'message' => 'Weekly schedule created'
             ],
             200
         );
