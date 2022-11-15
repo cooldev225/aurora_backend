@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\FileType;
 use Carbon\Carbon;
+use App\Enum\FileType;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use App\Models\PatientDocument;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\AppointmentReferralRequest;
@@ -37,6 +38,21 @@ class AppointmentReferralController extends Controller
             'referral_expiry_date'  =>  Carbon::create($request->referral_date)->addMonths($request->referral_duration)->toDateString(),
         ]);
 
+        if ($appointmentReferral->patient_document) {
+            $patient_document = $appointmentReferral->patient_document;
+        } else {
+            $user_id = auth()->user()->id;
+            $patient = $appointment->patient;
+    
+            $data = [
+                ...$request->all(),
+                'patient_id'    => $patient->id,
+                'document_type' => 'REFERRAL',
+                'created_by'    => $user_id,
+            ];
+            $patient_document = PatientDocument::create($data);
+        }
+
         if ($file = $request->file('file')) {
             $file_name = generateFileName(FileType::REFERRAL, $appointmentReferral->id, $file->extension());
             $org_path = getUserOrganizationFilePath();
@@ -53,7 +69,10 @@ class AppointmentReferralController extends Controller
             $file_path = "/{$org_path}/{$file_name}";
             Storage::put($file_path, file_get_contents($file));
 
-            $appointmentReferral->referral_file = $file_name;
+            $patient_document->file_path = $file_name;
+            $patient_document->save();
+
+            $appointmentReferral->patient_document_id = $patient_document->id;
             $appointmentReferral->save();
         }
 
