@@ -196,8 +196,8 @@ class AppointmentPreAdmissionController extends Controller
         $file_path = getUserOrganizationFilePath();
        
         Storage::put($file_path . '/' . $file_name, $pdf->output());
-        $file_url = url($file_path);
-        $preAdmission->pre_admission_file = $file_url;
+
+        $preAdmission->pre_admission_file = $file_name;
         $preAdmission->status = 'CREATED';
         $preAdmission->save();
 

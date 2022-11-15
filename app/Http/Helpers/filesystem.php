@@ -1,8 +1,6 @@
 <?php
 
 use App\Enum\FileType;
-use App\Models\Organization;
-use Illuminate\Support\Facades\Log;
 
 if (!function_exists('generateFileName')) {
     function generateFileName(FileType $type, $model_id, $extension, $name = null)

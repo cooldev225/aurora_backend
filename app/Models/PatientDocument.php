@@ -64,12 +64,15 @@ class PatientDocument extends Model
     public function getDocumentUrlAttribute()
     {
         if ($this->file_path) {
+            $folder = getUserOrganizationFilePath();
+            $path = "{$folder}/{$this->file_path}";
+
             if (config('filesystems.default') !== 's3') {
-                return url($this->file_path);
+                return url($path);
             }
 
             $expiry = config('temporary_url_expiry');
-            return Storage::temporaryUrl($this->file_path, now()->addMinutes($expiry));
+            return Storage::temporaryUrl($path, now()->addMinutes($expiry));
         }
     }
 }

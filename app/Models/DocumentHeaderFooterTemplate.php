@@ -33,12 +33,15 @@ class DocumentHeaderFooterTemplate extends Model
     public function getHeaderFileUrlAttribute()
     {
         if ($this->header_file) {
+            $folder = getUserOrganizationFilePath();
+            $path = "{$folder}/{$this->header_file}";
+
             if (config('filesystems.default') !== 's3') {
-                return url($this->header_file);
+                return url($path);
             }
 
             $expiry = config('temporary_url_expiry');
-            return Storage::temporaryUrl($this->header_file, now()->addMinutes($expiry));
+            return Storage::temporaryUrl($path, now()->addMinutes($expiry));
         }
     }
 

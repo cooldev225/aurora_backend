@@ -87,42 +87,15 @@ class Organization extends Model
     public function getLogoUrlAttribute()
     {
         if ($this->logo) {
+            $folder = getUserOrganizationFilePath('images');
+            $path = "{$folder}/{$this->logo}";
+
             if (config('filesystems.default') !== 's3') {
-                return url($this->logo);
+                return url($path);
             }
 
             $expiry = config('temporary_url_expiry');
-            return Storage::temporaryUrl($this->logo, now()->addMinutes($expiry));
-        }
-    }
-
-    /**
-     * Returns temporary URL for header file
-     */
-    public function getDocumentLetterHeaderUrlAttribute()
-    {
-        if ($this->document_letter_header) {
-            if (config('filesystems.default') !== 's3') {
-                return url($this->document_letter_header);
-            }
-
-            $expiry = config('temporary_url_expiry');
-            return Storage::temporaryUrl($this->document_letter_header, now()->addMinutes($expiry));
-        }
-    }
-
-    /**
-     * Returns temporary URL for footer file
-     */
-    public function getDocumentLetterFooterUrlAttribute()
-    {
-        if ($this->document_letter_footer) {
-            if (config('filesystems.default') !== 's3') {
-                return url($this->document_letter_footer);
-            }
-
-            $expiry = config('temporary_url_expiry');
-            return Storage::temporaryUrl($this->document_letter_footer, now()->addMinutes($expiry));
+            return Storage::temporaryUrl($path, now()->addMinutes($expiry));
         }
     }
 

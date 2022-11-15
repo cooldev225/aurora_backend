@@ -37,6 +37,7 @@ class User extends Authenticatable implements JWTSubject
         'role_name',
         'full_name',
         'photo_url',
+        'signature_url',
     ];
 
     protected $casts = [
@@ -60,12 +61,33 @@ class User extends Authenticatable implements JWTSubject
     public function getPhotoUrlAttribute()
     {
         if ($this->photo) {
+            $folder = getUserOrganizationFilePath('images');
+            $path = "{$folder}/{$this->photo}";
+
             if (config('filesystems.default') !== 's3') {
-                return url($this->photo);
+                return url($path);
             }
 
             $expiry = config('temporary_url_expiry');
-            return Storage::temporaryUrl($this->photo, now()->addMinutes($expiry));
+            return Storage::temporaryUrl($path, now()->addMinutes($expiry));
+        }
+    }
+
+    /**
+     * Returns temporary URL for photo file
+     */
+    public function getSignatureUrlAttribute()
+    {
+        if ($this->signature) {
+            $folder = getUserOrganizationFilePath('images');
+            $path = "{$folder}/{$this->signature}";
+
+            if (config('filesystems.default') !== 's3') {
+                return url($path);
+            }
+
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($path, now()->addMinutes($expiry));
         }
     }
 
