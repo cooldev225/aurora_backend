@@ -147,7 +147,8 @@ class AppointmentPreAdmissionController extends Controller
         $pdf = PDF::loadView('pdfs/patientPreAdmissionForm', $data);
 
         $file_name = generateFileName(FileType::PRE_ADMISSION, $preAdmission->id, 'pdf');
-        $file_path = getUserOrganizationFilePath();
+        $organization_id = $preAdmission->appointment->organization_id;
+        $file_path = "files/{$organization_id}";
 
         Storage::put($file_path . '/' . $file_name, $pdf->output());
         $preAdmission->pre_admission_file = $file_name;
