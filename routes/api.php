@@ -153,6 +153,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::put('/also-known-as',                          [PatientAlsoKnownAsController::class, 'store']);
         Route::put('/also-known-as/{patientAlsoKnownAs}',     [PatientAlsoKnownAsController::class, 'update']);
+        Route::put('/also-known-as/bulk/{patient}',           [PatientAlsoKnownAsController::class, 'bulk']);
         Route::delete('/also-known-as/{patientAlsoKnownAs}',  [PatientAlsoKnownAsController::class, 'delete']);
 
         Route::apiResource('/recalls',                        PatientRecallController::class);
