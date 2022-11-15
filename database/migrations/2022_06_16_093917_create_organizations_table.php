@@ -29,7 +29,7 @@ return new class extends Migration {
             $table->enum('status', ['ACTIVE', 'INACTIVE'])->default('ACTIVE');
 
             $table->string('logo')->nullable();
-             $table->boolean('has_billing')->default(true);
+            $table->boolean('has_billing')->default(true);
             $table->boolean('has_coding')->default(true);
 
             $table->integer('password_expiration_timeframe')->default(6);
