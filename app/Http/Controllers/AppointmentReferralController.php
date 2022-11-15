@@ -49,6 +49,7 @@ class AppointmentReferralController extends Controller
                 'patient_id'    => $patient->id,
                 'document_type' => 'REFERRAL',
                 'created_by'    => $user_id,
+                'organization_id' => auth()->user()->organization_id,
             ];
             $patient_document = PatientDocument::create($data);
         }

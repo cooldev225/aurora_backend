@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AppointmentReferral extends Model
@@ -23,6 +22,7 @@ class AppointmentReferral extends Model
 
     protected $appends = [
         'doctor_address_book_name',
+        'patient_document_file_path',
     ];
 
     /**
@@ -53,5 +53,10 @@ class AppointmentReferral extends Model
     {
         $doctor_address_book = $this->doctor_address_book;
         return $doctor_address_book ? $doctor_address_book->full_name : null;
+    }
+
+    public function getPatientDocumentFilePathAttribute()
+    {
+        return $this->patient_document?->file_path;   
     }
 }

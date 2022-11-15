@@ -26,6 +26,7 @@ return new class extends Migration
                 'REPORT',
                 'CLINICAL_NOTE',
                 'PATHOLOGY_REPORT',
+                'REFERRAL',
                 'AUDIO',
                 'USB_CAPTURE',
                 'OTHER'
