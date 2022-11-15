@@ -21,8 +21,6 @@ class Organization extends Model
         'start_time',
         'end_time',
         'status',
-        'document_letter_header',
-        'document_letter_footer',
         'code',
         'has_billing',
         'has_coding',
@@ -39,8 +37,6 @@ class Organization extends Model
         'is_max_users',
         'is_max_clinics',
         'logo_url',
-        'document_letter_header_url',
-        'document_letter_footer_url',
     ];
 
    /**
