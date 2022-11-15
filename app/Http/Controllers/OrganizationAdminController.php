@@ -6,7 +6,6 @@ use App\Enum\UserRole;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use App\Http\Requests\UserRequest;
 use App\Http\Requests\AdminRequest;
 
 class OrganizationAdminController extends Controller
@@ -18,10 +17,10 @@ class OrganizationAdminController extends Controller
      */
     public function index()
     {
-        // Verify the user can access this function via policy
-        $this->authorize('viewAny', User::class);
-
         $organization_id = auth()->user()->organization_id;
+        // Verify the user can access this function via policy
+        $this->authorize('viewAny', [User::class, $organization_id]);
+
         $organization_admins = User::where('organization_id', $organization_id)
             ->where('role_id', UserRole::ORGANIZATION_ADMIN)
             ->get();
@@ -38,15 +37,14 @@ class OrganizationAdminController extends Controller
     /**
      * [Organization Admin] - Store
      *
-     * @param  \App\Http\Requests\UserRequest  $request
+     * @param  \App\Http\Requests\AdminRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(AdminRequest $request)
     {
-        // Verify the user can access this function via policy
-        $this->authorize('create', User::class);
-
         $organization_id = auth()->user()->organization_id;
+        // Verify the user can access this function via policy
+        $this->authorize('create', [User::class, $organization_id]);
 
         $user = User::create([
             ...$request->safe()->except(['password']),
@@ -69,7 +67,7 @@ class OrganizationAdminController extends Controller
     /**
      * [Organization Admin] - Update
      *
-     * @param  \App\Http\Requests\UserRequest  $request
+     * @param  \App\Http\Requests\AdminRequest  $request
      * @param  \App\Models\User  $user
      * @return \Illuminate\Http\Response
      */

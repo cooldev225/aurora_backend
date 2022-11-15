@@ -115,7 +115,7 @@ class UserController extends Controller
     public function store(UserRequest $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('create', [User::class, auth()->user()->organization_id]);
+        $this->authorize('create', [User::class, auth()->user()->organization_id, $request->role_id]);
 
         $first_name = $request->first_name;
         $last_name = $request->last_name;

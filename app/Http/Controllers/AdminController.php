@@ -35,14 +35,13 @@ class AdminController extends Controller
     /**
      * [Admin User] - Store
      *
-     * @param  \App\Http\Requests\UserRequest  $request
+     * @param  \App\Http\Requests\AdminRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(UserRequest $request)
+    public function store(AdminRequest $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('create', User::class);
-
+        $this->authorize('create', [User::class, auth()->user()->organization_id, UserRole::ADMIN]);
         $user = User::create([
             ...$request->safe()->except(['password']),
             'password' => Hash::make($request->password),
