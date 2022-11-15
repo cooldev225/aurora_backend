@@ -43,7 +43,7 @@ class ScheduleFeePolicy
      */
     public function view(User $user, ScheduleFee $scheduleFee)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $user->organization->id === $scheduleFee->organization->id;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $user->organization->id === $scheduleFee->schedule_item->organization->id;
     }
 
     /**
@@ -66,7 +66,7 @@ class ScheduleFeePolicy
      */
     public function update(User $user, ScheduleFee $scheduleFee)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $user->organization->id === $scheduleFee->organization->id;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $user->organization->id === $scheduleFee->schedule_item->organization->id;
     }
 
     /**
@@ -78,7 +78,7 @@ class ScheduleFeePolicy
      */
     public function delete(User $user, ScheduleFee $scheduleFee)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $user->organization->id === $scheduleFee->organization->id;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $user->organization->id === $scheduleFee->schedule_item->organization->id;
     }
 
     /**

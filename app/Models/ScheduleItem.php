@@ -14,7 +14,7 @@ class ScheduleItem extends Model
         'description',
         'amount',
         'mbs_item_code',
-        'icd_code',
+        'internal_code',
         'organization_id',
     ];
 

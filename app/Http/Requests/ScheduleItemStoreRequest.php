@@ -27,8 +27,8 @@ class ScheduleItemStoreRequest extends FormRequest
             'name'            => 'required|string',
             'description'     => 'string',
             'amount'          => 'required|numeric',
-            'mbs_item_code'   => 'string|max:5',
-            'icd_code'        => 'string|max:10',
+            'mbs_item_code'   => 'numeric|max_digits:5',
+            'internal_code'   => 'alphanum|max:10|nullable',
         ];
     }
 }
