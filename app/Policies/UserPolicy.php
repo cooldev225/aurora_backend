@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use App\Enum\UserRole;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class UserPolicy
@@ -51,8 +52,9 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user, int $organization_id = null)
+    public function create(User $user, int $organization_id = null, int $role_id = null)
     {
+        if($role_id&&$role_id===UserRole::ADMIN&&!$user->hasRole('admin'))return false;
         return $user->hasRole('organizationAdmin') && $user->organization->id == $organization_id;
     }
 

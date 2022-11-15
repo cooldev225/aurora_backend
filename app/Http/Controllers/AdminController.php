@@ -41,8 +41,7 @@ class AdminController extends Controller
     public function store(UserRequest $request)
     {
         // Verify the user can access this function via policy
-        $this->authorize('create', User::class);
-
+        $this->authorize('create', [User::class, auth()->user()->organization_id, UserRole::ADMIN]);
         $user = User::create([
             ...$request->safe()->except(['password']),
             'password' => Hash::make($request->password),
