@@ -24,12 +24,12 @@ class PatientDocumentRequest extends FormRequest
     public function rules()
     {
         return [
-            'document_name' => 'required',
-            'document_type' => 'required|in:LETTER,REPORT,CLINICAL_NOTE,PATHOLOGY_REPORT,AUDIO,USB_CAPTURE,OTHER',
-            'appointment_id'=> 'numeric',
-            'specialist_id' => 'numeric',
-            'file'          => 'required',
-            'is_seen'       => 'boolean',
+            'document_name'  => 'required',
+            'document_type'  => 'required|in:LETTER,REPORT,CLINICAL_NOTE,PATHOLOGY_REPORT,AUDIO,USB_CAPTURE,OTHER',
+            'appointment_id' => 'sometimes',
+            'specialist_id'  => 'numeric',
+            'file'           => 'required',
+            'is_seen'        => 'boolean',
         ];
     }
 

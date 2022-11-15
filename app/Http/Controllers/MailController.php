@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Mail;
 use App\Models\Mailbox;
-use Illuminate\Http\Response;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use App\Http\Requests\MailRequest;
+use Illuminate\Support\Facades\Storage;
 
 class MailController extends Controller
 {
@@ -510,12 +511,22 @@ class MailController extends Controller
         if ($files = $request->file('attachment')) {
             foreach ($files as $file) {
                 $file_name = $file->getClientOriginalName();
-                $path = getUserOrganizationFilePath('attachments');
                 $time = time();
-                $file_path =
-                    '/' .
-                    $file->storeAs("{$path}/{$time}", $file_name);
-                $attachment[] = $file_path;
+                $org_path = getUserOrganizationFilePath('attachments');
+                
+                if (!$org_path) {
+                    return response()->json(
+                        [
+                            'message'   => 'Could not find user organization',
+                        ],
+                        Response::HTTP_UNPROCESSABLE_ENTITY
+                    );
+                }
+                
+                $file_path = "/{$org_path}/{$time}/{$file_name}";
+                Storage::put($file_path, file_get_contents($file));
+
+                $attachment[] = $file_name;
             }
         }
 

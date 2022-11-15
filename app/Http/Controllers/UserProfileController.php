@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enum\FileType;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\ProfileUpdateRequest;
 
 class UserProfileController extends Controller
@@ -39,8 +40,21 @@ class UserProfileController extends Controller
 
         if ($file = $request->file('photo')) {
             $file_name = generateFileName(FileType::USER_PHOTO, $user->id, $file->extension());
-            $photo_path = '/' . $file->storeAs(getUserOrganizationFilePath('images'), $file_name);
-            $user->photo = $photo_path;
+            $org_path = getUserOrganizationFilePath('images');
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            Storage::put($file_path, file_get_contents($file));
+
+            $user->photo = $file_name;
             $user->save();
         }
 

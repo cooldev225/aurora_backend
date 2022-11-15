@@ -2,15 +2,16 @@
 
 namespace App\Models;
 
-use App\Enum\UserRole as UserRoleEnum;
+use Illuminate\Mail\Mailable;
 use App\Models\HrmScheduleTimeslot;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Mail;
+use App\Enum\UserRole as UserRoleEnum;
+use Illuminate\Support\Facades\Storage;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use App\Models\SpecialistClinicRelation;
-use Illuminate\Mail\Mailable;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable implements JWTSubject
 {
@@ -29,9 +30,15 @@ class User extends Authenticatable implements JWTSubject
         'address',
         'education_code',
         'sign_off',
+        'photo',
     ];
 
-    protected $appends = array('role_name', 'full_name');
+    protected $appends = [
+        'role_name',
+        'full_name',
+        'photo_url',
+        'signature_url',
+    ];
 
     protected $casts = [
         'role_id' => UserRoleEnum::class,
@@ -46,6 +53,42 @@ class User extends Authenticatable implements JWTSubject
     public function getFullNameAttribute()
     {
         return $this->title . " " . $this->first_name . " " . $this->last_name;
+    }
+
+    /**
+     * Returns temporary URL for photo file
+     */
+    public function getPhotoUrlAttribute()
+    {
+        if ($this->photo) {
+            $folder = getUserOrganizationFilePath('images');
+            $path = "{$folder}/{$this->photo}";
+
+            if (config('filesystems.default') !== 's3') {
+                return url($path);
+            }
+
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($path, now()->addMinutes($expiry));
+        }
+    }
+
+    /**
+     * Returns temporary URL for photo file
+     */
+    public function getSignatureUrlAttribute()
+    {
+        if ($this->signature) {
+            $folder = getUserOrganizationFilePath('images');
+            $path = "{$folder}/{$this->signature}";
+
+            if (config('filesystems.default') !== 's3') {
+                return url($path);
+            }
+
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($path, now()->addMinutes($expiry));
+        }
     }
 
     /**

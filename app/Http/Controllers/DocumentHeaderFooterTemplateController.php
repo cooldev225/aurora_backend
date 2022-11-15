@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enum\FileType;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Storage;
 use App\Models\DocumentHeaderFooterTemplate;
 use App\Http\Requests\DocumentHeaderFooterTemplateRequest;
-use Illuminate\Http\Request;
 
 class DocumentHeaderFooterTemplateController extends Controller
 {
@@ -81,11 +82,21 @@ class DocumentHeaderFooterTemplateController extends Controller
                 $organization_id . "_" . $documentHeaderFooterTemplate->id,
                 $file->extension()
             );
-            $filepath = getUserOrganizationFilePath();
-            $file->storeAs($filepath, $file_name);
-            $header = $file_name;
+            $org_path = getUserOrganizationFilePath();
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            Storage::put($file_path, file_get_contents($file));
 
-            $documentHeaderFooterTemplate->header_file = $header;
+            $documentHeaderFooterTemplate->header_file = $file_name;
             $documentHeaderFooterTemplate->save();
         }
 
@@ -96,11 +107,21 @@ class DocumentHeaderFooterTemplateController extends Controller
                 $organization_id . "_" . $documentHeaderFooterTemplate->id,
                 $file->extension()
             );
-            $filepath = getUserOrganizationFilePath();
-            $file->storeAs($filepath, $file_name);
-            $footer = $file_name;
+            $org_path = getUserOrganizationFilePath();
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            Storage::put($file_path, file_get_contents($file));
 
-            $documentHeaderFooterTemplate->footer_file = $footer;
+            $documentHeaderFooterTemplate->footer_file = $file_name;
             $documentHeaderFooterTemplate->save();
         }
 

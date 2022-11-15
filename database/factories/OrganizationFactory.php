@@ -31,9 +31,6 @@ $name=  $this->faker->company();
             'appointment_length'     => $this->faker->randomElement([30, 15, 60]),
             'start_time'             => $this->faker->randomElement(['06:00', '07:00', '08:00']),
             'end_time'               => $this->faker->randomElement(['18:00', '19:00', '20:00']),
-            'document_letter_header' => $this->faker->imageUrl(),
-            'document_letter_footer' => $this->faker->imageUrl(),
-
             'has_billing'            => $this->faker->boolean(),
             'has_coding'             => $this->faker->boolean(),
 

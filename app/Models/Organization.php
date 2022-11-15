@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Organization extends Model
 {
@@ -20,8 +21,6 @@ class Organization extends Model
         'start_time',
         'end_time',
         'status',
-        'document_letter_header',
-        'document_letter_footer',
         'code',
         'has_billing',
         'has_coding',
@@ -32,7 +31,13 @@ class Organization extends Model
         'billing_pin',
     ];
 
-    protected $appends = array('user_count', 'clinic_count', 'is_max_users', 'is_max_clinics');
+    protected $appends = [
+        'user_count',
+        'clinic_count',
+        'is_max_users',
+        'is_max_clinics',
+        'logo_url',
+    ];
 
    /**
      * Returns the total user count
@@ -70,6 +75,24 @@ class Organization extends Model
             return true;
         }
         return false;
+    }
+
+    /**
+     * Returns temporary URL for logo file
+     */
+    public function getLogoUrlAttribute()
+    {
+        if ($this->logo) {
+            $folder = getUserOrganizationFilePath('images');
+            $path = "{$folder}/{$this->logo}";
+
+            if (config('filesystems.default') !== 's3') {
+                return url($path);
+            }
+
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($path, now()->addMinutes($expiry));
+        }
     }
 
     /**

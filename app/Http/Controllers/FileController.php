@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Enum\FileType;
 use Illuminate\Http\Response;
 use App\Http\Requests\FileRequest;
-use Illuminate\Log\Logger;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -32,7 +30,7 @@ class FileController extends Controller
 
     public function show(FileRequest $request) {
         $file_type = new \ReflectionEnum(FileType::class);
-
+        
         if (!$file_type->hasConstant($request->type)) {
             //If the file type provided is not valid, return an error
             return response()->json(
@@ -49,8 +47,8 @@ class FileController extends Controller
         $folder = getUserOrganizationFilePath(in_array($file_type, $this->images) ? 'images' : 'files');
 
         $path = "{$folder}/{$request->path}";
-        $file = Storage::disk('local')->get($path);
-        Log::info($path);
+        $file = Storage::get($path);
+
         if (!$file) {
             // If there's no file, return a 404.
             // Likely this is because the user doesn't have access

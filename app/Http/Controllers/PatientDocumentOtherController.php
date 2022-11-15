@@ -6,6 +6,7 @@ use App\Enum\FileType;
 use App\Models\Patient;
 use Illuminate\Http\Response;
 use App\Models\PatientDocument;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\PatientDocumentOtherUploadRequest;
 
 class PatientDocumentOtherController extends Controller
@@ -35,9 +36,21 @@ class PatientDocumentOtherController extends Controller
         $file_path = '';
         if ($file = $request->file('file')) {
             $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
-            $file_path = '/' . $file->storeAs(getUserOrganizationFilePath(), $file_name);
+            $org_path = getUserOrganizationFilePath();
+            
+            if (!$org_path) {
+                return response()->json(
+                    [
+                        'message'   => 'Could not find user organization',
+                    ],
+                    Response::HTTP_UNPROCESSABLE_ENTITY
+                );
+            }
+            
+            $file_path = "/{$org_path}/{$file_name}";
+            Storage::put($file_path, file_get_contents($file));
 
-            $patient_document->file_path = url($file_path);
+            $patient_document->file_path = $file_name;
             $patient_document->save();
         }
 

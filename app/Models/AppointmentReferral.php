@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AppointmentReferral extends Model
 {
@@ -17,11 +17,12 @@ class AppointmentReferral extends Model
         'referral_date',
         'referral_duration',
         'referral_expiry_date',
-        'referral_file',
+        'patient_document_id',
     ];
 
     protected $appends = [
-        'doctor_address_book_name'
+        'doctor_address_book_name',
+        'patient_document_file_path',
     ];
 
     /**
@@ -40,9 +41,22 @@ class AppointmentReferral extends Model
         return $this->belongsTo(DoctorAddressBook::class);
     }
 
+    /**
+     * Return Patient Document
+     */
+    public function patient_document()
+    {
+        return $this->belongsTo(PatientDocument::class);
+    }
+
     public function getDoctorAddressBookNameAttribute()
     {
         $doctor_address_book = $this->doctor_address_book;
         return $doctor_address_book ? $doctor_address_book->full_name : null;
+    }
+
+    public function getPatientDocumentFilePathAttribute()
+    {
+        return $this->patient_document?->file_path;   
     }
 }

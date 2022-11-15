@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('appointment_id')->index();
             $table->foreignId('doctor_address_book_id')->nullable();
+            $table->foreignId('patient_document_id')->nullable();
             $table->boolean('is_no_referral')->default(false);
             
             $table
@@ -32,7 +33,6 @@ return new class extends Migration
             $table->date('referral_date')->nullable();
             $table->string('referral_duration')->nullable();
             $table->date('referral_expiry_date')->nullable();
-            $table->string('referral_file')->nullable();
             $table->timestamps();
         });
     }

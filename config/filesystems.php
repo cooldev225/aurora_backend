@@ -104,4 +104,16 @@ return [
         'pre_admission'    => 'files/appointment_pre_admission/',
         'patient_document' => 'files/patient_documents/',
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | File expiry time
+    |--------------------------------------------------------------------------
+    |
+    | Here we set the default amount of time a temporary URL will be valid for
+    | a user to view a file
+    |
+    */
+
+    'temporary_url_expiry' => env('DEFAULT_FILE_EXPIRY', 10),
 ];

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class PatientDocument extends Model
@@ -16,7 +17,8 @@ class PatientDocument extends Model
     ];
 
     protected $appends = [
-        'document_info'
+        'document_info',
+        'document_url',
     ];
 
     public function getDocumentInfoAttribute(){
@@ -57,5 +59,20 @@ class PatientDocument extends Model
     public function appointment()
     {
         return $this->belongsTo(Appointment::class);
+    }
+
+    public function getDocumentUrlAttribute()
+    {
+        if ($this->file_path) {
+            $folder = getUserOrganizationFilePath();
+            $path = "{$folder}/{$this->file_path}";
+
+            if (config('filesystems.default') !== 's3') {
+                return url($path);
+            }
+
+            $expiry = config('temporary_url_expiry');
+            return Storage::temporaryUrl($path, now()->addMinutes($expiry));
+        }
     }
 }
