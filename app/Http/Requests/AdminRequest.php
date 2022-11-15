@@ -28,8 +28,10 @@ class AdminRequest extends FormRequest
     public function rules()
     {
         return [
-            'username'  => 'required|string|min:2|max:100',
-            'email'     => 'required|string|email|max:100',
+            'first_name'     => 'required|string|min:2|max:100',
+            'last_name'      => 'required|string|min:2|max:100',
+            'username'       => 'required|string|min:2|max:100',
+            'email'          => 'required|string|email|max:100',
         ];
     }
 }
