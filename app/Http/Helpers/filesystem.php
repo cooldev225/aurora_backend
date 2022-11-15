@@ -39,28 +39,3 @@ if (!function_exists('getUserOrganizationFilePath')) {
         return "{$prefix}/{$user->organization_id}";
     }
 }
-
-if (!function_exists('canUserAccessFilePath')) {
-    function canUserAccessFilePath($path) {
-        $user = auth()->user();
-
-        $path_parts = explode('/', $path);
-        foreach ($path_parts as $part) {
-            $organization = Organization::find($part);
-
-            if ($organization) {
-                break;
-            }
-        }
-
-        if (!$organization) {
-            return false;
-        }
-
-        if ($user->organization_id != $organization->id) {
-            return false;
-        }
-
-        return true;
-    }
-}

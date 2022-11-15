@@ -94,9 +94,9 @@ class DocumentHeaderFooterTemplateController extends Controller
             }
             
             $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
-            $documentHeaderFooterTemplate->header_file = $file_path;
+            $documentHeaderFooterTemplate->header_file = $file_name;
             $documentHeaderFooterTemplate->save();
         }
 
@@ -119,9 +119,9 @@ class DocumentHeaderFooterTemplateController extends Controller
             }
             
             $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
-            $documentHeaderFooterTemplate->footer_file = $file_path;
+            $documentHeaderFooterTemplate->footer_file = $file_name;
             $documentHeaderFooterTemplate->save();
         }
 

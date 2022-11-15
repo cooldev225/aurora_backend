@@ -51,9 +51,9 @@ class AppointmentReferralController extends Controller
             }
             
             $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
-            $appointmentReferral->referral_file = $file_path;
+            $appointmentReferral->referral_file = $file_name;
             $appointmentReferral->save();
         }
 

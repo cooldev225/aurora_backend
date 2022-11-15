@@ -524,9 +524,9 @@ class MailController extends Controller
                 }
                 
                 $file_path = "/{$org_path}/{$time}/{$file_name}";
-                $path = Storage::put($file_path, file_get_contents($file));
+                Storage::put($file_path, file_get_contents($file));
 
-                $attachment[] = $file_path;
+                $attachment[] = $file_name;
             }
         }
 

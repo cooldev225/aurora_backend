@@ -37,10 +37,10 @@ class PatientDocumentController extends Controller
         if ($file = $request->file('file')) {
             $file_name = generateFileName(FileType::PATIENT_DOCUMENT, $patient_document->id, $file->extension(), time());
             $file_path = '/' . getUserOrganizationFilePath() . '/' . $file_name;
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
             $patient_document->file_type =  $file->extension();
-            $patient_document->file_path = $file_path;
+            $patient_document->file_path = $file_name;
             $patient_document->save();
         }
 

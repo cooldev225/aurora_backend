@@ -49,11 +49,11 @@ class PatientDocumentAudioController extends Controller
             }
             
             $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
             $file_type = $patient_document->getFileType($file->extension());
 
-            $patient_document->file_path = $file_path;
+            $patient_document->file_path = $file_name;
             $patient_document->file_type = $file_type;
             $patient_document->save();
         }
@@ -102,11 +102,11 @@ class PatientDocumentAudioController extends Controller
             }
             
             $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
             $file_type = $patient_document->getFileType($file->extension());
 
-            $data['file_path'] = $file_path;
+            $data['file_path'] = $file_name;
             $data['file_type'] = $file_type;
         }
 
@@ -156,11 +156,11 @@ class PatientDocumentAudioController extends Controller
             }
             
             $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
             $file_type = $patient_document->getFileType($file->extension());
 
-            $patient_document->file_path = $file_path;
+            $patient_document->file_path = $file_name;
             $patient_document->file_type = $file_type;
             $patient_document->save();
         }

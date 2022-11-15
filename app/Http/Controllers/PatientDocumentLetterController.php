@@ -114,9 +114,9 @@ class PatientDocumentLetterController extends Controller
             }
             
             $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
-            $patient_document->file_path = $file_path;
+            $patient_document->file_path = $file_name;
             $patient_document->save();
         }
 

@@ -231,9 +231,9 @@ class AppointmentPreAdmissionController extends Controller
             }
             
             $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
-            $pre_admission->pre_admission_file = $file_path;
+            $pre_admission->pre_admission_file = $file_name;
             $pre_admission->save();
         }
 

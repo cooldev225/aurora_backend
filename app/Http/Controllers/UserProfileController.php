@@ -52,9 +52,9 @@ class UserProfileController extends Controller
             }
             
             $file_path = "/{$org_path}/{$file_name}";
-            $path = Storage::put($file_path, file_get_contents($file));
+            Storage::put($file_path, file_get_contents($file));
 
-            $user->photo = $file_path;
+            $user->photo = $file_name;
             $user->save();
         }
 
