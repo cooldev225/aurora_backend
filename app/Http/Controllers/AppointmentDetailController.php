@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AppointmentDetailRequest;
 use App\Models\Appointment;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 class AppointmentDetailController extends Controller
 {
@@ -19,7 +18,6 @@ class AppointmentDetailController extends Controller
      */
     public function update(AppointmentDetailRequest $request, Appointment $appointment)
     {
-        Log::info($request->validated());
         $appointment->detail->update([...$request->validated()]);
 
         return response()->json(

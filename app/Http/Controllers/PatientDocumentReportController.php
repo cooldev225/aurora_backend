@@ -93,6 +93,7 @@ class PatientDocumentReportController extends Controller
         $appointment_detail = Appointment::find($request->appointmentId)->detail;
         $appointment_detail->procedures_undertaken = $request->procedures_undertaken;
         $appointment_detail->extra_items_used = $request->extra_items_used;
+        $appointment_detail->admin_items = $request->admin_items_used;
         $appointment_detail->diagnosis_codes = $request->icd_10_code;
         $appointment_detail->save();
 
