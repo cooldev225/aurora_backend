@@ -7,6 +7,7 @@ use App\Models\Patient;
 use App\Models\PatientAlsoKnownAs;
 use App\Http\Requests\PatientAlsoKnownAsStoreRequest;
 use App\Http\Requests\PatientAlsoKnownAsUpdateRequest;
+use App\Http\Requests\PatientAlsoKnownAsBulkRequest;
 
 class PatientAlsoKnownAsController extends Controller
 {
@@ -92,8 +93,8 @@ class PatientAlsoKnownAsController extends Controller
         );
     }
 
-    public function bulk(Patient $patient)
+    public function bulk(Patient $patient, PatientAlsoKnownAsBulkRequest $patientAlsoKnownAsList)
     {
-        return $patient;
+        return $patientAlsoKnownAsList->validated();
     }
 }

@@ -24,8 +24,10 @@ class PatientAlsoKnownAsBulkRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'required|string',
-            'last_name'  => 'required|string',
+            '*.first_name'  => 'required|string',
+            '*.last_name'   => 'required|string',
+            '*.id'          => 'required|numeric',
+            '*.is_delete'   => 'nullable|numeric',
         ];
     }
 }
