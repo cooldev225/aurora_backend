@@ -25,7 +25,7 @@ class AppointmentSeeder extends Seeder
     {
         $dates = [];
 
-        for ($i = -3; $i < 5; $i++) {
+        for ($i = -5; $i < 10; $i++) {
             $dates[] = date('Y-m-d', strtotime("+{$i} days"));
         }
 
@@ -34,7 +34,7 @@ class AppointmentSeeder extends Seeder
 
         foreach ($patients as $patient) {
 
-            for ($i=0; $i < 3; $i++) { 
+            for ($i=0; $i < 2; $i++) { 
                
            
              $date = $dates[rand(0, count($dates)-1)];
