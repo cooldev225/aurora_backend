@@ -95,6 +95,28 @@ class PatientAlsoKnownAsController extends Controller
 
     public function bulk(Patient $patient, PatientAlsoKnownAsBulkRequest $patientAlsoKnownAsList)
     {
-        return $patientAlsoKnownAsList->validated();
+        $data = $patientAlsoKnownAsList->validated();
+        foreach ($data as $item) {
+            if($item['id'] === 0) {
+                PatientAlsoKnownAs::create([
+                    ...$item,
+                    'patient_id' => $patient->id,
+                ]);
+            }else if($item['id'] !== 0 && isset($item['is_delete'])){
+                PatientAlsoKnownAs::find($item['id'])?->delete();
+            }else if($item['id'] !== 0 && !isset($item['is_delete'])) {
+                PatientAlsoKnownAs::find($item['id'])->update([
+                    ...$item,
+                ]);
+            }
+        }
+
+        return response()->json(
+            [
+                'message' => 'Bulk Patient Also Known As updated',
+                'data' => null,
+            ],
+            Response::HTTP_OK
+        );
     }
 }
