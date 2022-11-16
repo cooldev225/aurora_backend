@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Response;
+use App\Models\Patient;
 use App\Models\PatientAlsoKnownAs;
 use App\Http\Requests\PatientAlsoKnownAsStoreRequest;
 use App\Http\Requests\PatientAlsoKnownAsUpdateRequest;
+use App\Http\Requests\PatientAlsoKnownAsBulkRequest;
 
 class PatientAlsoKnownAsController extends Controller
 {
@@ -24,7 +26,7 @@ class PatientAlsoKnownAsController extends Controller
                                          ->whereFirstName($request->first_name)
                                          ->whereLastName($request->last_name)
                                          ->first();
-        
+
         if ($existingAka) {
             return response()->json(
                 [
@@ -34,7 +36,7 @@ class PatientAlsoKnownAsController extends Controller
                 Response::HTTP_OK
             );
         }
-        
+
         $patientAlsoKnownAs = PatientAlsoKnownAs::create($request->validated());
 
         return response()->json(
@@ -57,7 +59,7 @@ class PatientAlsoKnownAsController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('update', $patientAlsoKnownAs);
-        
+
         $patientAlsoKnownAs->update($request->validated());
 
         return response()->json(
@@ -79,13 +81,40 @@ class PatientAlsoKnownAsController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('delete', $patientAlsoKnownAs);
-        
+
         $patientAlsoKnownAs->delete();
 
         return response()->json(
             [
                 'message' => 'Patient Also Known As deleted',
                 'data' => $patientAlsoKnownAs,
+            ],
+            Response::HTTP_OK
+        );
+    }
+
+    public function bulk(Patient $patient, PatientAlsoKnownAsBulkRequest $patientAlsoKnownAsList)
+    {
+        $data = $patientAlsoKnownAsList->validated();
+        foreach ($data as $item) {
+            if($item['id'] === 0) {
+                PatientAlsoKnownAs::create([
+                    ...$item,
+                    'patient_id' => $patient->id,
+                ]);
+            }else if($item['id'] !== 0 && isset($item['is_delete'])){
+                PatientAlsoKnownAs::find($item['id'])?->delete();
+            }else if($item['id'] !== 0 && !isset($item['is_delete'])) {
+                PatientAlsoKnownAs::find($item['id'])->update([
+                    ...$item,
+                ]);
+            }
+        }
+
+        return response()->json(
+            [
+                'message' => 'Bulk Patient Also Known As updated',
+                'data' => null,
             ],
             Response::HTTP_OK
         );
