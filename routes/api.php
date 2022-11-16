@@ -177,7 +177,7 @@ Route::middleware(['auth'])->group(function () {
     });
 
     Route::prefix('communication')->group(function () {
-        Route::get('/outgoing-log', [OutgoingMessageLog::class, 'index']);
+        Route::get('/outgoing-log', [OutgoingMessageLogController::class, 'index']);
 
     });
 

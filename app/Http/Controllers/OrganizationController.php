@@ -15,7 +15,6 @@ use App\Http\Requests\OrganizationCreateRequest;
 use App\Http\Requests\OrganizationUpdateRequest;
 use App\Mail\NewEmployeeEmail;
 use App\Models\PreAdmissionConsent;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 
