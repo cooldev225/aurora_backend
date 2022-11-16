@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnesthetistController;
+use App\Http\Controllers\HrmEmployeeLeaveController;
 use App\Http\Controllers\HrmWeeklyScheduleController;
 use App\Models\AppointmentDetail;
 use Illuminate\Support\Facades\Route;
@@ -173,6 +174,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('hrm')->group(function () {
         Route::apiResource('/schedule-template', HrmScheduleTimeslotController::class);
         Route::apiResource('/weekly-schedule', HrmWeeklyScheduleController::class);
+        Route::apiResource('/employee-leaves', HrmEmployeeLeaveController::class, ['except' => ['show']])->parameters(['employee-leaves' => 'HrmEmployeeLeave']);
         Route::get('/anesthetists',[AnesthetistController::class, 'index']);
     });
 
