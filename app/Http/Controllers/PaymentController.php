@@ -61,7 +61,7 @@ class PaymentController extends Controller
 
         if ($appointment->detail->procedures_undertaken) {
             foreach ($appointment->detail->procedures_undertaken as $procedure) {
-                $schedule_item = ScheduleItem::whereId($procedure)
+                $schedule_item = ScheduleItem::whereId($procedure['id'])
                                              ->whereOrganizationId($organization_id)
                                              ->with('schedule_fees')
                                              ->first()
@@ -70,14 +70,14 @@ class PaymentController extends Controller
                 $charges['procedures'][] = [
                     ...$schedule_item,
                     'schedule_fees' => $schedule_item['schedule_fees'],
-                    'price'         => $schedule_item['amount'] / 100,
+                    'price'         => $procedure['price'],
                 ];
             }
         }
 
         if ($appointment->detail->extra_items_used) {
             foreach ($appointment->detail->extra_items_used as $extra_item) {
-                $schedule_item = ScheduleItem::whereId($extra_item)
+                $schedule_item = ScheduleItem::whereId($extra_item['id'])
                                              ->whereOrganizationId($organization_id)
                                              ->with('schedule_fees')
                                              ->first()
@@ -86,14 +86,14 @@ class PaymentController extends Controller
                 $charges['extra_items'][] = [
                     ...$schedule_item,
                     'schedule_fees' => $schedule_item['schedule_fees'],
-                    'price'         => $schedule_item['amount'] / 100,
+                    'price'         => $extra_item['price'],
                 ];
             }
         }
 
         if ($appointment->detail->admin_items) {
             foreach ($appointment->detail->admin_items as $admin_item) {
-                $schedule_item = ScheduleItem::whereId($admin_item)
+                $schedule_item = ScheduleItem::whereId($admin_item['id'])
                                              ->whereOrganizationId($organization_id)
                                              ->with('schedule_fees')
                                              ->first()
@@ -102,7 +102,7 @@ class PaymentController extends Controller
                 $charges['admin_items'][] = [
                     ...$schedule_item,
                     'schedule_fees' => $schedule_item['schedule_fees'],
-                    'price'         => $schedule_item['amount'] / 100,
+                    'price'         => $admin_item['price'],
                 ];
             }
         }
@@ -131,14 +131,17 @@ class PaymentController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('create', AppointmentPayment::class);
+        
+        $data = $request->validated();
+        $data['amount'] = $data['amount'] * 100;
 
         $payment = AppointmentPayment::create([
-            ...$request->validated(),
+            ...$data,
             'confirmed_by' => auth()->user()->id,
         ]);
 
         if ($payment->is_send_receipt) {
-            $payment->patient->sendEmail(new PaymentConfirmationEmail());
+            $payment->appointment->patient->sendEmail(new PaymentConfirmationEmail());
         }
 
         return response()->json(

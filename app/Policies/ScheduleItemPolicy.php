@@ -31,7 +31,7 @@ class ScheduleItemPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']);
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'specialist']);
     }
 
     /**
@@ -43,7 +43,7 @@ class ScheduleItemPolicy
      */
     public function view(User $user, ScheduleItem $scheduleItem)
     {
-        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $user->organization->id === $scheduleItem->organization->id;
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager', 'specialist']) && $user->organization->id === $scheduleItem->organization->id;
     }
 
     /**

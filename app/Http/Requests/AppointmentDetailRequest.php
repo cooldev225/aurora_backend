@@ -27,6 +27,7 @@ class AppointmentDetailRequest extends FormRequest
             'is_complete'              => 'bool',
             'procedures_undertaken'    => 'array',
             'extra_items_used'         => 'array',
+            'admin_items_used'         => 'array',
             'indication_codes'         => 'string',
             'diagnosis_codes'          => 'string',
         ];

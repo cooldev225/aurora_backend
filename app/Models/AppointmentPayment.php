@@ -17,6 +17,7 @@ class AppointmentPayment extends Model
         'amount',
         'payment_type',
         'is_deposit',
+        'is_send_receipt',
     ];
 
     protected $appends = [
