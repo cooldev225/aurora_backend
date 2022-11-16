@@ -35,7 +35,7 @@ class UserController extends Controller
             ->wherenot('role_id', UserRole::ADMIN)
             ->wherenot('role_id', UserRole::ORGANIZATION_ADMIN)
             ->with(['hrmWeeklySchedule' => function ($query) {
-                $query->where('status', 'PUBLISHED');
+                $query->where('is_template', '1');
             }])
             ->with('hrmWeeklySchedule.anesthetist')
             ->with('scheduleTimeslots.anesthetist')
@@ -47,10 +47,10 @@ class UserController extends Controller
                     if ($column !== "date") {
                         $users = $users->where($column, '=', $param);
                     } else {
-                        $day = strtoupper(Carbon::parse($params["date"])->format('D'));
-                        $users->whereHas('hrmWeeklySchedule', function ($query) use ($day) {
-                            $query->where('week_day', $day)->where('is_template', true);
-                       });
+                       // $day = strtoupper(Carbon::parse($params["date"])->format('D'));
+                       // $users->whereHas('hrmWeeklySchedule', function ($query) use ($day) {
+                       //     $query->where('week_day', $day)->where('is_template', true);
+                       //});
                     }
                 }
             }
