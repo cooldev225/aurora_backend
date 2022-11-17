@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DocumentIndexRequest;
-use App\Http\Requests\DocumentPatientAssignRequest;
 use App\Http\Requests\PatientDocumentActionLogRequest;
 use App\Models\Appointment;
 use App\Models\PatientDocumentsActionLog;
@@ -26,6 +25,7 @@ class PatientDocumentActionLogsController extends Controller
 
     public function store(PatientDocumentActionLogRequest $request)
     {
+
         $params = $request->validated();
         // Verify the user can access this function via policy
         // $this->authorize('create', PatientDocumentsActionLog::class);

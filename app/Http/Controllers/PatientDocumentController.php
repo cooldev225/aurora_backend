@@ -8,7 +8,9 @@ use Illuminate\Http\Response;
 use App\Models\PatientDocument;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\PatientDocumentRequest;
-use Illuminate\Support\Facades\Log;
+use App\Http\Requests\PatientDocumentEmailSendRequest;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\DocumentEmail;
 
 class PatientDocumentController extends Controller
 {
@@ -48,6 +50,23 @@ class PatientDocumentController extends Controller
             [
                 'message' => 'Patient Document Created',
                 'data'    => $patient_document
+            ],
+            Response::HTTP_CREATED
+        );
+    }
+
+    public function email(PatientDocumentEmailSendRequest $request)
+    {
+
+        $params = $request->validated();
+
+
+        Mail::to("abc@def.com")->send(new DocumentEmail());
+
+        return response()->json(
+            [
+                'message' => 'Patient Document Created',
+                'data'    => null,
             ],
             Response::HTTP_CREATED
         );
