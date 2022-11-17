@@ -6,7 +6,6 @@ use App\Models\User;
 use Carbon\CarbonPeriod;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\Log;
 
@@ -29,18 +28,6 @@ class DocumentEmail extends Mailable
     }
 
     /**
-     * Get the attachments for the message.
-     *
-     * @return \Illuminate\Mail\Mailables\Attachment[]
-     */
-    public function attachments()
-    {
-        return [
-            Attachment::fromStorage($this->document_path),
-        ];
-    }
-
-    /**
      * Build the message.
      *
      * @return $this
@@ -48,6 +35,10 @@ class DocumentEmail extends Mailable
     public function build()
     {
         return $this->view('email.document')
-                    ->subject("Attached Document");
+                    ->subject("Attached Document")
+                    ->attach($this->document_path, [
+                        'as' => 'document.pdf',
+                        'mime' => 'application/pdf',
+                    ]);;
     }
 }

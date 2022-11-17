@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Enum\FileType;
+use App\Enum\DocumentActionStatusType;
 use App\Models\Patient;
 use Illuminate\Http\Response;
 use App\Models\PatientDocument;
+use App\Models\PatientDocumentsActionLog;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\PatientDocumentRequest;
 use App\Http\Requests\PatientDocumentEmailSendRequest;
@@ -67,12 +69,21 @@ class PatientDocumentController extends Controller
 
         $organization_name = "\"" . auth()->user()->organization->name . "\"";
 
-        Mail::to("abc@def.com")->send(new DocumentEmail($organization_name, $document_path));
+
+        foreach($params['to_user_emails'] as $email) {
+            Mail::to($email)->send(new DocumentEmail($organization_name, $document_path));
+        }
+
+        $data = PatientDocumentsActionLog::create([
+            'patient_document_id'   => $params['document_id'],
+            'user_id'               => auth()->user()->id,
+            'status'                => DocumentActionStatusType::EMAILED,
+        ]);
 
         return response()->json(
             [
                 'message' => 'Patient Document Created',
-                'data'    => null,
+                'data'    => $data,
             ],
             Response::HTTP_CREATED
         );

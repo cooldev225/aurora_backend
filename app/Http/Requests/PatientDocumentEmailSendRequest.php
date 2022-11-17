@@ -25,7 +25,7 @@ class PatientDocumentEmailSendRequest extends FormRequest
     {
         return [
             'document_id'           => 'required|integer',
-            'to_user_ids'           => 'required|array',
+            'to_user_emails'           => 'required|array',
         ];
     }
 }
