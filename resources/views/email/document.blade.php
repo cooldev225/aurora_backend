@@ -54,13 +54,13 @@
 		</tr>
         <tr class="user">
             <td align="center" style="padding:20px;">
-                <h3>Please note your published working schedule as bellow</h3>
+                <h3>Please see attached patient correspondence.</h3>
             </td>
         </tr>
 
 		<tr class="user">
 			<td align="center" style="padding:20px;">
-				footer
+				Sent Via Aurora Medical Software on behalf of {{$organization_name}}
 			</td>
 		</tr>
 	</table>

@@ -59,9 +59,15 @@ class PatientDocumentController extends Controller
     {
 
         $params = $request->validated();
+        $document_path = PatientDocument::find($params['document_id'])->file_path;
 
+        $folder = getUserOrganizationFilePath('files');
 
-        Mail::to("abc@def.com")->send(new DocumentEmail());
+        $document_path = "{$folder}/{$document_path}";
+
+        $organization_name = "\"" . auth()->user()->organization->name . "\"";
+
+        Mail::to("abc@def.com")->send(new DocumentEmail($organization_name, $document_path));
 
         return response()->json(
             [
