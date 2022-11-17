@@ -31,8 +31,12 @@ class HrmEmployeeLeaveController extends Controller
         );
 
         foreach ($params as $column => $param) {
-            if (!empty($param)) {
-                    $leaves = $leaves->where($column, '=', $param);
+            if ($column == 'date') {
+                $startDate = Carbon::parse($param)->startOfWeek()->format('Y-m-d');
+                $endDate = Carbon::parse($param)->endOfWeek()->format('Y-m-d');
+                $leaves = $leaves->where('start_date', '>=', $startDate)->where('start_date', '<=', $endDate);
+            }else{
+                $leaves = $leaves->where($column, '=', $param);
             }
         }
 
@@ -94,8 +98,6 @@ class HrmEmployeeLeaveController extends Controller
      */
     public function update(HrmEmployeeLeaveRequest $request, HrmEmployeeLeave $hrmEmployeeLeave)
     {
-       Log::info($request);
-       Log::info($hrmEmployeeLeave);
         $startDate = Carbon::parse($request->date[0])->toDateString();
         $endDate = Carbon::parse($request->date[1])->toDateString();
         $hrmEmployeeLeave->update([

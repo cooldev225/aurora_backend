@@ -24,8 +24,9 @@ class HrmEmployeeLeaveIndexRequest extends FormRequest
     public function rules()
     {
         return [
-           "user_id" => 'nullable|int',
-           "status" => 'nullable|string',
+            "user_id" => 'nullable|int',
+            "status" => 'nullable|string',
+            'date' => 'nullable|date',
         ];
     }
 }
