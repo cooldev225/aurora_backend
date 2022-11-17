@@ -100,7 +100,7 @@ class HrmEmployeeLeaveController extends Controller
         $endDate = Carbon::parse($request->date[1])->toDateString();
         $hrmEmployeeLeave->update([
             "description" => $request->description,
-            "status" => "Pending",
+            "status" => $request->status, // check permission
             "leave_type" => $request->leaveType,
             "start_date" => $startDate,
             "end_date" => $endDate,

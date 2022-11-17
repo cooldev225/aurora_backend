@@ -25,6 +25,7 @@ class HrmEmployeeLeaveIndexRequest extends FormRequest
     {
         return [
            "user_id" => 'nullable|int',
+           "status" => 'nullable|string',
         ];
     }
 }
