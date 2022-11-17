@@ -33,6 +33,7 @@ class Patient extends Model
         'gender_name',
         'allergies',
         'sex_format_hl7',
+        'medicare_details'
     ];
 
 
@@ -91,6 +92,14 @@ class Patient extends Model
             default:
                 return 'Undisclosed';
         }
+    }
+
+    public function getMedicareDetailsAttribute()
+    {
+        return [
+            'medicare_no' => '1234567895',
+            'medicare_reference_no' => '1'
+        ];
     }
 
     public function getAllergiesAttribute()
