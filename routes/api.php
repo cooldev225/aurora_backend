@@ -164,6 +164,7 @@ Route::middleware(['auth'])->group(function () {
         Route::prefix('documents')->group(function () {
             Route::post('/{patient}',                         [PatientDocumentController::class, 'store']);
             Route::post('/report/{patient}',                  [PatientDocumentReportController::class, 'store']);
+            Route::get('/action/logs',                        [PatientDocumentActionLogsController::class, 'index']);
             Route::post('/action/logs',                       [PatientDocumentActionLogsController::class, 'store']);
             Route::post('/email/send',                        [PatientDocumentController::class, 'email']);
         });

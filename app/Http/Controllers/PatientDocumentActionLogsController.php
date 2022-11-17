@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DocumentIndexRequest;
 use App\Http\Requests\PatientDocumentActionLogRequest;
+use App\Http\Requests\PatientDocumentActionLogIndexRequest;
+
 use App\Models\Appointment;
 use App\Models\PatientDocumentsActionLog;
 use App\Models\PatientDocument;
@@ -19,8 +21,21 @@ class PatientDocumentActionLogsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(PatientDocumentActionLogIndexRequest $request)
     {
+        $params = $request->validated();
+        $log = PatientDocumentsActionLog::where('patient_document_id', '=', $params['patient_document_id']);
+        foreach ($params as $column => $param) {
+            $log = $log->where($column, '=', $param);
+        }
+
+        return response()->json(
+            [
+                'message' => 'New Patient Document Action Log Created',
+                'data'    => $log->get(),
+            ],
+            Response::HTTP_CREATED
+        );
     }
 
     public function store(PatientDocumentActionLogRequest $request)
@@ -35,7 +50,6 @@ class PatientDocumentActionLogsController extends Controller
             'user_id' => auth()->user()->id,
         ]);
 
-        // Create PAtient Report Model for future editing
         return response()->json(
             [
                 'message' => 'New Patient Document Action Log Created',
