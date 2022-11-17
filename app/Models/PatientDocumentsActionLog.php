@@ -8,4 +8,8 @@ use Illuminate\Database\Eloquent\Model;
 class PatientDocumentsActionLog extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'patient_document_id', 'status', 'user_id'
+    ];
 }

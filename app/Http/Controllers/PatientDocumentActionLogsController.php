@@ -24,18 +24,22 @@ class PatientDocumentActionLogsController extends Controller
     {
     }
 
-    public function store(PatientDocumentActionLogRequest $request, PatientDocument $patientDocument)
+    public function store(PatientDocumentActionLogRequest $request)
     {
+        $params = $request->validated();
         // Verify the user can access this function via policy
-        $this->authorize('create', PatientDocumentsActionLog::class);
+        // $this->authorize('create', PatientDocumentsActionLog::class);
 
-
+        $data = PatientDocumentsActionLog::create([
+            ...$params,
+            'user_id' => auth()->user()->id,
+        ]);
 
         // Create PAtient Report Model for future editing
         return response()->json(
             [
-                'message' => 'New Patient Report Created',
-                'data'    => $patientDocument->id,
+                'message' => 'New Patient Document Action Log Created',
+                'data'    => $data,
             ],
             Response::HTTP_CREATED
         );

@@ -24,7 +24,7 @@ class PatientDocumentActionLogRequest extends FormRequest
     public function rules()
     {
         return [
-            'patient_document_id'           => 'required|integer',
+            'patient_document_id'           => 'required|numeric',
             'status'                        => 'required|in:EMAILED,PRINTED,FAXED',
         ];
     }
