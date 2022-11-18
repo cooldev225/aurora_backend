@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\Models\AppointmentPayment;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
@@ -12,15 +13,16 @@ class PaymentConfirmationEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
+    protected $payment;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(AppointmentPayment $payment)
     {
-
+        $this->payment = $payment;
     }
 
     /**
@@ -30,7 +32,12 @@ class PaymentConfirmationEmail extends Mailable
      */
     public function build()
     {
-        return $this->view('email.paymentConformation')
-                    ->subject('Payment Conformation');
+        $invoice = $this->payment->generateInvoice();
+
+        return $this->view('email.paymentConfirmation', [
+                        'payment' => $this->payment,
+                    ])
+                    ->subject('Payment Confirmation')
+                    ->attachData($invoice->output(), 'test.pdf');
     }
 }

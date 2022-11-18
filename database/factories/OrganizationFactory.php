@@ -33,6 +33,7 @@ $name=  $this->faker->company();
             'end_time'               => $this->faker->randomElement(['18:00', '19:00', '20:00']),
             'has_billing'            => $this->faker->boolean(),
             'has_coding'             => $this->faker->boolean(),
+            'abn'                    => $this->faker->randomNumber(5) . $this->faker->randomNumber(6),
 
             'password_expiration_timeframe'=> 6,
         ];

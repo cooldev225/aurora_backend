@@ -16,6 +16,7 @@ return new class extends Migration {
             $table->id();
             $table->string('name');
             $table->string('code');
+            $table->string('abn', 11);
             $table->integer('max_clinics');
             $table->integer('max_employees');
             $table->string('billing_pin')->nullable();
