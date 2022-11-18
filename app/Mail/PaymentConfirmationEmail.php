@@ -38,6 +38,6 @@ class PaymentConfirmationEmail extends Mailable
                         'payment' => $this->payment,
                     ])
                     ->subject('Payment Confirmation')
-                    ->attachData($invoice->output(), 'test.pdf');
+                    ->attachData($invoice->output(), $this->payment->full_invoice_number . '.pdf');
     }
 }
