@@ -17,6 +17,10 @@ class ScheduleItem extends Model
         'internal_code',
         'organization_id',
     ];
+    
+    protected $appends = [
+        'label_name',
+    ];
 
     /**
      * Return Organization
@@ -32,5 +36,22 @@ class ScheduleItem extends Model
     public function schedule_fees()
     {
         return $this->hasMany(ScheduleFee::class);
+    }
+
+    public function getLabelNameAttribute()
+    {
+        $name = [];
+
+        if ($this->mbs_item_code) {
+            $name[] = $this->mbs_item_code;
+        }
+
+        if ($this->internal_code) {
+            $name[] = $this->internal_code;
+        }
+
+        $name[] = $this->name;
+
+        return implode(' - ', $name);
     }
 }

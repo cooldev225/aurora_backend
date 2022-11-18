@@ -135,13 +135,22 @@ class PaymentController extends Controller
         $data = $request->validated();
         $data['amount'] = $data['amount'] * 100;
 
+        $last_payment = AppointmentPayment::latest('created_at')->first();
+        
+        if (!$last_payment) {
+            $invoice_number = 1;
+        } else {
+            $invoice_number = $last_payment->invoice_number + 1;
+        }
+
         $payment = AppointmentPayment::create([
             ...$data,
+            'invoice_number' => $invoice_number,
             'confirmed_by' => auth()->user()->id,
         ]);
 
         if ($payment->is_send_receipt) {
-            $payment->appointment->patient->sendEmail(new PaymentConfirmationEmail());
+            $payment->appointment->patient->sendEmail(new PaymentConfirmationEmail($payment));
         }
 
         return response()->json(
