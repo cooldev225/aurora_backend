@@ -99,7 +99,7 @@ class DoctorAddressBookController extends Controller
             ...$request->validated(),
             'organization_id' => auth()->user()->organization_id
         ]);
-A
+
         return response()->json(
             [
                 'message' => 'New Doctor Address Book created',
