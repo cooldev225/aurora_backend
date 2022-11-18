@@ -14,25 +14,20 @@ return new class extends Migration
     public function up()
     {
         Schema::create('doctor_address_books', function (Blueprint $table) {
+
             $table->id();
+            $table->string('organization_id');
             $table->string('provider_no');
             $table->string('title');
             $table->string('first_name');
             $table->string('last_name');
-            $table->string('address');
-            $table->string('street');
-            $table->string('city');
-            $table->string('state');
-            $table->string('country');
-            $table->string('postcode');
-            $table->string('phone');
-            $table->string('fax');
-            $table->string('mobile');
-            $table->string('email');
+            $table->string('practice_address');
             $table->string('practice_name');
-            $table->string('upload_file_name')->nullable();
+            $table->string('practice_phone');
+            $table->string('practice_fax')->nullable();
+            $table->string('practice_email');
             $table->string('healthlink_edi')->nullable();
-
+            $table->enum('preferred_communication_method', ['EMAIL','FAX', 'HEALTHLINK'])->default('EMAIL');
             $table->timestamps();
         });
     }

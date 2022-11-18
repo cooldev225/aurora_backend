@@ -10,9 +10,8 @@ class DoctorAddressBook extends Model
     use HasFactory;
 
     protected $fillable = [
-        'provider_no', 'title', 'first_name', 'last_name',
-        'address', 'street', 'city', 'state', 'country', 'postcode',
-        'phone', 'fax', 'mobile', 'email', 'practice_name', 'healthlink_edi'
+        'organization_id','provider_no', 'title', 'first_name', 'last_name',
+        'practice_address', 'practice_phone', 'practice_fax', 'practice_email', 'practice_name', 'healthlink_edi', 'preferred_communication_method'
     ];
 
     protected $appends = [
