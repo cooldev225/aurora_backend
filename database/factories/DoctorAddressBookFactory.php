@@ -17,20 +17,15 @@ class DoctorAddressBookFactory extends Factory
     public function definition()
     {
         return [
-            'provider_no'           => $this->faker->bothify('####??'),
+            'organization_id'       => '1',
+            'provider_no'           => $this->faker->bothify('#######?'),
             'title'                 => $this->faker->title(),
             'first_name'            => $this->faker->firstName(),
             'last_name'             => $this->faker->lastName(),
-            'address'               => $this->faker->address(),
-            'street'                => $this->faker->streetName(),
-            'city'                  => $this->faker->city(),
-            'state'                 => $this->faker->city(),
-            'country'               => $this->faker->country(),
-            'postcode'              => $this->faker->postcode(),
-            'phone'                 => $this->faker->numerify('0#-####-####'),
-            'fax'                   => $this->faker->numerify('0#-####-####'),
-            'mobile'                => $this->faker->numerify('0#-####-####'),
-            'email'                 => $this->faker->safeEmail(),
+            'practice_address'      => $this->faker->address(),
+            'practice_phone'        => $this->faker->numerify('0#-####-####'),
+            'practice_fax'          => $this->faker->numerify('0#-####-####'),
+            'practice_email'        => $this->faker->safeEmail(),
             'practice_name'         => $this->faker->name(),
         ];
     }

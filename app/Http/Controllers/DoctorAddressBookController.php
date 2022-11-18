@@ -20,36 +20,7 @@ class DoctorAddressBookController extends Controller
         // Verify the user can access this function via policy
         $this->authorize('viewAny', DoctorAddressBook::class);
 
-        $doctorAddressBooks = DoctorAddressBook::all();
-
-        return response()->json(
-            [
-                'message'   => 'Doctor Address Book List',
-                'data'      => $doctorAddressBooks,
-            ],
-            Response::HTTP_OK
-        );
-    }
-
-    /**
-     * [Doctor Address Book] - List
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function list()
-    {
-        // Verify the user can access this function via policy
-        $this->authorize('viewAny', DoctorAddressBook::class);
-
-        $doctorAddressBooks = DoctorAddressBook::select(
-            'id',
-            DB::raw('CONCAT(title, " ", first_name, " ", last_name) AS full_name'),
-            'title',
-            'first_name',
-            'last_name',
-            'email',
-            'address'
-        )->get();
+        $doctorAddressBooks = DoctorAddressBook::where('organization_id', auth()->user()->organization_id)->get();
 
         return response()->json(
             [
@@ -125,9 +96,10 @@ class DoctorAddressBookController extends Controller
         $this->authorize('create', DoctorAddressBook::class);
 
         $doctorAddressBook = DoctorAddressBook::create([
-            ...$request->validated()
+            ...$request->validated(),
+            'organization_id' => auth()->user()->organization_id
         ]);
-
+A
         return response()->json(
             [
                 'message' => 'New Doctor Address Book created',
