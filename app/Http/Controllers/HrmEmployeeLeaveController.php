@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Enum\UserRole;
 use App\Http\Requests\HrmEmployeeLeaveIndexRequest;
 use App\Http\Requests\HrmEmployeeLeaveRequest;
+use App\Models\Appointment;
 use App\Models\HrmEmployeeLeave;
+use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
 
@@ -19,7 +21,6 @@ class HrmEmployeeLeaveController extends Controller
      */
     public function index(HrmEmployeeLeaveIndexRequest $request)
     {
-        Log::info("index");
         $params = $request->validated();
         // Verify the user can access this function via policy
         $this->authorize('viewAny', [User::class, auth()->user()->organization_id]);
@@ -35,7 +36,7 @@ class HrmEmployeeLeaveController extends Controller
                 $startDate = Carbon::parse($param)->startOfWeek()->format('Y-m-d');
                 $endDate = Carbon::parse($param)->endOfWeek()->format('Y-m-d');
                 $leaves = $leaves->where('start_date', '>=', $startDate)->where('start_date', '<=', $endDate);
-            }else{
+            } else {
                 $leaves = $leaves->where($column, '=', $param);
             }
         }
@@ -116,7 +117,6 @@ class HrmEmployeeLeaveController extends Controller
             'data' => $hrmEmployeeLeave,
         ]);
     }
-
     /**
      * Remove the specified resource from storage.
      *
@@ -125,9 +125,9 @@ class HrmEmployeeLeaveController extends Controller
      */
     public function destroy(HrmEmployeeLeave $hrmEmployeeLeave)
     {
-       if ($hrmEmployeeLeave->status == "Pending") {
-           $hrmEmployeeLeave->delete();
-       }
+        if ($hrmEmployeeLeave->status == "Pending" || auth()->user()->role_id == UserRole::ORGANIZATION_MANAGER) {
+            $hrmEmployeeLeave->delete();
+        }
         return \response()->json([
             'message' => 'Employee leave deleted successfully',
         ]);

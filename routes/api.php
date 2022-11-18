@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnesthetistController;
+use App\Http\Controllers\DeallocateAppointmentController;
 use App\Http\Controllers\HrmEmployeeLeaveController;
 use App\Http\Controllers\HrmWeeklyScheduleController;
 use App\Models\AppointmentDetail;
@@ -176,6 +177,7 @@ Route::middleware(['auth'])->group(function () {
         Route::apiResource('/weekly-schedule', HrmWeeklyScheduleController::class);
         Route::apiResource('/employee-leaves', HrmEmployeeLeaveController::class, ['except' => ['show']])->parameters(['employee-leaves' => 'HrmEmployeeLeave']);
         Route::get('/anesthetists',[AnesthetistController::class, 'index']);
+        Route::get('/deallocate-appointments',[DeallocateAppointmentController::class, 'index']);
     });
 
     Route::prefix('communication')->group(function () {
