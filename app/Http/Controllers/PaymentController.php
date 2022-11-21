@@ -150,7 +150,7 @@ class PaymentController extends Controller
         ]);
 
         if ($payment->is_send_receipt) {
-            $payment->appointment->patient->sendEmail(new PaymentConfirmationEmail($payment));
+            $payment->sendInvoice();
         }
 
         return response()->json(

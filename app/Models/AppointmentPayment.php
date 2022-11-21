@@ -5,6 +5,7 @@ namespace App\Models;
 use PDF;
 use Carbon\Carbon;
 use App\Mail\Notification;
+use App\Mail\PaymentConfirmationEmail;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -126,5 +127,10 @@ class AppointmentPayment extends Model
         ];
 
         return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);
+    }
+
+    public function sendInvoice($email = null)
+    {
+        $this->appointment->patient->sendEmail(new PaymentConfirmationEmail($this), $email);
     }
 }
