@@ -18,6 +18,7 @@ use App\Models\AppointmentPreAdmission;
 use App\Models\AppointmentReferral;
 use App\Models\Organization;
 use App\Models\PatientAlsoKnownAs;
+use App\Models\ScheduleItem;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
@@ -168,8 +169,33 @@ class AppointmentController extends Controller
             'room_id' => $request->room_id,
         ]);
 
+        $appointment_type = $appointment->appointment_type;
+
+        $procedures = [];
+        $admin_items = [];
+
+        if ($appointment_type->default_items) {
+            foreach ($appointment_type->default_items as $item_id) {
+                $item = ScheduleItem::find($item_id);
+
+                $arr = [
+                    'id' => $item_id,
+                    'price' => $item->amount,
+                ];
+
+                if ($item->mb_item_code) {
+                    $procedures[] = $arr;
+                    continue;
+                }
+
+                $admin_items[] = $arr;
+            }
+        }
+
         AppointmentDetail::create([
-            'appointment_id' => $appointment->id
+            'appointment_id' => $appointment->id,
+            'procedures_undertaken' => $procedures,
+            'admin_items' => $admin_items,
         ]);
 
         AppointmentReferral::create([
