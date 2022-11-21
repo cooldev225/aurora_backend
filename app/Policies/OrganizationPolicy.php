@@ -44,7 +44,7 @@ class OrganizationPolicy
      */
     public function view(User $user, Organization $organization)
     {
-        return $user->organization->id == $organization->id;;
+        return $user->organization->id == $organization->id;
     }
 
     /**

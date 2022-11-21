@@ -28,6 +28,7 @@ class OrganizationSettingsController extends Controller
                 'start_time',
                 'end_time',
                 'appointment_length',
+                'abn',
             ])
         );
 
