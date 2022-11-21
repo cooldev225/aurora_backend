@@ -22,6 +22,7 @@ return new class extends Migration {
             $table->enum('invoice_by', ['CLINIC', 'SPECIALIST'])->default('CLINIC');
             $table->integer('arrival_time');
             $table->enum('appointment_time', ['SINGLE', 'DOUBLE', 'TRIPLE'])->default('SINGLE');
+            $table->json('default_items')->nullable();
             $table->foreignId('report_template')->nullable();
             $table->timestamps();
         });

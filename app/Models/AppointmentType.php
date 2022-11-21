@@ -23,10 +23,16 @@ class AppointmentType extends Model
         'anesthetist_required',
         'status',
         'report_template',
+        'default_items',
+    ];
+
+    protected $casts = [
+        'default_items' => 'json',
     ];
 
     protected $appends = [
-        'appointment_length_as_number'
+        'appointment_length_as_number',
+        'default_items_quote',
     ];
 
         /**
@@ -41,6 +47,22 @@ class AppointmentType extends Model
         }else{
             return 3;
         }
+    }
+
+    public function getDefaultItemsQuoteAttribute()
+    {
+        if (!$this->default_items) {
+            return 0;
+        }
+
+        $amount = 0;
+        foreach ($this->default_items as $item_id) {
+            $item = ScheduleItem::find($item_id);
+            
+            $amount += $item->amount;
+        }
+
+        return $amount;
     }
 
     /**

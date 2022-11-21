@@ -40,6 +40,7 @@ class AppointmentTypeRequest extends FormRequest
             'invoice_by'            => 'required|in:CLINIC,SPECIALIST',
             'arrival_time'          => 'required',
             'appointment_time'      => 'required|in:SINGLE,DOUBLE,TRIPLE',
+            'default_items'         => 'required|array',
         ];
     }
 }
