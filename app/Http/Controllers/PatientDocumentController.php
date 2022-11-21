@@ -75,7 +75,7 @@ class PatientDocumentController extends Controller
             ->where('clinic_id', $appointment->clinic_id)
             ->first();
         $patient = $patient_document->patient;
-        $receivingDoctor = DoctorAddressBook::find($request->receiving_doctor_id);
+
 
         $folder = getUserOrganizationFilePath('files');
 
@@ -86,20 +86,21 @@ class PatientDocumentController extends Controller
 
         foreach($params['to_user_emails'] as $email) {
             Mail::to($email)->send(new DocumentEmail($organization_name, $document_path));
-        }
+            $receivingDoctor = DoctorAddressBook::where('practice_email', '=', $email)->first();
 
-        OutgoingMessageLog::create([
-            'send_method'                   => OutMessageSendMethod::HEALTHLINK,
-            'sending_doctor_name'           => $specialist->full_name,
-            'sending_doctor_provider'       => $sending_provider_number->provider_number,
-            'receiving_doctor_name'         => $receivingDoctor->full_name,
-            'receiving_doctor_provider'     => $receivingDoctor->provider_no,
-            'organization_id'               => $patient_document->organization_id,
-            'patient_id'                    => $patient->id,
-            'sending_doctor_user'           => $specialist->id,
-            'sending_user'                  => auth()->user()->id,
-            'message_contents'              => '',
-        ]);
+            $receivingDoctor && OutgoingMessageLog::create([
+                'send_method'                   => OutMessageSendMethod::HEALTHLINK,
+                'sending_doctor_name'           => $specialist->full_name,
+                'sending_doctor_provider'       => $sending_provider_number->provider_number,
+                'receiving_doctor_name'         => $receivingDoctor->full_name,
+                'receiving_doctor_provider'     => $receivingDoctor->provider_no,
+                'organization_id'               => $patient_document->organization_id,
+                'patient_id'                    => $patient->id,
+                'sending_doctor_user'           => $specialist->id,
+                'sending_user'                  => auth()->user()->id,
+                'message_contents'              => '',
+            ]);
+        }
 
         $data = PatientDocumentsActionLog::create([
             'patient_document_id'   => $params['document_id'],
