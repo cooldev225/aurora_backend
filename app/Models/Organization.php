@@ -99,6 +99,10 @@ class Organization extends Model
 
     public function getFormattedAbnAttribute()
     {
+        if (!$this->abn) {
+            return null;
+        }
+
         $parts[] = substr($this->abn, 0, 2);
         $parts[] = substr($this->abn, 2, 3);
         $parts[] = substr($this->abn, 5, 3);
