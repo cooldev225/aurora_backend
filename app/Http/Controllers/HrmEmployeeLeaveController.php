@@ -5,11 +5,9 @@ namespace App\Http\Controllers;
 use App\Enum\UserRole;
 use App\Http\Requests\HrmEmployeeLeaveIndexRequest;
 use App\Http\Requests\HrmEmployeeLeaveRequest;
-use App\Models\Appointment;
 use App\Models\HrmEmployeeLeave;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Http\Response;
 
 class HrmEmployeeLeaveController extends Controller

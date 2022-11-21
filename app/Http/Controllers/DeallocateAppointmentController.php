@@ -34,7 +34,6 @@ class DeallocateAppointmentController extends Controller
                 $query
                     ->where('status', 'Approved')
                     ->where('end_date', '>=', $startDate)
-                    ->where('end_date', '>=', $startDate)
                     ->where('start_date', '<=', $endDate);
             }
             ])
