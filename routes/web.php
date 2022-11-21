@@ -31,10 +31,7 @@ Route::get('/test', function() {
     $payment = App\Models\AppointmentPayment::find(1);
     $pdf = $payment->generateInvoice();
 
-    return response()->make($pdf->output(), 200, [
-        'Content-Type' => 'application/pdf',
-        'Content-Disposition' => 'inline; filename="test.pdf"',
-    ]);
+    return response($pdf->output(), Illuminate\Http\Response::HTTP_OK)->header('Content-Type', 'application/pdf');
 });
 
 Route::get('/test-sms', function() {

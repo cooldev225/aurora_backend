@@ -18,6 +18,8 @@ class PaymentInvoiceController extends Controller
      */
     public function send(PaymentInvoiceSendRequest $request, Appointment $appointment, AppointmentPayment $appointmentPayment)
     {
+        $this->authorize('view', $appointmentPayment);
+
         $appointmentPayment->sendInvoice($request->email);
 
         return response()->json(
@@ -36,11 +38,11 @@ class PaymentInvoiceController extends Controller
      */
     public function show(Appointment $appointment, AppointmentPayment $appointmentPayment)
     {
+        $this->authorize('view', $appointmentPayment);
+
         $pdf = $appointmentPayment->generateInvoice();
 
-        return response()->make($pdf->output(), 200, [
-            'Content-Type' => 'application/pdf',
-            'Content-Disposition' => 'inline; filename="test.pdf"',
-        ]);
+        return response($pdf->output(), Response::HTTP_OK)
+               ->header('Content-Type', 'application/pdf');
     }
 }
