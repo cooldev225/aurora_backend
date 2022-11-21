@@ -185,11 +185,11 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Payment Routes
     Route::prefix('payments')->group(function () {
-        Route::get('/',                                            [PaymentController::class, 'index']);
-        Route::post('/',                                           [PaymentController::class, 'store']);
-        Route::get('/{appointment}',                               [PaymentController::class, 'show']);
-        Route::get('/{appointment}/invoice/{appointmentPayment}',  [PaymentInvoiceController::class, 'show']);
-        Route::post('/{appointment}/invoice/{appointmentPayment}', [PaymentInvoiceController::class, 'send']);
+        Route::get('/',                           [PaymentController::class, 'index']);
+        Route::post('/',                          [PaymentController::class, 'store']);
+        Route::get('/{appointment}',              [PaymentController::class, 'show']);
+        Route::get('/{appointmentPayment}',       [PaymentInvoiceController::class, 'show']);
+        Route::post('/{appointmentPayment}/send', [PaymentInvoiceController::class, 'send']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

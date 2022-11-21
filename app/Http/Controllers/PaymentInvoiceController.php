@@ -15,7 +15,7 @@ class PaymentInvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function send(Appointment $appointment, AppointmentPayment $appointmentPayment)
+    public function send(AppointmentPayment $appointmentPayment)
     {
         $this->authorize('view', $appointmentPayment);
 
@@ -35,7 +35,7 @@ class PaymentInvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Appointment $appointment, AppointmentPayment $appointmentPayment)
+    public function show(AppointmentPayment $appointmentPayment)
     {
         $this->authorize('view', $appointmentPayment);
 
