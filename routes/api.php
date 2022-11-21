@@ -59,6 +59,7 @@ use App\Http\Controllers\AppointmentProcedureApprovalController;
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
 use App\Http\Controllers\AppointmentConfirmationStatusController;
 use App\Http\Controllers\OrganizationPinController;
+use App\Http\Controllers\PaymentInvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -184,9 +185,11 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Payment Routes
     Route::prefix('payments')->group(function () {
-        Route::get('/',              [PaymentController::class, 'index']);
-        Route::post('/',             [PaymentController::class, 'store']);
-        Route::get('/{appointment}', [PaymentController::class, 'show']);
+        Route::get('/',                                            [PaymentController::class, 'index']);
+        Route::post('/',                                           [PaymentController::class, 'store']);
+        Route::get('/{appointment}',                               [PaymentController::class, 'show']);
+        Route::get('/{appointment}/invoice/{appointmentPayment}',  [PaymentInvoiceController::class, 'show']);
+        Route::post('/{appointment}/invoice/{appointmentPayment}', [PaymentInvoiceController::class, 'send']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
