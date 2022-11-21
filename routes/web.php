@@ -24,14 +24,10 @@ Route::get('/', function () {
 });
 
 Route::get('/test', function() {
-    // $filename = str_replace('pre_admission', '', 'pre_admission_51_1663207992.pdf');
-    //     $file_parts = explode('_', $filename);
+    $filename = str_replace('pre_admission', '', 'pre_admission_51_1663207992.pdf');
+        $file_parts = explode('_', $filename);
 
-    //     dd($file_parts);
-    $payment = App\Models\AppointmentPayment::find(1);
-    $pdf = $payment->generateInvoice();
-
-    return response($pdf->output(), Illuminate\Http\Response::HTTP_OK)->header('Content-Type', 'application/pdf');
+        dd($file_parts);
 });
 
 Route::get('/test-sms', function() {
