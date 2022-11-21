@@ -23,6 +23,7 @@ return new class extends Migration
             $table->boolean('is_send_receipt')->default(false);
             $table->enum('notification_method', ['email', 'sms'])->nullable();
             $table->text('sent_to')->nullable();
+            $table->integer('invoice_number');
             $table->timestamps();
         });
     }

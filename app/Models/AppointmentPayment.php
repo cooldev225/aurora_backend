@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
-use App\Mail\Notification;
+use PDF;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Mail\Notification;
+use App\Mail\PaymentConfirmationEmail;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class AppointmentPayment extends Model
 {
@@ -18,10 +20,12 @@ class AppointmentPayment extends Model
         'payment_type',
         'is_deposit',
         'is_send_receipt',
+        'invoice_number',
     ];
 
     protected $appends = [
-        'confirmed_user_name'
+        'confirmed_user_name',
+        'full_invoice_number',
     ];
     
     public function getConfirmedUserNameAttribute()
@@ -29,6 +33,14 @@ class AppointmentPayment extends Model
         return $this->confirmed_user->first_name .' '. $this->confirmed_user->last_name;
     }
 
+    public function getFullInvoiceNumberAttribute()
+    {
+        $organization = $this->appointment->organization;
+        $code = strtoupper($organization->code);
+        $number = sprintf('%06d', $this->invoice_number);
+
+        return $code . $number;
+    }
 
     /**
      * Return Appointment
@@ -78,4 +90,47 @@ class AppointmentPayment extends Model
         return $translated;
     }
 
+    public function generateInvoice()
+    {
+        $details = $this->appointment->detail;
+
+        $items = array_merge(
+            $details->procedures_undertaken ?? [],
+            $details->extra_items_used ?? [],
+            $details->admin_items ?? []
+        );
+
+        $all_items = [];
+        $total_cost = 0;
+        foreach ($items as &$item) {
+            $schedule_item = ScheduleItem::find($item['id'])->toArray();
+            $all_items[] = [
+                ...$schedule_item,
+                'price' => $item['price'],
+            ];
+            $total_cost += $item['price'];
+        }
+
+        $total_paid = $this->appointment->payments()
+                                        ->where('id', '<>', $this->id)
+                                        ->sum('amount');
+
+        $data = [
+            'payment' => $this,
+            'appointment' => $this->appointment,
+            'patient' => $this->appointment->patient,
+            'clinic' => $this->appointment->clinic,
+            'organization' => $this->appointment->organization,
+            'items' => $all_items,
+            'total_cost' => $total_cost,
+            'total_paid' => $total_paid,
+        ];
+
+        return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);
+    }
+
+    public function sendInvoice()
+    {
+        $this->appointment->patient->sendEmail(new PaymentConfirmationEmail($this));
+    }
 }

@@ -25,6 +25,7 @@ class Organization extends Model
         'has_billing',
         'has_coding',
         'billing_pin',
+        'abn',
     ];
 
     protected $hidden = [
@@ -37,6 +38,7 @@ class Organization extends Model
         'is_max_users',
         'is_max_clinics',
         'logo_url',
+        'formatted_abn',
     ];
 
    /**
@@ -93,6 +95,16 @@ class Organization extends Model
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($path, now()->addMinutes($expiry));
         }
+    }
+
+    public function getFormattedAbnAttribute()
+    {
+        $parts[] = substr($this->abn, 0, 2);
+        $parts[] = substr($this->abn, 2, 3);
+        $parts[] = substr($this->abn, 5, 3);
+        $parts[] = substr($this->abn, 8, 3);
+
+        return implode(' ', $parts);
     }
 
     /**
