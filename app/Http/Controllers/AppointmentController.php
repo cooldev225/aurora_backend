@@ -183,7 +183,7 @@ class AppointmentController extends Controller
                     'price' => $item->amount,
                 ];
 
-                if ($item->mb_item_code) {
+                if ($item->mbs_item_code) {
                     $procedures[] = $arr;
                     continue;
                 }
