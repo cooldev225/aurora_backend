@@ -166,7 +166,8 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/report/{patient}',                  [PatientDocumentReportController::class, 'store']);
             Route::get('/action/logs',                        [PatientDocumentActionLogsController::class, 'index']);
             Route::post('/action/logs',                       [PatientDocumentActionLogsController::class, 'store']);
-            Route::post('/email/send',                        [PatientDocumentController::class, 'email']);
+            Route::post('/send/email',                        [PatientDocumentController::class, 'email']);
+            Route::post('/send/health-link',                  [HealthLinkController::class, 'store']);
         });
 
         Route::post('/alerts',                                [PatientAlertController::class, 'store']);
