@@ -8,6 +8,7 @@ use App\Models\Patient;
 use App\Models\PatientDocument;
 use App\Models\DoctorAddressBook;
 use App\Models\SpecialistClinicRelation;
+use App\Models\PatientDocumentsActionLog;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -22,6 +23,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\HealthLinkStoreRequest;
 use App\Enum\OutMessageSendMethod;
+use App\Enum\DocumentActionStatusType;
 
 class HealthLinkController extends Controller
 {
@@ -41,19 +43,20 @@ class HealthLinkController extends Controller
         OutgoingMessageLog::create([
             'send_method'                   => OutMessageSendMethod::HEALTHLINK,
             'sending_doctor_name'           => $specialist->full_name,
-            'sending_doctor_provider'       => $sending_provider_number,
+            'sending_doctor_provider'       => $sending_provider_number->provider_number,
             'receiving_doctor_name'         => $receivingDoctor->full_name,
             'receiving_doctor_provider'     => $receivingDoctor->provider_no,
             'organization_id'               => $documentToSend->organization_id,
             'patient_id'                    => $patient->id,
             'sending_doctor_user'           => $specialist->id,
-            'sending_user'                  => $patient->id,
-            'receiving_doctor_name'         => $receivingDoctor->first_name . ' ' . $receivingDoctor->last_name,
-            'patient_id'                    => $patient->id,
-            'patient_id'                    => $patient->id,
-            'patient_id'                    => $patient->id,
-            'patient_id'                    => $patient->id,
-            'patient_id'                    => $patient->id,
+            'sending_user'                  => auth()->user()->id,
+            'message_contents'              => '',
+        ]);
+
+        $data = PatientDocumentsActionLog::create([
+            'patient_document_id'   => $request->patient_document_id,
+            'user_id'               => auth()->user()->id,
+            'status'                => DocumentActionStatusType::EMAILED,
         ]);
 
         /* Remove for testing
@@ -132,7 +135,7 @@ class HealthLinkController extends Controller
         return response()->json(
             [
                 'message' => 'Healthlink Message Sent',
-                'data'    => null,
+                'data'    => $data,
             ],
             Response::HTTP_OK
         );
