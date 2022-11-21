@@ -129,8 +129,8 @@ class AppointmentPayment extends Model
         return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);
     }
 
-    public function sendInvoice($email = null)
+    public function sendInvoice()
     {
-        $this->appointment->patient->sendEmail(new PaymentConfirmationEmail($this), $email);
+        $this->appointment->patient->sendEmail(new PaymentConfirmationEmail($this));
     }
 }

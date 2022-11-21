@@ -195,10 +195,8 @@ class Patient extends Model
         return $this->organizations()->where('organization_id', $organization_id)->exists();
     }
 
-    public function sendEmail($mailable, $email = null) {
-        $email_address = $email ?? $this->email;
-
-        Mail::to($email_address)->send($mailable);
+    public function sendEmail($mailable){
+        Mail::to($this->email)->send($mailable);
     }
 
     public function sendSMS($message){

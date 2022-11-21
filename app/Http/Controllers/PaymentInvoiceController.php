@@ -6,7 +6,6 @@ use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use App\Models\AppointmentPayment;
-use App\Http\Requests\PaymentInvoiceSendRequest;
 
 class PaymentInvoiceController extends Controller
 {
@@ -16,11 +15,11 @@ class PaymentInvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function send(PaymentInvoiceSendRequest $request, Appointment $appointment, AppointmentPayment $appointmentPayment)
+    public function send(Appointment $appointment, AppointmentPayment $appointmentPayment)
     {
         $this->authorize('view', $appointmentPayment);
 
-        $appointmentPayment->sendInvoice($request->email);
+        $appointmentPayment->sendInvoice();
 
         return response()->json(
             [
