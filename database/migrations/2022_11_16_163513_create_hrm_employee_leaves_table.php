@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('organization_id');
             $table->enum('status', ['Pending', 'Approved', 'Not Approved']);
             $table->enum('leave_type', ['Sick Leave', 'Annual Leave', 'Parental Leave', 'Personal Leave']);
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->date('start_date');
             $table->date('end_date');
             $table->boolean('full_day');

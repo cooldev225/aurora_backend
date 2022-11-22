@@ -2,10 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Enum\UserRole;
 use App\Http\Requests\DeallocateAppointmentIndexRequest;
 use App\Models\Appointment;
-use App\Models\HrmEmployeeLeave;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Response;
@@ -23,6 +21,7 @@ class DeallocateAppointmentController extends Controller
 
         $appointments = Appointment::where('organization_id', auth()->user()->organization_id)
             ->where('date', '>=', $startDate)
+            ->whereNot('confirmation_status', "CANCELED")
             ->where('date', '<=', $endDate)
             ->with(['specialist.employeeLeaves' => function ($query) use ($startDate, $endDate) {
                 $query

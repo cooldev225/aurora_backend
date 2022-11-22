@@ -71,7 +71,7 @@ class HrmEmployeeLeaveController extends Controller
         $leave = HrmEmployeeLeave::create([
             "description" => $request->description,
             "organization_id" => auth()->user()->organization_id,
-            "user_id" => auth()->user()->id,
+            "user_id" => $request->userId,
             "status" => "Pending",
             "leave_type" => $request->leaveType,
             "start_date" => $startDate,
@@ -123,7 +123,7 @@ class HrmEmployeeLeaveController extends Controller
      */
     public function destroy(HrmEmployeeLeave $hrmEmployeeLeave)
     {
-        if ($hrmEmployeeLeave->status == "Pending" || auth()->user()->role_id == UserRole::ORGANIZATION_MANAGER) {
+        if ($hrmEmployeeLeave->status == "Pending" && auth()->user()->id == $hrmEmployeeLeave->user_id) {
             $hrmEmployeeLeave->delete();
         }
         return \response()->json([

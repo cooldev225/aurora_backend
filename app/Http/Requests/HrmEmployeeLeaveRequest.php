@@ -24,9 +24,9 @@ class HrmEmployeeLeaveRequest extends FormRequest
     public function rules()
     {
         return [
-            "description" => "required|string",
+            "description" => "nullable|string",
             "organization_id" => "nullable|int",
-            "user_id" => "nullable|int",
+            "userId" => "required|int",
             "status" => "nullable|string",
             "leaveType" => "required|string",
             "date" => "required|array",
