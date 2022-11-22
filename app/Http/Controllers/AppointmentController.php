@@ -52,7 +52,8 @@ class AppointmentController extends Controller
 
             if ($column == 'date') {
                 $day = Carbon::parse($param)->format('Y-m-d');
-                $appointments = $appointments->with(['specialist.hrmWeeklySchedule' => function ($query) use ($day) {
+                $appointments = $appointments->where('date', $day)
+                    ->with(['specialist.hrmWeeklySchedule' => function ($query) use ($day) {
                     $query->where('date', $day)->where('status', 'PUBLISHED');
                 }
                 ]);
@@ -60,7 +61,6 @@ class AppointmentController extends Controller
                 $appointments = $appointments->where($column, '=', $param);
             }
         }
-
         return response()->json(
             [
                 'message' => 'Appointments',
