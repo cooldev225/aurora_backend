@@ -78,7 +78,7 @@
                         Provider Number: {{ $clinic->hospital_provider_number }}<br><br>
                     @elseif ($bill_from === 'SPECIALIST')
                         {{ $appointment->specialist_name }}<br>
-                        Provider Number: {{ $specialist->provider_number }}<br><br>
+                        Provider Number: {{ $provider_number }}<br><br>
                     @endif
                     {{ $clinic->name }}<br>
                     {{ $clinic->address }}<br>
