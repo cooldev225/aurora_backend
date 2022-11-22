@@ -121,20 +121,28 @@ class AppointmentPayment extends Model
                                                     ->whereIsValid(true)
                                                     ->orderBy('verified_at', 'desc')
                                                     ->first();
+        
+        $specialist = $this->appointment->specialist;
+        $clinic = $this->appointment->clinic;
+        $provider_number = SpecialistClinicRelation::whereSpecialistId($specialist->id)
+                                                   ->whereClinicId($clinic->id)
+                                                   ->pluck('provider_number')
+                                                   ->first();
 
         $data = [
             'payment' => $this,
             'appointment' => $this->appointment,
             'referral' => $this->appointment->referral,
             'patient' => $this->appointment->patient,
-            'clinic' => $this->appointment->clinic,
+            'clinic' => $clinic,
             'organization' => $this->appointment->organization,
-            'specialist' => $this->appointment->specialist,
+            'specialist' => $specialist,
             'items' => $all_items,
             'total_cost' => $total_cost,
             'total_paid' => $total_paid,
             'bill_from' => $this->appointment->appointment_type->invoice_by,
             'medicare_card' => $medicare_card,
+            'provider_number' => $provider_number,
         ];
 
         return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);
