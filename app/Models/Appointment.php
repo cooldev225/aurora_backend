@@ -23,7 +23,7 @@ class Appointment extends Model
         'collecting_person_alternate_contact',
     ];
     protected $appends = [
-        'patient_name', 'patient_details', 'specialist_name','appointment_type_name',
+        'patient_name', 'patient_details', 'specialist_name', 'anesthetist_name', 'appointment_type_name',
         'aus_formatted_date', 'formatted_appointment_time',
         'is_pre_admission_form_complete', 'clinic_details'
     ];
@@ -49,6 +49,14 @@ class Appointment extends Model
     public function getSpecialistNameAttribute()
     {
         return $this->specialist->title .' '. $this->specialist->first_name .' '. $this->specialist->last_name;
+    }
+
+    public function getAnesthetistNameAttribute()
+    {
+        if ($this->anesthetist) {
+            return $this->anesthetist->first_name .' '. $this->anesthetist->last_name;
+        }
+        return null;
     }
 
     public function getClinicDetailsAttribute()
@@ -77,8 +85,10 @@ class Appointment extends Model
     }
 
     public function getIsPreAdmissionFormCompleteAttribute() {
-        if($this->pre_admission->pre_admission_file){
-            return true;
+        if ($this->pre_admission) {
+            if($this->pre_admission->pre_admission_file){
+                return true;
+            }
         }
         return false;
     }
@@ -250,5 +260,5 @@ class Appointment extends Model
             $patient->sendEmail(new GenericNotificationEmail($data['subject'], $data['message']));
         }
     }
-  
+
 }

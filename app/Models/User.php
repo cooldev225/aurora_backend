@@ -167,9 +167,8 @@ class User extends Authenticatable implements JWTSubject
     /**
      * Return Organization
      */
-    public function appointments()
+    public function appointments( $field_key = 'specialist_id')
     {
-        $field_key = 'specialist_id'; //Make a switch for anesthetist role
         return $this->hasMany(Appointment::class,  $field_key, 'id');
     }
 
@@ -190,6 +189,9 @@ class User extends Authenticatable implements JWTSubject
         return $this->role->slug == 'admin';
     }
 
+    public function employeeLeaves() {
+        return $this->hasMany(HrmEmployeeLeave::class);
+    }
     /**
      * translate template
      */
