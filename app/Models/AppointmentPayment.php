@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Enum\PatientBillingType;
 use PDF;
 use Carbon\Carbon;
 use App\Mail\Notification;
@@ -115,15 +116,25 @@ class AppointmentPayment extends Model
                                         ->where('id', '<>', $this->id)
                                         ->sum('amount');
 
+        $medicare_card = $this->appointment->patient->billing()
+                                                    ->whereBillingType(PatientBillingType::MEDICARE_CARD)
+                                                    ->whereIsValid(true)
+                                                    ->orderBy('verified_at', 'desc')
+                                                    ->first();
+
         $data = [
             'payment' => $this,
             'appointment' => $this->appointment,
+            'referral' => $this->appointment->referral,
             'patient' => $this->appointment->patient,
             'clinic' => $this->appointment->clinic,
             'organization' => $this->appointment->organization,
+            'specialist' => $this->appointment->specialist,
             'items' => $all_items,
             'total_cost' => $total_cost,
             'total_paid' => $total_paid,
+            'bill_from' => $this->appointment->appointment_type->invoice_by,
+            'medicare_card' => $medicare_card,
         ];
 
         return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);

@@ -38,6 +38,7 @@ class User extends Authenticatable implements JWTSubject
         'full_name',
         'photo_url',
         'signature_url',
+        'formatted_abn',
     ];
 
     protected $casts = [
@@ -89,6 +90,20 @@ class User extends Authenticatable implements JWTSubject
             $expiry = config('temporary_url_expiry');
             return Storage::temporaryUrl($path, now()->addMinutes($expiry));
         }
+    }
+
+    public function getFormattedAbnAttribute()
+    {
+        if (!$this->abn) {
+            return null;
+        }
+
+        $parts[] = substr($this->abn, 0, 2);
+        $parts[] = substr($this->abn, 2, 3);
+        $parts[] = substr($this->abn, 5, 3);
+        $parts[] = substr($this->abn, 8, 3);
+
+        return implode(' ', $parts);
     }
 
     /**

@@ -25,7 +25,7 @@ class ScheduleItemStoreRequest extends FormRequest
     {
         return [
             'name'            => 'required|string',
-            'description'     => 'string',
+            'description'     => 'nullable|string',
             'amount'          => 'required|numeric',
             'mbs_item_code'   => 'numeric|max_digits:5',
             'internal_code'   => 'alphanum|max:10|nullable',
