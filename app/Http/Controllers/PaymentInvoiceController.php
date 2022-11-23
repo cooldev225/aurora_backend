@@ -19,7 +19,7 @@ class PaymentInvoiceController extends Controller
     {
         $this->authorize('view', $appointmentPayment);
 
-        $appointmentPayment->sendInvoice();
+        $appointmentPayment->sendInvoice(true);
 
         return response()->json(
             [
