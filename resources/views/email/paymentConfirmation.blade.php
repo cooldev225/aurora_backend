@@ -63,8 +63,8 @@
 					<p>Please find confirmation of your refund below, and your invoice attached.</p>
 
 					<div>
-						<p class="payment-header" style="color:green;">Refund Amount</p>
-						<h3>${{ number_format($payment->amount / 100, 2) }}</h3>
+						<p class="payment-header">Refund Amount</p>
+						<h3 style="color:green;">${{ number_format($payment->amount / 100, 2) }}</h3>
 					</div>
 				@endif
 
