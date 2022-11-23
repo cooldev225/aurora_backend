@@ -34,7 +34,7 @@ class ProfileUpdateRequest extends FormRequest
         $user_request = new UserRequest();
 
         return [
-            'photo' => 'mimes:jpg,png,bmp',
+            'photo' => 'nullable||mimes:jpg,png,bmp',
 
             ...$user_request->rules(),
         ];

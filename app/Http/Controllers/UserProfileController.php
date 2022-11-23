@@ -19,7 +19,18 @@ class UserProfileController extends Controller
     public function show()
     {
         return response()->json(
-            $this->withBaseUrlForSingleUser(auth()->user())
+            [
+                'message'   => 'Yhe user profile',
+                'data'      => auth()->user()->makeHidden([
+                                                    'password',
+                                                    'created_at',
+                                                    'updated_at',
+                                                    'remember_token',
+                                                    'password_changed_date',
+                                                    'email_verified_at'
+                                                    ])
+            ],
+            Response::HTTP_OK
         );
     }
 
