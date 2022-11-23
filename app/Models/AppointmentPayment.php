@@ -114,6 +114,7 @@ class AppointmentPayment extends Model
 
         $total_paid = $this->appointment->payments()
                                         ->where('id', '<>', $this->id)
+                                        ->where('created_at', '<', $this->created_at)
                                         ->sum('amount');
 
         $medicare_card = $this->appointment->patient->billing()
@@ -148,8 +149,8 @@ class AppointmentPayment extends Model
         return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);
     }
 
-    public function sendInvoice()
+    public function sendInvoice($reissue = false)
     {
-        $this->appointment->patient->sendEmail(new PaymentConfirmationEmail($this));
+        $this->appointment->patient->sendEmail(new PaymentConfirmationEmail($this, $reissue));
     }
 }

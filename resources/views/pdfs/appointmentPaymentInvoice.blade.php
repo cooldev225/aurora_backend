@@ -175,7 +175,7 @@
                     <td class="info-header heading">
                         This Payment
                     </td>
-                    <td>
+                    <td {!! $payment->amount < 0 ? 'style="color:red;"' : '' !!}>
                         ${{ number_format($payment['amount'] / 100, 2) }}
                     </td>
                 </tr>

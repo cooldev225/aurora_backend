@@ -48,14 +48,25 @@
 		</tr>
 		<tr>
 			<td class="payment-info">
-				<h3>Thanks for your payment</h3>
+				@if($payment->amount > 0)
+					<h3>Thanks for your payment</h3>
 
-				<p>Your payment has been received. Please find confirmation of the details below, and your invoice attached.</p>
+					<p>Your payment has been received. Please find confirmation of the details below, and your invoice attached.</p>
 
-				<div>
-					<p class="payment-header">Payment Amount</p>
-					<h3>${{ number_format($payment->amount / 100, 2) }}</h3>
-				</div>
+					<div>
+						<p class="payment-header">Payment Amount</p>
+						<h3>${{ number_format($payment->amount / 100, 2) }}</h3>
+					</div>
+				@else
+					<h3>Here's your refund</h3>
+
+					<p>Please find confirmation of your refund below, and your invoice attached.</p>
+
+					<div>
+						<p class="payment-header" style="color:green;">Refund Amount</p>
+						<h3>${{ number_format($payment->amount / 100, 2) }}</h3>
+					</div>
+				@endif
 
 				<div>
 					<p class="payment-header">Invoice Number</p>
