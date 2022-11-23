@@ -37,7 +37,7 @@ class Appointment extends Model
 
     public function getAppointmentTypeNameAttribute()
     {
-        return $this_type->name;
+        return $this->appointment_type->name;
     }
 
     public function getFormattedAppointmentTimeAttribute()
@@ -221,7 +221,7 @@ class Appointment extends Model
             '[AppointmentDate]'     => Carbon::create($this->date)->format('jS, F'),
             '[AppointmentDay]'      => Carbon::create($this->date)->format('l'),
 
-            '[AppointmentType]'     => $this_type->name,
+            '[AppointmentType]'     => $this->appointment_type->name,
             '[Specialist]'          => $this->specialist->full_name,
 
             '[ClinicName]'          => $this->clinic->name,
