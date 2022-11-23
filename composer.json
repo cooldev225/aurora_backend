@@ -40,7 +40,8 @@
         "files": [
             "app/Http/Helpers/security.php",
             "app/Http/Helpers/filesystem.php",
-            "app/Http/Helpers/HL7formatting.php"
+            "app/Http/Helpers/HL7formatting.php",
+            "app/Http/Helpers/billing.php"
         ]
     },
     "autoload-dev": {

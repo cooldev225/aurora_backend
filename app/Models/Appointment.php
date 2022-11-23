@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
-use App\Mail\GenericNotificationEmail;
-use App\Mail\Notification;
 use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Mail\Notification;
+use App\Mail\IssueInvoiceEmail;
+use App\Enum\PatientBillingType;
+use App\Mail\GenericNotificationEmail;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use PDF;
 
 class Appointment extends Model
 {
@@ -36,7 +37,7 @@ class Appointment extends Model
 
     public function getAppointmentTypeNameAttribute()
     {
-        return $this->appointment_type->name;
+        return $this_type->name;
     }
 
     public function getFormattedAppointmentTimeAttribute()
@@ -220,7 +221,7 @@ class Appointment extends Model
             '[AppointmentDate]'     => Carbon::create($this->date)->format('jS, F'),
             '[AppointmentDay]'      => Carbon::create($this->date)->format('l'),
 
-            '[AppointmentType]'     => $this->appointment_type->name,
+            '[AppointmentType]'     => $this_type->name,
             '[Specialist]'          => $this->specialist->full_name,
 
             '[ClinicName]'          => $this->clinic->name,
@@ -261,4 +262,70 @@ class Appointment extends Model
         }
     }
 
+    public function generateInvoice()
+    {
+        $data = $this->invoiceData();
+
+        $data = [
+            'full_invoice_number' => generateInvoiceNumber($this->organization, $this),
+            'total_paid' => $this->payments()->sum('amount'),
+            ...$data,
+        ];
+
+        return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);
+    }
+
+    public function sendInvoice()
+    {
+        $this->patient->sendEmail(new IssueInvoiceEmail($this));
+    }
+
+    public function invoiceData()
+    {
+        $details = $this->detail;
+
+        $items = array_merge(
+            $details->procedures_undertaken ?? [],
+            $details->extra_items_used ?? [],
+            $details->admin_items ?? []
+        );
+
+        $all_items = [];
+        $total_cost = 0;
+        foreach ($items as &$item) {
+            $schedule_item = ScheduleItem::find($item['id'])->toArray();
+            $all_items[] = [
+                ...$schedule_item,
+                'price' => $item['price'],
+            ];
+            $total_cost += $item['price'];
+        }
+
+        $medicare_card = $this->patient->billing()
+                            ->whereBillingType(PatientBillingType::MEDICARE_CARD)
+                            ->whereIsValid(true)
+                            ->orderBy('verified_at', 'desc')
+                            ->first();
+        
+        $specialist = $this->specialist;
+        $clinic = $this->clinic;
+        $provider_number = SpecialistClinicRelation::whereSpecialistId($specialist->id)
+                                                   ->whereClinicId($clinic->id)
+                                                   ->pluck('provider_number')
+                                                   ->first();
+
+        return [
+            'appointment' => $this,
+            'referral' => $this->referral,
+            'patient' => $this->patient,
+            'clinic' => $clinic,
+            'organization' => $this->organization,
+            'specialist' => $specialist,
+            'items' => $all_items,
+            'total_cost' => $total_cost,
+            'bill_from' => $this->appointment_type->invoice_by,
+            'medicare_card' => $medicare_card,
+            'provider_number' => $provider_number,
+        ];
+    }
 }
