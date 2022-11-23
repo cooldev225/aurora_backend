@@ -60,6 +60,7 @@ use App\Http\Controllers\AppointmentProcedureApprovalController;
 
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
 use App\Http\Controllers\AppointmentConfirmationStatusController;
+use App\Http\Controllers\AppointmentInvoiceController;
 use App\Http\Controllers\OrganizationPinController;
 use App\Http\Controllers\PaymentInvoiceController;
 
@@ -126,6 +127,9 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/collecting-person/{appointment}',        [AppointmentCollectingPersonController::class,'update']);
 
         Route::post('/{appointment}/detail',                  [AppointmentDetailController::class, 'update']);
+
+        Route::get('/{appointment}/invoice',                  [AppointmentInvoiceController::class, 'show']);
+        Route::post('/{appointment}/invoice/send',            [AppointmentInvoiceController::class, 'send']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

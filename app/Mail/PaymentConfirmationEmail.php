@@ -14,15 +14,17 @@ class PaymentConfirmationEmail extends Mailable
     use Queueable, SerializesModels;
 
     protected $payment;
+    protected $reissue;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct(AppointmentPayment $payment)
+    public function __construct(AppointmentPayment $payment, bool $reissue)
     {
         $this->payment = $payment;
+        $this->reissue = $reissue;
     }
 
     /**
@@ -33,11 +35,12 @@ class PaymentConfirmationEmail extends Mailable
     public function build()
     {
         $invoice = $this->payment->generateInvoice();
+        $subject = $this->reissue ? 'Copy of Your Payment Confirmation' : 'Payment Confirmation';
 
         return $this->view('email.paymentConfirmation', [
                         'payment' => $this->payment,
                     ])
-                    ->subject('Payment Confirmation')
+                    ->subject($subject)
                     ->attachData($invoice->output(), $this->payment->full_invoice_number . '.pdf');
     }
 }

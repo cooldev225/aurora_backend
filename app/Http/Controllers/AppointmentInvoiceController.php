@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use App\Models\AppointmentPayment;
 
-class PaymentInvoiceController extends Controller
+class AppointmentInvoiceController extends Controller
 {
     /**
      * Display the specified resource.
@@ -15,11 +14,11 @@ class PaymentInvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function send(AppointmentPayment $appointmentPayment)
+    public function send(Appointment $appointment)
     {
-        $this->authorize('view', $appointmentPayment);
+        $this->authorize('view', $appointment);
 
-        $appointmentPayment->sendInvoice(true);
+        $appointment->sendInvoice(true);
 
         return response()->json(
             [
@@ -35,11 +34,11 @@ class PaymentInvoiceController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(AppointmentPayment $appointmentPayment)
+    public function show(Appointment $appointment)
     {
-        $this->authorize('view', $appointmentPayment);
+        $this->authorize('view', $appointment);
 
-        $pdf = $appointmentPayment->generateInvoice();
+        $pdf = $appointment->generateInvoice();
 
         return response($pdf->output(), Response::HTTP_OK)
                ->header('Content-Type', 'application/pdf');

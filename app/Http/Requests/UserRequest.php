@@ -32,13 +32,14 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name'     => 'required|string|min:2|max:100',
-            'last_name'      => 'required|string|min:2|max:100',
-            'email'          => 'required|string|email|max:100',
-            'mobile_number'  => 'string',
-            'address'        => 'string',
-            'mobile_number'  => 'string',
-            'role_id'        => ['required', 'int', new Enum(UserRole::class)],
+            'first_name'      => 'required|string|min:2|max:100',
+            'last_name'       => 'required|string|min:2|max:100',
+            'email'           => 'required|string|email|max:100',
+            'mobile_number'   => 'string',
+            'address'         => 'string',
+            'mobile_number'   => 'string',
+            'role_id'         => ['required', 'int', new Enum(UserRole::class)],
+            'abn'             => 'nullable|string|size:11',
         ];
     }
 }

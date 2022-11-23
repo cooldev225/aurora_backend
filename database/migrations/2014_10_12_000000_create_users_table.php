@@ -37,6 +37,7 @@ return new class extends Migration {
             $table->string('sign_off')->nullable();
             $table->string('education_code')->nullable();
             $table->string('signature')->nullable();
+            $table->string('abn', 11)->nullable();
             $table->timestamp('password_changed_date')->default(Carbon::now());
             $table->rememberToken();
             $table->timestamps();

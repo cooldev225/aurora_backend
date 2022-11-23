@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use PDF;
-use Carbon\Carbon;
 use App\Mail\Notification;
 use App\Mail\PaymentConfirmationEmail;
 use Illuminate\Database\Eloquent\Model;
@@ -35,11 +34,7 @@ class AppointmentPayment extends Model
 
     public function getFullInvoiceNumberAttribute()
     {
-        $organization = $this->appointment->organization;
-        $code = strtoupper($organization->code);
-        $number = sprintf('%06d', $this->invoice_number);
-
-        return $code . $number;
+        return generateInvoiceNumber($this->appointment->organization, $this->appointment, $this->invoice_number);
     }
 
     /**
@@ -92,45 +87,25 @@ class AppointmentPayment extends Model
 
     public function generateInvoice()
     {
-        $details = $this->appointment->detail;
-
-        $items = array_merge(
-            $details->procedures_undertaken ?? [],
-            $details->extra_items_used ?? [],
-            $details->admin_items ?? []
-        );
-
-        $all_items = [];
-        $total_cost = 0;
-        foreach ($items as &$item) {
-            $schedule_item = ScheduleItem::find($item['id'])->toArray();
-            $all_items[] = [
-                ...$schedule_item,
-                'price' => $item['price'],
-            ];
-            $total_cost += $item['price'];
-        }
+        $data = $this->appointment->invoiceData();
 
         $total_paid = $this->appointment->payments()
                                         ->where('id', '<>', $this->id)
+                                        ->where('created_at', '<', $this->created_at)
                                         ->sum('amount');
 
         $data = [
             'payment' => $this,
-            'appointment' => $this->appointment,
-            'patient' => $this->appointment->patient,
-            'clinic' => $this->appointment->clinic,
-            'organization' => $this->appointment->organization,
-            'items' => $all_items,
-            'total_cost' => $total_cost,
             'total_paid' => $total_paid,
+            'full_invoice_number' => $this->full_invoice_number,
+            ...$data,
         ];
 
         return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);
     }
 
-    public function sendInvoice()
+    public function sendInvoice($reissue = false)
     {
-        $this->appointment->patient->sendEmail(new PaymentConfirmationEmail($this));
+        $this->appointment->patient->sendEmail(new PaymentConfirmationEmail($this, $reissue));
     }
 }
