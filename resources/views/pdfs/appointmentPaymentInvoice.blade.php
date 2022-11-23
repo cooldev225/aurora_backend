@@ -68,7 +68,7 @@
         <img src="" style="width: 100%;">
     </header>
     <section>
-        <h1 class="gray-heading">Invoice #{{ $payment->full_invoice_number }}</h1>
+        <h1 class="gray-heading">Invoice #{{ $full_invoice_number }}</h1>
 
         <table style="width: 100%;">
             <tr>
@@ -161,7 +161,7 @@
                         ${{ number_format($total_cost / 100, 2) }}
                     </td>
                 </tr>
-                @if($total_paid > 0)
+                @if ($total_paid > 0)
                     <tr>
                         <td class="info-header heading">
                             Paid to Date
@@ -171,21 +171,30 @@
                         </td>
                     </tr>
                 @endif
-                <tr>
-                    <td class="info-header heading">
-                        This Payment
-                    </td>
-                    <td {!! $payment->amount < 0 ? 'style="color:red;"' : '' !!}>
-                        ${{ number_format($payment['amount'] / 100, 2) }}
-                    </td>
-                </tr>
+                @if (isset($payment))
+                    <tr>
+                        <td class="info-header heading">
+                            This Payment
+                        </td>
+                        <td {!! $payment->amount < 0 ? 'style="color:red;"' : '' !!}>
+                            ${{ number_format($payment['amount'] / 100, 2) }}
+                        </td>
+                    </tr>
+                @endif
                 <tr>
                     <td class="info-header heading" style="border-bottom: 1px solid lightgray;">
                         Balance Due
                     </td>
-                    <td style="border-bottom: 1px solid lightgray;">
-                        ${{ number_format(($total_cost - $total_paid - $payment['amount']) / 100, 2) }}
-                    </td>
+                    
+                    @if (isset($payment))
+                        <td style="border-bottom: 1px solid lightgray;">
+                            ${{ number_format(($total_cost - $total_paid - $payment['amount']) / 100, 2) }}
+                        </td>
+                    @else
+                        <td style="border-bottom: 1px solid lightgray;">
+                            ${{ number_format(($total_cost - $total_paid) / 100, 2) }}
+                        </td>
+                    @endif
                 </tr>
             </table>
        </div>

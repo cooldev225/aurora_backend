@@ -2,9 +2,7 @@
 
 namespace App\Models;
 
-use App\Enum\PatientBillingType;
 use PDF;
-use Carbon\Carbon;
 use App\Mail\Notification;
 use App\Mail\PaymentConfirmationEmail;
 use Illuminate\Database\Eloquent\Model;
@@ -36,11 +34,7 @@ class AppointmentPayment extends Model
 
     public function getFullInvoiceNumberAttribute()
     {
-        $organization = $this->appointment->organization;
-        $code = strtoupper($organization->code);
-        $number = sprintf('%06d', $this->invoice_number);
-
-        return $code . $number;
+        return generateInvoiceNumber($this->appointment->organization, $this->appointment, $this->invoice_number);
     }
 
     /**
@@ -93,57 +87,18 @@ class AppointmentPayment extends Model
 
     public function generateInvoice()
     {
-        $details = $this->appointment->detail;
-
-        $items = array_merge(
-            $details->procedures_undertaken ?? [],
-            $details->extra_items_used ?? [],
-            $details->admin_items ?? []
-        );
-
-        $all_items = [];
-        $total_cost = 0;
-        foreach ($items as &$item) {
-            $schedule_item = ScheduleItem::find($item['id'])->toArray();
-            $all_items[] = [
-                ...$schedule_item,
-                'price' => $item['price'],
-            ];
-            $total_cost += $item['price'];
-        }
+        $data = $this->appointment->invoiceData();
 
         $total_paid = $this->appointment->payments()
                                         ->where('id', '<>', $this->id)
                                         ->where('created_at', '<', $this->created_at)
                                         ->sum('amount');
 
-        $medicare_card = $this->appointment->patient->billing()
-                                                    ->whereBillingType(PatientBillingType::MEDICARE_CARD)
-                                                    ->whereIsValid(true)
-                                                    ->orderBy('verified_at', 'desc')
-                                                    ->first();
-        
-        $specialist = $this->appointment->specialist;
-        $clinic = $this->appointment->clinic;
-        $provider_number = SpecialistClinicRelation::whereSpecialistId($specialist->id)
-                                                   ->whereClinicId($clinic->id)
-                                                   ->pluck('provider_number')
-                                                   ->first();
-
         $data = [
             'payment' => $this,
-            'appointment' => $this->appointment,
-            'referral' => $this->appointment->referral,
-            'patient' => $this->appointment->patient,
-            'clinic' => $clinic,
-            'organization' => $this->appointment->organization,
-            'specialist' => $specialist,
-            'items' => $all_items,
-            'total_cost' => $total_cost,
             'total_paid' => $total_paid,
-            'bill_from' => $this->appointment->appointment_type->invoice_by,
-            'medicare_card' => $medicare_card,
-            'provider_number' => $provider_number,
+            'full_invoice_number' => $this->full_invoice_number,
+            ...$data,
         ];
 
         return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);
