@@ -269,6 +269,7 @@ class Appointment extends Model
         $data = [
             'full_invoice_number' => generateInvoiceNumber($this->organization, $this),
             'total_paid' => $this->payments()->sum('amount'),
+            'payments' => $this->payments()->orderBy('created_at', 'desc')->get(),
             ...$data,
         ];
 
