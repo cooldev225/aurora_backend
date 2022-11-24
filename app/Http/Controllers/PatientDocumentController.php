@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enum\FileType;
 use App\Enum\DocumentActionStatusType;
 use App\Enum\OutMessageSendMethod;
+use App\Enum\OutMessageSendStatus;
 use App\Models\Patient;
 use Illuminate\Http\Response;
 use App\Models\PatientDocument;
@@ -90,6 +91,7 @@ class PatientDocumentController extends Controller
 
             $receivingDoctor && OutgoingMessageLog::create([
                 'send_method'                   => OutMessageSendMethod::HEALTHLINK,
+                'send_status'                   => OutMessageSendStatus::SENT,
                 'sending_doctor_name'           => $specialist->full_name,
                 'sending_doctor_provider'       => $sending_provider_number->provider_number,
                 'receiving_doctor_name'         => $receivingDoctor->full_name,
