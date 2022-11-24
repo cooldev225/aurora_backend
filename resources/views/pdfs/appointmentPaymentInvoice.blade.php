@@ -9,7 +9,7 @@
             margin: 0px;
             height: 100%;
             font-family: Arial, Helvetica, sans-serif, sans-serif;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         footer {
@@ -59,6 +59,17 @@
 
         .item-table th {
             background-color: lightgray;
+        }
+
+        .payment-table th, .payment-table td {
+            padding: 7px;
+            border-top: 1px solid #aaa;
+            border-bottom: 1px solid #aaa;
+            text-align: center;
+        }
+
+        .payment-table th {
+            border-top: 0;
         }
     </style>
 </head>
@@ -136,7 +147,7 @@
             </tr>
             @foreach ($items as $item)
             <tr>
-                <td>
+                <td style="text-align: center;">
                     {{ Carbon\Carbon::create($appointment->date)->format('j F Y') }}
                 </td>
                 <td>
@@ -198,6 +209,43 @@
                 </tr>
             </table>
        </div>
+    </section>
+    
+    <section>
+        <h4 class="gray-heading" style="text-align:center;">Payment Information</h4>
+
+        <table class="payment-table" style="width: 100%;" cellspacing="0">
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Payer
+                </th>
+                <th>
+                    Amount
+                </th>
+            </tr>
+            @foreach ($payments as $pay)
+            <tr>
+                <td {!! isset($payment) && $pay->id === $payment->id ? 'style="background-color:#ddd;font-weight:bold;"' : '' !!}>
+                    {{ Carbon\Carbon::create($pay->created_at)->format('j F Y') }}
+                </td>
+                <td {!! isset($payment) && $pay->id === $payment->id ? 'style="background-color:#ddd;font-weight:bold;"' : '' !!}>
+                    {{ $pay->amount < 0 ? 'REFUND' : $pay->payment_type }}
+                </td>
+                <td {!! isset($payment) && $pay->id === $payment->id ? 'style="background-color:#ddd;font-weight:bold;"' : '' !!}>
+                    Patient
+                </td>
+                <td {!! isset($payment) && $pay->id === $payment->id ? 'style="background-color:#ddd;font-weight:bold;"' : '' !!}>
+                    <span {!! $pay->amount < 0 ? 'style="color:red;"' : '' !!}>${{ number_format($pay->amount / 100, 2) }}</span>
+                </td>
+            </tr>
+            @endforeach
+        </table>
     </section>
 
     <section>
