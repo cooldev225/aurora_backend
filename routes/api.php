@@ -128,7 +128,7 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/{appointment}/detail',                  [AppointmentDetailController::class, 'update']);
 
-        Route::get('/{appointment}/invoice',                  [AppointmentInvoiceController::class, 'show']);
+        Route::post('/{appointment}/invoice',                 [AppointmentInvoiceController::class, 'show']);
         Route::post('/{appointment}/invoice/send',            [AppointmentInvoiceController::class, 'send']);
     });
 
@@ -196,7 +196,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/',                           [PaymentController::class, 'index']);
         Route::post('/',                          [PaymentController::class, 'store']);
         Route::get('/{appointment}',              [PaymentController::class, 'show']);
-        Route::get('/{appointmentPayment}',       [PaymentInvoiceController::class, 'show']);
+        Route::post('/{appointmentPayment}',      [PaymentInvoiceController::class, 'show']);
         Route::post('/{appointmentPayment}/send', [PaymentInvoiceController::class, 'send']);
     });
 
