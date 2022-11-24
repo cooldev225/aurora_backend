@@ -94,12 +94,29 @@ class AppointmentPayment extends Model
                                         ->where('created_at', '<', $this->created_at)
                                         ->sum('amount');
 
+
+        $payments = $this->appointment->payments()
+                                      ->where('id', '<>', $this->id)
+                                      ->where('created_at', '<', $this->created_at)
+                                      ->orWhere('id', $this->id)
+                                      ->get();
+        
+
         $data = [
-            'payment' => $this,
-            'total_paid' => $total_paid,
+            'payment'             => $this,
+            'total_paid'          => $total_paid,
             'full_invoice_number' => $this->full_invoice_number,
+            'payments'            => $payments,
             ...$data,
         ];
+
+        foreach ($data['payments'] as &$payment) {
+            if ($payment->id === $this->id) {
+                $payment->current = true;
+            } else {
+                $payment->current = false;
+            }
+        }
 
         return PDF::loadView('pdfs/appointmentPaymentInvoice', $data);
     }
