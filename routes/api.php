@@ -207,6 +207,7 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{appointment}',              [AppointmentDetail::class, 'update']);
         Route::post('/check-appointments-complete',[AppointmentDetailController::class, 'checkAppointmentsComplete']);
     });
+    Route::post('/generate-coding-report',        [CodingReportController::class,'store']);
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Organization Pin Routes

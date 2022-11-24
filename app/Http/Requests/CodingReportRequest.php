@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AppointmentCheckCompletedRequest extends FormRequest
+class CodingReportRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,6 +26,7 @@ class AppointmentCheckCompletedRequest extends FormRequest
         return [
             'from_date'              => 'required|date',
             'to_date'                => 'required|date',
+            'type'                   => 'required|in:VAED,PHFB,HCP AHSA',
         ];
     }
 }
