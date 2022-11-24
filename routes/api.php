@@ -203,8 +203,9 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Coding Routes
     Route::prefix('coding')->group(function () {
-        Route::get('/',              [CodingController::class, 'index']);
+        Route::get('/',                           [CodingController::class, 'index']);
         Route::put('/{appointment}',              [AppointmentDetail::class, 'update']);
+        Route::post('/check-appointments-complete',[AppointmentDetailController::class, 'checkAppointmentsComplete']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
