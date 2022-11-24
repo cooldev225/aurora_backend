@@ -21,12 +21,12 @@ class Patient extends Model
         'aborginality', 'occupation', 'height', 'weight', 'race',
         'bmi', 'preferred_contact_method', 'appointment_confirm_method',
         'send_recall_method', 'kin_name', 'kin_relationship', 'kin_email',
-        'kin_phone_number', 'clinical_alert',
+        'kin_phone_number', 'clinical_alert'
     ];
 
     protected $appends = [
+        'ur_id',
         'full_name',
-        'billing',
         'also_known_as',
         'int_contact_number',
         'active_alerts',
@@ -36,6 +36,10 @@ class Patient extends Model
         'medicare_details'
     ];
 
+    public function getURIdAttribute()
+    {
+        return str_pad($this->id, 8, "0",STR_PAD_LEFT);
+    }
 
     public function getActiveAlertsAttribute()
     {
@@ -68,11 +72,6 @@ class Patient extends Model
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
-    }
-
-    public function getBillingAttribute()
-    {
-        return $this->billing()->get();
     }
 
     public function getAlsoKnownAsAttribute()
@@ -111,7 +110,7 @@ class Patient extends Model
     /**
      * Return Patient Billing
      */
-    public function billing()
+    public function billings()
     {
         return $this->hasMany(PatientBilling::class, 'patient_id');
     }

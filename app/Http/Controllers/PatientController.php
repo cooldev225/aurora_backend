@@ -64,7 +64,8 @@ class PatientController extends Controller
                 'message' => 'Patient Detail Info',
                 'data' =>  $patient
                     ->load('allergies')
-                    ->load('appointments'),
+                    ->load('appointments')
+                    ->load('billings'),
             ],
             Response::HTTP_OK
         );
