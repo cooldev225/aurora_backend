@@ -63,6 +63,7 @@ use App\Http\Controllers\AppointmentConfirmationStatusController;
 use App\Http\Controllers\AppointmentInvoiceController;
 use App\Http\Controllers\OrganizationPinController;
 use App\Http\Controllers\PaymentInvoiceController;
+use App\Http\Controllers\CodingReportController;
 
 /*
 |--------------------------------------------------------------------------
