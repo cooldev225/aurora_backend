@@ -21,7 +21,7 @@ class Appointment extends Model
         'procedure_approval_status', 'confirmation_status', 'attendance_status',
         'date', 'arrival_time', 'start_time', 'end_time', 'charge_type',
         'note', 'collecting_person_name', 'collecting_person_phone',
-        'collecting_person_alternate_contact',
+        'collecting_person_alternate_contact', 'draft_status',
     ];
     protected $appends = [
         'patient_name', 'patient_details', 'specialist_name', 'anesthetist_name', 'appointment_type_name',
@@ -69,15 +69,21 @@ class Appointment extends Model
 
     public function getPatientNameAttribute() {
         $patient = $this->patient;
-        return [
-            'full' => $patient->title .' ' . $patient->first_name .' '.$patient->last_name,
-            'first'=> $patient->first_name,
-            'last' => $patient->last_name
-        ];
+        if ($patient) {
+            return [
+                'full' => $patient->title .' ' . $patient->first_name .' '.$patient->last_name,
+                'first'=> $patient->first_name,
+                'last' => $patient->last_name
+            ];
+        }
+       return null;
     }
 
     public function getPatientDetailsAttribute() {
         $patient = $this->patient;
+        if (!$patient) {
+            return null;
+        }
         return [
             'date_of_birth' => Carbon::parse( $patient ->date_of_birth)->format('d-m-Y'),
             'contact_number'=>  $patient ->contact_number,
@@ -307,7 +313,7 @@ class Appointment extends Model
                             ->whereIsValid(true)
                             ->orderBy('verified_at', 'desc')
                             ->first();
-        
+
         $specialist = $this->specialist;
         $clinic = $this->clinic;
         $provider_number = SpecialistClinicRelation::whereSpecialistId($specialist->id)

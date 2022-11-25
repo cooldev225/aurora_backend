@@ -167,6 +167,7 @@ class AppointmentController extends Controller
             'note' => $request->note,
             'charge_type' => $request->charge_type,
             'room_id' => $request->room_id,
+            'draft_status' => false,
         ]);
 
         $appointment_type = $appointment->appointment_type;

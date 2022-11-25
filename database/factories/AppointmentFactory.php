@@ -99,6 +99,7 @@ class AppointmentFactory extends Factory
             'collecting_person_name'    => $this->faker->name(),
             'collecting_person_phone'   => $this->faker->numerify('0#-####-####'),
             'collecting_person_alternate_contact' => $this->faker->catchPhrase(),
+            'draft_status' => false,
         ];
     }
 }

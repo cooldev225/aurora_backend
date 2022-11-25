@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id');
+            $table->foreignId('patient_id')->nullable();
             $table->foreignId('organization_id');
             $table->foreignId('clinic_id');
             $table->foreignId('appointment_type_id')->nullable();
@@ -69,6 +69,7 @@ return new class extends Migration {
             $table->string('collecting_person_name')->nullable();
             $table->string('collecting_person_phone')->nullable();
             $table->string('collecting_person_alternate_contact')->nullable();
+            $table->boolean('draft_status')->nullable();
             $table->timestamps();
         });
     }
