@@ -21,12 +21,12 @@ class Appointment extends Model
         'procedure_approval_status', 'confirmation_status', 'attendance_status',
         'date', 'arrival_time', 'start_time', 'end_time', 'charge_type',
         'note', 'collecting_person_name', 'collecting_person_phone',
-        'collecting_person_alternate_contact', 'draft_status',
+        'collecting_person_alternate_contact', 'draft_status', 'created_by'
     ];
     protected $appends = [
         'patient_name', 'patient_details', 'specialist_name', 'anesthetist_name', 'appointment_type_name',
         'aus_formatted_date', 'formatted_appointment_time',
-        'is_pre_admission_form_complete', 'clinic_details'
+        'is_pre_admission_form_complete', 'clinic_details', 'creator_name'
     ];
 
 
@@ -50,6 +50,14 @@ class Appointment extends Model
     public function getSpecialistNameAttribute()
     {
         return $this->specialist->title .' '. $this->specialist->first_name .' '. $this->specialist->last_name;
+    }
+
+    public function getCreatorNameAttribute()
+    {
+        if(!$this->createdUser()) {
+            return null;
+        }
+        return $this->createdUser->title .' '. $this->createdUser->first_name .' '. $this->createdUser->last_name;
     }
 
     public function getAnesthetistNameAttribute()
@@ -190,6 +198,11 @@ class Appointment extends Model
     public function anesthetist()
     {
         return $this->hasOne(User::class,'id', 'anesthetist_id');
+    }
+
+    public function createdUser()
+    {
+        return $this->hasOne(User::class,'id', 'created_by');
     }
 
     /**

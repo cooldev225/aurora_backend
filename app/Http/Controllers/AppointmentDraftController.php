@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Http\Requests\AppointmentDraftCreateRequest;
 use App\Models\Appointment;
 use App\Models\AppointmentType;
@@ -15,8 +16,12 @@ class AppointmentDraftController extends Controller
     {
         // Verify the user can access this function via policy
         $this->authorize('create', Appointment::class);
-
+        $userId = auth()->user()->id;
         $startTime = Carbon::create($request->start_time);
+
+        $this->deleteDraftAppointmentsById($userId);
+        $this->deleteDraftAppointments();
+
         $appointment = Appointment::create([
             'date' => Carbon::create($request->date)->toDateString(),
             'arrival_time' => $request->arrival_time,
@@ -31,6 +36,7 @@ class AppointmentDraftController extends Controller
             'room_id' => $request->room_id,
             'draft_status' => true,
             'charge_type' => 'self-insured',
+            'created_by' => $userId,
         ]);
 
         return response()->json(
@@ -42,14 +48,15 @@ class AppointmentDraftController extends Controller
         );
     }
 
-    public function destroy(Appointment $appointment) {
+    public function destroy(Appointment $appointment)
+    {
         if (!$appointment->draft_status) {
             return abort(404);
         }
         $appointment->delete();
         $this->deleteDraftAppointments();
         return \response()->json([
-            'message'=>"Draft appointment delete successfully",
+            'message' => "Draft appointment delete successfully",
             'data' => $appointment->id,
         ]);
     }
@@ -62,9 +69,17 @@ class AppointmentDraftController extends Controller
         return Carbon::create($startTime)->addMinutes($organization->appointment_length * $appointmentType->AppointmentLengthAsNumber);
     }
 
+    // Delete existing draft which are older than 10 mins
     private function deleteDraftAppointments()
     {
         Appointment::where('draft_status', true)
             ->where('created_at', '<', now()->subMinutes(10))->delete();
+    }
+
+    // Delete existing draft apt by user id
+    private function deleteDraftAppointmentsById($userId)
+    {
+        Appointment::where('draft_status', true)
+            ->where('created_by', $userId)->delete();
     }
 }

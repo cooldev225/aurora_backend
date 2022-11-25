@@ -43,6 +43,7 @@ class AppointmentDraftCreateRequest extends FormRequest
             'claim_sources'        => 'nullable|array',
             'also_known_as'        => 'nullable|array',
             'draft_status'        => 'nullable|boolean',
+//            'created_by'        => 'required|numeric|exists:users,id',
         ];
     }
 }

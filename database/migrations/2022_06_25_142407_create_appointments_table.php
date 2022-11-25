@@ -21,6 +21,7 @@ return new class extends Migration {
             $table->foreignId('specialist_id')->index();
             $table->foreignId('room_id')->nullable();
             $table->foreignId('anesthetist_id')->nullable();
+            $table->foreignId('created_by')->nullable();
             $table->boolean('is_wait_listed')->default(false);
             $table
                 ->enum('procedure_approval_status', [

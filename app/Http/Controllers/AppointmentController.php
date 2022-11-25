@@ -168,6 +168,7 @@ class AppointmentController extends Controller
             'charge_type' => $request->charge_type,
             'room_id' => $request->room_id,
             'draft_status' => false,
+            'created_by' => auth()->user()->id,
         ]);
 
         $appointment_type = $appointment->appointment_type;

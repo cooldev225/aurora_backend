@@ -27,6 +27,7 @@ class AppointmentFactory extends Factory
         $organization = Organization::first();
         $organization_id = 1;
         $specialist = $organization->users->where('role_id', UserRole::SPECIALIST)->random(1)->first();
+        $receptionist = $organization->users->where('role_id', UserRole::RECEPTIONIST)->random(1)->first();
         $appointment_type = $organization->appointment_types->random(1)->first();
 
         $appointment_time = $organization->appointment_length;
@@ -100,6 +101,7 @@ class AppointmentFactory extends Factory
             'collecting_person_phone'   => $this->faker->numerify('0#-####-####'),
             'collecting_person_alternate_contact' => $this->faker->catchPhrase(),
             'draft_status' => false,
+            'created_by' => $receptionist->id,
         ];
     }
 }
