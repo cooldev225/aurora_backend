@@ -33,7 +33,8 @@ class Patient extends Model
         'gender_name',
         'allergies',
         'sex_format_hl7',
-        'medicare_details'
+        'medicare_details',
+        'billings',
     ];
 
     public function getURIdAttribute()
@@ -72,6 +73,11 @@ class Patient extends Model
     public function getFullNameAttribute()
     {
         return $this->first_name . ' ' . $this->last_name;
+    }
+
+    public function getBillingsAttribute()
+    {
+        return $this->billings()->get();
     }
 
     public function getAlsoKnownAsAttribute()

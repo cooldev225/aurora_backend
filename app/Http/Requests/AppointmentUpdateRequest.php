@@ -80,7 +80,7 @@ class AppointmentUpdateRequest extends FormRequest
         return [
             'room_id'                   => 'nullable|numeric|exists:rooms,id',
             'appointment_type_id'       => 'required|numeric|exists:appointment_types,id',
-            'time_slot'                 => 'required|array',
+            'time_slot'                 => 'array',
             'note'                      => 'nullable|string',
             'charge_type'               => [new Enum(ChargeType::class)],
             'claim_sources'             => 'nullable|array',
