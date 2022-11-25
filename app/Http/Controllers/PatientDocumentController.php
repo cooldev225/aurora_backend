@@ -90,7 +90,7 @@ class PatientDocumentController extends Controller
             $receivingDoctor = DoctorAddressBook::where('practice_email', '=', $email)->first();
 
             $receivingDoctor && OutgoingMessageLog::create([
-                'send_method'                   => OutMessageSendMethod::HEALTHLINK,
+                'send_method'                   => OutMessageSendMethod::EMAIL,
                 'send_status'                   => OutMessageSendStatus::SENT,
                 'sending_doctor_name'           => $specialist->full_name,
                 'sending_doctor_provider'       => $sending_provider_number->provider_number,
