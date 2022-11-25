@@ -8,13 +8,11 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Log;
 
 class AppointmentDraftController extends Controller
 {
     public function store(AppointmentDraftCreateRequest $request)
     {
-        Log::info($request->toArray());
         // Verify the user can access this function via policy
         $this->authorize('create', Appointment::class);
 
@@ -45,9 +43,6 @@ class AppointmentDraftController extends Controller
     }
 
     public function destroy(Appointment $appointment) {
-        Log::info(Appointment::where('draft_status', true)
-            ->where('created_at','<', now()->subMinutes(10))->get()->toArray());
-
         if (!$appointment->draft_status) {
             return abort(404);
         }
