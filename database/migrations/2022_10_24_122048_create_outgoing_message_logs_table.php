@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('outgoing_message_logs', function (Blueprint $table) {
             $table->id();
-            $table->enum('send_method', ['HEALTHLINK', 'EMAIL', 'FAX']);
+            $table->enum('send_method', ['HEALTHLINK', 'EMAIL', 'FAX', 'PRINTED']);
             $table->enum('send_status', ['PENDING', 'SENT', 'FAILED']);
             $table->foreignId('organization_id');
             $table->foreignId('patient_id');

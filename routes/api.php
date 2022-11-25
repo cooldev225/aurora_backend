@@ -50,6 +50,8 @@ use App\Http\Controllers\UserProfileSignatureController;
 
 use App\Http\Controllers\AppointmentSpecialistController;
 use App\Http\Controllers\PatientDocumentReportController;
+use App\Http\Controllers\PatientDocumentActionLogsController;
+
 use App\Http\Controllers\AppointmentPreAdmissionController;
 use App\Http\Controllers\AppointmentSearchAvailableController;
 use App\Http\Controllers\AppointmentTimeRequirementController;
@@ -168,7 +170,11 @@ Route::middleware(['auth'])->group(function () {
 
         Route::prefix('documents')->group(function () {
             Route::post('/{patient}',                         [PatientDocumentController::class, 'store']);
-            Route::post('report/{patient}',                   [PatientDocumentReportController::class, 'store']);
+            Route::post('/report/{patient}',                  [PatientDocumentReportController::class, 'store']);
+            Route::get('/action/logs',                        [PatientDocumentActionLogsController::class, 'index']);
+            Route::post('/action/logs',                       [PatientDocumentActionLogsController::class, 'store']);
+            Route::post('/send/email',                        [PatientDocumentController::class, 'email']);
+            Route::post('/send/health-link',                  [HealthLinkController::class, 'store']);
         });
 
         Route::post('/alerts',                                [PatientAlertController::class, 'store']);
