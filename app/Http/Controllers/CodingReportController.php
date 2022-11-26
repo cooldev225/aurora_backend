@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Appointment;
 use Illuminate\Http\Response;
 use App\Http\Requests\CodingReportRequest;
-use Illuminate\Http\File;
+use Illuminate\Support\Facades\Storage;
+use Carbon\Carbon;
 
 class CodingReportController extends Controller
 {
@@ -20,16 +21,16 @@ class CodingReportController extends Controller
     {
         // Verify the user can access this function via policy
 
-        $content = "{$request->type}-{$request->from_date}-{$request->to_date}\n";
-        $content .= "Report Date: {$request->from_date}-{$request->to_date}\n";
-        $content .= "Report Type:: {$request->type}\n";
-        $fileName = "{$request->type}-{$request->from_date}-{$request->to_date}.txt";
-        $headers = [
-            'Content-type' => 'text/plain', 
-            'Content-Disposition' => sprintf('attachment; filename="%s"', $fileName),
-        ];
-        File::put($fileName,$content);
-
-        return response($fileName, Response::HTTP_OK)->header('Content-Type', 'text/plain');
+        $formated_from_date = Carbon::parse($request->from_date)->format('d/m/Y');
+        $formated_to_date = Carbon::parse($request->to_date)->format('d/m/Y');
+        $content = "{$request->type}-{$formated_from_date}-{$formated_to_date}\n";
+        $content .= "Report Date: {$formated_from_date}-{$formated_to_date}\n";
+        $content .= "Report Type: {$request->type}\n";
+        $fileName = "{$request->type}-".
+                    Carbon::parse($request->from_date)->format('Y_m_d')."-".
+                    Carbon::parse($request->to_date)->format('Y_m_d');
+        $filePath = "files/".auth()->user()->organization_id . "/coding_reports//";
+                    Storage::disk('local')->put($filePath.$fileName, $content);
+        return response()->download(storage_path("app/".$filePath.$fileName));
     }
 }
