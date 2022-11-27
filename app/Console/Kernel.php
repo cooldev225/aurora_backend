@@ -19,6 +19,7 @@ class Kernel extends ConsoleKernel
         $schedule->command('appointment:reminder')->daily();
         $schedule->command('patient:recall')->daily();
         $schedule->command('healthlink:check')->everyMinute();
+        $schedule->command('appointment:draft')->everyTenMinutes();
     }
 
     /**

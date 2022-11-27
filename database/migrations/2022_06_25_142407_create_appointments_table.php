@@ -14,13 +14,14 @@ return new class extends Migration {
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('patient_id');
+            $table->foreignId('patient_id')->nullable();
             $table->foreignId('organization_id');
             $table->foreignId('clinic_id');
             $table->foreignId('appointment_type_id')->nullable();
             $table->foreignId('specialist_id')->index();
             $table->foreignId('room_id')->nullable();
             $table->foreignId('anesthetist_id')->nullable();
+            $table->foreignId('created_by')->nullable();
             $table->boolean('is_wait_listed')->default(false);
             $table
                 ->enum('procedure_approval_status', [
@@ -69,6 +70,7 @@ return new class extends Migration {
             $table->string('collecting_person_name')->nullable();
             $table->string('collecting_person_phone')->nullable();
             $table->string('collecting_person_alternate_contact')->nullable();
+            $table->boolean('draft_status')->nullable();
             $table->timestamps();
         });
     }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnesthetistController;
+use App\Http\Controllers\AppointmentDraftController;
 use App\Http\Controllers\DeallocateAppointmentController;
 use App\Http\Controllers\HrmEmployeeLeaveController;
 use App\Http\Controllers\HrmWeeklyScheduleController;
@@ -132,6 +133,8 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/{appointment}/invoice',                 [AppointmentInvoiceController::class, 'show']);
         Route::post('/{appointment}/invoice/send',            [AppointmentInvoiceController::class, 'send']);
+        Route::post('/draft',            [AppointmentDraftController::class, 'store']);
+        Route::delete('/draft/{appointment}',            [AppointmentDraftController::class, 'destroy']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////
