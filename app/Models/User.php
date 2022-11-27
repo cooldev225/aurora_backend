@@ -98,6 +98,8 @@ class User extends Authenticatable implements JWTSubject
             return null;
         }
 
+        $parts = [];
+
         if (strlen($this->abn_acn) === 9) {
             // If it's 9 digits, it's an ACN
             $parts[] = substr($this->abn_acn, 0, 3);
