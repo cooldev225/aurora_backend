@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Enum\AttendanceStatus;
-use App\Http\Requests\AppointmentAttendanceStatusCheckInRequest;
 use Illuminate\Http\Response;
 use App\Models\Appointment;
 use Carbon\Carbon;
@@ -17,25 +16,11 @@ class AppointmentAttendanceStatusController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function checkIn(AppointmentAttendanceStatusCheckInRequest $request, Appointment $appointment)
+    public function checkIn(Appointment $appointment)
     {
         // Check if the user is authorized to update the models
         $this->authorize('update', $appointment);
-        $this->authorize('update', $appointment->referral);
 
-        ////////////////////////////////////////////////////////////////////////
-        // Update the referral information
-        $appointment_referral = $appointment->referral;
-
-        $appointment_referral->update([
-            'doctor_address_book_id'   =>  $request->doctor_address_book_id,
-            'referral_date'         =>  Carbon::create($request->referral_date)->toDateString(),
-            'referral_duration'     =>  $request->referral_duration,
-            'referral_expiry_date'  =>  Carbon::create($request->referral_date)->addMonths($request->referral_duration)->toDateString()
-        ]);
-
-        ////////////////////////////////////////////////////////////////////////
-        // Update the appointment status
         $appointment->attendance_status = AttendanceStatus::CHECKED_IN;
         $appointment->save();
 
@@ -60,7 +45,6 @@ class AppointmentAttendanceStatusController extends Controller
         $this->authorize('update', $appointment);
 
         $appointment->attendance_status = AttendanceStatus::CHECKED_OUT;
-
         $appointment->save();
 
         return response()->json(

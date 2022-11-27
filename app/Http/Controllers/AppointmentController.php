@@ -268,21 +268,24 @@ class AppointmentController extends Controller
         //return ($appointment);
         $patient = Patient::find($request->patient_id);
 
-        foreach ($request->claim_sources as $claim_source) {
-            PatientBilling::create([
-                'is_valid'    => true,
-                'verified_at' => now(),
-                'patient_id'  => $patient->id,
-                ...$claim_source,
-            ]);
+        if ($request->claim_sources) {
+            foreach ($request->claim_sources as $claim_source) {
+                PatientBilling::create([
+                    'is_valid'    => true,
+                    'verified_at' => now(),
+                    'patient_id'  => $patient->id,
+                    ...$claim_source,
+                ]);
+            }
         }
 
-
-        foreach ($request->also_known_as as $known_as) {
-            PatientAlsoKnownAs::create([
-                'patient_id'  => $patient->id,
-                ...$known_as,
-            ]);
+        if ($request->also_known_as) {
+            foreach ($request->also_known_as as $known_as) {
+                PatientAlsoKnownAs::create([
+                    'patient_id'  => $patient->id,
+                    ...$known_as,
+                ]);
+            }
         }
 
         $appointment->referral->update([

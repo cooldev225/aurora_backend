@@ -120,8 +120,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/confirmation-status',                    [AppointmentConfirmationStatusController::class, 'index']);
         Route::put('/confirmation-status/{appointment}',      [AppointmentConfirmationStatusController::class, 'update']);
 
-        Route::put('/check-in/{appointment}',                 [AppointmentAttendanceStatusController::class,'checkIn']);
-        Route::put('/check-out/{appointment}',                [AppointmentAttendanceStatusController::class, 'checkOut']);
+        Route::post('/check-in/{appointment}',                 [AppointmentAttendanceStatusController::class,'checkIn']);
+        Route::post('/check-out/{appointment}',                [AppointmentAttendanceStatusController::class, 'checkOut']);
 
         Route::put('/procedure-approval-status/{appointment}',  [AppointmentProcedureApprovalController::class,'update']);
         Route::post('/referral/{appointment}',                [AppointmentReferralController::class,'update']);
