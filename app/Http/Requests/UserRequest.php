@@ -39,7 +39,7 @@ class UserRequest extends FormRequest
             'address'         => 'string',
             'mobile_number'   => 'string',
             'role_id'         => ['required', 'int', new Enum(UserRole::class)],
-            'abn'             => 'nullable|string|size:11',
+            'abn_acn'         => 'nullable|string|min:9|max:11',
         ];
     }
 }

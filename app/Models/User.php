@@ -38,7 +38,7 @@ class User extends Authenticatable implements JWTSubject
         'full_name',
         'photo_url',
         'signature_url',
-        'formatted_abn',
+        'formatted_abn_acn',
     ];
 
     protected $casts = [
@@ -92,16 +92,26 @@ class User extends Authenticatable implements JWTSubject
         }
     }
 
-    public function getFormattedAbnAttribute()
+    public function getFormattedAbnAcnAttribute()
     {
-        if (!$this->abn) {
+        if (!$this->abn_acn) {
             return null;
         }
 
-        $parts[] = substr($this->abn, 0, 2);
-        $parts[] = substr($this->abn, 2, 3);
-        $parts[] = substr($this->abn, 5, 3);
-        $parts[] = substr($this->abn, 8, 3);
+        if (strlen($this->abn_acn) === 9) {
+            // If it's 9 digits, it's an ACN
+            $parts[] = substr($this->abn_acn, 0, 3);
+            $parts[] = substr($this->abn_acn, 3, 3);
+            $parts[] = substr($this->abn_acn, 6, 3);
+        }
+        
+        if (strlen($this->abn_acn) === 11) {
+            // It's an ABN
+            $parts[] = substr($this->abn_acn, 0, 2);
+            $parts[] = substr($this->abn_acn, 2, 3);
+            $parts[] = substr($this->abn_acn, 5, 3);
+            $parts[] = substr($this->abn_acn, 8, 3);
+        }
 
         return implode(' ', $parts);
     }

@@ -249,7 +249,15 @@
     </section>
 
     <section>
-        <p style="text-align: center; font-size: 12px;">ABN: {{ $bill_from === 'CLINIC' ? $organization->formatted_abn : $specialist->formatted_abn }}</p>
+        @if ($bill_from === 'CLINIC')
+            <p style="text-align: center; font-size: 12px;">
+                {{ strlen($organization->abn_acn) === 9 ? 'ACN:' : 'ABN:' }} {{ $organization->formatted_abn_acn }}
+            </p>
+        @else
+            <p style="text-align: center; font-size: 12px;">
+                {{ strlen($specialist->abn_acn) === 9 ? 'ACN:' : 'ABN:' }} {{ $specialist->formatted_abn_acn }}
+            </p>
+        @endif
     </section>
     <footer>
         <img src="" style="width: 100%;">
