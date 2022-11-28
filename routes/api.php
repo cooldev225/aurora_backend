@@ -66,6 +66,7 @@ use App\Http\Controllers\AppointmentConfirmationStatusController;
 use App\Http\Controllers\AppointmentInvoiceController;
 use App\Http\Controllers\OrganizationPinController;
 use App\Http\Controllers\PaymentInvoiceController;
+use App\Http\Controllers\CodingReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -212,9 +213,11 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Coding Routes
     Route::prefix('coding')->group(function () {
-        Route::get('/',              [CodingController::class, 'index']);
+        Route::get('/',                           [CodingController::class, 'index']);
         Route::put('/{appointment}',              [AppointmentDetail::class, 'update']);
+        Route::post('/check-appointments-complete',[AppointmentDetailController::class, 'checkAppointmentsComplete']);
     });
+    Route::post('/generate-coding-report',        [CodingReportController::class,'store']);
 
     ////////////////////////////////////////////////////////////////////////////////////
     // Organization Pin Routes
