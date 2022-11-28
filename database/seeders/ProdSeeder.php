@@ -25,7 +25,6 @@ class ProdSeeder extends Seeder
             'username'          => 'admin',
             'email'             => 'admin@mail.com',
             'role_id'           => UserRole::ADMIN,
-            'organization_id'   => 1,
         ]);
     }
 }
