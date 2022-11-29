@@ -216,7 +216,9 @@ class AppointmentController extends Controller
             'token' => md5($appointment->id)
         ]);
 
-        $appointment->sendNotification('appointment_booked');
+        if ($request->send_forms) {
+            $appointment->sendNotification('appointment_booked');
+        }
 
         return response()->json(
             [

@@ -223,12 +223,13 @@ class Appointment extends Model
     /**
      * translates and appointment into the given template
      */
-    public function translate( $template){
-
-        $preadmission_url = 'https://dev.aurorasw.com.au/#/appointment_pre_admissions/show/'
+    public function translate( $template)
+    {
+        $url = getAbsoluteUrl();
+        $preadmission_url = "{$url}/#/appointment_pre_admissions/show/"
             . md5($this->id) . '/form_1';
 
-        $confirm_url = 'https://dev.aurorasw.com.au/#/appointment/'
+        $confirm_url = "{$url}/#/appointment/"
             . md5($this->id) . '/confirm';
 
         $words = [

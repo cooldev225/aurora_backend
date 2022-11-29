@@ -42,7 +42,7 @@ class AppointmentPreAdmission extends Model
         $data['patient'] = $patient;
         $data['appointment'] = $appointment;
         $data['clinic'] = $appointment->clinic;
-        $data['appointment_type'] = $appointment->type;
+        $data['appointment_type'] = $appointment->appointment_type;
 
         $data['pre_admission_sections'] = PreAdmissionSection::where(
                 'organization_id', $organization->id
