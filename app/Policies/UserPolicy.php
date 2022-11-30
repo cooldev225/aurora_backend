@@ -118,4 +118,17 @@ class UserPolicy
         // A user can update their own profile
         return ($user->hasRole('organizationAdmin') && $user->organization->id == $model->organization->id) || $user == $model;
     }
+
+    // Functions related to authorization pins
+
+    /**
+     * Determine whether the user can verify a pin
+     *
+     * @param  \App\Models\User  $user
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function verifyPin(User $user, User $model)
+    {
+        return $user->hasAnyRole(['organizationAdmin', 'organizationManager']) && $model->organization->id === $user->organization_id;
+    }
 }

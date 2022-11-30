@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->string('first_name')->nullable();
             $table->string('last_name')->nullable();
             $table->string('username')->unique();
+            $table->string('authorization_pin', 4)->nullable();
             $table->foreignId('role_id');
             $table->foreignId('organization_id')->nullable();
             $table->date('date_of_birth')->nullable();

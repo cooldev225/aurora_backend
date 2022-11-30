@@ -31,6 +31,12 @@ class User extends Authenticatable implements JWTSubject
         'education_code',
         'sign_off',
         'photo',
+        'authorization_pin',
+    ];
+
+    protected $hidden = [
+        'authorization_pin',
+        'password',
     ];
 
     protected $appends = [

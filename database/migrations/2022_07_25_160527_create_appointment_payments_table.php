@@ -24,6 +24,7 @@ return new class extends Migration
             $table->enum('notification_method', ['email', 'sms'])->nullable();
             $table->text('sent_to')->nullable();
             $table->integer('invoice_number');
+            $table->foreignId('authorized_by')->nullable();
             $table->timestamps();
         });
     }

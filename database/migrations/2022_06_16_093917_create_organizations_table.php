@@ -19,7 +19,6 @@ return new class extends Migration {
             $table->string('abn_acn', 11)->nullable();
             $table->integer('max_clinics');
             $table->integer('max_employees');
-            $table->string('billing_pin')->nullable();
             $table->foreignId('owner_id');
 
             $table->boolean('is_hospital')->default(true);
