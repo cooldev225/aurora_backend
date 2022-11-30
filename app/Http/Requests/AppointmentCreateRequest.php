@@ -98,7 +98,8 @@ class AppointmentCreateRequest extends FormRequest
             'referral_duration'    => 'nullable|integer',
             'claim_sources'        => 'nullable|array',
             'also_known_as'        => 'nullable|array',
-            'created_by'        => 'nullable|numeric|exists:users,id',
+            'created_by'           => 'nullable|numeric|exists:users,id',
+            'send_forms'           => 'required|boolean',
 
             ...$patient_request->rules(),
         ];
