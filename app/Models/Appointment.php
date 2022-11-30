@@ -314,12 +314,14 @@ class Appointment extends Model
         $all_items = [];
         $total_cost = 0;
         foreach ($items as &$item) {
-            $schedule_item = ScheduleItem::find($item['id'])->toArray();
-            $all_items[] = [
-                ...$schedule_item,
-                'price' => $item['price'],
-            ];
-            $total_cost += $item['price'];
+            if (!isset($item['deleted_by'])) {
+                $schedule_item = ScheduleItem::find($item['id'])->toArray();
+                $all_items[] = [
+                    ...$schedule_item,
+                    'price' => $item['price'],
+                ];
+                $total_cost += $item['price'];
+            }
         }
 
         $medicare_card = $this->patient->billings()

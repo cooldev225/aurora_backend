@@ -72,7 +72,8 @@ class PaymentController extends Controller
                     ...$schedule_item,
                     'schedule_fees' => $schedule_item['schedule_fees'],
                     'price'         => $procedure['price'],
-                    'authorized_by' => $procedure['authorized_by'] ? User::find($procedure['authorized_by']) : null,
+                    'authorized_by' => isset($procedure['authorized_by']) ? User::find($procedure['authorized_by']) : null,
+                    'deleted_by' => isset($procedure['deleted_by']) ? User::find($procedure['deleted_by']) : null,
                 ];
             }
         }
@@ -89,7 +90,8 @@ class PaymentController extends Controller
                     ...$schedule_item,
                     'schedule_fees' => $schedule_item['schedule_fees'],
                     'price'         => $extra_item['price'],
-                    'authorized_by' => $extra_item['authorized_by'] ? User::find($extra_item['authorized_by']) : null,
+                    'authorized_by' => isset($extra_item['authorized_by']) ? User::find($extra_item['authorized_by']) : null,
+                    'deleted_by' => isset($extra_item['deleted_by']) ? User::find($extra_item['deleted_by']) : null,
                 ];
             }
         }
@@ -106,7 +108,8 @@ class PaymentController extends Controller
                     ...$schedule_item,
                     'schedule_fees' => $schedule_item['schedule_fees'],
                     'price'         => $admin_item['price'],
-                    'authorized_by' => $admin_item['authorized_by'] ? User::find($admin_item['authorized_by']) : null,
+                    'authorized_by' => isset($admin_item['authorized_by']) ? User::find($admin_item['authorized_by']) : null,
+                    'deleted_by' => isset($admin_item['deleted_by']) ? User::find($admin_item['deleted_by']) : null,
                 ];
             }
         }

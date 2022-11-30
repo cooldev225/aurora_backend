@@ -64,7 +64,7 @@ use App\Http\Controllers\AppointmentProcedureApprovalController;
 use App\Http\Controllers\DocumentHeaderFooterTemplateController;
 use App\Http\Controllers\AppointmentConfirmationStatusController;
 use App\Http\Controllers\AppointmentInvoiceController;
-use App\Http\Controllers\OrganizationPinController;
+use App\Http\Controllers\UserAuthorizationPinController;
 use App\Http\Controllers\PaymentInvoiceController;
 use App\Http\Controllers\CodingReportController;
 
@@ -222,9 +222,9 @@ Route::middleware(['auth'])->group(function () {
     ////////////////////////////////////////////////////////////////////////////////////
     // Organization Pin Routes
     Route::prefix('pin')->group(function () {
-        Route::get('/show',     [OrganizationPinController::class, 'show']);
-        Route::post('/verify',  [OrganizationPinController::class, 'verify']);
-        Route::put('/set',      [OrganizationPinController::class, 'set']);
+        Route::get('/show',     [UserAuthorizationPinController::class, 'show']);
+        Route::post('/verify',  [UserAuthorizationPinController::class, 'verify']);
+        Route::put('/set',      [UserAuthorizationPinController::class, 'set']);
     });
 
     ////////////////////////////////////////////////////////////////////////////////////

@@ -88,6 +88,7 @@ class UserAuthorizationPinController extends Controller
         return response()->json(
             [
                 'verified' => false,
+                'message'  => 'The pin provided is invalid'
             ],
             Response::HTTP_UNAUTHORIZED
         );

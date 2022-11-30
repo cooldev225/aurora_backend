@@ -20,16 +20,27 @@ class AppointmentPayment extends Model
         'is_deposit',
         'is_send_receipt',
         'invoice_number',
+        'authorized_by',
     ];
 
     protected $appends = [
         'confirmed_user_name',
+        'authorizing_user_name',
         'full_invoice_number',
     ];
     
     public function getConfirmedUserNameAttribute()
     {
         return $this->confirmed_user->first_name .' '. $this->confirmed_user->last_name;
+    }
+    
+    public function getAuthorizingUserNameAttribute()
+    {
+        if (!$this->authorizing_user) {
+            return null;
+        }
+
+        return $this->authorizing_user->first_name .' '. $this->authorizing_user->last_name;
     }
 
     public function getFullInvoiceNumberAttribute()
@@ -51,6 +62,14 @@ class AppointmentPayment extends Model
     public function confirmed_user()
     {
         return $this->belongsTo(User::class, 'confirmed_by');
+    }
+
+    /**
+     * Return Authorizing User
+     */
+    public function authorizing_user()
+    {
+        return $this->belongsTo(User::class, 'authorized_by');
     }
 
     /**
