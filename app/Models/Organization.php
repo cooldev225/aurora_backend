@@ -24,12 +24,7 @@ class Organization extends Model
         'code',
         'has_billing',
         'has_coding',
-        'billing_pin',
         'abn_acn',
-    ];
-
-    protected $hidden = [
-        'billing_pin',
     ];
 
     protected $appends = [

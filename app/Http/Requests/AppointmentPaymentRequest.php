@@ -42,6 +42,7 @@ class AppointmentPaymentRequest extends FormRequest
             'is_send_receipt'     => 'required|boolean',
             'notification_method' => ['required_id:is_send_receipt,true', new Enum(NotificationMethod::class)],
             'sent_to'             => 'required_if:is_send_receipt,true|nullable|email',
+            'authorized_by'       => 'sometimes|numeric|exists:users,id',
         ];
     }
 }
