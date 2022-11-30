@@ -3,7 +3,7 @@
 if (!function_exists('getAbsoluteUrl')) {
     function getAbsoluteUrl()
     {
-        if (strtolower(config('env')) === 'local' || str_contains(env('APP_URL'), 'localhost')) {
+        if (str_contains(env('APP_URL'), 'localhost')) {
             return 'http://localhost:8080';
         }
 
