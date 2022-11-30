@@ -322,7 +322,7 @@ class Appointment extends Model
             $total_cost += $item['price'];
         }
 
-        $medicare_card = $this->patient->billing()
+        $medicare_card = $this->patient->billings()
                             ->whereBillingType(PatientBillingType::MEDICARE_CARD)
                             ->whereIsValid(true)
                             ->orderBy('verified_at', 'desc')
