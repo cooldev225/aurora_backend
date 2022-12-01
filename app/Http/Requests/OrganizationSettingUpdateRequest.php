@@ -37,7 +37,8 @@ class OrganizationSettingUpdateRequest extends FormRequest
             'start_time'                    => 'required|string|date_format:H:i:s',
             'end_time'                      => 'required|string|date_format:H:i:s',
             'appointment_length'            => 'required|numeric',
-            'abn_acn'                       => 'required|numeric|min:9|max:11',
+            'abn_acn'                       => 'required|numeric',
+            'logo'                          => 'nullable',
         ];
     }
 }
